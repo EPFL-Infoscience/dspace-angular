@@ -398,6 +398,20 @@ export class AdminSidebarComponent extends MenuComponent implements OnInit {
         } as LinkMenuItemModel,
       },
 
+      /*  Deduplication */
+      {
+        id: 'deduplication',
+        active: false,
+        visible: true,
+        model: {
+          type: MenuItemType.LINK,
+          text: 'menu.section.deduplication',
+          link: '/admin/deduplication'
+        } as LinkMenuItemModel,
+        icon: 'clone',
+        index: 7
+      },
+
       /* Curation tasks */
       {
         id: 'curation_tasks',
@@ -409,7 +423,7 @@ export class AdminSidebarComponent extends MenuComponent implements OnInit {
           link: ''
         } as LinkMenuItemModel,
         icon: 'filter',
-        index: 7
+        index: 8
       },
 
       /* Statistics */
@@ -423,7 +437,7 @@ export class AdminSidebarComponent extends MenuComponent implements OnInit {
           link: ''
         } as LinkMenuItemModel,
         icon: 'chart-bar',
-        index: 8
+        index: 9
       },
 
       /* Control Panel */
@@ -437,7 +451,7 @@ export class AdminSidebarComponent extends MenuComponent implements OnInit {
           link: ''
         } as LinkMenuItemModel,
         icon: 'cogs',
-        index: 9
+        index: 10
       },
     ];
     menuList.forEach((menuSection) => this.menuService.addSection(this.menuID, menuSection));
