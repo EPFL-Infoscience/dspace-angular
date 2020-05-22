@@ -405,7 +405,7 @@ export class AdminSidebarComponent extends MenuComponent implements OnInit {
         visible: true,
         model: {
           type: MenuItemType.LINK,
-          text: 'menu.section.deduplication',
+          text: 'menu.section.admin_deduplication',
           link: '/admin/deduplication'
         } as LinkMenuItemModel,
         icon: 'clone',

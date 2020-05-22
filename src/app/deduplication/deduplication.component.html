@@ -1,0 +1,163 @@
+<!-- ds-loading class="container-fluid" *ngIf="(isLoading() | async)" message="Loading..."></ds-loading>
+<div *ngIf="!(isLoading() | async)" class="container-fluid p-0" fxLayout="column" -->
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h2 id="header" class="border-bottom pb-2">{{'deduplication.title'| translate}}</h2>
+      <ngb-tabset [destroyOnHide]="false" type="pills">
+        <ngb-tab [title]="'deduplication.home.tab.all-signatures' | translate">
+          <ng-template ngbTabContent>
+            <div class="row tab-pane-deduplication">
+
+              <div class="col-md-4">
+                <div class="card card bg-light mb-3 text-center">
+                  <div class="card-header">
+                    Card title 1
+                  </div>
+                  <ul class="list-group list-group-flush small">
+                    <li class="list-group-item">
+                      <p>
+                        {{'deduplication.signature.groupReviewerCheck.text' | translate}}
+                      </p>
+                      <button type="button" class="btn btn-primary btn-sm btn-block">
+                        {{'deduplication.signature.show-button' | translate}} <span class="badge badge-light">10</span>
+                        <span class="sr-only">{{'deduplication.signature.show-button-ext' | translate}}</span>
+                      </button>
+                    </li>
+                    <li class="list-group-item">
+                      <p>
+                        {{'deduplication.signature.groupSubmitterCheck.text' | translate}}
+                      </p>
+                      <button type="button" class="btn btn-outline-secondary btn-sm btn-block">
+                        {{'deduplication.signature.show-button' | translate}} <span class="badge badge-light">5</span>
+                        <span class="sr-only">{{'deduplication.signature.show-button-ext' | translate}}</span>
+                      </button>
+                    </li>
+                    <li class="list-group-item">
+                      <p>
+                        {{'deduplication.signature.groupAdminstratorCheck.text' | translate}}
+                      </p>
+                      <button type="button" class="btn btn-outline-secondary btn-sm btn-block">
+                        {{'deduplication.signature.show-button' | translate}} <span class="badge badge-light">7</span>
+                        <span class="sr-only">{{'deduplication.signature.show-button-ext' | translate}}</span>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="card card bg-light mb-3 text-center">
+                  <div class="card-header">
+                    Card title 2
+                  </div>
+                  <ul class="list-group list-group-flush small">
+                    <li class="list-group-item">
+                      <p>
+                        Remaining to check by librarian (quality check):
+                      </p>
+                      <button type="button" class="btn btn-primary btn-sm btn-block">
+                        Show <span class="badge badge-light">10</span>
+                        <span class="sr-only">Show duplications</span>
+                      </button>
+                    </li>
+                    <li class="list-group-item">
+                      <p>
+                        Remaining to check by submitter:
+                      </p>
+                      <button type="button" class="btn btn-outline-secondary btn-sm btn-block">
+                        Show <span class="badge badge-light">5</span>
+                        <span class="sr-only">Show duplications</span>
+                      </button>
+                    </li>
+                    <li class="list-group-item">
+                      <p>
+                        Total potential match:
+                      </p>
+                      <button type="button" class="btn btn-outline-secondary btn-sm btn-block">
+                        Show <span class="badge badge-light">7</span>
+                        <span class="sr-only">Show duplications</span>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="card card bg-light mb-3 text-center">
+                  <div class="card-header">
+                    Card title 2
+                  </div>
+                  <ul class="list-group list-group-flush small">
+                    <li class="list-group-item">
+                      <p>
+                        Remaining to check by librarian (quality check):
+                      </p>
+                      <button type="button" class="btn btn-primary btn-sm btn-block">
+                        Show <span class="badge badge-light">10</span>
+                        <span class="sr-only">Show duplications</span>
+                      </button>
+                    </li>
+                    <li class="list-group-item">
+                      <p>
+                        Remaining to check by submitter:
+                      </p>
+                      <button type="button" class="btn btn-outline-secondary btn-sm btn-block">
+                        Show <span class="badge badge-light">5</span>
+                        <span class="sr-only">Show duplications</span>
+                      </button>
+                    </li>
+                    <li class="list-group-item">
+                      <p>
+                        Total potential match:
+                      </p>
+                      <button type="button" class="btn btn-outline-secondary btn-sm btn-block">
+                        Show <span class="badge badge-light">7</span>
+                        <span class="sr-only">Show duplications</span>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <hr>
+                <button type="button" class="btn btn-primary">
+                  {{'deduplication.home.tab.show-more' | translate}}
+                  <i class="fa fa-angle-double-right"></i>
+                </button>
+              </div>
+            </div>
+
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab [title]="'deduplication.home.tab.compare' | translate">
+          <ng-template ngbTabContent>
+            <div class="row tab-pane-deduplication">
+              <div class="col-md-4">
+                <p>
+                  Compare item from internal identifier (each one MUST be separated by comma e.g 123,232,4343).
+                </p>
+              </div>
+              <div class="col-md-8">
+                <textarea id="itemid-list" name="itemid-list" rows="10" class="form-control"></textarea>
+              </div>
+            </div>
+            <div class="row tab-pane-deduplication">
+              <div class="col-md-12 text-right">
+                <p>
+                  <button type="button" class="btn btn-primary">
+                    Compare
+                  </button>
+                </p>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </div>
+</div>

@@ -1,31 +1,47 @@
 import { NgModule } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
-import { CoreModule } from '../core/core.module';
-import { SharedModule } from '../shared/shared.module';
 import { CommonModule } from '@angular/common';
 
-import { StoreModule, Action, StoreConfig } from '@ngrx/store';
-import { storeModuleConfig } from '../app.reducer';
+import { CoreModule } from '../core/core.module';
+import { SharedModule } from '../shared/shared.module';
+import { DeduplicationComponent } from './deduplication.component';
+
+const MODULES = [
+  CommonModule,
+  SharedModule,
+  CoreModule.forRoot(),
+  // StoreModule.forFeature('deduplication', submissionReducers, storeModuleConfig as StoreConfig<SubmissionState, Action>),
+];
+
+const COMPONENTS = [
+  DeduplicationComponent,
+];
+
+const DIRECTIVES = [
+  // WorkpackageStatusDirective
+];
+
+const ENTRY_COMPONENTS = [];
+
+const PROVIDERS = [];
 
 @NgModule({
   imports: [
-    CommonModule,
-    CoreModule.forRoot(),
-    SharedModule,
-    // StoreModule.forFeature('deduplication', submissionReducers, storeModuleConfig as StoreConfig<SubmissionState, Action>),
-    TranslateModule
+    ...MODULES
   ],
   declarations: [
-
-  ],
-  entryComponents: [
-
-  ],
-  exports: [
-
+    ...COMPONENTS,
+    ...DIRECTIVES,
+    ...ENTRY_COMPONENTS
   ],
   providers: [
-
+    ...PROVIDERS
+  ],
+  entryComponents: [
+    ...ENTRY_COMPONENTS
+  ],
+  exports: [
+    ...COMPONENTS,
+    ...DIRECTIVES
   ]
 })
 

@@ -7,6 +7,7 @@ import { URLCombiner } from '../core/url-combiner/url-combiner';
 
 const REGISTRIES_MODULE_PATH = 'registries';
 const ACCESS_CONTROL_MODULE_PATH = 'access-control';
+const DEDUPLICATION_PATH = 'deduplication';
 
 export function getRegistriesModulePath() {
   return new URLCombiner(getAdminModulePath(), REGISTRIES_MODULE_PATH).toString();
@@ -27,6 +28,8 @@ export function getAccessControlModulePath() {
         path: ACCESS_CONTROL_MODULE_PATH,
         loadChildren: './admin-access-control/admin-access-control.module#AdminAccessControlModule'
       },
+      { path: DEDUPLICATION_PATH,
+        loadChildren: './admin-deduplication-page/admin-deduplication-page.module#AdminDeduplicationPageModule' },
       {
         path: 'search',
         resolve: { breadcrumb: I18nBreadcrumbResolver },

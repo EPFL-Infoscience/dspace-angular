@@ -91,7 +91,6 @@ export function getDSOPath(dso: DSpaceObject): string {
         path: PROFILE_MODULE_PATH,
         loadChildren: './profile-page/profile-page.module#ProfilePageModule', canActivate: [AuthenticatedGuard]
       },
-      { path: ADMIN_MODULE_PATH + '/deduplication', loadChildren: './deduplication-page/deduplication-page.module#DeduplicationPageModule' },
       { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
     ],
     {

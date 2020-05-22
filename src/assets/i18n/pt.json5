@@ -135,8 +135,9 @@
   // "admin.registries.bitstream-formats.table.supportLevel.head": "Support Level",
   "admin.registries.bitstream-formats.table.supportLevel.head": "Nível de Suporte",
   
-  // "admin.registries.bitstream-formats.title": "DSpace Angular :: Bitstream Format Registry",
-  "admin.registries.bitstream-formats.title": "DSpace Angular :: Registro de Formato de Bitstream",
+  // "admin.registries.bitstream-formats.title": "DSpace Cris Angular :: Bitstream Format Registry",
+  // TODO New key - Add a translation
+  "admin.registries.bitstream-formats.title": "DSpace Cris Angular :: Bitstream Format Registry",
   
   
   
@@ -173,8 +174,9 @@
   // "admin.registries.metadata.schemas.table.namespace": "Namespace",
   "admin.registries.metadata.schemas.table.namespace": "Namespace",
   
-  // "admin.registries.metadata.title": "DSpace Angular :: Metadata Registry",
-  "admin.registries.metadata.title": "DSpace Angular :: Registro de Metadados",
+  // "admin.registries.metadata.title": "DSpace Cris Angular :: Metadata Registry",
+  // TODO New key - Add a translation
+  "admin.registries.metadata.title": "DSpace Cris Angular :: Metadata Registry",
   
   
   
@@ -247,8 +249,9 @@
   // "admin.registries.schema.return": "Return",
   "admin.registries.schema.return": "Voltar",
   
-  // "admin.registries.schema.title": "DSpace Angular :: Metadata Schema Registry",
-  "admin.registries.schema.title": "DSpace Angular :: Registro de Esquema de Metadados",
+  // "admin.registries.schema.title": "DSpace Cris Angular :: Metadata Schema Registry",
+  // TODO New key - Add a translation
+  "admin.registries.schema.title": "DSpace Cris Angular :: Metadata Schema Registry",
   
   
   
@@ -1309,6 +1312,104 @@
   
   
   
+  // "comcol-role.edit.no-group": "None",
+  // TODO New key - Add a translation
+  "comcol-role.edit.no-group": "None",
+  
+  // "comcol-role.edit.create": "Create",
+  // TODO New key - Add a translation
+  "comcol-role.edit.create": "Create",
+  
+  // "comcol-role.edit.restrict": "Restrict",
+  // TODO New key - Add a translation
+  "comcol-role.edit.restrict": "Restrict",
+  
+  // "comcol-role.edit.delete": "Delete",
+  // TODO New key - Add a translation
+  "comcol-role.edit.delete": "Delete",
+  
+  
+  // "comcol-role.edit.community-admin.name": "Administrators",
+  // TODO New key - Add a translation
+  "comcol-role.edit.community-admin.name": "Administrators",
+  
+  // "comcol-role.edit.collection-admin.name": "Administrators",
+  // TODO New key - Add a translation
+  "comcol-role.edit.collection-admin.name": "Administrators",
+  
+  
+  // "comcol-role.edit.community-admin.description": "Community administrators can create sub-communities or collections, and manage or assign management for those sub-communities or collections. In addition, they decide who can submit items to any sub-collections, edit item metadata (after submission), and add (map) existing items from other collections (subject to authorization).",
+  // TODO New key - Add a translation
+  "comcol-role.edit.community-admin.description": "Community administrators can create sub-communities or collections, and manage or assign management for those sub-communities or collections. In addition, they decide who can submit items to any sub-collections, edit item metadata (after submission), and add (map) existing items from other collections (subject to authorization).",
+  
+  // "comcol-role.edit.collection-admin.description": "Collection administrators decide who can submit items to the collection, edit item metadata (after submission), and add (map) existing items from other collections to this collection (subject to authorization for that collection).",
+  // TODO New key - Add a translation
+  "comcol-role.edit.collection-admin.description": "Collection administrators decide who can submit items to the collection, edit item metadata (after submission), and add (map) existing items from other collections to this collection (subject to authorization for that collection).",
+  
+  
+  // "comcol-role.edit.submitters.name": "Submitters",
+  // TODO New key - Add a translation
+  "comcol-role.edit.submitters.name": "Submitters",
+  
+  // "comcol-role.edit.submitters.description": "The E-People and Groups that have permission to submit new items to this collection.",
+  // TODO New key - Add a translation
+  "comcol-role.edit.submitters.description": "The E-People and Groups that have permission to submit new items to this collection.",
+  
+  
+  // "comcol-role.edit.item_read.name": "Default item read access",
+  // TODO New key - Add a translation
+  "comcol-role.edit.item_read.name": "Default item read access",
+  
+  // "comcol-role.edit.item_read.description": "E-People and Groups that can read new items submitted to this collection. Changes to this role are not retroactive. Existing items in the system will still be viewable by those who had read access at the time of their addition.",
+  // TODO New key - Add a translation
+  "comcol-role.edit.item_read.description": "E-People and Groups that can read new items submitted to this collection. Changes to this role are not retroactive. Existing items in the system will still be viewable by those who had read access at the time of their addition.",
+  
+  // "comcol-role.edit.item_read.anonymous-group": "Default read for incoming items is currently set to Anonymous.",
+  // TODO New key - Add a translation
+  "comcol-role.edit.item_read.anonymous-group": "Default read for incoming items is currently set to Anonymous.",
+  
+  
+  // "comcol-role.edit.bitstream_read.name": "Default bitstream read access",
+  // TODO New key - Add a translation
+  "comcol-role.edit.bitstream_read.name": "Default bitstream read access",
+  
+  // "comcol-role.edit.bitstream_read.description": "Community administrators can create sub-communities or collections, and manage or assign management for those sub-communities or collections. In addition, they decide who can submit items to any sub-collections, edit item metadata (after submission), and add (map) existing items from other collections (subject to authorization).",
+  // TODO New key - Add a translation
+  "comcol-role.edit.bitstream_read.description": "Community administrators can create sub-communities or collections, and manage or assign management for those sub-communities or collections. In addition, they decide who can submit items to any sub-collections, edit item metadata (after submission), and add (map) existing items from other collections (subject to authorization).",
+  
+  // "comcol-role.edit.bitstream_read.anonymous-group": "Default read for incoming bitstreams is currently set to Anonymous.",
+  // TODO New key - Add a translation
+  "comcol-role.edit.bitstream_read.anonymous-group": "Default read for incoming bitstreams is currently set to Anonymous.",
+  
+  
+  // "comcol-role.edit.editor.name": "Editors",
+  // TODO New key - Add a translation
+  "comcol-role.edit.editor.name": "Editors",
+  
+  // "comcol-role.edit.editor.description": "Editors are able to edit the metadata of incoming submissions, and then accept or reject them.",
+  // TODO New key - Add a translation
+  "comcol-role.edit.editor.description": "Editors are able to edit the metadata of incoming submissions, and then accept or reject them.",
+  
+  
+  // "comcol-role.edit.finaleditor.name": "Final editors",
+  // TODO New key - Add a translation
+  "comcol-role.edit.finaleditor.name": "Final editors",
+  
+  // "comcol-role.edit.finaleditor.description": "Final editors are able to edit the metadata of incoming submissions, but will not be able to reject them.",
+  // TODO New key - Add a translation
+  "comcol-role.edit.finaleditor.description": "Final editors are able to edit the metadata of incoming submissions, but will not be able to reject them.",
+  
+  
+  // "comcol-role.edit.reviewer.name": "Reviewers",
+  // TODO New key - Add a translation
+  "comcol-role.edit.reviewer.name": "Reviewers",
+  
+  // "comcol-role.edit.reviewer.description": "Reviewers are able to accept or reject incoming submissions. However, they are not able to edit the submission's metadata.",
+  // TODO New key - Add a translation
+  "comcol-role.edit.reviewer.description": "Reviewers are able to accept or reject incoming submissions. However, they are not able to edit the submission's metadata.",
+  
+  
+  
   // "community.form.abstract": "Short Description",
   "community.form.abstract": "Descrição curta",
   
@@ -1345,6 +1446,22 @@
   // "community.sub-community-list.head": "Communities of this Community",
   "community.sub-community-list.head": "Comunidades desta Comunidade",
   
+  
+  // "deduplication.breadcrumbs": "Deduplication",
+  // TODO New key - Add a translation
+  "deduplication.breadcrumbs": "Deduplication",
+  
+  // "deduplication.home.tab.all-signatures": "All",
+  // TODO New key - Add a translation
+  "deduplication.home.tab.all-signatures": "All",
+  
+  // "deduplication.home.tab.compare": "Compare",
+  // TODO New key - Add a translation
+  "deduplication.home.tab.compare": "Compare",
+  
+  // "dedup.title": "Deduplication",
+  // TODO New key - Add a translation
+  "dedup.title": "Deduplication",
   
   
   // "dso-selector.create.collection.head": "New collection",
@@ -1523,7 +1640,8 @@
   // "form.search": "Search",
   "form.search": "Buscar",
   
-  // "form.search-help": "Click here to looking for an existing correspondence",
+  // "form.search-help": "Click here to look for an existing correspondence",
+  // TODO Source message changed - Revise the translation
   "form.search-help": "Clique aqui para procurar por uma correspondência existente",
   
   // "form.submit": "Submit",
@@ -1535,10 +1653,12 @@
   // TODO New key - Add a translation
   "home.description": "",
   
-  // "home.title": "DSpace Angular :: Home",
-  "home.title": "DSpace Angular :: Início",
+  // "home.title": "DSpace Cris Angular :: Home",
+  // TODO New key - Add a translation
+  "home.title": "DSpace Cris Angular :: Home",
   
-  // "home.top-level-communities.head": "Communities in DSpace",
+  // "home.top-level-communities.head": "Communities in DSpace Cris",
+  // TODO Source message changed - Revise the translation
   "home.top-level-communities.head": "Comunidades no DSpace",
   
   // "home.top-level-communities.help": "Select a community to browse its collections.",
@@ -2299,8 +2419,9 @@
   // "journal.search.results.head": "Journal Search Results",
   "journal.search.results.head": "Resultado da Busca de Periódicos",
   
-  // "journal.search.title": "DSpace Angular :: Journal Search",
-  "journal.search.title": "DSpace Angular :: Busca de Periódicos",
+  // "journal.search.title": "DSpace Cris Angular :: Journal Search",
+  // TODO New key - Add a translation
+  "journal.search.title": "DSpace Cris Angular :: Journal Search",
   
   
   
@@ -2519,6 +2640,10 @@
   "menu.section.curation_task": "Tarefas de Curadoria",
   
   
+  // "menu.section.admin_deduplication": "Deduplication",
+  // TODO New key - Add a translation
+  "menu.section.admin_deduplication": "Deduplication",
+  
   
   // "menu.section.edit": "Edit",
   "menu.section.edit": "Editar",
@@ -2563,6 +2688,10 @@
   
   // "menu.section.icon.curation_task": "Curation Task menu section",
   "menu.section.icon.curation_task": "Seção do menu Tarefas de Curadoria",
+  
+  // "menu.section.icon.deduplication": "Deduplication menu section",
+  // TODO New key - Add a translation
+  "menu.section.icon.deduplication": "Deduplication menu section",
   
   // "menu.section.icon.edit": "Edit menu section",
   "menu.section.icon.edit": "Seção do menu Editar",
@@ -2893,8 +3022,123 @@
   // "person.search.results.head": "Person Search Results",
   "person.search.results.head": "Resultado da Busca de Pessoa",
   
-  // "person.search.title": "DSpace Angular :: Person Search",
-  "person.search.title": "DSpace Angular :: Buscar Pessoa",
+  // "person.search.title": "DSpace Cris Angular :: Person Search",
+  // TODO New key - Add a translation
+  "person.search.title": "DSpace Cris Angular :: Person Search",
+  
+  
+  
+  // "profile.breadcrumbs": "Update Profile",
+  // TODO New key - Add a translation
+  "profile.breadcrumbs": "Update Profile",
+  
+  // "profile.card.identify": "Identify",
+  // TODO New key - Add a translation
+  "profile.card.identify": "Identify",
+  
+  // "profile.card.security": "Security",
+  // TODO New key - Add a translation
+  "profile.card.security": "Security",
+  
+  // "profile.form.submit": "Update Profile",
+  // TODO New key - Add a translation
+  "profile.form.submit": "Update Profile",
+  
+  // "profile.groups.head": "Authorization groups you belong to",
+  // TODO New key - Add a translation
+  "profile.groups.head": "Authorization groups you belong to",
+  
+  // "profile.head": "Update Profile",
+  // TODO New key - Add a translation
+  "profile.head": "Update Profile",
+  
+  // "profile.metadata.form.error.firstname.required": "First Name is required",
+  // TODO New key - Add a translation
+  "profile.metadata.form.error.firstname.required": "First Name is required",
+  
+  // "profile.metadata.form.error.lastname.required": "Last Name is required",
+  // TODO New key - Add a translation
+  "profile.metadata.form.error.lastname.required": "Last Name is required",
+  
+  // "profile.metadata.form.label.email": "Email Address",
+  // TODO New key - Add a translation
+  "profile.metadata.form.label.email": "Email Address",
+  
+  // "profile.metadata.form.label.firstname": "First Name",
+  // TODO New key - Add a translation
+  "profile.metadata.form.label.firstname": "First Name",
+  
+  // "profile.metadata.form.label.language": "Language",
+  // TODO New key - Add a translation
+  "profile.metadata.form.label.language": "Language",
+  
+  // "profile.metadata.form.label.lastname": "Last Name",
+  // TODO New key - Add a translation
+  "profile.metadata.form.label.lastname": "Last Name",
+  
+  // "profile.metadata.form.label.phone": "Contact Telephone",
+  // TODO New key - Add a translation
+  "profile.metadata.form.label.phone": "Contact Telephone",
+  
+  // "profile.metadata.form.notifications.success.content": "Your changes to the profile were saved.",
+  // TODO New key - Add a translation
+  "profile.metadata.form.notifications.success.content": "Your changes to the profile were saved.",
+  
+  // "profile.metadata.form.notifications.success.title": "Profile saved",
+  // TODO New key - Add a translation
+  "profile.metadata.form.notifications.success.title": "Profile saved",
+  
+  // "profile.notifications.warning.no-changes.content": "No changes were made to the Profile.",
+  // TODO New key - Add a translation
+  "profile.notifications.warning.no-changes.content": "No changes were made to the Profile.",
+  
+  // "profile.notifications.warning.no-changes.title": "No changes",
+  // TODO New key - Add a translation
+  "profile.notifications.warning.no-changes.title": "No changes",
+  
+  // "profile.security.form.error.matching-passwords": "The passwords do not match.",
+  // TODO New key - Add a translation
+  "profile.security.form.error.matching-passwords": "The passwords do not match.",
+  
+  // "profile.security.form.error.password-length": "The password should be at least 6 characters long.",
+  // TODO New key - Add a translation
+  "profile.security.form.error.password-length": "The password should be at least 6 characters long.",
+  
+  // "profile.security.form.info": "Optionally, you can enter a new password in the box below, and confirm it by typing it again into the second box. It should be at least six characters long.",
+  // TODO New key - Add a translation
+  "profile.security.form.info": "Optionally, you can enter a new password in the box below, and confirm it by typing it again into the second box. It should be at least six characters long.",
+  
+  // "profile.security.form.label.password": "Password",
+  // TODO New key - Add a translation
+  "profile.security.form.label.password": "Password",
+  
+  // "profile.security.form.label.passwordrepeat": "Retype to confirm",
+  // TODO New key - Add a translation
+  "profile.security.form.label.passwordrepeat": "Retype to confirm",
+  
+  // "profile.security.form.notifications.success.content": "Your changes to the password were saved.",
+  // TODO New key - Add a translation
+  "profile.security.form.notifications.success.content": "Your changes to the password were saved.",
+  
+  // "profile.security.form.notifications.success.title": "Password saved",
+  // TODO New key - Add a translation
+  "profile.security.form.notifications.success.title": "Password saved",
+  
+  // "profile.security.form.notifications.error.title": "Error changing passwords",
+  // TODO New key - Add a translation
+  "profile.security.form.notifications.error.title": "Error changing passwords",
+  
+  // "profile.security.form.notifications.error.not-long-enough": "The password has to be at least 6 characters long.",
+  // TODO New key - Add a translation
+  "profile.security.form.notifications.error.not-long-enough": "The password has to be at least 6 characters long.",
+  
+  // "profile.security.form.notifications.error.not-same": "The provided passwords are not the same.",
+  // TODO New key - Add a translation
+  "profile.security.form.notifications.error.not-same": "The provided passwords are not the same.",
+  
+  // "profile.title": "Update Profile",
+  // TODO New key - Add a translation
+  "profile.title": "Update Profile",
   
   
   
@@ -3069,8 +3313,9 @@
   // "publication.search.results.head": "Publication Search Results",
   "publication.search.results.head": "Resultados da Busca de Publicação",
   
-  // "publication.search.title": "DSpace Angular :: Publication Search",
-  "publication.search.title": "DSpace Angular :: Busca de Publicações",
+  // "publication.search.title": "DSpace Cris Angular :: Publication Search",
+  // TODO New key - Add a translation
+  "publication.search.title": "DSpace Cris Angular :: Publication Search",
   
   
   
@@ -3122,8 +3367,9 @@
   // "search.switch-configuration.title": "Show",
   "search.switch-configuration.title": "Mostrar",
   
-  // "search.title": "DSpace Angular :: Search",
-  "search.title": "DSpace Angular :: Busca",
+  // "search.title": "DSpace Cris Angular :: Search",
+  // TODO New key - Add a translation
+  "search.title": "DSpace Cris Angular :: Search",
   
   // "search.breadcrumbs": "Search",
   // TODO New key - Add a translation
@@ -3472,6 +3718,84 @@
   
   
   
+  // "submission.sections.detect-duplicate.clear-decision": "Undo",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.clear-decision": "Undo",
+  
+  // "submission.sections.detect-duplicate.clear-decision-help": "Click for clear the decision about this pontential duplicate",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.clear-decision-help": "Click for clear the decision about this pontential duplicate",
+  
+  // "submission.sections.detect-duplicate.confirm-duplicate": "Confirm (It's a duplicate)",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.confirm-duplicate": "Confirm (It's a duplicate)",
+  
+  // "submission.sections.detect-duplicate.confirm-not-duplicate": "Confirm (It's not a duplicate)",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.confirm-not-duplicate": "Confirm (It's not a duplicate)",
+  
+  // "submission.sections.detect-duplicate.decision-success-notice": "Choice registered successfully",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.decision-success-notice": "Choice registered successfully",
+  
+  // "submission.sections.detect-duplicate.disclaimer": "The system has identified some potential duplicates. Please carefully review the list and flag each occurency with the appropriate choice or discard this submission.",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.disclaimer": "The system has identified some potential duplicates. Please carefully review the list and flag each occurency with the appropriate choice or discard this submission.",
+  
+  // "submission.sections.detect-duplicate.disclaimer-ctrl": "The system has identified some potential duplicates. Please carefully review the list and the submitter comments and perform the appropriate action.",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.disclaimer-ctrl": "The system has identified some potential duplicates. Please carefully review the list and the submitter comments and perform the appropriate action.",
+  
+  // "submission.sections.detect-duplicate.disclaimer-no-match": "All your feedback on potential duplicates have been registered correctly.",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.disclaimer-no-match": "All your feedback on potential duplicates have been registered correctly.",
+  
+  // "submission.sections.detect-duplicate.duplicate": "It's a duplicate",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.duplicate": "It's a duplicate",
+  
+  // "submission.sections.detect-duplicate.duplicate-ctrl": "Mark the record to merge",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.duplicate-ctrl": "Mark the record to merge",
+  
+  // "submission.sections.detect-duplicate.duplicate-detected": "Potential duplicate detected",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.duplicate-detected": "Potential duplicate detected",
+  
+  // "submission.sections.detect-duplicate.duplicate-help": "Click here if this is a duplicate of your item",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.duplicate-help": "Click here if this is a duplicate of your item",
+  
+  // "submission.sections.detect-duplicate.note-help": "Please enter your reason for the duplication into the box below.",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.note-help": "Please enter your reason for the duplication into the box below.",
+  
+  // "submission.sections.detect-duplicate.note-placeholder": "Describe the reason of duplication",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.note-placeholder": "Describe the reason of duplication",
+  
+  // "submission.sections.detect-duplicate.no-decision": "No decision yet",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.no-decision": "No decision yet",
+  
+  // "submission.sections.detect-duplicate.not-duplicate": "It's not a duplicate",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.not-duplicate": "It's not a duplicate",
+  
+  // "submission.sections.detect-duplicate.not-duplicate-help": "Click here if this is not a duplicate of your item",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.not-duplicate-help": "Click here if this is not a duplicate of your item",
+  
+  // "submission.sections.detect-duplicate.submitter-decision": "Submitter decision:",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.submitter-decision": "Submitter decision:",
+  
+  // "submission.sections.detect-duplicate.submitter-note": "Submitter note:",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.submitter-note": "Submitter note:",
+  
+  
+  
   // "submission.sections.describe.relationship-lookup.close": "Close",
   // TODO New key - Add a translation
   "submission.sections.describe.relationship-lookup.close": "Close",
@@ -3795,6 +4119,70 @@
   // "submission.sections.submit.progressbar.cclicense": "Creative commons license",
   "submission.sections.submit.progressbar.cclicense": "Licença creative commons",
   
+  // "submission.sections.submit.progressbar.describe.equipment": "Equipment basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.equipment": "Equipment basic information",
+  
+  // "submission.sections.submit.progressbar.describe.event": "Event basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.event": "Event basic information",
+  
+  // "submission.sections.submit.progressbar.describe.journal": "Journal basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.journal": "Journal basic information",
+  
+  // "submission.sections.submit.progressbar.describe.orgunit": "Org Unit basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.orgunit": "Org Unit basic information",
+  
+  // "submission.sections.submit.progressbar.describe.patent": "Patent basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.patent": "Patent basic information",
+  
+  // "submission.sections.submit.progressbar.describe.patent_indexing": "Patent indexing",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.patent_indexing": "Patent indexing",
+  
+  // "submission.sections.submit.progressbar.describe.patent_references": "Patent references",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.patent_references": "Patent references",
+  
+  // "submission.sections.submit.progressbar.describe.product": "Product basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.product": "Product basic information",
+  
+  // "submission.sections.submit.progressbar.describe.product_indexing": "Product indexing",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.product_indexing": "Product indexing",
+  
+  // "submission.sections.submit.progressbar.describe.product_references": "Product references",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.product_references": "Product references",
+  
+  // "submission.sections.submit.progressbar.describe.project": "Project basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.project": "Project basic information",
+  
+  // "submission.sections.submit.progressbar.describe.publication": "Publication basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.publication": "Publication basic information",
+  
+  // "submission.sections.submit.progressbar.describe.publication_bibliographic_details": "Publication bibliographic details",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.publication_bibliographic_details": "Publication bibliographic details",
+  
+  // "submission.sections.submit.progressbar.describe.publication_indexing": "Publication indexing",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.publication_indexing": "Publication indexing",
+  
+  // "submission.sections.submit.progressbar.describe.publication_references": "Publication references",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.publication_references": "Publication references",
+  
+  // "submission.sections.submit.progressbar.describe.rp": "Researcher basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.rp": "Researcher basic information",
+  
   // "submission.sections.submit.progressbar.describe.recycle": "Recycle",
   "submission.sections.submit.progressbar.describe.recycle": "Reciclar",
   
@@ -3842,7 +4230,8 @@
   // "submission.sections.upload.form.date-required": "Date is required.",
   "submission.sections.upload.form.date-required": "Data necessária.",
   
-  // "submission.sections.upload.form.from-label": "Access grant from",
+  // "submission.sections.upload.form.from-label": "Grant access from",
+  // TODO Source message changed - Revise the translation
   "submission.sections.upload.form.from-label": "Acesso permitido a partir de",
   
   // "submission.sections.upload.form.from-placeholder": "From",
@@ -3854,7 +4243,8 @@
   // "submission.sections.upload.form.group-required": "Group is required.",
   "submission.sections.upload.form.group-required": "Grupo é necessário.",
   
-  // "submission.sections.upload.form.until-label": "Access grant until",
+  // "submission.sections.upload.form.until-label": "Grant access until",
+  // TODO Source message changed - Revise the translation
   "submission.sections.upload.form.until-label": "Acesso permitido até",
   
   // "submission.sections.upload.form.until-placeholder": "Until",
@@ -3980,8 +4370,42 @@
   
   
   
-  // "title": "DSpace",
+  // "title": "DSpace Cris",
+  // TODO Source message changed - Revise the translation
   "title": "DSpace",
+  
+  
+  
+  // "tree.description.srsc": "Research Subject Categories",
+  // TODO New key - Add a translation
+  "tree.description.srsc": "Research Subject Categories",
+  
+  
+  
+  // "treeview.header": "Hierarchical tree view",
+  // TODO New key - Add a translation
+  "treeview.header": "Hierarchical tree view",
+  
+  
+  
+  // "treeview.search.form.reset": "Reset",
+  // TODO New key - Add a translation
+  "treeview.search.form.reset": "Reset",
+  
+  // "treeview.search.form.search": "Search",
+  // TODO New key - Add a translation
+  "treeview.search.form.search": "Search",
+  
+  // "treeview.search.no-result": "There were no items to show",
+  // TODO New key - Add a translation
+  "treeview.search.no-result": "There were no items to show",
+  
+  
+  
+  // "treeview.load-more": "Load more",
+  // TODO New key - Add a translation
+  "treeview.load-more": "Load more",
+  
   
   
   // "administrativeView.search.results.head": "Administrative Search",

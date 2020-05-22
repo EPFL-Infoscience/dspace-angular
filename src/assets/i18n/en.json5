@@ -842,6 +842,26 @@
   "community.sub-community-list.head": "Communities of this Community",
 
 
+  "deduplication.breadcrumbs": "Deduplication",
+
+  "deduplication.home.tab.all-signatures": "All",
+
+  "deduplication.home.tab.show-more": "Show more",
+
+  "deduplication.home.tab.compare": "Compare",
+
+  "deduplication.title": "Deduplication",
+
+  "deduplication.signature.groupAdminstratorCheck.text": "Total potential match:",
+
+  "deduplication.signature.groupReviewerCheck.text": "Remaining to check by librarian (quality check):",
+
+  "deduplication.signature.groupSubmitterCheck.text": "Remaining to check by submitter:",
+
+  "deduplication.signature.show-button": "Show",
+
+  "deduplication.signature.show-button-ext": "Show matches",
+
 
   "dso-selector.create.collection.head": "New collection",
 
@@ -1593,7 +1613,7 @@
   "menu.section.curation_task": "Curation Task",
 
 
-  "menu.section.deduplication": "Deduplication",
+  "menu.section.admin_deduplication": "Deduplication",
 
 
   "menu.section.edit": "Edit",
@@ -1625,6 +1645,8 @@
   "menu.section.icon.control_panel": "Control Panel menu section",
 
   "menu.section.icon.curation_task": "Curation Task menu section",
+
+  "menu.section.icon.deduplication": "Deduplication menu section",
 
   "menu.section.icon.edit": "Edit menu section",
 
