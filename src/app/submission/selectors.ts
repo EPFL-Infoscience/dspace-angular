@@ -1,34 +1,8 @@
-import { createSelector, MemoizedSelector, Selector } from '@ngrx/store';
+import { MemoizedSelector } from '@ngrx/store';
 
-import { hasValue } from '../shared/empty.util';
 import { submissionSelector, SubmissionState } from './submission.reducers';
 import { SubmissionObjectEntry, SubmissionSectionObject } from './objects/submission-objects.reducer';
-
-/**
- * Export a function to return a subset of the state by key
- */
-export function keySelector<T, V>(parentSelector: Selector<any, any>, subState: string, key: string): MemoizedSelector<T, V> {
-  return createSelector(parentSelector, (state: T) => {
-    if (hasValue(state) && hasValue(state[subState])) {
-      return state[subState][key];
-    } else {
-      return undefined;
-    }
-  });
-}
-
-/**
- * Export a function to return a subset of the state
- */
-export function subStateSelector<T, V>(parentSelector: Selector<any, any>, subState: string): MemoizedSelector<T, V> {
-  return createSelector(parentSelector, (state: T) => {
-    if (hasValue(state) && hasValue(state[subState])) {
-      return state[subState];
-    } else {
-      return undefined;
-    }
-  });
-}
+import { keySelector, subStateSelector } from '../shared/selector.util';
 
 export function submissionObjectFromIdSelector(submissionId: string): MemoizedSelector<SubmissionState, SubmissionObjectEntry> {
   return keySelector<SubmissionState, SubmissionObjectEntry>(submissionSelector, 'objects', submissionId);
