@@ -852,7 +852,7 @@
 
   "deduplication.title": "Deduplication",
 
-  "deduplication.signature.groupAdminstratorCheck.text": "Total potential match:",
+  "deduplication.signature.groupAdminstratorCheck.text": "Total potential match (Admin check):",
 
   "deduplication.signature.groupReviewerCheck.text": "Remaining to check by librarian (quality check):",
 

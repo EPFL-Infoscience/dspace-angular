@@ -60,7 +60,6 @@ describe('DeduplicationRestService', () => {
 
   const endpointURL = 'https://rest.api/rest/api/deduplications/signatures';
   const requestUUID = '8b3c613a-5a4b-438b-9686-be1d5b4a1c5a';
-  const requestURL = 'https://rest.api/rest/api/deduplications/';
 
   const pageInfo = new PageInfo();
   const array = [ signatureObjectTitle, signatureObjectIdentifier ];
