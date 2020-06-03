@@ -42,3 +42,12 @@ export function signaturesObjectSelector(): MemoizedSelector<DeduplicationState,
 export const isDeduplicationSignaturesLoadedSelector = createSelector(_getDeduplicationState,
   (state: DeduplicationState) => state.signatures.loaded
 );
+
+/**
+ * Returns true if the deduplication signatures are processing.
+ * @function isDeduplicationSignaturesProcessingSelector
+ * @return {boolean}
+ */
+export const isDeduplicationSignaturesProcessingSelector = createSelector(_getDeduplicationState,
+  (state: DeduplicationState) => state.signatures.processing
+);

@@ -7,17 +7,18 @@ import { AppState } from '../app.reducer';
 import {
   signaturesObjectSelector,
   isDeduplicationSignaturesLoadedSelector,
+  isDeduplicationSignaturesProcessingSelector,
 } from './selectors';
-import { DeduplicationSignatureState } from './signatures/deduplication-signatures.reducer';
+import { SignatureObject } from '../core/deduplication/models/signature.model';
+import { DeduplicationState } from './deduplication.reducer';
+import { RetrieveAllSignaturesAction } from './signatures/deduplication-signatures.actions';
 
 @Injectable()
 export class DeduplicationStateService {
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<DeduplicationState>) { }
 
-  }
-
-  public getDeduplicationSignatures() {
-    return this.store.pipe(select(signaturesObjectSelector));
+  public getDeduplicationSignatures(): Observable<SignatureObject[]> {
+    return this.store.pipe(select(signaturesObjectSelector()));
   }
 
   public isDeduplicationSignaturesLoading(): Observable<boolean> {
@@ -31,7 +32,14 @@ export class DeduplicationStateService {
     return this.store.pipe(select(isDeduplicationSignaturesLoadedSelector));
   }
 
-  public dispatchRetrieveDeduplicationSignatures(): void {
-    this.store.dispatch(new RetrieveAllWorkpackagesAction(null))
+  public isDeduplicationSignaturesProcessing(): Observable<boolean> {
+    return this.store.pipe(
+      select(isDeduplicationSignaturesProcessingSelector),
+      map((loaded: boolean) => !loaded)
+    );
+  }
+
+  public dispatchRetrieveDeduplicationSignatures(elementsPerPage: number): void {
+    this.store.dispatch(new RetrieveAllSignaturesAction(elementsPerPage))
   }
 }

@@ -19,7 +19,7 @@
             <div class="row">
               <div class="col-md-12 text-center">
                 <hr>
-                <button type="button" class="btn btn-primary">
+                <button type="button" class="btn btn-primary" [disabled]="(isSignaturesProcessing() | async)" (click)="getDeduplicationSignatures()">
                   {{'deduplication.home.tab.show-more' | translate}}
                   <i class="fa fa-angle-double-right"></i>
                 </button>

@@ -11,8 +11,10 @@ import { SignatureObject } from '../core/deduplication/models/signature.model';
 })
 export class DeduplicationComponent {
 
+  protected elementsPerPage = 3;
+  public signatures: Observable<SignatureObject[]>;
+
   constructor(
-    // private workingPlanService: WorkingPlanService,
     private deduplicationStateService: DeduplicationStateService
   ) { }
 
@@ -20,7 +22,7 @@ export class DeduplicationComponent {
     this.deduplicationStateService.isDeduplicationSignaturesLoaded().pipe(
       take(1)
     ).subscribe(() => {
-      this.deduplicationStateService.dispatchRetrieveDeduplicationSignatures();
+      this.deduplicationStateService.dispatchRetrieveDeduplicationSignatures(this.elementsPerPage);
     })
   }
 
@@ -28,7 +30,11 @@ export class DeduplicationComponent {
     return this.deduplicationStateService.isDeduplicationSignaturesLoading();
   }
 
-  public getDeduplicationSignatures(): Observable<SignatureObject[]> {
-    return this.deduplicationStateService.getDeduplicationSignatures();
+  public isSignaturesProcessing(): Observable<boolean> {
+    return this.deduplicationStateService.isDeduplicationSignaturesProcessing();
+  }
+
+  public getDeduplicationSignatures(): void {
+    this.signatures = this.deduplicationStateService.getDeduplicationSignatures();
   }
 }

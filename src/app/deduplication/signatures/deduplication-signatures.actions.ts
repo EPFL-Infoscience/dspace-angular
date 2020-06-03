@@ -20,26 +20,6 @@ export const DeduplicationSignaturesActionTypes = {
 /* tslint:disable:max-classes-per-file */
 
 /**
- * An ngrx action to init the deduplication signatures
- */
-export class AddSignaturesAction implements Action {
-  type = DeduplicationSignaturesActionTypes.ADD_SIGNATURES;
-  payload: {
-    signatures: SignatureObject[];
-  };
-
-  /**
-   * Create a new InitWorkingplanAction
-   *
-   * @param signatures
-   *    the list of Item of workpackages
-   */
-  constructor(signatures: SignatureObject[]) {
-    this.payload = { signatures };
-  }
-}
-
-/**
  * An ngrx action to retrieve all deduplication signatures.
  */
 export class RetrieveAllSignaturesAction implements Action {
@@ -64,6 +44,29 @@ export class RetrieveAllSignaturesAction implements Action {
  */
 export class RetrieveAllSignaturesErrorAction implements Action {
   type = DeduplicationSignaturesActionTypes.RETRIEVE_ALL_SIGNATURES_ERROR;
+}
+
+/**
+ * An ngrx action to load the deduplication signatures objects.
+ * Called by the RetrieveAllSignaturesAction effect.
+ */
+export class AddSignaturesAction implements Action {
+  type = DeduplicationSignaturesActionTypes.ADD_SIGNATURES;
+  payload: {
+    signatures: SignatureObject[];
+  };
+
+  /**
+   * Create a new InitWorkingplanAction
+   *
+   * @param signatures
+   *    the list of Item of workpackages
+   */
+  constructor(signatures: SignatureObject[]) {
+    this.payload = {
+      signatures,
+    };
+  }
 }
 
 /* tslint:enable:max-classes-per-file */

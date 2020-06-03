@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { of as observableOf } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { catchError, concatMap, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, concatMap, map, switchMap, tap, withLatestFrom, mergeMap } from 'rxjs/operators';
 
 import {
   RetrieveAllSignaturesAction,
@@ -26,7 +26,7 @@ import { DeduplicationSignatureState } from './deduplication-signatures.reducer'
 export class DeduplicationSignaturesEffects {
 
   /**
-   * Retrieve all deduplication signatures.
+   * Retrieve all deduplication signatures (paginated).
    */
   @Effect() retrieveAllSignatures$ = this.actions$.pipe(
     ofType(DeduplicationSignaturesActionTypes.RETRIEVE_ALL_SIGNATURES),
@@ -48,19 +48,15 @@ export class DeduplicationSignaturesEffects {
   /**
    * Add workpackages to workingplan state
    */
-// non credo serva
   /*@Effect() addSignatures$ = this.actions$.pipe(
     ofType(DeduplicationSignaturesActionTypes.ADD_SIGNATURES),
-    switchMap((action: AddSignaturesAction) => {
-      return this.workingPlanService.initWorkingPlan(action.payload.signatures).pipe(
-        map((workpackages: Workpackage[]) => new InitWorkingplanSuccessAction(workpackages)),
-        catchError((error: Error) => {
-          if (error) {
-            console.error(error.message);
-          }
-          return observableOf(new InitWorkingplanErrorAction())
-        }))
-    })
+    withLatestFrom(this.store$),
+    map(([action, currentState]: [AddSignaturesAction, DeduplicationSignatureState]) => {
+      let a = currentState.currentPage
+
+      // return this.parseSaveResponse((currentState.submission as SubmissionState).objects[action.payload.submissionId], action.payload.submissionObject, action.payload.submissionId);
+    }),
+    mergeMap((actions) => observableFrom(actions)));
   );*/
 
   constructor(
