@@ -1,11 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-
-import { DeduplicationState, deduplicationSelector } from './deduplication.reducer';
-import { AppState } from '../app.reducer';
-import { isNotEmpty } from '../shared/empty.util';
-import { SignatureObject } from '../core/deduplication/models/signature.model';
-import { SetObject } from '../core/deduplication/models/set.model';
 import { subStateSelector } from '../shared/selector.util';
+import { DeduplicationState, deduplicationSelector } from './deduplication.reducer';
+import { SignatureObject } from '../core/deduplication/models/signature.model';
 import { DeduplicationSignatureState } from './signatures/deduplication-signatures.reducer';
 
 /**
@@ -17,7 +13,7 @@ import { DeduplicationSignatureState } from './signatures/deduplication-signatur
 const _getDeduplicationState = (state: any) => state.deduplication;
 
 /**
- * Returns the Workpackage object.
+ * Returns the signature State.
  * @function signaturesStateSelector
  * @return {DeduplicationSignatureState}
  */
@@ -50,4 +46,31 @@ export const isDeduplicationSignaturesLoadedSelector = createSelector(_getDedupl
  */
 export const isDeduplicationSignaturesProcessingSelector = createSelector(_getDeduplicationState,
   (state: DeduplicationState) => state.signatures.processing
+);
+
+/**
+ * Returns the total available pages of Deduplication signatures.
+ * @function getDeduplicationSignaturesTotalPagesSelector
+ * @return {number}
+ */
+export const getDeduplicationSignaturesTotalPagesSelector = createSelector(_getDeduplicationState,
+  (state: DeduplicationState) => state.signatures.totalPages
+);
+
+/**
+ * Returns the current page of Deduplication signatures.
+ * @function getDeduplicationSignaturesCurrentPageSelector
+ * @return {number}
+ */
+export const getDeduplicationSignaturesCurrentPageSelector = createSelector(_getDeduplicationState,
+  (state: DeduplicationState) => state.signatures.currentPage
+);
+
+/**
+ * Returns the total number of Deduplication signatures.
+ * @function getDeduplicationSignaturesTotalsSelector
+ * @return {number}
+ */
+export const getDeduplicationSignaturesTotalsSelector = createSelector(_getDeduplicationState,
+  (state: DeduplicationState) => state.signatures.totalElements
 );

@@ -13,10 +13,9 @@ import { RestResponse } from '../cache/response.models';
 import { PageInfo } from '../shared/page-info.model';
 import { HALEndpointService } from '../shared/hal-endpoint.service';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
-import { ResourceType } from '../shared/resource-type';
 import { createSuccessfulRemoteDataObject } from '../../shared/remote-data.utils';
-import { SignatureObject } from './models/signature.model';
 import { DeduplicationRestService } from './deduplication-rest.service';
+import { mockSignatureObjectTitle, mockSignatureObjectIdentifier } from '../../shared/mocks/deduplication.mock';
 
 describe('DeduplicationRestService', () => {
   let scheduler: TestScheduler;
@@ -30,41 +29,13 @@ describe('DeduplicationRestService', () => {
   let http: HttpClient;
   let comparator: any;
 
-  const signatureObjectTitle: SignatureObject = {
-    type: new ResourceType('signature'),
-    id: 'title',
-    signatureType: 'title',
-    groupReviewerCheck: 20,
-    groupSubmitterCheck: 35,
-    groupAdminstratorCheck: 41,
-    _links: {
-      self: {
-        href: 'http://rest.api/rest/api/deduplications/signatures/title'
-      }
-    }
-  };
-
-  const signatureObjectIdentifier: SignatureObject = {
-    type: new ResourceType('signature'),
-    id: 'identifier',
-    signatureType: 'identifier',
-    groupReviewerCheck: 12,
-    groupSubmitterCheck: 71,
-    groupAdminstratorCheck: 5,
-    _links: {
-      self: {
-        href: 'http://rest.api/rest/api/deduplications/signatures/identifier'
-      }
-    }
-  };
-
   const endpointURL = 'https://rest.api/rest/api/deduplications/signatures';
   const requestUUID = '8b3c613a-5a4b-438b-9686-be1d5b4a1c5a';
 
   const pageInfo = new PageInfo();
-  const array = [ signatureObjectTitle, signatureObjectIdentifier ];
+  const array = [ mockSignatureObjectTitle, mockSignatureObjectIdentifier ];
   const paginatedList = new PaginatedList(pageInfo, array);
-  const signatureObjectRD = createSuccessfulRemoteDataObject(signatureObjectTitle);
+  const signatureObjectRD = createSuccessfulRemoteDataObject(mockSignatureObjectTitle);
   const paginatedListRD = createSuccessfulRemoteDataObject(paginatedList);
 
   beforeEach(() => {
@@ -132,15 +103,15 @@ describe('DeduplicationRestService', () => {
 
   describe('getSignature', () => {
     it('should proxy the call to dataservice.findByHref', () => {
-      service.getSignature(signatureObjectTitle.id).subscribe(
+      service.getSignature(mockSignatureObjectTitle.id).subscribe(
         (res) => {
-          expect((service as any).dataService.findByHref).toHaveBeenCalledWith(endpointURL + '/' + signatureObjectTitle.id);
+          expect((service as any).dataService.findByHref).toHaveBeenCalledWith(endpointURL + '/' + mockSignatureObjectTitle.id);
         }
       );
     });
 
     it('should return a RemoteData<SignatureObject> for the object with the given URL', () => {
-      const result = service.getSignature(signatureObjectTitle.id);
+      const result = service.getSignature(mockSignatureObjectTitle.id);
       const expected = cold('(a)', {
         a: signatureObjectRD
       });

@@ -1,0 +1,41 @@
+<div class="row tab-pane-deduplication">
+  <div *ngIf="!signatures || (signatures | async)?.length == 0" class="col-md-12 text-center">
+    <h4 class="signatures-not-found p-3">No signatures found.</h4>
+  </div>
+  <div *ngFor="let signature of (signatures | async); let i = index" class="col-md-{{bootstrapColNumber}}">
+    <div class="card card bg-light mb-3 text-center">
+      <div class="card-header">
+        {{'deduplication.signature.cardTitle.' + signature.signatureType | translate}}
+      </div>
+      <ul class="list-group list-group-flush small">
+        <li class="list-group-item">
+          <p>
+            {{'deduplication.signature.groupReviewerCheck.text' | translate}}
+          </p>
+          <a class="btn btn-primary btn-sm btn-block text-light" [routerLink]="['./set', signature.id, 'reviewer']">
+            {{'deduplication.signature.show-button' | translate}} <span class="badge badge-light">{{signature.groupReviewerCheck}}</span>
+            <span class="sr-only">{{'deduplication.signature.show-button-ext' | translate}}</span>
+          </a>
+        </li>
+        <li class="list-group-item">
+          <p>
+            {{'deduplication.signature.groupSubmitterCheck.text' | translate}}
+          </p>
+          <a class="btn btn-outline-secondary btn-sm btn-block text-secondary" [routerLink]="['./set', signature.id, 'submitter']">
+            {{'deduplication.signature.show-button' | translate}} <span class="badge badge-light">{{signature.groupSubmitterCheck}}</span>
+            <span class="sr-only">{{'deduplication.signature.show-button-ext' | translate}}</span>
+          </a>
+        </li>
+        <li class="list-group-item">
+          <p>
+            {{'deduplication.signature.groupAdminstratorCheck.text' | translate}}
+          </p>
+          <a class="btn btn-outline-secondary btn-sm btn-block text-secondary" [routerLink]="['./set', signature.id, 'admin']">
+            {{'deduplication.signature.show-button' | translate}} <span class="badge badge-light">{{signature.groupAdminstratorCheck}}</span>
+            <span class="sr-only">{{'deduplication.signature.show-button-ext' | translate}}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

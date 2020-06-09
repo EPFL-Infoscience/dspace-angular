@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-
 import { type } from '../../shared/ngrx/type';
 import { SignatureObject } from '../../core/deduplication/models/signature.model';
 
@@ -12,9 +11,9 @@ import { SignatureObject } from '../../core/deduplication/models/signature.model
  * action types in the application are unique.
  */
 export const DeduplicationSignaturesActionTypes = {
-  ADD_SIGNATURES: type('dspace/core/deduplication/ADD_SIGNATURES'),
-  RETRIEVE_ALL_SIGNATURES: type('dspace/core/deduplication/RETRIEVE_ALL_SIGNATURES'),
-  RETRIEVE_ALL_SIGNATURES_ERROR: type('dspace/core/deduplication/RETRIEVE_ALL_SIGNATURES_ERROR'),
+  ADD_SIGNATURES: type('dspace/deduplication/ADD_SIGNATURES'),
+  RETRIEVE_ALL_SIGNATURES: type('dspace/deduplication/RETRIEVE_ALL_SIGNATURES'),
+  RETRIEVE_ALL_SIGNATURES_ERROR: type('dspace/deduplication/RETRIEVE_ALL_SIGNATURES_ERROR'),
 }
 
 /* tslint:disable:max-classes-per-file */
@@ -29,10 +28,10 @@ export class RetrieveAllSignaturesAction implements Action {
   };
 
   /**
-   * Create a new InitWorkingplanAction
+   * Create a new RetrieveAllSignaturesAction.
    *
-   * @param signatures
-   *    the list of Item of workpackages
+   * @param elementsPerPage
+   *    the number of signatures per page
    */
   constructor(elementsPerPage: number) {
     this.payload = { elementsPerPage };
@@ -54,17 +53,29 @@ export class AddSignaturesAction implements Action {
   type = DeduplicationSignaturesActionTypes.ADD_SIGNATURES;
   payload: {
     signatures: SignatureObject[];
+    totalPages: number;
+    currentPage: number;
+    totalElements: number;
   };
 
   /**
-   * Create a new InitWorkingplanAction
+   * Create a new AddSignaturesAction.
    *
    * @param signatures
-   *    the list of Item of workpackages
+   *    the list of signtures
+   * @param totalPages
+   *    the total available pages of signatures
+   * @param currentPage
+   *    the current page
+   * @param totalElements
+   *    the total available deduplication signatures
    */
-  constructor(signatures: SignatureObject[]) {
+  constructor(signatures: SignatureObject[], totalPages: number, currentPage: number, totalElements: number) {
     this.payload = {
       signatures,
+      totalPages,
+      currentPage,
+      totalElements
     };
   }
 }

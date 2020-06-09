@@ -872,7 +872,13 @@
 
   "deduplication.home.tab.compare": "Compare",
 
+  "deduplication.home.button.compare": "Compare",
+
+  "deduplication.home.description.compare": "Compare item using internal identifier (each one MUST be separated by comma e.g 123,232,4343).",
+
   "deduplication.title": "Deduplication",
+
+  "deduplication.signature.loading": "Loading signatures ...",
 
   "deduplication.signature.groupAdminstratorCheck.text": "Total potential match (Admin check):",
 
@@ -883,6 +889,12 @@
   "deduplication.signature.show-button": "Show",
 
   "deduplication.signature.show-button-ext": "Show matches",
+
+  "deduplication.signature.error.service.retrieve": "An error occurred while loading the Deduplication Signatures",
+
+  "deduplication.signature.cardTitle.title": "Titles",
+
+  "deduplication.signature.cardTitle.identifier": "Identifiers",
 
 
   "dso-selector.create.collection.head": "New collection",

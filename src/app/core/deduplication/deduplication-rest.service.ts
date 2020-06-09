@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
-import { flatMap, take, tap } from 'rxjs/operators';
+import { flatMap, take, tap, catchError } from 'rxjs/operators';
 
 import { CoreState } from '../core.reducers';
 import { HALEndpointService } from '../shared/hal-endpoint.service';
@@ -102,7 +102,7 @@ export class DeduplicationRestService {
   public getSignatures(options: FindListOptions = {}, ...linksToFollow: Array<FollowLinkConfig<SignatureObject>>): Observable<RemoteData<PaginatedList<SignatureObject>>> {
     return this.dataService.getBrowseEndpoint(options, 'signatures').pipe(
        take(1),
-       flatMap((href: string) => this.dataService.findAllByHref(href, options, ...linksToFollow))
+       flatMap((href: string) => this.dataService.findAllByHref(href, options, ...linksToFollow)),
     );
   }
 
