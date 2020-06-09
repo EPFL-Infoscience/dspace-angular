@@ -614,8 +614,6 @@
 
   "collection.edit.logo.upload": "Drop a Collection Logo to upload",
 
-
-
   "collection.edit.notifications.success": "Successfully edited the Collection",
 
   "collection.edit.return": "Return",
@@ -688,6 +686,9 @@
 
   "collection.form.title": "Name",
 
+  "collection.form.entitytype": "Type",
+
+  "collection.form.errors.entitytype.required": "Please choose an option",
 
 
   "collection.page.browse.recent.head": "Recent Submissions",
@@ -896,6 +897,10 @@
 
   "deduplication.signature.cardTitle.identifier": "Identifiers",
 
+
+  "datafile.listelement.badge": "Data File",
+
+  "datapackage.listelement.badge": "Data Package",
 
   "dso-selector.create.collection.head": "New collection",
 
@@ -2430,7 +2435,6 @@
   "submission.general.save": "Save",
 
   "submission.general.save-later": "Save for later",
-
 
 
   "submission.sections.detect-duplicate.clear-decision": "Undo",
