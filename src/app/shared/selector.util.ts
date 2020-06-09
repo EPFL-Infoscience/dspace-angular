@@ -8,8 +8,7 @@ export function keySelector<T, V>(parentSelector: Selector<any, any>, subState: 
   return createSelector(parentSelector, (state: T) => {
     if (hasValue(state) && hasValue(state[subState])) {
       return state[subState][key];
-    }
-    else {
+    } else {
       return undefined;
     }
   });
@@ -21,8 +20,7 @@ export function subStateSelector<T, V>(parentSelector: Selector<any, any>, subSt
   return createSelector(parentSelector, (state: T) => {
     if (hasValue(state) && hasValue(state[subState])) {
       return state[subState];
-    }
-    else {
+    } else {
       return undefined;
     }
   });

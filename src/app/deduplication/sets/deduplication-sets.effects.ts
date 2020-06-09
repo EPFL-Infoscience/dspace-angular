@@ -26,7 +26,7 @@ export class DeduplicationSetsEffects {
     switchMap(() => {
       return this.deduplicationService.getSignatures().pipe(
         map((objects: any) => {
-
+          const a = 1;
         }),
         catchError((error: Error) => {
           if (error) {
