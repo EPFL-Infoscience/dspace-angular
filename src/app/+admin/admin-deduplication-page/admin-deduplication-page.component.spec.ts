@@ -1,5 +1,5 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AdminDeduplicationPageComponent } from './admin-deduplication-page.component';
 
 describe('DeduplicationPageComponent', () => {
@@ -8,7 +8,8 @@ describe('DeduplicationPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AdminDeduplicationPageComponent ]
+      declarations: [ AdminDeduplicationPageComponent ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   }));
