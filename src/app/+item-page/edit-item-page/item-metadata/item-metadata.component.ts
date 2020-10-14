@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Item } from '../../../core/shared/item.model';
 import { ItemDataService } from '../../../core/data/item-data.service';
 import { ObjectUpdatesService } from '../../../core/data/object-updates/object-updates.service';
@@ -6,16 +6,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { cloneDeep } from 'lodash';
 import { Observable } from 'rxjs';
 import { Identifiable } from '../../../core/data/object-updates/object-updates.reducer';
-import { first, map, switchMap, take, tap } from 'rxjs/operators';
+import { first, switchMap, tap } from 'rxjs/operators';
 import { getSucceededRemoteData } from '../../../core/shared/operators';
 import { RemoteData } from '../../../core/data/remote-data';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { TranslateService } from '@ngx-translate/core';
-import { RegistryService } from '../../../core/registry/registry.service';
-import { MetadatumViewModel } from '../../../core/shared/metadata.models';
+import { MetadataValue, MetadatumViewModel } from '../../../core/shared/metadata.models';
 import { Metadata } from '../../../core/shared/metadata.utils';
 import { AbstractItemUpdateComponent } from '../abstract-item-update/abstract-item-update.component';
-import { MetadataField } from '../../../core/metadata/metadata-field.model';
+import { UpdateDataService } from '../../../core/data/update-data.service';
+import { hasNoValue, hasValue } from '../../../shared/empty.util';
+import { AlertType } from '../../../shared/alert/aletr-type';
 
 @Component({
   selector: 'ds-item-metadata',
@@ -28,9 +29,16 @@ import { MetadataField } from '../../../core/metadata/metadata-field.model';
 export class ItemMetadataComponent extends AbstractItemUpdateComponent {
 
   /**
-   * Observable with a list of strings with all existing metadata field keys
+   * The AlertType enumeration
+   * @type {AlertType}
    */
-  metadataFields$: Observable<string[]>;
+  public AlertTypeEnum = AlertType;
+
+  /**
+   * A custom update service to use for adding and committing patches
+   * This will default to the ItemDataService
+   */
+  @Input() updateService: UpdateDataService<Item>;
 
   constructor(
     public itemService: ItemDataService,
@@ -39,7 +47,6 @@ export class ItemMetadataComponent extends AbstractItemUpdateComponent {
     public notificationsService: NotificationsService,
     public translateService: TranslateService,
     public route: ActivatedRoute,
-    public metadataFieldService: RegistryService,
   ) {
     super(itemService, objectUpdatesService, router, notificationsService, translateService, route);
   }
@@ -49,7 +56,9 @@ export class ItemMetadataComponent extends AbstractItemUpdateComponent {
    */
   ngOnInit(): void {
     super.ngOnInit();
-    this.metadataFields$ = this.findMetadataFields();
+    if (hasNoValue(this.updateService)) {
+      this.updateService = this.itemService;
+    }
   }
 
   /**
@@ -88,20 +97,21 @@ export class ItemMetadataComponent extends AbstractItemUpdateComponent {
   public submit() {
     this.isValid().pipe(first()).subscribe((isValid) => {
       if (isValid) {
-        const metadata$: Observable<Identifiable[]> = this.objectUpdatesService.getUpdatedFields(this.url, this.getMetadataAsListExcludingRelationships()) as Observable<MetadatumViewModel[]>;
+        const metadata$: Observable<Identifiable[]> = this.objectUpdatesService.getUpdatedFields(this.url, this.item.metadataAsList) as Observable<MetadatumViewModel[]>;
         metadata$.pipe(
           first(),
           switchMap((metadata: MetadatumViewModel[]) => {
             const updatedItem: Item = Object.assign(cloneDeep(this.item), { metadata: Metadata.toMetadataMap(metadata) });
-            return this.itemService.update(updatedItem);
+            return this.updateService.update(updatedItem);
           }),
-          tap(() => this.itemService.commitUpdates()),
+          tap(() => this.updateService.commitUpdates()),
           getSucceededRemoteData()
         ).subscribe(
           (rd: RemoteData<Item>) => {
             this.item = rd.payload;
+            this.checkAndFixMetadataUUIDs();
             this.initializeOriginalFields();
-            this.updates$ = this.objectUpdatesService.getFieldUpdates(this.url, this.getMetadataAsListExcludingRelationships());
+            this.updates$ = this.objectUpdatesService.getFieldUpdates(this.url, this.item.metadataAsList);
             this.notificationsService.success(this.getNotificationTitle('saved'), this.getNotificationContent('saved'));
           }
         )
@@ -112,16 +122,13 @@ export class ItemMetadataComponent extends AbstractItemUpdateComponent {
   }
 
   /**
-   * Method to request all metadata fields and convert them to a list of strings
+   * Check for empty metadata UUIDs and fix them (empty UUIDs would break the object-update service)
    */
-  findMetadataFields(): Observable<string[]> {
-    return this.metadataFieldService.getAllMetadataFields().pipe(
-      getSucceededRemoteData(),
-      take(1),
-      map((remoteData$) => remoteData$.payload.page.map((field: MetadataField) => field.toString())));
-  }
-
-  getMetadataAsListExcludingRelationships(): MetadatumViewModel[] {
-    return this.item.metadataAsList.filter((metadata: MetadatumViewModel) => !metadata.key.startsWith('relation.') && !metadata.key.startsWith('relationship.'));
+  checkAndFixMetadataUUIDs() {
+    const metadata = cloneDeep(this.item.metadata);
+    Object.keys(this.item.metadata).forEach((key: string) => {
+      metadata[key] = this.item.metadata[key].map((value) => hasValue(value.uuid) ? value : Object.assign(new MetadataValue(), value));
+    });
+    this.item.metadata = metadata;
   }
 }

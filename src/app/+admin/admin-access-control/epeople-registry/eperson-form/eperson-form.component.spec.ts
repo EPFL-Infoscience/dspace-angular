@@ -33,6 +33,10 @@ import { NotificationsServiceStub } from '../../../../shared/testing/notificatio
 import { TranslateLoaderMock } from '../../../../shared/mocks/translate-loader.mock';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { AuthServiceStub } from '../../../../shared/testing/auth-service.stub';
+import { AuthorizationDataService } from '../../../../core/data/feature-authorization/authorization-data.service';
+import { GroupDataService } from '../../../../core/eperson/group-data.service';
+import { createPaginatedList } from '../../../../shared/testing/utils.test';
+import { EpersonRegistrationService } from 'src/app/core/data/eperson-registration.service';
 
 describe('EPersonFormComponent', () => {
   let component: EPersonFormComponent;
@@ -43,6 +47,9 @@ describe('EPersonFormComponent', () => {
   let mockEPeople;
   let ePersonDataServiceStub: any;
   let authService: AuthServiceStub;
+  let authorizationService: AuthorizationDataService;
+  let groupsDataService: GroupDataService;
+  let epersonRegistrationService: EpersonRegistrationService;
 
   beforeEach(async(() => {
     mockEPeople = [EPersonMock, EPersonMock2];
@@ -108,6 +115,16 @@ describe('EPersonFormComponent', () => {
     builderService = getMockFormBuilderService();
     translateService = getMockTranslateService();
     authService = new AuthServiceStub();
+    authorizationService = jasmine.createSpyObj('authorizationService', {
+      isAuthorized: observableOf(true)
+    });
+    groupsDataService = jasmine.createSpyObj('groupsDataService', {
+      findAllByHref: createSuccessfulRemoteDataObject$(createPaginatedList([])),
+      getGroupRegistryRouterLink: ''
+    });
+    epersonRegistrationService = jasmine.createSpyObj('epersonRegistrationService', {
+      registerEmail: observableOf(new RestResponse(true, 200, 'Success'))
+    });
     TestBed.configureTestingModule({
       imports: [CommonModule, NgbModule, FormsModule, ReactiveFormsModule, BrowserModule,
         TranslateModule.forRoot({
@@ -130,6 +147,9 @@ describe('EPersonFormComponent', () => {
         { provide: RemoteDataBuildService, useValue: {} },
         { provide: HALEndpointService, useValue: {} },
         { provide: AuthService, useValue: authService },
+        { provide: AuthorizationDataService, useValue: authorizationService },
+        { provide: GroupDataService, useValue: groupsDataService },
+        { provide: EpersonRegistrationService, useValue: epersonRegistrationService },
         EPeopleRegistryComponent
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -269,4 +289,22 @@ describe('EPersonFormComponent', () => {
     });
   });
 
+  describe('Reset Password', () => {
+    let ePersonId;
+    let ePersonEmail;
+
+    beforeEach(() => {
+      ePersonId = 'testEPersonId';
+      ePersonEmail = 'person.email@4science.it';
+      component.epersonInitial = Object.assign(new EPerson(), {
+        id: ePersonId,
+        email: ePersonEmail
+      });
+      component.resetPassword();
+    });
+
+    it('should call epersonRegistrationService.registerEmail', () => {
+      expect(epersonRegistrationService.registerEmail).toHaveBeenCalledWith(ePersonEmail);
+    });
+  });
 });

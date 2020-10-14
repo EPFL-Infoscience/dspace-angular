@@ -1,5 +1,11 @@
 {
 
+  "401.help": "You're not authorized to access this page. You can use the button below to get back to the home page.",
+
+  "401.link.home-page": "Take me to the home page",
+
+  "401.unauthorized": "unauthorized",
+
   "404.help": "We can't find the page you're looking for. The page may have been moved or deleted. You can use the button below to get back to the home page. ",
 
   "404.link.home-page": "Take me to the home page",
@@ -7,6 +13,42 @@
   "404.page-not-found": "page not found",
 
 
+
+  "admin.curation-tasks.breadcrumbs": "System curation tasks",
+
+  "admin.curation-tasks.title": "System curation tasks",
+
+  "admin.curation-tasks.header": "System curation tasks",
+
+
+
+  "admin.edit-user-agreement.breadcrumbs": "Edit User Agreement",
+
+  "admin.edit-user-agreement.confirm.title": "Force acceptance",
+
+  "admin.edit-user-agreement.confirm.info":"Do you want to force all users to accept the new user agreement?",
+
+  "admin.edit-user-agreement.confirm.cancel":"Cancel",
+
+  "admin.edit-user-agreement.confirm.no":"No, update only",
+
+  "admin.edit-user-agreement.confirm.yes":"Yes, update and force",
+
+  "admin.edit-user-agreement.save-button": "Save",
+
+  "admin.edit-user-agreement.header": "Edit User Agreement",
+
+  "admin.edit-user-agreement.success": "User agreement successfully updated",
+
+  "admin.edit-user-agreement.error": "An error occurred while updating the user agreement",
+
+  "admin.edit-user-agreement.title": "Edit User Agreement",
+
+
+
+  "admin.registries.bitstream-formats.breadcrumbs": "Format registry",
+
+  "admin.registries.bitstream-formats.create.breadcrumbs": "Bitstream format",
 
   "admin.registries.bitstream-formats.create.failure.content": "An error occurred while creating the new bitstream format.",
 
@@ -29,6 +71,8 @@
   "admin.registries.bitstream-formats.delete.success.head": "Success",
 
   "admin.registries.bitstream-formats.description": "This list of bitstream formats provides information about known formats and their support level.",
+
+  "admin.registries.bitstream-formats.edit.breadcrumbs": "Bitstream format",
 
   "admin.registries.bitstream-formats.edit.description.hint": "",
 
@@ -94,6 +138,8 @@
 
 
 
+  "admin.registries.metadata.breadcrumbs": "Metadata registry",
+
   "admin.registries.metadata.description": "The metadata registry maintains a list of all metadata fields available in the repository. These fields may be divided amongst multiple schemas. However, DSpace requires the qualified Dublin Core schema.",
 
   "admin.registries.metadata.form.create": "Create metadata schema",
@@ -119,6 +165,8 @@
   "admin.registries.metadata.title": "DSpace Cris Angular :: Metadata Registry",
 
 
+
+  "admin.registries.schema.breadcrumbs": "Metadata schema",
 
   "admin.registries.schema.description": "This is the metadata schema for \"{{namespace}}\".",
 
@@ -284,6 +332,10 @@
 
   "admin.access-control.groups.notification.deleted.failure": "Failed to delete group \"{{name}}\"",
 
+  "admin.access-control.groups.notification.edit.success": "Successfully edited group \"{{name}}\"",
+
+  "admin.access-control.groups.notification.edit.failure": "Failed to edit group \"{{name}}\"",
+
 
   "admin.access-control.groups.form.head.create": "Create group",
 
@@ -420,6 +472,26 @@
 
 
 
+  "admin.metadata-import.breadcrumbs": "Import Metadata",
+
+  "admin.metadata-import.title": "Import Metadata",
+
+  "admin.metadata-import.page.header": "Import Metadata",
+
+  "admin.metadata-import.page.help": "You can drop or browse CSV files that contain batch metadata operations on files here",
+
+  "admin.metadata-import.page.dropMsg": "Drop a metadata CSV to import",
+
+  "admin.metadata-import.page.dropMsgReplace": "Drop to replace the metadata CSV to import",
+
+  "admin.metadata-import.page.button.return": "Return",
+
+  "admin.metadata-import.page.button.proceed": "Proceed",
+
+  "admin.metadata-import.page.error.addFile": "Select file first!",
+
+
+
 
   "auth.errors.invalid-user": "Invalid email address or password.",
 
@@ -462,14 +534,26 @@
   "bitstream.edit.title": "Edit bitstream",
 
 
-
   "browse.comcol.by.author": "By Author",
 
   "browse.comcol.by.dateissued": "By Issue Date",
 
+  "browse.comcol.by.ouname": "By Name",
+
+  "browse.comcol.by.pjtitle": "By Title",
+
+  "browse.comcol.by.rodept": "By Department",
+
+  "browse.comcol.by.rpdept": "By Department",
+
+  "browse.comcol.by.rpname": "By Name",
+
   "browse.comcol.by.subject": "By Subject",
 
   "browse.comcol.by.title": "By Title",
+
+  "browse.comcol.by.type": "By Type",
+
 
   "browse.comcol.head": "Browse",
 
@@ -479,7 +563,19 @@
 
   "browse.metadata.dateissued": "Issue Date",
 
+  "browse.metadata.ouname" : "Name",
+
+  "browse.metadata.pjtitle" : "Title",
+
+  "browse.metadata.rodept": "Department",
+
+  "browse.metadata.rpdept": "Department",
+
+  "browse.metadata.rpname": "Name",
+
   "browse.metadata.subject": "Subject",
+
+  "browse.metadata.type": "Type",
 
   "browse.metadata.title": "Title",
 
@@ -487,7 +583,19 @@
 
   "browse.metadata.dateissued.breadcrumbs": "Browse by Date",
 
+  "browse.metadata.ouname.breadcrumbs" : "Browse by Name",
+
+  "browse.metadata.pjtitle.breadcrumbs" : "Browse by Title",
+
+  "browse.metadata.rodept.breadcrumbs": "Browse by Department",
+
+  "browse.metadata.rpdept.breadcrumbs" : "Browse by Department",
+
+  "browse.metadata.rpname.breadcrumbs": "Browse by Name",
+
   "browse.metadata.subject.breadcrumbs": "Browse by Subject",
+
+  "browse.metadata.type.breadcrumbs": "Browse by Type",
 
   "browse.metadata.title.breadcrumbs": "Browse by Title",
 
@@ -532,6 +640,33 @@
   "browse.title": "Browsing {{ collection }} by {{ field }} {{ value }}",
 
 
+
+  "bulk-import.abort-on-error" : "Abort on first error",
+
+  "bulk-import.back": "Back",
+
+  "bulk-import.breadcrumbs" : "Bulk import",
+
+  "bulk-import.collection-name" : "Collection",
+
+  "bulk-import.error": "An error occurred while creating the import process",
+
+  "bulk-import.file" : "Source file",
+
+  "bulk-import.header" : "Bulk import",
+
+  "bulk-import.processing": "Processing...",
+
+  "bulk-import.success": "The import process was successfully created",
+
+  "bulk-import.submit": "Start import",
+
+  "bulk-import.title" : "Bulk import",
+
+  "bulk-import.workflow" : "Use collection workflow",
+  
+
+
   "chips.remove": "Remove chip",
 
 
@@ -541,6 +676,8 @@
   "collection.create.notifications.success": "Successfully created the Collection",
 
   "collection.create.sub-head": "Create a Collection for Community {{ parent }}",
+
+  "collection.curate.header": "Curate Collection: {{collection}}",
 
   "collection.delete.cancel": "Cancel",
 
@@ -670,6 +807,28 @@
 
 
 
+  "collection.edit.template.add-button": "Add",
+
+  "collection.edit.template.breadcrumbs": "Item template",
+
+  "collection.edit.template.cancel": "Cancel",
+
+  "collection.edit.template.delete-button": "Delete",
+
+  "collection.edit.template.edit-button": "Edit",
+
+  "collection.edit.template.head": "Edit Template Item for Collection \"{{ collection }}\"",
+
+  "collection.edit.template.label": "Template item",
+
+  "collection.edit.template.notifications.delete.error": "Failed to delete the item template",
+
+  "collection.edit.template.notifications.delete.success": "Successfully deleted the item template",
+
+  "collection.edit.template.title": "Edit Template Item",
+
+
+
   "collection.form.abstract": "Short Description",
 
   "collection.form.description": "Introductory text (HTML)",
@@ -686,14 +845,21 @@
 
   "collection.form.title": "Name",
 
-  "collection.form.entitytype": "Type",
+  "collection.form.entityType": "Entity Type",
 
-  "collection.form.errors.entitytype.required": "Please choose an option",
+  "collection.form.errors.entityType.required": "Please choose an entity type for this collection",
+
+  "collection.form.errors.submissionDefinition.required": "Please choose a submission definition for this collection",
+
+  "collection.form.submissionDefinition": "Submission definition",
+
 
 
   "collection.page.browse.recent.head": "Recent Submissions",
 
   "collection.page.browse.recent.empty": "No items to show",
+
+  "collection.page.bulk-import": "Import items into this collection",
 
   "collection.page.handle": "Permanent URI for this collection",
 
@@ -731,6 +897,8 @@
 
   "community.create.sub-head": "Create a Sub-Community for Community {{ parent }}",
 
+  "community.curate.header": "Curate Community: {{community}}",
+
   "community.delete.cancel": "Cancel",
 
   "community.delete.confirm": "Confirm",
@@ -767,6 +935,10 @@
 
 
   "community.edit.notifications.success": "Successfully edited the Community",
+
+  "community.edit.notifications.unauthorized": "You do not have privileges to make this change",
+
+  "community.edit.notifications.error": "An error occured while editing the Community",
 
   "community.edit.return": "Return",
 
@@ -902,6 +1074,100 @@
 
   "datapackage.listelement.badge": "Data Package",
 
+  "cookies.consent.accept-all": "Accept all",
+
+  "cookies.consent.accept-selected": "Accept selected",
+
+  "cookies.consent.app.opt-out.description": "This app is loaded by default (but you can opt out)",
+
+  "cookies.consent.app.opt-out.title": "(opt-out)",
+
+  "cookies.consent.app.purpose": "purpose",
+
+  "cookies.consent.app.required.description": "This application is always required",
+
+  "cookies.consent.app.required.title": "(always required)",
+
+  "cookies.consent.update": "There were changes since your last visit, please update your consent.",
+
+  "cookies.consent.close": "Close",
+
+  "cookies.consent.decline": "Decline",
+
+  "cookies.consent.content-notice.description": "We collect and process your personal information for the following purposes: <strong>Authentication, Preferences, Acknowledgement and Statistics</strong>. <br/> To learn more, please read our {privacyPolicy}.",
+
+  "cookies.consent.content-notice.learnMore": "Customize",
+
+  "cookies.consent.content-modal.description": "Here you can see and customize the information that we collect about you.",
+
+  "cookies.consent.content-modal.privacy-policy.name": "privacy policy",
+
+  "cookies.consent.content-modal.privacy-policy.text": "To learn more, please read our {privacyPolicy}.",
+
+  "cookies.consent.content-modal.title": "Information that we collect",
+
+
+
+  "cookies.consent.app.title.authentication": "Authentication",
+
+  "cookies.consent.app.description.authentication": "Required for signing you in",
+
+
+  "cookies.consent.app.title.preferences": "Preferences",
+
+  "cookies.consent.app.description.preferences": "Required for saving your preferences",
+
+
+
+  "cookies.consent.app.title.acknowledgement": "Acknowledgement",
+
+  "cookies.consent.app.description.acknowledgement": "Required for saving your acknowledgements and consents",
+
+
+
+  "cookies.consent.app.title.google-analytics": "Google Analytics",
+
+  "cookies.consent.app.description.google-analytics": "Allows us to track statistical data",
+
+
+
+  "cookies.consent.purpose.functional": "Functional",
+
+  "cookies.consent.purpose.statistical": "Statistical",
+
+
+  "curation-task.task.checklinks.label":  "Check Links in Metadata",
+
+  "curation-task.task.noop.label": "NOOP",
+
+  "curation-task.task.profileformats.label": "Profile Bitstream Formats",
+
+  "curation-task.task.requiredmetadata.label": "Check for Required Metadata",
+
+  "curation-task.task.translate.label": "Microsoft Translator",
+
+  "curation-task.task.vscan.label": "Virus Scan",
+
+
+
+  "curation.form.task-select.label": "Task:",
+
+  "curation.form.submit": "Start",
+
+  "curation.form.submit.success.head": "The curation task has been started successfully",
+
+  "curation.form.submit.success.content": "You will be redirected to the corresponding process page.",
+
+  "curation.form.submit.error.head": "Running the curation task failed",
+
+  "curation.form.submit.error.content": "An error occured when trying to start the curation task.",
+
+  "curation.form.handle.label": "Handle:",
+
+  "curation.form.handle.hint": "Hint: Enter [your-handle-prefix]/0 to run a task across entire site (not all tasks may support this capability)",
+
+
+
   "dso-selector.create.collection.head": "New collection",
 
   "dso-selector.create.community.head": "New community",
@@ -912,15 +1178,29 @@
 
   "dso-selector.create.item.head": "New item",
 
+  "dso-selector.create.submission.head": "New submission",
+
   "dso-selector.edit.collection.head": "Edit collection",
 
   "dso-selector.edit.community.head": "Edit community",
 
   "dso-selector.edit.item.head": "Edit item",
 
+  "dso-selector.export-metadata.dspaceobject.head": "Export metadata from",
+
   "dso-selector.no-results": "No {{ type }} found",
 
   "dso-selector.placeholder": "Search for a {{ type }}",
+
+
+
+  "confirmation-modal.export-metadata.header": "Export metadata for {{ dsoName }}",
+
+  "confirmation-modal.export-metadata.info": "Are you sure you want to export metadata for {{ dsoName }}",
+
+  "confirmation-modal.export-metadata.cancel": "Cancel",
+
+  "confirmation-modal.export-metadata.confirm": "Export",
 
 
 
@@ -963,12 +1243,187 @@
   "error.validation.filerequired": "The file upload is mandatory",
 
 
+  "explore.browse-section.title" : "Browse",
+
+  "explore.facet-section.title" : "Discover",
+
+  "explore.index.all" : "All",
+
+  "explore.index.author" : "Author",
+
+  "explore.index.birthDate" : "Birthday",
+
+  "explore.index.dateIssued" : "Date issued",
+
+  "explore.index.dateissued" : "Date issued",
+
+  "explore.index.dc.date.accessioned" : "Date accesioned",
+
+  "explore.index.dc.title" : "Title",
+
+  "explore.index.entityType" : "Entity type",
+
+  "explore.index.familyName" : "Family name",
+
+  "explore.index.givenName" : "Given name",
+
+  "explore.index.has_content_in_original_bundle" : "Has content in original bundle",
+
+  "explore.index.isAuthorOfPublication" : "Publication's author",
+
+  "explore.index.isJournalOfPublication" : "Publication's journal",
+
+  "explore.index.isOrgUnitOfPerson" : "Person's organization",
+
+  "explore.index.isOrgUnitOfProject" : "Project's organization",
+
+  "explore.index.isOrgUnitOfPublication" : "Publication's organization",
+
+  "explore.index.isPersonOfOrgUnit" : "Organization's person",
+
+  "explore.index.isPersonOfProject" : "Project's person",
+
+  "explore.index.isProjectOfOrgUnit" : "Organization's project",
+
+  "explore.index.isProjectOfPerson" : "Person's project",
+
+  "explore.index.isProjectOfPublication" : "Publication's project",
+
+  "explore.index.isPublicationOfAuthor" : "Author's publication",
+
+  "explore.index.isPublicationOfJournalIssue" : "Journal issue's publication",
+
+  "explore.index.isPublicationOfOrgUnit" : "Organization's publication",
+
+  "explore.index.isPublicationOfProject" : "Project's publication",
+
+  "explore.index.itemidentifier" : "Item identifier",
+
+  "explore.index.jobTitle" : "Job title",
+
+  "explore.index.knowsLanguage" : "Knows languages",
+
+  "explore.index.organizationAddressCountry" : "Organization address country",
+
+  "explore.index.organizationAddressLocality" : "Organization address locality",
+
+  "explore.index.organizationFoundingDate" : "Organization founding date",
+
+  "explore.index.organizationLegalName" : "Organization legal name",
+
+  "explore.index.original_bundle_descriptions" : "Original bundle descriptions",
+
+  "explore.index.original_bundle_filenames" : "Original bundle filenames",
+
+  "explore.index.ouname" : "Name",
+
+  "explore.index.pjtitle" : "Title",
+
+  "explore.index.projectinvestigators" : "Project investigators",
+
+  "explore.index.rodept" : "Department",
+
+  "explore.index.rpdept" : "Department",
+
+  "explore.index.rpname" : "Name",
+
+  "explore.index.subject" : "Subject",
+
+  "explore.index.title" : "Title",
+
+  "explore.index.type" : "Type",
+
+  "explore.search-section.fundings.title": "Search Projects",
+
+  "explore.search-section.orgunits.title": "Search Organizations",
+
+  "explore.search-section.publications.title": "Search Research Outputs",
+
+  "explore.search-section.researcherprofiles.title": "Search People",
+
+  "explore.search-section.search-button": "Search",
+
+  "explore.search-section.reset-button": "Reset",
+
+  "explore.fundings.breadcrumbs": "Projects",
+
+  "explore.orgunits.breadcrumbs": "Organizations",
+
+  "explore.publications.breadcrumbs": "Research Outputs",
+
+  "explore.researcherprofiles.breadcrumbs": "People",
+
+  "explore.title": "Explore section",
+
 
   "footer.copyright": "copyright © 2002-{{ year }}",
 
   "footer.link.dspace": "DSpace software",
 
   "footer.link.duraspace": "DuraSpace",
+
+  "footer.link.cookies": "Cookie settings",
+
+  "footer.link.privacy-policy": "Privacy policy",
+
+  "footer.link.end-user-agreement":"End User Agreement",
+
+
+
+  "forgot-email.form.header": "Forgot Password",
+
+  "forgot-email.form.info": "Enter Register an account to subscribe to collections for email updates, and submit new items to DSpace.",
+
+  "forgot-email.form.email": "Email Address *",
+
+  "forgot-email.form.email.error.required": "Please fill in an email address",
+
+  "forgot-email.form.email.error.pattern": "Please fill in a valid email address",
+
+  "forgot-email.form.email.hint": "This address will be verified and used as your login name.",
+
+  "forgot-email.form.submit": "Submit",
+
+  "forgot-email.form.success.head": "Verification email sent",
+
+  "forgot-email.form.success.content": "An email has been sent to {{ email }} containing a special URL and further instructions.",
+
+  "forgot-email.form.error.head": "Error when trying to register email",
+
+  "forgot-email.form.error.content": "An error occured when registering the following email address: {{ email }}",
+
+
+
+  "forgot-password.title": "Forgot Password",
+
+  "forgot-password.form.head": "Forgot Password",
+
+  "forgot-password.form.info": "Enter a new password in the box below, and confirm it by typing it again into the second box. It should be at least six characters long.",
+
+  "forgot-password.form.card.security": "Security",
+
+  "forgot-password.form.identification.header": "Identify",
+
+  "forgot-password.form.identification.email": "Email address: ",
+
+  "forgot-password.form.label.password": "Password",
+
+  "forgot-password.form.label.passwordrepeat": "Retype to confirm",
+
+  "forgot-password.form.error.empty-password": "Please enter a password in the box below.",
+
+  "forgot-password.form.error.matching-passwords": "The passwords do not match.",
+
+  "forgot-password.form.error.password-length": "The password should be at least 6 characters long.",
+
+  "forgot-password.form.notification.error.title": "Error when trying to submit new password",
+
+  "forgot-password.form.notification.success.content": "The password reset was successful. You have been logged in as the created user.",
+
+  "forgot-password.form.notification.success.title": "Password reset completed",
+
+  "forgot-password.form.submit": "Submit password",
+
 
 
   "form.add": "Add",
@@ -1007,7 +1462,11 @@
 
   "form.no-value": "No value entered",
 
-  "form.other-information": {},
+  "form.other-information.data-oairecerif_author_affiliation": "Affiliation",
+
+  "form.other-information.data-oairecerif_editor_affiliation": "Affiliation",
+
+  "form.other-information.not-available": "Not available",
 
   "form.remove": "Remove",
 
@@ -1030,6 +1489,32 @@
   "home.top-level-communities.head": "Communities in DSpace Cris",
 
   "home.top-level-communities.help": "Select a community to browse its collections.",
+
+
+
+  "info.end-user-agreement.accept": "I have read and I agree to the End User Agreement",
+
+  "info.end-user-agreement.accept.error": "An error occurred accepting the End User Agreement",
+
+  "info.end-user-agreement.accept.success": "Successfully updated the End User Agreement",
+
+  "info.end-user-agreement.accept.warning": "Before you can proceed, you must agree to the End User Agreement",
+
+  "info.end-user-agreement.breadcrumbs": "End User Agreement",
+
+  "info.end-user-agreement.buttons.cancel": "Cancel",
+
+  "info.end-user-agreement.buttons.save": "Save",
+
+  "info.end-user-agreement.head": "End User Agreement",
+
+  "info.end-user-agreement.title": "End User Agreement",
+
+  "info.privacy.breadcrumbs": "Privacy Statement",
+
+  "info.privacy.head": "Privacy Statement",
+
+  "info.privacy.title": "Privacy Statement",
 
 
 
@@ -1191,6 +1676,8 @@
 
   "item.edit.metadata.edit.buttons.unedit": "Stop editing",
 
+  "item.edit.metadata.empty": "The item currently doesn't contain any metadata. Click Add to start adding a metadata value.",
+
   "item.edit.metadata.headers.edit": "Edit",
 
   "item.edit.metadata.headers.field": "Field",
@@ -1320,6 +1807,8 @@
   "item.edit.relationships.reinstate-button": "Undo",
 
   "item.edit.relationships.save-button": "Save",
+
+  "item.edit.relationships.no-entity-type": "Add 'relationship.type' metadata to enable relationships for this item",
 
 
 
@@ -1457,6 +1946,35 @@
 
   "item.page.uri": "URI",
 
+  "item.page.bitstreams.view-more": "Show more",
+
+  "item.page.bitstreams.collapse": "Collapse",
+
+  "item.page.filesection.original.bundle" : "Original bundle",
+
+  "item.page.filesection.license.bundle" : "License bundle",
+
+  "item.preview.dc.identifier.uri": "Identifier:",
+
+  "item.preview.dc.contributor.author": "Authors:",
+
+  "item.preview.dc.date.issued": "Published date:",
+
+  "item.preview.dc.description.abstract": "Abstract:",
+
+  "item.preview.dc.identifier.other": "Other identifier:",
+
+  "item.preview.dc.language.iso": "Language:",
+
+  "item.preview.dc.subject": "Subjects:",
+
+  "item.preview.dc.title": "Title:",
+
+  "item.preview.person.familyName": "Surname:",
+
+  "item.preview.person.givenName": "Name:",
+
+  "item.preview.person.identifier.orcid": "ORCID:",
 
 
   "item.select.confirm": "Confirm selected",
@@ -1638,17 +2156,15 @@
 
   "menu.section.browse_community_by_title": "By Title",
 
-  "menu.section.browse_global": "All of DSpace",
+  "menu.section.explore_publications": "Research Outputs",
 
-  "menu.section.browse_global_by_author": "By Author",
+  "menu.section.explore_researcherprofiles": "People",
 
-  "menu.section.browse_global_by_dateissued": "By Issue Date",
+  "menu.section.explore_orgunits": "Organizations",
 
-  "menu.section.browse_global_by_subject": "By Subject",
+  "menu.section.explore_fundings": "Projects",
 
-  "menu.section.browse_global_by_title": "By Title",
-
-  "menu.section.browse_global_communities_and_collections": "Communities & Collections",
+  "menu.section.communities_and_collections": "Communities & Collections",
 
 
 
@@ -1704,6 +2220,8 @@
 
   "menu.section.icon.pin": "Pin sidebar",
 
+  "menu.section.icon.processes": "Processes menu section",
+
   "menu.section.icon.registries": "Registries menu section",
 
   "menu.section.icon.statistics_task": "Statistics Task menu section",
@@ -1730,11 +2248,17 @@
 
   "menu.section.new_item_version": "Item Version",
 
+  "menu.section.new_process": "Process",
+
 
 
   "menu.section.pin": "Pin sidebar",
 
   "menu.section.unpin": "Unpin sidebar",
+
+
+
+  "menu.section.processes": "Processes",
 
 
 
@@ -1772,13 +2296,14 @@
 
   "menu.section.toggle.statistics_task": "Toggle Statistics Task section",
 
+  "menu.section.edit_user_agreement":"Edit User Agreement",
 
   "menu.section.workflow": "Administer Workflow",
 
 
   "mydspace.description": "",
 
-  "mydspace.general.text-here": "HERE",
+  "mydspace.general.text-here": "here",
 
   "mydspace.messages.controller-help": "Select this option to send a message to item's submitter.",
 
@@ -1807,6 +2332,10 @@
   "mydspace.messages.to": "To",
 
   "mydspace.new-submission": "New submission",
+
+  "mydspace.new-submission-external": "Import metadata from external source",
+
+  "mydspace.new-submission-external-short": "Import metadata",
 
   "mydspace.results.head": "Your submissions",
 
@@ -1843,6 +2372,10 @@
   "mydspace.title": "MyDSpace",
 
   "mydspace.upload.upload-failed": "Error creating new workspace. Please verify the content uploaded before retry.",
+
+  "mydspace.upload.upload-failed-manyentries": "Unprocessable file. Detected too many entries but allowed only one for file.",
+
+  "mydspace.upload.upload-failed-moreonefile": "Unprocessable request. Only one file is allowed.",
 
   "mydspace.upload.upload-multiple-successful": "{{qty}} new workspace items created.",
 
@@ -1916,6 +2449,97 @@
 
   "person.page.orcid": "ORCID",
 
+  "person.page.orcid.create": "Create an ORCID ID",
+
+  "person.page.orcid.granted-authorizations": "Granted authorizations",
+
+  "person.page.orcid.link": "Connect to ORCID ID",
+
+  "person.page.orcid.missing-authorizations": "Missing authorizations",
+
+  "person.page.orcid.missing-authorizations-message": "The following authorizations are missing:",
+
+  "person.page.orcid.no-missing-authorizations-message": "Great! This box is empty, so you have granted all access rights to use all functions offers by your institution.",
+
+  "person.page.orcid.no-orcid-message": "No ORCID iD associated yet",
+
+  "person.page.orcid.profile-preferences": "Profile preferences",
+
+  "person.page.orcid.project-preferences": "Project preferences",
+
+  "person.page.orcid.publications-preferences": "Publication preferences",
+
+  "person.page.orcid.remove-orcid-message": "If you need to remove your ORCID, please contact the repository administrator",
+
+  "person.page.orcid.save.preference.changes": "Save changes",
+
+  "person.page.orcid.sync-profile.affiliation" : "Affiliation",
+
+  "person.page.orcid.sync-profile.bibliographic" : "Bibliographic data",
+
+  "person.page.orcid.sync-profile.education" : "Education",
+
+  "person.page.orcid.sync-profile.identifiers" : "Identifiers",
+
+  "person.page.orcid.sync-projects.all" : "All projects",
+
+  "person.page.orcid.sync-projects.mine" : "My projects",
+
+  "person.page.orcid.sync-projects.my-selected" : "Selected projects",
+
+  "person.page.orcid.sync-projects.disabled" : "Disabled",
+
+  "person.page.orcid.sync-publications.all" : "All publications",
+
+  "person.page.orcid.sync-publications.mine" : "My publications",
+
+  "person.page.orcid.sync-publications.my-selected" : "Selected publications",
+
+  "person.page.orcid.sync-publications.disabled" : "Disabled",
+
+  "person.page.orcid.sync-queue.delete" : "Delete",
+
+  "person.page.orcid.sync-queue.delete.error": "The deletion of the ORCID queue record failed",
+
+  "person.page.orcid.sync-queue.delete.success": "The ORCID queue record have been deleted successfully",
+
+  "person.page.orcid.sync-queue.empty-message": "The ORCID queue registry is empty",
+
+  "person.page.orcid.sync-queue.entity-name" : "Name",
+
+  "person.page.orcid.sync-queue.send" : "Send",
+
+  "person.page.orcid.sync-queue.send.error": "The submission to ORCID failed",
+
+  "person.page.orcid.sync-queue.send.conflict-error": "The submission to ORCID failed because the resource is already present on the ORCID registry",
+
+  "person.page.orcid.sync-queue.send.not-found-error": "The submission to ORCID failed because the expected resource to be update does not exists anymore on the ORCID registry.",
+
+  "person.page.orcid.sync-queue.send.success": "The submission to ORCID was completed successfully",
+
+  "person.page.orcid.synchronization-mode": "Synchronization mode",
+
+  "person.page.orcid.synchronization-mode.batch": "Batch",
+
+  "person.page.orcid.synchronization-mode.label": "Synchronization mode",
+
+  "person.page.orcid.synchronization-mode-message": "Enable 'Manual' Synchronization mode to disable batch synchronization, so you must send your data to ORCID Registry manually",
+
+  "person.page.orcid.synchronization-settings-update.success": "The synchronization settings have been updated successfully",
+
+  "person.page.orcid.synchronization-settings-update.error": "The update of the synchronization settings failed",
+
+
+  "person.page.orcid.synchronization-mode.manual": "Manual",
+
+  "person.page.orcid.scope.authenticate": "Get your ORCID iD",
+
+  "person.page.orcid.scope.read-limited": "Read your information with visibility set to Trusted Parties",
+
+  "person.page.orcid.scope.activities-update": "Add/update your research activities",
+
+  "person.page.orcid.scope.person-update": "Add/update other information about you",
+
   "person.page.staffid": "Staff ID",
 
   "person.page.titleprefix": "Person: ",
@@ -1924,6 +2548,93 @@
 
   "person.search.title": "DSpace Cris Angular :: Person Search",
 
+
+
+  "process.new.select-parameters": "Parameters",
+
+  "process.new.cancel": "Cancel",
+
+  "process.new.submit": "Submit",
+
+  "process.new.select-script": "Script",
+
+  "process.new.select-script.placeholder": "Choose a script...",
+
+  "process.new.select-script.required": "Script is required",
+
+  "process.new.parameter.file.upload-button": "Select file...",
+
+  "process.new.parameter.file.required": "Please select a file",
+
+  "process.new.parameter.string.required": "Parameter value is required",
+
+  "process.new.parameter.type.value": "value",
+
+  "process.new.parameter.type.file": "file",
+
+  "process.new.parameter.required.missing": "The following parameters are required but still missing:",
+
+  "process.new.notification.success.title": "Success",
+
+  "process.new.notification.success.content": "The process was successfully created",
+
+  "process.new.notification.error.title": "Error",
+
+  "process.new.notification.error.content": "An error occurred while creating this process",
+
+  "process.new.header": "Create a new process",
+
+  "process.new.title": "Create a new process",
+
+  "process.new.breadcrumbs": "Create a new process",
+
+
+
+  "process.detail.arguments" : "Arguments",
+
+  "process.detail.arguments.empty" : "This process doesn't contain any arguments",
+
+  "process.detail.back" : "Back",
+
+  "process.detail.output" : "Process Output",
+
+  "process.detail.output.alert" : "Work in progress - Process output is not available yet",
+
+  "process.detail.output-files" : "Output Files",
+
+  "process.detail.output-files.empty" : "This process doesn't contain any output files",
+
+  "process.detail.script" : "Script",
+
+  "process.detail.title" : "Process: {{ id }} - {{ name }}",
+
+  "process.detail.start-time" : "Start time",
+
+  "process.detail.end-time" : "Finish time",
+
+  "process.detail.status" : "Status",
+
+  "process.detail.create" : "Create similar process",
+
+
+
+  "process.overview.table.finish" : "Finish time",
+
+  "process.overview.table.id" : "Process ID",
+
+  "process.overview.table.name" : "Name",
+
+  "process.overview.table.start" : "Start time",
+
+  "process.overview.table.status" : "Status",
+
+  "process.overview.table.user" : "User",
+
+  "process.overview.title": "Processes Overview",
+
+  "process.overview.breadcrumbs": "Processes Overview",
+
+  "process.overview.new": "New",
 
 
   "profile.breadcrumbs": "Update Profile",
@@ -1989,6 +2700,8 @@
   "profile.card.identify": "Identify",
 
   "profile.card.security": "Security",
+
+  "profile.card.researcher": "Researcher Profile",
 
   "profile.form.submit": "Update Profile",
 
@@ -2083,6 +2796,74 @@
   "publication.search.title": "DSpace Cris Angular :: Publication Search",
 
 
+  "register-email.title": "New user registration",
+
+  "register-page.create-profile.header": "Create Profile",
+
+  "register-page.create-profile.identification.header": "Identify",
+
+  "register-page.create-profile.identification.email": "Email Address",
+
+  "register-page.create-profile.identification.first-name": "First Name *",
+
+  "register-page.create-profile.identification.first-name.error": "Please fill in a First Name",
+
+  "register-page.create-profile.identification.last-name": "Last Name *",
+
+  "register-page.create-profile.identification.last-name.error": "Please fill in a Last Name",
+
+  "register-page.create-profile.identification.contact": "Contact Telephone",
+
+  "register-page.create-profile.identification.language": "Language",
+
+  "register-page.create-profile.security.header": "Security",
+
+  "register-page.create-profile.security.info": "Please enter a password in the box below, and confirm it by typing it again into the second box. It should be at least six characters long.",
+
+  "register-page.create-profile.security.label.password": "Password *",
+
+  "register-page.create-profile.security.label.passwordrepeat": "Retype to confirm *",
+
+  "register-page.create-profile.security.error.empty-password": "Please enter a password in the box below.",
+
+  "register-page.create-profile.security.error.matching-passwords": "The passwords do not match.",
+
+  "register-page.create-profile.security.error.password-length": "The password should be at least 6 characters long.",
+
+  "register-page.create-profile.submit": "Complete Registration",
+
+  "register-page.create-profile.submit.error.content": "Something went wrong while registering a new user.",
+
+  "register-page.create-profile.submit.error.head": "Registration failed",
+
+  "register-page.create-profile.submit.success.content": "The registration was successful. You have been logged in as the created user.",
+
+  "register-page.create-profile.submit.success.head": "Registration completed",
+
+
+  "register-page.registration.header": "New user registration",
+
+  "register-page.registration.info": "Register an account to subscribe to collections for email updates, and submit new items to DSpace.",
+
+  "register-page.registration.email": "Email Address *",
+
+  "register-page.registration.email.error.required": "Please fill in an email address",
+
+  "register-page.registration.email.error.pattern": "Please fill in a valid email address",
+
+  "register-page.registration.email.hint": "This address will be verified and used as your login name.",
+
+  "register-page.registration.submit": "Register",
+
+  "register-page.registration.success.head": "Verification email sent",
+
+  "register-page.registration.success.content": "An email has been sent to {{ email }} containing a special URL and further instructions.",
+
+  "register-page.registration.error.head": "Error when trying to register email",
+
+  "register-page.registration.error.content": "An error occured when registering the following email address: {{ email }}",
+
+
 
   "relationships.isAuthorOf": "Authors",
 
@@ -2109,6 +2890,28 @@
   "relationships.isVolumeOf": "Journal Volumes",
 
   "relationships.isContributorOf": "Contributors",
+
+
+
+  "researcher.profile.action.processing" : "Processing...",
+
+  "researcher.profile.associated": "Researcher profile associated",
+
+  "researcher.profile.create.new": "Create new",
+
+  "researcher.profile.delete": "Delete",
+
+  "researcher.profile.expose": "Expose",
+
+  "researcher.profile.hide": "Hide",
+
+  "researcher.profile.not.associated": "Researcher profile not yet associated",
+
+  "researcher.profile.view": "View",
+
+  "researcher.profile.private.visibility" : "PRIVATE",
+
+  "researcher.profile.public.visibility" : "PUBLIC",
 
 
 
@@ -2437,6 +3240,43 @@
   "submission.general.save-later": "Save for later",
 
 
+  "submission.import-external.page.title": "Import metadata from an external source",
+
+  "submission.import-external.title": "Import metadata from an external source",
+
+  "submission.import-external.page.hint": "Enter a query above to find items from the web to import in to DSpace.",
+
+  "submission.import-external.back-to-my-dspace": "Back to MyDSpace",
+
+  "submission.import-external.search.placeholder": "Search the external source",
+
+  "submission.import-external.search.button": "Search",
+
+  "submission.import-external.search.button.hint": "Write some words to search",
+
+  "submission.import-external.search.source.hint": "Pick an external source",
+
+  "submission.import-external.source.loading": "Loading ...",
+
+  "submission.import-external.source.sherpaJournal": "SHERPA Journals",
+
+  "submission.import-external.source.sherpaPublisher": "SHERPA Publishers",
+
+  "submission.import-external.source.orcidV2": "ORCID",
+
+  "submission.import-external.source.pubmed": "Pubmed",
+
+  "submission.import-external.source.lcname": "Library of Congress Names",
+
+  "submission.import-external.preview.title": "Item Preview",
+
+  "submission.import-external.preview.subtitle": "The metadata below was imported from an external source. It will be pre-filled when you start the submission.",
+
+  "submission.import-external.preview.button.import": "Start submission",
+
+  "submission.import-external.preview.error.import.title": "Submission error",
+
+  "submission.import-external.preview.error.import.body": "An error occurs during the external source entry import process.",
   "submission.sections.detect-duplicate.clear-decision": "Undo",
 
   "submission.sections.detect-duplicate.clear-decision-help": "Click for clear the decision about this pontential duplicate",
@@ -2553,13 +3393,13 @@
 
   "submission.sections.describe.relationship-lookup.selected": "Selected {{ size }} items",
 
-  "submission.sections.describe.relationship-lookup.search-tab.tab-title.Author": "Local Authors ({{ count }})",
+  "submission.sections.describe.relationship-lookup.search-tab.tab-title.isAuthorOfPublication": "Local Authors ({{ count }})",
 
-  "submission.sections.describe.relationship-lookup.search-tab.tab-title.Journal": "Local Journals ({{ count }})",
+  "submission.sections.describe.relationship-lookup.search-tab.tab-title.isJournalOfPublication": "Local Journals ({{ count }})",
 
-  "submission.sections.describe.relationship-lookup.search-tab.tab-title.Journal Issue": "Local Journal Issues ({{ count }})",
+  "submission.sections.describe.relationship-lookup.search-tab.tab-title.isJournalIssueOfPublication": "Local Journal Issues ({{ count }})",
 
-  "submission.sections.describe.relationship-lookup.search-tab.tab-title.Journal Volume": "Local Journal Volumes ({{ count }})",
+  "submission.sections.describe.relationship-lookup.search-tab.tab-title.isJournalVolumeOfPublication": "Local Journal Volumes ({{ count }})",
 
   "submission.sections.describe.relationship-lookup.search-tab.tab-title.sherpaJournal": "Sherpa Journals ({{ count }})",
 
@@ -2569,23 +3409,27 @@
 
   "submission.sections.describe.relationship-lookup.search-tab.tab-title.lcname": "LC Names ({{ count }})",
 
-  "submission.sections.describe.relationship-lookup.search-tab.tab-title.Funding Agency": "Search for Funding Agencies",
+  "submission.sections.describe.relationship-lookup.search-tab.tab-title.isFundingAgencyOfPublication": "Search for Funding Agencies",
 
-  "submission.sections.describe.relationship-lookup.search-tab.tab-title.Funding": "Search for Funding",
+  "submission.sections.describe.relationship-lookup.search-tab.tab-title.isFundingOfPublication": "Search for Funding",
+
+  "submission.sections.describe.relationship-lookup.search-tab.tab-title.isChildOrgUnitOf": "Search for Organizational Units",
 
   "submission.sections.describe.relationship-lookup.selection-tab.tab-title": "Current Selection ({{ count }})",
 
-  "submission.sections.describe.relationship-lookup.title.Journal Issue": "Journal Issues",
+  "submission.sections.describe.relationship-lookup.title.isJournalIssueOfPublication": "Journal Issues",
 
-  "submission.sections.describe.relationship-lookup.title.Journal Volume": "Journal Volumes",
+  "submission.sections.describe.relationship-lookup.title.isJournalVolumeOfPublication": "Journal Volumes",
 
-  "submission.sections.describe.relationship-lookup.title.Journal": "Journals",
+  "submission.sections.describe.relationship-lookup.title.isJournalOfPublication": "Journals",
 
-  "submission.sections.describe.relationship-lookup.title.Author": "Authors",
+  "submission.sections.describe.relationship-lookup.title.isAuthorOfPublication": "Authors",
 
-  "submission.sections.describe.relationship-lookup.title.Funding Agency": "Funding Agency",
+  "submission.sections.describe.relationship-lookup.title.isFundingAgencyOfPublication": "Funding Agency",
 
-  "submission.sections.describe.relationship-lookup.title.Funding": "Funding",
+  "submission.sections.describe.relationship-lookup.title.isFundingOfPublication": "Funding",
+
+  "submission.sections.describe.relationship-lookup.title.isChildOrgUnitOf": "Parent Organizational Unit",
 
   "submission.sections.describe.relationship-lookup.search-tab.toggle-dropdown": "Toggle dropdown",
 
@@ -2593,13 +3437,19 @@
 
   "submission.sections.describe.relationship-lookup.selection-tab.no-selection": "Your selection is currently empty.",
 
-  "submission.sections.describe.relationship-lookup.selection-tab.title.Author": "Selected Authors",
+  "submission.sections.describe.relationship-lookup.selection-tab.title.isAuthorOfPublication": "Selected Authors",
 
-  "submission.sections.describe.relationship-lookup.selection-tab.title.Journal": "Selected Journals",
+  "submission.sections.describe.relationship-lookup.selection-tab.title.isJournalOfPublication": "Selected Journals",
 
-  "submission.sections.describe.relationship-lookup.selection-tab.title.Journal Volume": "Selected Journal Volume",
+  "submission.sections.describe.relationship-lookup.selection-tab.title.isJournalVolumeOfPublication": "Selected Journal Volume",
 
-  "submission.sections.describe.relationship-lookup.selection-tab.title.Journal Issue": "Selected Issue",
+  "submission.sections.describe.relationship-lookup.selection-tab.title.isJournalIssueOfPublication": "Selected Issue",
+
+  "submission.sections.describe.relationship-lookup.selection-tab.title.isFundingAgencyOfPublication": "Selected Funding Agency",
+
+  "submission.sections.describe.relationship-lookup.selection-tab.title.isFundingOfPublication": "Selected Funding",
+
+  "submission.sections.describe.relationship-lookup.selection-tab.title.isChildOrgUnitOf": "Selected Organizational Unit",
 
   "submission.sections.describe.relationship-lookup.selection-tab.title.sherpaJournal": "Search Results",
 
@@ -2607,13 +3457,31 @@
 
   "submission.sections.describe.relationship-lookup.selection-tab.title.orcidV2": "Search Results",
 
+  "submission.sections.describe.relationship-lookup.selection-tab.title.orcidv2": "Search Results",
+
   "submission.sections.describe.relationship-lookup.selection-tab.title.lcname": "Search Results",
+
+  "submission.sections.describe.relationship-lookup.selection-tab.title.pubmed": "Search Results",
 
   "submission.sections.describe.relationship-lookup.name-variant.notification.content": "Would you like to save \"{{ value }}\" as a name variant for this person so you and others can reuse it for future submissions? If you don\'t you can still use it for this submission.",
 
   "submission.sections.describe.relationship-lookup.name-variant.notification.confirm": "Save a new name variant",
 
   "submission.sections.describe.relationship-lookup.name-variant.notification.decline": "Use only for this submission",
+
+  "submission.sections.ccLicense.type": "License Type",
+
+  "submission.sections.ccLicense.select": "Select a license type…",
+
+  "submission.sections.ccLicense.change": "Change your license type…",
+
+  "submission.sections.ccLicense.none": "No licenses available",
+
+  "submission.sections.ccLicense.option.select": "Select an option…",
+
+  "submission.sections.ccLicense.link": "You’ve selected the following license:",
+
+  "submission.sections.ccLicense.confirmation": "I grant the license above",
 
   "submission.sections.general.add-more": "Add more",
 
@@ -2645,7 +3513,7 @@
 
 
 
-  "submission.sections.submit.progressbar.cclicense": "Creative commons license",
+  "submission.sections.submit.progressbar.CClicense": "Creative commons license",
 
   "submission.sections.submit.progressbar.describe.equipment": "Equipment basic information",
 
@@ -2831,6 +3699,24 @@
 
 
 
+
+
+  "vocabulary-treeview.header": "Hierarchical tree view",
+
+  "vocabulary-treeview.load-more": "Load more",
+
+  "vocabulary-treeview.search.form.reset": "Reset",
+
+  "vocabulary-treeview.search.form.search": "Search",
+
+  "vocabulary-treeview.search.no-result": "There were no items to show",
+
+  "vocabulary-treeview.tree.description.nsi": "The Norwegian Science Index",
+
+  "vocabulary-treeview.tree.description.srsc": "Research Subject Categories",
+
+
+
   "administrativeView.search.results.head": "Administrative Search",
 
   "menu.section.admin_search": "Admin Search",
@@ -2891,5 +3777,11 @@
   "workflow-item.send-back.button.cancel": "Cancel",
 
   "workflow-item.send-back.button.confirm": "Send back",
+
+  "relation.rp.researchoutputs.search.results.head": "Related Publications",
+
+  "relation.rp.projects.search.results.head": "Related Projects",
+
+  "layout.i18n.link.default": "link"
 }
 

@@ -45,6 +45,7 @@ import { getMockSearchService } from '../shared/mocks/search-service.mock';
 import { getMockRequestService } from '../shared/mocks/request.service.mock';
 import { RequestService } from '../core/data/request.service';
 import { SearchService } from '../core/shared/search/search.service';
+import { Item } from '../core/shared/item.model';
 import { storeModuleConfig } from '../app.reducer';
 import { environment } from '../../environments/environment';
 import { ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
@@ -453,6 +454,19 @@ describe('SubmissionService test suite', () => {
     });
   });
 
+  describe('createSubmissionFromExternalSource', () => {
+    it('should deposit submission', () => {
+      const options: HttpOptions = Object.create({});
+      let headers = new HttpHeaders();
+      headers = headers.append('Content-Type', 'text/uri-list');
+      options.headers = headers;
+
+      service.createSubmissionFromExternalSource(selfUrl, collectionId);
+
+      expect((service as any).restService.postToEndpoint).toHaveBeenCalledWith('workspaceitems', selfUrl, null, options, collectionId);
+    });
+  });
+
   describe('depositSubmission', () => {
     it('should deposit submission', () => {
       const options: HttpOptions = Object.create({});
@@ -482,6 +496,7 @@ describe('SubmissionService test suite', () => {
         selfUrl,
         submissionDefinition,
         {},
+        new Item(),
         []
       );
       const expected = new InitSubmissionFormAction(
@@ -490,6 +505,7 @@ describe('SubmissionService test suite', () => {
         selfUrl,
         submissionDefinition,
         {},
+        new Item(),
         []);
 
       expect((service as any).store.dispatch).toHaveBeenCalledWith(expected);
@@ -909,14 +925,17 @@ describe('SubmissionService test suite', () => {
         submissionId,
         selfUrl,
         submissionDefinition,
-        {}
-      );
+        {},
+        new Item()
+      )
+      ;
       const expected = new ResetSubmissionFormAction(
         collectionId,
         submissionId,
         selfUrl,
         {},
-        submissionDefinition
+        submissionDefinition,
+        new Item()
       );
 
       expect((service as any).store.dispatch).toHaveBeenCalledWith(expected);

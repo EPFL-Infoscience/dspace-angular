@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 
 import { of as observableOf } from 'rxjs';
@@ -13,17 +13,17 @@ import {
   DynamicFormValidationService
 } from '@ng-dynamic-forms/core';
 
-import { DynamicRelationGroupModel, PLACEHOLDER_PARENT_METADATA } from '../relation-group/dynamic-relation-group.model';
+import { DynamicRelationGroupModel } from '../relation-group/dynamic-relation-group.model';
 import { FormBuilderService } from '../../../form-builder.service';
 import { SubmissionFormsModel } from '../../../../../../core/config/models/config-submission-forms.model';
 import { FormService } from '../../../../form.service';
 import { FormComponent } from '../../../../form.component';
 import { isEmpty, isNotEmpty } from '../../../../../empty.util';
 import { shrinkInOut } from '../../../../../animations/shrink';
-import { AuthorityService } from '../../../../../../core/integration/authority.service';
 import { DynamicRowArrayModel, DynamicRowArrayModelConfig } from '../ds-dynamic-row-array-model';
 import { setLayout } from '../../../parsers/parser.utils';
 import { FormFieldMetadataValueObject } from '../../../models/form-field-metadata-value.model';
+import { PLACEHOLDER_PARENT_METADATA } from '../../ds-dynamic-form-constants';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -32,7 +32,7 @@ import { FormFieldMetadataValueObject } from '../../../models/form-field-metadat
   templateUrl: './dynamic-relation-inline-group.component.html',
   animations: [shrinkInOut]
 })
-export class DsDynamicRelationInlineGroupComponent extends DynamicFormControlComponent implements OnInit {
+export class DsDynamicRelationInlineGroupComponent extends DynamicFormControlComponent implements OnInit, OnDestroy {
 
   @Input() formId: string;
   @Input() group: FormGroup;
@@ -48,8 +48,7 @@ export class DsDynamicRelationInlineGroupComponent extends DynamicFormControlCom
 
   @ViewChild('formRef', {static: false}) private formRef: FormComponent;
 
-  constructor(private authorityService: AuthorityService,
-              private formBuilderService: FormBuilderService,
+  constructor(private formBuilderService: FormBuilderService,
               private formService: FormService,
               protected layoutService: DynamicFormLayoutService,
               protected validationService: DynamicFormValidationService
@@ -63,6 +62,7 @@ export class DsDynamicRelationInlineGroupComponent extends DynamicFormControlCom
     this.formId = this.formService.getUniqueId(this.model.id);
     this.formModel = this.initArrayModel(config);
     this.formGroup = this.formBuilderService.createFormGroup(this.formModel);
+    this.formBuilderService.addFormModel(this.formId, this.formModel);
   }
 
   initArrayModel(formConfig): DynamicRowArrayModel[] {
@@ -195,4 +195,7 @@ export class DsDynamicRelationInlineGroupComponent extends DynamicFormControlCom
     this.change.emit();
   }
 
+  ngOnDestroy(): void {
+    this.formBuilderService.removeFormModel(this.formId);
+  }
 }

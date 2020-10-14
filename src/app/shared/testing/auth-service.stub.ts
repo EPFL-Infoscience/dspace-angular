@@ -6,6 +6,7 @@ import { EPerson } from '../../core/eperson/models/eperson.model';
 import { createSuccessfulRemoteDataObject$ } from '../remote-data.utils';
 import { AuthMethod } from '../../core/auth/models/auth.method';
 import { hasValue } from '../empty.util';
+import { RetrieveAuthMethodsAction } from '../../core/auth/auth.actions';
 
 export const authMethodsMock = [
   new AuthMethod('password'),
@@ -152,6 +153,26 @@ export class AuthServiceStub {
   }
 
   resetAuthenticationError() {
+    return;
+  }
+
+  setRedirectUrlIfNotSet(url: string) {
+    return;
+  }
+
+  redirectAfterLoginSuccess() {
+    return;
+  }
+
+  clearRedirectUrl() {
+    return;
+  }
+
+  public replaceToken(token: AuthTokenInfo) {
+    return token;
+  }
+
+  getRetrieveAuthMethodsAction(authStatus: AuthStatus): RetrieveAuthMethodsAction {
     return;
   }
 }

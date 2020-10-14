@@ -10,6 +10,8 @@ import { NotificationsService } from '../../shared/notifications/notifications.s
 import { SubmissionService } from '../submission.service';
 import { SubmissionObject } from '../../core/submission/models/submission-object.model';
 import { Collection } from '../../core/shared/collection.model';
+import { Item } from '../../core/shared/item.model';
+import { WorkspaceitemSectionsObject } from '../../core/submission/models/workspaceitem-sections.model';
 
 /**
  * This component allows to submit a new workspaceitem.
@@ -26,6 +28,7 @@ export class SubmissionSubmitComponent implements OnDestroy, OnInit {
    * @type {string}
    */
   public collectionId: string;
+  public item: Item;
 
   /**
    * The collection id input to create a new submission
@@ -34,10 +37,16 @@ export class SubmissionSubmitComponent implements OnDestroy, OnInit {
   public collectionParam: string;
 
   /**
+   * The list of submission's sections
+   * @type {WorkspaceitemSectionsObject}
+   */
+  public sections: WorkspaceitemSectionsObject;
+
+  /**
    * The entity type input to create a new submission
    * @type {string}
    */
-  private entityTypeParam: string;
+  public entityTypeParam: string;
 
   /**
    * The submission self url
@@ -104,9 +113,11 @@ export class SubmissionSubmitComponent implements OnDestroy, OnInit {
               this.router.navigate(['/mydspace']);
             } else {
               this.collectionId = (submissionObject.collection as Collection).id;
+              this.sections = submissionObject.sections;
               this.selfUrl = submissionObject._links.self.href;
               this.submissionDefinition = (submissionObject.submissionDefinition as SubmissionDefinitionsModel);
               this.submissionId = submissionObject.id;
+              this.item = submissionObject.item as Item;
               this.changeDetectorRef.detectChanges();
             }
           }

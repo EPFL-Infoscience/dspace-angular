@@ -1,7 +1,6 @@
 @import '../styles/helpers/font_awesome_imports.scss';
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';
 @import '../../node_modules/nouislider/distribute/nouislider.min';
-@import './shared/material/material-theme.scss';
 
 html {
   position: relative;
@@ -47,4 +46,8 @@ ds-header-navbar-wrapper {
 ds-admin-sidebar {
   position: fixed;
   z-index: $sidebar-z-index;
+}
+
+.ds-full-screen-loader {
+  height: 100vh;
 }

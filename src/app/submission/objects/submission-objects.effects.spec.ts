@@ -49,6 +49,11 @@ import { TranslateLoaderMock } from '../../shared/mocks/translate-loader.mock';
 import { StoreMock } from '../../shared/testing/store.mock';
 import { AppState, storeModuleConfig } from '../../app.reducer';
 import parseSectionErrors from '../utils/parseSectionErrors';
+import { Item } from '../../core/shared/item.model';
+import { WorkspaceitemDataService } from '../../core/submission/workspaceitem-data.service';
+import { WorkflowItemDataService } from '../../core/submission/workflowitem-data.service';
+import { HALEndpointService } from '../../core/shared/hal-endpoint.service';
+import { EditItemDataService } from 'src/app/core/submission/edititem-data.service';
 
 describe('SubmissionObjectEffects test suite', () => {
   let submissionObjectEffects: SubmissionObjectEffects;
@@ -85,6 +90,10 @@ describe('SubmissionObjectEffects test suite', () => {
         { provide: SectionsService, useClass: SectionsServiceStub },
         { provide: SubmissionService, useValue: submissionServiceStub },
         { provide: SubmissionJsonPatchOperationsService, useValue: submissionJsonPatchOperationsServiceStub },
+        { provide: WorkspaceitemDataService, useValue: {} },
+        { provide: WorkflowItemDataService, useValue: {} },
+        { provide: EditItemDataService, useValue: {} },
+        { provide: HALEndpointService, useValue: {} },
       ],
     });
 
@@ -103,6 +112,7 @@ describe('SubmissionObjectEffects test suite', () => {
             selfUrl: selfUrl,
             submissionDefinition: submissionDefinition,
             sections: {},
+            item: {metadata: {}},
             errors: [],
           }
         }
@@ -155,6 +165,7 @@ describe('SubmissionObjectEffects test suite', () => {
             selfUrl: selfUrl,
             submissionDefinition: submissionDefinition,
             sections: {},
+            item: new Item(),
             errors: [],
           }
         }
@@ -167,6 +178,7 @@ describe('SubmissionObjectEffects test suite', () => {
           selfUrl,
           submissionDefinition,
           {},
+          new Item(),
           null
         )
       });
@@ -267,7 +279,7 @@ describe('SubmissionObjectEffects test suite', () => {
 
   describe('saveSubmissionSuccess$', () => {
 
-    it('should return a UPLOAD_SECTION_DATA action for each updated section', () => {
+    it('should return a UPDATE_SECTION_DATA action for each updated section', () => {
       store.nextState({
         submission: {
           objects: submissionState
