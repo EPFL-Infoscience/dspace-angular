@@ -6107,4 +6107,9 @@
   "invitation.ignore-btn": "Ignore",
 
   "authority-confidence.search-label":"Search"
+
+  "crisref.metadata.view.first" : "View first",
+
+  "crisref.metadata.view.last" : "View last"
+
 }
