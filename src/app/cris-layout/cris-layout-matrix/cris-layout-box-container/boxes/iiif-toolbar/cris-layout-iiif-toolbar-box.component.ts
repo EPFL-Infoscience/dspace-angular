@@ -34,15 +34,21 @@ export class CrisLayoutIIIFToolbarBoxComponent extends CrisLayoutBoxModelCompone
     this.manifestUrl = environment.rest.baseUrl + '/iiif/' + this.item.id + '/manifest';
   }
 
-  copyManifestUrlToClipboard() {
-    navigator.clipboard.writeText(this.manifestUrl);
+  openMiradorViewer() {
+    this.router.navigate(['../iiif-viewer'], { relativeTo: this.route });
   }
 
-  openIIIFViewer() {
-    this.router.navigate(['../iiif-viewer'], { relativeTo: this.route });
+  iiif() {
+    this.copyManifestUrlToClipboard();
+    this.openManifest();
   }
 
   openManifest() {
     window.open(this.manifestUrl, '_blank');
   }
+
+  copyManifestUrlToClipboard() {
+    navigator.clipboard.writeText(this.manifestUrl);
+  }
+
 }
