@@ -3037,6 +3037,8 @@
 
   "iiifviewer.fullscreen.notice": "Use full screen for better viewing.",
 
+  "iiifviewer.page.back": "Back to item's page",
+
   "iiif.listelement.badge": "Image Media",
 
   "iiif.page.titleprefix": "Image: ",
@@ -3046,6 +3048,14 @@
   "iiif.page.issue": "Issue: ",
 
   "iiif.page.description": "Description: ",
+
+  "iiiftoolbar.dropdown": "IIIF",
+
+  "iiiftoolbar.manifest": "Open manifest",
+
+  "iiiftoolbar.open-viewer": "Open in Mirador",
+
+  "iiiftoolbar.copy-clipboard": "Copy to clipboard",
 
 
   "loading.bitstream": "Loading bitstream...",
@@ -5771,5 +5781,8 @@
   "invitation.accept-btn": "Accept",
 
   "invitation.ignore-btn": "Ignore",
+
+
+
 
 }

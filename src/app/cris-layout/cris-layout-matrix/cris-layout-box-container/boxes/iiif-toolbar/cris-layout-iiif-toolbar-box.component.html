@@ -1,1 +1,8 @@
-<p>cris-layout-iiif-toolbar-box works!</p>
+<div ngbDropdown class="d-inline-block">
+  <button class="btn btn-outline-primary" id="iiif-toolbar-dropdown-btn" ngbDropdownToggle>IIIF</button>
+  <div ngbDropdownMenu id="iiif-toolbar-dropdown-wrapper" aria-labelledby="iiif-toolbar-dropdown-btn">
+    <button ngbDropdownItem (click)="openManifest()"><i id="iiif-icon"></i> Manifest</button>
+    <button ngbDropdownItem (click)="openIIIFViewer()"><i id="mirador-icon"></i> Open in Mirador</button>
+    <button ngbDropdownItem (click)="copyManifestUrlToClipboard()"><i class="fa fa-clipboard"></i> Copy to clipboard</button>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+#iiif-toolbar-dropdown-wrapper {
+
+  button > * {
+  }
+
+  i {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-size: contain;
+    text-align: center;
+    //vertical-align: middle;
+    margin-right: 5px;
+  }
+
+  i#mirador-icon {
+    background-image: url('/assets/images/mirador-logo-dark.svg');
+  }
+
+  i#iiif-icon {
+    background-image: url('/assets/images/iiif-logo.svg');
+  }
+
+}
