@@ -43,6 +43,7 @@ import { ValuepairComponent } from './cris-layout-matrix/cris-layout-box-contain
 import { TagComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/tag/tag.component';
 import { MetadataContainerComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/row/metadata-container/metadata-container.component';
 import { MetadataRenderComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/row/metadata-container/metadata-render/metadata-render.component';
+import { LoadMoreService } from './services/load-more.service';
 import { MiradorViewerModule } from '../item-page/mirador-viewer/mirador-viewer.module';
 import { ComcolModule } from '../shared/comcol/comcol.module';
 import { SearchModule } from '../shared/search/search.module';
@@ -96,6 +97,7 @@ const ENTRY_COMPONENTS = [
     MetadataContainerComponent,
     MetadataRenderComponent
   ],
+  providers:[ LoadMoreService ],
   imports: [
     CommonModule,
     SharedModule,
