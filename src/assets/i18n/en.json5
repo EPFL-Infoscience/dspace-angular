@@ -6112,8 +6112,8 @@
 
   "crisref.metadata.view.last" : "View last",
 
-  "more" : "...more",
+  "cris-layout.rendering.more" : "...more",
 
-  "collapse" : "collapse",
+  "cris-layout.rendering.collapse" : "collapse",
 
 }
