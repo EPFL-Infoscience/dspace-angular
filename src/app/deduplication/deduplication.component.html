@@ -2,9 +2,11 @@
   <div class="row">
     <div class="col-12">
       <h2 id="header" class="border-bottom pb-2">{{'deduplication.title'| translate}}</h2>
-      <ngb-tabset [destroyOnHide]="false" type="pills">
-        <ngb-tab [title]="'deduplication.home.tab.all-signatures' | translate">
-          <ng-template ngbTabContent>
+
+      <ul ngbNav #nav="ngbNav" [destroyOnHide]="false" class="nav-pills">
+        <li [ngbNavItem]="'all-signatures'">
+          <a ngbNavLink>{{'deduplication.home.tab.all-signatures' | translate}}</a>
+          <ng-template ngbNavContent>
             <ds-loading class="container" *ngIf="(isSignaturesLoading() | async)" message="'deduplication.signature.loading' | translate"></ds-loading>
             <ds-deduplication-signatures
               class="container p-0 m-0"
@@ -23,9 +25,10 @@
               </div>
             </div>
           </ng-template>
-        </ngb-tab>
-        <ngb-tab [title]="'deduplication.home.tab.compare' | translate">
-          <ng-template ngbTabContent>
+        </li>
+        <li [ngbNavItem]="'compare'">
+          <a ngbNavLink>{{'deduplication.home.tab.compare' | translate}}</a>
+          <ng-template ngbNavContent>
             <div class="row tab-pane-deduplication mt-3">
               <div class="col-md-4">
                 <p>
@@ -46,8 +49,9 @@
               </div>
             </div>
           </ng-template>
-        </ngb-tab>
-      </ngb-tabset>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav"></div>
     </div>
   </div>
 </div>

@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { TranslateService } from '@ngx-translate/core';
-import { catchError, map, switchMap, withLatestFrom, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { of as observableOf } from 'rxjs';
 import {
-  RetrieveAllSignaturesAction,
-  RetrieveAllSignaturesErrorAction,
+  AddSignaturesAction,
   DeduplicationSignaturesActionTypes,
-  AddSignaturesAction
+  RetrieveAllSignaturesAction,
+  RetrieveAllSignaturesErrorAction
 } from './deduplication-signatures.actions';
 
 import { SignatureObject } from '../../core/deduplication/models/signature.model';
-import { PaginatedList } from '../../core/data/paginated-list';
+import { PaginatedList } from '../../core/data/paginated-list.model';
 import { DeduplicationSignaturesService } from './deduplication-signatures.service';
 import { DeduplicationState } from '../deduplication.reducer';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
@@ -39,9 +39,9 @@ export class DeduplicationSignaturesEffects {
           if (error) {
             console.error(error.message);
           }
-          return observableOf(new RetrieveAllSignaturesErrorAction())
+          return observableOf(new RetrieveAllSignaturesErrorAction());
         })
-      )
+      );
     })
   );
 
@@ -51,7 +51,7 @@ export class DeduplicationSignaturesEffects {
   @Effect({ dispatch: false }) retrieveAllSignaturesErrorAction$ = this.actions$.pipe(
     ofType(DeduplicationSignaturesActionTypes.RETRIEVE_ALL_SIGNATURES_ERROR),
     tap(() => {
-      this.notificationsService.error(null, this.translate.get('deduplication.signature.error.service.retrieve'))
+      this.notificationsService.error(null, this.translate.get('deduplication.signature.error.service.retrieve'));
     })
   );
 

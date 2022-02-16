@@ -7,8 +7,8 @@ import { AdminWorkflowPageComponent } from './admin-workflow-page/admin-workflow
 import { I18nBreadcrumbsService } from '../core/breadcrumbs/i18n-breadcrumbs.service';
 import { AdminCurationTasksComponent } from './admin-curation-tasks/admin-curation-tasks.component';
 import { AdminEditUserAgreementComponent } from './admin-edit-user-agreement/admin-edit-user-agreement.component';
-import { NOTIFICATIONS_MODULE_PATH, REGISTRIES_MODULE_PATH } from './admin-routing-paths';
-import {EditCmsMetadataComponent} from './edit-cms-metadata/edit-cms-metadata.component';
+import { DEDUPLICATION_PATH, NOTIFICATIONS_MODULE_PATH, REGISTRIES_MODULE_PATH } from './admin-routing-paths';
+import { EditCmsMetadataComponent } from './edit-cms-metadata/edit-cms-metadata.component';
 
 @NgModule({
   imports: [
@@ -22,6 +22,11 @@ import {EditCmsMetadataComponent} from './edit-cms-metadata/edit-cms-metadata.co
         path: REGISTRIES_MODULE_PATH,
         loadChildren: () => import('./admin-registries/admin-registries.module')
           .then((m) => m.AdminRegistriesModule),
+      },
+      {
+        path: DEDUPLICATION_PATH,
+        loadChildren: () => import('./admin-deduplication-page/admin-deduplication-page.module')
+          .then((m) => m.AdminDeduplicationPageModule),
       },
       {
         path: 'search',

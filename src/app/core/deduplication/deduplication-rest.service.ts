@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
-import { flatMap, take, tap, catchError } from 'rxjs/operators';
+import { mergeMap, take } from 'rxjs/operators';
 
 import { CoreState } from '../core.reducers';
 import { HALEndpointService } from '../shared/hal-endpoint.service';
@@ -20,7 +20,7 @@ import { RemoteData } from '../data/remote-data';
 import { SignatureObject } from './models/signature.model';
 import { SIGNATURE_OBJECT } from './models/signature-object.resource-type';
 import { FollowLinkConfig } from '../../shared/utils/follow-link-config.model';
-import { PaginatedList } from '../data/paginated-list';
+import { PaginatedList } from '../data/paginated-list.model';
 
 /* tslint:disable:max-classes-per-file */
 
@@ -99,28 +99,27 @@ export class DeduplicationRestService {
    * @return Observable<RemoteData<PaginatedList<SignatureObject>>>
    *    The list of deduplication signatures.
    */
-  public getSignatures(options: FindListOptions = {}, ...linksToFollow: Array<FollowLinkConfig<SignatureObject>>): Observable<RemoteData<PaginatedList<SignatureObject>>> {
+  public getSignatures(options: FindListOptions = {}, ...linksToFollow: FollowLinkConfig<SignatureObject>[]): Observable<RemoteData<PaginatedList<SignatureObject>>> {
     return this.dataService.getBrowseEndpoint(options, 'signatures').pipe(
        take(1),
-       flatMap((href: string) => this.dataService.findAllByHref(href, options, ...linksToFollow)),
+       mergeMap((href: string) => this.dataService.findAllByHref(href, options, false, true, ...linksToFollow)),
     );
   }
 
   /**
    * Return a single deduplication signature.
    *
-   * @param id
-   *    The deduplication signature id
-   * @param options
-   *    Find list options object.
+   * @param id            The deduplication signature id
+   * @param linksToFollow List of {@link FollowLinkConfig} that indicate which
+   *                      {@link HALLink}s should be automatically resolved
    * @return Observable<RemoteData<SignatureObject>>
    *    The list of deduplication signatures.
    */
-  public getSignature(id: string, ...linksToFollow: Array<FollowLinkConfig<SignatureObject>>): Observable<RemoteData<SignatureObject>> {
+  public getSignature(id: string, ...linksToFollow: FollowLinkConfig<SignatureObject>[]): Observable<RemoteData<SignatureObject>> {
     const options = {};
     return this.dataService.getBrowseEndpoint(options, 'signatures').pipe(
       take(1),
-      flatMap((href: string) => this.dataService.findByHref(href + '/' + id, ...linksToFollow))
+      mergeMap((href: string) => this.dataService.findByHref(href + '/' + id, false, true, ...linksToFollow))
    );
   }
 }
