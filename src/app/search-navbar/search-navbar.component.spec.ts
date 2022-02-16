@@ -1,13 +1,15 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { SearchService } from '../core/shared/search/search.service';
 import { TranslateLoaderMock } from '../shared/mocks/translate-loader.mock';
 
 import { SearchNavbarComponent } from './search-navbar.component';
+import { PaginationServiceStub } from '../shared/testing/pagination-service.stub';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('SearchNavbarComponent', () => {
   let component: SearchNavbarComponent;
@@ -15,8 +17,9 @@ describe('SearchNavbarComponent', () => {
   let mockSearchService: any;
   let router: Router;
   let routerStub;
+  let paginationService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     mockSearchService = {
       getSearchLink() {
         return '/search';
@@ -26,11 +29,15 @@ describe('SearchNavbarComponent', () => {
     routerStub = {
       navigate: (commands) => commands
     };
+
+    paginationService = new PaginationServiceStub();
+
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
+        RouterTestingModule,
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
@@ -39,8 +46,7 @@ describe('SearchNavbarComponent', () => {
         })],
       declarations: [SearchNavbarComponent],
       providers: [
-        { provide: SearchService, useValue: mockSearchService },
-        { provide: Router, useValue: routerStub }
+        { provide: SearchService, useValue: mockSearchService }
       ]
     })
       .compileComponents();
@@ -49,8 +55,8 @@ describe('SearchNavbarComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SearchNavbarComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
     fixture.detectChanges();
-    router = (component as any).router;
   });
 
   it('should create', () => {
@@ -61,7 +67,7 @@ describe('SearchNavbarComponent', () => {
     beforeEach(fakeAsync(() => {
       spyOn(component, 'expand').and.callThrough();
       spyOn(component, 'onSubmit').and.callThrough();
-      spyOn(router, 'navigate').and.callThrough();
+      spyOn(router, 'navigate');
       const searchIcon = fixture.debugElement.query(By.css('#search-navbar-container form .submit-icon'));
       searchIcon.triggerEventHandler('click', {
         preventDefault: () => {/**/
@@ -87,8 +93,9 @@ describe('SearchNavbarComponent', () => {
           fixture.detectChanges();
         }));
         it('to search page with empty query', () => {
+          const extras: NavigationExtras = {queryParams: { query: '' }, queryParamsHandling: 'merge'};
           expect(component.onSubmit).toHaveBeenCalledWith({ query: '' });
-          expect(router.navigate).toHaveBeenCalled();
+          expect(router.navigate).toHaveBeenCalledWith(['search'], extras);
         });
       });
     });
@@ -111,11 +118,13 @@ describe('SearchNavbarComponent', () => {
           fixture.detectChanges();
         }));
         it('to search page with query', async () => {
+          const extras: NavigationExtras = { queryParams: { query: 'test' }, queryParamsHandling: 'merge'};
           expect(component.onSubmit).toHaveBeenCalledWith({ query: 'test' });
-          expect(router.navigate).toHaveBeenCalled();
+
+          expect(router.navigate).toHaveBeenCalledWith(['search'], extras);
         });
       });
-    })
+    });
 
   });
 });

@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/internal/Observable';
-import { take, map, switchMap } from 'rxjs/operators';
-import { of as observableOf } from 'rxjs';
+import { Observable, of as observableOf } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { METADATA_EXPORT_SCRIPT_NAME, ScriptDataService } from '../../../../core/data/processes/script-data.service';
-import { RequestEntry } from '../../../../core/data/request.reducer';
 import { Collection } from '../../../../core/shared/collection.model';
 import { Community } from '../../../../core/shared/community.model';
 import { DSpaceObjectType } from '../../../../core/shared/dspace-object-type.model';
@@ -17,6 +15,10 @@ import { isNotEmpty } from '../../../empty.util';
 import { NotificationsService } from '../../../notifications/notifications.service';
 import { createSuccessfulRemoteDataObject } from '../../../remote-data.utils';
 import { DSOSelectorModalWrapperComponent, SelectorActionType } from '../dso-selector-modal-wrapper.component';
+import { getFirstCompletedRemoteData } from '../../../../core/shared/operators';
+import { Process } from '../../../../process-page/processes/process.model';
+import { RemoteData } from '../../../../core/data/remote-data';
+import { getProcessDetailRoute } from '../../../../process-page/process-page-routing.paths';
 
 /**
  * Component to wrap a list of existing dso's inside a modal
@@ -50,14 +52,15 @@ export class ExportMetadataSelectorComponent extends DSOSelectorModalWrapperComp
       modalRef.componentInstance.infoLabel = 'confirmation-modal.export-metadata.info';
       modalRef.componentInstance.cancelLabel = 'confirmation-modal.export-metadata.cancel';
       modalRef.componentInstance.confirmLabel = 'confirmation-modal.export-metadata.confirm';
+      modalRef.componentInstance.confirmIcon = 'fas fa-file-export';
       const resp$ =  modalRef.componentInstance.response.pipe(switchMap((confirm: boolean) => {
         if (confirm) {
-          const startScriptSucceeded$ = this.startScriptNotifyAndRedirect(dso, dso.handle);
+          const startScriptSucceeded$ = this.startScriptNotifyAndRedirect(dso);
           return startScriptSucceeded$.pipe(
             switchMap((r: boolean) => {
               return observableOf(r);
             })
-          )
+          );
         } else {
           const modalRefExport = this.modalService.open(ExportMetadataSelectorComponent);
           modalRefExport.componentInstance.dsoRD = createSuccessfulRemoteDataObject(dso);
@@ -73,25 +76,22 @@ export class ExportMetadataSelectorComponent extends DSOSelectorModalWrapperComp
   /**
    * Start export-metadata script of dso & navigate to process if successful
    * Otherwise show error message
-   * @param dso   Dso to export
+   * @param dso    Dso to export
    */
-  private startScriptNotifyAndRedirect(dso: DSpaceObject, handle: string): Observable<boolean> {
+  private startScriptNotifyAndRedirect(dso: DSpaceObject): Observable<boolean> {
     const parameterValues: ProcessParameter[] = [
-      Object.assign(new ProcessParameter(), { name: '-i', value: handle }),
-      Object.assign(new ProcessParameter(), { name: '-f', value: dso.uuid + '.csv' }),
+      Object.assign(new ProcessParameter(), { name: '-i', value: dso.uuid }),
     ];
     return this.scriptDataService.invoke(METADATA_EXPORT_SCRIPT_NAME, parameterValues, [])
       .pipe(
-        take(1),
-        map((requestEntry: RequestEntry) => {
-          if (requestEntry.response.isSuccessful) {
+        getFirstCompletedRemoteData(),
+        map((rd: RemoteData<Process>) => {
+          if (rd.hasSucceeded) {
             const title = this.translationService.get('process.new.notification.success.title');
             const content = this.translationService.get('process.new.notification.success.content');
             this.notificationsService.success(title, content);
-            const response: any = requestEntry.response;
-            if (isNotEmpty(response.resourceSelfLinks)) {
-              const processNumber = response.resourceSelfLinks[0].split('/').pop();
-              this.router.navigateByUrl('/processes/' + processNumber);
+            if (isNotEmpty(rd.payload)) {
+              this.router.navigateByUrl(getProcessDetailRoute(rd.payload.processId));
             }
             return true;
           } else {

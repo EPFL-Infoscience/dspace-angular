@@ -1,11 +1,13 @@
 import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { async, ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, inject, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
+import { cold } from 'jasmine-marbles';
+import { of } from 'rxjs';
 
 import { SubmissionServiceStub } from '../../../shared/testing/submission-service.stub';
 import { mockSubmissionId, mockSubmissionRestResponse } from '../../../shared/mocks/submission.mock';
@@ -18,11 +20,9 @@ import { JsonPatchOperationsBuilder } from '../../../core/json-patch/builder/jso
 import { JsonPatchOperationPathCombiner } from '../../../core/json-patch/builder/json-patch-operation-path-combiner';
 import { createTestComponent } from '../../../shared/testing/utils.test';
 import { CollectionDataService } from '../../../core/data/collection-data.service';
-import { hot, cold } from 'jasmine-marbles';
-import { of } from 'rxjs';
 import { SectionsService } from '../../sections/sections.service';
-import { componentFactoryName } from '@angular/compiler';
-import { Collection } from 'src/app/core/shared/collection.model';
+import { Collection } from '../../../core/shared/collection.model';
+import { createSuccessfulRemoteDataObject$ } from '../../../shared/remote-data.utils';
 
 describe('SubmissionFormCollectionComponent Component', () => {
 
@@ -36,6 +36,20 @@ describe('SubmissionFormCollectionComponent Component', () => {
   const collectionId = '1234567890-1';
   const definition = 'traditional';
   const submissionRestResponse = mockSubmissionRestResponse;
+
+  const mockCollection = Object.assign(new Collection(), {
+    name: 'Community 1-Collection 1',
+    id: collectionId,
+    metadata: [
+      {
+        key: 'dc.title',
+        language: 'en_US',
+        value: 'Community 1-Collection 1'
+      }],
+    _links: {
+      defaultAccessConditions: collectionId + '/defaultAccessConditions'
+    }
+  });
 
   const mockCollectionList = [
     {
@@ -106,10 +120,10 @@ describe('SubmissionFormCollectionComponent Component', () => {
   });
 
   const sectionsService: any = jasmine.createSpyObj('sectionsService', {
-    isSectionAvailable: of(true)
+    isSectionTypeAvailable: of(true)
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
@@ -142,6 +156,7 @@ describe('SubmissionFormCollectionComponent Component', () => {
 
     // synchronous beforeEach
     beforeEach(() => {
+      collectionDataService.findById.and.returnValue(createSuccessfulRemoteDataObject$(mockCollection));
       const html = `
         <ds-submission-form-collection [currentCollectionId]="collectionId"
                                        [currentDefinition]="definitionId"
@@ -169,8 +184,8 @@ describe('SubmissionFormCollectionComponent Component', () => {
       fixture = TestBed.createComponent(SubmissionFormCollectionComponent);
       comp = fixture.componentInstance;
       compAsAny = comp;
-      submissionServiceStub = TestBed.get(SubmissionService);
-      jsonPatchOpServiceStub = TestBed.get(SubmissionJsonPatchOperationsService);
+      submissionServiceStub = TestBed.inject(SubmissionService as any);
+      jsonPatchOpServiceStub = TestBed.inject(SubmissionJsonPatchOperationsService as any);
       comp.currentCollectionId = collectionId;
       comp.currentDefinition = definition;
       comp.submissionId = submissionId;
@@ -246,9 +261,10 @@ describe('SubmissionFormCollectionComponent Component', () => {
         expect(comp.toggled).toHaveBeenCalled();
       });
 
-      it('should ', () => {
+      it('should change collection properly', () => {
         spyOn(comp.collectionChange, 'emit').and.callThrough();
         jsonPatchOpServiceStub.jsonPatchByResourceID.and.returnValue(of(submissionRestResponse));
+        submissionServiceStub.retrieveSubmission.and.returnValue(createSuccessfulRemoteDataObject$(submissionRestResponse[0]));
         comp.ngOnInit();
         comp.onSelect(mockCollectionList[1]);
         fixture.detectChanges();
@@ -259,6 +275,43 @@ describe('SubmissionFormCollectionComponent Component', () => {
           a: mockCollectionList[1].collection.name
         }));
       });
+
+      it('dropdown should be invisible when there is no choice ', fakeAsync(() => {
+
+        comp.hasChoice = false;
+        fixture.detectChanges();
+
+        fixture.whenStable().then(() => {
+          expect(dropdownMenu.nativeElement.classList).toContain('d-none');
+        });
+      }));
+
+      it('should listen to hasChoice events', () => {
+
+        comp.onHasChoice(true);
+        expect(comp.hasChoice).toBe(true);
+
+        comp.onHasChoice(false);
+        expect(comp.hasChoice).toBe(false);
+      });
+
+      it('dropdown button should have no-caret class when there is no choice ', fakeAsync(() => {
+
+        comp.hasChoice = false;
+        fixture.detectChanges();
+
+        fixture.whenStable().then(() => {
+          expect(dropdowBtn.nativeElement.classList).toContain('no-caret');
+        });
+      }));
+
+      it('dropdown button should be disabled if there is no choice', fakeAsync(() => {
+        comp.hasChoice = false;
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expect(dropdowBtn.nativeElement.disabled).toBeTruthy();
+        });
+      }));
     });
 
   });
@@ -275,6 +328,6 @@ class TestComponent {
   definitionId = 'traditional';
   submissionId = mockSubmissionId;
 
-  onCollectionChange = () => { return; }
+  onCollectionChange = () => { return; };
 
 }

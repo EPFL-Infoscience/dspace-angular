@@ -1,15 +1,22 @@
-import { EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { startWith, take } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { RemoteData } from '../../../core/data/remote-data';
-import { PaginatedList } from '../../../core/data/paginated-list';
+import { PaginatedList } from '../../../core/data/paginated-list.model';
 import { PaginationComponentOptions } from '../../pagination/pagination-component-options.model';
 import { ObjectSelectService } from '../object-select.service';
 import { SortOptions } from '../../../core/cache/models/sort-options.model';
+import { FeatureID } from '../../../core/data/feature-authorization/feature-id';
+import { AuthorizationDataService } from '../../../core/data/feature-authorization/authorization-data.service';
+import { DSpaceObject } from '../../../core/shared/dspace-object.model';
 
 /**
  * An abstract component used to select DSpaceObjects from a specific list and returning the UUIDs of the selected DSpaceObjects
  */
+@Component({
+  selector: 'ds-object-select-abstract',
+  template: ''
+})
 export abstract class ObjectSelectComponent<TDomain> implements OnInit, OnDestroy {
 
   /**
@@ -44,6 +51,12 @@ export abstract class ObjectSelectComponent<TDomain> implements OnInit, OnDestro
   confirmButton: string;
 
   /**
+   * Authorize check to enable the selection when present.
+   */
+  @Input()
+  featureId: FeatureID;
+
+  /**
    * The message key used for the cancel button
    * @type {string}
    */
@@ -75,7 +88,8 @@ export abstract class ObjectSelectComponent<TDomain> implements OnInit, OnDestro
    */
   selectedIds$: Observable<string[]>;
 
-  constructor(protected objectSelectService: ObjectSelectService) {
+  constructor(protected objectSelectService: ObjectSelectService,
+              protected authorizationService: AuthorizationDataService) {
   }
 
   ngOnInit(): void {
@@ -101,6 +115,16 @@ export abstract class ObjectSelectComponent<TDomain> implements OnInit, OnDestro
    */
   getSelected(id: string): Observable<boolean> {
     return this.objectSelectService.getSelected(this.key, id);
+  }
+
+  /**
+   * Return if the item can be selected or not due to authorization check.
+   */
+  canSelect(item: DSpaceObject): Observable<boolean> {
+    if (!this.featureId) {
+      return of(true);
+    }
+    return this.authorizationService.isAuthorized(this.featureId, item.self).pipe(startWith(false));
   }
 
   /**

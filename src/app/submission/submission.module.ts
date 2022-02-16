@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
 import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
 
-import { SubmissionSectionformComponent } from './sections/form/section-form.component';
+import { SubmissionSectionFormComponent } from './sections/form/section-form.component';
 import { SectionsDirective } from './sections/sections.directive';
 import { SectionsService } from './sections/sections.service';
 import { SubmissionFormCollectionComponent } from './form/collection/submission-form-collection.component';
@@ -33,10 +32,55 @@ import { SubmissionImportExternalSearchbarComponent } from './import-external/im
 import { SubmissionImportExternalPreviewComponent } from './import-external/import-external-preview/submission-import-external-preview.component';
 import { SubmissionImportExternalCollectionComponent } from './import-external/import-external-collection/submission-import-external-collection.component';
 import { SubmissionSectionCcLicensesComponent } from './sections/cc-license/submission-section-cc-licenses.component';
-import { CoreState } from '../core/core.reducers';
+import { JournalEntitiesModule } from '../entity-groups/journal-entities/journal-entities.module';
+import { ResearchEntitiesModule } from '../entity-groups/research-entities/research-entities.module';
 import { SubmissionSectionDetectDuplicateComponent } from './sections/detect-duplicate/section-detect-duplicate.component';
 import { DuplicateMatchComponent } from './sections/detect-duplicate/duplicate-match/duplicate-match.component';
 import { DetectDuplicateService } from './sections/detect-duplicate/detect-duplicate.service';
+import { ThemedSubmissionEditComponent } from './edit/themed-submission-edit.component';
+import { ThemedSubmissionSubmitComponent } from './submit/themed-submission-submit.component';
+import { ThemedSubmissionImportExternalComponent } from './import-external/themed-submission-import-external.component';
+import { FormModule } from '../shared/form/form.module';
+import { NgbAccordionModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { SubmissionSectionAccessesComponent } from './sections/accesses/section-accesses.component';
+import { SubmissionAccessesConfigService } from '../core/config/submission-accesses-config.service';
+import { SectionAccessesService } from './sections/accesses/section-accesses.service';
+
+const ENTRY_COMPONENTS = [
+  // put only entry components that use custom decorator
+  SubmissionSectionUploadComponent,
+  SubmissionSectionFormComponent,
+  SubmissionSectionLicenseComponent,
+  SubmissionSectionCcLicensesComponent,
+  SubmissionSectionAccessesComponent,
+  SubmissionSectionUploadFileEditComponent,
+  SubmissionSectionDetectDuplicateComponent
+];
+
+const DECLARATIONS = [
+  ...ENTRY_COMPONENTS,
+  SectionsDirective,
+  SubmissionEditComponent,
+  ThemedSubmissionEditComponent,
+  SubmissionFormSectionAddComponent,
+  SubmissionFormCollectionComponent,
+  SubmissionFormComponent,
+  SubmissionFormFooterComponent,
+  SubmissionSubmitComponent,
+  ThemedSubmissionSubmitComponent,
+  SubmissionUploadFilesComponent,
+  SubmissionSectionContainerComponent,
+  SubmissionSectionUploadAccessConditionsComponent,
+  SubmissionSectionUploadFileComponent,
+  SubmissionSectionUploadFileEditComponent,
+  SubmissionSectionUploadFileViewComponent,
+  SubmissionImportExternalComponent,
+  ThemedSubmissionImportExternalComponent,
+  SubmissionImportExternalSearchbarComponent,
+  SubmissionImportExternalPreviewComponent,
+  SubmissionImportExternalCollectionComponent,
+  DuplicateMatchComponent
+];
 
 @NgModule({
   imports: [
@@ -45,54 +89,20 @@ import { DetectDuplicateService } from './sections/detect-duplicate/detect-dupli
     SharedModule,
     StoreModule.forFeature('submission', submissionReducers, storeModuleConfig as StoreConfig<SubmissionState, Action>),
     EffectsModule.forFeature(submissionEffects),
-    TranslateModule
+    JournalEntitiesModule.withEntryComponents(),
+    ResearchEntitiesModule.withEntryComponents(),
+    FormModule,
+    NgbAccordionModule,
+    NgbModalModule
   ],
-  declarations: [
-    SubmissionSectionUploadAccessConditionsComponent,
-    SubmissionSectionUploadComponent,
-    SubmissionSectionformComponent,
-    SubmissionSectionLicenseComponent,
-    SubmissionSectionCcLicensesComponent,
-    SectionsDirective,
-    SubmissionSectionContainerComponent,
-    SubmissionEditComponent,
-    SubmissionFormSectionAddComponent,
-    SubmissionFormCollectionComponent,
-    SubmissionFormComponent,
-    SubmissionFormFooterComponent,
-    SubmissionSubmitComponent,
-    SubmissionUploadFilesComponent,
-    SubmissionSectionContainerComponent,
-    SubmissionSectionUploadFileComponent,
-    SubmissionSectionUploadFileEditComponent,
-    SubmissionSectionUploadFileViewComponent,
-    SubmissionImportExternalComponent,
-    SubmissionImportExternalSearchbarComponent,
-    SubmissionImportExternalPreviewComponent,
-    SubmissionImportExternalCollectionComponent,
-    SubmissionSectionDetectDuplicateComponent,
-    DuplicateMatchComponent
-  ],
-  entryComponents: [
-    SubmissionSectionUploadComponent,
-    SubmissionSectionformComponent,
-    SubmissionSectionLicenseComponent,
-    SubmissionSectionContainerComponent,
-    SubmissionImportExternalPreviewComponent,
-    SubmissionImportExternalCollectionComponent,
-    SubmissionSectionCcLicensesComponent,
-    SubmissionSectionDetectDuplicateComponent
-  ],
-  exports: [
-    SubmissionEditComponent,
-    SubmissionFormComponent,
-    SubmissionSubmitComponent,
-    SubmissionImportExternalComponent
-  ],
+  declarations: DECLARATIONS,
+  exports: DECLARATIONS,
   providers: [
     SectionUploadService,
     SectionsService,
     SubmissionUploadsConfigService,
+    SubmissionAccessesConfigService,
+    SectionAccessesService,
     DetectDuplicateService
   ]
 })
@@ -101,4 +111,14 @@ import { DetectDuplicateService } from './sections/detect-duplicate/detect-dupli
  * This module handles all components that are necessary for the submission process
  */
 export class SubmissionModule {
+  /**
+   * NOTE: this method allows to resolve issue with components that using a custom decorator
+   * which are not loaded during SSR otherwise
+   */
+  static withEntryComponents() {
+    return {
+      ngModule: SubmissionModule,
+      providers: ENTRY_COMPONENTS.map((component) => ({ provide: component }))
+    };
+  }
 }

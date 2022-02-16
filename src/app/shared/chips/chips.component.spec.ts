@@ -1,6 +1,6 @@
 // Load the implementations that should be tested
 import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, fakeAsync, inject, TestBed, tick, } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, inject, TestBed, tick, waitForAsync, } from '@angular/core/testing';
 
 import { Chips } from './models/chips.model';
 import { UploaderService } from '../uploader/uploader.service';
@@ -13,7 +13,7 @@ import { AuthorityConfidenceStateDirective } from '../authority-confidence/autho
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfidenceType } from '../../core/shared/confidence-type';
 import { SortablejsModule } from 'ngx-sortablejs';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.test';
 
 describe('ChipsComponent test suite', () => {
 
@@ -24,13 +24,13 @@ describe('ChipsComponent test suite', () => {
   let html;
   let chips: Chips;
 
-  // async beforeEach
-  beforeEach(async(() => {
+  // waitForAsync beforeEach
+  beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
       imports: [
         NgbModule,
-        SortablejsModule.forRoot({animation: 150}),
+        SortablejsModule.forRoot({ animation: 150 }),
         TranslateModule.forRoot()
       ],
       declarations: [
@@ -82,34 +82,6 @@ describe('ChipsComponent test suite', () => {
       chipsComp = null;
     });
 
-    it('should set edit mode when a chip item is selected', fakeAsync(() => {
-
-      spyOn(chipsComp.selected, 'emit');
-
-      chipsComp.chipsSelected(new Event('click'), 1);
-      chipsFixture.detectChanges();
-      tick();
-
-      const item = chipsComp.chips.getChipByIndex(1);
-
-      expect(item.editMode).toBe(true);
-      expect(chipsComp.selected.emit).toHaveBeenCalledWith(1);
-    }));
-
-    it('should not set edit mode when a chip item is selected and editable is false', fakeAsync(() => {
-      chipsComp.editable = false;
-      spyOn(chipsComp.selected, 'emit');
-
-      chipsComp.chipsSelected(new Event('click'), 1);
-      chipsFixture.detectChanges();
-      tick();
-
-      const item = chipsComp.chips.getChipByIndex(1);
-
-      expect(item.editMode).toBe(false);
-      expect(chipsComp.selected.emit).not.toHaveBeenCalledWith(1);
-    }));
-
     it('should emit when a chip item is removed and editable is true', fakeAsync(() => {
 
       spyOn(chipsComp.chips, 'remove');
@@ -145,8 +117,8 @@ describe('ChipsComponent test suite', () => {
   describe('when has items as object', () => {
     beforeEach(() => {
       const item = {
-        mainField: new FormFieldMetadataValueObject('main test', null, 'test001', 'main test', 0, ConfidenceType.CF_ACCEPTED),
-        relatedField: new FormFieldMetadataValueObject('related test', null, 'test002', 'related test', 0, ConfidenceType.CF_ACCEPTED),
+        mainField: new FormFieldMetadataValueObject('main test', null, null,'test001', 'main test with long text and tooltip', 0, ConfidenceType.CF_ACCEPTED),
+        relatedField: new FormFieldMetadataValueObject('related test', null, null,'test002', 'related test', 0, ConfidenceType.CF_ACCEPTED),
         otherRelatedField: new FormFieldMetadataValueObject('other related test')
       };
 
@@ -173,9 +145,99 @@ describe('ChipsComponent test suite', () => {
 
       icons[0].triggerEventHandler('mouseover', null);
 
-      expect(chipsComp.tipText).toEqual(['main test']);
+      expect(chipsComp.tipText).toEqual(['main test with long text and tooltip']);
     });
   });
+
+  describe('when has items as object and short text to display', () => {
+    beforeEach(() => {
+      const item = {
+        mainField: new FormFieldMetadataValueObject('main test', null, null,'test001', 'main test', 0, ConfidenceType.CF_ACCEPTED),
+        relatedField: new FormFieldMetadataValueObject('related test', null, null,'test002', 'related test', 0, ConfidenceType.CF_ACCEPTED),
+        otherRelatedField: new FormFieldMetadataValueObject('other related test')
+      };
+
+      chips = new Chips([item], 'display', 'mainField', environment.submission.icons.metadata);
+      chipsFixture = TestBed.createComponent(ChipsComponent);
+      chipsComp = chipsFixture.componentInstance; // TruncatableComponent test instance
+      chipsComp.showIcons = true;
+      chipsComp.chips = chips;
+      chipsFixture.detectChanges();
+    });
+
+    it('should not show tooltip on mouse over an icon', () => {
+      const de = chipsFixture.debugElement.query(By.css('li.nav-item'));
+      const icons = de.queryAll(By.css('i.fas'));
+
+      icons[0].triggerEventHandler('mouseover', null);
+
+      expect(chipsComp.tipText).toBeUndefined();
+    });
+  });
+
+  describe('hasWillBeGenerated', () => {
+    beforeEach(() => {
+      chips = new Chips([]);
+      chipsFixture = TestBed.createComponent(ChipsComponent);
+      chipsComp = chipsFixture.componentInstance; // TruncatableComponent test instance
+      chipsComp.chips = chips;
+      chipsFixture.detectChanges();
+    });
+
+    it('should return true if authority starts with will be generated and false otherwise', () => {
+      const metadata = 'dc.title';
+      let chip;
+      chip = { item: { 'dc.title': { authority: 'will be generated::'}}} as any;
+      expect(chipsComp.hasWillBeGenerated(chip, metadata)).toEqual(true);
+
+      chip = { item: { 'dc.title': { authority: ''}}} as any;
+      expect(chipsComp.hasWillBeGenerated(chip, metadata)).toEqual(false);
+    });
+
+  });
+
+  describe('hasWillBeReferenced', () => {
+    beforeEach(() => {
+      chips = new Chips([]);
+      chipsFixture = TestBed.createComponent(ChipsComponent);
+      chipsComp = chipsFixture.componentInstance; // TruncatableComponent test instance
+      chipsComp.chips = chips;
+      chipsFixture.detectChanges();
+    });
+
+    it('should return true if authority starts with will be referenced and false otherwise', () => {
+      const metadata = 'dc.title';
+      let chip;
+      chip = { item: { 'dc.title': { authority: 'will be referenced::'}}} as any;
+      expect(chipsComp.hasWillBeReferenced(chip, metadata)).toEqual(true);
+
+      chip = { item: { 'dc.title': { authority: ''}}} as any;
+      expect(chipsComp.hasWillBeReferenced(chip, metadata)).toEqual(false);
+    });
+
+  });
+
+  describe('getWillBeReferencedContent', () => {
+    beforeEach(() => {
+      chips = new Chips([]);
+      chipsFixture = TestBed.createComponent(ChipsComponent);
+      chipsComp = chipsFixture.componentInstance; // TruncatableComponent test instance
+      chipsComp.chips = chips;
+      chipsFixture.detectChanges();
+    });
+
+    it('should return the value of the reference if present, null otherwise', () => {
+      const metadata = 'dc.title';
+      let chip;
+      chip = { item: { 'dc.title': { authority: 'will be referenced::ORCID::0000'}}} as any;
+      expect(chipsComp.getWillBeReferencedContent(chip, metadata)).toEqual('ORCID::0000');
+
+      chip = { item: { 'dc.title': { authority: ''}}} as any;
+      expect(chipsComp.getWillBeReferencedContent(chip, metadata)).toEqual(null);
+    });
+
+  });
+
 });
 
 // declare a test component

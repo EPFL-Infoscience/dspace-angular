@@ -7,7 +7,7 @@ import {
   DSOSelectorModalWrapperComponent,
   SelectorActionType
 } from '../dso-selector-modal-wrapper.component';
-import { getCollectionEditRoute } from '../../../../+collection-page/collection-page-routing-paths';
+import { getCollectionEditRoute } from '../../../../collection-page/collection-page-routing-paths';
 
 /**
  * Component to wrap a list of existing collections inside a modal
@@ -22,6 +22,7 @@ export class EditCollectionSelectorComponent extends DSOSelectorModalWrapperComp
   objectType = DSpaceObjectType.COLLECTION;
   selectorTypes = [DSpaceObjectType.COLLECTION];
   action = SelectorActionType.EDIT;
+  configuration = 'editCollection';
 
   constructor(protected activeModal: NgbActiveModal, protected route: ActivatedRoute, private router: Router) {
     super(activeModal, route);

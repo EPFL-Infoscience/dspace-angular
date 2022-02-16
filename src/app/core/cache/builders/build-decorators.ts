@@ -3,7 +3,21 @@ import { hasNoValue, hasValue } from '../../../shared/empty.util';
 import { GenericConstructor } from '../../shared/generic-constructor';
 import { HALResource } from '../../shared/hal-resource.model';
 import { ResourceType } from '../../shared/resource-type';
-import { CacheableObject, TypedObject } from '../object-cache.reducer';
+import { CacheableObject, getResourceTypeValueFor, TypedObject } from '../object-cache.reducer';
+import { InjectionToken } from '@angular/core';
+
+export const DATA_SERVICE_FACTORY = new InjectionToken<(resourceType: ResourceType) => GenericConstructor<any>>('getDataServiceFor', {
+  providedIn: 'root',
+  factory: () => getDataServiceFor
+});
+export const LINK_DEFINITION_FACTORY = new InjectionToken<<T extends HALResource>(source: GenericConstructor<T>, linkName: keyof T['_links']) => LinkDefinition<T>>('getLinkDefinition', {
+  providedIn: 'root',
+  factory: () => getLinkDefinition
+});
+export const LINK_DEFINITION_MAP_FACTORY = new InjectionToken<<T extends HALResource>(source: GenericConstructor<T>) => Map<keyof T['_links'], LinkDefinition<T>>>('getLinkDefinitions', {
+  providedIn: 'root',
+  factory: () => getLinkDefinitions
+});
 
 const resolvedLinkKey = Symbol('resolvedLink');
 
@@ -14,9 +28,9 @@ const linkMap = new Map();
 
 /**
  * Decorator function to map a ResourceType to its class
- * @param target The contructor of the typed class to map
+ * @param target the typed class to map
  */
-export function typedObject(target: typeof TypedObject) {
+export function typedObject(target: TypedObject) {
   typeMap.set(target.type.value, target);
 }
 
@@ -25,10 +39,7 @@ export function typedObject(target: typeof TypedObject) {
  * @param type The resource type
  */
 export function getClassForType(type: string | ResourceType) {
-  if (typeof(type) === 'object') {
-    type = (type as ResourceType).value;
-  }
-  return typeMap.get(type);
+  return typeMap.get(getResourceTypeValueFor(type));
 }
 
 /**
@@ -111,7 +122,7 @@ export const link = <T extends HALResource>(
     });
 
     linkMap.set(target.constructor, targetMap);
-  }
+  };
 };
 
 /**
@@ -155,5 +166,5 @@ export function inheritLinkAnnotations(parent: any): any {
     });
 
     linkMap.set(child, childMap);
-  }
+  };
 }

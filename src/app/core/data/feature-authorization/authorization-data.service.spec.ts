@@ -9,8 +9,7 @@ import { FeatureID } from './feature-id';
 import { hasValue } from '../../../shared/empty.util';
 import { RequestParam } from '../../cache/models/request-param.model';
 import { Authorization } from '../../shared/authorization.model';
-import { RemoteData } from '../remote-data';
-import { createSuccessfulRemoteDataObject$ } from '../../../shared/remote-data.utils';
+import { createFailedRemoteDataObject$, createSuccessfulRemoteDataObject$ } from '../../../shared/remote-data.utils';
 import { createPaginatedList } from '../../../shared/testing/utils.test';
 import { Feature } from '../../shared/feature.model';
 
@@ -21,6 +20,10 @@ describe('AuthorizationDataService', () => {
 
   let site: Site;
   let ePerson: EPerson;
+
+  const requestService = jasmine.createSpyObj('requestService', {
+    setStaleByHrefSubstring: jasmine.createSpy('setStaleByHrefSubstring')
+  });
 
   function init() {
     site = Object.assign(new Site(), {
@@ -40,12 +43,17 @@ describe('AuthorizationDataService', () => {
       isAuthenticated: () => observableOf(true),
       getAuthenticatedUserFromStore: () => observableOf(ePerson)
     } as AuthService;
-    service = new AuthorizationDataService(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, authService, siteService);
+    service = new AuthorizationDataService(requestService, undefined, undefined, undefined, undefined, undefined, undefined, undefined, authService, siteService);
   }
 
   beforeEach(() => {
     init();
     spyOn(service, 'searchBy').and.returnValue(observableOf(undefined));
+  });
+
+  it('should call setStaleByHrefSubstring method', () => {
+    service.invalidateAuthorizationsRequestCache();
+    expect((service as any).requestService.setStaleByHrefSubstring).toHaveBeenCalledWith((service as any).linkPath);
   });
 
   describe('searchByObject', () => {
@@ -69,7 +77,7 @@ describe('AuthorizationDataService', () => {
       });
 
       it('should call searchBy with the site\'s url', () => {
-        expect(service.searchBy).toHaveBeenCalledWith('object', createExpected(site.self));
+        expect(service.searchBy).toHaveBeenCalledWith('object', createExpected(site.self), true, true);
       });
     });
 
@@ -79,7 +87,7 @@ describe('AuthorizationDataService', () => {
       });
 
       it('should call searchBy with the site\'s url and the feature', () => {
-        expect(service.searchBy).toHaveBeenCalledWith('object', createExpected(site.self, null, FeatureID.LoginOnBehalfOf));
+        expect(service.searchBy).toHaveBeenCalledWith('object', createExpected(site.self, null, FeatureID.LoginOnBehalfOf), true, true);
       });
     });
 
@@ -89,7 +97,7 @@ describe('AuthorizationDataService', () => {
       });
 
       it('should call searchBy with the object\'s url and the feature', () => {
-        expect(service.searchBy).toHaveBeenCalledWith('object', createExpected(objectUrl, null, FeatureID.LoginOnBehalfOf));
+        expect(service.searchBy).toHaveBeenCalledWith('object', createExpected(objectUrl, null, FeatureID.LoginOnBehalfOf), true, true);
       });
     });
 
@@ -99,7 +107,7 @@ describe('AuthorizationDataService', () => {
       });
 
       it('should call searchBy with the object\'s url, user\'s uuid and the feature', () => {
-        expect(service.searchBy).toHaveBeenCalledWith('object', createExpected(objectUrl, ePersonUuid, FeatureID.LoginOnBehalfOf));
+        expect(service.searchBy).toHaveBeenCalledWith('object', createExpected(objectUrl, ePersonUuid, FeatureID.LoginOnBehalfOf), true, true);
       });
     });
   });
@@ -134,7 +142,7 @@ describe('AuthorizationDataService', () => {
 
     describe('when searchByObject returns a 401', () => {
       beforeEach(() => {
-        spyOn(service, 'searchByObject').and.returnValue(observableOf(new RemoteData(false, false, true, undefined, undefined, 401)));
+        spyOn(service, 'searchByObject').and.returnValue(createFailedRemoteDataObject$('Unauthorized', 401));
       });
 
       it('should return false', (done) => {

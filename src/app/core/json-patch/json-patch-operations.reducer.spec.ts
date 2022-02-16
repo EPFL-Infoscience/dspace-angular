@@ -1,7 +1,7 @@
 import * as deepFreeze from 'deep-freeze';
 
 import {
-  CommitPatchOperationsAction,
+  CommitPatchOperationsAction, DeletePendingJsonPatchOperationsAction,
   FlushPatchOperationsAction,
   NewPatchAddOperationAction,
   NewPatchRemoveOperationAction,
@@ -42,25 +42,25 @@ describe('jsonPatchOperationsReducer test suite', () => {
   const timestampAfterStart = 1545994837492;
   const startTimestamp = 1545994827492;
   const testState: JsonPatchOperationsState = {
-        testResourceType: {
-          children: {
-            testResourceId: {
-              body: [
-                {
-                  operation: {
-                    op: 'add',
-                    path: '/testResourceType/testResourceId/testField',
-                    value: ['test']
-                  },
-                  timeAdded: timestampBeforeStart
-                },
-              ]
-            } as JsonPatchOperationsEntry
-          },
-          transactionStartTime: null,
-          commitPending: false
-        } as JsonPatchOperationsResourceEntry
-    };
+    testResourceType: {
+      children: {
+        testResourceId: {
+          body: [
+            {
+              operation: {
+                op: 'add',
+                path: '/testResourceType/testResourceId/testField',
+                value: ['test']
+              },
+              timeCompleted: timestampBeforeStart
+            },
+          ]
+        } as JsonPatchOperationsEntry
+      },
+      transactionStartTime: null,
+      commitPending: false
+    } as JsonPatchOperationsResourceEntry
+  };
 
   let initState: JsonPatchOperationsState;
 
@@ -75,14 +75,14 @@ describe('jsonPatchOperationsReducer test suite', () => {
                 path: '/testResourceType/testResourceId/testField',
                 value: ['test']
               },
-              timeAdded: timestampBeforeStart
+              timeCompleted: timestampBeforeStart
             },
             {
               operation: {
                 op: 'remove',
                 path: '/testResourceType/testResourceId/testField'
               },
-              timeAdded: timestampBeforeStart
+              timeCompleted: timestampBeforeStart
             },
           ]
         } as JsonPatchOperationsEntry
@@ -203,14 +203,14 @@ describe('jsonPatchOperationsReducer test suite', () => {
                     path: '/testResourceType/testResourceId/testField',
                     value: ['test']
                   },
-                  timeAdded: timestampBeforeStart
+                  timeCompleted: timestampBeforeStart
                 },
                 {
                   operation: {
                     op: 'remove',
                     path: '/testResourceType/testResourceId/testField'
                   },
-                  timeAdded: timestampAfterStart
+                  timeCompleted: timestampAfterStart
                 },
               ]
             } as JsonPatchOperationsEntry
@@ -226,7 +226,7 @@ describe('jsonPatchOperationsReducer test suite', () => {
             op: 'remove',
             path: '/testResourceType/testResourceId/testField'
           },
-          timeAdded: timestampAfterStart
+          timeCompleted: timestampAfterStart
         },
       ];
       expect(newState[testJsonPatchResourceType].transactionStartTime).toBeNull();
@@ -246,14 +246,14 @@ describe('jsonPatchOperationsReducer test suite', () => {
                     path: '/testResourceType/testResourceId/testField',
                     value: ['test']
                   },
-                  timeAdded: timestampBeforeStart
+                  timeCompleted: timestampBeforeStart
                 },
                 {
                   operation: {
                     op: 'remove',
                     path: '/testResourceType/testResourceId/testField'
                   },
-                  timeAdded: timestampBeforeStart
+                  timeCompleted: timestampBeforeStart
                 },
               ]
             } as JsonPatchOperationsEntry,
@@ -265,14 +265,14 @@ describe('jsonPatchOperationsReducer test suite', () => {
                     path: '/testResourceType/testResourceAnotherId/testField',
                     value: ['test']
                   },
-                  timeAdded: timestampBeforeStart
+                  timeCompleted: timestampBeforeStart
                 },
                 {
                   operation: {
                     op: 'remove',
                     path: '/testResourceType/testResourceAnotherId/testField'
                   },
-                  timeAdded: timestampBeforeStart
+                  timeCompleted: timestampBeforeStart
                 },
               ]
             } as JsonPatchOperationsEntry
@@ -295,14 +295,14 @@ describe('jsonPatchOperationsReducer test suite', () => {
             path: '/testResourceType/testResourceAnotherId/testField',
             value: ['test']
           },
-          timeAdded: timestampBeforeStart
+          timeCompleted: timestampBeforeStart
         },
         {
           operation: {
             op: 'remove',
             path: '/testResourceType/testResourceAnotherId/testField'
           },
-          timeAdded: timestampBeforeStart
+          timeCompleted: timestampBeforeStart
         },
       ];
       expect(newState[testJsonPatchResourceType].transactionStartTime).toBeNull();
@@ -321,6 +321,21 @@ describe('jsonPatchOperationsReducer test suite', () => {
       expect(newState[testJsonPatchResourceType].children[testJsonPatchResourceAnotherId].body).toEqual([]);
     });
 
+  });
+
+  describe('When DeletePendingJsonPatchOperationsAction has been dispatched', () => {
+    it('should set set the JsonPatchOperationsState to null ', () => {
+      const action = new DeletePendingJsonPatchOperationsAction();
+      initState = Object.assign({}, testState, {
+        [testJsonPatchResourceType]: Object.assign({}, testState[testJsonPatchResourceType], {
+          transactionStartTime: startTimestamp,
+          commitPending: true
+        })
+      });
+      const newState = jsonPatchOperationsReducer(initState, action);
+
+      expect(newState).toBeNull();
+    });
   });
 
 });

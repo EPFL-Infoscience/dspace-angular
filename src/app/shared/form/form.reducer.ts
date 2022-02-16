@@ -2,7 +2,9 @@ import {
   FormAction,
   FormActionTypes,
   FormAddError,
-  FormChangeAction, FormClearErrorsAction,
+  FormAddTouchedAction,
+  FormChangeAction,
+  FormClearErrorsAction,
   FormInitAction,
   FormRemoveAction,
   FormRemoveErrorAction,
@@ -17,10 +19,15 @@ export interface FormError {
   fieldIndex: number;
 }
 
+export interface FormTouchedState {
+  [key: string]: boolean;
+}
+
 export interface FormEntry {
   data: any;
   valid: boolean;
   errors: FormError[];
+  touched: FormTouchedState;
 }
 
 export interface FormState {
@@ -40,6 +47,10 @@ export function formReducer(state = initialState, action: FormAction): FormState
       return changeDataForm(state, action as FormChangeAction);
     }
 
+    case FormActionTypes.FORM_ADD_TOUCHED: {
+      return changeTouchedState(state, action as FormAddTouchedAction);
+    }
+
     case FormActionTypes.FORM_REMOVE: {
       return removeForm(state, action as FormRemoveAction);
     }
@@ -49,15 +60,15 @@ export function formReducer(state = initialState, action: FormAction): FormState
     }
 
     case FormActionTypes.FORM_ADD_ERROR: {
-      return addFormErrors(state, action as FormAddError)
+      return addFormErrors(state, action as FormAddError);
     }
 
     case FormActionTypes.FORM_REMOVE_ERROR: {
-      return removeFormError(state, action as FormRemoveErrorAction)
+      return removeFormError(state, action as FormRemoveErrorAction);
     }
 
     case FormActionTypes.FORM_CLEAR_ERRORS: {
-      return clearsFormErrors(state, action as FormClearErrorsAction)
+      return clearsFormErrors(state, action as FormClearErrorsAction);
     }
 
     default: {
@@ -74,12 +85,16 @@ function addFormErrors(state: FormState, action: FormAddError) {
       fieldIndex: action.payload.fieldIndex,
       message: action.payload.errorMessage
     };
-
+    const metadata = action.payload.fieldId.replace(/\_/g, '.');
+    const touched = Object.assign({}, state[formId].touched, {
+      [metadata]: true
+    });
     return Object.assign({}, state, {
       [formId]: {
         data: state[formId].data,
         valid: state[formId].valid,
         errors: state[formId].errors ? uniqWith(state[formId].errors.concat(error), isEqual) : [].concat(error),
+        touched
       }
     });
   } else {
@@ -89,6 +104,7 @@ function addFormErrors(state: FormState, action: FormAddError) {
 
 function removeFormError(state: FormState, action: FormRemoveErrorAction) {
   const formId = action.payload.formId;
+  // const fieldId = action.payload.fieldId.replace(/\./g, '_');
   const fieldId = action.payload.fieldId;
   const fieldIndex = action.payload.fieldIndex;
   if (hasValue(state[formId])) {
@@ -127,7 +143,8 @@ function initForm(state: FormState, action: FormInitAction): FormState {
   const formState = {
     data: action.payload.formData,
     valid: action.payload.valid,
-    errors: []
+    touched: {},
+    errors: [],
   };
   if (!hasValue(state[action.payload.formId])) {
     return Object.assign({}, state, {
@@ -207,6 +224,27 @@ function removeForm(state: FormState, action: FormRemoveAction): FormState {
   if (hasValue(state[action.payload.formId])) {
     const newState = Object.assign({}, state);
     delete newState[action.payload.formId];
+    return newState;
+  } else {
+    return state;
+  }
+}
+
+/**
+ * Compute the touched state of the form. New touched fields are merged with the previous ones.
+ * @param state
+ * @param action
+ */
+function changeTouchedState(state: FormState, action: FormAddTouchedAction): FormState {
+  if (hasValue(state[action.payload.formId])) {
+    const newState = Object.assign({}, state);
+
+    const newForm = Object.assign({}, newState[action.payload.formId]);
+    newState[action.payload.formId] = newForm;
+
+    newForm.touched = { ... newForm.touched};
+    action.payload.touched.forEach((field) => newForm.touched[field] = true);
+
     return newState;
   } else {
     return state;

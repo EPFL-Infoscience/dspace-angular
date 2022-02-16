@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ExistingRelationListElementComponent } from './existing-relation-list-element.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -12,6 +12,8 @@ import { ItemSearchResult } from '../../../../object-collection/shared/item-sear
 import { of as observableOf } from 'rxjs';
 import { ReorderableRelationship } from '../existing-metadata-list-element/existing-metadata-list-element.component';
 import { createSuccessfulRemoteDataObject$ } from '../../../../remote-data.utils';
+import { SubmissionService } from '../../../../../submission/submission.service';
+import { SubmissionServiceStub } from '../../../../testing/submission-service.stub';
 
 describe('ExistingRelationListElementComponent', () => {
   let component: ExistingRelationListElementComponent;
@@ -41,13 +43,18 @@ describe('ExistingRelationListElementComponent', () => {
     listID = '1234-listID';
     submissionItem = Object.assign(new Item(), { uuid: uuid1 });
     metadataFields = ['dc.contributor.author'];
-    relationshipOptions = Object.assign(new RelationshipOptions(), { relationshipType: 'isPublicationOfAuthor', filter: 'test.filter', searchConfiguration: 'personConfiguration', nameVariants: true })
+    relationshipOptions = Object.assign(new RelationshipOptions(), {
+      relationshipType: 'isPublicationOfAuthor',
+      filter: 'test.filter',
+      searchConfiguration: 'personConfiguration',
+      nameVariants: true
+    });
     relatedItem = Object.assign(new Item(), { uuid: uuid2 });
     leftItemRD$ = createSuccessfulRemoteDataObject$(relatedItem);
     rightItemRD$ = createSuccessfulRemoteDataObject$(submissionItem);
     relatedSearchResult = Object.assign(new ItemSearchResult(), { indexableObject: relatedItem });
     relationshipService = {
-      updatePlace:() => observableOf({})
+      updatePlace: () => observableOf({})
     } as any;
 
     relationship = Object.assign(new Relationship(), { leftItem: leftItemRD$, rightItem: rightItemRD$ });
@@ -55,13 +62,14 @@ describe('ExistingRelationListElementComponent', () => {
     reoRel = new ReorderableRelationship(relationship, true, relationshipService, {} as any, submissionId);
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     init();
     TestBed.configureTestingModule({
       declarations: [ExistingRelationListElementComponent],
       providers: [
         { provide: SelectableListService, useValue: selectionService },
         { provide: Store, useValue: store },
+        { provide: SubmissionService, useClass: SubmissionServiceStub },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })
@@ -96,5 +104,5 @@ describe('ExistingRelationListElementComponent', () => {
       const action = new RemoveRelationshipAction(submissionItem, relatedItem, relationshipOptions.relationshipType, submissionId);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
-  })
+  });
 });

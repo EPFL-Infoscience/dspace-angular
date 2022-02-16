@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import {
   ExistingMetadataListElementComponent,
@@ -14,6 +14,10 @@ import { createSuccessfulRemoteDataObject$ } from '../../../../remote-data.utils
 import { RemoveRelationshipAction } from '../relation-lookup-modal/relationship.actions';
 import { ItemSearchResult } from '../../../../object-collection/shared/item-search-result.model';
 import { of as observableOf } from 'rxjs';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoaderMock } from '../../../../testing/translate-loader.mock';
+import { SubmissionService } from '../../../../../submission/submission.service';
+import { SubmissionServiceStub } from '../../../../testing/submission-service.stub';
 
 describe('ExistingMetadataListElementComponent', () => {
   let component: ExistingMetadataListElementComponent;
@@ -34,6 +38,7 @@ describe('ExistingMetadataListElementComponent', () => {
   let relatedSearchResult;
   let submissionId;
   let relationshipService;
+  let submissionServiceStub;
 
   function init() {
     uuid1 = '91ce578d-2e63-4093-8c73-3faafd716000';
@@ -43,27 +48,43 @@ describe('ExistingMetadataListElementComponent', () => {
     listID = '1234-listID';
     submissionItem = Object.assign(new Item(), { uuid: uuid1 });
     metadataFields = ['dc.contributor.author'];
-    relationshipOptions = Object.assign(new RelationshipOptions(), { relationshipType: 'isPublicationOfAuthor', filter: 'test.filter', searchConfiguration: 'personConfiguration', nameVariants: true })
+    relationshipOptions = Object.assign(new RelationshipOptions(), {
+      relationshipType: 'isPublicationOfAuthor',
+      filter: 'test.filter',
+      searchConfiguration: 'personConfiguration',
+      nameVariants: true
+    });
     relatedItem = Object.assign(new Item(), { uuid: uuid2 });
     leftItemRD$ = createSuccessfulRemoteDataObject$(relatedItem);
     rightItemRD$ = createSuccessfulRemoteDataObject$(submissionItem);
     relatedSearchResult = Object.assign(new ItemSearchResult(), { indexableObject: relatedItem });
     relationshipService = {
-      updatePlace:() => observableOf({})
+      updatePlace: () => observableOf({})
     } as any;
 
     relationship = Object.assign(new Relationship(), { leftItem: leftItemRD$, rightItem: rightItemRD$ });
     submissionId = '1234';
-    reoRel = new ReorderableRelationship(relationship, true, relationshipService, {} as any, submissionId);
+    reoRel = new ReorderableRelationship(relationship, true, {} as any, {} as any, submissionId);
+    submissionServiceStub = new SubmissionServiceStub();
+    submissionServiceStub.getSubmissionObject.and.returnValue(observableOf({}));
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     init();
     TestBed.configureTestingModule({
+      imports: [
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useClass: TranslateLoaderMock
+          }
+        })
+      ],
       declarations: [ExistingMetadataListElementComponent],
       providers: [
         { provide: SelectableListService, useValue: selectionService },
         { provide: Store, useValue: store },
+        { provide: SubmissionService, useValue: submissionServiceStub },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })
@@ -98,5 +119,5 @@ describe('ExistingMetadataListElementComponent', () => {
       const action = new RemoveRelationshipAction(submissionItem, relatedItem, relationshipOptions.relationshipType, submissionId);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
-  })
+  });
 });

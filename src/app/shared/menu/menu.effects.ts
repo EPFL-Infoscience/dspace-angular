@@ -3,7 +3,7 @@ import { MenuSection } from './menu.reducer';
 import { hasNoValue, hasValue } from '../empty.util';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { MenuService } from './menu.service';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Injectable } from '@angular/core';
@@ -31,8 +31,8 @@ export class MenuEffects {
     );
 
   constructor(private actions$: Actions,
-              private menuService: MenuService,
-              private route: ActivatedRoute) {
+    private menuService: MenuService,
+    private route: ActivatedRoute) {
   }
 
   /**
@@ -52,7 +52,9 @@ export class MenuEffects {
         if (index > -1) {
           shouldNotPersistIDs.splice(index, 1);
         } else {
-          this.menuService.addSection(menuID, section);
+          if ( (section.model as any).text && (section.model as any).text !== 'menu.section.statistics') {
+            this.menuService.addSection(menuID, section);
+          }
         }
       });
       shouldNotPersistIDs.forEach((id) => {
@@ -68,17 +70,56 @@ export class MenuEffects {
    */
   resolveRouteMenuSections(route: ActivatedRoute, menuID: MenuID): MenuSection[] {
     const data = route.snapshot.data;
+    const params = route.snapshot.params;
     const last: boolean = hasNoValue(route.firstChild);
 
     if (hasValue(data) && hasValue(data.menu) && hasValue(data.menu[menuID])) {
+      let menuSections: MenuSection[] | MenuSection = data.menu[menuID];
+      menuSections = this.resolveSubstitutions(menuSections, params);
+
+      if (!Array.isArray(menuSections)) {
+        menuSections = [menuSections];
+      }
+
       if (!last) {
-        return [...data.menu[menuID], ...this.resolveRouteMenuSections(route.firstChild, menuID)]
+        return [...menuSections, ...this.resolveRouteMenuSections(route.firstChild, menuID)];
       } else {
-        return [...data.menu[menuID]];
+        return [...menuSections];
       }
     }
 
     return !last ? this.resolveRouteMenuSections(route.firstChild, menuID) : [];
+  }
+
+  private resolveSubstitutions(object, params) {
+
+    let resolved;
+    if (typeof object === 'string') {
+      resolved = object;
+      let match: RegExpMatchArray;
+      do {
+        match = resolved.match(/:(\w+)/);
+        if (match) {
+          const substitute = params[match[1]];
+          if (hasValue(substitute)) {
+            resolved = resolved.replace(match[0], `${substitute}`);
+          }
+        }
+      } while (match);
+    } else if (Array.isArray(object)) {
+      resolved = [];
+      object.forEach((entry, index) => {
+        resolved[index] = this.resolveSubstitutions(object[index], params);
+      });
+    } else if (typeof object === 'object') {
+      resolved = {};
+      Object.keys(object).forEach((key) => {
+        resolved[key] = this.resolveSubstitutions(object[key], params);
+      });
+    } else {
+      resolved = object;
+    }
+    return resolved;
   }
 
 }

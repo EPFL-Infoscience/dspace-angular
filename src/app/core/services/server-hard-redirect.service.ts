@@ -7,12 +7,13 @@ import { HardRedirectService } from './hard-redirect.service';
  * Service for performing hard redirects within the server app module
  */
 @Injectable()
-export class ServerHardRedirectService implements HardRedirectService {
+export class ServerHardRedirectService extends HardRedirectService {
 
   constructor(
     @Inject(REQUEST) protected req: Request,
     @Inject(RESPONSE) protected res: Response,
   ) {
+    super();
   }
 
   /**
@@ -54,9 +55,19 @@ export class ServerHardRedirectService implements HardRedirectService {
   }
 
   /**
-   * Get the origin of a request
+   * Get the URL of the current route
    */
-  getCurrentRoute() {
+  getCurrentRoute(): string {
     return this.req.originalUrl;
+  }
+
+  /**
+   * Get the origin of the current URL
+   * i.e. <scheme> "://" <hostname> [ ":" <port> ]
+   * e.g. if the URL is https://demo7.dspace.org/search?query=test,
+   * the origin would be https://demo7.dspace.org
+   */
+  getCurrentOrigin(): string {
+    return this.req.protocol + '://' + this.req.headers.host;
   }
 }

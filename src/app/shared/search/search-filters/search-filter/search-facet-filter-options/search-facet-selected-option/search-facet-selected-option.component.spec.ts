@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
@@ -10,10 +10,13 @@ import { SearchFilterService } from '../../../../../../core/shared/search/search
 import { SearchService } from '../../../../../../core/shared/search/search.service';
 import { RouterStub } from '../../../../../testing/router.stub';
 import { SearchServiceStub } from '../../../../../testing/search-service.stub';
-import { FacetValue } from '../../../../facet-value.model';
-import { FilterType } from '../../../../filter-type.model';
-import { SearchFilterConfig } from '../../../../search-filter-config.model';
+import { FacetValue } from '../../../../models/facet-value.model';
+import { FilterType } from '../../../../models/filter-type.model';
+import { SearchFilterConfig } from '../../../../models/search-filter-config.model';
 import { SearchFacetSelectedOptionComponent } from './search-facet-selected-option.component';
+import { PaginationComponentOptions } from '../../../../../pagination/pagination-component-options.model';
+import { PaginationService } from '../../../../../../core/pagination/pagination.service';
+import { PaginationServiceStub } from '../../../../../testing/pagination-service.stub';
 
 describe('SearchFacetSelectedOptionComponent', () => {
   let comp: SearchFacetSelectedOptionComponent;
@@ -27,7 +30,7 @@ describe('SearchFacetSelectedOptionComponent', () => {
   const operator = 'authority';
   const mockFilterConfig = Object.assign(new SearchFilterConfig(), {
     name: filterName1,
-    type: FilterType.range,
+    filterType: FilterType.range,
     hasFacets: false,
     isOpenByDefault: false,
     pageSize: 2,
@@ -36,7 +39,7 @@ describe('SearchFacetSelectedOptionComponent', () => {
   });
   const mockAuthorityFilterConfig = Object.assign(new SearchFilterConfig(), {
     name: filterName2,
-    type: FilterType.authority,
+    filterType: FilterType.authority,
     hasFacets: false,
     isOpenByDefault: false,
     pageSize: 2
@@ -106,13 +109,17 @@ describe('SearchFacetSelectedOptionComponent', () => {
   let router;
   const page = observableOf(0);
 
-  beforeEach(async(() => {
+  const pagination = Object.assign(new PaginationComponentOptions(), { id: 'page-id', currentPage: 1, pageSize: 20 });
+  const paginationService = new PaginationServiceStub(pagination);
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), NoopAnimationsModule, FormsModule],
       declarations: [SearchFacetSelectedOptionComponent],
       providers: [
         { provide: SearchService, useValue: new SearchServiceStub(searchLink) },
         { provide: Router, useValue: new RouterStub() },
+        { provide: PaginationService, useValue: paginationService },
         {
           provide: SearchConfigurationService, useValue: {
             searchOptions: observableOf({})
@@ -156,7 +163,7 @@ describe('SearchFacetSelectedOptionComponent', () => {
       (comp as any).updateRemoveParams(selectedValues);
       expect(comp.removeQueryParams).toEqual({
         [mockFilterConfig.paramName]: [value1],
-        page: 1
+        ['page-id.page']: 1
       });
     });
   });
@@ -172,7 +179,7 @@ describe('SearchFacetSelectedOptionComponent', () => {
       (comp as any).updateRemoveParams(selectedAuthorityValues);
       expect(comp.removeQueryParams).toEqual({
         [mockAuthorityFilterConfig.paramName]: [`${value1},${operator}`],
-        page: 1
+        ['page-id.page']: 1
       });
     });
   });

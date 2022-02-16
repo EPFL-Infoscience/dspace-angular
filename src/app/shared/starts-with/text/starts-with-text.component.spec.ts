@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -8,6 +8,12 @@ import { EnumKeysPipe } from '../../utils/enum-keys-pipe';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { StartsWithTextComponent } from './starts-with-text.component';
+import { PaginationComponentOptions } from '../../pagination/pagination-component-options.model';
+import { SortDirection, SortOptions } from '../../../core/cache/models/sort-options.model';
+import { FindListOptions } from '../../../core/data/request.models';
+import { of as observableOf } from 'rxjs';
+import { PaginationService } from '../../../core/pagination/pagination.service';
+import { PaginationServiceStub } from '../../testing/pagination-service.stub';
 
 describe('StartsWithTextComponent', () => {
   let comp: StartsWithTextComponent;
@@ -17,12 +23,16 @@ describe('StartsWithTextComponent', () => {
 
   const options = ['0-9', 'A', 'B', 'C'];
 
-  beforeEach(async(() => {
+  const paginationService = new PaginationServiceStub();
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, RouterTestingModule.withRoutes([]), TranslateModule.forRoot(), NgbModule],
       declarations: [StartsWithTextComponent, EnumKeysPipe],
       providers: [
-        { provide: 'startsWithOptions', useValue: options }
+        { provide: 'startsWithOptions', useValue: options },
+        { provide: 'paginationId', useValue: 'page-id' },
+        { provide: PaginationService, useValue: paginationService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();

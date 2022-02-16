@@ -1,17 +1,23 @@
 import { RequestService } from './request.service';
 import { EpersonRegistrationService } from './eperson-registration.service';
-import { RegistrationSuccessResponse, RestResponse } from '../cache/response.models';
+import { RestResponse } from '../cache/response.models';
 import { RequestEntry } from './request.reducer';
 import { cold } from 'jasmine-marbles';
 import { PostRequest } from './request.models';
 import { Registration } from '../shared/registration.model';
 import { HALEndpointServiceStub } from '../../shared/testing/hal-endpoint-service.stub';
+import { createSuccessfulRemoteDataObject } from '../../shared/remote-data.utils';
+import { of as observableOf } from 'rxjs';
+import { TestScheduler } from 'rxjs/testing';
 
 describe('EpersonRegistrationService', () => {
+  let testScheduler;
+
   let service: EpersonRegistrationService;
   let requestService: RequestService;
 
   let halService: any;
+  let rdbService: any;
 
   const registration = new Registration();
   registration.email = 'test@mail.org';
@@ -20,17 +26,31 @@ describe('EpersonRegistrationService', () => {
   registrationWithUser.email = 'test@mail.org';
   registrationWithUser.user = 'test-uuid';
 
+  let rd;
+
   beforeEach(() => {
+    rd = createSuccessfulRemoteDataObject(registrationWithUser);
     halService = new HALEndpointServiceStub('rest-url');
+
+    testScheduler = new TestScheduler((actual, expected) => {
+      // asserting the two objects are equal
+      // e.g. using chai.
+      expect(actual).toEqual(expected);
+    });
 
     requestService = jasmine.createSpyObj('requestService', {
       generateRequestId: 'request-id',
-      configure: {},
+      send: {},
       getByUUID: cold('a',
-        {a: Object.assign(new RequestEntry(), {response: new RestResponse(true, 200, 'Success')})})
+        { a: Object.assign(new RequestEntry(), { response: new RestResponse(true, 200, 'Success') }) })
+    });
+    rdbService = jasmine.createSpyObj('rdbService', {
+      buildSingle: observableOf(rd),
+      buildFromRequestUUID: observableOf(rd),
     });
     service = new EpersonRegistrationService(
       requestService,
+      rdbService,
       halService
     );
   });
@@ -60,30 +80,46 @@ describe('EpersonRegistrationService', () => {
 
       const expected = service.registerEmail('test@mail.org');
 
-      expect(requestService.configure).toHaveBeenCalledWith(new PostRequest('request-id', 'rest-url/registrations', registration));
-      expect(expected).toBeObservable(cold('a', {a: new RestResponse(true, 200, 'Success')}));
+      expect(requestService.send).toHaveBeenCalledWith(new PostRequest('request-id', 'rest-url/registrations', registration));
+      expect(expected).toBeObservable(cold('(a|)', { a: rd }));
     });
   });
 
   describe('searchByToken', () => {
-    beforeEach(() => {
-      (requestService.getByUUID as jasmine.Spy).and.returnValue(
-        cold('a',
-          {a: Object.assign(new RequestEntry(), {response: new RegistrationSuccessResponse(registrationWithUser, 200, 'Success')})})
-      );
-    });
     it('should return a registration corresponding to the provided token', () => {
       const expected = service.searchByToken('test-token');
 
       expect(expected).toBeObservable(cold('(a|)', {
         a: Object.assign(new Registration(), {
           email: registrationWithUser.email,
+          groupNames: [],
+          groups: [],
           token: 'test-token',
           user: registrationWithUser.user
         })
       }));
-
     });
+
+    // tslint:disable:no-shadowed-variable
+    it('should use cached responses and /registrations/search/findByToken?', () => {
+      testScheduler.run(({ cold, expectObservable }) => {
+        rdbService.buildSingle.and.returnValue(cold('a', { a: rd }));
+
+        service.searchByToken('test-token');
+
+        expect(requestService.send).toHaveBeenCalledWith(
+          jasmine.objectContaining({
+            uuid: 'request-id', method: 'GET',
+            href: 'rest-url/registrations/search/findByToken?token=test-token',
+          }), true
+        );
+        expectObservable(rdbService.buildSingle.calls.argsFor(0)[0]).toBe('(a|)', {
+          a: 'rest-url/registrations/search/findByToken?token=test-token'
+        });
+      });
+    });
+
   });
 
 });
+/**/

@@ -11,7 +11,7 @@ import {
 import {
     getCommunityCreateRoute,
     COMMUNITY_PARENT_PARAMETER
-} from '../../../../+community-page/community-page-routing-paths';
+} from '../../../../community-page/community-page-routing-paths';
 
 /**
  * Component to wrap a button - for top communities -
@@ -29,6 +29,7 @@ export class CreateCommunityParentSelectorComponent extends DSOSelectorModalWrap
   objectType = DSpaceObjectType.COMMUNITY;
   selectorTypes = [DSpaceObjectType.COMMUNITY];
   action = SelectorActionType.CREATE;
+  configuration = 'editCommunity';
 
   constructor(protected activeModal: NgbActiveModal, protected route: ActivatedRoute, private router: Router) {
     super(activeModal, route);

@@ -1,16 +1,17 @@
 import { isUndefined } from '../../shared/empty.util';
-import * as uuidv4 from 'uuid/v4';
-import {
-  MetadataMap,
-  MetadataValue,
-  MetadataValueFilter,
-  MetadatumViewModel
-} from './metadata.models';
+import { v4 as uuidv4 } from 'uuid';
+import { MetadataMap, MetadataValue, MetadataValueFilter, MetadatumViewModel } from './metadata.models';
 import { Metadata } from './metadata.utils';
-import { beforeEach } from 'selenium-webdriver/testing';
 
 const mdValue = (value: string, language?: string, authority?: string): MetadataValue => {
-  return Object.assign(new MetadataValue(), { uuid: uuidv4(), value: value, language: isUndefined(language) ? null : language, place: 0, authority: isUndefined(authority) ? null : authority, confidence: undefined });
+  return Object.assign(new MetadataValue(), {
+    uuid: uuidv4(),
+    value: value,
+    language: isUndefined(language) ? null : language,
+    place: 0,
+    authority: isUndefined(authority) ? null : authority,
+    confidence: undefined
+  });
 };
 
 const dcDescription = mdValue('Some description');
@@ -19,6 +20,7 @@ const dcTitle0 = mdValue('Title 0');
 const dcTitle1 = mdValue('Title 1');
 const dcTitle2 = mdValue('Title 2', 'en_US');
 const bar = mdValue('Bar');
+const test = mdValue('Test');
 
 const singleMap = { 'dc.title': [dcTitle0] };
 
@@ -27,6 +29,11 @@ const multiMap = {
   'dc.description.abstract': [dcAbstract],
   'dc.title': [dcTitle1, dcTitle2],
   'foo': [bar]
+};
+
+const regexTestMap = {
+  'foolbar.baz': [test],
+  'foo.bard': [test],
 };
 
 const multiViewModelList = [
@@ -56,7 +63,7 @@ const testMethod = (fn, resultKind, mapOrMaps, keyOrKeys, expected, filter?) => 
     it('should return ' + shouldReturn, () => {
       expect(result).toEqual(expected);
     });
-  })
+  });
 };
 
 describe('Metadata', () => {
@@ -96,6 +103,9 @@ describe('Metadata', () => {
       testAll([multiMap, singleMap], 'dc.title', [dcTitle1, dcTitle2]);
       testAll([multiMap, singleMap], 'dc.*', [dcDescription, dcAbstract, dcTitle1, dcTitle2]);
       testAll([multiMap, singleMap], ['dc.title', 'dc.*'], [dcTitle1, dcTitle2, dcDescription, dcAbstract]);
+    });
+    describe('with regexTestMap', () => {
+      testAll(regexTestMap, 'foo.bar.*', []);
     });
   });
 

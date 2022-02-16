@@ -3,16 +3,19 @@ import { ActionReducerMap, createSelector, MemoizedSelector } from '@ngrx/store'
 import {
   ePeopleRegistryReducer,
   EPeopleRegistryState
-} from './+admin/admin-access-control/epeople-registry/epeople-registry.reducers';
+} from './access-control/epeople-registry/epeople-registry.reducers';
 import {
   groupRegistryReducer,
   GroupRegistryState
-} from './+admin/admin-access-control/group-registry/group-registry.reducers';
+} from './access-control/group-registry/group-registry.reducers';
 import {
   metadataRegistryReducer,
   MetadataRegistryState
-} from './+admin/admin-registries/metadata-registry/metadata-registry.reducers';
-import { CommunityListReducer, CommunityListState } from './community-list-page/community-list.reducer';
+} from './admin/admin-registries/metadata-registry/metadata-registry.reducers';
+import {
+  CommunityListReducer,
+  CommunityListState
+} from './community-list-page/community-list.reducer';
 import { hasValue } from './shared/empty.util';
 import {
   NameVariantListsState,
@@ -20,19 +23,33 @@ import {
 } from './shared/form/builder/ds-dynamic-form-ui/relation-lookup-modal/name-variant.reducer';
 import { formReducer, FormState } from './shared/form/form.reducer';
 import { menusReducer, MenusState } from './shared/menu/menu.reducer';
-import { notificationsReducer, NotificationsState } from './shared/notifications/notifications.reducers';
+import {
+  notificationsReducer,
+  NotificationsState
+} from './shared/notifications/notifications.reducers';
 import {
   selectableListReducer,
   SelectableListsState
 } from './shared/object-list/selectable-list/selectable-list.reducer';
-import { ObjectSelectionListState, objectSelectionReducer } from './shared/object-select/object-select.reducer';
+import {
+  ObjectSelectionListState,
+  objectSelectionReducer
+} from './shared/object-select/object-select.reducer';
 import { cssVariablesReducer, CSSVariablesState } from './shared/sass-helper/sass-helper.reducer';
 
 import { hostWindowReducer, HostWindowState } from './shared/search/host-window.reducer';
-import { filterReducer, SearchFiltersState } from './shared/search/search-filters/search-filter/search-filter.reducer';
-import { sidebarFilterReducer, SidebarFiltersState } from './shared/sidebar/filter/sidebar-filter.reducer';
+import {
+  filterReducer,
+  SearchFiltersState
+} from './shared/search/search-filters/search-filter/search-filter.reducer';
+import {
+  sidebarFilterReducer,
+  SidebarFiltersState
+} from './shared/sidebar/filter/sidebar-filter.reducer';
 import { sidebarReducer, SidebarState } from './shared/sidebar/sidebar.reducer';
 import { truncatableReducer, TruncatablesState } from './shared/truncatable/truncatable.reducer';
+import { ThemeState, themeReducer } from './shared/theme-support/theme.reducer';
+import { correlationIdReducer } from './correlation-id/correlation-id.reducer';
 
 export interface AppState {
   router: fromRouter.RouterReducerState;
@@ -45,6 +62,7 @@ export interface AppState {
   searchFilter: SearchFiltersState;
   truncatable: TruncatablesState;
   cssVariables: CSSVariablesState;
+  theme: ThemeState;
   menus: MenusState;
   objectSelection: ObjectSelectionListState;
   selectableLists: SelectableListsState;
@@ -52,6 +70,7 @@ export interface AppState {
   communityList: CommunityListState;
   epeopleRegistry: EPeopleRegistryState;
   groupRegistry: GroupRegistryState;
+  correlationId: string;
 }
 
 export const appReducers: ActionReducerMap<AppState> = {
@@ -65,6 +84,7 @@ export const appReducers: ActionReducerMap<AppState> = {
   searchFilter: filterReducer,
   truncatable: truncatableReducer,
   cssVariables: cssVariablesReducer,
+  theme: themeReducer,
   menus: menusReducer,
   objectSelection: objectSelectionReducer,
   selectableLists: selectableListReducer,
@@ -72,6 +92,7 @@ export const appReducers: ActionReducerMap<AppState> = {
   communityList: CommunityListReducer,
   epeopleRegistry: ePeopleRegistryReducer,
   groupRegistry: groupRegistryReducer,
+  correlationId: correlationIdReducer
 };
 
 export const routerStateSelector = (state: AppState) => state.router;

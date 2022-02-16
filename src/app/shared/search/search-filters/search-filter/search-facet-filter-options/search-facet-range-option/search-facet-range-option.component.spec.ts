@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SearchFilterConfig } from '../../../../search-filter-config.model';
-import { FilterType } from '../../../../filter-type.model';
-import { FacetValue } from '../../../../facet-value.model';
+import { SearchFilterConfig } from '../../../../models/search-filter-config.model';
+import { FilterType } from '../../../../models/filter-type.model';
+import { FacetValue } from '../../../../models/facet-value.model';
 import { FormsModule } from '@angular/forms';
 import { of as observableOf } from 'rxjs';
 import { SearchService } from '../../../../../../core/shared/search/search.service';
@@ -19,6 +19,9 @@ import {
   RANGE_FILTER_MAX_SUFFIX,
   RANGE_FILTER_MIN_SUFFIX
 } from '../../search-range-filter/search-range-filter.component';
+import { PaginationComponentOptions } from '../../../../../pagination/pagination-component-options.model';
+import { PaginationService } from '../../../../../../core/pagination/pagination.service';
+import { PaginationServiceStub } from '../../../../../testing/pagination-service.stub';
 
 describe('SearchFacetRangeOptionComponent', () => {
   let comp: SearchFacetRangeOptionComponent;
@@ -54,16 +57,21 @@ describe('SearchFacetRangeOptionComponent', () => {
   let router;
   const page = observableOf(0);
 
-  beforeEach(async(() => {
+  const pagination = Object.assign(new PaginationComponentOptions(), { id: 'page-id', currentPage: 1, pageSize: 20 });
+  const paginationService = new PaginationServiceStub(pagination);
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), NoopAnimationsModule, FormsModule],
       declarations: [SearchFacetRangeOptionComponent],
       providers: [
         { provide: SearchService, useValue: new SearchServiceStub(searchLink) },
         { provide: Router, useValue: new RouterStub() },
+        { provide: PaginationService, useValue: paginationService },
         {
           provide: SearchConfigurationService, useValue: {
-            searchOptions: observableOf({})
+            searchOptions: observableOf({}),
+            paginationId: 'page-id'
           }
         },
         {
@@ -116,7 +124,7 @@ describe('SearchFacetRangeOptionComponent', () => {
       expect(comp.changeQueryParams).toEqual({
         [mockFilterConfig.paramName + RANGE_FILTER_MIN_SUFFIX]: ['50'],
         [mockFilterConfig.paramName + RANGE_FILTER_MAX_SUFFIX]: ['60'],
-        page: 1
+        ['page-id.page']: 1
       });
     });
   });

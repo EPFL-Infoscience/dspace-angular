@@ -10,7 +10,7 @@ import { CookieAttributes } from 'js-cookie';
 
 import { EPerson } from '../eperson/models/eperson.model';
 import { AuthRequestService } from './auth-request.service';
-import { HttpOptions } from '../dspace-rest-v2/dspace-rest-v2.service';
+import { HttpOptions } from '../dspace-rest/dspace-rest.service';
 import { AuthStatus } from './models/auth-status.model';
 import { AuthTokenInfo, TOKENITEM } from './models/auth-token-info.model';
 import { hasNoValue, hasValue, isEmpty, isNotEmpty, isNotNull, isNotUndefined } from '../../shared/empty.util';
@@ -21,22 +21,28 @@ import {
   getRedirectUrl,
   isAuthenticated,
   isAuthenticatedLoaded,
+  isIdle,
   isTokenRefreshing
 } from './selectors';
 import { AppState } from '../../app.reducer';
 import {
   CheckAuthenticationTokenAction,
+  RefreshTokenAction,
   ResetAuthenticationMessagesAction,
-  RetrieveAuthMethodsAction,
-  SetRedirectUrlAction
+  SetRedirectUrlAction,
+  SetUserAsIdleAction,
+  UnsetUserAsIdleAction
 } from './auth.actions';
 import { NativeWindowRef, NativeWindowService } from '../services/window.service';
-import { Base64EncodeUrl } from '../../shared/utils/encode-decode.util';
 import { RouteService } from '../services/route.service';
 import { EPersonDataService } from '../eperson/eperson-data.service';
 import { getAllSucceededRemoteDataPayload } from '../shared/operators';
 import { AuthMethod } from './models/auth.method';
 import { HardRedirectService } from '../services/hard-redirect.service';
+import { RemoteData } from '../data/remote-data';
+import { environment } from '../../../environments/environment';
+import { NotificationsService } from '../../shared/notifications/notifications.service';
+import { TranslateService } from '@ngx-translate/core';
 
 export const LOGIN_ROUTE = '/login';
 export const LOGOUT_ROUTE = '/logout';
@@ -55,6 +61,11 @@ export class AuthService {
    */
   protected _authenticated: boolean;
 
+  /**
+   * Timer to track time until token refresh
+   */
+  private tokenRefreshTimer;
+
   constructor(@Inject(REQUEST) protected req: any,
               @Inject(NativeWindowService) protected _window: NativeWindowRef,
               @Optional() @Inject(RESPONSE) private response: any,
@@ -64,7 +75,9 @@ export class AuthService {
               protected routeService: RouteService,
               protected storage: CookieService,
               protected store: Store<AppState>,
-              protected hardRedirectService: HardRedirectService
+              protected hardRedirectService: HardRedirectService,
+              private notificationService: NotificationsService,
+              private translateService: TranslateService
   ) {
     this.store.pipe(
       select(isAuthenticated),
@@ -81,19 +94,19 @@ export class AuthService {
    */
   public authenticate(user: string, password: string): Observable<AuthStatus> {
     // Attempt authenticating the user using the supplied credentials.
-    const body = (`password=${Base64EncodeUrl(password)}&user=${Base64EncodeUrl(user)}`);
+    const body = (`password=${encodeURIComponent(password)}&user=${encodeURIComponent(user)}`);
     const options: HttpOptions = Object.create({});
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/x-www-form-urlencoded');
     options.headers = headers;
     return this.authRequestService.postToEndpoint('login', body, options).pipe(
-      map((status: AuthStatus) => {
-        if (status.authenticated) {
-          return status;
+      map((rd: RemoteData<AuthStatus>) => {
+        if (hasValue(rd.payload) && rd.payload.authenticated) {
+          return rd.payload;
         } else {
           throw(new Error('Invalid email or password'));
         }
-      }))
+      }));
 
   }
 
@@ -108,7 +121,7 @@ export class AuthService {
     options.headers = headers;
     options.withCredentials = true;
     return this.authRequestService.getRequest('status', options).pipe(
-      map((status: AuthStatus) => Object.assign(new AuthStatus(), status))
+      map((rd: RemoteData<AuthStatus>) => Object.assign(new AuthStatus(), rd.payload))
     );
   }
 
@@ -140,13 +153,14 @@ export class AuthService {
     headers = headers.append('Authorization', `Bearer ${token.accessToken}`);
     options.headers = headers;
     return this.authRequestService.getRequest('status', options).pipe(
-      map((status: AuthStatus) => {
-        if (status.authenticated) {
+      map((rd: RemoteData<AuthStatus>) => {
+        const status = rd.payload;
+        if (hasValue(status) && status.authenticated) {
           return status._links.eperson.href;
         } else {
           throw(new Error('Not authenticated'));
         }
-      }))
+      }));
   }
 
   /**
@@ -156,7 +170,7 @@ export class AuthService {
   public retrieveAuthenticatedUserByHref(userHref: string): Observable<EPerson> {
     return this.epersonService.findByHref(userHref).pipe(
       getAllSucceededRemoteDataPayload()
-    )
+    );
   }
 
   /**
@@ -166,7 +180,7 @@ export class AuthService {
   public retrieveAuthenticatedUserById(userId: string): Observable<EPerson> {
     return this.epersonService.findById(userId).pipe(
       getAllSucceededRemoteDataPayload()
-    )
+    );
   }
 
   /**
@@ -178,7 +192,7 @@ export class AuthService {
       select(getAuthenticatedUser),
       map ((eperson) => Object.assign(new EPerson(), eperson)),
       take(1)
-    )
+    );
   }
 
   /**
@@ -221,8 +235,9 @@ export class AuthService {
     options.headers = headers;
     options.withCredentials = true;
     return this.authRequestService.postToEndpoint('login', {}, options).pipe(
-      map((status: AuthStatus) => {
-        if (status.authenticated) {
+      map((rd: RemoteData<AuthStatus>) => {
+        const status = rd.payload;
+        if (hasValue(status) && status.authenticated) {
           return status.token;
         } else {
           throw(new Error('Not authenticated'));
@@ -258,14 +273,15 @@ export class AuthService {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/x-www-form-urlencoded');
     const options: HttpOptions = Object.create({ headers, responseType: 'text' });
-    return this.authRequestService.getRequest('logout', options).pipe(
-      map((status: AuthStatus) => {
-        if (!status.authenticated) {
+    return this.authRequestService.postToEndpoint('logout', options).pipe(
+      map((rd: RemoteData<AuthStatus>) => {
+        const status = rd.payload;
+        if (hasValue(status) && !status.authenticated) {
           return true;
         } else {
           throw(new Error('auth.errors.invalid-user'));
         }
-      }))
+      }));
   }
 
   /**
@@ -285,12 +301,50 @@ export class AuthService {
    */
   public getToken(): AuthTokenInfo {
     let token: AuthTokenInfo;
-    this.store.pipe(select(getAuthenticationToken))
+    this.store.pipe(take(1), select(getAuthenticationToken))
       .subscribe((authTokenInfo: AuthTokenInfo) => {
         // Retrieve authentication token info and check if is valid
         token = authTokenInfo || null;
       });
     return token;
+  }
+
+  /**
+   * Method that checks when the session token from store expires and refreshes it when needed
+   */
+  public trackTokenExpiration(): void {
+    let token: AuthTokenInfo;
+    let currentlyRefreshingToken = false;
+    this.store.pipe(select(getAuthenticationToken)).subscribe((authTokenInfo: AuthTokenInfo) => {
+      // If new token is undefined an it wasn't previously => Refresh failed
+      if (currentlyRefreshingToken && token !== undefined && authTokenInfo === undefined) {
+        // Token refresh failed => Error notification => 10 second wait => Page reloads & user logged out
+        this.notificationService.error(this.translateService.get('auth.messages.token-refresh-failed'));
+        setTimeout(() => this.navigateToRedirectUrl(this.hardRedirectService.getCurrentRoute()), 10000);
+        currentlyRefreshingToken = false;
+      }
+      // If new token.expires is different => Refresh succeeded
+      if (currentlyRefreshingToken && authTokenInfo !== undefined && token.expires !== authTokenInfo.expires) {
+        currentlyRefreshingToken = false;
+      }
+      // Check if/when token needs to be refreshed
+      if (!currentlyRefreshingToken) {
+        token = authTokenInfo || null;
+        if (token !== undefined && token !== null) {
+          let timeLeftBeforeRefresh = token.expires - new Date().getTime() - environment.auth.rest.timeLeftBeforeTokenRefresh;
+          if (timeLeftBeforeRefresh < 0) {
+            timeLeftBeforeRefresh = 0;
+          }
+          if (hasValue(this.tokenRefreshTimer)) {
+            clearTimeout(this.tokenRefreshTimer);
+          }
+          this.tokenRefreshTimer = setTimeout(() => {
+            this.store.dispatch(new RefreshTokenAction(token));
+            currentlyRefreshingToken = true;
+          }, timeLeftBeforeRefresh);
+        }
+      }
+    });
   }
 
   /**
@@ -309,7 +363,7 @@ export class AuthService {
           return token.expires - (60 * 5 * 1000) < Date.now();
         }
       })
-    )
+    );
   }
 
   /**
@@ -333,7 +387,7 @@ export class AuthService {
 
     // Set the cookie expire date
     const expires = new Date(expireDate);
-    const options: CookieAttributes = { expires: expires };
+    const options: CookieAttributes = {expires: expires};
 
     // Save cookie with the token
     return this.storage.set(TOKENITEM, token, options);
@@ -383,11 +437,14 @@ export class AuthService {
    * @param redirectUrl
    */
   public navigateToRedirectUrl(redirectUrl: string) {
-    let url = `/reload/${new Date().getTime()}`;
-    if (isNotEmpty(redirectUrl) && !redirectUrl.startsWith(LOGIN_ROUTE)) {
-      url += `?redirect=${encodeURIComponent(redirectUrl)}`;
+    // Don't do redirect if already on reload url
+    if (!hasValue(redirectUrl) || !redirectUrl.includes('/reload/')) {
+      let url = `/reload/${new Date().getTime()}`;
+      if (isNotEmpty(redirectUrl) && !redirectUrl.startsWith(LOGIN_ROUTE)) {
+        url += `?redirect=${encodeURIComponent(redirectUrl)}`;
+      }
+      this.hardRedirectService.redirect(url);
     }
-    this.hardRedirectService.redirect(url);
   }
 
   /**
@@ -422,7 +479,7 @@ export class AuthService {
 
     // Set the cookie expire date
     const expires = new Date(expireDate);
-    const options: CookieAttributes = { expires: expires };
+    const options: CookieAttributes = {expires: expires};
     this.storage.set(REDIRECT_COOKIE, url, options);
     this.store.dispatch(new SetRedirectUrlAction(isNotUndefined(url) ? url : ''));
   }
@@ -438,14 +495,14 @@ export class AuthService {
         if (hasNoValue(currentRedirectUrl)) {
           this.setRedirectUrl(newRedirectUrl);
         }
-      })
+      });
   }
 
   /**
    * Clear redirect url
    */
   clearRedirectUrl() {
-    this.store.dispatch(new SetRedirectUrlAction(''));
+    this.store.dispatch(new SetRedirectUrlAction(undefined));
     this.storage.remove(REDIRECT_COOKIE);
   }
 
@@ -507,12 +564,23 @@ export class AuthService {
   }
 
   /**
-   * Return a new instance of RetrieveAuthMethodsAction
-   *
-   * @param authStatus The auth status
+   * Determines if current user is idle
+   * @returns {Observable<boolean>}
    */
-  getRetrieveAuthMethodsAction(authStatus: AuthStatus): RetrieveAuthMethodsAction {
-    return new RetrieveAuthMethodsAction(authStatus, false);
+  public isUserIdle(): Observable<boolean> {
+    return this.store.pipe(select(isIdle));
+  }
+
+  /**
+   * Set idle of auth state
+   * @returns {Observable<boolean>}
+   */
+  public setIdle(idle: boolean): void {
+    if (idle) {
+      this.store.dispatch(new SetUserAsIdleAction());
+    } else {
+      this.store.dispatch(new UnsetUserAsIdleAction());
+    }
   }
 
 }

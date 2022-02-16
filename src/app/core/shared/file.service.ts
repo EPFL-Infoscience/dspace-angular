@@ -1,15 +1,16 @@
 import { Inject, Injectable } from '@angular/core';
-import { DSpaceRESTV2Response } from '../dspace-rest-v2/dspace-rest-v2-response.model';
+import { RawRestResponse } from '../dspace-rest/raw-rest-response.model';
 import { AuthService } from '../auth/auth.service';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { NativeWindowRef, NativeWindowService } from '../services/window.service';
 import { URLCombiner } from '../url-combiner/url-combiner';
 import { hasValue } from '../../shared/empty.util';
+import { Observable } from 'rxjs';
 
 /**
  * Provides utility methods to save files on the client-side.
  */
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class FileService {
   constructor(
     @Inject(NativeWindowService) protected _window: NativeWindowRef,
@@ -17,28 +18,27 @@ export class FileService {
   ) { }
 
   /**
-   * Combines an URL with a short-lived token and sets the current URL to the newly created one
+   * Combines an URL with a short-lived token and sets the current URL to the newly created one and returns it
    *
    * @param url
    *    file url
    */
-  downloadFile(url: string) {
-    this.authService.getShortlivedToken().pipe(take(1)).subscribe((token) => {
-      this._window.nativeWindow.location.href = hasValue(token) ? new URLCombiner(url, `?authentication-token=${token}`).toString() : url;
-    });
+  retrieveFileDownloadLink(url: string): Observable<string> {
+    return this.authService.getShortlivedToken().pipe(take(1), map((token) =>
+      hasValue(token) ? new URLCombiner(url, `?authentication-token=${token}`).toString() : url
+    ));
   }
-
   /**
    * Derives file name from the http response
    * by looking inside content-disposition
    * @param res
-   *    http DSpaceRESTV2Response
+   *    http RawRestResponse
    */
-  getFileNameFromResponseContentDisposition(res: DSpaceRESTV2Response) {
+  getFileNameFromResponseContentDisposition(res: RawRestResponse) {
     // NOTE: to be able to retrieve 'Content-Disposition' header,
     // you need to set 'Access-Control-Expose-Headers': 'Content-Disposition' ON SERVER SIDE
     const contentDisposition = res.headers.get('content-disposition') || '';
     const matches = /filename="([^;]+)"/ig.exec(contentDisposition) || [];
     return (matches[1] || 'untitled').trim().replace(/\.[^/.]+$/, '');
-  };
+  }
 }

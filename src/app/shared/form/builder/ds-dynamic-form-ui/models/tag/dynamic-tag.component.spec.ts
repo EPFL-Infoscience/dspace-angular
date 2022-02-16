@@ -1,27 +1,29 @@
 // Load the implementations that should be tested
-import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { async, ComponentFixture, fakeAsync, flush, inject, TestBed, } from '@angular/core/testing';
-import { of as observableOf } from 'rxjs';
+import {ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ComponentFixture, fakeAsync, flush, inject, TestBed, waitForAsync,} from '@angular/core/testing';
+import {of as observableOf} from 'rxjs';
 
+import {DynamicFormLayoutService, DynamicFormsCoreModule, DynamicFormValidationService} from '@ng-dynamic-forms/core';
+import {DynamicFormsNGBootstrapUIModule} from '@ng-dynamic-forms/ui-ng-bootstrap';
+import {NgbModal, NgbModule, NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
+
+import {VocabularyOptions} from '../../../../../../core/submission/vocabularies/models/vocabulary-options.model';
+import {VocabularyService} from '../../../../../../core/submission/vocabularies/vocabulary.service';
+import {VocabularyServiceStub} from '../../../../../testing/vocabulary-service.stub';
+import {DsDynamicTagComponent} from './dynamic-tag.component';
+import {DynamicTagModel} from './dynamic-tag.model';
+import {Chips} from '../../../../../chips/models/chips.model';
+import {FormFieldMetadataValueObject} from '../../../models/form-field-metadata-value.model';
+import {VocabularyEntry} from '../../../../../../core/submission/vocabularies/models/vocabulary-entry.model';
+import {createTestComponent} from '../../../../../testing/utils.test';
 import {
-  DynamicFormLayoutService,
-  DynamicFormsCoreModule,
-  DynamicFormValidationService
-} from '@ng-dynamic-forms/core';
-import { DynamicFormsNGBootstrapUIModule } from '@ng-dynamic-forms/ui-ng-bootstrap';
-import { NgbModule, NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
-
-import { VocabularyOptions } from '../../../../../../core/submission/vocabularies/models/vocabulary-options.model';
-import { VocabularyService } from '../../../../../../core/submission/vocabularies/vocabulary.service';
-import { VocabularyServiceStub } from '../../../../../testing/vocabulary-service.stub';
-import { DsDynamicTagComponent } from './dynamic-tag.component';
-import { DynamicTagModel } from './dynamic-tag.model';
-import { Chips } from '../../../../../chips/models/chips.model';
-import { FormFieldMetadataValueObject } from '../../../models/form-field-metadata-value.model';
-import { VocabularyEntry } from '../../../../../../core/submission/vocabularies/models/vocabulary-entry.model';
-import { createTestComponent } from '../../../../../testing/utils.test';
-import { FormBuilderService } from '../../../form-builder.service';
+  mockDynamicFormLayoutService,
+  mockDynamicFormValidationService
+} from '../../../../../testing/dynamic-form-mock-services';
+import {FormBuilderService} from '../../../form-builder.service';
+import {SubmissionService} from '../../../../../../submission/submission.service';
+import {SubmissionServiceStub} from '../../../../../testing/submission-service.stub';
 
 function createKeyUpEvent(key: number) {
   /* tslint:disable:no-empty */
@@ -71,8 +73,8 @@ describe('DsDynamicTagComponent test suite', () => {
   let chips: Chips;
   let modelValue: any;
 
-  // async beforeEach
-  beforeEach(async(() => {
+  // waitForAsync beforeEach
+  beforeEach(waitForAsync(() => {
     const vocabularyServiceStub = new VocabularyServiceStub();
     init();
     TestBed.configureTestingModule({
@@ -90,10 +92,12 @@ describe('DsDynamicTagComponent test suite', () => {
       providers: [
         ChangeDetectorRef,
         DsDynamicTagComponent,
-        { provide: VocabularyService, useValue: vocabularyServiceStub },
-        { provide: DynamicFormLayoutService, useValue: {} },
-        { provide: DynamicFormValidationService, useValue: {} },
-        { provide: FormBuilderService }
+        {provide: VocabularyService, useValue: vocabularyServiceStub},
+        {provide: DynamicFormLayoutService, useValue: mockDynamicFormLayoutService},
+        {provide: DynamicFormValidationService, useValue: mockDynamicFormValidationService},
+        {provide: FormBuilderService},
+        {provide: SubmissionService, useClass: SubmissionServiceStub},
+        NgbModal
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
@@ -154,7 +158,7 @@ describe('DsDynamicTagComponent test suite', () => {
 
       it('should select a results entry properly', fakeAsync(() => {
         modelValue = [
-          Object.assign(new VocabularyEntry(), { authority: 1, display: 'Name, Lastname', value: 1 })
+          Object.assign(new VocabularyEntry(), {authority: 1, display: 'Name, Lastname', value: 1})
         ];
         const event: NgbTypeaheadSelectItemEvent = {
           item: Object.assign(new VocabularyEntry(), {
@@ -214,9 +218,9 @@ describe('DsDynamicTagComponent test suite', () => {
         tagComp.group = TAG_TEST_GROUP;
         tagComp.model = new DynamicTagModel(TAG_TEST_MODEL_CONFIG);
         modelValue = [
-          new FormFieldMetadataValueObject('a', null, 'test001'),
-          new FormFieldMetadataValueObject('b', null, 'test002'),
-          new FormFieldMetadataValueObject('c', null, 'test003'),
+          new FormFieldMetadataValueObject('a', null, null, 'test001'),
+          new FormFieldMetadataValueObject('b', null, null, 'test002'),
+          new FormFieldMetadataValueObject('c', null, null, 'test003'),
         ];
         tagComp.model.value = modelValue;
         tagFixture.detectChanges();

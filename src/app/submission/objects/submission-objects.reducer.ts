@@ -1,8 +1,9 @@
-import { hasValue, isNotEmpty, isNotNull, isUndefined } from '../../shared/empty.util';
+import { hasValue, isEmpty, isNotEmpty, isNotNull, isUndefined } from '../../shared/empty.util';
 import { differenceWith, findKey, isEqual, uniqWith } from 'lodash';
 
 import {
   ChangeSubmissionCollectionAction,
+  CleanDetectDuplicateAction,
   CompleteInitSubmissionFormAction,
   DeleteSectionErrorsAction,
   DeleteUploadedFileAction,
@@ -31,25 +32,21 @@ import {
   SaveSubmissionSectionFormSuccessAction,
   SectionStatusChangeAction,
   SetActiveSectionAction,
+  SetDuplicateDecisionAction,
+  SetDuplicateDecisionErrorAction,
+  SetDuplicateDecisionSuccessAction,
+  SetSectionFormId,
   SubmissionObjectAction,
   SubmissionObjectActionTypes,
   UpdateSectionDataAction,
-  SetDuplicateDecisionAction,
-  SetDuplicateDecisionSuccessAction,
-  SetDuplicateDecisionErrorAction
+  UpdateSectionErrorsAction
 } from './submission-objects.actions';
 import { WorkspaceitemSectionDataType } from '../../core/submission/models/workspaceitem-sections.model';
 import { WorkspaceitemSectionUploadObject } from '../../core/submission/models/workspaceitem-section-upload.model';
 import { SectionsType } from '../sections/sections-type';
 import { WorkspaceitemSectionDetectDuplicateObject } from '../../core/submission/models/workspaceitem-section-deduplication.model';
-
-/**
- * An interface to represent section visibility
- */
-export interface SectionVisibility {
-  main: any;
-  other: any;
-}
+import { SubmissionVisibilityType } from '../../core/config/models/config-submission-section.model';
+import { MetadataSecurityConfiguration } from '../../core/submission/models/metadata-security-configuration';
 
 /**
  * An interface to represent section object state
@@ -71,6 +68,11 @@ export interface SubmissionSectionObject {
   mandatory: boolean;
 
   /**
+   * A boolean representing if this section is opened or collapsed by default
+   */
+  opened: boolean;
+
+  /**
    * The section type
    */
   sectionType: SectionsType;
@@ -78,12 +80,12 @@ export interface SubmissionSectionObject {
   /**
    * The section visibility
    */
-  visibility: SectionVisibility;
+  visibility: SubmissionVisibilityType;
 
   /**
    * A boolean representing if this section is collapsed
    */
-  collapsed: boolean,
+  collapsed: boolean;
 
   /**
    * A boolean representing if this section is enabled
@@ -91,14 +93,24 @@ export interface SubmissionSectionObject {
   enabled: boolean;
 
   /**
+   * The list of the metadata ids of the section.
+   */
+  metadata: string[];
+
+  /**
    * The section data object
    */
   data: WorkspaceitemSectionDataType;
 
   /**
-   * The list of the section errors
+   * The list of the section's errors to show. It contains the error list to display when section is not pristine
    */
-  errors: SubmissionSectionError[];
+  errorsToShow: SubmissionSectionError[];
+
+  /**
+   * The list of the section's errors detected by the server. They may not be shown yet if section is pristine
+   */
+  serverValidationErrors: SubmissionSectionError[];
 
   /**
    * A boolean representing if this section is loading
@@ -114,6 +126,18 @@ export interface SubmissionSectionObject {
    * A boolean representing if this section is valid
    */
   isValid: boolean;
+
+  /**
+   * The formId related to this section
+   */
+  formId: string;
+}
+
+/**
+ * An interface to represent section error
+ */
+export interface SubmissionError {
+  [submissionId: string]: SubmissionSectionError[];
 }
 
 /**
@@ -145,12 +169,12 @@ export interface SubmissionObjectEntry {
   /**
    * The collection this submission belonging to
    */
-  collection?: string,
+  collection?: string;
 
   /**
    * The configuration name that define this submission
    */
-  definition?: string,
+  definition?: string;
 
   /**
    * The submission self url
@@ -186,6 +210,10 @@ export interface SubmissionObjectEntry {
    * A boolean representing if a submission deposit operation is pending
    */
   depositPending?: boolean;
+  /**
+   * Configurations of security levels for metadatas of an entity type
+   */
+  metadataSecurityConfiguration?: MetadataSecurityConfiguration;
 }
 
 /**
@@ -273,12 +301,20 @@ export function submissionObjectReducer(state = initialState, action: Submission
       return initSection(state, action as InitSectionAction);
     }
 
+    case SubmissionObjectActionTypes.SET_SECTION_FORM_ID: {
+      return setSectionFormId(state, action as SetSectionFormId);
+    }
+
     case SubmissionObjectActionTypes.ENABLE_SECTION: {
       return changeSectionState(state, action as EnableSectionAction, true);
     }
 
     case SubmissionObjectActionTypes.UPDATE_SECTION_DATA: {
       return updateSectionData(state, action as UpdateSectionDataAction);
+    }
+
+    case SubmissionObjectActionTypes.UPDATE_SECTION_ERRORS: {
+      return updateSectionErrors(state, action as UpdateSectionErrorsAction);
     }
 
     case SubmissionObjectActionTypes.DISABLE_SECTION: {
@@ -336,6 +372,10 @@ export function submissionObjectReducer(state = initialState, action: Submission
       return endSaveDecision(state, action as SetDuplicateDecisionErrorAction);
     }
 
+    case SubmissionObjectActionTypes.CLEAN_DETECT_DUPLICATE: {
+      return cleanDetectDuplicateSection(state, action as CleanDetectDuplicateAction);
+    }
+
     default: {
       return state;
     }
@@ -353,7 +393,7 @@ const removeError = (state: SubmissionObjectState, action: DeleteSectionErrorsAc
     if (Array.isArray(errors)) {
       filteredErrors = differenceWith(errors, errors, isEqual);
     } else {
-      filteredErrors = state[ submissionId ].sections[ sectionId ].errors
+      filteredErrors = state[ submissionId ].sections[ sectionId ].errorsToShow
         .filter((currentError) => currentError.path !== errors.path || !isEqual(currentError, errors));
     }
 
@@ -361,7 +401,7 @@ const removeError = (state: SubmissionObjectState, action: DeleteSectionErrorsAc
       [ submissionId ]: Object.assign({}, state[ submissionId ], {
         sections: Object.assign({}, state[ submissionId ].sections, {
           [ sectionId ]: Object.assign({}, state[ submissionId ].sections [ sectionId ], {
-            errors: filteredErrors
+            errorsToShow: filteredErrors
           })
         })
       })
@@ -375,13 +415,13 @@ const addError = (state: SubmissionObjectState, action: InertSectionErrorsAction
   const { submissionId, sectionId, error } = action.payload;
 
   if (hasValue(state[ submissionId ].sections[ sectionId ])) {
-    const errors = uniqWith(state[ submissionId ].sections[ sectionId ].errors.concat(error), isEqual);
+    const errorsToShow = uniqWith(state[ submissionId ].sections[ sectionId ].errorsToShow.concat(error), isEqual);
 
     return Object.assign({}, state, {
       [ submissionId ]: Object.assign({}, state[ submissionId ], {
         activeSection: state[ action.payload.submissionId ].activeSection,        sections: Object.assign({}, state[ submissionId ].sections, {
           [ sectionId ]: Object.assign({}, state[ action.payload.submissionId ].sections [ action.payload.sectionId ], {
-            errors
+            errorsToShow
           })
         }),
       })
@@ -399,7 +439,7 @@ const addError = (state: SubmissionObjectState, action: InertSectionErrorsAction
  * @param action
  *    a RemoveSectionErrorsAction
  * @return SubmissionObjectState
- *    the new state, with the section's errors updated.
+ *    the new state, with the section's errorsToShow updated.
  */
 function removeSectionErrors(state: SubmissionObjectState, action: RemoveSectionErrorsAction): SubmissionObjectState {
   if (isNotEmpty(state[ action.payload.submissionId ])
@@ -408,7 +448,7 @@ function removeSectionErrors(state: SubmissionObjectState, action: RemoveSection
       [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
         sections: Object.assign({}, state[ action.payload.submissionId ].sections, {
           [ action.payload.sectionId ]: Object.assign({}, state[ action.payload.submissionId ].sections [ action.payload.sectionId ], {
-            errors: []
+            errorsToShow: []
           })
         })
       })
@@ -443,6 +483,7 @@ function initSubmission(state: SubmissionObjectState, action: InitSubmissionForm
     savePending: false,
     saveDecisionPending: false,
     depositPending: false,
+    metadataSecurityConfiguration: action.payload.metadataSecurityConfiguration
   };
   return newState;
 }
@@ -661,15 +702,44 @@ function initSection(state: SubmissionObjectState, action: InitSectionAction): S
             header: action.payload.header,
             config: action.payload.config,
             mandatory: action.payload.mandatory,
+            opened: action.payload.opened,
             sectionType: action.payload.sectionType,
             visibility: action.payload.visibility,
             collapsed: false,
             enabled: action.payload.enabled,
             data: action.payload.data,
-            errors: action.payload.errors || [],
+            errorsToShow: [],
+            serverValidationErrors: action.payload.errors || [],
             isLoading: false,
-            isValid: false,
+            isValid: isEmpty(action.payload.errors),
             removePending: false
+          }
+        })
+      })
+    });
+  } else {
+    return state;
+  }
+}
+
+/**
+ * Set a section form id.
+ *
+ * @param state
+ *    the current state
+ * @param action
+ *    an SetSectionFormId
+ * @return SubmissionObjectState
+ *    the new state
+ */
+function setSectionFormId(state: SubmissionObjectState, action: SetSectionFormId): SubmissionObjectState {
+  if (hasValue(state[ action.payload.submissionId ])) {
+    return Object.assign({}, state, {
+      [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
+        sections: Object.assign({}, state[ action.payload.submissionId ].sections, {
+          [ action.payload.sectionId ]: {
+            ...state[ action.payload.submissionId ].sections [action.payload.sectionId],
+            formId: action.payload.formId
           }
         })
       })
@@ -691,14 +761,16 @@ function initSection(state: SubmissionObjectState, action: InitSectionAction): S
  */
 function updateSectionData(state: SubmissionObjectState, action: UpdateSectionDataAction): SubmissionObjectState {
   if (isNotEmpty(state[ action.payload.submissionId ])
-      && isNotEmpty(state[ action.payload.submissionId ].sections[ action.payload.sectionId])) {
+    && isNotEmpty(state[ action.payload.submissionId ].sections[ action.payload.sectionId])) {
     return Object.assign({}, state, {
       [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
         sections: Object.assign({}, state[ action.payload.submissionId ].sections, {
           [ action.payload.sectionId ]: Object.assign({}, state[ action.payload.submissionId ].sections [ action.payload.sectionId ], {
             enabled: true,
             data: action.payload.data,
-            errors: action.payload.errors
+            errorsToShow: action.payload.errorsToShow,
+            serverValidationErrors: action.payload.serverValidationErrors,
+            metadata: reduceSectionMetadata(action.payload.metadata, state[ action.payload.submissionId ].sections [ action.payload.sectionId ].metadata)
           })
         })
       })
@@ -706,6 +778,54 @@ function updateSectionData(state: SubmissionObjectState, action: UpdateSectionDa
   } else {
     return state;
   }
+}
+
+/**
+ * Update section's data.
+ *
+ * @param state
+ *    the current state
+ * @param action
+ *    an UpdateSectionDataAction
+ * @return SubmissionObjectState
+ *    the new state, with the section's data updated.
+ */
+function updateSectionErrors(state: SubmissionObjectState, action: UpdateSectionErrorsAction): SubmissionObjectState {
+  if (isNotEmpty(state[ action.payload.submissionId ])
+    && isNotEmpty(state[ action.payload.submissionId ].sections[ action.payload.sectionId])) {
+    return Object.assign({}, state, {
+      [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
+        sections: Object.assign({}, state[ action.payload.submissionId ].sections, {
+          [ action.payload.sectionId ]: Object.assign({}, state[ action.payload.submissionId ].sections [ action.payload.sectionId ], {
+            enabled: true,
+            errorsToShow: action.payload.errorsToShow,
+            serverValidationErrors: action.payload.errorsToShow,
+          })
+        }),
+        savePending: false,
+      })
+    });
+  } else {
+    return state;
+  }
+}
+
+/**
+ * Updates the state of the section metadata only when a new value is provided.
+ * Keep the existent otherwise.
+ * @param newMetadata
+ * @param oldMetadata
+ * @return
+ *   new sectionMetadata value
+ */
+function reduceSectionMetadata(newMetadata: string[], oldMetadata: string[]): string[] {
+  if (newMetadata) {
+    return newMetadata;
+  }
+  if (oldMetadata) {
+    return [...oldMetadata];
+  }
+  return undefined;
 }
 
 /**
@@ -817,7 +937,7 @@ function newFile(state: SubmissionObjectState, action: NewUploadedFileAction): S
     };
   } else {
     newData = filesData;
-    newData.files.push(action.payload.data)
+    newData.files.push(action.payload.data);
   }
 
   return Object.assign({}, state, {
@@ -974,6 +1094,23 @@ function endSaveDecision(state: SubmissionObjectState, action: SetDuplicateDecis
     return Object.assign({}, state, {
       [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
         saveDecisionPending: false,
+      })
+    });
+  } else {
+    return state;
+  }
+}
+
+function cleanDetectDuplicateSection(state: SubmissionObjectState, action: CleanDetectDuplicateAction): SubmissionObjectState {
+  if (isNotEmpty(state[ action.payload.submissionId ])) {
+    return Object.assign({}, state, {
+      [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
+        sections: Object.assign({}, state[ action.payload.submissionId ].sections, {
+          [ 'detect-duplicate' ]: Object.assign({}, state[ action.payload.submissionId ].sections [ 'detect-duplicate' ], {
+            enabled: false,
+            data: {}
+          })
+        })
       })
     });
   } else {

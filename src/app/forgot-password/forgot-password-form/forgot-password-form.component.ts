@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { EPersonDataService } from '../../core/eperson/eperson-data.service';
-import { ErrorResponse, RestResponse } from '../../core/cache/response.models';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { Observable } from 'rxjs';
@@ -10,9 +9,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticateAction } from '../../core/auth/auth.actions';
 import { Store } from '@ngrx/store';
 import { CoreState } from '../../core/core.reducers';
+import { RemoteData } from '../../core/data/remote-data';
+import { EPerson } from '../../core/eperson/models/eperson.model';
+import { getFirstCompletedRemoteData } from '../../core/shared/operators';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'ds-forgot-password-form',
+  styleUrls: ['./forgot-password-form.component.scss'],
   templateUrl: './forgot-password-form.component.html'
 })
 /**
@@ -34,12 +38,14 @@ export class ForgotPasswordFormComponent {
    */
   NOTIFICATIONS_PREFIX = 'forgot-password.form.notification';
 
-  constructor(private ePersonDataService: EPersonDataService,
-              private translateService: TranslateService,
-              private notificationsService: NotificationsService,
-              private store: Store<CoreState>,
-              private router: Router,
-              private route: ActivatedRoute,
+  constructor(
+    private ePersonDataService: EPersonDataService,
+    private translateService: TranslateService,
+    private notificationsService: NotificationsService,
+    private store: Store<CoreState>,
+    private router: Router,
+    private route: ActivatedRoute,
+    private authService: AuthService,
   ) {
   }
 
@@ -68,17 +74,19 @@ export class ForgotPasswordFormComponent {
    */
   submit() {
     if (!this.isInValid) {
-      this.ePersonDataService.patchPasswordWithToken(this.user, this.token, this.password).subscribe((response: RestResponse) => {
-        if (response.isSuccessful) {
+      this.ePersonDataService.patchPasswordWithToken(this.user, this.token, this.password).pipe(
+        getFirstCompletedRemoteData()
+      ).subscribe((response: RemoteData<EPerson>) => {
+        if (response.hasSucceeded) {
+          this.authService.setRedirectUrlIfNotSet('/home');
           this.notificationsService.success(
             this.translateService.instant(this.NOTIFICATIONS_PREFIX + '.success.title'),
             this.translateService.instant(this.NOTIFICATIONS_PREFIX + '.success.content')
           );
           this.store.dispatch(new AuthenticateAction(this.email, this.password));
-          this.router.navigate(['/home']);
         } else {
           this.notificationsService.error(
-            this.translateService.instant(this.NOTIFICATIONS_PREFIX + '.error.title'), (response as ErrorResponse).errorMessage
+            this.translateService.instant(this.NOTIFICATIONS_PREFIX + '.error.title'), response.errorMessage
           );
         }
       });

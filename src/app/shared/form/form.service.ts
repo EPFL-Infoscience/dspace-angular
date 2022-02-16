@@ -1,5 +1,5 @@
-import { map, distinctUntilChanged, filter } from 'rxjs/operators';
-import { Inject, Injectable } from '@angular/core';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
@@ -7,22 +7,24 @@ import { select, Store } from '@ngrx/store';
 import { AppState } from '../../app.reducer';
 import { formObjectFromIdSelector } from './selectors';
 import { FormBuilderService } from './builder/form-builder.service';
-import { DynamicFormControlModel } from '@ng-dynamic-forms/core';
+import { DynamicFormControlEvent, DynamicFormControlModel } from '@ng-dynamic-forms/core';
 import { isEmpty, isNotUndefined } from '../empty.util';
 import { uniqueId } from 'lodash';
 import {
+  FormAddError,
+  FormAddTouchedAction,
   FormChangeAction,
   FormInitAction,
-  FormRemoveAction, FormRemoveErrorAction,
+  FormRemoveAction,
+  FormRemoveErrorAction,
   FormStatusChangeAction
 } from './form.actions';
-import { FormEntry } from './form.reducer';
+import { FormEntry, FormError, FormTouchedState } from './form.reducer';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class FormService {
-
-  constructor(
+   constructor(
     private formBuilderService: FormBuilderService,
     private store: Store<AppState>) {
   }
@@ -52,9 +54,21 @@ export class FormService {
   }
 
   /**
+   * Method to retrieve form's touched state
+   */
+  public getFormTouchedState(formId: string): Observable<FormTouchedState> {
+    return this.store.pipe(
+      select(formObjectFromIdSelector(formId)),
+      filter((state) => isNotUndefined(state)),
+      map((state) => state.touched),
+      distinctUntilChanged()
+    );
+  }
+
+  /**
    * Method to retrieve form's errors from state
    */
-  public getFormErrors(formId: string): Observable<any> {
+  public getFormErrors(formId: string): Observable<FormError[]> {
     return this.store.pipe(
       select(formObjectFromIdSelector(formId)),
       filter((state) => isNotUndefined(state)),
@@ -93,6 +107,34 @@ export class FormService {
     });
   }
 
+  /**
+   * Check if form group has an invalid form control
+   * @param formGroup The form group to check
+   */
+  public hasValidationErrors(formGroup: FormGroup | FormArray): boolean {
+    let hasErrors = false;
+    const fields: string[] = Object.keys(formGroup.controls);
+    for (const field of fields) {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        hasErrors = !control.valid && control.touched;
+      } else if (control instanceof FormGroup || control instanceof FormArray) {
+        hasErrors = this.hasValidationErrors(control);
+      }
+      if (hasErrors) {
+        break;
+      }
+    }
+    return hasErrors;
+  }
+
+  public addControlErrors(field: AbstractControl, formId: string, fieldId: string, fieldIndex: number) {
+    const errors: string[] = Object.keys(field.errors)
+      .filter((errorKey) => field.errors[errorKey] === true)
+      .map((errorKey) => `error.validation.${errorKey}`);
+    errors.forEach((error) => this.addError(formId, fieldId, fieldIndex, error));
+  }
+
   public addErrorToField(field: AbstractControl, model: DynamicFormControlModel, message: string) {
     const error = {}; // create the error object
     const errorKey = this.getValidatorNameFromMap(message);
@@ -116,6 +158,7 @@ export class FormService {
       error[errorKey] = true;
       // add the error in the form control
       field.setErrors(error);
+      field.setValidators(() => error);
     }
 
     field.markAsTouched();
@@ -128,6 +171,8 @@ export class FormService {
     if (field.hasError(errorKey)) {
       error[errorKey] = null;
       field.setErrors(error);
+      field.clearValidators();
+      field.updateValueAndValidity();
     }
 
     field.markAsUntouched();
@@ -154,7 +199,7 @@ export class FormService {
   }
 
   public setStatusChanged(formId: string, valid: boolean) {
-    this.store.dispatch(new FormStatusChangeAction(formId, valid))
+    this.store.dispatch(new FormStatusChangeAction(formId, valid));
   }
 
   public getForm(formId: string): Observable<FormEntry> {
@@ -169,7 +214,18 @@ export class FormService {
     this.store.dispatch(new FormChangeAction(formId, this.formBuilderService.getValueFromModel(model)));
   }
 
-  public removeError(formId: string, eventModelId: string, fieldIndex: number) {
-    this.store.dispatch(new FormRemoveErrorAction(formId, eventModelId, fieldIndex));
+  public setTouched(formId: string, model: DynamicFormControlModel[], event: DynamicFormControlEvent) {
+    const ids = this.formBuilderService.getMetadataIdsFromEvent(event);
+    this.store.dispatch(new FormAddTouchedAction(formId, ids));
+  }
+
+  public addError(formId: string, fieldId: string, fieldIndex: number, message: string) {
+    const normalizedFieldId = fieldId.replace(/\./g, '_');
+    this.store.dispatch(new FormAddError(formId, normalizedFieldId, fieldIndex, message));
+  }
+
+  public removeError(formId: string, fieldId: string, fieldIndex: number) {
+    const normalizedFieldId = fieldId.replace(/\./g, '_');
+    this.store.dispatch(new FormRemoveErrorAction(formId, normalizedFieldId, fieldIndex));
   }
 }

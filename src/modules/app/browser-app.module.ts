@@ -1,14 +1,14 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule, makeStateKey, TransferState } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { RouterModule, NoPreloading } from '@angular/router';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateJson5HttpLoader } from '../../ngx-translate-loaders/translate-json5-http.loader';
 
-import { IdlePreload, IdlePreloadModule } from 'angular-idle-preload';
+import { IdlePreloadModule } from 'angular-idle-preload';
 
 import { AppComponent } from '../../app/app.component';
 
@@ -26,8 +26,19 @@ import { KlaroService } from '../../app/shared/cookies/klaro.service';
 import { HardRedirectService } from '../../app/core/services/hard-redirect.service';
 import {
   BrowserHardRedirectService,
-  LocationToken, locationProvider
+  locationProvider,
+  LocationToken
 } from '../../app/core/services/browser-hard-redirect.service';
+import { LocaleService } from '../../app/core/locale/locale.service';
+import { GoogleAnalyticsService } from '../../app/statistics/google-analytics.service';
+import { AuthRequestService } from '../../app/core/auth/auth-request.service';
+import { BrowserAuthRequestService } from '../../app/core/auth/browser-auth-request.service';
+import { AppConfig, APP_CONFIG_STATE } from '../../config/app-config.interface';
+import { DefaultAppConfig } from '../../config/default-app-config';
+import { extendEnvironmentWithAppConfig } from '../../config/config.util';
+import { CorrelationIdService } from '../../app/correlation-id/correlation-id.service';
+
+import { environment } from '../../environments/environment';
 
 export const REQ_KEY = makeStateKey<string>('req');
 
@@ -52,8 +63,8 @@ export function getRequest(transferState: TransferState): any {
       // enableTracing: true,
       useHash: false,
       scrollPositionRestoration: 'enabled',
-      preloadingStrategy:
-      IdlePreload
+      anchorScrolling: 'enabled',
+      preloadingStrategy: NoPreloading
     }),
     StatisticsModule.forRoot(),
     Angulartics2RouterlessModule.forRoot(),
@@ -69,6 +80,25 @@ export function getRequest(transferState: TransferState): any {
     AppModule
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (
+        transferState: TransferState,
+        dspaceTransferState: DSpaceTransferState,
+        correlationIdService: CorrelationIdService
+      ) => {
+        if (transferState.hasKey<AppConfig>(APP_CONFIG_STATE)) {
+          const appConfig = transferState.get<AppConfig>(APP_CONFIG_STATE, new DefaultAppConfig());
+          // extend environment with app config for browser
+          extendEnvironmentWithAppConfig(environment, appConfig);
+        }
+        dspaceTransferState.transfer();
+        correlationIdService.initCorrelationId();
+        return () => true;
+      },
+      deps: [TransferState, DSpaceTransferState, CorrelationIdService],
+      multi: true
+    },
     {
       provide: REQUEST,
       useFactory: getRequest,
@@ -91,8 +121,20 @@ export function getRequest(transferState: TransferState): any {
       useClass: SubmissionService
     },
     {
+      provide: LocaleService,
+      useClass: LocaleService
+    },
+    {
       provide: HardRedirectService,
       useClass: BrowserHardRedirectService,
+    },
+    {
+      provide: GoogleAnalyticsService,
+      useClass: GoogleAnalyticsService,
+    },
+    {
+      provide: AuthRequestService,
+      useClass: BrowserAuthRequestService,
     },
     {
       provide: LocationToken,
@@ -101,9 +143,4 @@ export function getRequest(transferState: TransferState): any {
   ]
 })
 export class BrowserAppModule {
-  constructor(
-    private transferState: DSpaceTransferState,
-  ) {
-    this.transferState.transfer();
-  }
 }

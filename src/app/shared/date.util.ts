@@ -27,12 +27,13 @@ export function isNgbDateStruct(value: object): boolean {
  * @return string
  *    the formatted date
  */
-export function dateToISOFormat(date: Date | NgbDateStruct): string {
-  const dateObj: Date = (date instanceof Date) ? date : ngbDateStructToDate(date);
+export function dateToISOFormat(date: Date | NgbDateStruct | string): string {
+  const dateObj: Date = (date instanceof Date) ? date :
+    ((typeof date === 'string') ? ngbDateStructToDate(stringToNgbDateStruct(date)) : ngbDateStructToDate(date));
 
-  let year = dateObj.getFullYear().toString();
-  let month = (dateObj.getMonth() + 1).toString();
-  let day = dateObj.getDate().toString();
+  let year = dateObj.getUTCFullYear().toString();
+  let month = (dateObj.getUTCMonth() + 1).toString();
+  let day = dateObj.getUTCDate().toString();
   let hour = dateObj.getHours().toString();
   let min = dateObj.getMinutes().toString();
   let sec = dateObj.getSeconds().toString();
@@ -56,7 +57,7 @@ export function dateToISOFormat(date: Date | NgbDateStruct): string {
  *    the Date object
  */
 export function ngbDateStructToDate(date: NgbDateStruct): Date {
-  return new Date(date.year, (date.month - 1), date.day);
+  return new Date(Date.UTC(date.year, (date.month - 1), date.day));
 }
 
 /**
@@ -81,13 +82,13 @@ export function stringToNgbDateStruct(date: string): NgbDateStruct {
  */
 export function dateToNgbDateStruct(date?: Date): NgbDateStruct {
   if (isNull(date) || isUndefined(date)) {
-    date = new Date()
+    date = new Date();
   }
 
   return {
-    year: date.getFullYear(),
-    month: date.getMonth() + 1,
-    day: date.getDate()
+    year: date.getUTCFullYear(),
+    month: date.getUTCMonth() + 1,
+    day: date.getUTCDate()
   };
 }
 
@@ -102,9 +103,9 @@ export function dateToNgbDateStruct(date?: Date): NgbDateStruct {
 export function dateToString(date: Date | NgbDateStruct): string {
   const dateObj: Date = (date instanceof Date) ? date : ngbDateStructToDate(date);
 
-  let year = dateObj.getFullYear().toString();
-  let month = (dateObj.getMonth() + 1).toString();
-  let day = dateObj.getDate().toString();
+  let year = dateObj.getUTCFullYear().toString();
+  let month = (dateObj.getUTCMonth() + 1).toString();
+  let day = dateObj.getUTCDate().toString();
 
   year = (year.length === 1) ? '0' + year : year;
   month = (month.length === 1) ? '0' + month : month;

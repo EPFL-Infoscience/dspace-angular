@@ -6,12 +6,21 @@ import { uniqueId } from 'lodash';
 import { isEmpty } from '../../../empty.util';
 import { DynamicRowGroupModel } from '../ds-dynamic-form-ui/models/ds-dynamic-row-group-model';
 import { FormFieldModel } from '../models/form-field.model';
-import { CONFIG_DATA, FieldParser, INIT_FORM_VALUES, PARSER_OPTIONS, SUBMISSION_ID } from './field-parser';
+import {
+  CONFIG_DATA,
+  FieldParser,
+  INIT_FORM_VALUES,
+  PARSER_OPTIONS,
+  SECURITY_CONFIG,
+  SUBMISSION_ID
+} from './field-parser';
 import { ParserFactory } from './parser-factory';
 import { ParserOptions } from './parser-options';
 import { ParserType } from './parser-type';
 import { setLayout } from './parser.utils';
 import { DYNAMIC_FORM_CONTROL_TYPE_RELATION_GROUP } from '../ds-dynamic-form-ui/ds-dynamic-form-constants';
+import { SubmissionVisibility } from '../../../../submission/utils/visibility.util';
+import { SubmissionVisibilityType } from '../../../../core/config/models/config-submission-section.model';
 
 export const ROW_ID_PREFIX = 'df-row-group-config-';
 
@@ -31,7 +40,9 @@ export class RowParser {
                scopeUUID,
                initFormValues: any,
                submissionScope,
-               readOnly: boolean): DynamicRowGroupModel {
+               readOnly: boolean,
+               isInnerForm: boolean = false,
+               securityConfig: any = null): DynamicRowGroupModel {
     let fieldModel: any = null;
     let parsedResult = null;
     const config: DynamicFormGroupModelConfig = {
@@ -47,7 +58,8 @@ export class RowParser {
     const parserOptions: ParserOptions = {
       readOnly: readOnly,
       submissionScope: submissionScope,
-      collectionUUID: scopeUUID
+      collectionUUID: scopeUUID,
+      isInnerForm: isInnerForm
     };
 
     // Iterate over row's fields
@@ -62,7 +74,8 @@ export class RowParser {
             { provide: SUBMISSION_ID, useValue: submissionId },
             { provide: CONFIG_DATA, useValue: fieldData },
             { provide: INIT_FORM_VALUES, useValue: initFormValues },
-            { provide: PARSER_OPTIONS, useValue: parserOptions }
+            { provide: PARSER_OPTIONS, useValue: parserOptions },
+            { provide: SECURITY_CONFIG, useValue: securityConfig }
           ],
           parent: this.parentInjector
         });
@@ -90,7 +103,7 @@ export class RowParser {
             fieldModel.forEach((model) => {
               parsedResult = model;
               return;
-            })
+            });
           } else {
             setLayout(fieldModel, 'grid', 'host', layoutFieldClass);
             config.group.push(fieldModel);
@@ -108,7 +121,7 @@ export class RowParser {
       };
       const groupModel = new DynamicRowGroupModel(config, clsGroup);
       if (Array.isArray(parsedResult)) {
-        parsedResult.push(groupModel)
+        parsedResult.push(groupModel);
       } else {
         parsedResult = groupModel;
       }
@@ -116,15 +129,25 @@ export class RowParser {
     return parsedResult;
   }
 
-  checksFieldScope(fieldScope, submissionScope) {
-    return (isEmpty(fieldScope) || isEmpty(submissionScope) || fieldScope === submissionScope);
+  /**
+   * Check if a field is visible with the given scope
+   * @param visibility
+   * @param submissionScope
+   */
+  checksFieldScope(visibility: SubmissionVisibilityType, submissionScope) {
+    return isEmpty(submissionScope) || !SubmissionVisibility.isHidden(visibility, submissionScope);
   }
 
+  /**
+   * Return the list of row's field visible with the given scope
+   * @param fields
+   * @param submissionScope
+   */
   filterScopedFields(fields: FormFieldModel[], submissionScope): FormFieldModel[] {
     const filteredFields: FormFieldModel[] = [];
     fields.forEach((field: FormFieldModel) => {
       // Whether field scope doesn't match the submission scope, skip it
-      if (this.checksFieldScope(field.scope, submissionScope)) {
+      if (this.checksFieldScope(field.visibility, submissionScope)) {
         filteredFields.push(field);
       }
     });

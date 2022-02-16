@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async, tick, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { SearchFormComponent } from './search-form.component';
@@ -8,6 +8,11 @@ import { Community } from '../../core/shared/community.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { DSpaceObject } from '../../core/shared/dspace-object.model';
 import { SearchService } from '../../core/shared/search/search.service';
+import { PaginationService } from '../../core/pagination/pagination.service';
+import { SearchConfigurationService } from '../../core/shared/search/search-configuration.service';
+import { PaginationServiceStub } from '../testing/pagination-service.stub';
+import { DSpaceObjectDataService } from '../../core/data/dspace-object-data.service';
+import { createSuccessfulRemoteDataObject$ } from '../remote-data.utils';
 
 describe('SearchFormComponent', () => {
   let comp: SearchFormComponent;
@@ -15,14 +20,21 @@ describe('SearchFormComponent', () => {
   let de: DebugElement;
   let el: HTMLElement;
 
-  beforeEach(async(() => {
+  const paginationService = new PaginationServiceStub();
+
+  const searchConfigService = {paginationID: 'test-id'};
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, RouterTestingModule, TranslateModule.forRoot()],
       providers: [
         {
           provide: SearchService,
           useValue: {}
-        }
+        },
+        { provide: PaginationService, useValue: paginationService },
+        { provide: SearchConfigurationService, useValue: searchConfigService },
+        { provide: DSpaceObjectDataService, useValue: { findById: () => createSuccessfulRemoteDataObject$(undefined)} }
       ],
       declarations: [SearchFormComponent]
     }).compileComponents();
@@ -33,24 +45,6 @@ describe('SearchFormComponent', () => {
     comp = fixture.componentInstance; // SearchFormComponent test instance
     de = fixture.debugElement.query(By.css('form'));
     el = de.nativeElement;
-  });
-
-  it('should display scopes when available with default and all scopes', () => {
-
-    comp.scopes = objects;
-    fixture.detectChanges();
-    const select: HTMLElement = de.query(By.css('select')).nativeElement;
-    expect(select).toBeDefined();
-    const options: HTMLCollection = select.children;
-    const defOption: Element = options.item(0);
-    expect(defOption.getAttribute('value')).toBe('');
-
-    let index = 1;
-    objects.forEach((object) => {
-      expect(options.item(index).textContent).toBe(object.name);
-      expect(options.item(index).getAttribute('value')).toBe(object.uuid);
-      index++;
-    });
   });
 
   it('should not display scopes when empty', () => {
@@ -71,17 +65,17 @@ describe('SearchFormComponent', () => {
   }));
 
   it('should select correct scope option in scope select', fakeAsync(() => {
-    comp.scopes = objects;
-    fixture.detectChanges();
 
+    fixture.detectChanges();
+    comp.showScopeSelector = true;
     const testCommunity = objects[1];
-    comp.scope = testCommunity.id;
+    comp.selectedScope.next(testCommunity);
 
     fixture.detectChanges();
     tick();
-    const scopeSelect = de.query(By.css('select')).nativeElement;
+    const scopeSelect = de.query(By.css('.scope-button')).nativeElement;
 
-    expect(scopeSelect.value).toBe(testCommunity.id);
+    expect(scopeSelect.textContent).toBe(testCommunity.name);
   }));
   // it('should call updateSearch when clicking the submit button with correct parameters', fakeAsync(() => {
   //   comp.query = 'Test String'
@@ -105,11 +99,10 @@ describe('SearchFormComponent', () => {
   //
   //   expect(comp.updateSearch).toHaveBeenCalledWith({ scope: scope, query: query });
   // }));
-});
+   });
 
 export const objects: DSpaceObject[] = [
   Object.assign(new Community(), {
-    handle: '10673/11',
     logo: {
       self: {
         _isScalar: true,
@@ -162,12 +155,17 @@ export const objects: DSpaceObject[] = [
           language: null,
           value: 'OR2017 - Demonstration'
         }
-      ]
+      ],
+      'dc.identifier.uri': [
+        {
+          language: null,
+          value: 'http://localhost:4000/handle/10673/11'
+        }
+      ],
     }
   }),
   Object.assign(new Community(),
     {
-      handle: '10673/1',
       logo: {
         self: {
           _isScalar: true,
@@ -220,7 +218,13 @@ export const objects: DSpaceObject[] = [
             language: null,
             value: 'Sample Community'
           }
-        ]
+        ],
+        'dc.identifier.uri': [
+          {
+            language: null,
+            value: 'http://localhost:4000/handle/10673/1'
+          }
+        ],
       }
     }
   )

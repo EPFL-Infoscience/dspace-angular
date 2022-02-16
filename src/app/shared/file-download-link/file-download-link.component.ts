@@ -1,7 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FileService } from '../../core/shared/file.service';
-import { Observable } from 'rxjs/internal/Observable';
-import { AuthService } from '../../core/auth/auth.service';
+import { Bitstream } from '../../core/shared/bitstream.model';
+import { getBitstreamDownloadRoute, getBitstreamRequestACopyRoute } from '../../app-routing-paths';
+import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
+import { FeatureID } from '../../core/data/feature-authorization/feature-id';
+import { hasValue, isNotEmpty } from '../empty.util';
+import { map } from 'rxjs/operators';
+import { combineLatest as observableCombineLatest, Observable, of as observableOf } from 'rxjs';
+import { Item } from '../../core/shared/item.model';
 
 @Component({
   selector: 'ds-file-download-link',
@@ -14,35 +19,62 @@ import { AuthService } from '../../core/auth/auth.service';
  * ensuring the user is authorized to download the file.
  */
 export class FileDownloadLinkComponent implements OnInit {
-  /**
-   * Href to link to
-   */
-  @Input() href: string;
 
   /**
-   * Optional file name for the download
+   * Optional bitstream instead of href and file name
    */
-  @Input() download: string;
+  @Input() bitstream: Bitstream;
+
+  @Input() item: Item;
 
   /**
-   * Whether or not the current user is authenticated
+   * Additional css classes to apply to link
    */
-  isAuthenticated$: Observable<boolean>;
+  @Input() cssClasses = '';
 
-  constructor(private fileService: FileService,
-              private authService: AuthService) { }
+  /**
+   * A boolean representing if link is shown in same tab or in a new one.
+   */
+  @Input() isBlank = false;
+
+  @Input() enableRequestACopy = true;
+
+  bitstreamPath$: Observable<{
+    routerLink: string,
+    queryParams: any,
+  }>;
+
+  canDownload$: Observable<boolean>;
+
+  constructor(
+    private authorizationService: AuthorizationDataService,
+  ) {
+  }
 
   ngOnInit() {
-    this.isAuthenticated$ = this.authService.isAuthenticated();
+    if (this.enableRequestACopy) {
+      this.canDownload$ = this.authorizationService.isAuthorized(FeatureID.CanDownload, isNotEmpty(this.bitstream) ? this.bitstream.self : undefined);
+      const canRequestACopy$ = this.authorizationService.isAuthorized(FeatureID.CanRequestACopy, isNotEmpty(this.bitstream) ? this.bitstream.self : undefined);
+      this.bitstreamPath$ = observableCombineLatest([this.canDownload$, canRequestACopy$]).pipe(
+        map(([canDownload, canRequestACopy]) => this.getBitstreamPath(canDownload, canRequestACopy))
+      );
+    } else {
+      this.bitstreamPath$ = observableOf(this.getBitstreamDownloadPath());
+      this.canDownload$ = observableOf(true);
+    }
   }
 
-  /**
-   * Start a download of the file
-   * Return false to ensure the original href is displayed when the user hovers over the link
-   */
-  downloadFile(): boolean {
-    this.fileService.downloadFile(this.href);
-    return false;
+  getBitstreamPath(canDownload: boolean, canRequestACopy: boolean) {
+    if (!canDownload && canRequestACopy && hasValue(this.item)) {
+      return getBitstreamRequestACopyRoute(this.item, this.bitstream);
+    }
+    return this.getBitstreamDownloadPath();
   }
 
+  getBitstreamDownloadPath() {
+    return {
+      routerLink: getBitstreamDownloadRoute(this.bitstream),
+      queryParams: {}
+    };
+  }
 }

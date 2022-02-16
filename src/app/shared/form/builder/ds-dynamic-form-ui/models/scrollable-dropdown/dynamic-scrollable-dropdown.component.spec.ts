@@ -1,9 +1,9 @@
 // Load the implementations that should be tested
 import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { async, ComponentFixture, fakeAsync, inject, TestBed, tick, } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, inject, TestBed, tick, waitForAsync, } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { DynamicFormLayoutService, DynamicFormsCoreModule, DynamicFormValidationService } from '@ng-dynamic-forms/core';
@@ -16,7 +16,16 @@ import { DsDynamicScrollableDropdownComponent } from './dynamic-scrollable-dropd
 import { DynamicScrollableDropdownModel } from './dynamic-scrollable-dropdown.model';
 import { VocabularyEntry } from '../../../../../../core/submission/vocabularies/models/vocabulary-entry.model';
 import { createTestComponent, hasClass } from '../../../../../testing/utils.test';
+import {
+  mockDynamicFormLayoutService,
+  mockDynamicFormValidationService
+} from '../../../../../testing/dynamic-form-mock-services';
 import { FormBuilderService } from '../../../form-builder.service';
+import { SubmissionService } from '../../../../../../submission/submission.service';
+import { SubmissionServiceStub } from '../../../../../testing/submission-service.stub';
+import { createSuccessfulRemoteDataObject$ } from '../../../../../remote-data.utils';
+import { buildPaginatedList } from '../../../../../../core/data/paginated-list.model';
+import { PageInfo } from '../../../../../../core/shared/page-info.model';
 
 export const SD_TEST_GROUP = new FormGroup({
   dropdown: new FormControl(),
@@ -54,8 +63,8 @@ describe('Dynamic Dynamic Scrollable Dropdown component', () => {
 
   const vocabularyServiceStub = new VocabularyServiceStub();
 
-  // async beforeEach
-  beforeEach(async(() => {
+  // waitForAsync beforeEach
+  beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
       imports: [
@@ -75,9 +84,11 @@ describe('Dynamic Dynamic Scrollable Dropdown component', () => {
         ChangeDetectorRef,
         DsDynamicScrollableDropdownComponent,
         { provide: VocabularyService, useValue: vocabularyServiceStub },
-        { provide: DynamicFormLayoutService, useValue: {} },
-        { provide: DynamicFormValidationService, useValue: {} },
-        { provide: FormBuilderService }
+        { provide: DynamicFormLayoutService, useValue: mockDynamicFormLayoutService },
+        { provide: DynamicFormValidationService, useValue: mockDynamicFormValidationService },
+        { provide: FormBuilderService },
+        { provide: SubmissionService, useClass: SubmissionServiceStub },
+        NgbModal
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
@@ -127,7 +138,7 @@ describe('Dynamic Dynamic Scrollable Dropdown component', () => {
       });
 
       it('should display dropdown menu entries', () => {
-        const de = scrollableDropdownFixture.debugElement.query(By.css('input.custom-select'));
+        const de = scrollableDropdownFixture.debugElement.query(By.css('input.form-control'));
         const btnEl = de.nativeElement;
 
         const deMenu = scrollableDropdownFixture.debugElement.query(By.css('div.scrollable-dropdown-menu'));
@@ -154,7 +165,7 @@ describe('Dynamic Dynamic Scrollable Dropdown component', () => {
       it('should select a results entry properly', fakeAsync(() => {
         const selectedValue = Object.assign(new VocabularyEntry(), { authority: 1, display: 'one', value: 1 });
 
-        let de: any = scrollableDropdownFixture.debugElement.query(By.css('input.custom-select'));
+        let de: any = scrollableDropdownFixture.debugElement.query(By.css('input.form-control'));
         let btnEl = de.nativeElement;
 
         btnEl.click();
@@ -182,6 +193,32 @@ describe('Dynamic Dynamic Scrollable Dropdown component', () => {
         expect(scrollableDropdownComp.focus.emit).toHaveBeenCalled();
       });
 
+      it('should search entries filtered be input value', fakeAsync(() => {
+        const selectedValue = Object.assign(new VocabularyEntry(), { authority: 1, display: 'one', value: 1 });
+        expect(scrollableDropdownComp.searchText).toBeNull();
+        spyOn((scrollableDropdownComp as any).vocabularyService, 'getVocabularyEntriesByValue').and.returnValue(
+          createSuccessfulRemoteDataObject$(buildPaginatedList(new PageInfo(), [selectedValue]))
+        );
+
+        let de: any = scrollableDropdownFixture.debugElement.query(By.css('input.form-control'));
+        let btnEl = de.nativeElement;
+
+        btnEl.click();
+        scrollableDropdownFixture.detectChanges();
+
+        de = scrollableDropdownFixture.debugElement.queryAll(By.css('input.scrollable-dropdown-search-input'));
+        btnEl = de[0];
+        btnEl.triggerEventHandler('input', {
+          target: {
+            value: 'test'
+          }
+        });
+        tick(700);
+
+        expect(scrollableDropdownComp.searchText).toBe('test');
+        expect((scrollableDropdownComp as any).vocabularyService.getVocabularyEntriesByValue).toHaveBeenCalled();
+        expect(scrollableDropdownComp.optionsList.length).toBe(1);
+      }));
     });
 
     describe('when init model value is not empty', () => {

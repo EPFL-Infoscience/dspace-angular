@@ -1,5 +1,5 @@
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -8,7 +8,7 @@ import { UserMenuComponent } from './user-menu.component';
 import { authReducer, AuthState } from '../../../core/auth/auth.reducer';
 import { AuthTokenInfo } from '../../../core/auth/models/auth-token-info.model';
 import { EPersonMock } from '../../testing/eperson.mock';
-import { AppState, storeModuleConfig } from '../../../app.reducer';
+import { AppState } from '../../../app.reducer';
 import { TranslateLoaderMock } from '../../mocks/translate-loader.mock';
 import { cold } from 'jasmine-marbles';
 import { By } from '@angular/platform-browser';
@@ -37,7 +37,8 @@ describe('UserMenuComponent', () => {
       blocking: false,
       loading: false,
       authToken: new AuthTokenInfo('test_token'),
-      user: EPersonMock
+      user: EPersonMock,
+      idle: false
     };
     authStateLoading = {
       authenticated: true,
@@ -45,11 +46,12 @@ describe('UserMenuComponent', () => {
       blocking: false,
       loading: true,
       authToken: null,
-      user: EPersonMock
+      user: EPersonMock,
+      idle: false
     };
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     serviceInit();
     TestBed.configureTestingModule({
       imports: [
@@ -159,12 +161,12 @@ describe('UserMenuComponent', () => {
       expect(deUserMenu).toBeDefined();
     });
 
-    it('should display user name and email', () =>  {
+    it('should display user name and email', () => {
       const user = 'User Test (test@test.com)';
       const span = deUserMenu.query(By.css('.dropdown-item-text'));
       expect(span).toBeDefined();
       expect(span.nativeElement.innerHTML).toBe(user);
-    })
+    });
 
   });
 

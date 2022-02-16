@@ -24,7 +24,7 @@ export const getUrlWithoutEmbedParams = (url: string): string => {
     if (isNotEmpty(parsed.query)) {
       const parts = parsed.query.split(/[?|&]/)
         .filter((part: string) => isNotEmpty(part))
-        .filter((part: string) => !part.startsWith('embed='));
+        .filter((part: string) => !(part.startsWith('embed=') || part.startsWith('embed.size=')));
       let args = '';
       if (isNotEmpty(parts)) {
         args = `?${parts.join('&')}`;
@@ -35,6 +35,27 @@ export const getUrlWithoutEmbedParams = (url: string): string => {
   }
 
   return url;
+};
+
+/**
+ * Parse the embed size params from a url
+ * @param url The url to parse
+ */
+export const getEmbedSizeParams = (url: string): { name: string, size: number }[] => {
+  if (isNotEmpty(url)) {
+    const parsed = parse(url);
+    if (isNotEmpty(parsed.query)) {
+      return parsed.query.split(/[?|&]/)
+        .filter((part: string) => isNotEmpty(part))
+        .map((part: string) => part.match(/^embed.size=([^=]+)=(\d+)$/))
+        .filter((matches: RegExpMatchArray) => hasValue(matches) && hasValue(matches[1]) && hasValue(matches[2]))
+        .map((matches: RegExpMatchArray) => {
+          return { name: matches[1], size: Number(matches[2]) };
+        });
+    }
+  }
+
+  return [];
 };
 
 /**
@@ -72,14 +93,14 @@ export const requestIndexSelector: MemoizedSelector<CoreState, IndexState> = cre
 );
 
 /**
- * Return the request UUID mapping index based on the MetaIndexState
+ * Return the alternative link index based on the MetaIndexState
  *
  * @returns
- *    a MemoizedSelector to select the request UUID mapping
+ *    a MemoizedSelector to select the alternative link index
  */
-export const requestUUIDIndexSelector: MemoizedSelector<CoreState, IndexState> = createSelector(
+export const alternativeLinkIndexSelector: MemoizedSelector<CoreState, IndexState> = createSelector(
   metaIndexSelector,
-  (state: MetaIndexState) => state[IndexName.UUID_MAPPING]
+  (state: MetaIndexState) => state[IndexName.ALTERNATIVE_OBJECT_LINK]
 );
 
 /**
@@ -111,16 +132,15 @@ export const uuidFromHrefSelector =
   );
 
 /**
- * Return the UUID of a cached request based on the UUID of a request
- * that wasn't sent because the response was already cached
+ * Return the self link of an object based on its alternative link
  *
- * @param uuid
- *    The UUID of the new request
+ * @param altLink
+ *    the alternative link of an object
  * @returns
- *    a MemoizedSelector to select the UUID of the cached request
+ *    a MemoizedSelector to select the object self link
  */
-export const originalRequestUUIDFromRequestUUIDSelector =
-  (uuid: string): MemoizedSelector<CoreState, string> => createSelector(
-    requestUUIDIndexSelector,
-    (state: IndexState) => hasValue(state) ? state[uuid] : undefined
+export const selfLinkFromAlternativeLinkSelector =
+  (altLink: string): MemoizedSelector<CoreState, string> => createSelector(
+    alternativeLinkIndexSelector,
+    (state: IndexState) => hasValue(state) ? state[altLink] : undefined
   );

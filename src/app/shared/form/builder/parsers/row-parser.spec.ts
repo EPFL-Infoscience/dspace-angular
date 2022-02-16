@@ -3,6 +3,11 @@ import { RowParser } from './row-parser';
 import { DynamicRowGroupModel } from '../ds-dynamic-form-ui/models/ds-dynamic-row-group-model';
 import { DynamicRowArrayModel } from '../ds-dynamic-form-ui/models/ds-dynamic-row-array-model';
 import { FormRowModel } from '../../../../core/config/models/config-submission-form.model';
+import {
+  SubmissionVisibilityType,
+  SubmissionVisibilityValue
+} from '../../../../core/config/models/config-submission-section.model';
+import { SubmissionScopeType } from '../../../../core/submission/submission-scope-type';
 
 describe('RowParser test suite', () => {
 
@@ -20,14 +25,14 @@ describe('RowParser test suite', () => {
   const submissionId = '1234';
   const scopeUUID = 'testScopeUUID';
   const initFormValues = {};
-  const submissionScope = 'WORKSPACE';
+  const submissionScope = SubmissionScopeType.WorkspaceItem;
   const readOnly = false;
 
   beforeEach(() => {
     row1 = {
       fields: [
         {
-          input: {type: 'lookup'},
+          input: { type: 'lookup' },
           label: 'Journal',
           mandatory: 'false',
           repeatable: false,
@@ -42,7 +47,7 @@ describe('RowParser test suite', () => {
           languageCodes: []
         } as FormFieldModel,
         {
-          input: {type: 'onebox'},
+          input: { type: 'onebox' },
           label: 'Issue',
           mandatory: 'false',
           repeatable: false,
@@ -55,7 +60,7 @@ describe('RowParser test suite', () => {
           languageCodes: []
         } as FormFieldModel,
         {
-          input: {type: 'name'},
+          input: { type: 'name' },
           label: 'Name',
           mandatory: 'false',
           repeatable: false,
@@ -95,7 +100,7 @@ describe('RowParser test suite', () => {
     row3 = {
       fields: [
         {
-          input: {type: 'onebox'},
+          input: { type: 'onebox' },
           label: 'Title',
           mandatory: 'false',
           repeatable: false,
@@ -110,12 +115,14 @@ describe('RowParser test suite', () => {
           languageCodes: []
         } as FormFieldModel,
         {
-          input: {type: 'onebox'},
+          input: { type: 'onebox' },
           label: 'Other title',
           mandatory: 'false',
           repeatable: false,
           hints: 'Enter the name of the events, if any.',
-          scope: 'WORKFLOW',
+          visibility: {
+            submission: SubmissionVisibilityValue.Hidden
+          } as SubmissionVisibilityType,
           selectableMetadata: [
             {
               metadata: 'otherTitle',
@@ -148,7 +155,7 @@ describe('RowParser test suite', () => {
           languageCodes: []
         } as FormFieldModel,
         {
-          input: {type: 'series'},
+          input: { type: 'series' },
           label: 'Series/Report No.',
           mandatory: 'false',
           repeatable: false,

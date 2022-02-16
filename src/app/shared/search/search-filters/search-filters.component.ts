@@ -1,28 +1,30 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { SearchService } from '../../../core/shared/search/search.service';
 import { RemoteData } from '../../../core/data/remote-data';
-import { SearchFilterConfig } from '../search-filter-config.model';
+import { SearchFilterConfig } from '../models/search-filter-config.model';
 import { SearchConfigurationService } from '../../../core/shared/search/search-configuration.service';
 import { SearchFilterService } from '../../../core/shared/search/search-filter.service';
-import { getSucceededRemoteData } from '../../../core/shared/operators';
-import { SEARCH_CONFIG_SERVICE } from '../../../+my-dspace-page/my-dspace-page.component';
+import { getFirstSucceededRemoteData } from '../../../core/shared/operators';
+import { SEARCH_CONFIG_SERVICE } from '../../../my-dspace-page/my-dspace-page.component';
 import { currentPath } from '../../utils/route.utils';
-import { Router } from '@angular/router';
+import { hasValue } from '../../empty.util';
 
 @Component({
   selector: 'ds-search-filters',
   styleUrls: ['./search-filters.component.scss'],
   templateUrl: './search-filters.component.html',
+
 })
 
 /**
  * This component represents the part of the search sidebar that contains filters.
  */
-export class SearchFiltersComponent implements OnInit {
+export class SearchFiltersComponent implements OnInit, OnDestroy {
   /**
    * An observable containing configuration about which filters are shown and how they are shown
    */
@@ -35,9 +37,24 @@ export class SearchFiltersComponent implements OnInit {
   clearParams;
 
   /**
+   * The configuration to use for the search options
+   */
+  @Input() currentConfiguration;
+
+  /**
+   * The current search scope
+   */
+  @Input() currentScope: string;
+
+  /**
    * True when the search component should show results on the current page
    */
   @Input() inPlaceSearch;
+
+  /**
+   * Emits when the search filters values may be stale, and so they must be refreshed.
+   */
+  @Input() refreshFilters: Observable<any>;
 
   /**
    * Link to the search page
@@ -45,10 +62,18 @@ export class SearchFiltersComponent implements OnInit {
   searchLink: string;
 
   /**
+   * For chart regular expression
+   */
+  chartReg = new RegExp(/^chart./, 'i');
+
+  subs = [];
+
+  /**
    * Initialize instance variables
    * @param {SearchService} searchService
-   * @param {SearchConfigurationService} searchConfigService
    * @param {SearchFilterService} filterService
+   * @param {Router} router
+   * @param {SearchConfigurationService} searchConfigService
    */
   constructor(
     private searchService: SearchService,
@@ -58,15 +83,29 @@ export class SearchFiltersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.filters = this.searchConfigService.searchOptions.pipe(
-      switchMap((options) => this.searchService.getConfig(options.scope, options.configuration).pipe(getSucceededRemoteData())),
-    );
+
+    this.initFilters();
+
+    if (this.refreshFilters) {
+      this.subs.push(this.refreshFilters.subscribe(() => this.initFilters()));
+    }
 
     this.clearParams = this.searchConfigService.getCurrentFrontendFilters().pipe(map((filters) => {
       Object.keys(filters).forEach((f) => filters[f] = null);
       return filters;
     }));
     this.searchLink = this.getSearchLink();
+  }
+
+  initFilters() {
+    this.filters = this.searchService.getConfig(this.currentScope, this.currentConfiguration).pipe(
+      getFirstSucceededRemoteData(),
+      map((rd: RemoteData<SearchFilterConfig[]>) => Object.assign(rd, {
+        payload: rd.payload.filter((filter: SearchFilterConfig) =>
+          !this.chartReg.test(filter.filterType)
+        )})
+      )
+    );
   }
 
   /**
@@ -84,5 +123,13 @@ export class SearchFiltersComponent implements OnInit {
    */
   trackUpdate(index, config: SearchFilterConfig) {
     return config ? config.name : undefined;
+  }
+
+  ngOnDestroy() {
+    this.subs.forEach((sub) => {
+      if (hasValue(sub)) {
+        sub.unsubscribe();
+      }
+    });
   }
 }

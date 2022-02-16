@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { SortDirection, SortOptions } from '../../core/cache/models/sort-options.model';
-import { PaginatedList } from '../../core/data/paginated-list';
+import { PaginatedList } from '../../core/data/paginated-list.model';
 import { RemoteData } from '../../core/data/remote-data';
 import { fadeIn } from '../animations/fade';
 import { ListableObject } from '../object-collection/shared/listable-object.model';
@@ -72,9 +72,24 @@ export class ObjectListComponent {
   @Input() importable = false;
 
   /**
+   * Pass custom data to the component for custom utilization
+   */
+  @Input() customData: any;
+
+  /**
    * Config used for the import button
    */
   @Input() importConfig: { importLabel: string };
+
+  /**
+   * Emit when one of the listed object has changed.
+   */
+  @Output() contentChange = new EventEmitter<any>();
+
+  /**
+   * Emit custom event for listable object custom actions.
+   */
+  @Output() customEvent = new EventEmitter<any>();
 
   /**
    * The current listable objects

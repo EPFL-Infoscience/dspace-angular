@@ -1,10 +1,19 @@
 import { autoserialize, deserialize } from 'cerialize';
 
 import { HALLink } from '../../../shared/hal-link.model';
-import { VOCABULARY } from './vocabularies.resource-type';
+import { VOCABULARY, VOCABULARY_ENTRY } from './vocabularies.resource-type';
 import { CacheableObject } from '../../../cache/object-cache.reducer';
-import { typedObject } from '../../../cache/builders/build-decorators';
+import { typedObject, link } from '../../../cache/builders/build-decorators';
 import { excludeFromEquals } from '../../../utilities/equals.decorators';
+import { isNotEmpty } from '../../../../shared/empty.util';
+import { Observable } from 'rxjs';
+import { RemoteData } from '../../../data/remote-data';
+import { PaginatedList } from '../../../data/paginated-list.model';
+import { VocabularyEntry } from './vocabulary-entry.model';
+
+export interface VocabularyExternalSourceMap {
+  [metadata: string]: string;
+}
 
 /**
  * Model class for a Vocabulary
@@ -44,11 +53,27 @@ export class Vocabulary implements CacheableObject {
   preloadLevel: any;
 
   /**
+   * If externalSource is available represent the entity type that can be use to create a new entity from
+   * this vocabulary
+   */
+  @autoserialize
+  entity: string;
+
+  /**
+   * If available represent that this vocabulary can be use to create a new entity
+   */
+  @autoserialize
+  externalSource: VocabularyExternalSourceMap;
+
+  /**
    * A string representing the kind of Vocabulary model
    */
   @excludeFromEquals
   @autoserialize
   public type: any;
+
+  @link(VOCABULARY_ENTRY, true)
+  entries?: Observable<RemoteData<PaginatedList<VocabularyEntry>>>;
 
   /**
    * The {@link HALLink}s for this Vocabulary
@@ -58,4 +83,13 @@ export class Vocabulary implements CacheableObject {
     self: HALLink,
     entries: HALLink
   };
+
+  public getExternalSourceByMetadata(metadata): string {
+    let sourceIdentifier = null;
+    if (isNotEmpty(this.externalSource) && this.externalSource.hasOwnProperty(metadata)) {
+      sourceIdentifier = this.externalSource[metadata];
+    }
+
+    return sourceIdentifier;
+  }
 }

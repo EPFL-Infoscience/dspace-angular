@@ -1,8 +1,8 @@
-import { deserialize, autoserialize, inheritSerialization } from 'cerialize';
+import { autoserialize, deserialize, inheritSerialization } from 'cerialize';
 import { excludeFromEquals } from '../utilities/equals.decorators';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable } from 'rxjs';
 import { RemoteData } from '../data/remote-data';
-import { PaginatedList } from '../data/paginated-list';
+import { PaginatedList } from '../data/paginated-list.model';
 import { Version } from './version.model';
 import { VERSION_HISTORY } from './version-history.resource-type';
 import { link, typedObject } from '../cache/builders/build-decorators';
@@ -22,6 +22,7 @@ export class VersionHistory extends DSpaceObject {
   _links: {
     self: HALLink;
     versions: HALLink;
+    draftVersion: HALLink;
   };
 
   /**
@@ -29,6 +30,24 @@ export class VersionHistory extends DSpaceObject {
    */
   @autoserialize
   id: string;
+
+  /**
+   * The summary of this Version History
+   */
+  @autoserialize
+  summary: string;
+
+  /**
+   * The name of the submitter of this Version History
+   */
+  @autoserialize
+  submitterName: string;
+
+  /**
+   * Whether exist a workspace item
+   */
+  @autoserialize
+  draftVersion: boolean;
 
   /**
    * The list of versions within this history

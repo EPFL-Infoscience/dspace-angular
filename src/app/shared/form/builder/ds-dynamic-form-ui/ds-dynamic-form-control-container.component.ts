@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
@@ -84,7 +83,7 @@ import { find, map, startWith, switchMap, take } from 'rxjs/operators';
 import { combineLatest as observableCombineLatest, Observable, Subscription } from 'rxjs';
 import { DsDynamicTypeBindRelationService } from './ds-dynamic-type-bind-relation.service';
 import { DsDynamicRelationInlineGroupComponent } from './models/relation-inline-group/dynamic-relation-inline-group.components';
-import { SearchResult } from '../../../search/search-result.model';
+import { SearchResult } from '../../../search/models/search-result.model';
 import { DSpaceObject } from '../../../../core/shared/dspace-object.model';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { RelationshipService } from '../../../../core/data/relationship.service';
@@ -94,10 +93,10 @@ import { DYNAMIC_FORM_CONTROL_TYPE_DISABLED } from './models/disabled/dynamic-di
 import { DsDynamicLookupRelationModalComponent } from './relation-lookup-modal/dynamic-lookup-relation-modal.component';
 import {
   getAllSucceededRemoteData,
+  getFirstSucceededRemoteData,
   getFirstSucceededRemoteDataPayload,
   getPaginatedListPayload,
-  getRemoteDataPayload,
-  getSucceededRemoteData
+  getRemoteDataPayload
 } from '../../../../core/shared/operators';
 import { RemoteData } from '../../../../core/data/remote-data';
 import { Item } from '../../../../core/shared/item.model';
@@ -106,7 +105,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../../app.reducer';
 import { SubmissionObjectDataService } from '../../../../core/submission/submission-object-data.service';
 import { SubmissionObject } from '../../../../core/submission/models/submission-object.model';
-import { PaginatedList } from '../../../../core/data/paginated-list';
+import { PaginatedList } from '../../../../core/data/paginated-list.model';
 import { ItemSearchResult } from '../../../object-collection/shared/item-search-result.model';
 import { Relationship } from '../../../../core/shared/item-relationships/relationship.model';
 import { Collection } from '../../../../core/shared/collection.model';
@@ -115,11 +114,12 @@ import { FormService } from '../../form.service';
 import { SelectableListState } from '../../../object-list/selectable-list/selectable-list.reducer';
 import { SubmissionService } from '../../../../submission/submission.service';
 import { followLink } from '../../../utils/follow-link-config.model';
-import { paginatedRelationsToItems } from '../../../../+item-page/simple/item-types/shared/item-relationships-utils';
+import { paginatedRelationsToItems } from '../../../../item-page/simple/item-types/shared/item-relationships-utils';
 import { RelationshipOptions } from '../models/relationship-options.model';
 import { FormBuilderService } from '../form-builder.service';
 import { DYNAMIC_FORM_CONTROL_TYPE_RELATION_GROUP } from './ds-dynamic-form-constants';
 import { FormFieldMetadataValueObject } from '../models/form-field-metadata-value.model';
+import { DynamicConcatModel } from './models/ds-dynamic-concat.model';
 
 export function dsDynamicFormControlMapFn(model: DynamicFormControlModel): Type<DynamicFormControl> | null {
   switch (model.type) {
@@ -191,13 +191,12 @@ export function dsDynamicFormControlMapFn(model: DynamicFormControlModel): Type<
   selector: 'ds-dynamic-form-control-container',
   styleUrls: ['./ds-dynamic-form-control-container.component.scss'],
   templateUrl: './ds-dynamic-form-control-container.component.html',
-  changeDetection: ChangeDetectionStrategy.Default
 })
 export class DsDynamicFormControlContainerComponent extends DynamicFormControlContainerComponent implements OnInit, OnChanges, OnDestroy {
   @ContentChildren(DynamicTemplateDirective) contentTemplateList: QueryList<DynamicTemplateDirective>;
   // tslint:disable-next-line:no-input-rename
   @Input('templates') inputTemplateList: QueryList<DynamicTemplateDirective>;
-
+  @Input() hasMetadataModel: any;
   @Input() formId: string;
   @Input() formGroup: FormGroup;
   @Input() formModel: DynamicFormControlModel[];
@@ -205,9 +204,11 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
   @Input() bindId = true;
   @Input() context: any | null = null;
   @Input() group: FormGroup;
+  @Input() hostClass: string[];
   @Input() hasErrorMessaging = false;
   @Input() layout = null as DynamicFormLayout;
   @Input() model: any;
+  securityLevel: number;
   relationshipValue$: Observable<ReorderableRelationship>;
   isRelationship: boolean;
   modalRef: NgbModalRef;
@@ -228,8 +229,10 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
   @Output('dfFocus') focus: EventEmitter<DynamicFormControlEvent> = new EventEmitter<DynamicFormControlEvent>();
   @Output('ngbEvent') customEvent: EventEmitter<DynamicFormControlEvent> = new EventEmitter<DynamicFormControlEvent>();
   /* tslint:enable:no-output-rename */
-  @ViewChild('componentViewContainer', { read: ViewContainerRef, static: true }) componentViewContainerRef: ViewContainerRef;
-
+  @ViewChild('componentViewContainer', {
+    read: ViewContainerRef,
+    static: true
+  }) componentViewContainerRef: ViewContainerRef;
   private showErrorMessagesPreviousStage: boolean;
 
   get componentType(): Type<DynamicFormControl> | null {
@@ -254,9 +257,8 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
     private ref: ChangeDetectorRef,
     private formService: FormService,
     private formBuilderService: FormBuilderService,
-    private submissionService: SubmissionService
-  ) {
-    super(componentFactoryResolver, layoutService, validationService, dynamicFormComponentService, relationService);
+    private submissionService: SubmissionService) {
+    super(ref, componentFactoryResolver, layoutService, validationService, dynamicFormComponentService, relationService);
   }
 
   /**
@@ -265,7 +267,6 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
   ngOnInit(): void {
     this.isRelationship = hasValue(this.model.relationship);
     const isWrapperAroundRelationshipList = hasValue(this.model.relationshipConfig);
-
     if (this.isRelationship || isWrapperAroundRelationshipList) {
       const config = this.model.relationshipConfig || this.model.relationship;
       const relationshipOptions = Object.assign(new RelationshipOptions(), config);
@@ -280,19 +281,20 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
             const relationshipsRD$ = this.relationshipService.getItemRelationshipsByLabel(item,
               relationshipOptions.relationshipType,
               undefined,
+              true,
+              true,
               followLink('leftItem'),
               followLink('rightItem'),
               followLink('relationshipType')
             );
-
             relationshipsRD$.pipe(
               getFirstSucceededRemoteDataPayload(),
               getPaginatedListPayload()
             ).subscribe((relationships: Relationship[]) => {
               // set initial namevariants for pre-existing relationships
               relationships.forEach((relationship: Relationship) => {
-                const relationshipMD: MetadataValue = item.firstMetadata(relationshipOptions.metadataField, { authority: `${VIRTUAL_METADATA_PREFIX}${relationship.id}` });
-                const nameVariantMD: MetadataValue = item.firstMetadata(this.model.metadataFields, { authority: `${VIRTUAL_METADATA_PREFIX}${relationship.id}` });
+                const relationshipMD: MetadataValue = item.firstMetadata(relationshipOptions.metadataField, {authority: `${VIRTUAL_METADATA_PREFIX}${relationship.id}`});
+                const nameVariantMD: MetadataValue = item.firstMetadata(this.model.metadataFields, {authority: `${VIRTUAL_METADATA_PREFIX}${relationship.id}`});
                 if (hasValue(relationshipMD) && isNotEmpty(relationshipMD.value) && hasValue(nameVariantMD) && isNotEmpty(nameVariantMD.value)) {
                   this.relationshipService.setNameVariant(this.listId, relationshipMD.value, nameVariantMD.value);
                 }
@@ -301,14 +303,13 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
 
             return relationshipsRD$.pipe(
               paginatedRelationsToItems(item.uuid),
-              getSucceededRemoteData(),
-              map((items: RemoteData<PaginatedList<Item>>) => items.payload.page.map((i) => Object.assign(new ItemSearchResult(), { indexableObject: i }))),
-            )
+              getFirstSucceededRemoteData(),
+              map((items: RemoteData<PaginatedList<Item>>) => items.payload.page.map((i) => Object.assign(new ItemSearchResult(), {indexableObject: i}))),
+            );
           })
-        ).subscribe((relatedItems: Array<SearchResult<Item>>) => this.selectableListService.select(this.listId, relatedItems));
+        ).subscribe((relatedItems: SearchResult<Item>[]) => this.selectableListService.select(this.listId, relatedItems));
         this.subs.push(subscription);
       }
-
       if (hasValue(this.model.metadataValue)) {
         this.value = Object.assign(new FormFieldMetadataValueObject(), this.model.metadataValue);
       } else {
@@ -316,7 +317,7 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
       }
 
       if (hasValue(this.value) && this.value.isVirtual) {
-        const relationship$ = this.relationshipService.findById(this.value.virtualValue, followLink('leftItem'), followLink('rightItem'), followLink('relationshipType'))
+        const relationship$ = this.relationshipService.findById(this.value.virtualValue, true, true, followLink('leftItem'), followLink('rightItem'), followLink('relationshipType'))
           .pipe(
             getAllSucceededRemoteData(),
             getRemoteDataPayload());
@@ -326,7 +327,7 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
               getAllSucceededRemoteData(),
               getRemoteDataPayload(),
               map((leftItem: Item) => {
-                return new ReorderableRelationship(relationship, leftItem.uuid !== item.uuid, this.relationshipService, this.store, this.model.submissionId)
+                return new ReorderableRelationship(relationship, leftItem.uuid !== item.uuid, this.relationshipService, this.store, this.model.submissionId);
               }),
             )
           ),
@@ -334,7 +335,10 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
         );
       }
     }
-  }
+    if (this.model && this.model.value && this.model.value.securityLevel !== undefined) {
+      this.securityLevel = this.model.value.securityLevel;
+    }
+ }
 
   get isCheckbox(): boolean {
     return this.model.type === DYNAMIC_FORM_CONTROL_TYPE_CHECKBOX || this.model.type === DYNAMIC_FORM_CONTROL_TYPE_CUSTOM_SWITCH;
@@ -346,7 +350,6 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
       if (this.model && this.model.placeholder) {
         this.model.placeholder = this.translateService.instant(this.model.placeholder);
       }
-
       if (this.model.typeBindRelations && this.model.typeBindRelations.length > 0) {
         this.subscriptions.push(...this.typeBindRelationService.subscribeRelations(this.model, this.control));
       }
@@ -366,14 +369,12 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
 
   protected createFormControlComponent(): void {
     super.createFormControlComponent();
-
     if (this.componentType !== null) {
       let index;
 
       if (this.context && this.context instanceof DynamicFormArrayGroupModel) {
         index = this.context.index;
       }
-
       const instance = this.dynamicFormComponentService.getFormControlRef(this.model, index);
       if (instance) {
         (instance as any).formModel = this.formModel;
@@ -399,8 +400,17 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
     }
   }
 
+  hasRelationship() {
+    return isNotEmpty(this.model) && this.model.hasOwnProperty('relationship') && isNotEmpty(this.model.relationship);
+  }
+
+  isVirtual() {
+    const value: FormFieldMetadataValueObject = this.model.metadataValue;
+    return isNotEmpty(value) && value.isVirtual;
+  }
+
   public hasResultsSelected(): Observable<boolean> {
-    return this.model.value.pipe(map((list: Array<SearchResult<DSpaceObject>>) => isNotEmpty(list)));
+    return this.model.value.pipe(map((list: SearchResult<DSpaceObject>[]) => isNotEmpty(list)));
   }
 
   /**
@@ -410,6 +420,27 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
     this.modalRef = this.modalService.open(DsDynamicLookupRelationModalComponent, {
       size: 'lg'
     });
+
+    if (hasValue(this.model.value)) {
+      this.focus.emit({
+        $event: new Event('focus'),
+        context: this.context,
+        control: this.control,
+        model: this.model,
+        type: DynamicFormControlEventType.Focus
+      } as DynamicFormControlEvent);
+
+      this.change.emit({
+        $event: new Event('change'),
+        context: this.context,
+        control: this.control,
+        model: this.model,
+        type: DynamicFormControlEventType.Change
+      } as DynamicFormControlEvent);
+    }
+
+    this.submissionService.dispatchSave(this.model.submissionId);
+
     const modalComp = this.modalRef.componentInstance;
 
     if (hasValue(this.model.value) && !this.model.readOnly) {
@@ -419,23 +450,10 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
         modalComp.query = this.model.value.value;
       }
     }
-
-    if (hasValue(this.model.value)) {
-      this.model.value = '';
-      this.onChange({
-        $event: { previousIndex: 0 },
-        context: { index: 0 },
-        control: this.control,
-        model: this.model,
-        type: DynamicFormControlEventType.Change
-      });
-    }
-    this.submissionService.dispatchSave(this.model.submissionId);
-
     modalComp.repeatable = this.model.repeatable;
     modalComp.listId = this.listId;
     modalComp.relationshipOptions = this.model.relationship;
-    modalComp.label = this.model.label;
+    modalComp.label = this.model.relationship.relationshipType;
     modalComp.metadataFields = this.model.metadataFields;
     modalComp.item = this.item;
     modalComp.collection = this.collection;
@@ -451,6 +469,9 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
     const path = this.formBuilderService.getPath(arrayContext);
     const formArrayControl = this.group.root.get(path) as FormArray;
     this.formBuilderService.removeFormArrayGroup(this.context.index, formArrayControl, arrayContext);
+    if (this.model.parent.context.groups.length === 0) {
+      this.formBuilderService.addFormArrayGroup(formArrayControl, arrayContext);
+    }
   }
 
   /**
@@ -462,21 +483,58 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
       .forEach((sub) => sub.unsubscribe());
   }
 
+  get hasHint(): boolean {
+    return isNotEmpty(this.model.hint) && this.model.hint !== '&nbsp;';
+  }
+
   /**
    *  Initialize this.item$ based on this.model.submissionId
    */
   private setItem() {
     const submissionObject$ = this.submissionObjectService
-      .findById(this.model.submissionId, followLink('item'), followLink('collection')).pipe(
+      .findById(this.model.submissionId, true, true, followLink('item'), followLink('collection')).pipe(
         getAllSucceededRemoteData(),
         getRemoteDataPayload()
       );
 
     this.item$ = submissionObject$.pipe(switchMap((submissionObject: SubmissionObject) => (submissionObject.item as Observable<RemoteData<Item>>).pipe(getAllSucceededRemoteData(), getRemoteDataPayload())));
     const collection$ = submissionObject$.pipe(switchMap((submissionObject: SubmissionObject) => (submissionObject.collection as Observable<RemoteData<Collection>>).pipe(getAllSucceededRemoteData(), getRemoteDataPayload())));
-
     this.subs.push(this.item$.subscribe((item) => this.item = item));
     this.subs.push(collection$.subscribe((collection) => this.collection = collection));
 
   }
+
+  addSecurityLevelToMetadata($event) {
+    this.model.securityLevel = $event;
+    this.securityLevel = $event;
+    if (this.model.parent && this.model.parent instanceof DynamicConcatModel) {
+      this.model.parent.securityLevel = $event;
+    }
+    if (this.model.value) {
+      this.model.securityLevel = $event;
+      this.securityLevel = $event;
+      if (this.model.parent && this.model.parent instanceof DynamicConcatModel) {
+        this.model.parent.securityLevel = $event;
+      }
+      this.change.emit(
+        {
+          $event: new Event('change'),
+          context: this.context,
+          control: this.control,
+          model: this.model,
+          type: 'changeSecurityLevel',
+        } as DynamicFormControlEvent
+      );
+      if (this.model.type === 'ONEBOX') {
+        this.customEvent.next({
+          $event: new Event('change'),
+          context: this.context,
+          control: this.control,
+          model: this.model,
+          type: 'changeSecurityLevelGroup',
+        } as DynamicFormControlEvent);
+      }
+    }
+   }
+
 }

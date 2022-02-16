@@ -1,12 +1,12 @@
 import { DsDynamicLookupRelationExternalSourceTabComponent } from './dynamic-lookup-relation-external-source-tab.component';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { VarDirective } from '../../../../../utils/var.directive';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EventEmitter, NO_ERRORS_SCHEMA } from '@angular/core';
-import { PaginatedSearchOptions } from '../../../../../search/paginated-search-options.model';
+import { PaginatedSearchOptions } from '../../../../../search/models/paginated-search-options.model';
 import { SearchConfigurationService } from '../../../../../../core/shared/search/search-configuration.service';
-import { of as observableOf } from 'rxjs/internal/observable/of';
+import { of as observableOf } from 'rxjs';
 import {
   createFailedRemoteDataObject$,
   createPendingRemoteDataObject$,
@@ -24,6 +24,9 @@ import { Collection } from '../../../../../../core/shared/collection.model';
 import { RelationshipOptions } from '../../../models/relationship-options.model';
 import { ExternalSourceEntryImportModalComponent } from './external-source-entry-import-modal/external-source-entry-import-modal.component';
 import { createPaginatedList } from '../../../../../testing/utils.test';
+import { PaginationService } from '../../../../../../core/pagination/pagination.service';
+import { PaginationServiceStub } from '../../../../../testing/pagination-service.stub';
+import { ItemType } from '../../../../../../core/shared/item-relationships/item-type.model';
 
 describe('DsDynamicLookupRelationExternalSourceTabComponent', () => {
   let component: DsDynamicLookupRelationExternalSourceTabComponent;
@@ -33,10 +36,12 @@ describe('DsDynamicLookupRelationExternalSourceTabComponent', () => {
   let selectableListService;
   let modalService;
 
+  const itemType = Object.assign(new ItemType(), { label: 'Person' });
   const externalSource = {
     id: 'orcidV2',
     name: 'orcidV2',
-    hierarchical: false
+    hierarchical: false,
+    entityTypes: createSuccessfulRemoteDataObject$(createPaginatedList([itemType]))
   } as ExternalSource;
   const externalEntries = [
     Object.assign({
@@ -91,7 +96,7 @@ describe('DsDynamicLookupRelationExternalSourceTabComponent', () => {
     selectableListService = jasmine.createSpyObj('selectableListService', ['selectSingle']);
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     init();
     TestBed.configureTestingModule({
       declarations: [DsDynamicLookupRelationExternalSourceTabComponent, VarDirective],
@@ -103,7 +108,8 @@ describe('DsDynamicLookupRelationExternalSourceTabComponent', () => {
           }
         },
         { provide: ExternalSourceService, useValue: externalSourceService },
-        { provide: SelectableListService, useValue: selectableListService }
+        { provide: SelectableListService, useValue: selectableListService },
+        { provide: PaginationService, useValue: new PaginationServiceStub() }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -130,7 +136,7 @@ describe('DsDynamicLookupRelationExternalSourceTabComponent', () => {
 
   describe('when the external entries are loading', () => {
     beforeEach(() => {
-      component.entriesRD$ = createPendingRemoteDataObject$(undefined);
+      component.entriesRD$ = createPendingRemoteDataObject$();
       fixture.detectChanges();
     });
 
@@ -147,7 +153,7 @@ describe('DsDynamicLookupRelationExternalSourceTabComponent', () => {
 
   describe('when the external entries failed loading', () => {
     beforeEach(() => {
-      component.entriesRD$ = createFailedRemoteDataObject$(undefined);
+      component.entriesRD$ = createFailedRemoteDataObject$('server error', 500);
       fixture.detectChanges();
     });
 
@@ -186,7 +192,7 @@ describe('DsDynamicLookupRelationExternalSourceTabComponent', () => {
     });
 
     it('should open a new ExternalSourceEntryImportModalComponent', () => {
-      expect(modalService.open).toHaveBeenCalledWith(ExternalSourceEntryImportModalComponent, jasmine.any(Object))
+      expect(modalService.open).toHaveBeenCalledWith(ExternalSourceEntryImportModalComponent, jasmine.any(Object));
     });
   });
 });

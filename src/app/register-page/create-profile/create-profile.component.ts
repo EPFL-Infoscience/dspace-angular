@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Registration } from '../../core/shared/registration.model';
 import { Observable } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -14,16 +14,19 @@ import { AuthenticateAction } from '../../core/auth/auth.actions';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { environment } from '../../../environments/environment';
 import { isEmpty } from '../../shared/empty.util';
+import { RemoteData } from '../../core/data/remote-data';
 import {
   END_USER_AGREEMENT_METADATA_FIELD,
   EndUserAgreementService
 } from '../../core/end-user-agreement/end-user-agreement.service';
+import { getFirstCompletedRemoteData } from '../../core/shared/operators';
 
 /**
  * Component that renders the create profile page to be used by a user registering through a token
  */
 @Component({
   selector: 'ds-create-profile',
+  styleUrls: ['./create-profile.component.scss'],
   templateUrl: './create-profile.component.html'
 })
 export class CreateProfileComponent implements OnInit {
@@ -31,7 +34,7 @@ export class CreateProfileComponent implements OnInit {
 
   email: string;
   token: string;
-
+  hasGroups = false;
   isInValidPassword = true;
   password: string;
 
@@ -55,9 +58,13 @@ export class CreateProfileComponent implements OnInit {
     this.registration$ = this.route.data.pipe(
       map((data) => data.registration as Registration),
     );
-    this.registration$.subscribe((registration: Registration) => {
-      this.email = registration.email;
-      this.token = registration.token;
+    this.registration$.pipe(take(1))
+      .subscribe((registration: Registration) => {
+        if (registration.groupNames && registration.groupNames.length > 0) {
+          this.hasGroups = true;
+        }
+        this.email = registration.email;
+        this.token = registration.token;
     });
     this.activeLangs = environment.languages.filter((MyLangConfig) => MyLangConfig.active === true);
 
@@ -70,6 +77,9 @@ export class CreateProfileComponent implements OnInit {
       }),
       contactPhone: new FormControl(''),
       language: new FormControl(''),
+      userAgreementAccept: new FormControl(false, {
+        validators: [Validators.requiredTrue],
+      })
     });
 
   }
@@ -105,6 +115,10 @@ export class CreateProfileComponent implements OnInit {
 
   get language() {
     return this.userInfoForm.get('language');
+  }
+
+  get userAgreementAccept() {
+    return this.userInfoForm.get('userAgreementAccept');
   }
 
   /**
@@ -143,18 +157,22 @@ export class CreateProfileComponent implements OnInit {
       };
 
       // If the End User Agreement cookie is accepted, add end-user agreement metadata to the user
-      if (this.endUserAgreementService.isCookieAccepted()) {
-        values.metadata[END_USER_AGREEMENT_METADATA_FIELD] = [
-          {
-            value: String(true)
-          }
-        ];
-        this.endUserAgreementService.removeCookieAccepted();
-      }
+      this.endUserAgreementService.isUserAgreementEnabled().subscribe((isUserAgreementEnabled) => {
+        if (isUserAgreementEnabled && this.userAgreementAccept) {
+          values.metadata[END_USER_AGREEMENT_METADATA_FIELD] = [
+            {
+              value: String(true)
+            }
+          ];
+          this.endUserAgreementService.removeCookieAccepted();
+        }
+      });
 
       const eperson = Object.assign(new EPerson(), values);
-      this.ePersonDataService.createEPersonForToken(eperson, this.token).subscribe((response) => {
-        if (response.isSuccessful) {
+      this.ePersonDataService.createEPersonForToken(eperson, this.token).pipe(
+        getFirstCompletedRemoteData(),
+      ).subscribe((rd: RemoteData<EPerson>) => {
+        if (rd.hasSucceeded) {
           this.notificationsService.success(this.translateService.get('register-page.create-profile.submit.success.head'),
             this.translateService.get('register-page.create-profile.submit.success.content'));
           this.store.dispatch(new AuthenticateAction(this.email, this.password));
@@ -167,4 +185,12 @@ export class CreateProfileComponent implements OnInit {
     }
   }
 
+  /**
+   * Redirect to the invitation page
+   */
+  redirectToInvitationPage(): void {
+    this.registration$.pipe(take(1)).subscribe((registration: Registration) => {
+      this.router.navigate(['invitation', registration.token]);
+    });
+  }
 }

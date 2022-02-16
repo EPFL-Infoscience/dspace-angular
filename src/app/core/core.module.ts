@@ -1,24 +1,24 @@
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
 import { DynamicFormLayoutService, DynamicFormService, DynamicFormValidationService } from '@ng-dynamic-forms/core';
 import { EffectsModule } from '@ngrx/effects';
 
 import { Action, StoreConfig, StoreModule } from '@ngrx/store';
-import { MyDSpaceGuard } from '../+my-dspace-page/my-dspace.guard';
+import { MyDSpaceGuard } from '../my-dspace-page/my-dspace.guard';
 
 import { isNotEmpty } from '../shared/empty.util';
 import { FormBuilderService } from '../shared/form/builder/form-builder.service';
 import { FormService } from '../shared/form/form.service';
 import { HostWindowService } from '../shared/host-window.service';
 import { MenuService } from '../shared/menu/menu.service';
-import { EndpointMockingRestService } from '../shared/mocks/dspace-rest-v2/endpoint-mocking-rest.service';
+import { EndpointMockingRestService } from '../shared/mocks/dspace-rest/endpoint-mocking-rest.service';
 import {
   MOCK_RESPONSE_MAP,
   mockResponseMap,
   ResponseMapMock
-} from '../shared/mocks/dspace-rest-v2/mocks/response-map.mock';
+} from '../shared/mocks/dspace-rest/mocks/response-map.mock';
 import { NotificationsService } from '../shared/notifications/notifications.service';
 import { SelectableListService } from '../shared/object-list/selectable-list/selectable-list.service';
 import { ObjectSelectService } from '../shared/object-select/object-select.service';
@@ -27,28 +27,20 @@ import { CSSVariableService } from '../shared/sass-helper/sass-helper.service';
 import { SidebarService } from '../shared/sidebar/sidebar.service';
 import { UploaderService } from '../shared/uploader/uploader.service';
 import { SectionFormOperationsService } from '../submission/sections/form/section-form-operations.service';
-import { AuthRequestService } from './auth/auth-request.service';
-import { AuthResponseParsingService } from './auth/auth-response-parsing.service';
-import { AuthInterceptor } from './auth/auth.interceptor';
 import { AuthenticatedGuard } from './auth/authenticated.guard';
 import { AuthStatus } from './auth/models/auth-status.model';
 import { BrowseService } from './browse/browse.service';
 import { RemoteDataBuildService } from './cache/builders/remote-data-build.service';
 import { ObjectCacheService } from './cache/object-cache.service';
-import { ConfigResponseParsingService } from './config/config-response-parsing.service';
 import { SubmissionDefinitionsModel } from './config/models/config-submission-definitions.model';
+import { SubmissionDefinitionsConfigService } from './config/submission-definitions-config.service';
 import { SubmissionFormsModel } from './config/models/config-submission-forms.model';
 import { SubmissionSectionModel } from './config/models/config-submission-section.model';
 import { SubmissionUploadsModel } from './config/models/config-submission-uploads.model';
-import { SubmissionDefinitionsConfigService } from './config/submission-definitions-config.service';
 import { SubmissionFormsConfigService } from './config/submission-forms-config.service';
-import { SubmissionSectionsConfigService } from './config/submission-sections-config.service';
 import { coreEffects } from './core.effects';
 import { coreReducers, CoreState } from './core.reducers';
 import { BitstreamFormatDataService } from './data/bitstream-format-data.service';
-import { BrowseEntriesResponseParsingService } from './data/browse-entries-response-parsing.service';
-import { BrowseItemsResponseParsingService } from './data/browse-items-response-parsing-service';
-import { BrowseResponseParsingService } from './data/browse-response-parsing.service';
 import { CollectionDataService } from './data/collection-data.service';
 import { CommunityDataService } from './data/community-data.service';
 import { ContentSourceResponseParsingService } from './data/content-source-response-parsing.service';
@@ -58,17 +50,13 @@ import { DSOChangeAnalyzer } from './data/dso-change-analyzer.service';
 import { DSOResponseParsingService } from './data/dso-response-parsing.service';
 import { DSpaceObjectDataService } from './data/dspace-object-data.service';
 import { EndpointMapResponseParsingService } from './data/endpoint-map-response-parsing.service';
-import { ItemTypeDataService } from './data/entity-type-data.service';
 import { EntityTypeService } from './data/entity-type.service';
 import { ExternalSourceService } from './data/external-source.service';
 import { FacetConfigResponseParsingService } from './data/facet-config-response-parsing.service';
-import { FacetValueMapResponseParsingService } from './data/facet-value-map-response-parsing.service';
 import { FacetValueResponseParsingService } from './data/facet-value-response-parsing.service';
 import { FilteredDiscoveryPageResponseParsingService } from './data/filtered-discovery-page-response-parsing.service';
 import { ItemDataService } from './data/item-data.service';
-import { LicenseDataService } from './data/license-data.service';
 import { LookupRelationService } from './data/lookup-relation.service';
-import { MappedCollectionsReponseParsingService } from './data/mapped-collections-reponse-parsing.service';
 import { MyDSpaceResponseParsingService } from './data/mydspace-response-parsing.service';
 import { ObjectUpdatesService } from './data/object-updates/object-updates.service';
 import { RelationshipTypeService } from './data/relationship-type.service';
@@ -76,9 +64,8 @@ import { RelationshipService } from './data/relationship.service';
 import { ResourcePolicyService } from './resource-policy/resource-policy.service';
 import { SearchResponseParsingService } from './data/search-response-parsing.service';
 import { SiteDataService } from './data/site-data.service';
-import { DSpaceRESTv2Service } from './dspace-rest-v2/dspace-rest-v2.service';
+import { DspaceRestService } from './dspace-rest/dspace-rest.service';
 import { EPersonDataService } from './eperson/eperson-data.service';
-import { EpersonResponseParsingService } from './eperson/eperson-response-parsing.service';
 import { EPerson } from './eperson/models/eperson.model';
 import { Group } from './eperson/models/group.model';
 import { JsonPatchOperationsBuilder } from './json-patch/builder/json-patch-operations-builder';
@@ -87,6 +74,7 @@ import { MetadataSchema } from './metadata/metadata-schema.model';
 import { MetadataService } from './metadata/metadata.service';
 import { RegistryService } from './registry/registry.service';
 import { RoleService } from './roles/role.service';
+import { FeedbackDataService } from './feedback/feedback-data.service';
 
 import { ApiService } from './services/api.service';
 import { ServerResponseService } from './services/server-response.service';
@@ -101,7 +89,6 @@ import { Community } from './shared/community.model';
 import { DSpaceObject } from './shared/dspace-object.model';
 import { ExternalSourceEntry } from './shared/external-source-entry.model';
 import { ExternalSource } from './shared/external-source.model';
-import { FileService } from './shared/file.service';
 import { HALEndpointService } from './shared/hal-endpoint.service';
 import { ItemType } from './shared/item-relationships/item-type.model';
 import { RelationshipType } from './shared/item-relationships/relationship-type.model';
@@ -139,7 +126,6 @@ import { Script } from '../process-page/scripts/script.model';
 import { Process } from '../process-page/processes/process.model';
 import { ProcessDataService } from './data/processes/process-data.service';
 import { ScriptDataService } from './data/processes/script-data.service';
-import { ProcessFilesResponseParsingService } from './data/process-files-response-parsing.service';
 import { WorkflowActionDataService } from './data/workflow-action-data.service';
 import { WorkflowAction } from './tasks/models/workflow-action-object.model';
 import { ItemTemplateDataService } from './data/item-template-data.service';
@@ -152,14 +138,10 @@ import { SiteAdministratorGuard } from './data/feature-authorization/feature-aut
 import { Registration } from './shared/registration.model';
 import { MetadataSchemaDataService } from './data/metadata-schema-data.service';
 import { MetadataFieldDataService } from './data/metadata-field-data.service';
-import { LocaleInterceptor } from './locale/locale.interceptor';
 import { DsDynamicTypeBindRelationService } from '../shared/form/builder/ds-dynamic-form-ui/ds-dynamic-type-bind-relation.service';
 import { TabDataService } from './layout/tab-data.service';
-import { Tab } from './layout/models/tab.model';
-import { BoxDataService } from './layout/box-data.service';
-import { Box } from './layout/models/box.model';
-import { MetadataComponentsDataService } from './layout/metadata-components-data.service';
-import { MetadataComponent } from './layout/models/metadata-component.model';
+import { CrisLayoutTab } from './layout/models/tab.model';
+import { CrisLayoutBox } from './layout/models/box.model';
 import { TokenResponseParsingService } from './auth/token-response-parsing.service';
 import { SubmissionCcLicenseDataService } from './submission/submission-cc-license-data.service';
 import { SubmissionCcLicence } from './submission/models/submission-cc-license.model';
@@ -167,7 +149,6 @@ import { SubmissionCcLicenceUrl } from './submission/models/submission-cc-licens
 import { SubmissionCcLicenseUrlDataService } from './submission/submission-cc-license-url-data.service';
 import { VocabularyEntry } from './submission/vocabularies/models/vocabulary-entry.model';
 import { Vocabulary } from './submission/vocabularies/models/vocabulary.model';
-import { VocabularyEntriesResponseParsingService } from './submission/vocabularies/vocabulary-entries-response-parsing.service';
 import { VocabularyEntryDetail } from './submission/vocabularies/models/vocabulary-entry-detail.model';
 import { VocabularyService } from './submission/vocabularies/vocabulary.service';
 import { VocabularyTreeviewService } from '../shared/vocabulary-treeview/vocabulary-treeview.service';
@@ -178,13 +159,12 @@ import { EndUserAgreementCurrentUserGuard } from './end-user-agreement/end-user-
 import { EndUserAgreementCookieGuard } from './end-user-agreement/end-user-agreement-cookie.guard';
 import { EndUserAgreementService } from './end-user-agreement/end-user-agreement.service';
 import { SiteRegisterGuard } from './data/feature-authorization/feature-authorization-guard/site-register.guard';
-import { SearchcomponentService } from './layout/searchcomponent.service';
-import { SearchComponent } from './layout/models/search-component.model';
+import { ShortLivedToken } from './auth/models/short-lived-token.model';
+import { UsageReport } from './statistics/models/usage-report.model';
 import { ResearcherProfileService } from './profile/researcher-profile.service';
 import { ResearcherProfile } from './profile/model/researcher-profile.model';
 import { SectionDataService } from './layout/section-data.service';
 import { Section } from './layout/models/section.model';
-import { SearchConfigResponseParsingService } from './data/search-config-response-parsing.service';
 import { OrcidQueueService } from './orcid/orcid-queue.service';
 import { OrcidQueue } from './orcid/model/orcid-queue.model';
 import { OrcidHistoryService } from './orcid/orcid-history.service';
@@ -193,6 +173,35 @@ import { EditItem } from './submission/models/edititem.model';
 import { EditItemDataService } from './submission/edititem-data.service';
 import { EditItemMode } from './submission/models/edititem-mode.model';
 import { EditItemModeDataService } from './submission/edititemmode-data.service';
+import { AuditDataService } from './audit/audit-data.service';
+import { Audit } from './audit/model/audit.model';
+import { ItemExportFormat } from './itemexportformat/model/item-export-format.model';
+import { MetricsComponentsDataService } from './layout/metrics-components-data.service';
+import { MetricsComponent } from './layout/models/metrics-component.model';
+import { Metric } from './shared/metric.model';
+import { MetricService } from './data/metric.service';
+import { Root } from './data/root.model';
+import { ItemExportFormatService } from './itemexportformat/item-export-format.service';
+import { OpenaireBrokerTopicObject } from './openaire/broker/models/openaire-broker-topic.model';
+import { OpenaireBrokerEventObject } from './openaire/broker/models/openaire-broker-event.model';
+import { OpenaireSuggestionTarget } from './openaire/reciter-suggestions/models/openaire-suggestion-target.model';
+import { OpenaireSuggestion } from './openaire/reciter-suggestions/models/openaire-suggestion.model';
+import { OpenaireSuggestionSource } from './openaire/reciter-suggestions/models/openaire-suggestion-source.model';
+import { StatisticsCategory } from './statistics/models/statistics-category.model';
+import { RootDataService } from './data/root-data.service';
+import { SearchConfig } from '../shared/search/search-filters/search-config.model';
+import { EditItemRelationsGuard } from '../edit-item-relationships/guards/edit-item-relationships.guard';
+import { ProfileClaimService } from '../profile-page/profile-claim/profile-claim.service';
+import { SequenceService } from './shared/sequence.service';
+import { GroupDataService } from './eperson/group-data.service';
+import { SubmissionAccessesModel } from './config/models/config-submission-accesses.model';
+import { Subscription } from '../shared/subscriptions/models/subscription.model';
+import { WorkflowStepStatisticsService } from './statistics/workflow-step-statistics.service';
+import { WorkflowStepStatistics } from './statistics/models/workflow-step-statistics.model';
+import { WorkflowOwnerStatisticsService } from './statistics/workflow-owner-statistics.service';
+import { WorkflowOwnerStatistics } from './statistics/models/workflow-owner-statistics.model';
+import { LoginStatisticsService } from './statistics/login-statistics.service';
+import { LoginStatistics } from './statistics/models/login-statistics.model';
 
 /**
  * When not in production, endpoint responses can be mocked for testing purposes
@@ -200,7 +209,7 @@ import { EditItemModeDataService } from './submission/edititemmode-data.service'
  */
 export const restServiceFactory = (mocks: ResponseMapMock, http: HttpClient) => {
   if (environment.production) {
-    return new DSpaceRESTv2Service(http);
+    return new DspaceRestService(http);
   } else {
     return new EndpointMockingRestService(mocks, http);
   }
@@ -219,21 +228,18 @@ const EXPORTS = [];
 const PROVIDERS = [
   ApiService,
   AuthenticatedGuard,
-  AuthRequestService,
-  AuthResponseParsingService,
   CommunityDataService,
   CollectionDataService,
   SiteDataService,
   DSOResponseParsingService,
   { provide: MOCK_RESPONSE_MAP, useValue: mockResponseMap },
-  { provide: DSpaceRESTv2Service, useFactory: restServiceFactory, deps: [MOCK_RESPONSE_MAP, HttpClient] },
+  { provide: DspaceRestService, useFactory: restServiceFactory, deps: [MOCK_RESPONSE_MAP, HttpClient] },
   DynamicFormLayoutService,
   DynamicFormService,
   DynamicFormValidationService,
   FormBuilderService,
   SectionFormOperationsService,
   FormService,
-  EpersonResponseParsingService,
   EPersonDataService,
   HALEndpointService,
   HostWindowService,
@@ -247,25 +253,17 @@ const PROVIDERS = [
   RemoteDataBuildService,
   EndpointMapResponseParsingService,
   FacetValueResponseParsingService,
-  FacetValueMapResponseParsingService,
   FacetConfigResponseParsingService,
-  SearchConfigResponseParsingService,
-  MappedCollectionsReponseParsingService,
   DebugResponseParsingService,
   SearchResponseParsingService,
   MyDSpaceResponseParsingService,
   ServerResponseService,
-  BrowseResponseParsingService,
-  BrowseEntriesResponseParsingService,
-  BrowseItemsResponseParsingService,
   BrowseService,
-  ConfigResponseParsingService,
   SubmissionCcLicenseDataService,
   SubmissionCcLicenseUrlDataService,
-  SubmissionDefinitionsConfigService,
   SubmissionFormsConfigService,
+  SubmissionDefinitionsConfigService,
   SubmissionRestService,
-  SubmissionSectionsConfigService,
   SubmissionResponseParsingService,
   SubmissionJsonPatchOperationsService,
   JsonPatchOperationsBuilder,
@@ -275,7 +273,6 @@ const PROVIDERS = [
   WorkspaceitemDataService,
   WorkflowItemDataService,
   UploaderService,
-  FileService,
   DSpaceObjectDataService,
   ConfigurationDataService,
   DSOChangeAnalyzer,
@@ -308,12 +305,10 @@ const PROVIDERS = [
   LookupRelationService,
   VersionDataService,
   VersionHistoryDataService,
-  LicenseDataService,
-  ItemTypeDataService,
   WorkflowActionDataService,
   ProcessDataService,
+  AuditDataService,
   ScriptDataService,
-  ProcessFilesResponseParsingService,
   FeatureDataService,
   AuthorizationDataService,
   SiteAdministratorGuard,
@@ -325,34 +320,30 @@ const PROVIDERS = [
   EndUserAgreementCurrentUserGuard,
   EndUserAgreementCookieGuard,
   EndUserAgreementService,
-  // register AuthInterceptor as HttpInterceptor
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: AuthInterceptor,
-    multi: true
-  },
-  // register LocaleInterceptor as HttpInterceptor
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: LocaleInterceptor,
-    multi: true
-  },
+  RootDataService,
   NotificationsService,
   FilteredDiscoveryPageResponseParsingService,
   { provide: NativeWindowService, useFactory: NativeWindowFactory },
   TabDataService,
-  BoxDataService,
-  MetadataComponentsDataService,
+  MetricsComponentsDataService,
+  MetricService,
   VocabularyService,
-  VocabularyEntriesResponseParsingService,
   VocabularyTreeviewService,
-  SearchcomponentService,
+  ProfileClaimService,
   ResearcherProfileService,
+  ItemExportFormatService,
   SectionDataService,
   OrcidQueueService,
   OrcidHistoryService,
   EditItemDataService,
-  EditItemModeDataService
+  EditItemModeDataService,
+  EditItemRelationsGuard,
+  SequenceService,
+  GroupDataService,
+  FeedbackDataService,
+  WorkflowStepStatisticsService,
+  WorkflowOwnerStatisticsService,
+  LoginStatisticsService,
 ];
 
 /**
@@ -360,6 +351,7 @@ const PROVIDERS = [
  */
 export const models =
   [
+    Root,
     DSpaceObject,
     Bundle,
     Bitstream,
@@ -395,6 +387,7 @@ export const models =
     ExternalSourceEntry,
     Script,
     Process,
+    Audit,
     Version,
     VersionHistory,
     WorkflowAction,
@@ -402,20 +395,37 @@ export const models =
     Feature,
     Authorization,
     Registration,
-    Tab,
-    Box,
-    MetadataComponent,
+    CrisLayoutTab,
+    CrisLayoutBox,
+    MetricsComponent,
+    Metric,
     Vocabulary,
     VocabularyEntry,
     VocabularyEntryDetail,
     ConfigurationProperty,
-    SearchComponent,
+    ShortLivedToken,
+    Registration,
+    UsageReport,
     ResearcherProfile,
+    ItemExportFormat,
     OrcidQueue,
     OrcidHistory,
     Section,
     EditItem,
-    EditItemMode
+    EditItemMode,
+    OpenaireBrokerTopicObject,
+    OpenaireBrokerEventObject,
+    OpenaireSuggestion,
+    OpenaireSuggestionTarget,
+    OpenaireSuggestionSource,
+    StatisticsCategory,
+    Root,
+    SearchConfig,
+    SubmissionAccessesModel,
+    Subscription,
+    WorkflowStepStatistics,
+    WorkflowOwnerStatistics,
+    LoginStatistics
   ];
 
 @NgModule({
@@ -434,7 +444,7 @@ export const models =
 })
 
 export class CoreModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<CoreModule> {
     return {
       ngModule: CoreModule,
       providers: [

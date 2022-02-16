@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { TranslateLoaderMock } from '../mocks/translate-loader.mock';
 
@@ -15,7 +15,7 @@ describe('ErrorComponent (inline template)', () => {
   let de: DebugElement;
   let el: HTMLElement;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         TranslateModule.forRoot({
@@ -36,7 +36,7 @@ describe('ErrorComponent (inline template)', () => {
     comp = fixture.componentInstance; // ErrorComponent test instance
 
     // query for the message <label> by CSS element selector
-    de = fixture.debugElement.query(By.css('label'));
+    de = fixture.debugElement.query(By.css('ds-alert'));
     el = de.nativeElement;
   });
 

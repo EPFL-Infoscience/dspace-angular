@@ -1,5 +1,5 @@
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
-import { BrowserModule } from '@angular/platform-browser';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
+import { BrowserModule, By } from '@angular/platform-browser';
 import { ChangeDetectorRef } from '@angular/core';
 
 import { NotificationsService } from '../notifications.service';
@@ -7,24 +7,27 @@ import { notificationsReducer } from '../notifications.reducers';
 import { Store, StoreModule } from '@ngrx/store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotificationsBoardComponent } from './notifications-board.component';
-import { AppState, storeModuleConfig } from '../../../app.reducer';
+import { AppState } from '../../../app.reducer';
 import { NotificationComponent } from '../notification/notification.component';
 import { Notification } from '../models/notification.model';
 import { NotificationType } from '../models/notification-type';
 import { uniqueId } from 'lodash';
 import { INotificationBoardOptions } from '../../../../config/notifications-config.interfaces';
 import { NotificationsServiceStub } from '../../testing/notifications-service.stub';
+import { cold } from 'jasmine-marbles';
+
+export const bools = { f: false, t: true };
 
 describe('NotificationsBoardComponent', () => {
   let comp: NotificationsBoardComponent;
   let fixture: ComponentFixture<NotificationsBoardComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         BrowserModule,
         BrowserAnimationsModule,
-        StoreModule.forRoot({notificationsReducer}, {
+        StoreModule.forRoot({ notificationsReducer }, {
           runtimeChecks: {
             strictStateImmutability: false,
             strictActionImmutability: false
@@ -67,6 +70,40 @@ describe('NotificationsBoardComponent', () => {
 
   it('should have two notifications', () => {
     expect(comp.notifications.length).toBe(2);
+    expect(fixture.debugElement.queryAll(By.css('ds-notification')).length).toBe(2);
+  });
+
+  describe('notification countdown', () => {
+    let wrapper;
+
+    beforeEach(() => {
+      wrapper = fixture.debugElement.query(By.css('div.notifications-wrapper'));
+    });
+
+    it('should not be paused by default', () => {
+      expect(comp.isPaused$).toBeObservable(cold('f', bools));
+    });
+
+    it('should pause on mouseenter', () => {
+      wrapper.triggerEventHandler('mouseenter');
+
+      expect(comp.isPaused$).toBeObservable(cold('t', bools));
+    });
+
+    it('should resume on mouseleave', () => {
+      wrapper.triggerEventHandler('mouseenter');
+      wrapper.triggerEventHandler('mouseleave');
+
+      expect(comp.isPaused$).toBeObservable(cold('f', bools));
+    });
+
+    it('should be passed to all notifications', () => {
+      fixture.debugElement.queryAll(By.css('ds-notification'))
+                          .map(node => node.componentInstance)
+                          .forEach(notification => {
+                            expect(notification.isPaused$).toEqual(comp.isPaused$);
+                          });
+    });
   });
 
 })

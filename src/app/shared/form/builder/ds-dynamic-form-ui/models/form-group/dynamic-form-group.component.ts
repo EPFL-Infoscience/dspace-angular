@@ -5,6 +5,7 @@ import {
   DynamicFormControlComponent,
   DynamicFormControlCustomEvent,
   DynamicFormControlEvent,
+  DynamicFormControlLayout,
   DynamicFormControlModel,
   DynamicFormGroupModel,
   DynamicFormLayout,
@@ -20,10 +21,10 @@ import {
 })
 export class DsDynamicFormGroupComponent extends DynamicFormControlComponent {
 
-  @Input() bindId = true;
   @Input() formModel: DynamicFormControlModel[];
+  @Input() formLayout: DynamicFormLayout;
   @Input() group: FormGroup;
-  @Input() layout: DynamicFormLayout;
+  @Input() layout: DynamicFormControlLayout;
   @Input() model: DynamicFormGroupModel;
   @Input() templates: QueryList<DynamicTemplateDirective> | DynamicTemplateDirective[] | undefined;
 
@@ -32,6 +33,7 @@ export class DsDynamicFormGroupComponent extends DynamicFormControlComponent {
   @Output('dfChange') change: EventEmitter<DynamicFormControlEvent> = new EventEmitter<DynamicFormControlEvent>();
   @Output('dfFocus') focus: EventEmitter<DynamicFormControlEvent> = new EventEmitter<DynamicFormControlEvent>();
   @Output('ngbEvent') customEvent: EventEmitter<DynamicFormControlCustomEvent> = new EventEmitter();
+
   /* tslint:enable:no-output-rename */
 
   constructor(protected layoutService: DynamicFormLayoutService,
@@ -39,5 +41,4 @@ export class DsDynamicFormGroupComponent extends DynamicFormControlComponent {
 
     super(layoutService, validationService);
   }
-
 }

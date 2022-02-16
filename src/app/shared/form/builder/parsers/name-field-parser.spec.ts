@@ -1,8 +1,8 @@
-import { FormFieldModel } from '../models/form-field.model';
-import { NameFieldParser } from './name-field-parser';
-import { DynamicConcatModel } from '../ds-dynamic-form-ui/models/ds-dynamic-concat.model';
-import { FormFieldMetadataValueObject } from '../models/form-field-metadata-value.model';
-import { ParserOptions } from './parser-options';
+import {FormFieldModel} from '../models/form-field.model';
+import {NameFieldParser} from './name-field-parser';
+import {DynamicConcatModel} from '../ds-dynamic-form-ui/models/ds-dynamic-concat.model';
+import {FormFieldMetadataValueObject} from '../models/form-field-metadata-value.model';
+import {ParserOptions} from './parser-options';
 
 describe('NameFieldParser test suite', () => {
   let field1: FormFieldModel;
@@ -14,7 +14,8 @@ describe('NameFieldParser test suite', () => {
   const parserOptions: ParserOptions = {
     readOnly: false,
     submissionScope: 'testScopeUUID',
-    collectionUUID: null
+    collectionUUID: null,
+    isInnerForm: false
   };
 
   beforeEach(() => {
@@ -95,7 +96,7 @@ describe('NameFieldParser test suite', () => {
     initFormValues = {
       name: [new FormFieldMetadataValueObject('test, name')],
     };
-    const expectedValue = new FormFieldMetadataValueObject('test, name', undefined, undefined, 'test');
+    const expectedValue = new FormFieldMetadataValueObject('test, name', undefined, null, undefined, 'test');
 
     const parser = new NameFieldParser(submissionId, field1, initFormValues, parserOptions);
 

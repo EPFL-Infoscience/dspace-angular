@@ -1,5 +1,5 @@
 import { SearchService } from '../../../core/shared/search/search.service';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { SearchSettingsComponent } from './search-settings.component';
 import { of as observableOf } from 'rxjs';
 import { PaginationComponentOptions } from '../../pagination/pagination-component-options.model';
@@ -12,9 +12,11 @@ import { EnumKeysPipe } from '../../utils/enum-keys-pipe';
 import { By } from '@angular/platform-browser';
 import { SearchFilterService } from '../../../core/shared/search/search-filter.service';
 import { VarDirective } from '../../utils/var.directive';
-import { take } from 'rxjs/operators';
-import { SEARCH_CONFIG_SERVICE } from '../../../+my-dspace-page/my-dspace-page.component';
+import { SEARCH_CONFIG_SERVICE } from '../../../my-dspace-page/my-dspace-page.component';
 import { SidebarService } from '../../sidebar/sidebar.service';
+import { SidebarServiceStub } from '../../testing/sidebar-service.stub';
+import { PaginationService } from '../../../core/pagination/pagination.service';
+import { PaginationServiceStub } from '../../testing/pagination-service.stub';
 
 describe('SearchSettingsComponent', () => {
 
@@ -31,11 +33,11 @@ describe('SearchSettingsComponent', () => {
   let scopeParam;
   let paginatedSearchOptions;
 
+  let paginationService;
+
   let activatedRouteStub;
 
-  let sidebarService;
-
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     pagination = new PaginationComponentOptions();
     pagination.id = 'search-results-pagination';
     pagination.currentPage = 1;
@@ -63,11 +65,7 @@ describe('SearchSettingsComponent', () => {
       }),
     };
 
-    sidebarService = {
-      isCollapsed: observableOf(true),
-      collapse: () => this.isCollapsed = observableOf(true),
-      expand: () => this.isCollapsed = observableOf(false),
-    };
+    paginationService = new PaginationServiceStub(pagination, sort);
 
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
@@ -78,17 +76,21 @@ describe('SearchSettingsComponent', () => {
         { provide: ActivatedRoute, useValue: activatedRouteStub },
         {
           provide: SidebarService,
-          useValue: sidebarService,
+          useValue: SidebarServiceStub,
         },
         {
           provide: SearchFilterService,
           useValue: {},
         },
         {
+          provide: PaginationService,
+          useValue: paginationService,
+        },
+        {
           provide: SEARCH_CONFIG_SERVICE,
           useValue: {
             paginatedSearchOptions: observableOf(paginatedSearchOptions),
-            getCurrentScope: observableOf('test-id')
+            getCurrentScope: observableOf('test-id'),
           }
         },
       ],
@@ -100,6 +102,12 @@ describe('SearchSettingsComponent', () => {
     fixture = TestBed.createComponent(SearchSettingsComponent);
     comp = fixture.componentInstance;
 
+    comp.sortOptionsList = [
+      new SortOptions('score', SortDirection.DESC),
+      new SortOptions('dc.title', SortDirection.ASC),
+      new SortOptions('dc.title', SortDirection.DESC)
+    ];
+
     // SearchPageComponent test instance
     fixture.detectChanges();
     searchServiceObject = (comp as any).service;
@@ -108,34 +116,24 @@ describe('SearchSettingsComponent', () => {
 
   });
 
-  it('it should show the order settings with the respective selectable options', (done) => {
-    (comp as any).searchOptions$.pipe(take(1)).subscribe((options) => {
-      fixture.detectChanges();
-      const orderSetting = fixture.debugElement.query(By.css('div.result-order-settings'));
-      expect(orderSetting).toBeDefined();
-      const childElements = orderSetting.queryAll(By.css('option'));
-      expect(childElements.length).toEqual(comp.searchOptionPossibilities.length);
-      done();
-    });
+  it('it should show the order settings with the respective selectable options', () => {
+    fixture.detectChanges();
+    const orderSetting = fixture.debugElement.query(By.css('div.result-order-settings'));
+    expect(orderSetting).toBeDefined();
+    const childElements = orderSetting.queryAll(By.css('option'));
+    expect(childElements.length).toEqual(comp.sortOptionsList.length);
   });
 
-  it('it should show the size settings', (done) => {
-    (comp as any).searchOptions$.pipe(take(1)).subscribe((options) => {
-        fixture.detectChanges();
-        const pageSizeSetting = fixture.debugElement.query(By.css('page-size-settings'));
-        expect(pageSizeSetting).toBeDefined();
-        done();
-      }
-    )
+  it('it should show the size settings', () => {
+    fixture.detectChanges();
+    const pageSizeSetting = fixture.debugElement.query(By.css('page-size-settings'));
+    expect(pageSizeSetting).toBeDefined();
   });
 
-  it('should have the proper order value selected by default', (done) => {
-    (comp as any).searchOptions$.pipe(take(1)).subscribe((options) => {
-      fixture.detectChanges();
-      const orderSetting = fixture.debugElement.query(By.css('div.result-order-settings'));
-      const childElementToBeSelected = orderSetting.query(By.css('option[value="0"][selected="selected"]'));
-      expect(childElementToBeSelected).toBeDefined();
-      done();
-    });
+  it('should have the proper order value selected by default', () => {
+    fixture.detectChanges();
+    const orderSetting = fixture.debugElement.query(By.css('div.result-order-settings'));
+    const childElementToBeSelected = orderSetting.query(By.css('option[value="score,DESC"][selected="selected"]'));
+    expect(childElementToBeSelected).toBeDefined();
   });
 });

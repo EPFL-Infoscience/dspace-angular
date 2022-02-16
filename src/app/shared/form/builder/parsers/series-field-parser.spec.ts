@@ -1,8 +1,8 @@
-import { FormFieldModel } from '../models/form-field.model';
-import { DynamicConcatModel } from '../ds-dynamic-form-ui/models/ds-dynamic-concat.model';
-import { SeriesFieldParser } from './series-field-parser';
-import { FormFieldMetadataValueObject } from '../models/form-field-metadata-value.model';
-import { ParserOptions } from './parser-options';
+import {FormFieldModel} from '../models/form-field.model';
+import {DynamicConcatModel} from '../ds-dynamic-form-ui/models/ds-dynamic-concat.model';
+import {SeriesFieldParser} from './series-field-parser';
+import {FormFieldMetadataValueObject} from '../models/form-field-metadata-value.model';
+import {ParserOptions} from './parser-options';
 
 describe('SeriesFieldParser test suite', () => {
   let field: FormFieldModel;
@@ -12,7 +12,8 @@ describe('SeriesFieldParser test suite', () => {
   const parserOptions: ParserOptions = {
     readOnly: false,
     submissionScope: 'testScopeUUID',
-    collectionUUID: null
+    collectionUUID: null,
+    isInnerForm: false
   };
 
   beforeEach(() => {
@@ -58,7 +59,7 @@ describe('SeriesFieldParser test suite', () => {
     initFormValues = {
       series: [new FormFieldMetadataValueObject('test; series')],
     };
-    const expectedValue = new FormFieldMetadataValueObject('test; series', undefined, undefined, 'test');
+    const expectedValue = new FormFieldMetadataValueObject('test; series', undefined, null, undefined, 'test');
 
     const parser = new SeriesFieldParser(submissionId, field, initFormValues, parserOptions);
 

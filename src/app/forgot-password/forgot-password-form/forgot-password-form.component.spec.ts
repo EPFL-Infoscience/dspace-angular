@@ -1,8 +1,7 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of as observableOf } from 'rxjs';
 import { RouterStub } from '../../shared/testing/router.stub';
 import { NotificationsServiceStub } from '../../shared/testing/notifications-service.stub';
-import { RestResponse } from '../../core/cache/response.models';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -17,6 +16,8 @@ import { Registration } from '../../core/shared/registration.model';
 import { ForgotPasswordFormComponent } from './forgot-password-form.component';
 import { By } from '@angular/platform-browser';
 import { AuthenticateAction } from '../../core/auth/auth.actions';
+import { createFailedRemoteDataObject$, createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
+import {AuthService} from '../../core/auth/auth.service';
 
 describe('ForgotPasswordFormComponent', () => {
   let comp: ForgotPasswordFormComponent;
@@ -25,6 +26,7 @@ describe('ForgotPasswordFormComponent', () => {
   let router;
   let route;
   let ePersonDataService: EPersonDataService;
+  let authService: AuthService;
   let notificationsService;
   let store: Store<CoreState>;
 
@@ -34,15 +36,17 @@ describe('ForgotPasswordFormComponent', () => {
     token: 'test-token'
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
 
     route = {data: observableOf({registration: registration})};
     router = new RouterStub();
     notificationsService = new NotificationsServiceStub();
 
     ePersonDataService = jasmine.createSpyObj('ePersonDataService', {
-      patchPasswordWithToken: observableOf(new RestResponse(true, 200, 'Success'))
+      patchPasswordWithToken: createSuccessfulRemoteDataObject$({})
     });
+
+    authService = jasmine.createSpyObj('authService', ['setRedirectUrlIfNotSet']);
 
     store = jasmine.createSpyObj('store', {
       dispatch: {},
@@ -58,6 +62,7 @@ describe('ForgotPasswordFormComponent', () => {
         {provide: EPersonDataService, useValue: ePersonDataService},
         {provide: FormBuilder, useValue: new FormBuilder()},
         {provide: NotificationsService, useValue: notificationsService},
+        {provide: AuthService, useValue: authService},
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -86,13 +91,12 @@ describe('ForgotPasswordFormComponent', () => {
 
       expect(ePersonDataService.patchPasswordWithToken).toHaveBeenCalledWith('test-uuid', 'test-token', 'password');
       expect(store.dispatch).toHaveBeenCalledWith(new AuthenticateAction('test@email.org', 'password'));
-      expect(router.navigate).toHaveBeenCalledWith(['/home']);
       expect(notificationsService.success).toHaveBeenCalled();
     });
 
     it('should submit a patch request for the user uuid and stay on page on error', () => {
 
-      (ePersonDataService.patchPasswordWithToken as jasmine.Spy).and.returnValue(observableOf(new RestResponse(false, 500, 'Error')));
+      (ePersonDataService.patchPasswordWithToken as jasmine.Spy).and.returnValue(createFailedRemoteDataObject$('Error', 500));
 
       comp.password = 'password';
       comp.isInValid = false;
@@ -113,5 +117,5 @@ describe('ForgotPasswordFormComponent', () => {
 
       expect(ePersonDataService.patchPasswordWithToken).not.toHaveBeenCalled();
     });
-  })
+  });
 });

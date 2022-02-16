@@ -3,14 +3,15 @@ import { RequestService } from './request.service';
 import { HALEndpointService } from '../shared/hal-endpoint.service';
 import { GetRequest, PostRequest } from './request.models';
 import { Observable } from 'rxjs';
-import { filter, find, map, take } from 'rxjs/operators';
+import { filter, find, map, skipWhile } from 'rxjs/operators';
 import { hasValue, isNotEmpty } from '../../shared/empty.util';
 import { Registration } from '../shared/registration.model';
-import { filterSuccessfulResponses, getResponseFromEntry } from '../shared/operators';
+import { getFirstCompletedRemoteData, getFirstSucceededRemoteData } from '../shared/operators';
 import { ResponseParsingService } from './parsing.service';
 import { GenericConstructor } from '../shared/generic-constructor';
 import { RegistrationResponseParsingService } from './registration-response-parsing.service';
-import { RegistrationSuccessResponse } from '../cache/response.models';
+import { RemoteData } from './remote-data';
+import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
 
 @Injectable(
   {
@@ -27,6 +28,7 @@ export class EpersonRegistrationService {
 
   constructor(
     protected requestService: RequestService,
+    protected rdbService: RemoteDataBuildService,
     protected halService: HALEndpointService,
   ) {
 
@@ -52,24 +54,24 @@ export class EpersonRegistrationService {
    * Register a new email address
    * @param email
    */
-  registerEmail(email: string) {
+  registerEmail(email: string): Observable<RemoteData<Registration>> {
     const registration = new Registration();
     registration.email = email;
 
     const requestId = this.requestService.generateRequestId();
 
-    const hrefObs = this.getRegistrationEndpoint();
+    const href$ = this.getRegistrationEndpoint();
 
-    hrefObs.pipe(
+    href$.pipe(
       find((href: string) => hasValue(href)),
       map((href: string) => {
         const request = new PostRequest(requestId, href, registration);
-        this.requestService.configure(request);
+        this.requestService.send(request);
       })
     ).subscribe();
 
-    return this.requestService.getByUUID(requestId).pipe(
-      getResponseFromEntry()
+    return this.rdbService.buildFromRequestUUID<Registration>(requestId).pipe(
+      getFirstCompletedRemoteData()
     );
   }
 
@@ -80,29 +82,50 @@ export class EpersonRegistrationService {
   searchByToken(token: string): Observable<Registration> {
     const requestId = this.requestService.generateRequestId();
 
-    const hrefObs = this.getTokenSearchEndpoint(token);
-
-    hrefObs.pipe(
+    const href$ = this.getTokenSearchEndpoint(token).pipe(
       find((href: string) => hasValue(href)),
-      map((href: string) => {
-        const request = new GetRequest(requestId, href);
-        Object.assign(request, {
-          getResponseParser(): GenericConstructor<ResponseParsingService> {
-            return RegistrationResponseParsingService;
-          }
-        });
-        this.requestService.configure(request);
-      })
-    ).subscribe();
+    );
 
-    return this.requestService.getByUUID(requestId).pipe(
-      filterSuccessfulResponses(),
-      map((restResponse: RegistrationSuccessResponse) => {
-        return Object.assign(new Registration(), {email: restResponse.registration.email, token: token, user: restResponse.registration.user});
+    href$.subscribe((href: string) => {
+      const request = new GetRequest(requestId, href);
+      Object.assign(request, {
+        getResponseParser(): GenericConstructor<ResponseParsingService> {
+          return RegistrationResponseParsingService;
+        }
+      });
+      this.requestService.send(request, true);
+    });
+
+    return this.rdbService.buildSingle<Registration>(href$).pipe(
+      skipWhile((rd: RemoteData<Registration>) => rd.isStale),
+      getFirstSucceededRemoteData(),
+      map((restResponse: RemoteData<Registration>) => {
+        return Object.assign(new Registration(), {
+          email: restResponse.payload.email, token: token, user: restResponse.payload.user,
+          groupNames: restResponse.payload.groupNames ? restResponse.payload.groupNames : [],
+          groups: restResponse.payload.groups ? restResponse.payload.groups : []
+
+        });
       }),
-      take(1),
     );
 
   }
+  searchByTokenAndHandleError(token: string): Observable<RemoteData<Registration>> {
+    const requestId = this.requestService.generateRequestId();
 
+    const href$ = this.getTokenSearchEndpoint(token).pipe(
+      find((href: string) => hasValue(href)),
+    );
+
+    href$.subscribe((href: string) => {
+      const request = new GetRequest(requestId, href);
+      Object.assign(request, {
+        getResponseParser(): GenericConstructor<ResponseParsingService> {
+          return RegistrationResponseParsingService;
+        }
+      });
+      this.requestService.send(request, true);
+    });
+    return this.rdbService.buildSingle<Registration>(href$);
+  }
 }

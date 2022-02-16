@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChangeDetectionStrategy, NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { of as observableOf } from 'rxjs';
@@ -7,6 +7,8 @@ import { Item } from '../../../../../core/shared/item.model';
 import { JournalVolumeSearchResultListElementComponent } from './journal-volume-search-result-list-element.component';
 import { TruncatePipe } from '../../../../../shared/utils/truncate.pipe';
 import { TruncatableService } from '../../../../../shared/truncatable/truncatable.service';
+import { DSONameService } from '../../../../../core/breadcrumbs/dso-name.service';
+import { DSONameServiceMock } from '../../../../../shared/mocks/dso-name.service.mock';
 
 let journalVolumeListElementComponent: JournalVolumeSearchResultListElementComponent;
 let fixture: ComponentFixture<JournalVolumeSearchResultListElementComponent>;
@@ -55,11 +57,12 @@ const mockItemWithoutMetadata: ItemSearchResult = Object.assign(
   });
 
 describe('JournalVolumeSearchResultListElementComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [JournalVolumeSearchResultListElementComponent, TruncatePipe],
       providers: [
-        { provide: TruncatableService, useValue: {} }
+        { provide: TruncatableService, useValue: {} },
+        { provide: DSONameService, useClass: DSONameServiceMock },
       ],
 
       schemas: [NO_ERRORS_SCHEMA]
@@ -68,7 +71,7 @@ describe('JournalVolumeSearchResultListElementComponent', () => {
     }).compileComponents();
   }));
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(JournalVolumeSearchResultListElementComponent);
     journalVolumeListElementComponent = fixture.componentInstance;
 

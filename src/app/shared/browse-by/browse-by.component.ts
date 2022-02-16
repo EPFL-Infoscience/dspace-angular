@@ -1,12 +1,14 @@
 import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { RemoteData } from '../../core/data/remote-data';
-import { PaginatedList } from '../../core/data/paginated-list';
+import { PaginatedList } from '../../core/data/paginated-list.model';
 import { PaginationComponentOptions } from '../pagination/pagination-component-options.model';
 import { SortDirection, SortOptions } from '../../core/cache/models/sort-options.model';
 import { fadeIn, fadeInOut } from '../animations/fade';
 import { Observable } from 'rxjs';
 import { ListableObject } from '../object-collection/shared/listable-object.model';
 import { getStartsWithComponent, StartsWithType } from '../starts-with/starts-with-decorator';
+import { PaginationService } from '../../core/pagination/pagination.service';
+import { ViewMode } from '../../core/shared/view-mode.model';
 
 @Component({
   selector: 'ds-browse-by',
@@ -21,6 +23,12 @@ import { getStartsWithComponent, StartsWithType } from '../starts-with/starts-wi
  * Component to display a browse-by page for any ListableObject
  */
 export class BrowseByComponent implements OnInit {
+
+  /**
+   * ViewMode that should be passed to {@link ListableObjectComponentLoaderComponent}.
+   */
+  viewMode: ViewMode = ViewMode.ListElement;
+
   /**
    * The i18n message to display as title
    */
@@ -96,7 +104,9 @@ export class BrowseByComponent implements OnInit {
    */
   public sortDirections = SortDirection;
 
-  public constructor(private injector: Injector) {
+  public constructor(private injector: Injector,
+                     protected paginationService: PaginationService,
+  ) {
 
   }
 
@@ -119,8 +129,7 @@ export class BrowseByComponent implements OnInit {
    * @param size
    */
   doPageSizeChange(size) {
-    this.paginationConfig.pageSize = size;
-    this.pageSizeChange.emit(size);
+    this.paginationService.updateRoute(this.paginationConfig.id,{pageSize: size});
   }
 
   /**
@@ -128,8 +137,7 @@ export class BrowseByComponent implements OnInit {
    * @param direction
    */
   doSortDirectionChange(direction) {
-    this.sortConfig.direction = direction;
-    this.sortDirectionChange.emit(direction);
+    this.paginationService.updateRoute(this.paginationConfig.id,{sortDirection: direction});
   }
 
   /**
@@ -141,7 +149,10 @@ export class BrowseByComponent implements OnInit {
 
   ngOnInit(): void {
     this.objectInjector = Injector.create({
-      providers: [{ provide: 'startsWithOptions', useFactory: () => (this.startsWithOptions), deps:[] }],
+      providers: [
+        { provide: 'startsWithOptions', useFactory: () => (this.startsWithOptions), deps:[] },
+        { provide: 'paginationId', useFactory: () => (this.paginationConfig?.id), deps:[] }
+      ],
       parent: this.injector
     });
   }

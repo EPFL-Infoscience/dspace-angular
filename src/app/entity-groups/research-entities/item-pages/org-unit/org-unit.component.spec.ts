@@ -1,17 +1,15 @@
 import { Item } from '../../../../core/shared/item.model';
-import { RemoteData } from '../../../../core/data/remote-data';
-import { PaginatedList } from '../../../../core/data/paginated-list';
+import { buildPaginatedList } from '../../../../core/data/paginated-list.model';
 import { PageInfo } from '../../../../core/shared/page-info.model';
 import { OrgUnitComponent } from './org-unit.component';
-import { of as observableOf } from 'rxjs';
 import {
   createRelationshipsObservable,
   getItemPageFieldsTest
-} from '../../../../+item-page/simple/item-types/shared/item.component.spec';
+} from '../../../../item-page/simple/item-types/shared/item.component.spec';
 import { createSuccessfulRemoteDataObject$ } from '../../../../shared/remote-data.utils';
 
 const mockItem: Item = Object.assign(new Item(), {
-  bundles: createSuccessfulRemoteDataObject$(new PaginatedList(new PageInfo(), [])),
+  bundles: createSuccessfulRemoteDataObject$(buildPaginatedList(new PageInfo(), [])),
   metadata: {
     'organization.foundingDate': [
       {

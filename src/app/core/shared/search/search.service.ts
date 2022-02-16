@@ -1,11 +1,10 @@
 import { combineLatest as observableCombineLatest, Observable, of as observableOf } from 'rxjs';
 import { Injectable, OnDestroy } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
-import { first, map, switchMap, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { map, switchMap, take } from 'rxjs/operators';
 import { followLink, FollowLinkConfig } from '../../../shared/utils/follow-link-config.model';
 import { LinkService } from '../../cache/builders/link.service';
-import { FacetConfigSuccessResponse, FacetValueSuccessResponse, SearchSuccessResponse, SearchConfigSuccessResponse } from '../../cache/response.models';
-import { PaginatedList } from '../../data/paginated-list';
+import { PaginatedList } from '../../data/paginated-list.model';
 import { ResponseParsingService } from '../../data/parsing.service';
 import { RemoteData } from '../../data/remote-data';
 import { GetRequest, RestRequest } from '../../data/request.models';
@@ -14,29 +13,67 @@ import { DSpaceObject } from '../dspace-object.model';
 import { GenericConstructor } from '../generic-constructor';
 import { HALEndpointService } from '../hal-endpoint.service';
 import { URLCombiner } from '../../url-combiner/url-combiner';
-import { hasValue, isEmpty, isNotEmpty, isNotUndefined } from '../../../shared/empty.util';
-import { SearchOptions } from '../../../shared/search/search-options.model';
-import { SearchResult } from '../../../shared/search/search-result.model';
-import { FacetValue } from '../../../shared/search/facet-value.model';
-import { SearchFilterConfig } from '../../../shared/search/search-filter-config.model';
+import { hasValue, hasValueOperator, isEmpty, isNotEmpty } from '../../../shared/empty.util';
+import { SearchOptions } from '../../../shared/search/models/search-options.model';
+import { SearchFilterConfig } from '../../../shared/search/models/search-filter-config.model';
 import { SearchResponseParsingService } from '../../data/search-response-parsing.service';
-import { SearchQueryResponse } from '../../../shared/search/search-query-response.model';
-import { PageInfo } from '../page-info.model';
-import { getSearchResultFor } from '../../../shared/search/search-result-element-decorator';
-import { ListableObject } from '../../../shared/object-collection/shared/listable-object.model';
+import { SearchObjects } from '../../../shared/search/models/search-objects.model';
 import { FacetValueResponseParsingService } from '../../data/facet-value-response-parsing.service';
 import { FacetConfigResponseParsingService } from '../../data/facet-config-response-parsing.service';
-import { PaginatedSearchOptions } from '../../../shared/search/paginated-search-options.model';
+import { PaginatedSearchOptions } from '../../../shared/search/models/paginated-search-options.model';
 import { Community } from '../community.model';
 import { CommunityDataService } from '../../data/community-data.service';
 import { ViewMode } from '../view-mode.model';
 import { DSpaceObjectDataService } from '../../data/dspace-object-data.service';
 import { RemoteDataBuildService } from '../../cache/builders/remote-data-build.service';
-import { configureRequest, filterSuccessfulResponses, getResponseFromEntry, getSucceededRemoteData } from '../operators';
+import { getFirstCompletedRemoteData, getFirstSucceededRemoteData, getRemoteDataPayload } from '../operators';
 import { RouteService } from '../../services/route.service';
-import { RequestEntry } from '../../data/request.reducer';
-import { SearchConfigResponseParsingService } from '../../data/search-config-response-parsing.service';
-import { SearchConfig } from 'src/app/shared/search/search-filters/search-config.model';
+import { SearchResult } from '../../../shared/search/models/search-result.model';
+import { ListableObject } from '../../../shared/object-collection/shared/listable-object.model';
+import { getSearchResultFor } from '../../../shared/search/search-result-element-decorator';
+import { FacetConfigResponse } from '../../../shared/search/models/facet-config-response.model';
+import { FacetValues } from '../../../shared/search/models/facet-values.model';
+import { SearchConfig } from './search-filters/search-config.model';
+import { PaginationService } from '../../pagination/pagination.service';
+import { SearchConfigurationService } from './search-configuration.service';
+import { PaginationComponentOptions } from '../../../shared/pagination/pagination-component-options.model';
+import { DataService } from '../../data/data.service';
+import { Store } from '@ngrx/store';
+import { CoreState } from '../../core.reducers';
+import { ObjectCacheService } from '../../cache/object-cache.service';
+import { NotificationsService } from '../../../shared/notifications/notifications.service';
+import { HttpClient } from '@angular/common/http';
+import { DSOChangeAnalyzer } from '../../data/dso-change-analyzer.service';
+
+/* tslint:disable:max-classes-per-file */
+/**
+ * A class that lets us delegate some methods to DataService
+ */
+class DataServiceImpl extends DataService<any> {
+  protected linkPath = 'discover';
+
+  constructor(
+    protected requestService: RequestService,
+    protected rdbService: RemoteDataBuildService,
+    protected store: Store<CoreState>,
+    protected objectCache: ObjectCacheService,
+    protected halService: HALEndpointService,
+    protected notificationsService: NotificationsService,
+    protected http: HttpClient,
+    protected comparator: DSOChangeAnalyzer<any>) {
+    super();
+  }
+
+  /**
+   * Adds the embed options to the link for the request
+   * @param href            The href the params are to be added to
+   * @param args            params for the query string
+   * @param linksToFollow   links we want to embed in query string if shouldEmbed is true
+   */
+  public addEmbedParams(href: string, args: string[], ...linksToFollow: FollowLinkConfig<any>[]) {
+    return super.addEmbedParams(href, args, ...linksToFollow);
+  }
+}
 
 /**
  * Service that performs all general actions that have to do with the search page
@@ -79,6 +116,11 @@ export class SearchService implements OnDestroy {
    */
   private sub;
 
+  /**
+   * Instance of DataServiceImpl that lets us delegate some methods to DataService
+   */
+  private searchDataService: DataServiceImpl;
+
   constructor(private router: Router,
               private routeService: RouteService,
               protected requestService: RequestService,
@@ -86,8 +128,20 @@ export class SearchService implements OnDestroy {
               private linkService: LinkService,
               private halService: HALEndpointService,
               private communityService: CommunityDataService,
-              private dspaceObjectService: DSpaceObjectDataService
+              private dspaceObjectService: DSpaceObjectDataService,
+              private paginationService: PaginationService,
+              private searchConfigurationService: SearchConfigurationService
   ) {
+    this.searchDataService = new DataServiceImpl(
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined
+    );
   }
 
   /**
@@ -120,129 +174,167 @@ export class SearchService implements OnDestroy {
    * Method to retrieve a paginated list of search results from the server
    * @param {PaginatedSearchOptions} searchOptions The configuration necessary to perform this search
    * @param responseMsToLive The amount of milliseconds for the response to live in cache
+   * @param useCachedVersionIfAvailable If this is true, the request will only be sent if there's
+   * no valid cached version. Defaults to true
+   * @param reRequestOnStale Whether or not the request should automatically be re-requested after
+   * the response becomes stale
    * @param linksToFollow List of {@link FollowLinkConfig} that indicate which {@link HALLink}s should be automatically resolved
-   * @returns {Observable<RemoteData<PaginatedList<SearchResult<DSpaceObject>>>>} Emits a paginated list with all search results found
+   * @returns {Observable<RemoteData<SearchObjects<T>>>} Emits a paginated list with all search results found
    */
-  search<T extends DSpaceObject>(searchOptions?: PaginatedSearchOptions, responseMsToLive?: number, ...linksToFollow: Array<FollowLinkConfig<T>>): Observable<RemoteData<PaginatedList<SearchResult<DSpaceObject>>>> {
-    return this.getPaginatedResults<T>(this.searchEntries(searchOptions), ...linksToFollow);
+  search<T extends DSpaceObject>(searchOptions?: PaginatedSearchOptions, responseMsToLive?: number, useCachedVersionIfAvailable = true, reRequestOnStale = true, ...linksToFollow: FollowLinkConfig<T>[]): Observable<RemoteData<SearchObjects<T>>> {
+    const href$ = this.getEndpoint(searchOptions);
+
+    href$.pipe(
+      take(1),
+      map((href: string) => {
+        const args = this.searchDataService.addEmbedParams(href, [], ...linksToFollow);
+        if (isNotEmpty(args)) {
+          return new URLCombiner(href, `?${args.join('&')}`).toString();
+        } else {
+          return href;
+        }
+      })
+    ).subscribe((url: string) => {
+      const request = new this.request(this.requestService.generateRequestId(), url);
+      request.href = request.href + this.formatEmbeddedKeysQueryParams(searchOptions.forcedEmbeddedKeys);
+
+      const getResponseParserFn: () => GenericConstructor<ResponseParsingService> = () => {
+        return this.parser;
+      };
+
+      Object.assign(request, {
+        responseMsToLive: hasValue(responseMsToLive) ? responseMsToLive : request.responseMsToLive,
+        getResponseParser: getResponseParserFn,
+        searchOptions: searchOptions
+      });
+
+      this.requestService.send(request, useCachedVersionIfAvailable);
+    });
+
+    const sqr$ = href$.pipe(
+      switchMap((href: string) => this.rdb.buildFromHref<SearchObjects<T>>(href))
+    );
+
+    return this.directlyAttachIndexableObjects(sqr$, useCachedVersionIfAvailable, reRequestOnStale, ...linksToFollow);
   }
 
   /**
    * Method to retrieve request entries for search results from the server
    * @param {PaginatedSearchOptions} searchOptions The configuration necessary to perform this search
-   * @param responseMsToLive The amount of milliseconds for the response to live in cache
-   * @returns {Observable<RequestEntry>} Emits an observable with the request entries
+   * @returns {Observable<RemoteData<SearchObjects<T>>>} Emits a paginated list with all search results found
    */
-  searchEntries(searchOptions?: PaginatedSearchOptions, responseMsToLive?: number): Observable<{searchOptions: PaginatedSearchOptions, requestEntry: RequestEntry}> {
+  searchEntries<T extends DSpaceObject>(searchOptions?: PaginatedSearchOptions): Observable<RemoteData<SearchObjects<T>>> {
+    const href$ = this.getEndpoint(searchOptions);
 
-    const hrefObs = this.getEndpoint(searchOptions);
-
-    const requestObs = hrefObs.pipe(
-      map((url: string) => {
-        const request = new this.request(this.requestService.generateRequestId(), url);
-
-        const getResponseParserFn: () => GenericConstructor<ResponseParsingService> = () => {
-          return this.parser;
-        };
-
-        return Object.assign(request, {
-          responseMsToLive: hasValue(responseMsToLive) ? responseMsToLive : request.responseMsToLive,
-          getResponseParser: getResponseParserFn,
-          searchOptions: searchOptions
-        });
-      }),
-      configureRequest(this.requestService),
+    const sqr$ = href$.pipe(
+      switchMap((href: string) => this.rdb.buildFromHref<SearchObjects<T>>(href))
     );
-    return requestObs.pipe(
-      switchMap((request: RestRequest) => this.requestService.getByHref(request.href)),
-      map(((requestEntry: RequestEntry) => ({
-        searchOptions: searchOptions,
-        requestEntry: requestEntry
-      })))
-    );
+
+    return this.directlyAttachIndexableObjects(sqr$);
   }
 
   /**
-   * Method to convert the parsed responses into a paginated list of search results
-   * @param searchEntries: The request entries from the search method
-   * @param linksToFollow List of {@link FollowLinkConfig} that indicate which {@link HALLink}s should be automatically resolved
-   * @returns {Observable<RemoteData<PaginatedList<SearchResult<DSpaceObject>>>>} Emits a paginated list with all search results found
+   * Method to directly attach the indexableObjects to search results, instead of using RemoteData.
+   * For compatibility with the way the search was written originally
+   *
+   * @param sqr$:                       a SearchObjects RemotaData Observable without its
+   *                                    indexableObjects attached
+   * @param useCachedVersionIfAvailable If this is true, the request will only be sent if there's
+   *                                    no valid cached version. Defaults to true
+   * @param reRequestOnStale            Whether or not the request should automatically be re-
+   *                                    requested after the response becomes stale
+   * @param linksToFollow               List of {@link FollowLinkConfig} that indicate which
+   *                                    {@link HALLink}s should be automatically resolved
+   * @protected
    */
-  getPaginatedResults<T extends DSpaceObject>(searchEntries: Observable<{ searchOptions: PaginatedSearchOptions, requestEntry: RequestEntry }>, ...linksToFollow: Array<FollowLinkConfig<T>>): Observable<RemoteData<PaginatedList<SearchResult<DSpaceObject>>>> {
-    const requestEntryObs: Observable<RequestEntry> = searchEntries.pipe(
-      map((entry) => entry.requestEntry),
-    );
+  protected directlyAttachIndexableObjects<T extends DSpaceObject>(sqr$: Observable<RemoteData<SearchObjects<T>>>, useCachedVersionIfAvailable = true, reRequestOnStale = true, ...linksToFollow: FollowLinkConfig<T>[]): Observable<RemoteData<SearchObjects<T>>> {
+    return sqr$.pipe(
+      switchMap((resultsRd: RemoteData<SearchObjects<T>>) => {
+        if (hasValue(resultsRd.payload) && isNotEmpty(resultsRd.payload.page)) {
+          // retrieve the indexableObjects for all search results on the page
+          const searchResult$Array: Observable<SearchResult<T>>[] = resultsRd.payload.page.map((result: SearchResult<T>) =>
+            this.dspaceObjectService.findByHref(result._links.indexableObject.href, useCachedVersionIfAvailable, reRequestOnStale, ...linksToFollow as any).pipe(
+              getFirstCompletedRemoteData(),
+              getRemoteDataPayload(),
+              hasValueOperator(),
+              map((indexableObject: DSpaceObject) => {
+                // determine the constructor of the search result (ItemSearchResult,
+                // CollectionSearchResult, etc) based on the kind of the indeaxbleObject it
+                // contains. Recreate the result with that constructor
+                const constructor: GenericConstructor<ListableObject> = indexableObject.constructor as GenericConstructor<ListableObject>;
+                const resultConstructor = getSearchResultFor(constructor);
 
-    // get search results from response cache
-    const sqrObs: Observable<SearchQueryResponse> = requestEntryObs.pipe(
-      filterSuccessfulResponses(),
-      map((response: SearchSuccessResponse) => response.results),
-    );
+                // Attach the payload directly to the indexableObject property on the result
+                return Object.assign(new resultConstructor(), result, {
+                  indexableObject
+                }) as SearchResult<T>;
+              }),
+            )
+          );
 
-    // turn dspace href from search results to effective list of DSpaceObjects
-    // Turn list of observable remote data DSO's into observable remote data object with list of DSO
-    const dsoObs: Observable<RemoteData<DSpaceObject[]>> = sqrObs.pipe(
-      map((sqr: SearchQueryResponse) => {
-        return sqr.objects
-          .filter((sr: SearchResult<DSpaceObject>) => isNotUndefined(sr._links.indexableObject))
-          .map((sr: SearchResult<DSpaceObject>) => new GetRequest(this.requestService.generateRequestId(), sr._links.indexableObject.href))
-      }),
-      // Send a request for each item to ensure fresh cache
-      tap((reqs: RestRequest[]) => reqs.forEach((req: RestRequest) => this.requestService.configure(req))),
-      map((reqs: RestRequest[]) => reqs.map((req: RestRequest) => this.rdb.buildSingle(req.href, ...linksToFollow))),
-      switchMap((input: Array<Observable<RemoteData<DSpaceObject>>>) => this.rdb.aggregate(input)),
-    );
+          // Swap the original page in the remoteData with the new one, now that the results have the
+          // correct types, and all indexableObjects are directly attached.
+          return observableCombineLatest(searchResult$Array).pipe(
+            map((page: SearchResult<T>[]) => {
 
-    // Create search results again with the correct dso objects linked to each result
-    const tDomainListObs = observableCombineLatest(sqrObs, dsoObs).pipe(
-      map(([sqr, dsos]) => {
-        return sqr.objects.map((object: SearchResult<DSpaceObject>, index: number) => {
-          let co = DSpaceObject;
-          if (dsos.payload[index]) {
-            const constructor: GenericConstructor<ListableObject> = dsos.payload[index].constructor as GenericConstructor<ListableObject>;
-            co = getSearchResultFor(constructor);
-            return Object.assign(new co(), object, {
-              indexableObject: dsos.payload[index]
-            });
-          } else {
-            return undefined;
-          }
-        });
-      })
-    );
+              const payload = Object.assign(new SearchObjects(), resultsRd.payload, {
+                page
+              }) as SearchObjects<T>;
 
-    const pageInfoObs: Observable<PageInfo> = requestEntryObs.pipe(
-      getResponseFromEntry(),
-      map((response: FacetValueSuccessResponse) => response.pageInfo)
-    );
-
-    const payloadObs = observableCombineLatest(tDomainListObs, pageInfoObs).pipe(
-      map(([tDomainList, pageInfo]) => {
-        return new PaginatedList(pageInfo, tDomainList.filter((obj) => hasValue(obj)));
-      })
-    );
-
-    return observableCombineLatest(tDomainListObs, searchEntries).pipe(
-      switchMap(([tDomainList, searchEntry]) => {
-        const requestEntry = searchEntry.requestEntry;
-        if (tDomainList.indexOf(undefined) > -1 && requestEntry && requestEntry.completed) {
-          this.requestService.removeByHrefSubstring(requestEntry.request.href);
-          return this.search(searchEntry.searchOptions)
-        } else {
-          return this.rdb.toRemoteDataObservable(requestEntryObs, payloadObs);
+              return new RemoteData(
+                resultsRd.timeCompleted,
+                resultsRd.msToLive,
+                resultsRd.lastUpdated,
+                resultsRd.state,
+                resultsRd.errorMessage,
+                payload,
+                resultsRd.statusCode,
+              );
+            })
+          );
         }
+        // If we don't have a payload, or the page is empty, simply pass on the unmodified
+        // RemoteData object
+        return [resultsRd];
       })
     );
+  }
+
+  private getConfigUrl(url: string, scope?: string, configurationName?: string) {
+    const args: string[] = [];
+
+    if (isNotEmpty(scope)) {
+      args.push(`scope=${scope}`);
+    }
+
+    if (isNotEmpty(configurationName)) {
+      args.push(`configuration=${configurationName}`);
+    }
+
+    if (isNotEmpty(args)) {
+      url = new URLCombiner(url, `?${args.join('&')}`).toString();
+    }
+
+    return url;
+  }
+
+  private formatEmbeddedKeysQueryParams(keys: string[]): string {
+    let params = '';
+    if (hasValue(keys)) {
+      keys.forEach((key: string) => (params = params + '&embed=' + key));
+    }
+    return params;
   }
 
   /**
    * Request the filter configuration for a given scope or the whole repository
+   * @param {link}   link the link to use for the request
    * @param {string} scope UUID of the object for which config the filter config is requested, when no scope is provided the configuration for the whole repository is loaded
    * @param {string} configurationName the name of the configuration
    * @returns {Observable<RemoteData<SearchFilterConfig[]>>} The found filter configuration
    */
-  getConfig(scope?: string, configurationName?: string): Observable<RemoteData<SearchFilterConfig[]>> {
-    const requestObs = this.halService.getEndpoint(this.facetLinkPathPrefix).pipe(
+  private getFilterConfigByLink(link: string, scope?: string, configurationName?: string): Observable<RemoteData<SearchFilterConfig[]>> {
+    const href$ = this.halService.getEndpoint(link).pipe(
       map((url: string) => {
         const args: string[] = [];
 
@@ -258,28 +350,56 @@ export class SearchService implements OnDestroy {
           url = new URLCombiner(url, `?${args.join('&')}`).toString();
         }
 
-        const request = new this.request(this.requestService.generateRequestId(), url);
-        return Object.assign(request, {
-          getResponseParser(): GenericConstructor<ResponseParsingService> {
-            return FacetConfigResponseParsingService;
-          }
-        });
+        return url;
       }),
-      configureRequest(this.requestService)
     );
 
-    const requestEntryObs = requestObs.pipe(
-      switchMap((request: RestRequest) => this.requestService.getByHref(request.href))
-    );
+    href$.pipe(take(1)).subscribe((url: string) => {
+      let request = new this.request(this.requestService.generateRequestId(), url);
+      request = Object.assign(request, {
+        getResponseParser(): GenericConstructor<ResponseParsingService> {
+          return FacetConfigResponseParsingService;
+        }
+      });
+      this.requestService.send(request, true);
+    });
 
-    // get search results from response cache
-    const facetConfigObs: Observable<SearchFilterConfig[]> = requestEntryObs.pipe(
-      getResponseFromEntry(),
-      map((response: FacetConfigSuccessResponse) =>
-        response.results.map((result: any) => Object.assign(new SearchFilterConfig(), result)))
-    );
+    return this.rdb.buildFromHref(href$).pipe(
+      map((rd: RemoteData<FacetConfigResponse>) => {
+        if (rd.hasSucceeded) {
+          let filters: SearchFilterConfig[];
+          if (isNotEmpty(rd.payload.filters)) {
+            filters = rd.payload.filters
+              .map((filter: any) => Object.assign(new SearchFilterConfig(), filter));
+          } else {
+            filters = [];
+          }
 
-    return this.rdb.toRemoteDataObservable(requestEntryObs, facetConfigObs);
+          return new RemoteData(
+            rd.timeCompleted,
+            rd.msToLive,
+            rd.lastUpdated,
+            rd.state,
+            rd.errorMessage,
+            filters,
+            rd.statusCode,
+          );
+        } else {
+          return rd as any as RemoteData<SearchFilterConfig[]>;
+        }
+      })
+    );
+  }
+
+
+  /**
+   * Request the filter configuration for a given scope or the whole repository
+   * @param {string} scope UUID of the object for which config the filter config is requested, when no scope is provided the configuration for the whole repository is loaded
+   * @param {string} configurationName the name of the configuration
+   * @returns {Observable<RemoteData<SearchFilterConfig[]>>} The found filter configuration
+   */
+  getConfig(scope?: string, configurationName?: string): Observable<RemoteData<SearchFilterConfig[]>> {
+    return this.getFilterConfigByLink(this.facetLinkPathPrefix, scope, configurationName);
   }
 
   /**
@@ -290,50 +410,27 @@ export class SearchService implements OnDestroy {
    * @param {string} filterQuery The optional query used to filter out filter values
    * @returns {Observable<RemoteData<PaginatedList<FacetValue>>>} Emits the given page of facet values
    */
-  getFacetValuesFor(filterConfig: SearchFilterConfig, valuePage: number, searchOptions?: SearchOptions, filterQuery?: string): Observable<RemoteData<PaginatedList<FacetValue>>> {
-    const requestObs = this.halService.getEndpoint(this.facetLinkPathPrefix + filterConfig.name).pipe(
-      map((url: string) => {
-        const args: string[] = [`page=${valuePage - 1}`, `size=${filterConfig.pageSize}`];
-        if (hasValue(filterQuery)) {
-          args.push(`prefix=${filterQuery}`);
-        }
-        if (hasValue(searchOptions)) {
-          url = searchOptions.toRestUrl(url, args);
-        }
+  getFacetValuesFor(filterConfig: SearchFilterConfig, valuePage: number, searchOptions?: SearchOptions, filterQuery?: string): Observable<RemoteData<FacetValues>> {
+    let href;
+    const args: string[] = [`page=${valuePage - 1}`, `size=${filterConfig.pageSize}`];
+    if (hasValue(filterQuery)) {
+      args.push(`prefix=${filterQuery}`);
+    }
+    if (hasValue(searchOptions)) {
+      href = searchOptions.toRestUrl(filterConfig._links.self.href, args);
+    } else {
+      href = new URLCombiner(filterConfig._links.self.href, `?${args.join('&')}`).toString();
+    }
 
-        const request = new this.request(this.requestService.generateRequestId(), url);
-        return Object.assign(request, {
-          getResponseParser(): GenericConstructor<ResponseParsingService> {
-            return FacetValueResponseParsingService;
-          }
-        });
-      }),
-      configureRequest(this.requestService),
-      first()
-    );
+    let request = new this.request(this.requestService.generateRequestId(), href);
+    request = Object.assign(request, {
+      getResponseParser(): GenericConstructor<ResponseParsingService> {
+        return FacetValueResponseParsingService;
+      }
+    });
+    this.requestService.send(request, true);
 
-    const requestEntryObs = requestObs.pipe(
-      switchMap((request: RestRequest) => this.requestService.getByHref(request.href))
-    );
-
-    // get search results from response cache
-    const facetValueObs: Observable<FacetValue[]> = requestEntryObs.pipe(
-      getResponseFromEntry(),
-      map((response: FacetValueSuccessResponse) => response.results)
-    );
-
-    const pageInfoObs: Observable<PageInfo> = requestEntryObs.pipe(
-      getResponseFromEntry(),
-      map((response: FacetValueSuccessResponse) => response.pageInfo)
-    );
-
-    const payloadObs = observableCombineLatest(facetValueObs, pageInfoObs).pipe(
-      map(([facetValue, pageInfo]) => {
-        return new PaginatedList(pageInfo, facetValue);
-      })
-    );
-
-    return this.rdb.toRemoteDataObservable(requestEntryObs, payloadObs);
+    return this.rdb.buildFromHref(href);
   }
 
   /**
@@ -343,44 +440,7 @@ export class SearchService implements OnDestroy {
    * @returns {Observable<RemoteData<SearchFilterConfig[]>>} The found filter configuration
    */
   searchFacets(scope?: string, configurationName?: string): Observable<RemoteData<SearchFilterConfig[]>> {
-    const requestObs = this.halService.getEndpoint(this.searchFacetLinkPath).pipe(
-      map((url: string) => {
-        const args: string[] = [];
-
-        if (isNotEmpty(scope)) {
-          args.push(`scope=${scope}`);
-        }
-
-        if (isNotEmpty(configurationName)) {
-          args.push(`configuration=${configurationName}`);
-        }
-
-        if (isNotEmpty(args)) {
-          url = new URLCombiner(url, `?${args.join('&')}`).toString();
-        }
-
-        const request = new this.request(this.requestService.generateRequestId(), url);
-        return Object.assign(request, {
-          getResponseParser(): GenericConstructor<ResponseParsingService> {
-            return FacetConfigResponseParsingService;
-          }
-        });
-      }),
-      configureRequest(this.requestService)
-    );
-
-    const requestEntryObs = requestObs.pipe(
-      switchMap((request: RestRequest) => this.requestService.getByHref(request.href))
-    );
-
-    // get search results from response cache
-    const facetConfigObs: Observable<SearchFilterConfig[]> = requestEntryObs.pipe(
-      getResponseFromEntry(),
-      map((response: FacetConfigSuccessResponse) =>
-        response.results.map((result: any) => Object.assign(new SearchFilterConfig(), result)))
-    );
-
-    return this.rdb.toRemoteDataObservable(requestEntryObs, facetConfigObs);
+    return this.getFilterConfigByLink(this.searchFacetLinkPath, scope, configurationName);
   }
 
   /**
@@ -392,6 +452,7 @@ export class SearchService implements OnDestroy {
 
     if (isEmpty(scopeId)) {
       const top: Observable<Community[]> = this.communityService.findTop({ elementsPerPage: 9999 }).pipe(
+        getFirstSucceededRemoteData(),
         map(
           (communities: RemoteData<PaginatedList<Community>>) => communities.payload.page
         )
@@ -399,16 +460,19 @@ export class SearchService implements OnDestroy {
       return top;
     }
 
-    const scopeObject: Observable<RemoteData<DSpaceObject>> = this.dspaceObjectService.findById(scopeId).pipe(getSucceededRemoteData());
+    const scopeObject: Observable<RemoteData<DSpaceObject>> = this.dspaceObjectService.findById(scopeId).pipe(getFirstSucceededRemoteData());
     const scopeList: Observable<DSpaceObject[]> = scopeObject.pipe(
       switchMap((dsoRD: RemoteData<DSpaceObject>) => {
           if ((dsoRD.payload as any).type === Community.type.value) {
             const community: Community = dsoRD.payload as Community;
             this.linkService.resolveLinks(community, followLink('subcommunities'), followLink('collections'));
-            return observableCombineLatest(community.subcommunities, community.collections).pipe(
+            return observableCombineLatest([
+              community.subcommunities.pipe(getFirstCompletedRemoteData()),
+              community.collections.pipe(getFirstCompletedRemoteData())
+            ]).pipe(
               map(([subCommunities, collections]) => {
                 /*if this is a community, we also need to show the direct children*/
-                return [community, ...subCommunities.payload.page, ...collections.payload.page]
+                return [community, ...subCommunities.payload.page, ...collections.payload.page];
               })
             );
           } else {
@@ -438,23 +502,20 @@ export class SearchService implements OnDestroy {
   /**
    * Changes the current view mode in the current URL
    * @param {ViewMode} viewMode Mode to switch to
+   * @param {string[]} searchLinkParts
    */
   setViewMode(viewMode: ViewMode, searchLinkParts?: string[]) {
-    this.routeService.getQueryParameterValue('pageSize').pipe(first())
-      .subscribe((pageSize) => {
-        let queryParams = { view: viewMode, page: 1 };
+    this.paginationService.getCurrentPagination(this.searchConfigurationService.paginationID, new PaginationComponentOptions()).pipe(take(1))
+      .subscribe((config) => {
+        let pageParams = { page: 1 };
+        const queryParams = { view: viewMode };
         if (viewMode === ViewMode.DetailedListElement) {
-          queryParams = Object.assign(queryParams, {pageSize: '1'});
-        } else if (pageSize === '1') {
-          queryParams = Object.assign(queryParams, {pageSize: '10'});
+          pageParams = Object.assign(pageParams, { pageSize: 1 });
+        } else if (config.pageSize === 1) {
+          pageParams = Object.assign(pageParams, { pageSize: 10 });
         }
-        const navigationExtras: NavigationExtras = {
-          queryParams: queryParams,
-          queryParamsHandling: 'merge'
-        };
-
-        this.router.navigate(hasValue(searchLinkParts) ? searchLinkParts : [this.getSearchLink()], navigationExtras);
-      })
+        this.paginationService.updateRouteWithUrl(this.searchConfigurationService.paginationID, hasValue(searchLinkParts) ? searchLinkParts : [this.getSearchLink()], pageParams, queryParams);
+      });
   }
 
   /**
@@ -463,43 +524,17 @@ export class SearchService implements OnDestroy {
    * @param {string} configurationName the name of the configuration
    * @returns {Observable<RemoteData<SearchConfig[]>>} The found configuration
    */
-  getSearchConfigurationFor( scope?: string, configurationName?: string ): Observable<RemoteData<SearchConfig>> {
-    const requestObs = this.halService.getEndpoint(this.configurationLinkPath).pipe(
-      map((url: string) => {
-        const args: string[] = [];
-
-        if (isNotEmpty(scope)) {
-          args.push(`scope=${scope}`);
-        }
-
-        if (isNotEmpty(configurationName)) {
-          args.push(`configuration=${configurationName}`);
-        }
-
-        if (isNotEmpty(args)) {
-          url = new URLCombiner(url, `?${args.join('&')}`).toString();
-        }
-
-        const request = new this.request(this.requestService.generateRequestId(), url);
-        return Object.assign(request, {
-          getResponseParser(): GenericConstructor<ResponseParsingService> {
-            return SearchConfigResponseParsingService;
-          }
-        });
-      }),
-      configureRequest(this.requestService)
+  getSearchConfigurationFor(scope?: string, configurationName?: string): Observable<RemoteData<SearchConfig>> {
+    const href$ = this.halService.getEndpoint(this.configurationLinkPath).pipe(
+      map((url: string) => this.getConfigUrl(url, scope, configurationName)),
     );
 
-    const requestEntryObs = requestObs.pipe(
-      switchMap((request: RestRequest) => this.requestService.getByHref(request.href))
-    );
+    href$.pipe(take(1)).subscribe((url: string) => {
+      const request = new this.request(this.requestService.generateRequestId(), url);
+      this.requestService.send(request, true);
+    });
 
-    // get search results from response cache
-    const searchConfigObs: Observable<SearchConfig> = requestEntryObs.pipe(
-      getResponseFromEntry(),
-      map((response: SearchConfigSuccessResponse) => Object.assign(new SearchConfig(), response.results)));
-
-    return this.rdb.toRemoteDataObservable(requestEntryObs, searchConfigObs);
+    return this.rdb.buildFromHref(href$);
   }
 
   /**

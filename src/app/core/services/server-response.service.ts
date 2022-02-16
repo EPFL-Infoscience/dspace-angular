@@ -21,10 +21,18 @@ export class ServerResponseService {
   }
 
   setUnauthorized(message = 'Unauthorized'): this {
-    return this.setStatus(401, message)
+    return this.setStatus(401, message);
+  }
+
+  setForbidden(message = 'Forbidden'): this {
+    return this.setStatus(403, message);
   }
 
   setNotFound(message = 'Not found'): this {
-    return this.setStatus(404, message)
+    return this.setStatus(404, message);
+  }
+
+  setInternalServerError(message = 'Internal Server Error'): this {
+    return this.setStatus(500, message);
   }
 }

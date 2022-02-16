@@ -4,7 +4,7 @@ import { UpdateDataService } from './update-data.service';
 import { Item } from '../shared/item.model';
 import { RestRequestMethod } from './rest-request-method';
 import { RemoteData } from './remote-data';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable } from 'rxjs';
 import { DSOChangeAnalyzer } from './dso-change-analyzer.service';
 import { RequestService } from './request.service';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
@@ -16,10 +16,13 @@ import { NotificationsService } from '../../shared/notifications/notifications.s
 import { HttpClient } from '@angular/common/http';
 import { BrowseService } from '../browse/browse.service';
 import { CollectionDataService } from './collection-data.service';
-import { switchMap, map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { BundleDataService } from './bundle-data.service';
 import { FollowLinkConfig } from '../../shared/utils/follow-link-config.model';
-import { RestResponse } from '../cache/response.models';
+import { NoContent } from '../shared/NoContent.model';
+import { hasValue } from '../../shared/empty.util';
+import { Operation } from 'fast-json-patch';
+import { getFirstCompletedRemoteData } from '../shared/operators';
 
 /* tslint:disable:max-classes-per-file */
 /**
@@ -56,14 +59,22 @@ class DataServiceImpl extends ItemDataService {
   }
 
   /**
+   * Get the endpoint based on a collection
+   * @param collectionID  The ID of the collection to base the endpoint on
+   */
+  public getCollectionEndpoint(collectionID: string): Observable<string> {
+    return this.collectionService.getIDHrefObs(collectionID).pipe(
+      switchMap((href: string) => this.halService.getEndpoint(this.collectionLinkPath, href))
+    );
+  }
+
+  /**
    * Set the endpoint to be based on a collection
    * @param collectionID  The ID of the collection to base the endpoint on
    */
   private setCollectionEndpoint(collectionID: string) {
     this.collectionEndpoint = true;
-    this.endpoint$ = this.collectionService.getIDHrefObs(collectionID).pipe(
-      switchMap((href: string) => this.halService.getEndpoint(this.collectionLinkPath, href))
-    );
+    this.endpoint$ = this.getCollectionEndpoint(collectionID);
   }
 
   /**
@@ -98,11 +109,16 @@ class DataServiceImpl extends ItemDataService {
   /**
    * Set the collection ID and send a find by ID request
    * @param collectionID
-   * @param linksToFollow   List of {@link FollowLinkConfig} that indicate which {@link HALLink}s should be automatically resolved
+   * @param useCachedVersionIfAvailable If this is true, the request will only be sent if there's
+   *                                    no valid cached version. Defaults to true
+   * @param reRequestOnStale            Whether or not the request should automatically be re-
+   *                                    requested after the response becomes stale
+   * @param linksToFollow               List of {@link FollowLinkConfig} that indicate which
+   *                                    {@link HALLink}s should be automatically resolved
    */
-  findByCollectionID(collectionID: string, ...linksToFollow: Array<FollowLinkConfig<Item>>): Observable<RemoteData<Item>> {
+  findByCollectionID(collectionID: string, useCachedVersionIfAvailable = true, reRequestOnStale = true, ...linksToFollow: FollowLinkConfig<Item>[]): Observable<RemoteData<Item>> {
     this.setCollectionEndpoint(collectionID);
-    return super.findById(collectionID, ...linksToFollow);
+    return super.findById(collectionID, useCachedVersionIfAvailable, reRequestOnStale, ...linksToFollow);
   }
 
   /**
@@ -122,7 +138,10 @@ class DataServiceImpl extends ItemDataService {
    */
   deleteByCollectionID(item: Item, collectionID: string): Observable<boolean> {
     this.setRegularEndpoint();
-    return super.delete(item.uuid).pipe(map((response: RestResponse) => response.isSuccessful));
+    return super.delete(item.uuid).pipe(
+      getFirstCompletedRemoteData(),
+      map((response: RemoteData<NoContent>) => hasValue(response) && response.hasSucceeded)
+    );
   }
 }
 
@@ -165,13 +184,22 @@ export class ItemTemplateDataService implements UpdateDataService<Item> {
     return this.dataService.update(object);
   }
 
+  patch(dso: Item, operations: Operation[]): Observable<RemoteData<Item>> {
+    return this.dataService.patch(dso, operations);
+  }
+
   /**
    * Find an item template by collection ID
    * @param collectionID
-   * @param linksToFollow   List of {@link FollowLinkConfig} that indicate which {@link HALLink}s should be automatically resolved
+   * @param useCachedVersionIfAvailable If this is true, the request will only be sent if there's
+   *                                    no valid cached version. Defaults to true
+   * @param reRequestOnStale            Whether or not the request should automatically be re-
+   *                                    requested after the response becomes stale
+   * @param linksToFollow               List of {@link FollowLinkConfig} that indicate which
+   *                                    {@link HALLink}s should be automatically resolved
    */
-  findByCollectionID(collectionID: string, ...linksToFollow: Array<FollowLinkConfig<Item>>): Observable<RemoteData<Item>> {
-    return this.dataService.findByCollectionID(collectionID, ...linksToFollow);
+  findByCollectionID(collectionID: string, useCachedVersionIfAvailable = true, reRequestOnStale = true, ...linksToFollow: FollowLinkConfig<Item>[]): Observable<RemoteData<Item>> {
+    return this.dataService.findByCollectionID(collectionID, useCachedVersionIfAvailable, reRequestOnStale, ...linksToFollow);
   }
 
   /**
@@ -191,4 +219,13 @@ export class ItemTemplateDataService implements UpdateDataService<Item> {
   deleteByCollectionID(item: Item, collectionID: string): Observable<boolean> {
     return this.dataService.deleteByCollectionID(item, collectionID);
   }
+
+  /**
+   * Get the endpoint based on a collection
+   * @param collectionID  The ID of the collection to base the endpoint on
+   */
+  getCollectionEndpoint(collectionID: string): Observable<string> {
+    return this.dataService.getCollectionEndpoint(collectionID);
+  }
 }
+/* tslint:enable:max-classes-per-file */

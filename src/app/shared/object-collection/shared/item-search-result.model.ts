@@ -1,4 +1,4 @@
-import { SearchResult } from '../../search/search-result.model';
+import { SearchResult } from '../../search/models/search-result.model';
 import { Item } from '../../../core/shared/item.model';
 import { inheritEquatable } from '../../../core/utilities/equals.decorators';
 import { GenericConstructor } from '../../../core/shared/generic-constructor';
@@ -12,10 +12,10 @@ export class ItemSearchResult extends SearchResult<Item> {
   /**
    * Method that returns as which type of object this object should be rendered
    */
-  getRenderTypes(): Array<string | GenericConstructor<ListableObject>> {
+  getRenderTypes(): (string | GenericConstructor<ListableObject>)[] {
     return this.indexableObject.getRenderTypes().map((type) => {
       if (typeof type === 'string') {
-        return type + 'SearchResult'
+        return type + 'SearchResult';
       } else {
         return this.constructor as GenericConstructor<ListableObject>;
       }

@@ -1,8 +1,8 @@
-import { deserialize, autoserialize, inheritSerialization } from 'cerialize';
+import { autoserialize, deserialize, inheritSerialization } from 'cerialize';
 import { excludeFromEquals } from '../utilities/equals.decorators';
 import { Item } from './item.model';
 import { RemoteData } from '../data/remote-data';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable } from 'rxjs';
 import { VersionHistory } from './version-history.model';
 import { EPerson } from '../eperson/models/eperson.model';
 import { VERSION } from './version.resource-type';
@@ -46,6 +46,12 @@ export class Version extends DSpaceObject {
    */
   @autoserialize
   summary: string;
+
+  /**
+   * The name of the submitter of this version
+   */
+  @autoserialize
+  submitterName: string;
 
   /**
    * The Date this version was created

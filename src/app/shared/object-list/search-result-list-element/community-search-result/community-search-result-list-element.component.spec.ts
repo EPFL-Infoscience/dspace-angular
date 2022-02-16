@@ -1,5 +1,5 @@
 import { CommunitySearchResultListElementComponent } from './community-search-result-list-element.component';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of as observableOf } from 'rxjs';
 import { ChangeDetectionStrategy, NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -7,6 +7,8 @@ import { TruncatePipe } from '../../../utils/truncate.pipe';
 import { Community } from '../../../../core/shared/community.model';
 import { TruncatableService } from '../../../truncatable/truncatable.service';
 import { CommunitySearchResult } from '../../../object-collection/shared/community-search-result.model';
+import { DSONameService } from '../../../../core/breadcrumbs/dso-name.service';
+import { DSONameServiceMock } from '../../../mocks/dso-name.service.mock';
 
 let communitySearchResultListElementComponent: CommunitySearchResultListElementComponent;
 let fixture: ComponentFixture<CommunitySearchResultListElementComponent>;
@@ -42,20 +44,21 @@ mockCommunityWithoutAbstract.indexableObject = Object.assign(new Community(), {
 });
 
 describe('CommunitySearchResultListElementComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CommunitySearchResultListElementComponent, TruncatePipe ],
+      declarations: [CommunitySearchResultListElementComponent, TruncatePipe],
       providers: [
         { provide: TruncatableService, useValue: truncatableServiceStub },
+        { provide: DSONameService, useClass: DSONameServiceMock }
       ],
 
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(CommunitySearchResultListElementComponent, {
       set: { changeDetection: ChangeDetectionStrategy.Default }
     }).compileComponents();
   }));
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CommunitySearchResultListElementComponent);
     communitySearchResultListElementComponent = fixture.componentInstance;
     communitySearchResultListElementComponent.object = mockCommunityWithAbstract;

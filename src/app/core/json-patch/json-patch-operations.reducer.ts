@@ -11,7 +11,8 @@ import {
   NewPatchReplaceOperationAction,
   CommitPatchOperationsAction,
   StartTransactionPatchOperationsAction,
-  RollbacktPatchOperationsAction
+  RollbacktPatchOperationsAction,
+  DeletePendingJsonPatchOperationsAction
 } from './json-patch-operations.actions';
 import { JsonPatchOperationModel, JsonPatchOperationType } from './json-patch.model';
 
@@ -20,7 +21,7 @@ import { JsonPatchOperationModel, JsonPatchOperationType } from './json-patch.mo
  */
 export interface JsonPatchOperationObject {
   operation: JsonPatchOperationModel;
-  timeAdded: number;
+  timeCompleted: number;
 }
 
 /**
@@ -101,6 +102,10 @@ export function jsonPatchOperationsReducer(state = initialState, action: PatchOp
       return startTransactionPatchOperations(state, action as StartTransactionPatchOperationsAction);
     }
 
+    case JsonPatchOperationsActionTypes.DELETE_PENDING_JSON_PATCH_OPERATIONS: {
+      return deletePendingOperations(state, action as DeletePendingJsonPatchOperationsAction);
+    }
+
     default: {
       return state;
     }
@@ -179,6 +184,20 @@ function rollbackOperations(state: JsonPatchOperationsState, action: RollbacktPa
 }
 
 /**
+ * Set the JsonPatchOperationsState to its initial value.
+ *
+ * @param state
+ *    the current state
+ * @param action
+ *    an DeletePendingJsonPatchOperationsAction
+ * @return JsonPatchOperationsState
+ *    the new state.
+ */
+function deletePendingOperations(state: JsonPatchOperationsState, action: DeletePendingJsonPatchOperationsAction): JsonPatchOperationsState {
+  return null;
+}
+
+/**
  * Add new JSON patch operation list.
  *
  * @param state
@@ -241,7 +260,7 @@ function hasValidBody(state: JsonPatchOperationsState, resourceType: any, resour
   return (hasValue(state[ resourceType ])
     && hasValue(state[ resourceType ].children)
     && hasValue(state[ resourceType ].children[ resourceId ])
-    && isNotEmpty(state[ resourceType ].children[ resourceId ].body))
+    && isNotEmpty(state[ resourceType ].children[ resourceId ].body));
 }
 
 /**
@@ -264,7 +283,7 @@ function flushOperation(state: JsonPatchOperationsState, action: FlushPatchOpera
         newChildren = Object.assign({}, state[ action.payload.resourceType ].children, {
           [action.payload.resourceId]: {
             body: state[ action.payload.resourceType ].children[ action.payload.resourceId ].body
-              .filter((entry) => entry.timeAdded > state[ action.payload.resourceType ].transactionStartTime)
+              .filter((entry) => entry.timeCompleted > state[ action.payload.resourceType ].transactionStartTime)
           }
         });
       } else {
@@ -278,10 +297,10 @@ function flushOperation(state: JsonPatchOperationsState, action: FlushPatchOpera
           newChildren = Object.assign({}, newChildren, {
             [resourceId]: {
               body: newChildren[ resourceId ].body
-                .filter((entry) => entry.timeAdded > state[ action.payload.resourceType ].transactionStartTime)
+                .filter((entry) => entry.timeCompleted > state[ action.payload.resourceType ].transactionStartTime)
             }
           });
-        })
+        });
     }
     return Object.assign({}, state, {
       [action.payload.resourceType]: Object.assign({}, state[ action.payload.resourceType ], {
@@ -336,5 +355,5 @@ function addOperationToList(body: JsonPatchOperationObject[], actionType, target
 }
 
 function makeOperationEntry(operation) {
-  return { operation: operation, timeAdded: new Date().getTime() };
+  return { operation: operation, timeCompleted: new Date().getTime() };
 }

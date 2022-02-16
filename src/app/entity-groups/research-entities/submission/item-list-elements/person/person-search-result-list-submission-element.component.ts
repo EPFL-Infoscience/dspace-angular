@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
 import { BitstreamDataService } from '../../../../../core/data/bitstream-data.service';
-import { Bitstream } from '../../../../../core/shared/bitstream.model';
-import { getFirstSucceededRemoteDataPayload } from '../../../../../core/shared/operators';
 import { SearchResultListElementComponent } from '../../../../../shared/object-list/search-result-list-element/search-result-list-element.component';
 import { ItemSearchResult } from '../../../../../shared/object-collection/shared/item-search-result.model';
 import { listableObjectComponent } from '../../../../../shared/object-collection/shared/listable-object/listable-object.decorator';
@@ -19,6 +16,7 @@ import { NameVariantModalComponent } from '../../name-variant-modal/name-variant
 import { MetadataValue } from '../../../../../core/shared/metadata.models';
 import { ItemDataService } from '../../../../../core/data/item-data.service';
 import { SelectableListService } from '../../../../../shared/object-list/selectable-list/selectable-list.service';
+import { DSONameService } from '../../../../../core/breadcrumbs/dso-name.service';
 import { isNotEmpty } from '../../../../../shared/empty.util';
 
 @listableObjectComponent('PersonSearchResult', ViewMode.ListElement, Context.EntitySearchModalWithNameVariants)
@@ -43,8 +41,10 @@ export class PersonSearchResultListSubmissionElementComponent extends SearchResu
               private modalService: NgbModal,
               private itemDataService: ItemDataService,
               private bitstreamDataService: BitstreamDataService,
-              private selectableListService: SelectableListService) {
-    super(truncatableService);
+              private selectableListService: SelectableListService,
+              protected dsoNameService: DSONameService
+  ) {
+    super(truncatableService, dsoNameService);
   }
 
   ngOnInit() {
@@ -62,6 +62,7 @@ export class PersonSearchResultListSubmissionElementComponent extends SearchResu
   }
 
   select(value) {
+    this.relationshipService.setNameVariant(this.listID, this.dso.uuid, value);
     this.selectableListService.isObjectSelected(this.listID, this.object)
       .pipe(take(1))
       .subscribe((selected) => {
@@ -69,7 +70,6 @@ export class PersonSearchResultListSubmissionElementComponent extends SearchResu
           this.selectableListService.selectSingle(this.listID, this.object);
         }
       });
-    this.relationshipService.setNameVariant(this.listID, this.dso.uuid, value);
   }
 
   selectCustom(value) {
@@ -95,7 +95,7 @@ export class PersonSearchResultListSubmissionElementComponent extends SearchResu
         // user clicked cancel: use the name variant only for this relation, no further action required
       }).finally(() => {
         this.select(value);
-      })
+      });
     }
   }
 
@@ -107,19 +107,12 @@ export class PersonSearchResultListSubmissionElementComponent extends SearchResu
     return modalRef.result;
   }
 
-  // TODO refactor to return RemoteData, and thumbnail template to deal with loading
-  getThumbnail(): Observable<Bitstream> {
-    return this.bitstreamDataService.getThumbnailFor(this.dso).pipe(
-      getFirstSucceededRemoteDataPayload()
-    );
-  }
-
   getPersonName(): string {
     let personName = this.dso.name;
     if (isNotEmpty(this.firstMetadataValue('person.familyName')) && isNotEmpty(this.firstMetadataValue('person.givenName'))) {
-      personName = this.firstMetadataValue('person.familyName') + ', ' + this.firstMetadataValue('person.givenName')
+      personName = this.firstMetadataValue('person.familyName') + ', ' + this.firstMetadataValue('person.givenName');
     }
 
-    return personName
+    return personName;
   }
 }

@@ -1,15 +1,16 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 
 import { Observable, of as observableOf } from 'rxjs';
-import { filter, first, map, startWith, switchMap, take } from 'rxjs/operators';
+import { filter, map, startWith, switchMap, take } from 'rxjs/operators';
 
-import { SearchFilterConfig } from '../../search-filter-config.model';
+import { SearchFilterConfig } from '../../models/search-filter-config.model';
 import { SearchFilterService } from '../../../../core/shared/search/search-filter.service';
 import { slide } from '../../../animations/slide';
 import { isNotEmpty } from '../../../empty.util';
 import { SearchService } from '../../../../core/shared/search/search.service';
 import { SearchConfigurationService } from '../../../../core/shared/search/search-configuration.service';
-import { SEARCH_CONFIG_SERVICE } from '../../../../+my-dspace-page/my-dspace-page.component';
+import { SEARCH_CONFIG_SERVICE } from '../../../../my-dspace-page/my-dspace-page.component';
+import { SequenceService } from '../../../../core/shared/sequence.service';
 
 @Component({
   selector: 'ds-search-filter',
@@ -35,7 +36,17 @@ export class SearchFilterComponent implements OnInit {
   /**
    * True when the filter is 100% collapsed in the UI
    */
-  closed = true;
+  closed: boolean;
+
+  /**
+   * True when the filter controls should be hidden & removed from the tablist
+   */
+  notab: boolean;
+
+  /**
+   * True when the filter toggle button is focused
+   */
+  focusBox = false;
 
   /**
    * Emits true when the filter is currently collapsed in the store
@@ -52,10 +63,15 @@ export class SearchFilterComponent implements OnInit {
    */
   active$: Observable<boolean>;
 
+  private readonly sequenceId: number;
+
   constructor(
     private filterService: SearchFilterService,
     private searchService: SearchService,
-    @Inject(SEARCH_CONFIG_SERVICE) private searchConfigService: SearchConfigurationService) {
+    @Inject(SEARCH_CONFIG_SERVICE) private searchConfigService: SearchConfigurationService,
+    private sequenceService: SequenceService,
+  ) {
+    this.sequenceId = this.sequenceService.next();
   }
 
   /**
@@ -112,6 +128,9 @@ export class SearchFilterComponent implements OnInit {
     if (event.fromState === 'collapsed') {
       this.closed = false;
     }
+    if (event.toState === 'collapsed') {
+      this.notab = true;
+    }
   }
 
   /**
@@ -122,6 +141,17 @@ export class SearchFilterComponent implements OnInit {
     if (event.toState === 'collapsed') {
       this.closed = true;
     }
+    if (event.fromState === 'collapsed') {
+      this.notab = false;
+    }
+  }
+
+  get regionId(): string {
+    return `search-filter-region-${this.sequenceId}`;
+  }
+
+  get toggleId(): string {
+    return `search-filter-toggle-${this.sequenceId}`;
   }
 
   /**
@@ -139,10 +169,10 @@ export class SearchFilterComponent implements OnInit {
                 return this.searchService.getFacetValuesFor(this.filter, 1, options).pipe(
                   filter((RD) => !RD.isLoading),
                   map((valuesRD) => {
-                    return valuesRD.payload.totalElements > 0
-                  }),)
+                    return valuesRD.payload?.totalElements > 0;
+                  }),);
               }
-            ))
+            ));
         }
       }),
       startWith(true));

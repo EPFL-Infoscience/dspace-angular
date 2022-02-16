@@ -11,20 +11,22 @@ import { routeReducer, RouteState } from './services/route.reducer';
 import {
   bitstreamFormatReducer,
   BitstreamFormatRegistryState
-} from '../+admin/admin-registries/bitstream-formats/bitstream-format.reducers';
+} from '../admin/admin-registries/bitstream-formats/bitstream-format.reducers';
 import { historyReducer, HistoryState } from './history/history.reducer';
+import { metaTagReducer, MetaTagState } from './metadata/meta-tag.reducer';
 
 export interface CoreState {
   'bitstreamFormats': BitstreamFormatRegistryState;
-  'cache/object': ObjectCacheState,
-  'cache/syncbuffer': ServerSyncBufferState,
-  'cache/object-updates': ObjectUpdatesState
-  'data/request': RequestState,
+  'cache/object': ObjectCacheState;
+  'cache/syncbuffer': ServerSyncBufferState;
+  'cache/object-updates': ObjectUpdatesState;
+  'data/request': RequestState;
   'history': HistoryState;
-  'index': MetaIndexState,
-  'auth': AuthState,
-  'json/patch': JsonPatchOperationsState,
-  'route': RouteState
+  'index': MetaIndexState;
+  'auth': AuthState;
+  'json/patch': JsonPatchOperationsState;
+  'metaTag': MetaTagState;
+  'route': RouteState;
 }
 
 export const coreReducers: ActionReducerMap<CoreState> = {
@@ -37,5 +39,6 @@ export const coreReducers: ActionReducerMap<CoreState> = {
   'index': indexReducer,
   'auth': authReducer,
   'json/patch': jsonPatchOperationsReducer,
+  'metaTag': metaTagReducer,
   'route': routeReducer
 };

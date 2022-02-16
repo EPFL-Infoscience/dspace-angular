@@ -9,47 +9,42 @@ import { BrowseService } from '../browse/browse.service';
 import { dataService } from '../cache/builders/build-decorators';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
 import { ObjectCacheService } from '../cache/object-cache.service';
-import { GenericSuccessResponse, RestResponse } from '../cache/response.models';
 import { CoreState } from '../core.reducers';
-import { HttpOptions } from '../dspace-rest-v2/dspace-rest-v2.service';
+import { HttpOptions } from '../dspace-rest/dspace-rest.service';
 import { Collection } from '../shared/collection.model';
 import { ExternalSourceEntry } from '../shared/external-source-entry.model';
 import { HALEndpointService } from '../shared/hal-endpoint.service';
 import { Item } from '../shared/item.model';
 import { ITEM } from '../shared/item.resource-type';
-import {
-  configureRequest,
-  filterSuccessfulResponses,
-  getRequestFromRequestHref, getRequestFromRequestUUID,
-  getResponseFromEntry
-} from '../shared/operators';
+import { sendRequest } from '../shared/operators';
 import { URLCombiner } from '../url-combiner/url-combiner';
 
 import { DataService } from './data.service';
 import { DSOChangeAnalyzer } from './dso-change-analyzer.service';
-import { PaginatedList } from './paginated-list';
+import { PaginatedList } from './paginated-list.model';
 import { RemoteData } from './remote-data';
-import {
-  DeleteRequest,
-  FindListOptions,
-  GetRequest,
-  MappedCollectionsRequest,
-  PatchRequest,
-  PostRequest,
-  PutRequest,
-  RestRequest
-} from './request.models';
-import { RequestEntry } from './request.reducer';
+import { DeleteRequest, FindListOptions, GetRequest, PostRequest, PutRequest, RestRequest } from './request.models';
 import { RequestService } from './request.service';
-import { PaginatedSearchOptions } from '../../shared/search/paginated-search-options.model';
+import { PaginatedSearchOptions } from '../../shared/search/models/paginated-search-options.model';
 import { Bundle } from '../shared/bundle.model';
 import { MetadataMap } from '../shared/metadata.models';
 import { BundleDataService } from './bundle-data.service';
+import { Operation } from 'fast-json-patch';
+import { NoContent } from '../shared/NoContent.model';
+import { Metric } from '../shared/metric.model';
+import { GenericConstructor } from '../shared/generic-constructor';
+import { ResponseParsingService } from './parsing.service';
+import { StatusCodeOnlyResponseParsingService } from './status-code-only-response-parsing.service';
+import { of } from 'rxjs/internal/observable/of';
+import { FollowLinkConfig } from '../../shared/utils/follow-link-config.model';
+import { RequestParam } from '../cache/models/request-param.model';
+import { ItemSearchParams } from './item-search-params';
 
 @Injectable()
 @dataService(ITEM)
 export class ItemDataService extends DataService<Item> {
   protected linkPath = 'items';
+  protected searchFindAllByIdPath = 'findAllById';
 
   constructor(
     protected requestService: RequestService,
@@ -70,6 +65,7 @@ export class ItemDataService extends DataService<Item> {
    * Get the endpoint for browsing items
    *  (When options.sort.field is empty, the default field to browse by will be 'dc.date.issued')
    * @param {FindListOptions} options
+   * @param linkPath
    * @returns {Observable<string>}
    */
   public getBrowseEndpoint(options: FindListOptions = {}, linkPath: string = this.linkPath): Observable<string> {
@@ -101,14 +97,13 @@ export class ItemDataService extends DataService<Item> {
    * @param itemId        The item's id
    * @param collectionId  The collection's id
    */
-  public removeMappingFromCollection(itemId: string, collectionId: string): Observable<RestResponse> {
+  public removeMappingFromCollection(itemId: string, collectionId: string): Observable<RemoteData<NoContent>> {
     return this.getMappedCollectionsEndpoint(itemId, collectionId).pipe(
       isNotEmptyOperator(),
       distinctUntilChanged(),
       map((endpointURL: string) => new DeleteRequest(this.requestService.generateRequestId(), endpointURL)),
-      configureRequest(this.requestService),
-      switchMap((request: RestRequest) => this.requestService.getByUUID(request.uuid)),
-      getResponseFromEntry()
+      sendRequest(this.requestService),
+      switchMap((request: RestRequest) => this.rdbService.buildFromRequestUUID(request.uuid)),
     );
   }
 
@@ -117,7 +112,7 @@ export class ItemDataService extends DataService<Item> {
    * @param itemId          The item's id
    * @param collectionHref  The collection's self link
    */
-  public mapToCollection(itemId: string, collectionHref: string): Observable<RestResponse> {
+  public mapToCollection(itemId: string, collectionHref: string): Observable<RemoteData<NoContent>> {
     return this.getMappedCollectionsEndpoint(itemId).pipe(
       isNotEmptyOperator(),
       distinctUntilChanged(),
@@ -128,101 +123,39 @@ export class ItemDataService extends DataService<Item> {
         options.headers = headers;
         return new PostRequest(this.requestService.generateRequestId(), endpointURL, collectionHref, options);
       }),
-      configureRequest(this.requestService),
-      switchMap((request: RestRequest) => this.requestService.getByUUID(request.uuid)),
-      getResponseFromEntry()
-    );
-  }
-
-  /**
-   * Fetches all collections the item is mapped to
-   * @param itemId    The item's id
-   */
-  public getMappedCollections(itemId: string): Observable<RemoteData<PaginatedList<Collection>>> {
-    const request$ = this.getMappedCollectionsEndpoint(itemId).pipe(
-      isNotEmptyOperator(),
-      distinctUntilChanged(),
-      map((endpointURL: string) => new MappedCollectionsRequest(this.requestService.generateRequestId(), endpointURL)),
-      configureRequest(this.requestService)
-    );
-
-    const requestEntry$ = request$.pipe(
-      switchMap((request: RestRequest) => this.requestService.getByHref(request.href))
-    );
-    const payload$ = requestEntry$.pipe(
-      filterSuccessfulResponses(),
-      map((response: GenericSuccessResponse<PaginatedList<Collection>>) => response.payload)
-    );
-
-    return this.rdbService.toRemoteDataObservable(requestEntry$, payload$);
-  }
-
-  /**
-   * Get the endpoint for item withdrawal and reinstatement
-   * @param itemId
-   */
-  public getItemWithdrawEndpoint(itemId: string): Observable<string> {
-    return this.halService.getEndpoint(this.linkPath).pipe(
-      map((endpoint: string) => this.getIDHref(endpoint, itemId))
-    );
-  }
-
-  /**
-   * Get the endpoint to make item private and public
-   * @param itemId
-   */
-  public getItemDiscoverableEndpoint(itemId: string): Observable<string> {
-    return this.halService.getEndpoint(this.linkPath).pipe(
-      map((endpoint: string) => this.getIDHref(endpoint, itemId))
+      sendRequest(this.requestService),
+      switchMap((request: RestRequest) => this.rdbService.buildFromRequestUUID(request.uuid))
     );
   }
 
   /**
    * Set the isWithdrawn state of an item to a specified state
-   * @param itemId
+   * @param item
    * @param withdrawn
    */
-  public setWithDrawn(itemId: string, withdrawn: boolean) {
-    const patchOperation = [{
+  public setWithDrawn(item: Item, withdrawn: boolean): Observable<RemoteData<Item>> {
+
+    const patchOperation = {
       op: 'replace', path: '/withdrawn', value: withdrawn
-    }];
+    } as Operation;
     this.requestService.removeByHrefSubstring('/discover');
 
-    return this.getItemWithdrawEndpoint(itemId).pipe(
-      distinctUntilChanged(),
-      map((endpointURL: string) =>
-        new PatchRequest(this.requestService.generateRequestId(), endpointURL, patchOperation)
-      ),
-      configureRequest(this.requestService),
-      map((request: RestRequest) => request.uuid),
-      getRequestFromRequestUUID(this.requestService),
-      filter((requestEntry: RequestEntry) => requestEntry.completed),
-      map((requestEntry: RequestEntry) => requestEntry.response)
-    );
+    return this.patch(item, [patchOperation]);
   }
 
   /**
    * Set the isDiscoverable state of an item to a specified state
-   * @param itemId
+   * @param item
    * @param discoverable
    */
-  public setDiscoverable(itemId: string, discoverable: boolean) {
-    const patchOperation = [{
+  public setDiscoverable(item: Item, discoverable: boolean): Observable<RemoteData<Item>> {
+    const patchOperation = {
       op: 'replace', path: '/discoverable', value: discoverable
-    }];
+    } as Operation;
     this.requestService.removeByHrefSubstring('/discover');
 
-    return this.getItemDiscoverableEndpoint(itemId).pipe(
-      distinctUntilChanged(),
-      map((endpointURL: string) =>
-        new PatchRequest(this.requestService.generateRequestId(), endpointURL, patchOperation)
-      ),
-      configureRequest(this.requestService),
-      map((request: RestRequest) => request.uuid),
-      getRequestFromRequestUUID(this.requestService),
-      filter((requestEntry: RequestEntry) => requestEntry.completed),
-      map((requestEntry: RequestEntry) => requestEntry.response)
-    );
+    return this.patch(item, [patchOperation]);
+
   }
 
   /**
@@ -248,10 +181,39 @@ export class ItemDataService extends DataService<Item> {
       take(1)
     ).subscribe((href) => {
       const request = new GetRequest(this.requestService.generateRequestId(), href);
-      this.requestService.configure(request);
+      this.requestService.send(request);
     });
 
     return this.rdbService.buildList<Bundle>(hrefObs);
+  }
+
+  /**
+   * Get the endpoint for an item's metrics
+   * @param itemId
+   */
+  public getMetricsEndpoint(itemId: string): Observable<string> {
+    return this.halService.getEndpoint(this.linkPath).pipe(
+      switchMap((url: string) => this.halService.getEndpoint('metrics', `${url}/${itemId}`))
+    );
+  }
+
+  /**
+   * Get an item's metrics using paginated search options
+   * @param itemId          The item's ID
+   * @param searchOptions   The search options to use
+   */
+  public getMetrics(itemId: string, searchOptions?: PaginatedSearchOptions): Observable<RemoteData<PaginatedList<Metric>>> {
+    const hrefObs = this.getMetricsEndpoint(itemId).pipe(
+      map((href) => searchOptions ? searchOptions.toRestUrl(href) : href)
+    );
+    hrefObs.pipe(
+      take(1)
+    ).subscribe((href) => {
+      const request = new GetRequest(this.requestService.generateRequestId(), href);
+      this.requestService.send(request);
+    });
+
+    return this.rdbService.buildList<Metric>(hrefObs);
   }
 
   /**
@@ -277,22 +239,10 @@ export class ItemDataService extends DataService<Item> {
       headers = headers.append('Content-Type', 'application/json');
       options.headers = headers;
       const request = new PostRequest(requestId, href, JSON.stringify(bundleJson), options);
-      this.requestService.configure(request);
+      this.requestService.send(request);
     });
 
-    const selfLink$ = this.requestService.getByUUID(requestId).pipe(
-      getResponseFromEntry(),
-      map((response: any) => {
-        if (isNotEmpty(response.resourceSelfLinks)) {
-          return response.resourceSelfLinks[0];
-        }
-      }),
-      distinctUntilChanged()
-    ) as Observable<string>;
-
-    return selfLink$.pipe(
-      switchMap((selfLink: string) => this.bundleService.findByHref(selfLink)),
-    );
+    return this.rdbService.buildFromRequestUUID(requestId);
   }
 
   /**
@@ -311,7 +261,7 @@ export class ItemDataService extends DataService<Item> {
    * @param itemId
    * @param collection
    */
-  public moveToCollection(itemId: string, collection: Collection): Observable<RestResponse> {
+  public moveToCollection(itemId: string, collection: Collection): Observable<RemoteData<any>> {
     const options: HttpOptions = Object.create({});
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'text/uri-list');
@@ -324,14 +274,19 @@ export class ItemDataService extends DataService<Item> {
       find((href: string) => hasValue(href)),
       map((href: string) => {
         const request = new PutRequest(requestId, href, collection._links.self.href, options);
-        this.requestService.configure(request);
+        Object.assign(request, {
+          // TODO: for now, the move Item endpoint returns a malformed collection -- only look at the status code
+          getResponseParser(): GenericConstructor<ResponseParsingService> {
+            return StatusCodeOnlyResponseParsingService;
+          }
+        });
+        return request;
       })
-    ).subscribe();
+    ).subscribe((request) => {
+      this.requestService.send(request);
+    });
 
-    return this.requestService.getByUUID(requestId).pipe(
-      find((request: RequestEntry) => request.completed),
-      map((request: RequestEntry) => request.response)
-    );
+    return this.rdbService.buildFromRequestUUID(requestId);
   }
 
   /**
@@ -352,20 +307,11 @@ export class ItemDataService extends DataService<Item> {
       find((href: string) => hasValue(href)),
       map((href: string) => {
         const request = new PostRequest(requestId, href, externalSourceEntry._links.self.href, options);
-        this.requestService.configure(request);
+        this.requestService.send(request);
       })
     ).subscribe();
 
-    return this.requestService.getByUUID(requestId).pipe(
-      find((request: RequestEntry) => request.completed),
-      getResponseFromEntry(),
-      map((response: any) => {
-        if (isNotEmpty(response.resourceSelfLinks)) {
-          return response.resourceSelfLinks[0];
-        }
-      }),
-      switchMap((selfLink: string) => this.findByHref(selfLink))
-    );
+    return this.rdbService.buildFromRequestUUID(requestId);
   }
 
   /**
@@ -377,4 +323,51 @@ export class ItemDataService extends DataService<Item> {
       switchMap((url: string) => this.halService.getEndpoint('bitstreams', `${url}/${itemId}`))
     );
   }
+
+  /**
+   * Invalidate the cache of the item
+   * @param itemUUID
+   */
+  invalidateItemCache(itemUUID: string) {
+    this.requestService.setStaleByHrefSubstring('item/' + itemUUID);
+  }
+
+  /**
+   * Search for a list of {@link Item}s using the "findAllById" search endpoint.
+   * @param uuidList                    UUID to the objects to search {@link Item}s for. Required.
+   * @param options                     {@link FindListOptions} to provide pagination and/or additional arguments
+   * @param useCachedVersionIfAvailable If this is true, the request will only be sent if there's
+   *                                    no valid cached version. Defaults to true
+   * @param reRequestOnStale            Whether or not the request should automatically be re-
+   *                                    requested after the response becomes stale
+   * @param linksToFollow               List of {@link FollowLinkConfig} that indicate which
+   *                                    {@link HALLink}s should be automatically resolved
+   */
+  findAllById(uuidList: string[], options: FindListOptions = {}, useCachedVersionIfAvailable = true, reRequestOnStale = true, ...linksToFollow: FollowLinkConfig<Item>[]): Observable<RemoteData<PaginatedList<Item>>> {
+    return of(new ItemSearchParams(uuidList)).pipe(
+      switchMap((params: ItemSearchParams) => {
+        return this.searchBy(this.searchFindAllByIdPath,
+          this.createSearchOptionsObjectsFindAllByID(params.uuidList, options), useCachedVersionIfAvailable, reRequestOnStale, ...linksToFollow);
+      })
+    );
+  }
+
+  /**
+   * Create {@link FindListOptions} with {@link RequestParam}s containing a "uuid" list
+   * @param uuidList  Required parameter values to add to {@link RequestParam} "id"
+   * @param options     Optional initial {@link FindListOptions} to add parameters to
+   */
+  private createSearchOptionsObjectsFindAllByID(uuidList: string[], options: FindListOptions = {}): FindListOptions {
+    let params = [];
+    if (isNotEmpty(options.searchParams)) {
+      params = [...options.searchParams];
+    }
+    uuidList.forEach((uuid) => {
+      params.push(new RequestParam('id', uuid));
+    });
+    return Object.assign(new FindListOptions(), options, {
+      searchParams: [...params]
+    });
+  }
+
 }

@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { of as observableOf } from 'rxjs';
@@ -17,7 +17,8 @@ import { SectionsService } from './sections.service';
 import {
   mockSectionsData,
   mockSectionsErrors,
-  mockSubmissionState
+  mockSubmissionState,
+  mockSubmissionStateWithoutUpload
 } from '../../shared/mocks/submission.mock';
 import {
   DisableSectionAction,
@@ -27,17 +28,16 @@ import {
   SectionStatusChangeAction,
   UpdateSectionDataAction
 } from '../objects/submission-objects.actions';
-import {
-  FormAddError,
-  FormClearErrorsAction,
-  FormRemoveErrorAction
-} from '../../shared/form/form.actions';
+import { FormClearErrorsAction } from '../../shared/form/form.actions';
 import parseSectionErrors from '../utils/parseSectionErrors';
 import { SubmissionScopeType } from '../../core/submission/submission-scope-type';
 import { SubmissionSectionError } from '../objects/submission-objects.reducer';
 import { getMockScrollToService } from '../../shared/mocks/scroll-to-service.mock';
 import { storeModuleConfig } from '../../app.reducer';
 import { SectionsType } from './sections-type';
+import { FormService } from '../../shared/form/form.service';
+import { getMockFormService } from '../../shared/mocks/form-service.mock';
+import { SubmissionVisibilityValue } from '../../core/config/models/config-submission-section.model';
 
 describe('SectionsService test suite', () => {
   let notificationsServiceStub: NotificationsServiceStub;
@@ -52,6 +52,7 @@ describe('SectionsService test suite', () => {
   const sectionErrors: any = parseSectionErrors(mockSectionsErrors);
   const sectionData: any = mockSectionsData;
   const submissionState: any = Object.assign({}, mockSubmissionState[submissionId]);
+  const submissionStateWithoutUpload: any = Object.assign({}, mockSubmissionStateWithoutUpload[submissionId]);
   const sectionState: any = Object.assign({}, mockSubmissionState['826'].sections[sectionId]);
 
   const store: any = jasmine.createSpyObj('store', {
@@ -59,7 +60,9 @@ describe('SectionsService test suite', () => {
     select: jasmine.createSpy('select')
   });
 
-  beforeEach(async(() => {
+  const formService: any = getMockFormService();
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({ submissionReducers } as any, storeModuleConfig),
@@ -76,17 +79,18 @@ describe('SectionsService test suite', () => {
         { provide: SubmissionService, useClass: SubmissionServiceStub },
         { provide: TranslateService, useValue: getMockTranslateService() },
         { provide: Store, useValue: store },
+        { provide: FormService, useValue: formService },
         SectionsService
       ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    service = TestBed.get(SectionsService);
-    submissionServiceStub = TestBed.get(SubmissionService);
-    notificationsServiceStub = TestBed.get(NotificationsService);
-    scrollToService = TestBed.get(ScrollToService);
-    translateService = TestBed.get(TranslateService);
+    service = TestBed.inject(SectionsService);
+    submissionServiceStub = TestBed.inject(SubmissionService as any);
+    notificationsServiceStub = TestBed.inject(NotificationsService as any);
+    scrollToService = TestBed.inject(ScrollToService);
+    translateService = TestBed.inject(TranslateService);
   });
 
   describe('checkSectionErrors', () => {
@@ -100,22 +104,23 @@ describe('SectionsService test suite', () => {
     it('should dispatch a new FormAddError for each section\'s error', () => {
       service.checkSectionErrors(submissionId, sectionId, formId, sectionErrors[sectionId]);
 
-      expect(store.dispatch).toHaveBeenCalledWith(new FormAddError(
+      expect(formService.addError).toHaveBeenCalledWith(
         formId,
-        'dc_contributor_author',
+        'dc.contributor.author',
         0,
-        'error.validation.required'));
+        'error.validation.required');
 
-      expect(store.dispatch).toHaveBeenCalledWith(new FormAddError(
+      expect(formService.addError).toHaveBeenCalledWith(
         formId,
-        'dc_title',
+        'dc.title',
         0,
-        'error.validation.required'));
+        'error.validation.required');
 
-      expect(store.dispatch).toHaveBeenCalledWith(new FormAddError(formId,
-        'dc_date_issued',
+      expect(formService.addError).toHaveBeenCalledWith(
+        formId,
+        'dc.date.issued',
         0,
-        'error.validation.required'));
+        'error.validation.required');
     });
 
     it('should dispatch a new FormRemoveErrorAction for each section\'s error that no longer exists', () => {
@@ -125,21 +130,21 @@ describe('SectionsService test suite', () => {
 
       service.checkSectionErrors(submissionId, sectionId, formId, currentErrors, prevErrors);
 
-      expect(store.dispatch).toHaveBeenCalledWith(new FormAddError(
+      expect(formService.addError).toHaveBeenCalledWith(
         formId,
-        'dc_contributor_author',
+        'dc.contributor.author',
         0,
-        'error.validation.required'));
+        'error.validation.required');
 
-      expect(store.dispatch).toHaveBeenCalledWith(new FormAddError(
+      expect(formService.addError).toHaveBeenCalledWith(
         formId,
-        'dc_title',
+        'dc.title',
         0,
-        'error.validation.required'));
-      expect(store.dispatch).toHaveBeenCalledWith(new FormRemoveErrorAction(
+        'error.validation.required');
+      expect(formService.removeError).toHaveBeenCalledWith(
         formId,
-        'dc_date_issued',
-        0));
+        'dc.date.issued',
+        0);
     });
   });
 
@@ -250,10 +255,10 @@ describe('SectionsService test suite', () => {
 
   describe('isSectionReadOnly', () => {
     it('should return an observable of true when it\'s a readonly section and scope is not workspace', () => {
+      submissionServiceStub.getSubmissionScope.and.returnValue(SubmissionScopeType.WorkflowItem);
       store.select.and.returnValue(observableOf({
         visibility: {
-          main: null,
-          other: 'READONLY'
+          workflow: SubmissionVisibilityValue.ReadOnly
         }
       }));
 
@@ -265,10 +270,10 @@ describe('SectionsService test suite', () => {
     });
 
     it('should return an observable of false when it\'s a readonly section and scope is workspace', () => {
+      submissionServiceStub.getSubmissionScope.and.returnValue(SubmissionScopeType.WorkflowItem);
       store.select.and.returnValue(observableOf({
         visibility: {
-          main: null,
-          other: 'READONLY'
+          workflow: SubmissionVisibilityValue.ReadOnly
         }
       }));
 
@@ -311,6 +316,60 @@ describe('SectionsService test suite', () => {
       });
 
       expect(service.isSectionAvailable(submissionId, 'test')).toBeObservable(expected);
+    });
+  });
+
+  describe('isSectionTypeAvailable', () => {
+    it('should return an observable of true when section is available', () => {
+      store.select.and.returnValue(observableOf(submissionState));
+
+      const expected = cold('(b|)', {
+        b: true
+      });
+
+      expect(service.isSectionTypeAvailable(submissionId, SectionsType.Upload)).toBeObservable(expected);
+    });
+
+    it('should return an observable of false when section is not available', () => {
+      store.select.and.returnValue(observableOf(submissionStateWithoutUpload));
+
+      const expected = cold('(b|)', {
+        b: false
+      });
+
+      expect(service.isSectionAvailable(submissionId, SectionsType.Upload)).toBeObservable(expected);
+    });
+  });
+
+  describe('isSectionType', () => {
+    it('should return true if the section matches the provided type', () => {
+      store.select.and.returnValue(observableOf(submissionState));
+
+      const expected = cold('(b|)', {
+        b: true
+      });
+
+      expect(service.isSectionType(submissionId, 'upload', SectionsType.Upload)).toBeObservable(expected);
+    });
+
+    it('should return false if the section doesn\'t match the provided type', () => {
+      store.select.and.returnValue(observableOf(submissionState));
+
+      const expected = cold('(b|)', {
+        b: false
+      });
+
+      expect(service.isSectionType(submissionId, sectionId, SectionsType.Upload)).toBeObservable(expected);
+    });
+
+    it('should return false if the provided sectionId doesn\'t exist', () => {
+      store.select.and.returnValue(observableOf(submissionState));
+
+      const expected = cold('(b|)', {
+        b: false
+      });
+
+      expect(service.isSectionType(submissionId, 'no-such-id', SectionsType.Upload)).toBeObservable(expected);
     });
   });
 
@@ -365,7 +424,7 @@ describe('SectionsService test suite', () => {
       scheduler.schedule(() => service.updateSectionData(submissionId, sectionId, data, []));
       scheduler.flush();
 
-      expect(store.dispatch).toHaveBeenCalledWith(new UpdateSectionDataAction(submissionId, sectionId, data, []));
+      expect(store.dispatch).toHaveBeenCalledWith(new UpdateSectionDataAction(submissionId, sectionId, data, [], []));
     });
 
     it('should dispatch a new UpdateSectionDataAction and display a new notification when section is not enabled', () => {
@@ -377,7 +436,28 @@ describe('SectionsService test suite', () => {
       scheduler.schedule(() => service.updateSectionData(submissionId, sectionId, data, []));
       scheduler.flush();
 
-      expect(store.dispatch).toHaveBeenCalledWith(new UpdateSectionDataAction(submissionId, sectionId, data, []));
+      expect(store.dispatch).toHaveBeenCalledWith(new UpdateSectionDataAction(submissionId, sectionId, data, [], []));
+    });
+  });
+
+  describe('computeSectionConfiguredMetadata', () => {
+    it('should return the configured metadata of the section from the form configuration', () => {
+
+      const formConfig = {
+        rows: [{
+          fields: [{
+            selectableMetadata: [{
+              metadata: 'dc.contributor.author'
+            }]
+          }]
+        }]
+      };
+
+      const expectedConfiguredMetadata =  [ 'dc.contributor.author' ];
+
+      const configuredMetadata = service.computeSectionConfiguredMetadata(formConfig as any);
+
+      expect(configuredMetadata).toEqual(expectedConfiguredMetadata);
     });
   });
 });

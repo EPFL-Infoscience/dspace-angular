@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { By } from '@angular/platform-browser';
 import { Store, StoreModule } from '@ngrx/store';
@@ -7,14 +7,14 @@ import { Store, StoreModule } from '@ngrx/store';
 import { authReducer, AuthState } from '../../core/auth/auth.reducer';
 import { EPersonMock } from '../testing/eperson.mock';
 import { TranslateModule } from '@ngx-translate/core';
-import { AppState, storeModuleConfig } from '../../app.reducer';
+import { AppState } from '../../app.reducer';
 import { AuthNavMenuComponent } from './auth-nav-menu.component';
 import { HostWindowServiceStub } from '../testing/host-window-service.stub';
 import { HostWindowService } from '../host-window.service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthTokenInfo } from '../../core/auth/models/auth-token-info.model';
 import { AuthService } from '../../core/auth/auth.service';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 
 describe('AuthNavMenuComponent', () => {
 
@@ -44,7 +44,8 @@ describe('AuthNavMenuComponent', () => {
       authenticated: false,
       loaded: false,
       blocking: false,
-      loading: false
+      loading: false,
+      idle: false
     };
     authState = {
       authenticated: true,
@@ -52,12 +53,14 @@ describe('AuthNavMenuComponent', () => {
       blocking: false,
       loading: false,
       authToken: new AuthTokenInfo('test_token'),
-      user: EPersonMock
+      user: EPersonMock,
+      idle: false
     };
   }
+
   describe('when is a not mobile view', () => {
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       const window = new HostWindowServiceStub(800);
       serviceInit();
 
@@ -205,7 +208,7 @@ describe('AuthNavMenuComponent', () => {
         });
 
         it('should render login dropdown menu', () => {
-          const loginDropdownMenu = deNavMenuItem.query(By.css('div[id=loginDropdownMenu]'));
+          const loginDropdownMenu = deNavMenuItem.query(By.css('div.loginDropdownMenu'));
           expect(loginDropdownMenu.nativeElement).toBeDefined();
         });
       });
@@ -246,12 +249,12 @@ describe('AuthNavMenuComponent', () => {
           const logoutDropdownMenu = deNavMenuItem.query(By.css('ds-user-menu'));
           expect(logoutDropdownMenu.nativeElement).toBeDefined();
         });
-      })
-    })
+      });
+    });
   });
 
   describe('when is a mobile view', () => {
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       const window = new HostWindowServiceStub(300);
       serviceInit();
 
@@ -317,7 +320,7 @@ describe('AuthNavMenuComponent', () => {
       });
 
       it('should render login link', () => {
-        const loginDropdownMenu = deNavMenuItem.query(By.css('a[id=loginLink]'));
+        const loginDropdownMenu = deNavMenuItem.query(By.css('.loginLink'));
         expect(loginDropdownMenu.nativeElement).toBeDefined();
       });
     });
@@ -356,6 +359,6 @@ describe('AuthNavMenuComponent', () => {
         const logoutDropdownMenu = deNavMenuItem.query(By.css('a[id=logoutLink]'));
         expect(logoutDropdownMenu.nativeElement).toBeDefined();
       }));
-    })
-  })
+    });
+  });
 });

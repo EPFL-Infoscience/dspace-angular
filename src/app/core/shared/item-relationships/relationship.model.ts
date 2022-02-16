@@ -1,4 +1,4 @@
-import { autoserialize, deserialize, serialize, deserializeAs } from 'cerialize';
+import { autoserialize, deserialize, deserializeAs } from 'cerialize';
 import { Observable } from 'rxjs';
 import { link, typedObject } from '../../cache/builders/build-decorators';
 import { IDToUUIDSerializer } from '../../cache/id-to-uuid-serializer';
@@ -75,6 +75,8 @@ export class Relationship implements CacheableObject {
     rightItem: HALLink;
     relationshipType: HALLink;
   };
+
+  relationType: any;
 
   /**
    * The item on the left side of this relationship

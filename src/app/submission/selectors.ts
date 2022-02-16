@@ -2,6 +2,7 @@ import { MemoizedSelector } from '@ngrx/store';
 
 import { submissionSelector, SubmissionState } from './submission.reducers';
 import { SubmissionObjectEntry, SubmissionSectionObject } from './objects/submission-objects.reducer';
+import { MetadataSecurityConfiguration } from '../core/submission/models/metadata-security-configuration';
 import { keySelector, subStateSelector } from '../shared/selector.util';
 
 export function submissionObjectFromIdSelector(submissionId: string): MemoizedSelector<SubmissionState, SubmissionObjectEntry> {
@@ -19,21 +20,32 @@ export function submissionUploadedFilesFromIdSelector(submissionId: string, sect
 }
 
 export function submissionUploadedFileFromUuidSelector(submissionId: string, sectionId: string, uuid: string): MemoizedSelector<SubmissionState, any> {
-  const filesSelector  = submissionSectionDataFromIdSelector(submissionId, sectionId);
+  const filesSelector = submissionSectionDataFromIdSelector(submissionId, sectionId);
   return keySelector<SubmissionState, any>(filesSelector, 'files', uuid);
 }
 
 export function submissionSectionFromIdSelector(submissionId: string, sectionId: string): MemoizedSelector<SubmissionState, any> {
-  const submissionIdSelector  = submissionObjectFromIdSelector(submissionId);
+  const submissionIdSelector = submissionObjectFromIdSelector(submissionId);
   return keySelector<SubmissionState, SubmissionObjectEntry>(submissionIdSelector, 'sections', sectionId);
 }
 
 export function submissionSectionDataFromIdSelector(submissionId: string, sectionId: string): MemoizedSelector<SubmissionState, any> {
-  const submissionIdSelector  = submissionSectionFromIdSelector(submissionId, sectionId);
+  const submissionIdSelector = submissionSectionFromIdSelector(submissionId, sectionId);
   return subStateSelector<SubmissionState, SubmissionSectionObject>(submissionIdSelector, 'data');
 }
 
 export function submissionSectionErrorsFromIdSelector(submissionId: string, sectionId: string): MemoizedSelector<SubmissionState, any> {
-  const submissionIdSelector  = submissionSectionFromIdSelector(submissionId, sectionId);
-  return subStateSelector<SubmissionState, SubmissionSectionObject>(submissionIdSelector, 'errors');
+  const submissionIdSelector = submissionSectionFromIdSelector(submissionId, sectionId);
+  return subStateSelector<SubmissionState, SubmissionSectionObject>(submissionIdSelector, 'errorsToShow');
+}
+
+
+export function submissionSectionServerErrorsFromIdSelector(submissionId: string, sectionId: string): MemoizedSelector<SubmissionState, any> {
+  const submissionIdSelector = submissionSectionFromIdSelector(submissionId, sectionId);
+  return subStateSelector<SubmissionState, SubmissionSectionObject>(submissionIdSelector, 'serverValidationErrors');
+}
+
+export function securityConfigurationObjectFromIdSelector(submissionId: string): MemoizedSelector<SubmissionState, MetadataSecurityConfiguration> {
+  const submissionIdSelector  = submissionObjectFromIdSelector(submissionId);
+  return subStateSelector<SubmissionState, MetadataSecurityConfiguration>(submissionIdSelector, 'metadataSecurityConfiguration');
 }

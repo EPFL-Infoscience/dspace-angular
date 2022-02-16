@@ -1,8 +1,9 @@
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { ChangeDetectorRef, Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserModule, By } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { getTestScheduler } from 'jasmine-marbles';
 import { of as observableOf } from 'rxjs';
@@ -25,10 +26,19 @@ import { getMockFormService } from '../../mocks/form-service.mock';
 import { FormBuilderService } from '../../form/builder/form-builder.service';
 import { EpersonGroupListComponent } from './eperson-group-list/eperson-group-list.component';
 import { FormComponent } from '../../form/form.component';
-import { stringToNgbDateStruct } from '../../date.util';
+import { dateToISOFormat, stringToNgbDateStruct } from '../../date.util';
 import { ResourcePolicy } from '../../../core/resource-policy/models/resource-policy.model';
 import { RESOURCE_POLICY } from '../../../core/resource-policy/models/resource-policy.resource-type';
 import { EPersonMock } from '../../testing/eperson.mock';
+import { isNotEmptyOperator } from '../../empty.util';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RemoteData } from '../../../core/data/remote-data';
+import { RouterMock } from '../../mocks/router.mock';
+import { Store } from '@ngrx/store';
+import { PaginationServiceStub } from '../../testing/pagination-service.stub';
+import { PaginationService } from '../../../core/pagination/pagination.service';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { StoreMock } from '../../testing/store.mock';
 
 export const mockResourcePolicyFormData = {
   name: [
@@ -106,8 +116,8 @@ export const submittedResourcePolicy = Object.assign(new ResourcePolicy(), {
   description: 'description',
   policyType: PolicyType.TYPE_WORKFLOW,
   action: ActionType.WRITE,
-  startDate: '2019-04-14T00:00:00Z',
-  endDate: '2020-04-14T00:00:00Z',
+  startDate: dateToISOFormat('2019-04-14T00:00:00Z'),
+  endDate: dateToISOFormat('2020-04-14T00:00:00Z'),
   type: RESOURCE_POLICY
 });
 
@@ -117,6 +127,8 @@ describe('ResourcePolicyFormComponent test suite', () => {
   let fixture: ComponentFixture<ResourcePolicyFormComponent>;
   let de;
   let scheduler: TestScheduler;
+
+  const formService: any = getMockFormService();
 
   const resourcePolicy: any = {
     id: '1',
@@ -153,12 +165,23 @@ describe('ResourcePolicyFormComponent test suite', () => {
     findAll: jasmine.createSpy('findAll')
   });
 
-  beforeEach(async(() => {
+  const mockPolicyRD: RemoteData<ResourcePolicy> = createSuccessfulRemoteDataObject(resourcePolicy);
+  const activatedRouteStub = {
+    parent: {
+      data: observableOf({
+        dso: mockPolicyRD
+      })
+    }
+  };
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         BrowserModule,
         CommonModule,
         FormsModule,
+        NgbModule,
+        NoopAnimationsModule,
         ReactiveFormsModule,
         TranslateModule.forRoot()
       ],
@@ -169,9 +192,13 @@ describe('ResourcePolicyFormComponent test suite', () => {
         TestComponent
       ],
       providers: [
+        { provide: ActivatedRoute, useValue: activatedRouteStub },
+        { provide: Router, useValue: new RouterMock() },
+        { provide: Store, useValue: StoreMock },
         { provide: EPersonDataService, useValue: epersonService },
-        { provide: FormService, useValue: getMockFormService() },
+        { provide: FormService, useValue: formService },
         { provide: GroupDataService, useValue: groupService },
+        { provide: PaginationService, useValue: new PaginationServiceStub() },
         { provide: RequestService, useValue: getMockRequestService() },
         FormBuilderService,
         ChangeDetectorRef,
@@ -189,6 +216,7 @@ describe('ResourcePolicyFormComponent test suite', () => {
 
     // synchronous beforeEach
     beforeEach(() => {
+      formService.isValid.and.returnValue(observableOf(true));
       const html = `
         <ds-resource-policy-form [resourcePolicy]="resourcePolicy" [isProcessing]="isProcessing"></ds-resource-policy-form>`;
 
@@ -304,14 +332,15 @@ describe('ResourcePolicyFormComponent test suite', () => {
 
     });
 
-    it('should init resourcePolicyGrant properly', () => {
+    it('should init resourcePolicyGrant properly', (done) => {
       compAsAny.isActive = true;
-
-      scheduler = getTestScheduler();
-      scheduler.schedule(() => comp.ngOnInit());
-      scheduler.flush();
-
-      expect(compAsAny.resourcePolicyGrant).toEqual(GroupMock);
+      comp.ngOnInit();
+      comp.resourcePolicyTargetName$.pipe(
+        isNotEmptyOperator()
+      ).subscribe(() => {
+        expect(compAsAny.resourcePolicyGrant).toEqual(GroupMock);
+        done();
+      });
     });
 
     it('should not can set grant', () => {

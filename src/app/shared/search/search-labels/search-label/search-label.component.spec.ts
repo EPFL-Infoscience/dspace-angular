@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { ChangeDetectionStrategy, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -7,10 +7,16 @@ import { Observable, of as observableOf } from 'rxjs';
 import { Params, Router } from '@angular/router';
 import { SearchLabelComponent } from './search-label.component';
 import { ObjectKeysPipe } from '../../../utils/object-keys-pipe';
-import { SEARCH_CONFIG_SERVICE } from '../../../../+my-dspace-page/my-dspace-page.component';
+import { SEARCH_CONFIG_SERVICE } from '../../../../my-dspace-page/my-dspace-page.component';
 import { SearchServiceStub } from '../../../testing/search-service.stub';
 import { SearchConfigurationServiceStub } from '../../../testing/search-configuration-service.stub';
 import { SearchService } from '../../../../core/shared/search/search.service';
+import { PaginationComponentOptions } from '../../../pagination/pagination-component-options.model';
+import { SortDirection, SortOptions } from '../../../../core/cache/models/sort-options.model';
+import { FindListOptions } from '../../../../core/data/request.models';
+import { PaginationService } from '../../../../core/pagination/pagination.service';
+import { SearchConfigurationService } from '../../../../core/shared/search/search-configuration.service';
+import { PaginationServiceStub } from '../../../testing/pagination-service.stub';
 
 describe('SearchLabelComponent', () => {
   let comp: SearchLabelComponent;
@@ -33,14 +39,19 @@ describe('SearchLabelComponent', () => {
     filter2
   ];
 
-  beforeEach(async(() => {
+  const pagination = Object.assign(new PaginationComponentOptions(), { id: 'page-id', currentPage: 1, pageSize: 20 });
+  const paginationService = new PaginationServiceStub(pagination);
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), NoopAnimationsModule, FormsModule],
       declarations: [SearchLabelComponent, ObjectKeysPipe],
       providers: [
         { provide: SearchService, useValue: new SearchServiceStub(searchLink) },
         { provide: SEARCH_CONFIG_SERVICE, useValue: new SearchConfigurationServiceStub() },
-        { provide: Router, useValue: {}}
+        { provide: SearchConfigurationService, useValue: new SearchConfigurationServiceStub() },
+        { provide: PaginationService, useValue: paginationService },
+        { provide: Router, useValue: {} }
         // { provide: SearchConfigurationService, useValue: {getCurrentFrontendFilters : () =>  observableOf({})} }
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -71,7 +82,7 @@ describe('SearchLabelComponent', () => {
         // Should contain only filter2 and page: length == 2
         expect(Object.keys(params).length).toBe(2);
       });
-    })
+    });
   });
 
   describe('when normalizeFilterValue is called', () => {
@@ -83,6 +94,6 @@ describe('SearchLabelComponent', () => {
 
       result = comp.normalizeFilterValue(value3);
       expect(result).toBe(normValue3);
-    })
+    });
   });
 });

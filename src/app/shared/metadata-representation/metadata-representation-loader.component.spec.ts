@@ -1,12 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ChangeDetectionStrategy, ComponentFactoryResolver, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ChangeDetectionStrategy, NO_ERRORS_SCHEMA } from '@angular/core';
 import { Context } from '../../core/shared/context.model';
-import { MetadataRepresentation, MetadataRepresentationType } from '../../core/shared/metadata-representation/metadata-representation.model';
+import {
+  MetadataRepresentation,
+  MetadataRepresentationType
+} from '../../core/shared/metadata-representation/metadata-representation.model';
 import { MetadataRepresentationLoaderComponent } from './metadata-representation-loader.component';
-import { PlainTextMetadataListElementComponent } from '../object-list/metadata-representation-list-element/plain-text/plain-text-metadata-list-element.component';
-import { spyOnExported } from '../testing/utils.test';
 import { MetadataRepresentationDirective } from './metadata-representation.directive';
-import * as metadataRepresentationDecorator from './metadata-representation.decorator';
+import { METADATA_REPRESENTATION_COMPONENT_FACTORY } from './metadata-representation.decorator';
+import { ThemeService } from '../theme-support/theme.service';
+import { PlainTextMetadataListElementComponent } from '../object-list/metadata-representation-list-element/plain-text/plain-text-metadata-list-element.component';
 
 const testType = 'TestType';
 const testContext = Context.Search;
@@ -25,16 +28,31 @@ class TestType implements MetadataRepresentation {
     return '';
   }
 }
+
 describe('MetadataRepresentationLoaderComponent', () => {
   let comp: MetadataRepresentationLoaderComponent;
   let fixture: ComponentFixture<MetadataRepresentationLoaderComponent>;
+  let themeService: ThemeService;
+  const themeName = 'test-theme';
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
+    themeService = jasmine.createSpyObj('themeService', {
+      getThemeName: themeName,
+    });
     TestBed.configureTestingModule({
       imports: [],
       declarations: [MetadataRepresentationLoaderComponent, PlainTextMetadataListElementComponent, MetadataRepresentationDirective],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [ComponentFactoryResolver]
+      providers: [
+        {
+          provide: METADATA_REPRESENTATION_COMPONENT_FACTORY,
+          useValue: jasmine.createSpy('getMetadataRepresentationComponent').and.returnValue(PlainTextMetadataListElementComponent)
+        },
+        {
+          provide: ThemeService,
+          useValue: themeService,
+        }
+      ]
     }).overrideComponent(MetadataRepresentationLoaderComponent, {
       set: {
         changeDetection: ChangeDetectionStrategy.Default,
@@ -43,21 +61,18 @@ describe('MetadataRepresentationLoaderComponent', () => {
     }).compileComponents();
   }));
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(MetadataRepresentationLoaderComponent);
     comp = fixture.componentInstance;
 
     comp.mdRepresentation = new TestType();
     comp.context = testContext;
-
-    spyOnExported(metadataRepresentationDecorator, 'getMetadataRepresentationComponent').and.returnValue(PlainTextMetadataListElementComponent);
     fixture.detectChanges();
-
   }));
 
   describe('When the component is rendered', () => {
     it('should call the getMetadataRepresentationComponent function with the right entity type, representation type and context', () => {
-      expect(metadataRepresentationDecorator.getMetadataRepresentationComponent).toHaveBeenCalledWith(testType, testRepresentationType, testContext);
-    })
+      expect((comp as any).getMetadataRepresentationComponent).toHaveBeenCalledWith(testType, testRepresentationType, testContext, themeName);
+    });
   });
 });

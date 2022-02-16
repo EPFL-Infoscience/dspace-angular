@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable, of as observableOf } from 'rxjs';
@@ -8,11 +8,11 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchFilterService } from '../../../../core/shared/search/search-filter.service';
 import { SearchService } from '../../../../core/shared/search/search.service';
 import { SearchFilterComponent } from './search-filter.component';
-import { SearchFilterConfig } from '../../search-filter-config.model';
-import { FilterType } from '../../filter-type.model';
-import { SearchConfigurationService } from '../../../../core/shared/search/search-configuration.service';
+import { SearchFilterConfig } from '../../models/search-filter-config.model';
+import { FilterType } from '../../models/filter-type.model';
 import { SearchConfigurationServiceStub } from '../../../testing/search-configuration-service.stub';
-import { SEARCH_CONFIG_SERVICE } from '../../../../+my-dspace-page/my-dspace-page.component';
+import { SEARCH_CONFIG_SERVICE } from '../../../../my-dspace-page/my-dspace-page.component';
+import { SequenceService } from '../../../../core/shared/sequence.service';
 
 describe('SearchFilterComponent', () => {
   let comp: SearchFilterComponent;
@@ -24,7 +24,7 @@ describe('SearchFilterComponent', () => {
   const nonExistingFilter2 = 'non existing 2';
   const mockFilterConfig: SearchFilterConfig = Object.assign(new SearchFilterConfig(), {
     name: filterName1,
-    type: FilterType.text,
+    filterType: FilterType.text,
     hasFacets: false,
     isOpenByDefault: false
   });
@@ -39,24 +39,27 @@ describe('SearchFilterComponent', () => {
     initializeFilter: (filter) => {
     },
     getSelectedValuesForFilter: (filter) => {
-      return observableOf([filterName1, filterName2, filterName3])
+      return observableOf([filterName1, filterName2, filterName3]);
     },
     isFilterActive: (filter) => {
       return observableOf([filterName1, filterName2, filterName3].indexOf(filter) >= 0);
     },
     isCollapsed: (filter) => {
-      return observableOf(true)
+      return observableOf(true);
     }
     /* tslint:enable:no-empty */
 
   };
   let filterService;
+  let sequenceService;
   const mockResults = observableOf(['test', 'data']);
   const searchServiceStub = {
     getFacetValuesFor: (filter) => mockResults
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
+    sequenceService = jasmine.createSpyObj('sequenceService', { next: 17 });
+
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule.withRoutes([]), NoopAnimationsModule],
       declarations: [SearchFilterComponent],
@@ -66,7 +69,8 @@ describe('SearchFilterComponent', () => {
           provide: SearchFilterService,
           useValue: mockFilterService
         },
-        { provide: SEARCH_CONFIG_SERVICE, useValue: new SearchConfigurationServiceStub() }
+        { provide: SEARCH_CONFIG_SERVICE, useValue: new SearchConfigurationServiceStub() },
+        { provide: SequenceService, useValue: sequenceService },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(SearchFilterComponent, {
@@ -82,6 +86,12 @@ describe('SearchFilterComponent', () => {
     filterService = (comp as any).filterService;
   });
 
+  it('should generate unique IDs', () => {
+    expect(sequenceService.next).toHaveBeenCalled();
+    expect(comp.toggleId).toContain('17');
+    expect(comp.regionId).toContain('17');
+  });
+
   describe('when the toggle method is triggered', () => {
     beforeEach(() => {
       spyOn(filterService, 'toggle');
@@ -89,7 +99,7 @@ describe('SearchFilterComponent', () => {
     });
 
     it('should call toggle with the correct filter configuration name', () => {
-      expect(filterService.toggle).toHaveBeenCalledWith(mockFilterConfig.name)
+      expect(filterService.toggle).toHaveBeenCalledWith(mockFilterConfig.name);
     });
   });
 
@@ -100,7 +110,7 @@ describe('SearchFilterComponent', () => {
     });
 
     it('should call initialCollapse with the correct filter configuration name', () => {
-      expect(filterService.initializeFilter).toHaveBeenCalledWith(mockFilterConfig)
+      expect(filterService.initializeFilter).toHaveBeenCalledWith(mockFilterConfig);
     });
   });
 

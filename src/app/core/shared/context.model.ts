@@ -3,7 +3,7 @@
  */
 
 export enum Context {
-  Undefined = 'undefined',
+  Any = 'undefined',
   ItemPage = 'itemPage',
   Search = 'search',
   Workflow = 'workflow',
@@ -13,4 +13,8 @@ export enum Context {
   EntitySearchModal = 'EntitySearchModal',
   AdminSearch = 'adminSearch',
   AdminWorkflowSearch = 'adminWorkflowSearch',
+  SideBarSearchModal = 'sideBarSearchModal',
+  SideBarSearchModalCurrent = 'sideBarSearchModalCurrent',
+  RelationshipItem = 'relationshipItem',
+  BrowseMostElements = 'browseMostElements'
 }

@@ -1,10 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { LinkMenuItemComponent } from './link-menu-item.component';
 import { RouterLinkDirectiveStub } from '../../testing/router-link-directive.stub';
 import { environment } from '../../../../environments/environment';
+import { RouterStub } from '../../testing/router.stub';
+import { Router } from '@angular/router';
 
 describe('LinkMenuItemComponent', () => {
   let component: LinkMenuItemComponent;
@@ -17,13 +19,15 @@ describe('LinkMenuItemComponent', () => {
     text = 'HELLO';
     link = 'http://google.com';
   }
-  beforeEach(async(() => {
+
+  beforeEach(waitForAsync(() => {
     init();
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       declarations: [LinkMenuItemComponent, RouterLinkDirectiveStub],
       providers: [
         { provide: 'itemModelProvider', useValue: { text: text, link: link } },
+        { provide: Router, useValue: RouterStub },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })

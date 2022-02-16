@@ -3,15 +3,19 @@ import { map, startWith } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { RemoteDataBuildService } from '../../../../../core/cache/builders/remote-data-build.service';
-import { FilterType } from '../../../filter-type.model';
+import { FilterType } from '../../../models/filter-type.model';
 import { renderFacetFor } from '../search-filter-type-decorator';
 import { facetLoad, SearchFacetFilterComponent } from '../search-facet-filter/search-facet-filter.component';
-import { SearchFilterConfig } from '../../../search-filter-config.model';
-import { FILTER_CONFIG, IN_PLACE_SEARCH, SearchFilterService } from '../../../../../core/shared/search/search-filter.service';
+import { SearchFilterConfig } from '../../../models/search-filter-config.model';
+import {
+  FILTER_CONFIG,
+  IN_PLACE_SEARCH,
+  SearchFilterService
+} from '../../../../../core/shared/search/search-filter.service';
 import { SearchService } from '../../../../../core/shared/search/search.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { SEARCH_CONFIG_SERVICE } from '../../../../../+my-dspace-page/my-dspace-page.component';
+import { SEARCH_CONFIG_SERVICE } from '../../../../../my-dspace-page/my-dspace-page.component';
 import { SearchConfigurationService } from '../../../../../core/shared/search/search-configuration.service';
 import { RouteService } from '../../../../../core/services/route.service';
 import { hasValue } from '../../../../empty.util';
@@ -56,7 +60,7 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
   /**
    * Fallback maximum for the range
    */
-  max = 2018;
+  max = new Date().getUTCFullYear();
 
   /**
    * The current range of the filter
@@ -67,6 +71,12 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
    * Subscription to unsubscribe from
    */
   sub: Subscription;
+
+  /**
+   * Whether the sider is being controlled by the keyboard.
+   * Supresses any changes until the key is released.
+   */
+  keyboardControl: boolean;
 
   constructor(protected searchService: SearchService,
               protected filterService: SearchFilterService,
@@ -95,7 +105,7 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
       map(([min, max]) => {
         const minimum = hasValue(min) ? min : this.min;
         const maximum = hasValue(max) ? max : this.max;
-        return [minimum, maximum]
+        return [minimum, maximum];
       })
     ).subscribe((minmax) => this.range = minmax);
   }
@@ -104,6 +114,10 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
    * Submits new custom range values to the range filter from the widget
    */
   onSubmit() {
+    if (this.keyboardControl) {
+      return;  // don't submit if a key is being held down
+    }
+
     const newMin = this.range[0] !== this.min ? [this.range[0]] : null;
     const newMax = this.range[1] !== this.max ? [this.range[1]] : null;
     this.router.navigate(this.getSearchLinkParts(), {
@@ -115,6 +129,14 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
       queryParamsHandling: 'merge'
     });
     this.filter = '';
+  }
+
+  startKeyboardControl(): void {
+    this.keyboardControl = true;
+  }
+
+  stopKeyboardControl(): void {
+    this.keyboardControl = false;
   }
 
   /**

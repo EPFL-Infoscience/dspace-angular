@@ -27,6 +27,12 @@ export class SubmissionSectionContainerComponent implements OnInit {
    * @type {string}
    */
   @Input() collectionId: string;
+  /**
+   * The entity type, needed in order to search for metadata level security
+   */
+
+  @Input() entityType: string;
+
 
   /**
    * The section data
@@ -73,7 +79,7 @@ export class SubmissionSectionContainerComponent implements OnInit {
   /**
    * The SectionsDirective reference
    */
-  @ViewChild('sectionRef', {static: false}) sectionRef: SectionsDirective;
+  @ViewChild('sectionRef') sectionRef: SectionsDirective;
 
   /**
    * Initialize instance variables
@@ -94,9 +100,10 @@ export class SubmissionSectionContainerComponent implements OnInit {
   ngOnInit() {
     this.objectInjector = Injector.create({
       providers: [
-        {provide: 'collectionIdProvider', useFactory: () => (this.collectionId), deps: []},
-        {provide: 'sectionDataProvider', useFactory: () => (this.sectionData), deps: []},
-        {provide: 'submissionIdProvider', useFactory: () => (this.submissionId), deps: []},
+        { provide: 'collectionIdProvider', useFactory: () => (this.collectionId), deps: [] },
+        { provide: 'sectionDataProvider', useFactory: () => (this.sectionData), deps: [] },
+        { provide: 'submissionIdProvider', useFactory: () => (this.submissionId), deps: [] },
+        { provide: 'entityType', useFactory: () => (this.entityType), deps: [] },
       ],
       parent: this.injector
     });

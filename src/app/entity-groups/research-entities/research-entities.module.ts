@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../../shared/shared.module';
-import { ItemPageModule } from '../../+item-page/item-page.module';
 import { OrgUnitComponent } from './item-pages/org-unit/org-unit.component';
 import { PersonComponent } from './item-pages/person/person.component';
 import { ProjectComponent } from './item-pages/project/project.component';
 import { OrgUnitListElementComponent } from './item-list-elements/org-unit/org-unit-list-element.component';
 import { PersonListElementComponent } from './item-list-elements/person/person-list-element.component';
 import { ProjectListElementComponent } from './item-list-elements/project/project-list-element.component';
-import { TooltipModule } from 'ngx-bootstrap';
 import { PersonGridElementComponent } from './item-grid-elements/person/person-grid-element.component';
 import { OrgUnitGridElementComponent } from './item-grid-elements/org-unit/org-unit-grid-element.component';
 import { ProjectGridElementComponent } from './item-grid-elements/project/project-grid-element.component';
@@ -26,8 +25,14 @@ import { NameVariantModalComponent } from './submission/name-variant-modal/name-
 import { OrgUnitInputSuggestionsComponent } from './submission/item-list-elements/org-unit/org-unit-suggestions/org-unit-input-suggestions.component';
 import { OrgUnitSearchResultListSubmissionElementComponent } from './submission/item-list-elements/org-unit/org-unit-search-result-list-submission-element.component';
 import { ExternalSourceEntryListSubmissionElementComponent } from './submission/item-list-elements/external-source-entry/external-source-entry-list-submission-element.component';
+import { OrgUnitSidebarSearchListElementComponent } from './item-list-elements/sidebar-search-list-elements/org-unit/org-unit-sidebar-search-list-element.component';
+import { PersonSidebarSearchListElementComponent } from './item-list-elements/sidebar-search-list-elements/person/person-sidebar-search-list-element.component';
+import { ProjectSidebarSearchListElementComponent } from './item-list-elements/sidebar-search-list-elements/project/project-sidebar-search-list-element.component';
+import { ItemSharedModule } from '../../item-page/item-shared.module';
+import { ContextMenuModule } from '../../shared/context-menu/context-menu.module';
 
 const ENTRY_COMPONENTS = [
+// put only entry components that use custom decorator
   OrgUnitComponent,
   PersonComponent,
   ProjectComponent,
@@ -46,27 +51,41 @@ const ENTRY_COMPONENTS = [
   OrgUnitSearchResultGridElementComponent,
   ProjectSearchResultGridElementComponent,
   PersonSearchResultListSubmissionElementComponent,
-  PersonInputSuggestionsComponent,
-  NameVariantModalComponent,
   OrgUnitSearchResultListSubmissionElementComponent,
   OrgUnitInputSuggestionsComponent,
-  ExternalSourceEntryListSubmissionElementComponent
+  ExternalSourceEntryListSubmissionElementComponent,
+  OrgUnitSidebarSearchListElementComponent,
+  PersonSidebarSearchListElementComponent,
+  ProjectSidebarSearchListElementComponent,
+];
+
+const COMPONENTS = [
+  NameVariantModalComponent,
+  PersonInputSuggestionsComponent,
+  ...ENTRY_COMPONENTS
 ];
 
 @NgModule({
   imports: [
     CommonModule,
+    ItemSharedModule,
     SharedModule,
-    TooltipModule.forRoot(),
-    ItemPageModule
+    NgbTooltipModule,
+    ContextMenuModule.withEntryComponents(),
   ],
   declarations: [
-    ...ENTRY_COMPONENTS,
-  ],
-  entryComponents: [
-    ...ENTRY_COMPONENTS
+    ...COMPONENTS,
   ]
 })
 export class ResearchEntitiesModule {
-
+  /**
+   * NOTE: this method allows to resolve issue with components that using a custom decorator
+   * which are not loaded during SSR otherwise
+   */
+  static withEntryComponents() {
+    return {
+      ngModule: ResearchEntitiesModule,
+      providers: ENTRY_COMPONENTS.map((component) => ({ provide: component }))
+    };
+  }
 }

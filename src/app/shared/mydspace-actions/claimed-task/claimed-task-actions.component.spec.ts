@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Injector, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
 import { of as observableOf } from 'rxjs';
@@ -23,6 +23,7 @@ import { WorkflowActionDataService } from '../../../core/data/workflow-action-da
 import { WorkflowAction } from '../../../core/tasks/models/workflow-action-object.model';
 import { VarDirective } from '../../utils/var.directive';
 import { createSuccessfulRemoteDataObject, createSuccessfulRemoteDataObject$ } from '../../remote-data.utils';
+import { By } from '@angular/platform-browser';
 
 let component: ClaimedTaskActionsComponent;
 let fixture: ComponentFixture<ClaimedTaskActionsComponent>;
@@ -81,7 +82,7 @@ function init() {
     }
   });
   rdItem = createSuccessfulRemoteDataObject(item);
-  workflowitem = Object.assign(new WorkflowItem(), { item: observableOf(rdItem) });
+  workflowitem = Object.assign(new WorkflowItem(), { item: observableOf(rdItem), id: '333' });
   rdWorkflowitem = createSuccessfulRemoteDataObject(workflowitem);
   mockObject = Object.assign(new ClaimedTask(), { workflowitem: observableOf(rdWorkflowitem), id: '1234' });
   workflowAction = Object.assign(new WorkflowAction(), { id: 'action-1', options: ['option-1', 'option-2'] });
@@ -92,7 +93,7 @@ function init() {
 }
 
 describe('ClaimedTaskActionsComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     init();
     TestBed.configureTestingModule({
       imports: [
@@ -123,8 +124,8 @@ describe('ClaimedTaskActionsComponent', () => {
     fixture = TestBed.createComponent(ClaimedTaskActionsComponent);
     component = fixture.componentInstance;
     component.object = mockObject;
-    notificationsServiceStub = TestBed.get(NotificationsService);
-    router = TestBed.get(Router);
+    notificationsServiceStub = TestBed.inject(NotificationsService as any);
+    router = TestBed.inject(Router as any);
     fixture.detectChanges();
   });
 
@@ -139,7 +140,7 @@ describe('ClaimedTaskActionsComponent', () => {
     }));
   });
 
-  it('should reload page on process completed', async(() => {
+  it('should reload page on process completed', waitForAsync(() => {
     spyOn(router, 'navigateByUrl');
     router.url = 'test.url/test';
 
@@ -151,7 +152,7 @@ describe('ClaimedTaskActionsComponent', () => {
     });
   }));
 
-  it('should display an error notification on process failure', async(() => {
+  it('should display an error notification on process failure', waitForAsync(() => {
     component.handleActionResponse(false);
     fixture.detectChanges();
 
@@ -159,4 +160,26 @@ describe('ClaimedTaskActionsComponent', () => {
       expect(notificationsServiceStub.error).toHaveBeenCalled();
     });
   }));
+
+  describe('when edit options is not available', () => {
+    it('should display a view button', waitForAsync(() => {
+      component.object = null;
+      component.initObjects(mockObject);
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        const debugElement = fixture.debugElement.query(By.css('.workflow-view'));
+        expect(debugElement).toBeTruthy();
+        expect(debugElement.nativeElement.innerText).toBe('submission.workflow.generic.view');
+      });
+
+    }));
+
+    it('getWorkflowItemViewRoute should return the combined uri to show a workspaceitem', waitForAsync(() => {
+      const href = component.getWorkflowItemViewRoute(workflowitem);
+      expect(href).toEqual('/workflowitems/333/view');
+    }));
+  });
+
+
 });

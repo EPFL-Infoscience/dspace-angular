@@ -5,12 +5,14 @@ import { ProcessParameter } from '../processes/process-parameter.model';
 import { ScriptDataService } from '../../core/data/processes/script-data.service';
 import { ControlContainer, NgForm } from '@angular/forms';
 import { ScriptParameter } from '../scripts/script-parameter.model';
-import { RequestEntry } from '../../core/data/request.reducer';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { TranslateService } from '@ngx-translate/core';
-import { take } from 'rxjs/operators';
 import { RequestService } from '../../core/data/request.service';
 import { Router } from '@angular/router';
+import { getFirstCompletedRemoteData } from '../../core/shared/operators';
+import { RemoteData } from '../../core/data/remote-data';
+import { getProcessListRoute } from '../process-page-routing.paths';
+import { hasValue, isEmpty, isUndefined } from '../../shared/empty.util';
 
 /**
  * Component to create a new script
@@ -34,7 +36,7 @@ export class ProcessFormComponent implements OnInit {
   /**
    * The parameter values to use to start the process
    */
-  @Input() public parameters: ProcessParameter[];
+  @Input() public parameters: ProcessParameter[] = [];
 
   /**
    * Optional files that are used as parameter values
@@ -68,21 +70,28 @@ export class ProcessFormComponent implements OnInit {
    * @param form
    */
   submitForm(form: NgForm) {
+    if (isEmpty(this.parameters)) {
+      this.parameters = [];
+    }
     if (!this.validateForm(form) || this.isRequiredMissing()) {
       return;
     }
 
-    const stringParameters: ProcessParameter[] = this.parameters.map((parameter: ProcessParameter) => {
-        return {
-          name: parameter.name,
-          value: this.checkValue(parameter)
-        };
-      }
-    );
+    let stringParameters: ProcessParameter[] = [];
+
+    if (hasValue(this.parameters)) {
+      stringParameters = this.parameters.map((parameter: ProcessParameter) => {
+          return {
+            name: parameter.name,
+            value: this.checkValue(parameter)
+          };
+        }
+      );
+    }
     this.scriptService.invoke(this.selectedScript.id, stringParameters, this.files)
-      .pipe(take(1))
-      .subscribe((requestEntry: RequestEntry) => {
-        if (requestEntry.response.isSuccessful) {
+      .pipe(getFirstCompletedRemoteData())
+      .subscribe((rd: RemoteData<Process>) => {
+        if (rd.hasSucceeded) {
           const title = this.translationService.get('process.new.notification.success.title');
           const content = this.translationService.get('process.new.notification.success.content');
           this.notificationsService.success(title, content);
@@ -92,7 +101,7 @@ export class ProcessFormComponent implements OnInit {
           const content = this.translationService.get('process.new.notification.error.content');
           this.notificationsService.error(title, content);
         }
-      })
+      });
   }
 
   /**
@@ -127,6 +136,9 @@ export class ProcessFormComponent implements OnInit {
 
   private isRequiredMissing() {
     this.missingParameters = [];
+    if (isUndefined(this.parameters)) {
+      return false;
+    }
     const setParams: string[] = this.parameters
       .map((param) => param.name);
     const requiredParams: ScriptParameter[] = this.selectedScript.parameters.filter((param) => param.mandatory);
@@ -142,7 +154,7 @@ export class ProcessFormComponent implements OnInit {
     this.requestService.removeByHrefSubstring('/processes');
     /* should subscribe on the previous method to know the action is finished and then navigate,
     will fix this when the removeByHrefSubstring changes are merged */
-    this.router.navigateByUrl('/processes');
+    this.router.navigateByUrl(getProcessListRoute());
   }
 }
 

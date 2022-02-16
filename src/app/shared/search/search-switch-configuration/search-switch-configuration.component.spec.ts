@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { of as observableOf } from 'rxjs';
@@ -10,12 +10,10 @@ import { NavigationExtras, Router } from '@angular/router';
 import { SearchConfigurationServiceStub } from '../../testing/search-configuration-service.stub';
 import { RouterStub } from '../../testing/router.stub';
 import { SearchService } from '../../../core/shared/search/search.service';
-import {
-  MYDSPACE_ROUTE,
-  SEARCH_CONFIG_SERVICE
-} from '../../../+my-dspace-page/my-dspace-page.component';
-import { MyDSpaceConfigurationValueType } from '../../../+my-dspace-page/my-dspace-configuration-value-type';
+import { MYDSPACE_ROUTE, SEARCH_CONFIG_SERVICE } from '../../../my-dspace-page/my-dspace-page.component';
+import { MyDSpaceConfigurationValueType } from '../../../my-dspace-page/my-dspace-configuration-value-type';
 import { TranslateLoaderMock } from '../../mocks/translate-loader.mock';
+import { Context } from '../../../core/shared/context.model';
 
 describe('SearchSwitchConfigurationComponent', () => {
 
@@ -25,10 +23,22 @@ describe('SearchSwitchConfigurationComponent', () => {
   let select: any;
 
   const searchServiceStub = jasmine.createSpyObj('SearchService', {
-    getSearchLink:  jasmine.createSpy('getSearchLink')
+    getSearchLink: jasmine.createSpy('getSearchLink')
   });
 
-  beforeEach(async(() => {
+  const configurationList = [
+    {
+      value: MyDSpaceConfigurationValueType.Workspace,
+      label: 'workspace',
+      context: Context.Workspace
+    },
+    {
+      value: MyDSpaceConfigurationValueType.Workflow,
+      label: 'workflow',
+      context: Context.Workflow
+    },
+  ];
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         TranslateModule.forRoot({
@@ -38,33 +48,24 @@ describe('SearchSwitchConfigurationComponent', () => {
           }
         })
       ],
-      declarations: [ SearchSwitchConfigurationComponent ],
+      declarations: [SearchSwitchConfigurationComponent],
       providers: [
         { provide: Router, useValue: new RouterStub() },
         { provide: SearchService, useValue: searchServiceStub },
         { provide: SEARCH_CONFIG_SERVICE, useValue: new SearchConfigurationServiceStub() },
       ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SearchSwitchConfigurationComponent);
     comp = fixture.componentInstance;
-    searchConfService = TestBed.get(SEARCH_CONFIG_SERVICE);
+    searchConfService = TestBed.inject(SEARCH_CONFIG_SERVICE as any);
 
     spyOn(searchConfService, 'getCurrentConfiguration').and.returnValue(observableOf(MyDSpaceConfigurationValueType.Workspace));
 
-    comp.configurationList = [
-      {
-        value: MyDSpaceConfigurationValueType.Workspace,
-        label: 'workspace'
-      },
-      {
-        value: MyDSpaceConfigurationValueType.Workflow,
-        label: 'workflow'
-      },
-    ];
+    comp.configurationList = configurationList;
 
     // SearchSwitchConfigurationComponent test instance
     fixture.detectChanges();
@@ -72,7 +73,7 @@ describe('SearchSwitchConfigurationComponent', () => {
   });
 
   it('should init the current configuration name', () => {
-    expect(comp.selectedOption).toBe(MyDSpaceConfigurationValueType.Workspace);
+    expect(comp.selectedOption).toBe(configurationList[0]);
   });
 
   it('should display select field properly', () => {
@@ -98,9 +99,13 @@ describe('SearchSwitchConfigurationComponent', () => {
 
   it('should navigate to the route when selecting an option', () => {
     spyOn((comp as any), 'getSearchLinkParts').and.returnValue([MYDSPACE_ROUTE]);
-    comp.selectedOption = MyDSpaceConfigurationValueType.Workflow;
+    spyOn((comp as any).changeConfiguration, 'emit');
+    comp.selectedOption = configurationList[1];
     const navigationExtras: NavigationExtras = {
-      queryParams: {configuration: MyDSpaceConfigurationValueType.Workflow},
+      queryParams: {
+        configuration: MyDSpaceConfigurationValueType.Workflow,
+        scope: 'test-id'
+      },
     };
 
     fixture.detectChanges();
@@ -108,5 +113,6 @@ describe('SearchSwitchConfigurationComponent', () => {
     comp.onSelect();
 
     expect((comp as any).router.navigate).toHaveBeenCalledWith([MYDSPACE_ROUTE], navigationExtras);
+    expect((comp as any).changeConfiguration.emit).toHaveBeenCalled();
   });
 });

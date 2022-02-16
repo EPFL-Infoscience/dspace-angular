@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
 import { combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, take } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, mergeMap, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ScrollToConfigOptions, ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
-import { isEqual } from 'lodash';
+import { findIndex, findKey, isEqual } from 'lodash';
 
 import { SubmissionState } from '../submission.reducers';
 import { hasValue, isEmpty, isNotEmpty, isNotUndefined } from '../../shared/empty.util';
@@ -15,6 +15,7 @@ import {
   InertSectionErrorsAction,
   RemoveSectionErrorsAction,
   SectionStatusChangeAction,
+  SetSectionFormId,
   UpdateSectionDataAction
 } from '../objects/submission-objects.actions';
 import {
@@ -26,16 +27,23 @@ import {
   submissionObjectFromIdSelector,
   submissionSectionDataFromIdSelector,
   submissionSectionErrorsFromIdSelector,
-  submissionSectionFromIdSelector
+  submissionSectionFromIdSelector,
+  submissionSectionServerErrorsFromIdSelector
 } from '../selectors';
 import { SubmissionScopeType } from '../../core/submission/submission-scope-type';
 import parseSectionErrorPaths, { SectionErrorPath } from '../utils/parseSectionErrorPaths';
-import { FormAddError, FormClearErrorsAction, FormRemoveErrorAction } from '../../shared/form/form.actions';
+import { FormClearErrorsAction } from '../../shared/form/form.actions';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { SubmissionService } from '../submission.service';
 import { WorkspaceitemSectionDataType } from '../../core/submission/models/workspaceitem-sections.model';
 import { SectionsType } from './sections-type';
 import { normalizeSectionData } from '../../core/submission/submission-response-parsing.service';
+import { SubmissionFormsModel } from '../../core/config/models/config-submission-forms.model';
+import { parseReviver } from '@ng-dynamic-forms/core';
+import { FormService } from '../../shared/form/form.service';
+import { JsonPatchOperationPathCombiner } from '../../core/json-patch/builder/json-patch-operation-path-combiner';
+import { FormError } from '../../shared/form/form.reducer';
+import { SubmissionVisibility } from '../utils/visibility.util';
 
 /**
  * A service that provides methods used in submission process.
@@ -45,13 +53,15 @@ export class SectionsService {
 
   /**
    * Initialize service variables
+   * @param {FormService} formService
    * @param {NotificationsService} notificationsService
    * @param {ScrollToService} scrollToService
    * @param {SubmissionService} submissionService
    * @param {Store<SubmissionState>} store
    * @param {TranslateService} translate
    */
-  constructor(private notificationsService: NotificationsService,
+  constructor(private formService: FormService,
+              private notificationsService: NotificationsService,
               private scrollToService: ScrollToService,
               private submissionService: SubmissionService,
               private store: Store<SubmissionState>,
@@ -92,12 +102,9 @@ export class SectionsService {
 
         errorPaths.forEach((path: SectionErrorPath) => {
           if (path.fieldId) {
-            const fieldId = path.fieldId.replace(/\./g, '_');
-
             // Dispatch action to add form error to the state;
-            const formAddErrorAction = new FormAddError(formId, fieldId, path.fieldIndex, error.message);
-            this.store.dispatch(formAddErrorAction);
-            dispatchedErrors.push(fieldId);
+            this.formService.addError(formId, path.fieldId, path.fieldIndex, error.message);
+            dispatchedErrors.push(path.fieldId);
           }
         });
       });
@@ -108,12 +115,9 @@ export class SectionsService {
 
         errorPaths.forEach((path: SectionErrorPath) => {
           if (path.fieldId) {
-            const fieldId = path.fieldId.replace(/\./g, '_');
-
-            if (!dispatchedErrors.includes(fieldId)) {
+            if (!dispatchedErrors.includes(path.fieldId)) {
               // Dispatch action to remove form error from the state;
-              const formRemoveErrorAction = new FormRemoveErrorAction(formId, fieldId, path.fieldIndex);
-              this.store.dispatch(formRemoveErrorAction);
+              this.formService.removeError(formId, path.fieldId, path.fieldIndex);
             }
           }
         });
@@ -134,6 +138,18 @@ export class SectionsService {
   }
 
   /**
+   * Dispatch a new [SetSectionFormId]
+   *    The submission id
+   * @param sectionId
+   *    The section id
+   * @param formId
+   *    The form id
+   */
+  public dispatchSetSectionFormId(submissionId, sectionId, formId) {
+    this.store.dispatch(new SetSectionFormId(submissionId, sectionId, formId));
+  }
+
+  /**
    * Return the data object for the specified section
    *
    * @param submissionId
@@ -149,7 +165,7 @@ export class SectionsService {
     return this.store.select(submissionSectionDataFromIdSelector(submissionId, sectionId)).pipe(
       map((sectionData: WorkspaceitemSectionDataType) => {
         if (sectionType === SectionsType.SubmissionForm) {
-          return normalizeSectionData(sectionData)
+          return normalizeSectionData(sectionData);
         } else {
           return sectionData;
         }
@@ -159,7 +175,40 @@ export class SectionsService {
   }
 
   /**
-   * Return the error list object data for the specified section
+   * Get the list of validation errors present in the given section
+   *
+   * @param submissionId
+   *    The submission id
+   * @param sectionId
+   *    The section id
+   * @param sectionType
+   *    The type of section for which retrieve errors
+   */
+  getShownSectionErrors(submissionId: string, sectionId: string, sectionType: SectionsType): Observable<SubmissionSectionError[]> {
+    let errorsState$: Observable<SubmissionSectionError[]>;
+    if (sectionType !== SectionsType.SubmissionForm) {
+      errorsState$ = this.getSectionErrors(submissionId, sectionId);
+    } else {
+      errorsState$ = this.getSectionState(submissionId, sectionId, sectionType).pipe(
+        mergeMap((state: SubmissionSectionObject) => this.formService.getFormErrors(state.formId).pipe(
+          map((formErrors: FormError[]) => {
+            const pathCombiner = new JsonPatchOperationPathCombiner('sections', sectionId);
+            const sectionErrors = formErrors
+              .map((error) => ({
+                path: pathCombiner.getPath(error.fieldId.replace(/\_/g, '.')).path,
+                message: error.message
+              } as SubmissionSectionError))
+              .filter((sectionError: SubmissionSectionError) => findIndex(state.errorsToShow, {path: sectionError.path}) === -1);
+            return [...state.errorsToShow, ...sectionErrors];
+          })
+        ))
+      );
+    }
+
+    return errorsState$;
+  }
+  /**
+   * Return the error list to show for the specified section
    *
    * @param submissionId
    *    The submission id
@@ -170,6 +219,21 @@ export class SectionsService {
    */
   public getSectionErrors(submissionId: string, sectionId: string): Observable<SubmissionSectionError[]> {
     return this.store.select(submissionSectionErrorsFromIdSelector(submissionId, sectionId)).pipe(
+      distinctUntilChanged());
+  }
+
+  /**
+   * Return the error list detected by the server for the specified section
+   *
+   * @param submissionId
+   *    The submission id
+   * @param sectionId
+   *    The section id
+   * @return Observable<SubmissionSectionError>
+   *    observable of array of [SubmissionSectionError]
+   */
+  public getSectionServerErrors(submissionId: string, sectionId: string): Observable<SubmissionSectionError[]> {
+    return this.store.select(submissionSectionServerErrorsFromIdSelector(submissionId, sectionId)).pipe(
       distinctUntilChanged());
   }
 
@@ -193,7 +257,7 @@ export class SectionsService {
         if (hasValue(sectionState.data) && sectionType === SectionsType.SubmissionForm) {
           return Object.assign({}, sectionState, {
             data: normalizeSectionData(sectionState.data)
-          })
+          });
         } else {
           return sectionState;
         }
@@ -253,6 +317,27 @@ export class SectionsService {
   }
 
   /**
+   * Check if a given section is an hidden section
+   *
+   * @param submissionId
+   *    The submission id
+   * @param sectionId
+   *    The section id
+   * @param submissionScope
+   *    The submission scope
+   * @return Observable<boolean>
+   *    Emits true whenever a given section should be read only
+   */
+  public isSectionHidden(submissionId: string, sectionId: string, submissionScope: SubmissionScopeType): Observable<boolean> {
+    return this.store.select(submissionSectionFromIdSelector(submissionId, sectionId)).pipe(
+      filter((sectionObj) => hasValue(sectionObj)),
+      map((sectionObj: SubmissionSectionObject) => {
+        return SubmissionVisibility.isHidden(sectionObj.visibility, submissionScope);
+      }),
+      distinctUntilChanged());
+  }
+
+  /**
    * Check if a given section is a read only section
    *
    * @param submissionId
@@ -268,28 +353,61 @@ export class SectionsService {
     return this.store.select(submissionSectionFromIdSelector(submissionId, sectionId)).pipe(
       filter((sectionObj) => hasValue(sectionObj)),
       map((sectionObj: SubmissionSectionObject) => {
-        return isNotEmpty(sectionObj.visibility)
-          && sectionObj.visibility.other === 'READONLY'
-          && submissionScope !== SubmissionScopeType.WorkspaceItem
+        return SubmissionVisibility.isReadOnly(sectionObj.visibility, submissionScope);
       }),
       distinctUntilChanged());
   }
 
   /**
-   * Check if a given section is a read only available
+   * Check if a given section id is present in the list of sections
    *
    * @param submissionId
    *    The submission id
    * @param sectionId
    *    The section id
    * @return Observable<boolean>
-   *    Emits true whenever a given section should be available
+   *    Emits true whenever a given section id should be available
    */
   public isSectionAvailable(submissionId: string, sectionId: string): Observable<boolean> {
     return this.store.select(submissionObjectFromIdSelector(submissionId)).pipe(
       filter((submissionState: SubmissionObjectEntry) => isNotUndefined(submissionState)),
       map((submissionState: SubmissionObjectEntry) => {
         return isNotUndefined(submissionState.sections) && isNotUndefined(submissionState.sections[sectionId]);
+      }),
+      distinctUntilChanged());
+  }
+
+  /**
+   * Check if a given section type is present in the list of sections
+   *
+   * @param submissionId
+   *    The submission id
+   * @param sectionType
+   *    The section type
+   * @return Observable<boolean>
+   *    Emits true whenever a given section type should be available
+   */
+  public isSectionTypeAvailable(submissionId: string, sectionType: SectionsType): Observable<boolean> {
+    return this.store.select(submissionObjectFromIdSelector(submissionId)).pipe(
+      filter((submissionState: SubmissionObjectEntry) => isNotUndefined(submissionState)),
+      map((submissionState: SubmissionObjectEntry) => {
+        return isNotUndefined(submissionState.sections) && isNotUndefined(findKey(submissionState.sections, {sectionType: sectionType}));
+      }),
+      distinctUntilChanged());
+  }
+
+  /**
+   * Check if given section id is of a given section type
+   * @param submissionId
+   * @param sectionId
+   * @param sectionType
+   */
+  public isSectionType(submissionId: string, sectionId: string, sectionType: SectionsType): Observable<boolean> {
+    return this.store.select(submissionObjectFromIdSelector(submissionId)).pipe(
+      filter((submissionState: SubmissionObjectEntry) => isNotUndefined(submissionState)),
+      map((submissionState: SubmissionObjectEntry) => {
+        return isNotUndefined(submissionState.sections) && isNotUndefined(submissionState.sections[sectionId])
+          && submissionState.sections[sectionId].sectionType === sectionType;
       }),
       distinctUntilChanged());
   }
@@ -321,7 +439,7 @@ export class SectionsService {
    *    The section id
    */
   public dispatchRemoveSection(submissionId: string, sectionId: string) {
-    this.store.dispatch(new DisableSectionAction(submissionId, sectionId))
+    this.store.dispatch(new DisableSectionAction(submissionId, sectionId));
   }
 
   /**
@@ -333,10 +451,23 @@ export class SectionsService {
    *    The section id
    * @param data
    *    The section data
-   * @param errors
-   *    The list of section errors
+   * @param errorsToShow
+   *    The list of the section's errors to show. It contains the error list
+   *    to display when section is not pristine
+   * @param serverValidationErrors
+   *    The list of the section's errors detected by the server.
+   *    They may not be shown yet if section is pristine
+   * @param metadata
+   *    The section metadata
    */
-  public updateSectionData(submissionId: string, sectionId: string, data: WorkspaceitemSectionDataType, errors: SubmissionSectionError[] = []) {
+  public updateSectionData(
+    submissionId: string,
+    sectionId: string,
+    data: WorkspaceitemSectionDataType,
+    errorsToShow: SubmissionSectionError[] = [],
+    serverValidationErrors: SubmissionSectionError[] = [],
+    metadata?: string[]
+  ) {
     if (isNotEmpty(data)) {
       const isAvailable$ = this.isSectionAvailable(submissionId, sectionId);
       const isEnabled$ = this.isSectionEnabled(submissionId, sectionId);
@@ -345,7 +476,7 @@ export class SectionsService {
         take(1),
         filter(([available, enabled]: [boolean, boolean]) => available))
         .subscribe(([available, enabled]: [boolean, boolean]) => {
-          this.store.dispatch(new UpdateSectionDataAction(submissionId, sectionId, data, errors));
+          this.store.dispatch(new UpdateSectionDataAction(submissionId, sectionId, data, errorsToShow, serverValidationErrors, metadata));
         });
     }
   }
@@ -377,4 +508,30 @@ export class SectionsService {
   public setSectionStatus(submissionId: string, sectionId: string, status: boolean) {
     this.store.dispatch(new SectionStatusChangeAction(submissionId, sectionId, status));
   }
+
+  /**
+   * Compute the list of selectable metadata for the section configuration.
+   * @param formConfig
+   */
+  public computeSectionConfiguredMetadata(formConfig: string | SubmissionFormsModel): string[] {
+    const metadata = [];
+    const rawData = typeof formConfig === 'string' ? JSON.parse(formConfig, parseReviver) : formConfig;
+    if (rawData.rows && !isEmpty(rawData.rows)) {
+      rawData.rows.forEach((currentRow) => {
+        if (currentRow.fields && !isEmpty(currentRow.fields)) {
+          currentRow.fields.forEach((field) => {
+            if (field.selectableMetadata && !isEmpty(field.selectableMetadata)) {
+              field.selectableMetadata.forEach((selectableMetadata) => {
+                if (!metadata.includes(selectableMetadata.metadata)) {
+                  metadata.push(selectableMetadata.metadata);
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+    return metadata;
+  }
+
 }

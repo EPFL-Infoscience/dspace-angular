@@ -10,12 +10,13 @@ export function locationProvider(): Location {
 /**
  * Service for performing hard redirects within the browser app module
  */
-@Injectable()
-export class BrowserHardRedirectService implements HardRedirectService {
+@Injectable({providedIn: 'root'})
+export class BrowserHardRedirectService extends HardRedirectService {
 
   constructor(
     @Inject(LocationToken) protected location: Location,
   ) {
+    super();
   }
 
   /**
@@ -27,9 +28,20 @@ export class BrowserHardRedirectService implements HardRedirectService {
   }
 
   /**
-   * Get the origin of a request
+   * Get the current route, with query params included
+   * e.g. /search?page=1&query=open%20access&f.dateIssued.min=1980&f.dateIssued.max=2020
    */
-  getCurrentRoute() {
+  getCurrentRoute(): string {
     return this.location.pathname + this.location.search;
+  }
+
+  /**
+   * Get the origin of the current URL
+   * i.e. <scheme> "://" <hostname> [ ":" <port> ]
+   * e.g. if the URL is https://demo7.dspace.org/search?query=test,
+   * the origin would be https://demo7.dspace.org
+   */
+  getCurrentOrigin(): string {
+    return this.location.origin;
   }
 }

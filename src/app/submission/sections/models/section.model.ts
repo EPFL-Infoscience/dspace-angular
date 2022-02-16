@@ -1,4 +1,4 @@
-import { Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { filter, startWith } from 'rxjs/operators';
@@ -8,12 +8,16 @@ import { SectionsService } from '../sections.service';
 import { hasValue, isNotUndefined } from '../../../shared/empty.util';
 
 export interface SectionDataModel {
-  sectionData: SectionDataObject
+  sectionData: SectionDataObject;
 }
 
 /**
  * An abstract model class for a submission edit form section.
  */
+@Component({
+  selector: 'ds-section-model',
+  template: ''
+})
 export abstract class SectionModelComponent implements OnDestroy, OnInit, SectionDataModel {
   protected abstract sectionService: SectionsService;
 
@@ -55,8 +59,8 @@ export abstract class SectionModelComponent implements OnDestroy, OnInit, Sectio
    * @param {string} injectedSubmissionId
    */
   public constructor(@Inject('collectionIdProvider') public injectedCollectionId: string,
-                     @Inject('sectionDataProvider') public injectedSectionData: SectionDataObject,
-                     @Inject('submissionIdProvider') public injectedSubmissionId: string) {
+    @Inject('sectionDataProvider') public injectedSectionData: SectionDataObject,
+    @Inject('submissionIdProvider') public injectedSubmissionId: string) {
     this.collectionId = injectedCollectionId;
     this.sectionData = injectedSectionData;
     this.submissionId = injectedSubmissionId;

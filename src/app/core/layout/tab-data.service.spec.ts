@@ -3,20 +3,19 @@ import { TestScheduler } from 'rxjs/testing';
 import { RequestService } from '../data/request.service';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
 import { ObjectCacheService } from '../cache/object-cache.service';
-import { getTestScheduler, cold, hot } from 'jasmine-marbles';
-import { Tab } from './models/tab.model';
+import { cold, getTestScheduler, hot } from 'jasmine-marbles';
+import { CrisLayoutTab } from './models/tab.model';
 import { HALEndpointService } from '../shared/hal-endpoint.service';
-import { NotificationsService } from 'src/app/shared/notifications/notifications.service';
+import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { HttpClient } from '@angular/common/http';
 import { RequestEntry } from '../data/request.reducer';
 import { TAB } from './models/tab.resource-type';
-import { PageInfo } from '../shared/page-info.model';
-import { PaginatedList } from '../data/paginated-list';
-import { createSuccessfulRemoteDataObject } from 'src/app/shared/remote-data.utils';
+import { createSuccessfulRemoteDataObject } from '../../shared/remote-data.utils';
 import { RestResponse } from '../cache/response.models';
 import { of } from 'rxjs';
 import { FindListOptions } from '../data/request.models';
 import { RequestParam } from '../cache/models/request-param.model';
+import { createPaginatedList } from '../../shared/testing/utils.test';
 
 describe('TabDataService', () => {
   let scheduler: TestScheduler;
@@ -27,7 +26,7 @@ describe('TabDataService', () => {
   let halService: HALEndpointService;
   let responseCacheEntry: RequestEntry;
 
-  const tabPersonProfile: Tab = {
+  const tabPersonProfile: CrisLayoutTab = {
     type: TAB,
     id: 1,
     shortname: 'person-profile',
@@ -39,14 +38,11 @@ describe('TabDataService', () => {
     _links: {
       self: {
         href: 'https://rest.api/rest/api/tabs/1'
-      },
-      boxes: {
-        href: 'https://rest.api/rest/api/tabs/1/boxes'
       }
     }
   };
 
-  const tabPersonBiography: Tab = {
+  const tabPersonBiography: CrisLayoutTab = {
     type: TAB,
     id: 2,
     shortname: 'person-biography',
@@ -58,14 +54,11 @@ describe('TabDataService', () => {
     _links: {
       self: {
         href: 'https://rest.api/rest/api/tabs/2'
-      },
-      boxes: {
-        href: 'https://rest.api/rest/api/tabs/2/boxes'
       }
     }
   };
 
-  const tabPersonBibliometrics: Tab = {
+  const tabPersonBibliometrics: CrisLayoutTab = {
     type: TAB,
     id: 3,
     shortname: 'person-bibliometrics',
@@ -77,9 +70,6 @@ describe('TabDataService', () => {
     _links: {
       self: {
         href: 'https://rest.api/rest/api/tabs/3'
-      },
-      boxes: {
-        href: 'https://rest.api/rest/api/tabs/3/boxes'
       }
     }
   };
@@ -91,9 +81,8 @@ describe('TabDataService', () => {
   const entityType = 'Person';
   const tabId = '1';
 
-  const pageInfo = new PageInfo();
   const array = [tabPersonProfile, tabPersonBiography, tabPersonBibliometrics];
-  const paginatedList = new PaginatedList(pageInfo, array);
+  const paginatedList = createPaginatedList(array);
   const tabRD = createSuccessfulRemoteDataObject(tabPersonProfile);
   const paginatedListRD = createSuccessfulRemoteDataObject(paginatedList);
 
@@ -106,12 +95,11 @@ describe('TabDataService', () => {
 
     responseCacheEntry = new RequestEntry();
     responseCacheEntry.request = { href: 'https://rest.api/' } as any;
-    responseCacheEntry.completed = true;
     responseCacheEntry.response = new RestResponse(true, 200, 'Success');
 
     requestService = jasmine.createSpyObj('requestService', {
       generateRequestId: requestUUID,
-      configure: true,
+      send: true,
       removeByHrefSubstring: {},
       getByHref: of(responseCacheEntry),
       getByUUID: of(responseCacheEntry),
@@ -153,7 +141,7 @@ describe('TabDataService', () => {
       expect((service as any).dataService.findById).toHaveBeenCalledWith(tabId);
     });
 
-    it('should return a RemoteData<Tab> for the object with the given id', () => {
+    it('should return a RemoteData<CrisLayoutTab> for the object with the given id', () => {
       const result = service.findById(tabId);
       const expected = cold('a|', {
         a: tabRD
@@ -168,14 +156,14 @@ describe('TabDataService', () => {
       options.searchParams = [
         new RequestParam('uuid', itemUUID)
       ];
-      scheduler.schedule(() => service.findByItem(itemUUID));
+      scheduler.schedule(() => service.findByItem(itemUUID, true));
       scheduler.flush();
 
-      expect((service as any).dataService.searchBy).toHaveBeenCalledWith((service as any).searchFindByItem, options);
+      expect((service as any).dataService.searchBy).toHaveBeenCalledWith((service as any).searchFindByItem, options, true);
     });
 
-    it('should return a RemoteData<PaginatedList<Tab>> for the search', () => {
-      const result = service.findByItem(itemUUID);
+    it('should return a RemoteData<PaginatedList<CrisLayoutTab>> for the search', () => {
+      const result = service.findByItem(itemUUID, true);
       const expected = cold('a|', {
         a: paginatedListRD
       });
@@ -196,7 +184,7 @@ describe('TabDataService', () => {
       expect((service as any).dataService.searchBy).toHaveBeenCalledWith((service as any).searchFindByEntityType, options);
     });
 
-    it('should return a RemoteData<PaginatedList<Tab>> for the search', () => {
+    it('should return a RemoteData<PaginatedList<CrisLayoutTab>> for the search', () => {
       const result = service.findByEntityType(entityType);
       const expected = cold('a|', {
         a: paginatedListRD

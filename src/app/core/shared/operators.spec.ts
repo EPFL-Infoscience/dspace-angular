@@ -5,23 +5,22 @@ import { GetRequest } from '../data/request.models';
 import { RequestEntry } from '../data/request.reducer';
 import { RequestService } from '../data/request.service';
 import {
-  configureRequest,
-  filterSuccessfulResponses,
+  sendRequest,
   getAllSucceededRemoteData,
+  getFirstSucceededRemoteData,
   getRemoteDataPayload,
   getRequestFromRequestHref,
   getRequestFromRequestUUID,
-  getResourceLinksFromResponse,
   getResponseFromEntry,
-  getSucceededRemoteData, redirectToPageNotFoundOn404
+  redirectOn4xx
 } from './operators';
-import { RemoteData } from '../data/remote-data';
-import { RemoteDataError } from '../data/remote-data-error';
 import { of as observableOf } from 'rxjs';
 import {
   createFailedRemoteDataObject,
   createSuccessfulRemoteDataObject
 } from '../../shared/remote-data.utils';
+
+// tslint:disable:no-shadowed-variable
 
 describe('Core Module - RxJS Operators', () => {
   let scheduler: TestScheduler;
@@ -117,38 +116,15 @@ describe('Core Module - RxJS Operators', () => {
     });
   });
 
-  describe('filterSuccessfulResponses', () => {
-    it('should only return responses for which isSuccessful === true', () => {
-      const source = hot('abcde', testRCEs);
-      const result = source.pipe(filterSuccessfulResponses());
-      const expected = cold('a--d-', testResponses);
-
-      expect(result).toBeObservable(expected);
-    });
-  });
-
-  describe('getResourceLinksFromResponse', () => {
-    it('should return the resourceSelfLinks for all successful responses', () => {
-      const source = hot('abcde', testRCEs);
-      const result = source.pipe(getResourceLinksFromResponse());
-      const expected = cold('a--d-', {
-        a: testRCEs.a.response.resourceSelfLinks,
-        d: testRCEs.d.response.resourceSelfLinks
-      });
-
-      expect(result).toBeObservable(expected);
-    });
-  });
-
-  describe('configureRequest', () => {
-    it('should call requestService.configure with the source request', () => {
+  describe('sendRequest', () => {
+    it('should call requestService.send with the source request', () => {
       requestService = getMockRequestService();
       const testRequest = new GetRequest('6b789e31-f026-4ff8-8993-4eb3b730c841', testRequestHref);
       const source = hot('a', { a: testRequest });
-      scheduler.schedule(() => source.pipe(configureRequest(requestService)).subscribe());
+      scheduler.schedule(() => source.pipe(sendRequest(requestService)).subscribe());
       scheduler.flush();
 
-      expect(requestService.configure).toHaveBeenCalledWith(testRequest);
+      expect(requestService.send).toHaveBeenCalledWith(testRequest);
     });
   });
 
@@ -177,53 +153,140 @@ describe('Core Module - RxJS Operators', () => {
         e: testRCEs.e.response
       });
 
-      expect(result).toBeObservable(expected)
+      expect(result).toBeObservable(expected);
     });
   });
 
-  describe('getSucceededRemoteData', () => {
+  describe('getFirstSucceededRemoteData', () => {
     it('should return the first() hasSucceeded RemoteData Observable', () => {
       const testRD = {
-        a: createSuccessfulRemoteDataObject(undefined),
-        b: createFailedRemoteDataObject( 'b'),
-        c: new RemoteData(false, false, undefined, null, 'c'),
+        a: createFailedRemoteDataObject(),
+        b: createFailedRemoteDataObject(),
+        c: createSuccessfulRemoteDataObject('c'),
         d: createSuccessfulRemoteDataObject('d'),
-        e: createSuccessfulRemoteDataObject('e'),
       };
-      const source = hot('abcde', testRD);
-      const result = source.pipe(getSucceededRemoteData());
+      const source = hot('abcd', testRD);
+      const result = source.pipe(getFirstSucceededRemoteData());
+      const expected = cold('--(c|)', testRD);
 
-      result.subscribe((value) => expect(value)
-        .toEqual(createSuccessfulRemoteDataObject('d')));
+      expect(result).toBeObservable(expected);
 
     });
   });
 
-  describe('redirectToPageNotFoundOn404', () => {
+  describe('redirectOn4xx', () => {
     let router;
+    let authService;
+    let testScheduler;
+
     beforeEach(() => {
+      testScheduler = new TestScheduler((actual, expected) => {
+        expect(actual).toEqual(expected);
+      });
       router = jasmine.createSpyObj('router', ['navigateByUrl']);
+      authService = jasmine.createSpyObj('authService', {
+        isAuthenticated: observableOf(true),
+        setRedirectUrl: {}
+      });
     });
 
-    it('should call navigateByUrl to a 404 page, when the remote data contains a 404 error', () => {
-      const testRD = createFailedRemoteDataObject(undefined, new RemoteDataError(404, 'Not Found', 'Object was not found'));
+    it('should call navigateByUrl to a 404 page, when the remote data contains a 404 error, and not emit anything', () => {
+      testScheduler.run(({ cold, expectObservable, flush }) => {
+        const testRD = createFailedRemoteDataObject('Object was not found', 404);
+        const source = cold('a', { a: testRD });
+        const expected = '-';
+        const values = {};
 
-      observableOf(testRD).pipe(redirectToPageNotFoundOn404(router)).subscribe();
-      expect(router.navigateByUrl).toHaveBeenCalledWith('/404', { skipLocationChange: true });
+        expectObservable(source.pipe(redirectOn4xx(router, authService))).toBe(expected, values);
+        flush();
+        expect(router.navigateByUrl).toHaveBeenCalledWith('/404', { skipLocationChange: true });
+      });
     });
 
-    it('should not call navigateByUrl to a 404 page, when the remote data contains another error than a 404', () => {
-      const testRD = createFailedRemoteDataObject(undefined, new RemoteDataError(500, 'Server Error', 'Something went wrong'));
+    it('should call navigateByUrl to a 404 page, when the remote data contains a 422 error, and not emit anything', () => {
+      testScheduler.run(({ cold, expectObservable, flush }) => {
+        const testRD = createFailedRemoteDataObject('Unprocessable Entity', 422);
+        const source = cold('a', { a: testRD });
+        const expected = '-';
+        const values = {};
 
-      observableOf(testRD).pipe(redirectToPageNotFoundOn404(router)).subscribe();
-      expect(router.navigateByUrl).not.toHaveBeenCalled();
+        expectObservable(source.pipe(redirectOn4xx(router, authService))).toBe(expected, values);
+        flush();
+        expect(router.navigateByUrl).toHaveBeenCalledWith('/404', { skipLocationChange: true });
+      });
     });
 
-    it('should not call navigateByUrl to a 404 page, when the remote data contains no error', () => {
-      const testRD = createSuccessfulRemoteDataObject(undefined);
+    it('should call navigateByUrl to a 401 page, when the remote data contains a 403 error, and not emit anything', () => {
+      testScheduler.run(({ cold, expectObservable, flush }) => {
+        const testRD = createFailedRemoteDataObject('Forbidden', 403);
+        const source = cold('a', { a: testRD });
+        const expected = '-';
+        const values = {};
 
-      observableOf(testRD).pipe(redirectToPageNotFoundOn404(router)).subscribe();
-      expect(router.navigateByUrl).not.toHaveBeenCalled();
+        expectObservable(source.pipe(redirectOn4xx(router, authService))).toBe(expected, values);
+        flush();
+        expect(router.navigateByUrl).toHaveBeenCalledWith('/403', { skipLocationChange: true });
+      });
+    });
+
+    it('should not call navigateByUrl to a 404, 403 or 401 page, when the remote data contains another error than a 404, 422, 403 or 401, and emit the source rd', () => {
+      testScheduler.run(({ cold, expectObservable, flush }) => {
+        const testRD = createFailedRemoteDataObject('Something went wrong', 500);
+        const source = cold('a', { a: testRD });
+        const expected = 'a';
+        const values = { a: testRD };
+
+        expectObservable(source.pipe(redirectOn4xx(router, authService))).toBe(expected, values);
+        flush();
+        expect(router.navigateByUrl).not.toHaveBeenCalled();
+      });
+    });
+
+    it('should not call navigateByUrl to a 404, 403 or 401 page, when the remote data contains no error, and emit the source rd', () => {
+      testScheduler.run(({ cold, expectObservable, flush }) => {
+        const testRD = createSuccessfulRemoteDataObject(undefined);
+        const source = cold('a', { a: testRD });
+        const expected = 'a';
+        const values = { a: testRD };
+
+        expectObservable(source.pipe(redirectOn4xx(router, authService))).toBe(expected, values);
+        flush();
+        expect(router.navigateByUrl).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when the user is not authenticated', () => {
+      beforeEach(() => {
+        (authService.isAuthenticated as jasmine.Spy).and.returnValue(observableOf(false));
+      });
+
+      it('should set the redirect url and navigate to login when the remote data contains a 401 error, and not emit anything', () => {
+        testScheduler.run(({ cold, expectObservable, flush }) => {
+          const testRD = createFailedRemoteDataObject('The current user is unauthorized', 401);
+          const source = cold('a', { a: testRD });
+          const expected = '-';
+          const values = {};
+
+          expectObservable(source.pipe(redirectOn4xx(router, authService))).toBe(expected, values);
+          flush();
+          expect(authService.setRedirectUrl).toHaveBeenCalled();
+          expect(router.navigateByUrl).toHaveBeenCalledWith('login');
+        });
+      });
+
+      it('should set the redirect url and navigate to login when the remote data contains a 403 error, and not emit anything', () => {
+        testScheduler.run(({ cold, expectObservable, flush }) => {
+          const testRD = createFailedRemoteDataObject('Forbidden', 403);
+          const source = cold('a', { a: testRD });
+          const expected = '-';
+          const values = {};
+
+          expectObservable(source.pipe(redirectOn4xx(router, authService))).toBe(expected, values);
+          flush();
+          expect(authService.setRedirectUrl).toHaveBeenCalled();
+          expect(router.navigateByUrl).toHaveBeenCalledWith('login');
+        });
+      });
     });
   });
 
@@ -239,22 +302,21 @@ describe('Core Module - RxJS Operators', () => {
         e: testRCEs.e.response
       });
 
-      expect(result).toBeObservable(expected)
+      expect(result).toBeObservable(expected);
     });
   });
 
   describe('getAllSucceededRemoteData', () => {
     it('should return all hasSucceeded RemoteData Observables', () => {
       const testRD = {
-        a: createSuccessfulRemoteDataObject(undefined),
-        b: createFailedRemoteDataObject('b'),
-        c: new RemoteData(false, false, undefined, null, 'c'),
+        a: createFailedRemoteDataObject(),
+        b: createFailedRemoteDataObject(),
+        c: createSuccessfulRemoteDataObject('c'),
         d: createSuccessfulRemoteDataObject('d'),
-        e: createSuccessfulRemoteDataObject('e'),
       };
-      const source = hot('abcde', testRD);
+      const source = hot('abcd', testRD);
       const result = source.pipe(getAllSucceededRemoteData());
-      const expected = cold('---de', testRD);
+      const expected = cold('--cd', testRD);
 
       expect(result).toBeObservable(expected);
 

@@ -3,11 +3,11 @@ import { ExternalSourceService } from './external-source.service';
 import { SearchService } from '../shared/search/search.service';
 import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
 import { createPaginatedList } from '../../shared/testing/utils.test';
-import { PaginatedList } from './paginated-list';
+import { buildPaginatedList } from './paginated-list.model';
 import { PageInfo } from '../shared/page-info.model';
-import { PaginatedSearchOptions } from '../../shared/search/paginated-search-options.model';
+import { PaginatedSearchOptions } from '../../shared/search/models/paginated-search-options.model';
 import { RelationshipOptions } from '../../shared/form/builder/models/relationship-options.model';
-import { SearchResult } from '../../shared/search/search-result.model';
+import { SearchResult } from '../../shared/search/models/search-result.model';
 import { Item } from '../shared/item.model';
 import { skip, take } from 'rxjs/operators';
 import { ExternalSource } from '../shared/external-source.model';
@@ -43,7 +43,12 @@ describe('LookupRelationService', () => {
 
   function init() {
     externalSourceService = jasmine.createSpyObj('externalSourceService', {
-      getExternalSourceEntries: createSuccessfulRemoteDataObject$(new PaginatedList(new PageInfo({ elementsPerPage: 1, totalElements: totalExternal, totalPages: totalExternal, currentPage: 1 }), [{}]))
+      getExternalSourceEntries: createSuccessfulRemoteDataObject$(buildPaginatedList(new PageInfo({
+        elementsPerPage: 1,
+        totalElements: totalExternal,
+        totalPages: totalExternal,
+        currentPage: 1
+      }), [{}]))
     });
     searchService = jasmine.createSpyObj('searchService', {
       search: createSuccessfulRemoteDataObject$(createPaginatedList(localResults)),
@@ -86,13 +91,13 @@ describe('LookupRelationService', () => {
 
     it('should start with 0', () => {
       result.pipe(take(1)).subscribe((amount) => {
-        expect(amount).toEqual(0)
+        expect(amount).toEqual(0);
       });
     });
 
     it('should return the correct total amount', () => {
       result.pipe(skip(1)).subscribe((amount) => {
-        expect(amount).toEqual(localResults.length)
+        expect(amount).toEqual(localResults.length);
       });
     });
 
@@ -110,13 +115,13 @@ describe('LookupRelationService', () => {
 
     it('should start with 0', () => {
       result.pipe(take(1)).subscribe((amount) => {
-        expect(amount).toEqual(0)
+        expect(amount).toEqual(0);
       });
     });
 
     it('should return the correct total amount', () => {
       result.pipe(skip(1)).subscribe((amount) => {
-        expect(amount).toEqual(totalExternal)
+        expect(amount).toEqual(totalExternal);
       });
     });
   });

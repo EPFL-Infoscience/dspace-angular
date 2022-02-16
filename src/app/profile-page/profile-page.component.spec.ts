@@ -1,43 +1,56 @@
 import { ProfilePageComponent } from './profile-page.component';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { VarDirective } from '../shared/utils/var.directive';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { EPerson } from '../core/eperson/models/eperson.model';
-import { Store, StoreModule } from '@ngrx/store';
-import { AppState } from '../app.reducer';
+import { StoreModule } from '@ngrx/store';
+import { storeModuleConfig } from '../app.reducer';
 import { AuthTokenInfo } from '../core/auth/models/auth-token-info.model';
 import { EPersonDataService } from '../core/eperson/eperson-data.service';
 import { NotificationsService } from '../shared/notifications/notifications.service';
 import { authReducer } from '../core/auth/auth.reducer';
 import { createSuccessfulRemoteDataObject$ } from '../shared/remote-data.utils';
 import { createPaginatedList } from '../shared/testing/utils.test';
-import { of as observableOf } from 'rxjs';
+import { BehaviorSubject, of as observableOf } from 'rxjs';
 import { AuthService } from '../core/auth/auth.service';
 import { RestResponse } from '../core/cache/response.models';
+import { provideMockStore } from '@ngrx/store/testing';
+import { AuthorizationDataService } from '../core/data/feature-authorization/authorization-data.service';
+import { getTestScheduler } from 'jasmine-marbles';
+import { By } from '@angular/platform-browser';
 
 describe('ProfilePageComponent', () => {
   let component: ProfilePageComponent;
   let fixture: ComponentFixture<ProfilePageComponent>;
   let user;
-  let authState;
+  let initialState: any;
 
   let authService;
   let epersonService;
   let notificationsService;
 
+  const canChangePassword = new BehaviorSubject(true);
+
   function init() {
     user = Object.assign(new EPerson(), {
       id: 'userId',
-      groups: createSuccessfulRemoteDataObject$(createPaginatedList([]))
+      groups: createSuccessfulRemoteDataObject$(createPaginatedList([])),
+      _links: {self: {href: 'test.com/uuid/1234567654321'}}
     });
-    authState = {
-      authenticated: true,
-      loaded: true,
-      loading: false,
-      authToken: new AuthTokenInfo('test_token'),
-      userId: user.id
+    initialState = {
+      core: {
+        auth: {
+          authenticated: true,
+          loaded: true,
+          blocking: false,
+          loading: false,
+          authToken: new AuthTokenInfo('test_token'),
+          userId: user.id,
+          authMethods: []
+        }
+      }
     };
 
     authService = jasmine.createSpyObj('authService', {
@@ -54,31 +67,31 @@ describe('ProfilePageComponent', () => {
     });
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     init();
     TestBed.configureTestingModule({
       declarations: [ProfilePageComponent, VarDirective],
-      imports: [StoreModule.forRoot(authReducer), TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
+      imports: [
+        StoreModule.forRoot({ auth: authReducer }, storeModuleConfig),
+        TranslateModule.forRoot(),
+        RouterTestingModule.withRoutes([])
+      ],
       providers: [
         { provide: EPersonDataService, useValue: epersonService },
         { provide: NotificationsService, useValue: notificationsService },
-        { provide: AuthService, useValue: authService }
+        { provide: AuthService, useValue: authService },
+        { provide: AuthorizationDataService, useValue: jasmine.createSpyObj('authorizationService', { isAuthorized: canChangePassword }) },
+        provideMockStore({ initialState }),
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
-  beforeEach(inject([Store], (store: Store<AppState>) => {
-    store
-      .subscribe((state) => {
-        (state as any).core = Object.create({});
-        (state as any).core.auth = authState;
-      });
-
+  beforeEach(() => {
     fixture = TestBed.createComponent(ProfilePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   describe('updateProfile', () => {
     describe('when the metadata form returns false and the security form returns true', () => {
@@ -177,7 +190,7 @@ describe('ProfilePageComponent', () => {
         component.setPasswordValue('testest');
         component.setInvalid(false);
 
-        operations = [{op: 'replace', path: '/password', value: 'testest'}];
+        operations = [{ op: 'add', path: '/password', value: 'testest' }];
         result = component.updateSecurity();
       });
 
@@ -187,6 +200,38 @@ describe('ProfilePageComponent', () => {
 
       it('should return call epersonService.patch', () => {
         expect(epersonService.patch).toHaveBeenCalledWith(user, operations);
+      });
+    });
+  });
+
+  describe('canChangePassword$', () => {
+    describe('when the user is allowed to change their password', () => {
+      beforeEach(() => {
+        canChangePassword.next(true);
+      });
+
+      it('should contain true', () => {
+        getTestScheduler().expectObservable(component.canChangePassword$).toBe('(a)', { a: true });
+      });
+
+      it('should show the security section on the page', () => {
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.css('.security-section'))).not.toBeNull();
+      });
+    });
+
+    describe('when the user is not allowed to change their password', () => {
+      beforeEach(() => {
+        canChangePassword.next(false);
+      });
+
+      it('should contain false', () => {
+        getTestScheduler().expectObservable(component.canChangePassword$).toBe('(a)', { a: false });
+      });
+
+      it('should not show the security section on the page', () => {
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.css('.security-section'))).toBeNull();
       });
     });
   });

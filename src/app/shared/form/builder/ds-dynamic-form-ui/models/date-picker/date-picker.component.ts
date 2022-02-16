@@ -8,6 +8,7 @@ import {
   DynamicFormValidationService
 } from '@ng-dynamic-forms/core';
 
+
 export const DS_DATE_PICKER_SEPARATOR = '-';
 
 @Component({
@@ -20,6 +21,7 @@ export class DsDatePickerComponent extends DynamicFormControlComponent implement
   @Input() bindId = true;
   @Input() group: FormGroup;
   @Input() model: DynamicDsDatePickerModel;
+  @Input() legend: string;
 
   @Output() selected = new EventEmitter<number>();
   @Output() remove = new EventEmitter<number>();
@@ -48,7 +50,6 @@ export class DsDatePickerComponent extends DynamicFormControlComponent implement
 
   disabledMonth = true;
   disabledDay = true;
-
   constructor(protected layoutService: DynamicFormLayoutService,
               protected validationService: DynamicFormValidationService
   ) {
@@ -57,9 +58,9 @@ export class DsDatePickerComponent extends DynamicFormControlComponent implement
 
   ngOnInit() {
     const now = new Date();
-    this.initialYear = now.getFullYear();
-    this.initialMonth = now.getMonth() + 1;
-    this.initialDay = now.getDate();
+    this.initialYear = now.getUTCFullYear();
+    this.initialMonth = now.getUTCMonth() + 1;
+    this.initialDay = now.getUTCDate();
 
     if (this.model && this.model.value !== null) {
       const values = this.model.value.toString().split(DS_DATE_PICKER_SEPARATOR);
@@ -78,9 +79,7 @@ export class DsDatePickerComponent extends DynamicFormControlComponent implement
         this.day = this.initialDay;
       }
     }
-
     this.maxYear = this.initialYear + 100;
-
   }
 
   onBlur(event) {
@@ -88,7 +87,7 @@ export class DsDatePickerComponent extends DynamicFormControlComponent implement
   }
 
   onChange(event) {
-    // update year-month-day
+     // update year-month-day
     switch (event.field) {
       case 'year': {
         if (event.value !== null) {
@@ -161,7 +160,7 @@ export class DsDatePickerComponent extends DynamicFormControlComponent implement
       value += DS_DATE_PICKER_SEPARATOR + dd;
     }
 
-    this.model.valueUpdates.next(value);
+    this.model.value = value;
     this.change.emit(value);
   }
 

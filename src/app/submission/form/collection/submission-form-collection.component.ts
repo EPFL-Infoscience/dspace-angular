@@ -13,7 +13,7 @@ import {
 import { BehaviorSubject, Observable, of as observableOf, Subscription } from 'rxjs';
 import {
   find,
-  map
+  map, mergeMap
 } from 'rxjs/operators';
 
 import { Collection } from '../../../core/shared/collection.model';
@@ -25,8 +25,10 @@ import { SubmissionService } from '../../submission.service';
 import { SubmissionObject } from '../../../core/submission/models/submission-object.model';
 import { SubmissionJsonPatchOperationsService } from '../../../core/submission/submission-json-patch-operations.service';
 import { CollectionDataService } from '../../../core/data/collection-data.service';
-import { CollectionDropdownComponent } from 'src/app/shared/collection-dropdown/collection-dropdown.component';
+import { CollectionDropdownComponent } from '../../../shared/collection-dropdown/collection-dropdown.component';
 import { SectionsService } from '../../sections/sections.service';
+import { getFirstSucceededRemoteDataPayload } from '../../../core/shared/operators';
+import { SectionsType } from '../../sections/sections-type';
 
 /**
  * This component allows to show the current collection the submission belonging to and to change it.
@@ -101,7 +103,7 @@ export class SubmissionFormCollectionComponent implements OnChanges, OnInit {
   /**
    * The html child that contains the collections list
    */
-  @ViewChild(CollectionDropdownComponent, {static: false}) collectionDropdown: CollectionDropdownComponent;
+  @ViewChild(CollectionDropdownComponent) collectionDropdown: CollectionDropdownComponent;
 
   /**
    * A boolean representing if the collection section is available
@@ -113,15 +115,21 @@ export class SubmissionFormCollectionComponent implements OnChanges, OnInit {
    * Metadata name to filter collection list
    */
   metadata: string;
+
+  /**
+   * If a collection choice is available
+   */
+  hasChoice = true;
+
   /**
    * Initialize instance variables
    *
    * @param {ChangeDetectorRef} cdr
-   * @param {CommunityDataService} communityDataService
    * @param {CollectionDataService} collectionDataService
    * @param {JsonPatchOperationsBuilder} operationsBuilder
    * @param {SubmissionJsonPatchOperationsService} operationsService
    * @param {SubmissionService} submissionService
+   * @param {SectionsService} sectionsService
    */
   constructor(protected cdr: ChangeDetectorRef,
               private collectionDataService: CollectionDataService,
@@ -151,9 +159,9 @@ export class SubmissionFormCollectionComponent implements OnChanges, OnInit {
    */
   ngOnInit() {
     this.pathCombiner = new JsonPatchOperationPathCombiner('sections', 'collection');
-    this.available$ = this.sectionsService.isSectionAvailable(this.submissionId, 'collection');
+    this.available$ = this.sectionsService.isSectionTypeAvailable(this.submissionId, SectionsType.collection);
     if (this.entityType) {
-      this.metadata = 'relationship.type';
+      this.metadata = 'dspace.entity.type';
     }
   }
 
@@ -177,11 +185,17 @@ export class SubmissionFormCollectionComponent implements OnChanges, OnInit {
       this.submissionService.getSubmissionObjectLinkName(),
       this.submissionId,
       'sections',
-      'collection')
-      .subscribe((submissionObject: SubmissionObject[]) => {
+      'collection').pipe(
+        mergeMap((submissionObject: SubmissionObject[]) => {
+          // retrieve the full submission object with embeds
+          return this.submissionService.retrieveSubmission(submissionObject[0].id).pipe(
+            getFirstSucceededRemoteDataPayload()
+          );
+        })
+      ).subscribe((submissionObject: SubmissionObject) => {
         this.selectedCollectionId = event.collection.id;
         this.selectedCollectionName$ = observableOf(event.collection.name);
-        this.collectionChange.emit(submissionObject[0]);
+        this.collectionChange.emit(submissionObject);
         this.submissionService.changeSubmissionCollection(this.submissionId, event.collection.id);
         this.processingChange$.next(false);
         this.cdr.detectChanges();
@@ -206,5 +220,14 @@ export class SubmissionFormCollectionComponent implements OnChanges, OnInit {
     if (!isOpen) {
       this.collectionDropdown.reset();
     }
+  }
+
+  /**
+   * Update the component's hasChoice value.
+   * @param hasChoice
+   *   the new value
+   */
+  onHasChoice(hasChoice: boolean) {
+    this.hasChoice = hasChoice;
   }
 }

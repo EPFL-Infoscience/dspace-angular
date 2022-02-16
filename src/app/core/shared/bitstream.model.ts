@@ -8,6 +8,8 @@ import { BITSTREAM } from './bitstream.resource-type';
 import { DSpaceObject } from './dspace-object.model';
 import { HALLink } from './hal-link.model';
 import { HALResource } from './hal-resource.model';
+import {BUNDLE} from './bundle.resource-type';
+import {Bundle} from './bundle.model';
 
 @typedObject
 @inheritSerialization(DSpaceObject)
@@ -41,13 +43,14 @@ export class Bitstream extends DSpaceObject implements HALResource {
     bundle: HALLink;
     format: HALLink;
     content: HALLink;
+    thumbnail: HALLink;
   };
 
   /**
    * The thumbnail for this Bitstream
-   * Needs to be resolved first, but isn't available as a {@link HALLink} yet
-   * Use BitstreamDataService.getThumbnailFor(…) for now.
+   * Will be undefined unless the thumbnail {@link HALLink} has been resolved.
    */
+  @link(BITSTREAM, false, 'thumbnail')
   thumbnail?: Observable<RemoteData<Bitstream>>;
 
   /**
@@ -57,4 +60,10 @@ export class Bitstream extends DSpaceObject implements HALResource {
   @link(BITSTREAM_FORMAT, false, 'format')
   format?: Observable<RemoteData<BitstreamFormat>>;
 
+  /**
+   * The owning bundle for this Bitstream
+   * Will be undefined unless the bundle{@link HALLink} has been resolved.
+   */
+  @link(BUNDLE)
+  bundle?: Observable<RemoteData<Bundle>>;
 }

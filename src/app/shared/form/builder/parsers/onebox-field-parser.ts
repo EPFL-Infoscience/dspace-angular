@@ -19,7 +19,7 @@ import {
 export class OneboxFieldParser extends FieldParser {
 
   public modelFactory(fieldValue?: FormFieldMetadataValueObject | any, label?: boolean): any {
-    if (this.configData.selectableMetadata.length > 1) {
+     if (this.configData.selectableMetadata.length > 1) {
       // Case Qualdrop Model
       const clsGroup = {
         element: {
@@ -59,7 +59,7 @@ export class OneboxFieldParser extends FieldParser {
       this.setLabel(inputSelectGroup, label);
       inputSelectGroup.required = isNotEmpty(this.configData.mandatory);
 
-      const selectModelConfig: DynamicSelectModelConfig<any> = this.initModel(newId + QUALDROP_METADATA_SUFFIX, label, false);
+      const selectModelConfig: DynamicSelectModelConfig<any> = this.initModel(newId + QUALDROP_METADATA_SUFFIX, label, false, false);
       selectModelConfig.hint = null;
       this.setOptions(selectModelConfig);
       if (isNotEmpty(fieldValue)) {
@@ -67,17 +67,19 @@ export class OneboxFieldParser extends FieldParser {
       }
       inputSelectGroup.group.push(new DynamicSelectModel(selectModelConfig, clsSelect));
 
-      const inputModelConfig: DsDynamicInputModelConfig = this.initModel(newId + QUALDROP_VALUE_SUFFIX, label, false);
+      const inputModelConfig: DsDynamicInputModelConfig = this.initModel(newId + QUALDROP_VALUE_SUFFIX, label, false, false);
       inputModelConfig.hint = null;
       this.setValues(inputModelConfig, fieldValue);
       inputSelectGroup.readOnly = selectModelConfig.disabled && inputModelConfig.readOnly;
-
+      // in case of qualdrop do not show toggle of security
+      inputModelConfig.toggleSecurityVisibility = false;
       inputSelectGroup.group.push(new DsDynamicInputModel(inputModelConfig, clsInput));
 
       return new DynamicQualdropModel(inputSelectGroup, clsGroup);
     } else if (this.configData.selectableMetadata[0].controlledVocabulary) {
       const oneboxModelConfig: DsDynamicOneboxModelConfig = this.initModel(null, label);
-      this.setVocabularyOptions(oneboxModelConfig);
+      this.setVocabularyOptions(oneboxModelConfig, this.parserOptions.collectionUUID);
+      oneboxModelConfig.submissionScope = this.parserOptions.submissionScope;
       this.setValues(oneboxModelConfig, fieldValue, true);
 
       return new DynamicOneboxModel(oneboxModelConfig);

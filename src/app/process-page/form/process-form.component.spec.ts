@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -48,7 +48,7 @@ describe('ProcessFormComponent', () => {
     };
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     init();
     TestBed.configureTestingModule({
       imports: [
@@ -86,5 +86,16 @@ describe('ProcessFormComponent', () => {
   it('should call invoke on the scriptService on submit', () => {
     component.submitForm({ controls: {} } as any);
     expect(scriptService.invoke).toHaveBeenCalled();
+  });
+
+  describe('when undefined parameters are provided', () => {
+    beforeEach(() => {
+      component.parameters = undefined;
+    });
+
+    it('should invoke the script with an empty array of parameters', () => {
+      component.submitForm({ controls: {} } as any);
+      expect(scriptService.invoke).toHaveBeenCalledWith(script.id, [], jasmine.anything());
+    });
   });
 });

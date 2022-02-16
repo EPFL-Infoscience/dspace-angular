@@ -22,7 +22,7 @@ export class SearchNavbarComponent {
   isExpanded = 'collapsed';
 
   // Search input field
-  @ViewChild('searchInput', {static: false}) searchField: ElementRef;
+  @ViewChild('searchInput') searchField: ElementRef;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private searchService: SearchService) {
     this.searchForm = this.formBuilder.group(({
@@ -61,10 +61,12 @@ export class SearchNavbarComponent {
    */
   onSubmit(data: any) {
     this.collapse();
-    const linkToNavigateTo = this.searchService.getSearchLink().split('/');
+    const queryParams = Object.assign({}, data);
+    const linkToNavigateTo = [this.searchService.getSearchLink().replace('/', '')];
     this.searchForm.reset();
+
     this.router.navigate(linkToNavigateTo, {
-      queryParams: Object.assign({}, { page: 1 }, data),
+      queryParams: queryParams,
       queryParamsHandling: 'merge'
     });
   }

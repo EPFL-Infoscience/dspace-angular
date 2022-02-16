@@ -7,7 +7,7 @@ import { DSOSelectorModalWrapperComponent, SelectorActionType } from '../dso-sel
 import {
     getCollectionCreateRoute,
     COLLECTION_PARENT_PARAMETER
-} from '../../../../+collection-page/collection-page-routing-paths';
+} from '../../../../collection-page/collection-page-routing-paths';
 
 /**
  * Component to wrap a list of existing communities inside a modal
@@ -22,6 +22,8 @@ export class CreateCollectionParentSelectorComponent extends DSOSelectorModalWra
   objectType = DSpaceObjectType.COLLECTION;
   selectorTypes = [DSpaceObjectType.COMMUNITY];
   action = SelectorActionType.CREATE;
+  header = 'dso-selector.create.collection.sub-level';
+  configuration = 'editCommunity';
 
   constructor(protected activeModal: NgbActiveModal, protected route: ActivatedRoute, private router: Router) {
     super(activeModal, route);

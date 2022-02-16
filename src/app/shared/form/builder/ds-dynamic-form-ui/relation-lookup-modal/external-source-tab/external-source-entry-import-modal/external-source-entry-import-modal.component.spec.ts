@@ -1,5 +1,5 @@
 import { ExternalSourceEntryImportModalComponent, ImportType } from './external-source-entry-import-modal.component';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -64,7 +64,7 @@ describe('DsDynamicLookupRelationExternalSourceTabComponent', () => {
     modalStub = jasmine.createSpyObj('modal', ['close']);
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     init();
     TestBed.configureTestingModule({
       declarations: [ExternalSourceEntryImportModalComponent],
@@ -86,7 +86,6 @@ describe('DsDynamicLookupRelationExternalSourceTabComponent', () => {
     component.externalSourceEntry = entry;
     component.label = label;
     component.relationship = relationship;
-    component.collection = submissionCollection;
     component.item = submissionItem;
     fixture.detectChanges();
   });

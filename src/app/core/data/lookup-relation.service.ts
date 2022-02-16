@@ -1,14 +1,13 @@
 import { ExternalSourceService } from './external-source.service';
 import { SearchService } from '../shared/search/search.service';
-import { concat, map, multicast, startWith, take, takeWhile } from 'rxjs/operators';
-import { PaginatedSearchOptions } from '../../shared/search/paginated-search-options.model';
-import { ReplaySubject } from 'rxjs/internal/ReplaySubject';
+import { concat, distinctUntilChanged, map, multicast, startWith, take, takeWhile } from 'rxjs/operators';
+import { PaginatedSearchOptions } from '../../shared/search/models/paginated-search-options.model';
+import { Observable, ReplaySubject } from 'rxjs';
 import { RemoteData } from './remote-data';
-import { PaginatedList } from './paginated-list';
-import { SearchResult } from '../../shared/search/search-result.model';
+import { PaginatedList } from './paginated-list.model';
+import { SearchResult } from '../../shared/search/models/search-result.model';
 import { DSpaceObject } from '../shared/dspace-object.model';
 import { RelationshipOptions } from '../../shared/form/builder/models/relationship-options.model';
-import { Observable } from 'rxjs/internal/Observable';
 import { Item } from '../shared/item.model';
 import { PaginationComponentOptions } from '../../shared/pagination/pagination-component-options.model';
 import { getAllSucceededRemoteData, getRemoteDataPayload } from '../shared/operators';
@@ -91,7 +90,8 @@ export class LookupRelationService {
       getAllSucceededRemoteData(),
       getRemoteDataPayload(),
       map((results: PaginatedList<ExternalSourceEntry>) => results.totalElements),
-      startWith(0)
+      startWith(0),
+      distinctUntilChanged()
     );
   }
 

@@ -1,6 +1,5 @@
-import { Inject, Injectable } from '@angular/core';
-
-import { of as observableOf } from 'rxjs';
+import { Injectable } from '@angular/core';
+import {BehaviorSubject, of as observableOf} from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -9,12 +8,14 @@ import { uniqueId } from 'lodash';
 import { INotification, Notification } from './models/notification.model';
 import { NotificationType } from './models/notification-type';
 import { NotificationOptions } from './models/notification-options.model';
+import { IProcessNotification, ProcessNotification } from './models/process-notification.model';
 
 import { NewNotificationAction, RemoveAllNotificationsAction, RemoveNotificationAction } from './notifications.actions';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class NotificationsService {
+  claimedProfile = new BehaviorSubject(true);
 
   constructor(private store: Store<Notification>,
               private translate: TranslateService) {
@@ -62,6 +63,17 @@ export class NotificationsService {
           html: boolean = false): INotification {
     const notificationOptions = { ...this.getDefaultOptions(), ...options };
     const notification = new Notification(uniqueId(), NotificationType.Warning, title, content, notificationOptions, html);
+    this.add(notification);
+    return notification;
+  }
+
+  process(processId: string,
+          checkTime: number,
+          title: any = observableOf(''),
+          options: NotificationOptions = this.getDefaultOptions(),
+          html: boolean = false): IProcessNotification {
+    const notificationOptions = { ...this.getDefaultOptions(), ...options };
+    const notification = new ProcessNotification(uniqueId(), NotificationType.Process, processId, checkTime, title, notificationOptions, html);
     this.add(notification);
     return notification;
   }

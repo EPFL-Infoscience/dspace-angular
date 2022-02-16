@@ -2,21 +2,28 @@ import { autoserialize, deserialize, inheritSerialization } from 'cerialize';
 import { SectionsType } from '../../../submission/sections/sections-type';
 import { typedObject } from '../../cache/builders/build-decorators';
 import { HALLink } from '../../shared/hal-link.model';
-import { ResourceType } from '../../shared/resource-type';
 import { ConfigObject } from './config.model';
+import { SUBMISSION_SECTION_TYPE } from './config-type';
+
+/**
+ * An Enum defining the possible visibility values
+ */
+export enum SubmissionVisibilityValue {
+  ReadOnly = 'read-only',
+  Hidden = 'hidden'
+}
 
 /**
  * An interface that define section visibility and its properties.
  */
-export interface SubmissionSectionVisibility {
-  main: any,
-  other: any
+export interface SubmissionVisibilityType {
+  [scope: string]: SubmissionVisibilityValue;
 }
 
 @typedObject
 @inheritSerialization(ConfigObject)
 export class SubmissionSectionModel extends ConfigObject {
-  static type = new ResourceType('submissionsection');
+  static type = SUBMISSION_SECTION_TYPE;
 
   /**
    * The header for this section
@@ -31,16 +38,22 @@ export class SubmissionSectionModel extends ConfigObject {
   mandatory: boolean;
 
   /**
+   * A boolean representing if this submission section is opened or collapsed by default
+   */
+  @autoserialize
+  opened: boolean;
+
+  /**
    * A string representing the kind of section object
    */
   @autoserialize
   sectionType: SectionsType;
 
   /**
-   * The [SubmissionSectionVisibility] object for this section
+   * The [SubmissionVisibilityType] object for this section
    */
   @autoserialize
-  visibility: SubmissionSectionVisibility;
+  visibility: SubmissionVisibilityType;
 
   /**
    * The {@link HALLink}s for this SubmissionSectionModel
@@ -49,6 +62,6 @@ export class SubmissionSectionModel extends ConfigObject {
   _links: {
     self: HALLink;
     config: HALLink;
-  }
+  };
 
 }

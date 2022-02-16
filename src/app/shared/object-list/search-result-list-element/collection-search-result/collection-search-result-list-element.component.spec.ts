@@ -1,5 +1,5 @@
 import { CollectionSearchResultListElementComponent } from './collection-search-result-list-element.component';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of as observableOf } from 'rxjs';
 import { ChangeDetectionStrategy, NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -7,6 +7,8 @@ import { TruncatePipe } from '../../../utils/truncate.pipe';
 import { Collection } from '../../../../core/shared/collection.model';
 import { TruncatableService } from '../../../truncatable/truncatable.service';
 import { CollectionSearchResult } from '../../../object-collection/shared/collection-search-result.model';
+import { DSONameService } from '../../../../core/breadcrumbs/dso-name.service';
+import { DSONameServiceMock } from '../../../mocks/dso-name.service.mock';
 
 let collectionSearchResultListElementComponent: CollectionSearchResultListElementComponent;
 let fixture: ComponentFixture<CollectionSearchResultListElementComponent>;
@@ -42,19 +44,20 @@ mockCollectionWithoutAbstract.indexableObject = Object.assign(new Collection(), 
 });
 
 describe('CollectionSearchResultListElementComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CollectionSearchResultListElementComponent, TruncatePipe ],
+      declarations: [CollectionSearchResultListElementComponent, TruncatePipe],
       providers: [
         { provide: TruncatableService, useValue: truncatableServiceStub },
+        { provide: DSONameService, useClass: DSONameServiceMock }
       ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(CollectionSearchResultListElementComponent, {
       set: { changeDetection: ChangeDetectionStrategy.Default }
     }).compileComponents();
   }));
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CollectionSearchResultListElementComponent);
     collectionSearchResultListElementComponent = fixture.componentInstance;
     collectionSearchResultListElementComponent.object = mockCollectionWithAbstract;

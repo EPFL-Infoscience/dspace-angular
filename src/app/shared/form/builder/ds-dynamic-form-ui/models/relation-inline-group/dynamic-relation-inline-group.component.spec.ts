@@ -1,6 +1,6 @@
 // Load the implementations that should be tested
 import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, inject, TestBed, } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync, } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -32,13 +32,29 @@ import { FormRowModel } from '../../../../../../core/config/models/config-submis
 import { DynamicRowArrayModel } from '../ds-dynamic-row-array-model';
 import { DynamicRowGroupModel } from '../ds-dynamic-row-group-model';
 import { PLACEHOLDER_PARENT_METADATA } from '../../ds-dynamic-form-constants';
+import {SubmissionService} from '../../../../../../submission/submission.service';
+import {SubmissionServiceStub} from '../../../../../testing/submission-service.stub';
+import {of as observableOf} from 'rxjs';
 
 export let FORM_GROUP_TEST_MODEL_CONFIG;
 
 export let FORM_GROUP_TEST_GROUP;
 
 const submissionId = '1234';
-
+const metadataSecurity = {
+  'uuid': null,
+  'metadataSecurityDefault': [
+    0,
+    1
+  ],
+  'metadataCustomSecurity': {},
+  'type': 'securitysetting',
+  '_links': {
+    'self': {
+      'href': 'http://localhost:8080/server/api/core/securitysettings'
+    }
+  }
+};
 function init() {
   FORM_GROUP_TEST_MODEL_CONFIG = {
     disabled: false,
@@ -108,11 +124,11 @@ describe('DsDynamicRelationInlineGroupComponent test suite', () => {
   let control2: FormControl;
   let model2: DsDynamicInputModel;
   let event: DynamicFormControlEvent;
+  let submissionServiceStub: SubmissionServiceStub;
 
   // async beforeEach
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     init();
-
     /* TODO make sure these files use mocks instead of real services/components https://github.com/DSpace/dspace-angular/issues/281 */
     TestBed.configureTestingModule({
       imports: [
@@ -136,7 +152,8 @@ describe('DsDynamicRelationInlineGroupComponent test suite', () => {
         FormBuilderService,
         FormComponent,
         FormService,
-        { provide: Store, useClass: StoreMock }
+        { provide: Store, useClass: StoreMock },
+        { provide: SubmissionService, useClass: SubmissionServiceStub}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
@@ -155,6 +172,8 @@ describe('DsDynamicRelationInlineGroupComponent test suite', () => {
 
       testFixture = createTestComponent(html, TestComponent) as ComponentFixture<TestComponent>;
       testComp = testFixture.componentInstance;
+      submissionServiceStub = TestBed.inject(SubmissionService as any);
+      submissionServiceStub.getSubmissionSecurityConfiguration.and.returnValue(observableOf(metadataSecurity));
     });
 
     afterEach(() => {
@@ -172,6 +191,8 @@ describe('DsDynamicRelationInlineGroupComponent test suite', () => {
     beforeEach(inject([FormBuilderService], (service: FormBuilderService) => {
 
       groupFixture = TestBed.createComponent(DsDynamicRelationInlineGroupComponent);
+      submissionServiceStub = TestBed.inject(SubmissionService as any);
+      submissionServiceStub.getSubmissionSecurityConfiguration.and.returnValue(observableOf(metadataSecurity));
       groupComp = groupFixture.componentInstance; // FormComponent test instance
       groupCompAsAny = groupComp;
       groupComp.formId = 'testForm';
@@ -241,6 +262,7 @@ describe('DsDynamicRelationInlineGroupComponent test suite', () => {
 
     describe('onChange', () => {
       beforeEach(() => {
+        submissionServiceStub.getSubmissionSecurityConfiguration.and.returnValue(observableOf(metadataSecurity));
         const formConfig = { rows: groupComp.model.formConfiguration } as SubmissionFormsModel;
         const formArrayModel: DynamicRowArrayModel[] = groupComp.initArrayModel(formConfig) as DynamicRowArrayModel[];
         const group = formArrayModel[0].groups[0];
@@ -378,7 +400,7 @@ describe('DsDynamicRelationInlineGroupComponent test suite', () => {
         'dc.contributor.author': new FormFieldMetadataValueObject('test author 2'),
         'local.contributor.affiliation': new FormFieldMetadataValueObject('test affiliation 2')
       }];
-      groupComp.model.valueUpdates.next(modelValue);
+      groupComp.model.value = modelValue;
       spyOn(groupCompAsAny, 'removeItemFromModelValue');
 
       groupComp.remove(event);
@@ -410,7 +432,7 @@ describe('DsDynamicRelationInlineGroupComponent test suite', () => {
         'dc.contributor.author': new FormFieldMetadataValueObject('test author 2'),
         'local.contributor.affiliation': new FormFieldMetadataValueObject('test affiliation 2')
       }];
-      groupComp.model.valueUpdates.next(modelValue);
+      groupComp.model.value = modelValue;
       spyOn(groupCompAsAny, 'removeItemFromModelValue');
 
       groupComp.remove(event);
@@ -459,7 +481,7 @@ describe('DsDynamicRelationInlineGroupComponent test suite', () => {
         'dc.contributor.author': new FormFieldMetadataValueObject('test author 2'),
         'local.contributor.affiliation': new FormFieldMetadataValueObject('test affiliation 2')
       }];
-      groupComp.model.valueUpdates.next(modelValue);
+      groupComp.model.value = modelValue;
 
       const expectedModelValue = [{
         'dc.contributor.author': new FormFieldMetadataValueObject('test author 2'),
@@ -545,12 +567,11 @@ describe('DsDynamicRelationInlineGroupComponent test suite', () => {
         'local.contributor.affiliation': new FormFieldMetadataValueObject('test affiliation')
       }];
 
-      spyOn(groupCompAsAny.model.valueUpdates, 'next');
       spyOn(groupCompAsAny.change, 'emit');
 
       groupCompAsAny.updateArrayModelValue(groupValue, 0);
 
-      expect(groupCompAsAny.model.valueUpdates.next).toHaveBeenCalledWith(expectedModelValue);
+      expect(groupCompAsAny.model.value).toEqual(expectedModelValue);
     });
 
     it('should update model properly when model value is not empty', () => {
@@ -564,7 +585,7 @@ describe('DsDynamicRelationInlineGroupComponent test suite', () => {
         'local.contributor.affiliation': new FormFieldMetadataValueObject('test affiliation')
       }];
 
-      groupComp.model.valueUpdates.next(modelValue);
+      groupComp.model.value = modelValue;
 
       const expectedModelValue: any = [
         {
@@ -577,12 +598,11 @@ describe('DsDynamicRelationInlineGroupComponent test suite', () => {
         }
       ];
 
-      spyOn(groupCompAsAny.model.valueUpdates, 'next');
       spyOn(groupCompAsAny.change, 'emit');
 
       groupCompAsAny.updateArrayModelValue(groupValue, 1);
 
-      expect(groupCompAsAny.model.valueUpdates.next).toHaveBeenCalledWith(expectedModelValue);
+      expect(groupCompAsAny.model.value).toEqual(expectedModelValue);
     });
   });
 
@@ -590,6 +610,8 @@ describe('DsDynamicRelationInlineGroupComponent test suite', () => {
     beforeEach(() => {
 
       groupFixture = TestBed.createComponent(DsDynamicRelationInlineGroupComponent);
+      submissionServiceStub = TestBed.inject(SubmissionService as any);
+      submissionServiceStub.getSubmissionSecurityConfiguration.and.returnValue(observableOf(metadataSecurity));
       groupComp = groupFixture.componentInstance; // FormComponent test instance
       groupComp.formId = 'testForm';
       groupComp.group = FORM_GROUP_TEST_GROUP;

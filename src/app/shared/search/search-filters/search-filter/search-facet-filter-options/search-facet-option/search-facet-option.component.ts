@@ -2,14 +2,15 @@ import { combineLatest as observableCombineLatest, Observable, Subscription } fr
 import { map } from 'rxjs/operators';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FacetValue } from '../../../../facet-value.model';
-import { SearchFilterConfig } from '../../../../search-filter-config.model';
+import { FacetValue } from '../../../../models/facet-value.model';
+import { SearchFilterConfig } from '../../../../models/search-filter-config.model';
 import { SearchService } from '../../../../../../core/shared/search/search.service';
 import { SearchFilterService } from '../../../../../../core/shared/search/search-filter.service';
 import { SearchConfigurationService } from '../../../../../../core/shared/search/search-configuration.service';
 import { hasValue } from '../../../../../empty.util';
-import { FilterType } from '../../../../filter-type.model';
 import { currentPath } from '../../../../../utils/route.utils';
+import { getFacetValueForType } from '../../../../search.utils';
+import { PaginationService } from '../../../../../../core/pagination/pagination.service';
 
 @Component({
   selector: 'ds-search-facet-option',
@@ -60,10 +61,13 @@ export class SearchFacetOptionComponent implements OnInit, OnDestroy {
    */
   sub: Subscription;
 
+  paginationId: string;
+
   constructor(protected searchService: SearchService,
               protected filterService: SearchFilterService,
               protected searchConfigService: SearchConfigurationService,
-              protected router: Router
+              protected router: Router,
+              protected paginationService: PaginationService
   ) {
   }
 
@@ -71,11 +75,12 @@ export class SearchFacetOptionComponent implements OnInit, OnDestroy {
    * Initializes all observable instance variables and starts listening to them
    */
   ngOnInit(): void {
+    this.paginationId = this.searchConfigService.paginationID;
     this.searchLink = this.getSearchLink();
     this.isVisible = this.isChecked().pipe(map((checked: boolean) => !checked));
     this.sub = observableCombineLatest(this.selectedValues$, this.searchConfigService.searchOptions)
       .subscribe(([selectedValues, searchOptions]) => {
-        this.updateAddParams(selectedValues)
+        this.updateAddParams(selectedValues);
       });
   }
 
@@ -101,9 +106,10 @@ export class SearchFacetOptionComponent implements OnInit, OnDestroy {
    * @param {string[]} selectedValues The values that are currently selected for this filter
    */
   private updateAddParams(selectedValues: FacetValue[]): void {
+    const page = this.paginationService.getPageParam(this.searchConfigService.paginationID);
     this.addQueryParams = {
-      [this.filterConfig.paramName]: [...selectedValues.map((facetValue: FacetValue) => facetValue.label), this.getFacetValue()],
-      page: 1
+      [this.filterConfig.paramName]: [...selectedValues.map((facetValue: FacetValue) => getFacetValueForType(facetValue, this.filterConfig)), this.getFacetValue()],
+      [page]: 1
     };
   }
 
@@ -112,19 +118,7 @@ export class SearchFacetOptionComponent implements OnInit, OnDestroy {
    * Retrieve facet value related to facet type
    */
   private getFacetValue(): string {
-    if (this.filterConfig.type === FilterType.authority) {
-      const search = this.filterValue._links.search.href;
-      const hashes = search.slice(search.indexOf('?') + 1).split('&');
-      const params = {};
-      hashes.map((hash) => {
-        const [key, val] = hash.split('=');
-        params[key] = decodeURIComponent(val)
-      });
-
-      return params[this.filterConfig.paramName];
-    } else {
-      return this.filterValue.value;
-    }
+    return getFacetValueForType(this.filterValue, this.filterConfig);
   }
 
   /**

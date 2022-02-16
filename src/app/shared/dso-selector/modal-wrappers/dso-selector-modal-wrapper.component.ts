@@ -1,4 +1,4 @@
-import { Injectable, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { DSpaceObject } from '../../../core/shared/dspace-object.model';
 import { RemoteData } from '../../../core/data/remote-data';
@@ -9,19 +9,41 @@ import { hasValue, isNotEmpty } from '../../empty.util';
 export enum SelectorActionType {
   CREATE = 'create',
   EDIT = 'edit',
-  EXPORT_METADATA = 'export-metadata'
+  EXPORT_METADATA = 'export-metadata',
+  SET_SCOPE = 'set-scope',
+  IMPORT_ITEM = 'import-item',
+  EXPORT_ITEM = 'export-item'
 }
 
 /**
  * Abstract base class that represents a wrapper for modal content used to select a DSpace Object
  */
-
-@Injectable()
+@Component({
+  selector: 'ds-dso-selector-modal',
+  template: ''
+})
 export abstract class DSOSelectorModalWrapperComponent implements OnInit {
+
+  /**
+   * The discovery configuration.
+   */
+  @Input() configuration = 'default';
+
   /**
    * The current page's DSO
    */
   @Input() dsoRD: RemoteData<DSpaceObject>;
+
+  /**
+   * Representing if component should emit value of selected entries or navigate
+   */
+  @Input() emitOnly = false;
+
+  /**
+   * Optional header to display above the selection list
+   * Supports i18n keys
+   */
+  @Input() header: string;
 
   /**
    * The type of the DSO that's being edited, created or exported
@@ -37,6 +59,11 @@ export abstract class DSOSelectorModalWrapperComponent implements OnInit {
    * The type of action to perform
    */
   action: SelectorActionType;
+
+  /**
+   * Event emitted when a DSO entry is selected if emitOnly is set to true
+   */
+  @Output() select: EventEmitter<DSpaceObject> = new EventEmitter<DSpaceObject>();
 
   constructor(protected activeModal: NgbActiveModal, protected route: ActivatedRoute) {
   }
@@ -63,19 +90,24 @@ export abstract class DSOSelectorModalWrapperComponent implements OnInit {
         .map((route: ActivatedRouteSnapshot) => route.children)
         .reduce((combined: ActivatedRouteSnapshot[], current: ActivatedRouteSnapshot[]) => [...combined, ...current]);
       if (isNotEmpty(nextLevelRoutes)) {
-        return this.findRouteData(predicate, ...nextLevelRoutes)
+        return this.findRouteData(predicate, ...nextLevelRoutes);
       } else {
         return undefined;
       }
     }
   }
+
   /**
    * Method called when an object has been selected
    * @param dso The selected DSpaceObject
    */
   selectObject(dso: DSpaceObject) {
     this.close();
-    this.navigate(dso);
+    if (this.emitOnly) {
+      this.select.emit(dso);
+    } else {
+      this.navigate(dso);
+    }
   }
 
   /**

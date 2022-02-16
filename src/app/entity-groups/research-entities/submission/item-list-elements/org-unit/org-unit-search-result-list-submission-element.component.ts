@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
 import { BitstreamDataService } from '../../../../../core/data/bitstream-data.service';
-import { Bitstream } from '../../../../../core/shared/bitstream.model';
-import { getFirstSucceededRemoteDataPayload } from '../../../../../core/shared/operators';
 import { SearchResultListElementComponent } from '../../../../../shared/object-list/search-result-list-element/search-result-list-element.component';
 import { ItemSearchResult } from '../../../../../shared/object-collection/shared/item-search-result.model';
 import { listableObjectComponent } from '../../../../../shared/object-collection/shared/listable-object/listable-object.decorator';
@@ -19,6 +16,7 @@ import { MetadataValue } from '../../../../../core/shared/metadata.models';
 import { ItemDataService } from '../../../../../core/data/item-data.service';
 import { SelectableListService } from '../../../../../shared/object-list/selectable-list/selectable-list.service';
 import { NameVariantModalComponent } from '../../name-variant-modal/name-variant-modal.component';
+import { DSONameService } from '../../../../../core/breadcrumbs/dso-name.service';
 
 @listableObjectComponent('OrgUnitSearchResult', ViewMode.ListElement, Context.EntitySearchModal)
 @listableObjectComponent('OrgUnitSearchResult', ViewMode.ListElement, Context.EntitySearchModalWithNameVariants)
@@ -44,8 +42,10 @@ export class OrgUnitSearchResultListSubmissionElementComponent extends SearchRes
               private modalService: NgbModal,
               private itemDataService: ItemDataService,
               private bitstreamDataService: BitstreamDataService,
-              private selectableListService: SelectableListService) {
-    super(truncatableService);
+              private selectableListService: SelectableListService,
+              protected dsoNameService: DSONameService
+  ) {
+    super(truncatableService, dsoNameService);
   }
 
   ngOnInit() {
@@ -100,7 +100,7 @@ export class OrgUnitSearchResultListSubmissionElementComponent extends SearchRes
         // user clicked cancel: use the name variant only for this relation, no further action required
       }).finally(() => {
         this.select(value);
-      })
+      });
     }
   }
 
@@ -109,12 +109,5 @@ export class OrgUnitSearchResultListSubmissionElementComponent extends SearchRes
     const modalComp = modalRef.componentInstance;
     modalComp.value = value;
     return modalRef.result;
-  }
-
-  // TODO refactor to return RemoteData, and thumbnail template to deal with loading
-  getThumbnail(): Observable<Bitstream> {
-    return this.bitstreamDataService.getThumbnailFor(this.dso).pipe(
-      getFirstSucceededRemoteDataPayload()
-    );
   }
 }
