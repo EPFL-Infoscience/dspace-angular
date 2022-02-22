@@ -86,7 +86,7 @@ export class DeduplicationStateService {
    *    The number of the current deduplication signatures page.
    */
   public getDeduplicationSignaturesCurrentPage(): Observable<number> {
-    return this.store.pipe(select(getDeduplicationSignaturesCurrentPageSelector))
+    return this.store.pipe(select(getDeduplicationSignaturesCurrentPageSelector));
   }
 
   /**
@@ -96,7 +96,7 @@ export class DeduplicationStateService {
    *    The number of the deduplication signatures.
    */
   public getDeduplicationSignaturesTotals(): Observable<number> {
-    return this.store.pipe(select(getDeduplicationSignaturesTotalsSelector))
+    return this.store.pipe(select(getDeduplicationSignaturesTotalsSelector));
   }
 
   /**
@@ -106,6 +106,6 @@ export class DeduplicationStateService {
    *    The number of the signatures per page.
    */
   public dispatchRetrieveDeduplicationSignatures(elementsPerPage: number): void {
-    this.store.dispatch(new RetrieveAllSignaturesAction(elementsPerPage))
+    this.store.dispatch(new RetrieveAllSignaturesAction(elementsPerPage));
   }
 }

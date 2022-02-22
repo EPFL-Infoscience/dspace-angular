@@ -4,7 +4,6 @@ import { DeduplicationSignaturesService } from './deduplication-signatures.servi
 import { SortOptions, SortDirection } from '../../core/cache/models/sort-options.model';
 import { DeduplicationRestService } from '../../core/deduplication/deduplication-rest.service';
 import { PageInfo } from '../../core/shared/page-info.model';
-import { PaginatedList } from '../../core/data/paginated-list';
 import { FindListOptions } from '../../core/data/request.models';
 import {
   getMockDeduplicationRestService,
@@ -13,6 +12,7 @@ import {
 } from '../../shared/mocks/deduplication.mock';
 import { createSuccessfulRemoteDataObject } from '../../shared/remote-data.utils';
 import { cold } from 'jasmine-marbles';
+import { PaginatedList } from '../../core/data/paginated-list.model';
 
 describe('DeduplicationSignaturesService', () => {
   let service: DeduplicationSignaturesService;
@@ -22,7 +22,7 @@ describe('DeduplicationSignaturesService', () => {
 
   const pageInfo = new PageInfo();
   const array = [ mockSignatureObjectTitle, mockSignatureObjectIdentifier ];
-  const paginatedList = new PaginatedList(pageInfo, array);
+  const paginatedList = new PaginatedList();
   const paginatedListRD = createSuccessfulRemoteDataObject(paginatedList);
   const elementsPerPage = 3;
   const currentPage = 0;

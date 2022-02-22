@@ -13,7 +13,7 @@ import { type } from '../../shared/ngrx/type';
 export const DeduplicationSetsActionTypes = {
   RETRIEVE_SETS_BY_SIGNATURE: type('dspace/core/deduplication/RETRIEVE_SETS_BY_SIGNATURE'),
   RETRIEVE_SETS_BY_SIGNATURE_ERROR: type('dspace/core/deduplication/RETRIEVE_SETS_BY_SIGNATURE_ERROR'),
-}
+};
 
 /* tslint:disable:max-classes-per-file */
 

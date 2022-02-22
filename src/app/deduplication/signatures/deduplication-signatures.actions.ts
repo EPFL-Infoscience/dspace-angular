@@ -14,7 +14,7 @@ export const DeduplicationSignaturesActionTypes = {
   ADD_SIGNATURES: type('dspace/deduplication/ADD_SIGNATURES'),
   RETRIEVE_ALL_SIGNATURES: type('dspace/deduplication/RETRIEVE_ALL_SIGNATURES'),
   RETRIEVE_ALL_SIGNATURES_ERROR: type('dspace/deduplication/RETRIEVE_ALL_SIGNATURES_ERROR'),
-}
+};
 
 /* tslint:disable:max-classes-per-file */
 

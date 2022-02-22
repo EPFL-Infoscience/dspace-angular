@@ -56,7 +56,7 @@ describe('deduplicationSignatureReducer test suite', () => {
       totalPages: 1,
       currentPage: 0,
       totalElements: 2
-    }
+    };
 
     const action = new AddSignaturesAction(
       [ mockSignatureObjectTitle, mockSignatureObjectIdentifier ],

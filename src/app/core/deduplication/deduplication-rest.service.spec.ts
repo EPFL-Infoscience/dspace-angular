@@ -5,7 +5,6 @@ import { of as observableOf, Observable } from 'rxjs';
 import { getTestScheduler, cold, hot } from 'jasmine-marbles';
 
 import { RequestService } from '../data/request.service';
-import { PaginatedList } from '../data/paginated-list';
 import { RequestEntry } from '../data/request.reducer';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
 import { ObjectCacheService } from '../cache/object-cache.service';
@@ -16,6 +15,7 @@ import { NotificationsService } from '../../shared/notifications/notifications.s
 import { createSuccessfulRemoteDataObject } from '../../shared/remote-data.utils';
 import { DeduplicationRestService } from './deduplication-rest.service';
 import { mockSignatureObjectTitle, mockSignatureObjectIdentifier } from '../../shared/mocks/deduplication.mock';
+import { PaginatedList } from '../data/paginated-list.model';
 
 describe('DeduplicationRestService', () => {
   let scheduler: TestScheduler;
@@ -34,7 +34,7 @@ describe('DeduplicationRestService', () => {
 
   const pageInfo = new PageInfo();
   const array = [ mockSignatureObjectTitle, mockSignatureObjectIdentifier ];
-  const paginatedList = new PaginatedList(pageInfo, array);
+  const paginatedList = new PaginatedList();
   const signatureObjectRD = createSuccessfulRemoteDataObject(mockSignatureObjectTitle);
   const paginatedListRD = createSuccessfulRemoteDataObject(paginatedList);
 

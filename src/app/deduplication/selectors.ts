@@ -27,7 +27,7 @@ export function signaturesStateSelector(): MemoizedSelector<DeduplicationState, 
  * @return {SignatureObject[]}
  */
 export function signaturesObjectSelector(): MemoizedSelector<DeduplicationState, SignatureObject[]> {
-  return subStateSelector<DeduplicationState, SignatureObject[]>(signaturesStateSelector(), 'objects')
+  return subStateSelector<DeduplicationState, SignatureObject[]>(signaturesStateSelector(), 'objects');
 }
 
 /**
