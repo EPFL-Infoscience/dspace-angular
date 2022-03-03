@@ -151,7 +151,7 @@ describe('Dynamic Dynamic Scrollable Dropdown component', () => {
         expect(hasClass(menuEl, 'show')).toBeTruthy();
       });
 
-      fit('should display other dropdown menu option', () => {
+      it('should display other dropdown menu option', () => {
         scrollableDropdownComp.model.openType = true;
         scrollableDropdownComp.pageInfo.currentPage = 2;
         scrollableDropdownComp.pageInfo.totalPages = 1;
@@ -166,7 +166,7 @@ describe('Dynamic Dynamic Scrollable Dropdown component', () => {
         expect(deMenu).toBeTruthy();
       });
 
-      fit('should not display other dropdown menu option', () => {
+      it('should not display other dropdown menu option', () => {
         scrollableDropdownComp.model.openType = true;
         scrollableDropdownComp.pageInfo.currentPage = 2;
         scrollableDropdownComp.pageInfo.totalPages = 3;
@@ -212,7 +212,7 @@ describe('Dynamic Dynamic Scrollable Dropdown component', () => {
         expect((scrollableDropdownComp.model as any).value).toEqual(selectedValue);
       }));
 
-      fit('should add other dropdown option value', () => {
+      it('should add other dropdown option value', () => {
         const selectedValue = Object.assign(new VocabularyEntry(), { authority: 3, display: 'three', value: 'three' });
         spyOn((scrollableDropdownComp as any), 'addListItem');
         scrollableDropdownComp.model.openType = true;

@@ -157,21 +157,21 @@ describe('DsDynamicListComponent test suite', () => {
         expect(listComp.items[0].length).toBe(2);
       });
 
-      fit('should display other checkbox list menu option', () => {
+      it('should display other checkbox list menu option', () => {
         listComp.model.openType = true;
         listFixture.detectChanges();
         const deMenu = listFixture.debugElement.query(By.css('#otherListOption'));
         expect(deMenu).toBeTruthy();
       });
 
-      fit('should not display other checkbox list menu option', () => {
+      it('should not display other checkbox list menu option', () => {
         listComp.model.openType = false;
         listFixture.detectChanges();
         const deMenu = listFixture.debugElement.query(By.css('#otherListOption'));
         expect(deMenu).toBeFalsy();
       });
 
-      fit('should add other checkbox list option value', () => {
+      it('should add other checkbox list option value', () => {
         const selectedValue = Object.assign(new VocabularyEntry(), { authority: 3, display: 'three', value: 'three' });
         spyOn((listComp as any), 'addListItem');
         listComp.model.openType = true;
@@ -273,21 +273,21 @@ describe('DsDynamicListComponent test suite', () => {
         expect(listComp.items[0].length).toBe(2);
       });
 
-      fit('should display other radio list menu option', () => {
+      it('should display other radio list menu option', () => {
         listComp.model.openType = true;
         listFixture.detectChanges();
         const deMenu = listFixture.debugElement.query(By.css('#otherListOption'));
         expect(deMenu).toBeTruthy();
       });
 
-      fit('should not display other radio list menu option', () => {
+      it('should not display other radio list menu option', () => {
         listComp.model.openType = false;
         listFixture.detectChanges();
         const deMenu = listFixture.debugElement.query(By.css('#otherListOption'));
         expect(deMenu).toBeFalsy();
       });
 
-      fit('should add other radio list option value', () => {
+      it('should add other radio list option value', () => {
         const selectedValue = Object.assign(new VocabularyEntry(), { authority: 3, display: 'three', value: 'three' });
         spyOn((listComp as any), 'addListItem');
         listComp.model.openType = true;
