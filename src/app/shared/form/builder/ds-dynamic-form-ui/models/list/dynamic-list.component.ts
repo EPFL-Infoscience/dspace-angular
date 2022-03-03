@@ -59,6 +59,8 @@ export class DsDynamicListComponent extends DynamicFormControlComponent implemen
    * @protected
    */
   protected subscription: Subscription;
+  public otherListEntry = '';
+  public addButoonDisabled = false;
 
   constructor(private vocabularyService: VocabularyService,
               private cdr: ChangeDetectorRef,
@@ -139,49 +141,121 @@ export class DsDynamicListComponent extends DynamicFormControlComponent implemen
       this.vocabularyService.getVocabularyEntries(this.model.vocabularyOptions, pageInfo).pipe(
         getFirstSucceededRemoteDataPayload()
       ).subscribe((entries: PaginatedList<VocabularyEntry>) => {
-        let groupCounter = 0;
-        let itemsPerGroup = 0;
-        let tempList: ListItem[] = [];
         this.optionsList = entries.page;
         // Make a list of available options (checkbox/radio) and split in groups of 'model.groupLength'
-        entries.page.forEach((option, key) => {
-          const value = option.authority || option.value;
-          let checked: boolean;
-          if (this.model.repeatable) {
-            checked = isNotEmpty(findKey(
-              this.model.value,
-              (v) => v.value === option.value));
-          } else {
-            checked = this.model.value && option.value === this.model.value.value;
-          }
-
-          const item: ListItem = {
-            id: value,
-            label: option.display,
-            value: checked,
-            index: key
-          };
-          if (this.model.repeatable) {
-            this.formBuilderService.addFormGroupControl(listGroup, (this.model as DynamicListCheckboxGroupModel), new DynamicCheckboxModel(item));
-          } else {
-            (this.model as DynamicListRadioGroupModel).options.push({
-              label: item.label,
-              value: option
-            });
-          }
-          tempList.push(item);
-          itemsPerGroup++;
-          this.items[groupCounter] = tempList;
-          if (itemsPerGroup === this.model.groupLength) {
-            groupCounter++;
-            itemsPerGroup = 0;
-            tempList = [];
-          }
-        });
-        this.cdr.markForCheck();
+        this.listingAvailableOptions(listGroup, entries.page);
       });
 
     }
+  }
+
+  /**
+   * Listing Available Options in List.
+   */
+   listingAvailableOptions(listGroup, entries) {
+    let groupCounter = 0;
+    let itemsPerGroup = 0;
+    let tempList: ListItem[] = [];
+    if (this.model.value) {
+      if (this.model.repeatable) {
+        this.model.value.forEach(element => {
+          const checkData = entries.find(o => o.value === element.value);
+          if (!checkData) {
+            const object = this.createVocabularyObject(element.display, element.value, element.otherInformation);
+            entries.push(object);
+          }
+        });
+      } else {
+        const checkData = entries.find(o => o.value === this.model.value.value);
+        if (!checkData) {
+          const object = this.createVocabularyObject(this.model.value.display, this.model.value.value, this.model.value.otherInformation);
+          entries.push(object);
+        }
+      }
+    }
+    entries.forEach((option, key) => {
+      const value = option.authority || option.value;
+      let checked: boolean;
+      if (this.model.repeatable) {
+        checked = isNotEmpty(findKey(
+        this.model.value,
+        (v) => v.value === option.value));
+      } else {
+        checked = this.model.value && option.value === this.model.value.value;
+      }
+
+      const item: ListItem = {
+        id: value,
+        label: option.display,
+        value: checked,
+        index: key
+      };
+      if (this.model.repeatable) {
+        this.formBuilderService.addFormGroupControl(listGroup, (this.model as DynamicListCheckboxGroupModel), new DynamicCheckboxModel(item));
+      } else {
+        (this.model as DynamicListRadioGroupModel).options.push({
+          label: item.label,
+          value: option
+        });
+      }
+      tempList.push(item);
+      itemsPerGroup++;
+      this.items[groupCounter] = tempList;
+      if (itemsPerGroup === this.model.groupLength) {
+        groupCounter++;
+        itemsPerGroup = 0;
+        tempList = [];
+      }
+    });
+    this.cdr.markForCheck();
+    this.addButoonDisabled = false;
+    this.otherListEntry = '';
+  }
+
+  /**
+   * Add the Item to List.
+   */
+  addListItem() {
+    let entryCount = 0;
+    this.addButoonDisabled = true;
+    if (this.otherListEntry.toString() !== '') {
+      this.optionsList.forEach(element => {
+        if ((element.display.toLowerCase() === this.otherListEntry.toLowerCase()) ||
+            (element.value?.toLowerCase() === this.otherListEntry.toLowerCase()) ||
+            (this.otherListEntry.toLowerCase() === 'other')) {
+          entryCount++;
+        }
+      });
+      if (entryCount === 0) {
+        const object = this.createVocabularyObject(this.otherListEntry, this.otherListEntry, undefined);
+        this.optionsList.push(object);
+        if (this.model.repeatable) {
+          this.model.value.push(object);
+        } else {
+          this.model.value = object;
+        }
+        const listGroup = this.group.controls[this.model.id] as FormGroup;
+        // Make a list of available options (checkbox/radio) and split in groups of 'model.groupLength'
+        this.listingAvailableOptions(listGroup, this.optionsList);
+      } else {
+        this.addButoonDisabled = false;
+      }
+    } else {
+      this.addButoonDisabled = false;
+    }
+  }
+
+  /**
+   * Create a vocabulary object.
+   */
+  createVocabularyObject(display, value, otherInformation) {
+    const object: VocabularyEntry = {
+      display: display,
+      value: value,
+      otherInformation: otherInformation,
+      type: 'vocabularyEntry'
+    } as VocabularyEntry;
+    return object;
   }
 
   ngOnDestroy(): void {

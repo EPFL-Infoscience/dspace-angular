@@ -45,6 +45,8 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
   public loading = false;
   public pageInfo: PageInfo;
   public optionsList: VocabularyEntry[] = [];
+  public otherListEntry = '';
+  public addButoonDisabled = false;
 
 
   /**
@@ -148,6 +150,7 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
     this.group.markAsDirty();
     this.dispatchUpdate(event);
     this.setCurrentValue(event);
+    this.otherListEntry = '';
   }
 
   /**
@@ -217,6 +220,42 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
         );
         this.cdr.detectChanges();
       });
+  }
+
+  /**
+   * Add the Value to List Dropdown.
+   */
+  addListItem(sdRef: NgbDropdown) {
+    let entryCount = 0;
+    this.addButoonDisabled = true;
+    if (this.otherListEntry.toString() !== '') {
+      if (this.optionsList.length > 0) {
+        this.optionsList.forEach(element => {
+          if ((element.display.toLowerCase() === this.otherListEntry.toLowerCase()) ||
+              (element.value?.toLowerCase() === this.otherListEntry.toLowerCase()) ||
+              (this.otherListEntry.toLowerCase() === 'other')) {
+            entryCount++;
+          }
+        });
+      }
+      if (entryCount === 0) {
+        const object: VocabularyEntry = {
+          display: this.otherListEntry,
+          value: this.otherListEntry,
+          otherInformation: undefined,
+          type: 'vocabularyEntry'
+        } as VocabularyEntry;
+        this.optionsList.push(object);
+        this.onSelect(this.optionsList[this.optionsList.length - 1]);
+        sdRef.close();
+        console.log(this.model);
+        this.addButoonDisabled = false;
+      } else {
+        this.addButoonDisabled = false;
+      }
+    } else {
+      this.addButoonDisabled = false;
+    }
   }
 
   ngOnDestroy() {

@@ -13,6 +13,7 @@ import { hasValue } from '../../../../../empty.util';
 export interface DynamicListCheckboxGroupModelConfig extends DynamicFormGroupModelConfig {
   vocabularyOptions: VocabularyOptions;
   groupLength?: number;
+  openType?: boolean;
   repeatable: boolean;
   value?: any;
 }
@@ -24,6 +25,7 @@ export class DynamicListCheckboxGroupModel extends DynamicCheckboxGroupModel {
   @serializable() groupLength: number;
   @serializable() _value: VocabularyEntry[];
   @serializable() toggleSecurityVisibility = false;
+  @serializable() openType: boolean;
   isListGroup = true;
   valueChanges: Subject<any>;
 
@@ -34,6 +36,7 @@ export class DynamicListCheckboxGroupModel extends DynamicCheckboxGroupModel {
     this.groupLength = config.groupLength || 5;
     this._value = [];
     this.repeatable = config.repeatable;
+    this.openType = config.openType;
 
     this.valueChanges = new Subject<any>();
     this.valueChanges.subscribe((value: VocabularyEntry | VocabularyEntry[]) => this.value = value);

@@ -807,6 +807,7 @@ describe('SectionFormOperationsService test suite', () => {
           submissionId: '1234',
           isDraggable: true,
           showButtons: false,
+          openType: false,
           groupFactory: () => {
             return [
               new DynamicInputModel({ id: 'testFormRowArrayGroupInput' })
