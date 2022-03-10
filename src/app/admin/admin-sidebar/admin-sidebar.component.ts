@@ -616,7 +616,7 @@ export class AdminSidebarComponent extends MenuComponent implements OnInit {
         {
           id: 'deduplication',
           active: false,
-          visible: true,
+          visible: authorized,
           model: {
             type: MenuItemType.LINK,
             text: 'menu.section.admin_deduplication',
