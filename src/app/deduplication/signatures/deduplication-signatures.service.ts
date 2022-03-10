@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { find, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { DeduplicationRestService } from '../../core/deduplication/deduplication-rest.service';
 import { SortDirection, SortOptions } from '../../core/cache/models/sort-options.model';
 import { FindListOptions } from '../../core/data/request.models';
 import { RemoteData } from '../../core/data/remote-data';
 import { PaginatedList } from '../../core/data/paginated-list.model';
 import { SignatureObject } from '../../core/deduplication/models/signature.model';
+import { getFirstCompletedRemoteData } from '../../core/shared/operators';
 
 /**
  * The service handling all deduplication requests to the REST service.
@@ -42,7 +43,7 @@ export class DeduplicationSignaturesService {
     };
 
     return this.deduplicationRestService.getSignatures(findListOptions).pipe(
-      find((rd: RemoteData<PaginatedList<SignatureObject>>) => !rd.isResponsePending),
+      getFirstCompletedRemoteData(),
       map((rd: RemoteData<PaginatedList<SignatureObject>>) => {
         if (rd.hasSucceeded) {
           return rd.payload;

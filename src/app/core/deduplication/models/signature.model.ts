@@ -21,7 +21,8 @@ export class SignatureObject implements CacheableObject {
    * The type of this ConfigObject
    */
   @excludeFromEquals
-  type: ResourceType = SIGNATURE_OBJECT;
+  @autoserialize
+  type: ResourceType;
 
   /**
    * The deduplication signature id
