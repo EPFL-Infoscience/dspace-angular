@@ -31,7 +31,7 @@ class DataServiceImpl extends DataService<SignatureObject> {
   /**
    * The REST endpoint.
    */
-  protected linkPath = 'deduplications';
+  protected linkPath = 'signatures';
 
   /**
    * Initialize service variables
@@ -100,7 +100,7 @@ export class DeduplicationRestService {
    *    The list of deduplication signatures.
    */
   public getSignatures(options: FindListOptions = {}, ...linksToFollow: FollowLinkConfig<SignatureObject>[]): Observable<RemoteData<PaginatedList<SignatureObject>>> {
-    return this.dataService.getBrowseEndpoint(options, 'signatures').pipe(
+    return this.dataService.getBrowseEndpoint(options).pipe(
        take(1),
        mergeMap((href: string) => this.dataService.findAllByHref(href, options, false, true, ...linksToFollow)),
     );
@@ -117,7 +117,7 @@ export class DeduplicationRestService {
    */
   public getSignature(id: string, ...linksToFollow: FollowLinkConfig<SignatureObject>[]): Observable<RemoteData<SignatureObject>> {
     const options = {};
-    return this.dataService.getBrowseEndpoint(options, 'signatures').pipe(
+    return this.dataService.getBrowseEndpoint(options).pipe(
       take(1),
       mergeMap((href: string) => this.dataService.findByHref(href + '/' + id, false, true, ...linksToFollow))
    );
