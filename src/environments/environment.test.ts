@@ -284,7 +284,7 @@ export const environment: AppConfig = {
       defaultMetadataLabelColStyle: 'col-3',
       defaultMetadataValueColStyle: 'col-9',
       loadMore :{
-        first: 5,
+        more: 3,
         last: 1
       }
     }

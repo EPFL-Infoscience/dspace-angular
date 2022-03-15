@@ -96,7 +96,7 @@ describe('MetadataContainerComponent', () => {
   const fieldMock1 = {
     metadata: 'dc.title',
     label: 'Preferred name',
-    rendering: 'text.more.1.last.2',
+    rendering: 'text.more1.last2',
     fieldType: 'METADATA',
     style: null,
     styleLabel: 'test-style-label',
@@ -498,7 +498,7 @@ describe('MetadataContainerComponent', () => {
         firstLimitedDataToBeRenderedMap: firstLimitedDataToBeRenderedMap,
         lastLimitedDataToBeRenderedMap: lastLimitedDataToBeRenderedMap,
         isConfigured: true,
-        firstLimit: 1,
+        moreLimit: 1,
         lastLimit: 2
       });
       fixture.detectChanges();
@@ -532,7 +532,7 @@ describe('MetadataContainerComponent', () => {
         firstLimitedDataToBeRenderedMap: firstLimitedDataToBeRenderedMap,
         lastLimitedDataToBeRenderedMap: lastLimitedDataToBeRenderedMap,
         isConfigured: false,
-        firstLimit: 6,
+        moreLimit: 6,
         lastLimit: 0
       });
       fixture.detectChanges();

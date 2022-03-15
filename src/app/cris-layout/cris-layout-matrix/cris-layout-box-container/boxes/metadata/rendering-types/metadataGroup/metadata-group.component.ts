@@ -62,7 +62,7 @@ export abstract class MetadataGroupComponent extends RenderingTypeStructuredMode
   /**
    * This property is used to hold a number how many metadata object should be loded from first
    */
-  firstLimit: number;
+  moreLimit: number;
 
   constructor(
     @Inject('fieldProvider') public fieldProvider: LayoutField,
@@ -104,11 +104,14 @@ export abstract class MetadataGroupComponent extends RenderingTypeStructuredMode
    * Set the limits of how many data loded from first and last
    */
    setData(functionName: string) {
-    const {firstLimitedDataToBeRenderedMap, lastLimitedDataToBeRenderedMap, isConfigured, firstLimit, lastLimit} =  functionName === 'getComputedData'  ? this.loadMoreService.getComputedData(this.componentsToBeRenderedMap,this.field.rendering) : this.loadMoreService.fillAllData(this.componentsToBeRenderedMap,this.field.rendering);
+    const {firstLimitedDataToBeRenderedMap, lastLimitedDataToBeRenderedMap, isConfigured, moreLimit, lastLimit} =
+      functionName === 'getComputedData' ?
+        this.loadMoreService.getComputedData(this.componentsToBeRenderedMap,this.field.rendering) :
+        this.loadMoreService.fillAllData(this.componentsToBeRenderedMap,this.field.rendering);
     this.firstLimitedDataToBeRenderedMap = firstLimitedDataToBeRenderedMap;
     this.lastLimitedDataToBeRenderedMap = lastLimitedDataToBeRenderedMap;
     this.isConfigured = isConfigured;
-    this.firstLimit = firstLimit;
+    this.moreLimit = moreLimit;
     this.lastLimit = lastLimit;
 }
 

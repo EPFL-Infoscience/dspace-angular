@@ -195,7 +195,7 @@ describe('Inline component when .more and .last is present in rendering configur
     fieldType: 'METADATAGROUP',
     metadata: 'dc.contributor.author',
     label: 'Author(s)',
-    rendering: 'inline.more.1.last.2',
+    rendering: 'inline.more1.last2',
     style: 'container row',
     styleLabel: 'font-weight-bold col-4',
     styleValue: 'col',

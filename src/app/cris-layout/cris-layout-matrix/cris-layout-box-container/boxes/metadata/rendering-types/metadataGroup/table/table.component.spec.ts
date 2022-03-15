@@ -207,7 +207,7 @@ describe('TableComponent component when .more and .last is present in rendering 
     fieldType: 'METADATAGROUP',
     metadata: 'dc.contributor.author',
     label: 'Author(s)',
-    rendering: 'table.more.1.last.2',
+    rendering: 'table.more1.last2',
     style: 'container row',
     styleLabel: 'font-weight-bold col-4',
     styleValue: 'col',
