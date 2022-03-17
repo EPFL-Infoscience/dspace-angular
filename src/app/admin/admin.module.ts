@@ -11,6 +11,8 @@ import { AdminSidebarSectionComponent } from './admin-sidebar/admin-sidebar-sect
 import { ExpandableAdminSidebarSectionComponent } from './admin-sidebar/expandable-admin-sidebar-section/expandable-admin-sidebar-section.component';
 import { AdminEditUserAgreementComponent } from './admin-edit-user-agreement/admin-edit-user-agreement.component';
 import {EditCmsMetadataComponent} from './edit-cms-metadata/edit-cms-metadata.component';
+import { MarkdownEditorModule } from '../markdown-editor/markdown-editor.component.module';
+import { NuMarkdownModule } from '@ng-util/markdown';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -24,6 +26,8 @@ const ENTRY_COMPONENTS = [
     AdminRoutingModule,
     AdminRegistriesModule,
     AccessControlModule,
+    MarkdownEditorModule,
+    NuMarkdownModule,
     AdminSearchModule.withEntryComponents(),
     AdminWorkflowModuleModule.withEntryComponents(),
     SharedModule
