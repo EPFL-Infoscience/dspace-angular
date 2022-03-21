@@ -3,10 +3,8 @@
   <div *ngFor="let userAgreementText of (userAgreementTexts | keyvalue); let i = index" class="form-group">
     <label>{{userAgreementText.value.languageLabel}}</label>
     <!-- <textarea class="col-md-12 m-2" [(ngModel)]="userAgreementText.value.text" rows="10"></textarea> -->
-    <div class="d-flex">
-      <ds-markdown-editor class="w-50" [(control)]="userAgreementText.value.text"></ds-markdown-editor>
-      <nu-markdown-preview class="col-md-6 my-1" [value]="userAgreementText.value.text" [options]="options"></nu-markdown-preview>
-    </div>
+    <ds-markdown-editor [(editValue)]="userAgreementText.value.text"></ds-markdown-editor>
+    <!-- <nu-markdown-preview class="col-md-6 my-1" [value]="userAgreementText.value.text" [options]="options"></nu-markdown-preview> -->
   </div>
   <div class="col-md">
     <button class="btn btn-primary float-right m-2" (click)="$event.preventDefault();confirmEdit(content)" >

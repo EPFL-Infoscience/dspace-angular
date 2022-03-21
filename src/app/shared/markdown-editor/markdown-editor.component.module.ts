@@ -3,9 +3,11 @@ import { CommonModule } from '@angular/common';
 import { MarkdownEditorComponent } from './markdown-editor.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextFieldModule } from '@angular/cdk/text-field';
+import { AngularMarkdownEditorModule } from 'angular-markdown-editor';
+import { NuMarkdownModule } from '@ng-util/markdown';
 
 @NgModule({
-  imports: [ CommonModule, FormsModule, ReactiveFormsModule, TextFieldModule ],
+  imports: [ CommonModule, FormsModule, ReactiveFormsModule, TextFieldModule, AngularMarkdownEditorModule, NuMarkdownModule ],
   exports: [ MarkdownEditorComponent ],
   declarations: [ MarkdownEditorComponent ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

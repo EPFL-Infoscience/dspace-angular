@@ -1,4 +1,4 @@
-<markdown-toolbar [attr.for]="controlId">
+<!-- <markdown-toolbar [attr.for]="controlId">
     <md-bold title="Bold"
              aria-label="Bold"><button class="btn">
             <svg width="1em"
@@ -140,4 +140,6 @@
           (keyup)="pushData()"
           cdkTextareaAutosize
           [cdkAutosizeMinRows]="6">
-</textarea>
+</textarea> -->
+<nu-markdown [(ngModel)]="editValue" (ngModelChange)="editValueChange.emit($event)" [options]="options">
+</nu-markdown>

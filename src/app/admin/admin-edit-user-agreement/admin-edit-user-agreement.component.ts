@@ -28,14 +28,6 @@ export class AdminEditUserAgreementComponent implements OnInit, OnDestroy {
 
   USER_AGREEMENT_METADATA = 'dspace.agreements.end-user';
 
-  /**
-   * Nu markdown library options (default is chinese)
-   */
-  options = {
-    minHeight: 200,
-    lang: 'en_US'
-  };
-
   constructor(private siteService: SiteDataService,
               private modalService: NgbModal,
               private translateService: TranslateService,
