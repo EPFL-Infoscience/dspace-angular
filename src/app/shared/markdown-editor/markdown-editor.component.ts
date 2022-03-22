@@ -51,7 +51,6 @@ export class MarkdownEditorComponent implements OnInit {
    * Markdown Editor String value Emitter Function
    */
   pushData() {
-    console.log(this.editValue);
     this.editValueChange.emit(this.editValue);
   }
 }
