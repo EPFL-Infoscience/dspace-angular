@@ -47,10 +47,4 @@ export class MarkdownEditorComponent implements OnInit {
     this.controlId = `MarkdownEditor-${Math.floor(100000 * Math.random())}`;
   }
 
-  /**
-   * Markdown Editor String value Emitter Function
-   */
-  pushData() {
-    this.editValueChange.emit(this.editValue);
-  }
 }
