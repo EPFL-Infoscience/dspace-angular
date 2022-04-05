@@ -1,16 +1,25 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CrisLayoutIIIFToolbarBoxComponent } from './cris-layout-iiif-toolbar-box.component';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { getMockTranslateService } from '../../../../../shared/mocks/translate.service.mock';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateLoaderMock } from '../../../../../shared/mocks/translate-loader.mock';
 
-describe('CrisLayoutIiifToolbarBoxComponent', () => {
+fdescribe('CrisLayoutIiifToolbarBoxComponent', () => {
   let component: CrisLayoutIIIFToolbarBoxComponent;
   let fixture: ComponentFixture<CrisLayoutIIIFToolbarBoxComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useClass: TranslateLoaderMock
+          }
+        })
+      ],
       declarations: [ CrisLayoutIIIFToolbarBoxComponent ],
       providers: [
         { provide: 'boxProvider', useValue: {} },
