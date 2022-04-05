@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 
 import { MarkdownEditorComponent } from './markdown-editor.component';
 
-fdescribe('MarkdownEditorComponent', () => {
+describe('MarkdownEditorComponent', () => {
   let component: MarkdownEditorComponent;
   let fixture: ComponentFixture<MarkdownEditorComponent>;
 
