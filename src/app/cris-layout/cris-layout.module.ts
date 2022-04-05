@@ -46,6 +46,9 @@ import { MetadataRenderComponent } from './cris-layout-matrix/cris-layout-box-co
 import { MiradorViewerModule } from '../item-page/mirador-viewer/mirador-viewer.module';
 import { ComcolModule } from '../shared/comcol/comcol.module';
 import { SearchModule } from '../shared/search/search.module';
+import {
+  HtmlComponent
+} from "./cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/html/html.component";
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -53,6 +56,7 @@ const ENTRY_COMPONENTS = [
   CrisLayoutHorizontalComponent,
   CrisLayoutMetadataBoxComponent,
   TextComponent,
+  HtmlComponent,
   HeadingComponent,
   CrisLayoutRelationBoxComponent,
   CrisLayoutIIIFViewerBoxComponent,
