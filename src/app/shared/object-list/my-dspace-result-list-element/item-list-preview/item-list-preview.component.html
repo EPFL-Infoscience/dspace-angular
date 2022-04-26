@@ -19,8 +19,7 @@
                 <ds-metadata-link-view *ngIf="!!item && !!author" [item]="item" [metadata]="author"></ds-metadata-link-view>
               </span>
           </span>
-
-          </ds-truncatable-part>
+        </ds-truncatable-part>
       </span>
 
       <ds-truncatable-part [id]="item.id" [minLines]="1" class="item-list-abstract">
@@ -28,6 +27,11 @@
               [innerHTML]="(item.firstMetadataValue('dc.description.abstract')) || ('mydspace.results.no-abstract' | translate)"></span>
       </ds-truncatable-part>
 
+      <div *ngIf="additionalMetadatas" class="item-list-additional">
+        <ds-truncatable-part *ngFor="let meta of item.allMetadataValues(additionalMetadatas)" [id]="item.id" [minLines]="1">
+          <span class='text-muted item-additional' [innerHTML]="meta"></span>
+        </ds-truncatable-part>
+      </div>
     </div>
   </ds-truncatable>
   <ds-item-correction [item]="item"></ds-item-correction>

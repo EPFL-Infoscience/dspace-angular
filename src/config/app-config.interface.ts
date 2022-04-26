@@ -20,6 +20,7 @@ import { MetadataSecurityConfig } from './metadata-security-config';
 import { CmsMetadata } from './cms-metadata';
 import { AddThisPluginConfig } from './addThisPlugin-config';
 import { FollowAuthorityMetadata } from './search-follow-metadata.interface';
+import { MyDSpaceConfig } from './my-dspace.interface';
 
 interface AppConfig extends Config {
   ui: UIServerConfig;
@@ -46,6 +47,7 @@ interface AppConfig extends Config {
   addThisPlugin: AddThisPluginConfig;
   followAuthorityMetadata: FollowAuthorityMetadata[];
   metricVisualizationConfig: MetricVisualizationConfig[];
+  myDSpace: MyDSpaceConfig;
 }
 
 const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG');

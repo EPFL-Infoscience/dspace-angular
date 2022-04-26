@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { hasValue, isNotEmpty } from 'src/app/shared/empty.util';
+import { environment } from 'src/environments/environment';
 
 import { Item } from '../../../../core/shared/item.model';
 import { fadeInOut } from '../../../animations/fade';
@@ -41,4 +43,15 @@ export class ItemListPreviewComponent {
    * An object representing the duplicate match
    */
   @Input() metadataList: DuplicateMatchMetadataDetailConfig[] = [];
+
+  /**
+   * A list of additional metadatas to display
+   */
+  public additionalMetadatas: string[];
+
+  ngOnInit() {
+    if (hasValue(environment.myDSpace) && isNotEmpty(environment.myDSpace.additionalMetadatas)) {
+      this.additionalMetadatas = environment.myDSpace.additionalMetadatas.map(m => m.value);
+    }
+  }
 }

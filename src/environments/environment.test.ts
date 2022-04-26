@@ -373,4 +373,7 @@ export const environment: BuildConfig = {
       class: 'alert-danger',
     },
   ],
+  myDSpace: {
+    additionalMetadatas: []
+  },
 };
