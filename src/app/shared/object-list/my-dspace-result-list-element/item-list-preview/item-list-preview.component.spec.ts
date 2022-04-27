@@ -119,7 +119,7 @@ describe('ItemListPreviewComponent', () => {
   });
 
   afterEach(() => {
-    environment.myDSpace.additionalMetadatas = []
+    environment.myDSpace.additionalMetadatas = [];
   });
 
   describe('When the item has an author', () => {
@@ -196,7 +196,7 @@ describe('ItemListPreviewComponent', () => {
 
   describe('When the config has one additional metadata with no match', () => {
     beforeEach(() => {
-      environment.myDSpace.additionalMetadatas = [{ value: 'fake' }]
+      environment.myDSpace.additionalMetadatas = [{ value: 'fake' }];
       component.item = mockItemWithAdditionalMeta;
       fixture.detectChanges();
     });
@@ -214,7 +214,7 @@ describe('ItemListPreviewComponent', () => {
 
   describe('When the config has one additional metadata with a match', () => {
     beforeEach(() => {
-      environment.myDSpace.additionalMetadatas = [{ value: 'dspace.description.additional' }]
+      environment.myDSpace.additionalMetadatas = [{ value: 'dspace.description.additional' }];
       component.item = mockItemWithAdditionalMeta;
       fixture.detectChanges();
     });
