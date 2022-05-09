@@ -1,7 +1,8 @@
+import { SectionData } from './mock-sections-data';
 import { Component, OnInit } from '@angular/core';
 import { map, take } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Site } from '../core/shared/site.model';
 import { SectionComponent, TextRowSection } from '../core/layout/models/section.model';
 import { SectionDataService } from '../core/layout/section-data.service';
@@ -51,16 +52,26 @@ export class HomePageComponent implements OnInit {
       this.site$.next(site);
     });
 
-    this.sectionComponentRows = this.sectionDataService.findById('site').pipe(
-      getFirstSucceededRemoteDataPayload(),
-      map ( (section) => section.componentRows)
-    );
-    this.siteService.find().pipe(take(1)).subscribe(
-      (site: Site) => {
-        this.hasHomeHeaderMetadata = !isEmpty(site.firstMetadataValue('cris.cms.home-header',
-          { language: this.locale.getCurrentLanguageCode() }));
-      }
-    );
-  }
+    // TODO: Uncomment when finish
+    // this.sectionComponentRows = this.sectionDataService.findById('site').pipe(
+    //   getFirstSucceededRemoteDataPayload(),
+    //   map ( (section) => section.componentRows)
+    // );
+    // this.siteService.find().pipe(take(1)).subscribe(
+    //   (site: Site) => {
+    //     this.hasHomeHeaderMetadata = !isEmpty(site.firstMetadataValue('cris.cms.home-header',
+    //       { language: this.locale.getCurrentLanguageCode() }));
+    //   }
+    // );
+
+  this.sectionComponentRows = of(SectionData._embedded.sections.find(x=>x.id == 'site').componentRows);
+
+  this.siteService.find().pipe(take(1)).subscribe(
+    (site: Site) => {
+      this.hasHomeHeaderMetadata = !isEmpty(site.firstMetadataValue('cris.cms.home-header',
+        { language: this.locale.getCurrentLanguageCode() }));
+    }
+  );
+}
 
 }

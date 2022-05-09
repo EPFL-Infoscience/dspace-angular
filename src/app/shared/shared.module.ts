@@ -10,6 +10,7 @@ import {
     NgbCollapseModule,
     NgbDatepickerModule,
     NgbDropdownModule,
+    NgbModule,
     NgbNavModule,
     NgbPaginationModule,
     NgbTimepickerModule,
@@ -244,7 +245,8 @@ const MODULES = [
   TextMaskModule,
   DragDropModule,
   CdkTreeModule,
-  MetricsModule
+  MetricsModule,
+  NgbModule
 ];
 
 const ROOT_MODULES = [

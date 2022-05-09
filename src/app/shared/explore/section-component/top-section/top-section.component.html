@@ -1,9 +1,46 @@
 <div class="container">
-  <div class="card mb-4">
-    <div *ngIf="topSection.titleKey" class="card-header">{{ 'explore.index.' + topSection.titleKey | translate }}</div>
-    <div *ngIf="!topSection.titleKey" class="card-header">{{ 'explore.index.' + topSection.sortField | translate }}</div>
-    <div class="card-body p-0">
-      <ds-themed-browse-most-elements [context]="context" [paginatedSearchOptions]="paginatedSearchOptions"></ds-themed-browse-most-elements>
+  <ng-container *ngIf="topSection.showLayoutSwitch;else defaultLayout ">
+    <div class="row jusify-content-end mb-1">
+      <div class="col">
+        <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="layoutModeModel">
+          <label ngbButtonLabel class="btn-outline-info">
+            <input ngbButton type="radio" [value]="listEnumValue"> List
+          </label>
+          <label ngbButtonLabel class="btn-outline-info">
+            <input ngbButton type="radio" [value]="cardEnumValue"> Card
+          </label>
+        </div>
+      </div>
     </div>
-  </div>
+    <ng-container *ngIf="layoutModeModel == listEnumValue">
+      <div [style]="topSection.itemListStyle">
+        <ds-themed-browse-most-elements [context]="context" [paginatedSearchOptions]="paginatedSearchOptions">
+        </ds-themed-browse-most-elements>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="layoutModeModel == cardEnumValue">
+      <div class="card mb-4" [style]="topSection.cardStyle">
+        <div *ngIf="topSection.titleKey" class="card-header">{{ 'explore.index.' + topSection.titleKey | translate }}
+        </div>
+        <div *ngIf="!topSection.titleKey" class="card-header">{{ 'explore.index.' + topSection.sortField | translate }}
+        </div>
+        <div class="card-body p-0">
+          <ds-themed-browse-most-elements [context]="context" [paginatedSearchOptions]="paginatedSearchOptions">
+          </ds-themed-browse-most-elements>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+  <ng-template #defaultLayout>
+    <div class="card mb-4"  [ngClass]="{'border-0': !topSection.showAsCard}">
+      <div *ngIf="topSection.titleKey" class="card-header">{{ 'explore.index.' + topSection.titleKey | translate }}
+      </div>
+      <div *ngIf="!topSection.titleKey" class="card-header">{{ 'explore.index.' + topSection.sortField | translate }}
+      </div>
+      <div class="card-body p-0">
+        <ds-themed-browse-most-elements [context]="context" [paginatedSearchOptions]="paginatedSearchOptions">
+        </ds-themed-browse-most-elements>
+      </div>
+    </div>
+  </ng-template>
 </div>
