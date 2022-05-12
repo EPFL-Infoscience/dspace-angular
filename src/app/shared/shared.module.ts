@@ -7,6 +7,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { NouisliderModule } from 'ng2-nouislider';
 import {
+    NgbCarouselModule,
     NgbCollapseModule,
     NgbDatepickerModule,
     NgbDropdownModule,
@@ -222,6 +223,8 @@ import { ThemedItemListPreviewComponent } from './object-list/my-dspace-result-l
 import { ItemCorrectionComponent } from './object-collection/shared/mydspace-item-correction/item-correction.component';
 import { MetricsModule } from './metric/metrics.module';
 import { SearchChartBarHorizontalComponent } from './search/search-charts/search-chart/search-chart-bar-horizontal/search-chart-bar-horizontal.component';
+import { CarouselSectionComponent } from './explore/section-component/carousel-section/carousel-section.component';
+import { ThemedCarouselSectionComponent } from './explore/section-component/carousel-section/themed-carousel-section.component';
 
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
@@ -238,6 +241,7 @@ const MODULES = [
   NgbPaginationModule,
   NgbDropdownModule,
   NgbTooltipModule,
+  NgbCarouselModule,
   ReactiveFormsModule,
   RouterModule,
   NouisliderModule,
@@ -438,7 +442,9 @@ const COMPONENTS = [
   ThemedSearchSectionComponent,
   ThemedTextSectionComponent,
   ThemedBrowseMostElementsComponent,
-  SearchChartBarHorizontalComponent
+  SearchChartBarHorizontalComponent,
+  CarouselSectionComponent,
+  ThemedCarouselSectionComponent
 ];
 
 const ENTRY_COMPONENTS = [
@@ -520,6 +526,8 @@ const ENTRY_COMPONENTS = [
   ThemedBrowseMostElementsComponent,
   SearchChartBarHorizontalComponent,
   RelationshipsListComponent,
+  CarouselSectionComponent,
+  ThemedCarouselSectionComponent
 ];
 
 const SHARED_ITEM_PAGE_COMPONENTS = [

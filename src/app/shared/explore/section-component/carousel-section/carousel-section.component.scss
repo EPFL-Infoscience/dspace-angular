@@ -1,0 +1,39 @@
+::ng-deep .carousel-control-prev-icon{
+   background-image: url('/assets/images/previous-svg.svg') !important;
+}
+::ng-deep .carousel-control-next-icon{
+   background-image: url('/assets/images/next-svg.svg') !important;
+}
+::ng-deep .carousel-control-prev, ::ng-deep .carousel-control-next{
+   z-index: 15;
+}
+
+::ng-deep .carousel-item{
+   height: 300px;
+}
+
+::ng-deep .carousel-indicators li{
+   background-color: #080808;
+}
+
+.carousel-caption{
+   height: 100%;
+   background: rgba(255, 255, 255, .6);
+   right: 0%;
+   bottom: 0%;
+   left: 0%;
+   padding-top: 130px;
+}
+
+.picsum-img-wrapper{
+   height: 100%;
+   img{
+   height: 100%;
+   }
+}
+
+.play-pause-button{
+   z-index: 15;
+   margin-top: -23px;
+   position: relative
+}

@@ -53,7 +53,65 @@ export class HomePageComponent implements OnInit {
 
     this.sectionComponentRows = this.sectionDataService.findById('site').pipe(
       getFirstSucceededRemoteDataPayload(),
-      map ( (section) => section.componentRows)
+      map ( (section) => {
+        section.componentRows = [
+          [
+            {
+              'style': 'style',
+              'content': 'cms.homepage.header',
+              'contentType': 'text-metadata',
+              'componentType': 'text-row'
+            } as SectionComponent
+          ],
+          [
+            {
+              'discoveryConfigurationName': 'site',
+              'style': 'col-md-12',
+              'searchType': 'basic',
+              'initialStatements': 3,
+              'displayTitle': false,
+              'componentType': 'search'
+            } as SectionComponent
+          ],
+          [
+            {
+              'discoveryConfigurationName': 'person',
+              'style': 'col-md-12',
+              'title': 'dc.title',
+              'link': 'oairecerif.identifier.url',
+              'description': 'dc.description.abstract',
+              'componentType': 'carousel'
+            } as SectionComponent
+          ],
+          [
+            {
+              'style': 'col-md-12 py-4',
+              'counterSettingsList': [
+                {
+                  'discoveryConfigurationName': 'researchoutputs',
+                  'icon': 'fas fa-file-alt fa-3x',
+                  'entityName': 'publications',
+                  'link': '/explore/researchoutputs'
+                },
+                {
+                  'discoveryConfigurationName': 'project_funding',
+                  'icon': 'fas fa-cogs fa-3x',
+                  'entityName': 'project_funding',
+                  'link': '/explore/fundings_and_projects'
+                },
+                {
+                  'discoveryConfigurationName': 'person',
+                  'icon': 'fas fa-users fa-3x',
+                  'entityName': 'rprofiles',
+                  'link': '/explore/researcherprofiles'
+                }
+              ],
+              'componentType': 'counters'
+            } as SectionComponent
+          ]
+        ];
+        return section.componentRows;
+      })
     );
     this.siteService.find().pipe(take(1)).subscribe(
       (site: Site) => {

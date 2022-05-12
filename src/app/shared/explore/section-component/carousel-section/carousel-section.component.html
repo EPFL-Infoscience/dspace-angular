@@ -1,0 +1,25 @@
+<ngb-carousel #carousel [interval]="2000" (slide)="onSlide($event)">
+  <ng-template ngbSlide *ngFor="let object of (searchResults | async)?.payload?.page; let i = index; let last = last">
+    <a (click)="openLinkUrl(object.indexableObject.metadata[link])">
+      <div class="picsum-img-wrapper text-center" *ngIf="( findBitstream(object.indexableObject) | async ) && ( findBitstream(object.indexableObject) | async )?.length > 0">
+        <img [src]="( findBitstream(object.indexableObject) | async )[0]._links.content.href">
+      </div>
+    </a>
+    <div class="carousel-caption">
+      <a (click)="openLinkUrl(object.indexableObject.metadata[link])">
+        <h3 class="text-dark" *ngIf="object.indexableObject.metadata[title]">{{object.indexableObject.metadata[title][0].value}}</h3>
+      </a>
+      <div class="clamp-default-3 min-3 w-75 mx-auto" *ngIf="object.indexableObject.metadata[description]">
+        <div class="content dont-break-out">
+          <span class="text-dark"> {{object.indexableObject.metadata[description][0].value}} </span>
+        </div>
+      </div>
+    </div>
+  </ng-template>  
+</ngb-carousel>
+<div class="text-center play-pause-button">
+  <button type="button" class="btn btn-sm" (click)="togglePaused()">
+    <i class="fas fa-play" *ngIf="paused"></i>
+    <i class="fas fa-pause" *ngIf="!paused"></i>
+  </button>
+</div>

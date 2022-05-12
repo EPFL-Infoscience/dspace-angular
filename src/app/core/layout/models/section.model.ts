@@ -92,3 +92,12 @@ export interface TopSectionColumn {
   metadataField: string;
   titleKey: string;
 }
+
+export interface CarouselSection extends SectionComponent {
+  discoveryConfigurationName: string;
+  style: string;
+  title: string;
+  link: string;
+  description: string;
+  componentType: 'carousel';
+}
