@@ -1,16 +1,32 @@
 <div class="m-2">
-    <ng-container *ngIf="searchResults">
-        <ul *ngIf="searchResults?.hasSucceeded" class="list-unstyled">
-            <li *ngFor="let object of searchResults?.payload?.page; let i = index; let last = last" class="mt-4 mb-4 d-flex" [class.border-bottom]="true && !last">
-                <ds-listable-object-component-loader
-                        [object]="object" [viewMode]="paginatedSearchOptions.view" [index]="i" [context]="context"
-                        [listID]="paginatedSearchOptions.configuration"
-                ></ds-listable-object-component-loader>
-            </li>
-        </ul>
-        <div *ngIf="searchResults?.hasFailed">
-            {{ 'remote.error' | translate }}
+  <ng-container *ngIf="searchResults">
+    <ng-container *ngIf="topSection && topSection.defaultLayoutMode == cardLayoutMode; else listLayout">
+      <div class="mb-2 card" [style]="topSection?.cardStyle"
+        *ngFor="let object of searchResults?.payload?.page; let i = index; let last = last">
+        <div class="card-body">
+          <ds-listable-object-component-loader [object]="object" [viewMode]="paginatedSearchOptions.view" [index]="i"
+            [context]="context" [listID]="paginatedSearchOptions.configuration"></ds-listable-object-component-loader>
         </div>
+      </div>
     </ng-container>
-    <ds-loading *ngIf="!searchResults"></ds-loading>
+    <ng-template #listLayout>
+      <div [style]="topSection?.itemListStyle">
+        <ul *ngIf="searchResults?.hasSucceeded" class="list-unstyled">
+          <li *ngFor="let object of searchResults?.payload?.page; let i = index; let last = last"
+            class="mt-4 mb-4 d-flex" [class.border-bottom]="true && !last">
+            <ds-listable-object-component-loader [object]="object" [viewMode]="paginatedSearchOptions.view" [index]="i"
+              [context]="context" [listID]="paginatedSearchOptions.configuration"></ds-listable-object-component-loader>
+          </li>
+        </ul>
+      </div>
+
+    </ng-template>
+    <div class="row justify-content-center" *ngIf="topSection && topSection.showAllResults">
+      <button type="button" class="btn btn-link" (click)="showAllResults()">{{'home.top-section.view-results' | translate}}</button>
+    </div>
+    <div *ngIf="searchResults?.hasFailed">
+      {{ 'remote.error' | translate }}
+    </div>
+  </ng-container>
+  <ds-loading *ngIf="!searchResults"></ds-loading>
 </div>

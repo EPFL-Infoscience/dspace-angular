@@ -1,5 +1,5 @@
 import { LayoutModeEnum } from './../../../../core/layout/models/section.model';
-import { isEqual } from 'lodash';
+import { isNil } from 'lodash';
 import { Component, Input, OnInit } from '@angular/core';
 import { SortDirection, SortOptions } from '../../../../core/cache/models/sort-options.model';
 import { TopSection } from '../../../../core/layout/models/section.model';
@@ -27,23 +27,18 @@ export class TopSectionComponent implements OnInit {
 
   paginatedSearchOptions: PaginatedSearchOptions;
 
-  layoutModeModel = LayoutModeEnum.LIST;
-
-  listEnumValue = LayoutModeEnum.LIST;
-
-  cardEnumValue = LayoutModeEnum.CARD;
 
   ngOnInit() {
     const order = this.topSection.order;
     const numberOfItems = this.topSection.numberOfItems;
     const sortDirection = order && order.toUpperCase() === 'ASC' ? SortDirection.ASC : SortDirection.DESC;
-    const pagination: PaginationComponentOptions = Object.assign(new PaginationComponentOptions(), {
+    const pagination = Object.assign(new PaginationComponentOptions(), {
       id: 'search-object-pagination',
       pageSize: numberOfItems,
       currentPage: 1
     });
 
-    this.layoutModeModel = this.topSection.defaultLayoutMode;
+    this.topSection.showAllResults = isNil(this.topSection.showAllResults) ? true : this.topSection.showAllResults;
 
     this.paginatedSearchOptions = new PaginatedSearchOptions({
       configuration: this.topSection.discoveryConfigurationName,

@@ -52,26 +52,23 @@ export class HomePageComponent implements OnInit {
       this.site$.next(site);
     });
 
-    // TODO: Uncomment when finish
-    // this.sectionComponentRows = this.sectionDataService.findById('site').pipe(
-    //   getFirstSucceededRemoteDataPayload(),
-    //   map ( (section) => section.componentRows)
-    // );
-    // this.siteService.find().pipe(take(1)).subscribe(
-    //   (site: Site) => {
-    //     this.hasHomeHeaderMetadata = !isEmpty(site.firstMetadataValue('cris.cms.home-header',
-    //       { language: this.locale.getCurrentLanguageCode() }));
-    //   }
-    // );
+    this.sectionComponentRows = this.sectionDataService.findById('site').pipe(
+      getFirstSucceededRemoteDataPayload(),
+      map ( (section) => section.componentRows)
+    );
+    this.siteService.find().pipe(take(1)).subscribe(
+      (site: Site) => {
+        this.hasHomeHeaderMetadata = !isEmpty(site.firstMetadataValue('cris.cms.home-header',
+          { language: this.locale.getCurrentLanguageCode() }));
+      }
+    );
 
-  this.sectionComponentRows = of(SectionData._embedded.sections.find(x=>x.id == 'site').componentRows);
-
-  this.siteService.find().pipe(take(1)).subscribe(
-    (site: Site) => {
-      this.hasHomeHeaderMetadata = !isEmpty(site.firstMetadataValue('cris.cms.home-header',
-        { language: this.locale.getCurrentLanguageCode() }));
-    }
-  );
-}
+    this.siteService.find().pipe(take(1)).subscribe(
+      (site: Site) => {
+        this.hasHomeHeaderMetadata = !isEmpty(site.firstMetadataValue('cris.cms.home-header',
+          { language: this.locale.getCurrentLanguageCode() }));
+      }
+    );
+  }
 
 }

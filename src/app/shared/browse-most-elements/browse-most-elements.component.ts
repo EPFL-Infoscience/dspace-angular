@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { LayoutModeEnum, TopSection } from './../../core/layout/models/section.model';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { SearchService } from '../../core/shared/search/search.service';
 import { PaginatedSearchOptions } from '../search/models/paginated-search-options.model';
@@ -20,12 +22,15 @@ export class BrowseMostElementsComponent implements OnInit {
 
   @Input() context: Context;
 
+  @Input() topSection: TopSection;
+
   searchResults: RemoteData<PaginatedList<SearchResult<DSpaceObject>>>;
 
-  constructor(private searchService: SearchService, private cdr: ChangeDetectorRef) { /* */ }
+  cardLayoutMode = LayoutModeEnum.CARD;
+
+  constructor(private searchService: SearchService, private cdr: ChangeDetectorRef, private router: Router) { /* */ }
 
   ngOnInit() {
-
     this.searchService.search(this.paginatedSearchOptions).pipe(
       getFirstCompletedRemoteData(),
     ).subscribe((response: RemoteData<PaginatedList<SearchResult<DSpaceObject>>>) => {
@@ -34,4 +39,10 @@ export class BrowseMostElementsComponent implements OnInit {
     });
   }
 
+  showAllResults() {
+    this.router.navigate(['/search'], {
+      queryParams: { configuration: this.paginatedSearchOptions.configuration },
+      replaceUrl: true
+    });
+  }
 }
