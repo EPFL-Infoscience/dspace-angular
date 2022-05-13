@@ -1,5 +1,10 @@
+import { isEqual } from 'lodash';
+import { ViewMode } from './../../core/shared/view-mode.model';
 import { Router } from '@angular/router';
-import { LayoutModeEnum, TopSection } from './../../core/layout/models/section.model';
+import {
+  LayoutModeEnum,
+  TopSection,
+} from './../../core/layout/models/section.model';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { SearchService } from '../../core/shared/search/search.service';
 import { PaginatedSearchOptions } from '../search/models/paginated-search-options.model';
@@ -15,9 +20,7 @@ import { getFirstCompletedRemoteData } from '../../core/shared/operators';
   styleUrls: ['./browse-most-elements.component.scss'],
   templateUrl: './browse-most-elements.component.html',
 })
-
 export class BrowseMostElementsComponent implements OnInit {
-
   @Input() paginatedSearchOptions: PaginatedSearchOptions;
 
   @Input() context: Context;
@@ -28,21 +31,36 @@ export class BrowseMostElementsComponent implements OnInit {
 
   cardLayoutMode = LayoutModeEnum.CARD;
 
-  constructor(private searchService: SearchService, private cdr: ChangeDetectorRef, private router: Router) { /* */ }
+  constructor(
+    private searchService: SearchService,
+    private cdr: ChangeDetectorRef,
+    private router: Router
+  ) {
+    /* */
+  }
 
   ngOnInit() {
-    this.searchService.search(this.paginatedSearchOptions).pipe(
-      getFirstCompletedRemoteData(),
-    ).subscribe((response: RemoteData<PaginatedList<SearchResult<DSpaceObject>>>) => {
-      this.searchResults = response as any;
-      this.cdr.detectChanges();
-    });
+    this.searchService
+      .search(this.paginatedSearchOptions)
+      .pipe(getFirstCompletedRemoteData())
+      .subscribe(
+        (response: RemoteData<PaginatedList<SearchResult<DSpaceObject>>>) => {
+          this.searchResults = response as any;
+          this.cdr.detectChanges();
+        }
+      );
   }
 
   showAllResults() {
+    const view = isEqual(this.topSection.defaultLayoutMode, LayoutModeEnum.LIST)
+      ? ViewMode.ListElement
+      : ViewMode.GridElement;
     this.router.navigate(['/search'], {
-      queryParams: { configuration: this.paginatedSearchOptions.configuration },
-      replaceUrl: true
+      queryParams: {
+        configuration: this.paginatedSearchOptions.configuration,
+        view: view,
+      },
+      replaceUrl: true,
     });
   }
 }

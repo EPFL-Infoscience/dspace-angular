@@ -1,4 +1,3 @@
-import { LayoutModeEnum } from './../../../../core/layout/models/section.model';
 import { isNil } from 'lodash';
 import { Component, Input, OnInit } from '@angular/core';
 import { SortDirection, SortOptions } from '../../../../core/cache/models/sort-options.model';

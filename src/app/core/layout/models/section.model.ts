@@ -57,12 +57,12 @@ export interface TopSection extends SectionComponent {
   componentType: 'top';
   numberOfItems: number;
 
-  showAsCard: boolean,
-  showLayoutSwitch: boolean,
-  defaultLayoutMode: LayoutModeEnum,
-  cardStyle?: string,
-  itemListStyle?: string,
-  showAllResults: boolean,
+  showAsCard: boolean;
+  showLayoutSwitch: boolean;
+  defaultLayoutMode: LayoutModeEnum;
+  cardStyle?: string;
+  itemListStyle?: string;
+  showAllResults: boolean;
 }
 
 export interface SearchSection extends SectionComponent {

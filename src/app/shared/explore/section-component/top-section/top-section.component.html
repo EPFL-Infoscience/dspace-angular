@@ -1,29 +1,29 @@
 <div class="container">
-  <div [ngClass]="{'card': topSection.showAsCard}">
-    <div [ngClass]="{'card-header': topSection.showAsCard}">
-      <div class="row justify-content-between" [ngClass]="{'px-4': !topSection.showAsCard}">
-        <span *ngIf="topSection.titleKey">{{ 'explore.index.'
-          + topSection.titleKey | translate }}
-        </span>
-        <span *ngIf="!topSection.titleKey">{{
-          'explore.index.'
-          + topSection.sortField | translate }}
-        </span>
-
-        <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic"
-          [(ngModel)]="topSection.defaultLayoutMode" *ngIf="topSection.showLayoutSwitch">
-          <label ngbButtonLabel class="btn-outline-info">
-            <input ngbButton type="radio" [value]="'list'">
-            <i class="fa fa-list-ul" title="List"></i>
-          </label>
-          <label ngbButtonLabel class="btn-outline-info">
-            <input ngbButton type="radio" [value]="'card'">
-            <i class="fas fa-th-large" title="Cards"></i>
-          </label>
-        </div>
-      </div>
+  <div class="row my-2" *ngIf="topSection.showLayoutSwitch">
+    <div
+      class="btn-group btn-group-toggle"
+      ngbRadioGroup
+      name="radioBasic"
+      [(ngModel)]="topSection.defaultLayoutMode"
+    >
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="'list'" />
+        <i class="fa fa-list-ul" title="List"></i>
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="'card'" />
+        <i class="fas fa-th-large" title="Cards"></i>
+      </label>
     </div>
-    <div [ngClass]="{'card-body': topSection.showAsCard}">
+  </div>
+  <div [ngClass]="{ card: topSection.showAsCard }">
+    <div [ngClass]="{ 'card-header': topSection.showAsCard }" *ngIf="topSection.showAsCard">
+      <span *ngIf="topSection.titleKey">{{ "explore.index." + topSection.titleKey | translate }}
+      </span>
+      <span *ngIf="!topSection.titleKey">{{ "explore.index." + topSection.sortField | translate }}
+      </span>
+    </div>
+    <div [ngClass]="{ 'card-body': topSection.showAsCard }">
       <ds-themed-browse-most-elements [context]="context" [paginatedSearchOptions]="paginatedSearchOptions"
         [topSection]="topSection">
       </ds-themed-browse-most-elements>

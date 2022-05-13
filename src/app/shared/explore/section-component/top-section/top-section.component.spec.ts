@@ -147,7 +147,7 @@ describe('TopSectionComponent', () => {
     });
 
     it('should create a top section with title', () => {
-        const div = fixture.debugElement.queryAll(By.css('div.row'))[0];
+        const div = fixture.debugElement.queryAll(By.css('.card-header'))[0];
         expect(div).not.toBeNull();
         expect(div.children[0].nativeElement.innerText).toEqual('explore.index.lastPublications');
     });
