@@ -27,10 +27,8 @@ import { SearchFilterConfig } from '../../../search/models/search-filter-config.
     providers: []
 })
 export class CarouselSectionComponent implements OnInit {
-
   @Input()
   sectionId: string;
-
   @Input()
   carouselSection: CarouselSection;
 
@@ -41,17 +39,14 @@ export class CarouselSectionComponent implements OnInit {
 
   carousels: SearchFilterConfig[] = [];
   carousels$ = new BehaviorSubject(this.carousels);
-
   searchResults: Observable<RemoteData<PaginatedList<SearchResult<DSpaceObject>>>>;
   paginatedSearchOptions: PaginatedSearchOptions;
-
-
-  images = [62, 83, 466, 965, 982, 1043, 738].map((n) => `https://picsum.photos/id/${n}/900/500`);
-
   paused = false;
   unpauseOnArrow = false;
   pauseOnIndicator = false;
   @ViewChild('carousel', {static : true}) carousel: NgbCarousel;
+
+  isLoading$ = new BehaviorSubject(true);
 
   constructor (
     private searchService: SearchService,
@@ -84,6 +79,7 @@ export class CarouselSectionComponent implements OnInit {
     this.searchResults = this.searchService.search(this.paginatedSearchOptions).pipe(
       getFirstCompletedRemoteData(),
     );
+    this.searchResults.subscribe(() => this.isLoading$.next(false));
   }
 
   togglePaused() {
