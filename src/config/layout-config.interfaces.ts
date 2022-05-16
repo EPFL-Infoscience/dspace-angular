@@ -30,7 +30,7 @@ export interface CrisItemPageConfig extends Config {
 }
 
 export interface CrisLoadMoreConfig extends Config {
-  more: number;
+  first: number;
   last: number;
 }
 export interface CrisLayoutConfig extends Config {

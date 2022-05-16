@@ -421,7 +421,7 @@ export class DefaultAppConfig implements AppConfig {
       defaultMetadataLabelColStyle: 'col-3',
       defaultMetadataValueColStyle: 'col-9',
       loadMore: {
-        more: 5,
+        first: 5,
         last: 1,
       }
     },

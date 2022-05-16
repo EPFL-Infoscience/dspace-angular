@@ -532,7 +532,7 @@ describe('MetadataContainerComponent', () => {
         firstLimitedDataToBeRenderedMap: firstLimitedDataToBeRenderedMap,
         lastLimitedDataToBeRenderedMap: lastLimitedDataToBeRenderedMap,
         isConfigured: false,
-        moreLimit: 6,
+        firstLimit: 6,
         lastLimit: 0
       });
       fixture.detectChanges();

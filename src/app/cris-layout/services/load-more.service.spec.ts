@@ -6,7 +6,7 @@ interface ComputedData {
     firstLimitedDataToBeRenderedMap: Map<number, NestedMetadataGroupEntry[]>;
     lastLimitedDataToBeRenderedMap: Map<number, NestedMetadataGroupEntry[]>;
     isConfigured: boolean;
-    moreLimit: number;
+    firstLimit: number;
     lastLimit: number;
   }
 
@@ -154,7 +154,7 @@ describe('LoadMoreService', () => {
 
   it('should return data first data with size 2 last data with size 1', () => {
     let data: ComputedData;
-    const renderConfig = 'inline.more2.last1';
+    const renderConfig = 'inline.first2.last1';
     data = service.getComputedData(componentsToBeRenderedMap,renderConfig);
     expect(data.firstLimitedDataToBeRenderedMap.size).toBe(2);
     expect(data.lastLimitedDataToBeRenderedMap.size).toBe(1);
@@ -162,7 +162,7 @@ describe('LoadMoreService', () => {
 
   it('should return data first data with size 3 last data with size 2', () => {
     let data: ComputedData;
-    const renderConfig = 'inline.more3.last2';
+    const renderConfig = 'inline.first3.last2';
     data = service.getComputedData(componentsToBeRenderedMap,renderConfig);
     expect(data.firstLimitedDataToBeRenderedMap.size).toBe(3);
     expect(data.lastLimitedDataToBeRenderedMap.size).toBe(2);
@@ -170,13 +170,13 @@ describe('LoadMoreService', () => {
 
   it('should return data first data with size 3 last data with size 0', () => {
     let data: ComputedData;
-    const renderConfig = 'inline.more3';
+    const renderConfig = 'inline.first3';
     data = service.getComputedData(componentsToBeRenderedMap,renderConfig);
     expect(data.firstLimitedDataToBeRenderedMap.size).toBe(3);
     expect(data.lastLimitedDataToBeRenderedMap.size).toBe(0);
   });
 
-  it('should ignore "last" if "more" is missing', () => {
+  it('should ignore "last" if "first" is missing', () => {
     let data: ComputedData;
     const renderConfig = 'inline.last3';
     data = service.getComputedData(componentsToBeRenderedMap,renderConfig);
@@ -186,7 +186,7 @@ describe('LoadMoreService', () => {
 
   it('should use default values', () => {
     let data: ComputedData;
-    const renderConfig = 'inline.more.last';
+    const renderConfig = 'inline.first.last';
     data = service.getComputedData(componentsToBeRenderedMap,renderConfig);
     expect(data.firstLimitedDataToBeRenderedMap.size).toBe(3);
     expect(data.lastLimitedDataToBeRenderedMap.size).toBe(1);
