@@ -8,7 +8,7 @@
     >
       <ds-object-grid
         [configStyle]="topSection?.cardStyle"
-        [config]="paginatedSearchOptions.configuration"
+        [config]="paginatedSearchOptions.pagination"
         [sortConfig]="paginatedSearchOptions.sort"
         [objects]="searchResults"
         [hideGear]="true"
@@ -27,9 +27,6 @@
               let last = last
             "
             class="mt-4 mb-4 d-flex"
-            [ngClass]="
-              topSection.showAsCard ? 'border-0' : !last ? 'border-bottom' : ''
-            "
             [style]="topSection?.itemListStyle"
           >
             <ds-listable-object-component-loader
