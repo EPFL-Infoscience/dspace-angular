@@ -6,21 +6,19 @@
         else listLayout
       "
     >
-      <div [style]="topSection?.cardStyle">
-        <ds-object-grid
-          [config]="paginatedSearchOptions.configuration"
-          [sortConfig]="paginatedSearchOptions.sort"
-          [objects]="searchResults"
-          [hideGear]="true"
-          [linkType]="'None'"
-          [context]="context"
-          [hidePaginationDetail]="true"
-        >
-        </ds-object-grid>
-      </div>
+      <ds-object-grid
+        [configStyle]="topSection?.cardStyle"
+        [config]="paginatedSearchOptions.configuration"
+        [sortConfig]="paginatedSearchOptions.sort"
+        [objects]="searchResults"
+        [hideGear]="true"
+        [linkType]="'None'"
+        [context]="context"
+        [hidePaginationDetail]="true"
+      >
+      </ds-object-grid>
     </ng-container>
     <ng-template #listLayout>
-      <div [style]="topSection?.itemListStyle">
         <ul *ngIf="searchResults?.hasSucceeded" class="list-unstyled">
           <li
             *ngFor="
@@ -32,6 +30,7 @@
             [ngClass]="
               topSection.showAsCard ? 'border-0' : !last ? 'border-bottom' : ''
             "
+            [style]="topSection?.itemListStyle"
           >
             <ds-listable-object-component-loader
               [object]="object"
@@ -42,7 +41,6 @@
             ></ds-listable-object-component-loader>
           </li>
         </ul>
-      </div>
     </ng-template>
     <div
       class="row justify-content-center"

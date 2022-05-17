@@ -75,6 +75,11 @@ export class ObjectGridComponent implements OnInit {
   @Input() hidePaginationDetail = false;
 
   /**
+   * Pass custom style to the component
+   */
+  @Input() configStyle = '';
+
+  /**
    * Behavior subject to output the current listable objects
    */
   private _objects$: BehaviorSubject<RemoteData<PaginatedList<ListableObject>>>;
