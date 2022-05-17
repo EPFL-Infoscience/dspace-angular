@@ -12,10 +12,10 @@
           </ds-metadata-render>
         </div>
       </ng-container>
-      <!-- Display starting element with limits END -->          
-      <!-- Show More/collapse link button start -->          
+      <!-- Display starting element with limits END -->
+      <!-- Show More/collapse link button start -->
       <div class="view-text">
-        <a (click)="setData('fillAllData')" id="a-more-icon"  href="javascript:void(0);" *ngIf="componentsToBeRenderedMap.size != lastLimitedDataToBeRenderedMap.size + firstLimitedDataToBeRenderedMap.size && isConfigured"><i class="fas fa-chevron-down"></i></a> 
+        <a (click)="setData('fillAllData')" id="a-more-icon"  href="javascript:void(0);" *ngIf="componentsToBeRenderedMap.size != lastLimitedDataToBeRenderedMap.size + firstLimitedDataToBeRenderedMap.size && isConfigured"><i class="fas fa-chevron-down"></i></a>
         <a (click)="setData('fillAllData')" id="a-more-label"  href="javascript:void(0);" *ngIf="componentsToBeRenderedMap.size != lastLimitedDataToBeRenderedMap.size + firstLimitedDataToBeRenderedMap.size && isConfigured" [ngbTooltip]=" 'cris-layout.rendering.more.tooltip' | translate ">
           {{ (lastLimit === 0 ? "cris-layout.rendering.more" : "cris-layout.rendering.more.withlast") | translate}}
         </a>
