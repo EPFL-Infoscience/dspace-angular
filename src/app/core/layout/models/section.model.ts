@@ -95,6 +95,9 @@ export interface TopSectionColumn {
 
 export interface CarouselSection extends SectionComponent {
   discoveryConfigurationName: string;
+  order: string;
+  sortField: string;
+  numberOfItems: number;
   style: string;
   title: string;
   link: string;
