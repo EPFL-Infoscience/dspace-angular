@@ -697,7 +697,9 @@
 
   "bitstream.download.page": "Now downloading {{bitstream}}..." ,
 
-  "bitstream.download.page.back": "Back" ,
+  "bitstream.download.page.back": "Back",
+
+  "bitstream.download.page.close": "Close",
 
 
   "bitstream.edit.authorizations.link": "Edit bitstream's Policies",
@@ -1178,6 +1180,8 @@
 
   "collection.form.submissionDefinition": "Submission definition",
 
+  "collection.form.correctionSubmissionDefinition": "Submission definition for correction request",
+
 
 
   "collection.listelement.badge": "Collection",
@@ -1420,6 +1424,8 @@
   "context-menu.actions.export-item.btn": "Export",
 
   "context-menu.actions.label": "Options",
+
+  "context-menu.actions.show-all-metadata": "Show all metadata (technical view)",
 
   "context-menu.actions.edit-item.btn.FULL": "Edit all the details",
 
@@ -2086,15 +2092,15 @@
 
   "form.no-value": "No value entered",
 
-  "form.other-information.data-oairecerif_author_affiliation": "Affiliation",
+  "form.other-information.oairecerif_author_affiliation": "Affiliation",
 
-  "form.other-information.data-oairecerif_editor_affiliation": "Affiliation",
+  "form.other-information.oairecerif_editor_affiliation": "Affiliation",
 
-  "form.other-information.data-person_identifier_orcid": "ORCID iD",
+  "form.other-information.person_identifier_orcid": "ORCID iD",
 
   "form.other-information.institution-affiliation-name": "Affiliation(s)",
 
-  "form.other-information.data-dc_relation_grantno": "Grant Number",
+  "form.other-information.dc_relation_grantno": "Grant Number",
 
   "form.other-information.not-available": "Not available",
 
