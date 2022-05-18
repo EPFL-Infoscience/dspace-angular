@@ -37,8 +37,6 @@ export class TopSectionComponent implements OnInit {
       currentPage: 1
     });
 
-    this.topSection.showAllResults = isNil(this.topSection.showAllResults) ? true : this.topSection.showAllResults;
-
     this.paginatedSearchOptions = new PaginatedSearchOptions({
       configuration: this.topSection.discoveryConfigurationName,
       pagination: pagination,
