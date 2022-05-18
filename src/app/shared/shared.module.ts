@@ -220,6 +220,7 @@ import { ThemedSearchSectionComponent } from './explore/section-component/search
 import { ThemedTextSectionComponent } from './explore/section-component/text-section/themed-text-section.component';
 import { ThemedBrowseMostElementsComponent } from './browse-most-elements/themed-browse-most-elements.component';
 import { ThemedItemListPreviewComponent } from './object-list/my-dspace-result-list-element/item-list-preview/themed-item-list-preview.component';
+import { ItemCorrectionComponent } from './object-collection/shared/mydspace-item-correction/item-correction.component';
 import { MetricsModule } from './metric/metrics.module';
 import { SearchChartBarHorizontalComponent } from './search/search-charts/search-chart/search-chart-bar-horizontal/search-chart-bar-horizontal.component';
 
@@ -305,6 +306,7 @@ const COMPONENTS = [
   ItemListPreviewComponent,
   ThemedItemListPreviewComponent,
   MyDSpaceItemStatusComponent,
+  ItemCorrectionComponent,
   ItemSubmitterComponent,
   ItemDetailPreviewComponent,
   ItemDetailPreviewFieldComponent,

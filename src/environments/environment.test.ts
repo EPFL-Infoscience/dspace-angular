@@ -282,7 +282,11 @@ export const environment: AppConfig = {
     },
     metadataBox: {
       defaultMetadataLabelColStyle: 'col-3',
-      defaultMetadataValueColStyle: 'col-9'
+      defaultMetadataValueColStyle: 'col-9',
+      loadMore :{
+        first: 3,
+        last: 1
+      }
     }
   },
   layout: {
