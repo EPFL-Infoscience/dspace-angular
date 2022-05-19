@@ -7,6 +7,7 @@ import { CarouselSection } from '../../core/layout/models/section.model';
 import { NativeWindowRef, NativeWindowService } from '../../core/services/window.service';
 import { getFirstCompletedRemoteData } from '../../core/shared/operators';
 import { ItemSearchResult } from '../object-collection/shared/item-search-result.model';
+import { followLink } from '../utils/follow-link-config.model';
 
 /**
  * Component representing the Carousel component section.
@@ -114,18 +115,19 @@ export class CarouselComponent implements OnInit {
    * function to find a bitstream of an item
    */
   findBitstream(item): any {
-    return this.bitstreamDataService.findAllByItemAndBundleName(item, 'ORIGINAL').pipe(
+    return this.bitstreamDataService.findAllByItemAndBundleName(
+      item,
+      'ORIGINAL',
+      {elementsPerPage: 20, currentPage: 0},
+      true,
+      true,
+      followLink('format'),
+      ).pipe(
       getFirstCompletedRemoteData(),
-      map(projects => projects.payload.page.filter(proj => this.formatCheck(proj.metadata['dc.title'][0].value)))
+      map(projects => projects.payload.page.filter(proj =>
+        proj.format.pipe(map(project => project.payload.mimetype.includes('image/')))
+      ))
     );
-  }
-
-  /**
-   * to check the format of the image
-   */
-  formatCheck(stringToCheck) {
-    const formats = ['.png', '.jpg', '.jpeg', '.apng', '.gif'];
-    return formats.some(i => stringToCheck.includes(i));
   }
 
   /**
