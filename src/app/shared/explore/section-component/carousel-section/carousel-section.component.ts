@@ -55,17 +55,21 @@ export class CarouselSectionComponent implements OnInit {
   }
 
   ngOnInit() {
-    const sortDirection = SortDirection.ASC;
+    const discoveryConfigurationName = this.carouselSection.discoveryConfigurationName;
+    const order = this.carouselSection.order;
+    const sortField = this.carouselSection.sortField;
+    const numberOfItems = this.carouselSection.numberOfItems;
+    const sortDirection = order && order.toUpperCase() === 'ASC' ? SortDirection.ASC : SortDirection.DESC;
     const pagination: PaginationComponentOptions = Object.assign(new PaginationComponentOptions(), {
       id: 'carousel-object-pagination',
-      pageSize: 20,
+      pageSize: numberOfItems,
       currentPage: 1
     });
 
     this.paginatedSearchOptions = new PaginatedSearchOptions({
-      configuration: this.carouselSection.discoveryConfigurationName,
+      configuration: discoveryConfigurationName,
       pagination: pagination,
-      sort: new SortOptions(this.carouselSection.title, sortDirection),
+      sort: new SortOptions(sortField, sortDirection),
       dsoTypes: [DSpaceObjectType.ITEM],
       forcedEmbeddedKeys: ['bundles']
     });
