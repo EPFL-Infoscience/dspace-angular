@@ -33,6 +33,7 @@ import { FollowLinkConfig } from '../utils/follow-link-config.model';
 import { PaginatedList } from '../../core/data/paginated-list.model';
 import { createPaginatedList } from '../testing/utils.test';
 import { ItemSearchResult } from '../object-collection/shared/item-search-result.model';
+import { BitstreamFormat } from '../../core/shared/bitstream-format.model';
 
 describe('CarouselComponent', () => {
     let component: CarouselComponent;
@@ -101,7 +102,11 @@ describe('CarouselComponent', () => {
             value: 'test_word.jpg'
           }
         ]
-      }
+      },
+      format: createSuccessfulRemoteDataObject$(Object.assign(new BitstreamFormat(),
+      {
+        mimetype: 'image/jpeg'
+      }))
     });
 
     const mockBitstream2: Bitstream = Object.assign(new Bitstream(),
@@ -110,10 +115,10 @@ describe('CarouselComponent', () => {
       bundleName: 'ORIGINAL',
       _links: {
         self: {
-          href: 'https://dspace7.4science.it/dspace-spring-rest/api/core/bitstreams/cf9b0c8e-a1eb-4b65-afd0-567366448713'
+          href: 'testURL'
         },
         content: {
-          href: 'https://dspace7.4science.it/dspace-spring-rest/api/core/bitstreams/cf9b0c8e-a1eb-4b65-afd0-567366448713/content'
+          href: 'testURL'
         }
       },
       id: 'cf9b0c8e-a1eb-4b65-afd0-567366448713',
@@ -125,7 +130,11 @@ describe('CarouselComponent', () => {
             value: 'test_word.docx'
           }
         ]
-      }
+      },
+      format: createSuccessfulRemoteDataObject$(Object.assign(new BitstreamFormat(),
+      {
+        mimetype: 'application/pdf'
+      }))
     });
 
     beforeEach(waitForAsync(() => {

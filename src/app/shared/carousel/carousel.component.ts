@@ -2,10 +2,16 @@ import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { PaginatedList } from '../../core/data/paginated-list.model';
+import { RemoteData } from '../../core/data/remote-data';
+import { BitstreamFormat } from '../../core/shared/bitstream-format.model';
+import { Bitstream } from '../../core/shared/bitstream.model';
+import { Item } from '../../core/shared/item.model';
 import { BitstreamDataService } from '../../core/data/bitstream-data.service';
 import { CarouselSection } from '../../core/layout/models/section.model';
 import { NativeWindowRef, NativeWindowService } from '../../core/services/window.service';
 import { getFirstCompletedRemoteData } from '../../core/shared/operators';
+import { hasValue } from '../empty.util';
 import { ItemSearchResult } from '../object-collection/shared/item-search-result.model';
 import { followLink } from '../utils/follow-link-config.model';
 
@@ -114,7 +120,7 @@ export class CarouselComponent implements OnInit {
   /**
    * function to find a bitstream of an item
    */
-  findBitstream(item): any {
+  findBitstream(item: Item) {
     return this.bitstreamDataService.findAllByItemAndBundleName(
       item,
       'ORIGINAL',
@@ -122,11 +128,35 @@ export class CarouselComponent implements OnInit {
       true,
       true,
       followLink('format'),
-      ).pipe(
+    ).pipe(
       getFirstCompletedRemoteData(),
-      map(projects => projects.payload.page.filter(proj =>
-        proj.format.pipe(map(project => project.payload.mimetype.includes('image/')))
-      ))
+      map((bitstreamsRD: RemoteData<PaginatedList<Bitstream>>) => {
+        if (hasValue(bitstreamsRD.payload)) {
+          if ( bitstreamsRD.payload.page.length > 0) {
+            const finalBitstreams = bitstreamsRD.payload.page.filter((bitstream: Bitstream) => {
+              if (hasValue(bitstream)) {
+                if (hasValue(bitstream.format)) {
+                  let formatCheck;
+                  bitstream.format.pipe(
+                    map((format) => format.payload),
+                    map((format: BitstreamFormat) => {
+                      if (hasValue(format)) {
+                        if (hasValue(format.mimetype)) {
+                          if (format.mimetype.includes('image')) {
+                            return true;
+                          } else { return false; }
+                        } else {return false; }
+                      } else {return false; }
+                    }),
+                  ).subscribe(res => { formatCheck = res; });
+                  return formatCheck;
+                } else { return false; }
+              } else { return false; }
+            });
+            return finalBitstreams;
+          } else { return null; }
+        } else { return null; }
+      }),
     );
   }
 
