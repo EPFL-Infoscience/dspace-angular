@@ -1,3 +1,4 @@
+import { DeduplicationSetsComponent } from './../../deduplication/sets/deduplication-sets.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -10,7 +11,7 @@ import { I18nBreadcrumbResolver } from '../../core/breadcrumbs/i18n-breadcrumb.r
   imports: [
     RouterModule.forChild([
       {
-        canActivate: [ AuthenticatedGuard ],
+        canActivate: [AuthenticatedGuard],
         path: '',
         component: AdminDeduplicationPageComponent,
         pathMatch: 'full',
@@ -21,6 +22,17 @@ import { I18nBreadcrumbResolver } from '../../core/breadcrumbs/i18n-breadcrumb.r
           showBreadcrumbsFluid: false
         }
       },
+      {
+        canActivate: [AuthenticatedGuard],
+        path: 'set/:id',
+        component: DeduplicationSetsComponent,
+        resolve: { breadcrumb: I18nBreadcrumbResolver },
+        data: {
+          title: 'sets',
+          breadcrumbKey: 'Sets',
+          showBreadcrumbsFluid: false
+        },
+      }
     ])
   ],
   providers: [

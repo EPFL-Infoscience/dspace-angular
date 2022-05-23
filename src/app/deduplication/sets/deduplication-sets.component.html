@@ -1,9 +1,9 @@
-<!-- div class="container">
+<div class="container">
   <div class="row">
     <div class="col-12">
       <h2 id="header" class="border-bottom pb-2">Records duplicate Identifiers (DOI, PMID, ARXIV, SCOPUS, ISI)</h2>
       <p>The page shows potentially duplicate groups by signature. You can select the items to compare or reject. The system records the action "No duplicate" so the match is not show in the future.</p>
-      <ngb-accordion #a="ngbAccordion" activeIds="panel-1">
+      <ngb-accordion [destroyOnHide]="false" [closeOthers]="true" activeIds="panel-1">
         <ngb-panel id="panel-1">
           <ng-template ngbPanelHeader let-opened="opened">
             <div class="row">
@@ -471,4 +471,4 @@
       </ngb-accordion>
     </div>
   </div>
-</div -->
+</div>

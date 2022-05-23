@@ -1,3 +1,4 @@
+import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreModule, Action, StoreConfig } from '@ngrx/store';
@@ -13,6 +14,7 @@ import { DeduplicationState, deduplicationReducers } from './deduplication.reduc
 import { DeduplicationRestService } from '../core/deduplication/deduplication-rest.service';
 import { deduplicationEffects } from './deduplication.effects';
 import { DeduplicationSignaturesComponent } from './signatures/deduplication-signatures.component';
+import { DeduplicationSetsComponent } from './sets/deduplication-sets.component';
 
 const MODULES = [
   CommonModule,
@@ -20,11 +22,13 @@ const MODULES = [
   CoreModule.forRoot(),
   StoreModule.forFeature('deduplication', deduplicationReducers, storeModuleConfig as StoreConfig<DeduplicationState, Action>),
   EffectsModule.forFeature(deduplicationEffects),
+  NgbAccordionModule,
 ];
 
 const COMPONENTS = [
   DeduplicationComponent,
   DeduplicationSignaturesComponent,
+  DeduplicationSetsComponent,
 ];
 
 const DIRECTIVES = [ ];
