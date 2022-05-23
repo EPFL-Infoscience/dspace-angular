@@ -44,7 +44,7 @@ export class LoadMoreService  {
    * @returns {number} the numer of items to be shown, or 0 if the limit is not specified for the current rendering type.
    */
   getLimitsFromRendering(rendering: string, limitType: string): number {
-    const limitInfo = rendering.split('.').filter((chunk) => chunk.startsWith(limitType));
+    const limitInfo = (rendering ?? '').split('.').filter((chunk) => chunk.startsWith(limitType));
     if (limitInfo.length) {
       const limitNumber = Number(limitInfo[0].substr(limitType.length)); // empty strings returns 0
       return isNaN(limitNumber) || limitNumber === 0 ? environment?.crisLayout?.metadataBox?.loadMore[limitType] : limitNumber;
