@@ -3113,6 +3113,8 @@
 
   "iiiftoolbar.iiif.copy-clipboard": "Copy to clipboard",
 
+  "iiiftoolbar.iiif.copy-clipboard-notification": "IIIF manifest has been copied to clipboard",
+
 
   "loading.bitstream": "Loading bitstream...",
 

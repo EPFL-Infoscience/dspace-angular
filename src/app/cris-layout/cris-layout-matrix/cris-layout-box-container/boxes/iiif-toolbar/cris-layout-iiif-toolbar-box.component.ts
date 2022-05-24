@@ -7,6 +7,7 @@ import { Item } from '../../../../../core/shared/item.model';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../../../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NotificationsService } from '../../../../../shared/notifications/notifications.service';
 
 @Component({
   selector: 'ds-cris-layout-iiif-toolbar-box',
@@ -23,6 +24,8 @@ export class CrisLayoutIIIFToolbarBoxComponent extends CrisLayoutBoxModelCompone
     protected translateService: TranslateService,
     protected router: Router,
     protected route: ActivatedRoute,
+    private notificationsService: NotificationsService,
+    private translate: TranslateService,
     @Inject('boxProvider') public boxProvider: CrisLayoutBox,
     @Inject('itemProvider') public itemProvider: Item
   ) {
@@ -48,7 +51,10 @@ export class CrisLayoutIIIFToolbarBoxComponent extends CrisLayoutBoxModelCompone
   }
 
   copyManifestUrlToClipboard() {
-    navigator.clipboard.writeText(this.manifestUrl);
+    navigator.clipboard.writeText(this.manifestUrl).then((res) => {
+      console.log(res);
+      this.notificationsService.success(null, this.translate.get('resource-policies.edit.page.success.content'));
+    });
   }
 
 }
