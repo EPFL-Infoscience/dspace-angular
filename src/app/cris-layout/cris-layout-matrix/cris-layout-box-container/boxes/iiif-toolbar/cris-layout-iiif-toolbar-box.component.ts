@@ -24,8 +24,8 @@ export class CrisLayoutIIIFToolbarBoxComponent extends CrisLayoutBoxModelCompone
     protected translateService: TranslateService,
     protected router: Router,
     protected route: ActivatedRoute,
-    private notificationsService: NotificationsService,
-    private translate: TranslateService,
+    protected notificationsService: NotificationsService,
+    protected translate: TranslateService,
     @Inject('boxProvider') public boxProvider: CrisLayoutBox,
     @Inject('itemProvider') public itemProvider: Item
   ) {
