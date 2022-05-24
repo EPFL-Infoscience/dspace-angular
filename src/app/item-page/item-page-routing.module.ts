@@ -15,7 +15,7 @@ import { ThemedItemPageComponent } from './simple/themed-item-page.component';
 import { ThemedFullItemPageComponent } from './full/themed-full-item-page.component';
 import { VersionPageComponent } from './version-page/version-page/version-page.component';
 import { BitstreamRequestACopyPageComponent } from '../shared/bitstream-request-a-copy-page/bitstream-request-a-copy-page.component';
-import { CrisItemPageTabResolver } from '../cris-item-page/cris-item-page-tab.resolver';
+import { CrisItemPageTabResolver } from '../item-page/cris-item-page-tab.resolver';
 import { REQUEST_COPY_MODULE_PATH } from '../app-routing-paths';
 import { IIIFViewerComponent } from './iiif-viewer/iiif-viewer.component';
 
@@ -98,6 +98,7 @@ import { IIIFViewerComponent } from './iiif-viewer/iiif-viewer.component';
     LinkService,
     ItemPageAdministratorGuard,
     VersionResolver,
+    CrisItemPageTabResolver
   ]
 
 })

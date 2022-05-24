@@ -104,7 +104,7 @@ export class ItemPageModule {
   static withEntryComponents() {
     return {
       ngModule: ItemPageModule,
-      providers: ENTRY_COMPONENTS.map((component) => ({provide: component}))
+      providers: ENTRY_COMPONENTS.map((component) => ({ provide: component }))
     };
   }
 
