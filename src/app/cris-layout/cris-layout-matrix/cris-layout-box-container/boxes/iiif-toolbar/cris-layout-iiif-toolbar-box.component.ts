@@ -51,9 +51,8 @@ export class CrisLayoutIIIFToolbarBoxComponent extends CrisLayoutBoxModelCompone
   }
 
   copyManifestUrlToClipboard() {
-    navigator.clipboard.writeText(this.manifestUrl).then((res) => {
-      console.log(res);
-      this.notificationsService.success(null, this.translate.get('resource-policies.edit.page.success.content'));
+    navigator.clipboard.writeText(this.manifestUrl).then(() => {
+      this.notificationsService.success(null, this.translate.get('iiiftoolbar.iiif.copy-clipboard-notification'));
     });
   }
 
