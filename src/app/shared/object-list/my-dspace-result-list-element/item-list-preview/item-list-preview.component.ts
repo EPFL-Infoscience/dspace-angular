@@ -45,13 +45,13 @@ export class ItemListPreviewComponent {
   @Input() metadataList: DuplicateMatchMetadataDetailConfig[] = [];
 
   /**
-   * A list of additional metadatas to display
+   * A list of additional metadata fields to display
    */
-  public additionalMetadatas: string[];
+  public additionalMetadataFields: string[];
 
   ngOnInit() {
-    if (hasValue(environment.myDSpace) && isNotEmpty(environment.myDSpace.additionalMetadatas)) {
-      this.additionalMetadatas = environment.myDSpace.additionalMetadatas.map(m => m.value);
+    if (hasValue(environment.myDSpace) && isNotEmpty(environment.myDSpace.additionalMetadataFields)) {
+      this.additionalMetadataFields = environment.myDSpace.additionalMetadataFields;
     }
   }
 }
