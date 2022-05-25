@@ -1,25 +1,44 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <h2 id="header" class="border-bottom pb-2">{{'deduplication.title'| translate}}</h2>
+      <h2 id="header" class="border-bottom pb-2">
+        {{ "deduplication.title" | translate }}
+      </h2>
 
       <ul ngbNav #nav="ngbNav" [destroyOnHide]="false" class="nav-pills">
         <li [ngbNavItem]="'all-signatures'">
-          <a ngbNavLink>{{'deduplication.home.tab.all-signatures' | translate}}</a>
+          <a ngbNavLink>{{
+            "deduplication.home.tab.all-signatures" | translate
+          }}</a>
           <ng-template ngbNavContent>
-            <ds-loading class="container" *ngIf="(isSignaturesLoading() | async)" message="'deduplication.signature.loading' | translate"></ds-loading>
+            <ds-loading
+              class="container"
+              *ngIf="isSignaturesLoading() | async"
+              message="'deduplication.signature.loading' | translate"
+            ></ds-loading>
             <ds-deduplication-signatures
               class="container p-0 m-0"
               *ngIf="!(isSignaturesLoading() | async)"
               [signatures]="signatures$"
-              [elementsPerRow]="elementsPerPage">
+              [elementsPerRow]="elementsPerPage"
+            >
             </ds-deduplication-signatures>
             <div class="row">
               <div class="col-md-12 text-center">
-                <hr>
-                <button type="button" class="btn btn-primary" [disabled]="(isSignaturesProcessing() | async) || !(showMoreButton() | async)" (click)="addMoreDeduplicationSignatures()">
-                  {{'deduplication.home.tab.show-more' | translate}}
-                  <span class="badge badge-light">{{totalRemainingElements}}</span>
+                <hr />
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  [disabled]="
+                    (isSignaturesProcessing() | async) ||
+                    !(showMoreButton() | async)
+                  "
+                  (click)="addMoreDeduplicationSignatures()"
+                >
+                  {{ "deduplication.home.tab.show-more" | translate }}
+                  <span class="badge badge-light">{{
+                    totalRemainingElements
+                  }}</span>
                   <i class="fa fa-angle-double-right"></i>
                 </button>
               </div>
@@ -27,23 +46,28 @@
           </ng-template>
         </li>
         <li [ngbNavItem]="'compare'">
-          <a ngbNavLink>{{'deduplication.home.tab.compare' | translate}}</a>
+          <a ngbNavLink>{{ "deduplication.home.tab.compare" | translate }}</a>
           <ng-template ngbNavContent>
             <div class="row tab-pane-deduplication mt-3">
               <div class="col-md-4">
                 <p>
-                  {{'deduplication.home.description.compare' | translate}}
+                  {{ "deduplication.home.description.compare" | translate }}
                 </p>
               </div>
               <div class="col-md-8">
-                <textarea id="itemid-list" name="itemid-list" rows="10" class="form-control"></textarea>
+                <textarea
+                  id="itemid-list"
+                  name="itemid-list"
+                  rows="10"
+                  class="form-control"
+                ></textarea>
               </div>
             </div>
             <div class="row tab-pane-deduplication">
               <div class="col-md-12 text-right">
                 <p class="mt-3">
                   <button type="button" class="btn btn-primary">
-                    {{'deduplication.home.tab.compare' | translate}}
+                    {{ "deduplication.home.tab.compare" | translate }}
                   </button>
                 </p>
               </div>

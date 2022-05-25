@@ -14,7 +14,6 @@ import { DeduplicationState, deduplicationReducers } from './deduplication.reduc
 import { DeduplicationRestService } from '../core/deduplication/deduplication-rest.service';
 import { deduplicationEffects } from './deduplication.effects';
 import { DeduplicationSignaturesComponent } from './signatures/deduplication-signatures.component';
-import { DeduplicationSetsComponent } from './sets/deduplication-sets.component';
 
 const MODULES = [
   CommonModule,
@@ -22,16 +21,15 @@ const MODULES = [
   CoreModule.forRoot(),
   StoreModule.forFeature('deduplication', deduplicationReducers, storeModuleConfig as StoreConfig<DeduplicationState, Action>),
   EffectsModule.forFeature(deduplicationEffects),
-  NgbAccordionModule,
+  // NgbAccordionModule,
 ];
 
 const COMPONENTS = [
   DeduplicationComponent,
   DeduplicationSignaturesComponent,
-  DeduplicationSetsComponent,
 ];
 
-const DIRECTIVES = [ ];
+const DIRECTIVES = [];
 
 const ENTRY_COMPONENTS = [];
 

@@ -31,9 +31,11 @@ export class DeduplicationSignaturesEffects {
     withLatestFrom(this.store$),
     switchMap(([action, currentState]: [RetrieveAllSignaturesAction, any]) => {
       const currentPage = (currentState.deduplication as DeduplicationState).signatures.currentPage + 1;
-      return this.deduplicationSignaturesService.getSignatures(action.payload.elementsPerPage, currentPage).pipe(
+      debugger
+      return this.deduplicationSignaturesService.getSignatures(action.payload.elementsPerPage, currentPage)
+      .pipe(
         map((signatures: PaginatedList<SignatureObject>) =>
-          new AddSignaturesAction(signatures.page, signatures.totalPages, signatures.currentPage, signatures.totalElements)
+           new AddSignaturesAction(signatures.page, signatures.totalPages, signatures.currentPage, signatures.totalElements)
         ),
         catchError((error: Error) => {
           if (error) {

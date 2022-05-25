@@ -21,7 +21,7 @@ describe('deduplicationSignatureReducer test suite', () => {
       processing: false,
       loaded: false,
       totalPages: 0,
-      currentPage: -1,
+      currentPage: 0,
       totalElements: 0
     };
   });

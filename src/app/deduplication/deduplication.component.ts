@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { take, map } from 'rxjs/operators';
 import { Observable, of, combineLatest } from 'rxjs';
 import { DeduplicationStateService } from './deduplication-state.service';
 import { SignatureObject } from '../core/deduplication/models/signature.model';
+import { AddSignaturesAction } from './signatures/deduplication-signatures.actions';
 
 /**
  * Component to display the deduplication signatures page.
@@ -100,24 +101,40 @@ export class DeduplicationComponent implements OnInit {
    *    'true' if there are more pages to load, 'false' otherwise.
    */
   public showMoreButton(): Observable<boolean> {
-    return combineLatest([ this.totalPages$, this.currentPage$, this.totalElements$ ]).pipe(
-      map(([totalPages, currentPage, totalElements]) => {
-        let output: boolean;
-        if (totalPages < 2 || totalPages === currentPage + 1) {
-          output = false;
-        } else {
-          output = true;
-        }
-        const totalShowElements = (currentPage + 1) * this.elementsPerPage;
-        if (totalShowElements > totalElements) {
+    return combineLatest([this.totalElements$, this.signatures$]).pipe(
+      map(([totalElements, signatures]) => {
+
+        if (this.elementsPerPage > totalElements) {
           this.totalRemainingElements = 0;
         } else {
-          this.totalRemainingElements = totalElements - totalShowElements;
+          const remainingElements = totalElements - signatures.length;
+          this.totalRemainingElements = remainingElements > 0 ? remainingElements : 0;
         }
-        return output;
+
+        return this.totalRemainingElements > 0;
       })
     );
   }
+
+  // public showMoreButton(): Observable<boolean> {
+  //   return combineLatest([ this.totalPages$, this.currentPage$, this.totalElements$ ]).pipe(
+  //     map(([totalPages, currentPage, totalElements]) => {
+  //       let output: boolean;
+  //       if (totalPages < 2 || totalPages === currentPage + 1) {
+  //         output = false;
+  //       } else {
+  //         output = true;
+  //       }
+  //       const totalShowElements = (currentPage + 1) * this.elementsPerPage;
+  //       if (totalShowElements > totalElements) {
+  //         this.totalRemainingElements = 0;
+  //       } else {
+  //         this.totalRemainingElements = totalElements - totalShowElements;
+  //       }
+  //       return output;
+  //     })
+  //   );
+  // }
 
   /**
    * Retrieve more deduplication signatures from the server.

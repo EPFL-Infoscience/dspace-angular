@@ -24,7 +24,7 @@ const deduplicationSignatureInitialState: DeduplicationSignatureState = {
   processing: false,
   loaded: false,
   totalPages: 0,
-  currentPage: -1,
+  currentPage: 0,
   totalElements: 0
 };
 
@@ -40,6 +40,7 @@ const deduplicationSignatureInitialState: DeduplicationSignatureState = {
  */
 export function deduplicationSignatureReducer(state = deduplicationSignatureInitialState, action: DeduplicationSignaturesActions): DeduplicationSignatureState {
   switch (action.type) {
+
     case DeduplicationSignaturesActionTypes.RETRIEVE_ALL_SIGNATURES: {
       return Object.assign({}, state, {
         processing: true

@@ -14,13 +14,26 @@ import { I18nBreadcrumbResolver } from '../../core/breadcrumbs/i18n-breadcrumb.r
         canActivate: [AuthenticatedGuard],
         path: '',
         component: AdminDeduplicationPageComponent,
-        pathMatch: 'full',
+        // pathMatch: 'full',
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         data: {
           title: 'deduplication.page.title',
           breadcrumbKey: 'deduplication',
           showBreadcrumbsFluid: false
-        }
+        },
+        // children:[
+        //   {
+        //     path: 'set/:id',
+        //     pathMatch: 'full',
+        //     component: DeduplicationSetsComponent,
+        //     resolve: { breadcrumb: I18nBreadcrumbResolver },
+        //     data: {
+        //       title: 'sets',
+        //       breadcrumbKey: 'Sets',
+        //       showBreadcrumbsFluid: false
+        //     },
+        //   }
+        // ]
       },
       {
         canActivate: [AuthenticatedGuard],
