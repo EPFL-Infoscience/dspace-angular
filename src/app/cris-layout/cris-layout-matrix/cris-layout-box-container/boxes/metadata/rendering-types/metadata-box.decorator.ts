@@ -16,7 +16,8 @@ export enum FieldRenderingType {
   ORCID = 'ORCID',
   TAG = 'TAG',
   VALUEPAIR = 'VALUEPAIR',
-  HTML = 'HTML'
+  HTML = 'HTML',
+  MAP = 'MAP',
 }
 
 const fieldType = new Map();
