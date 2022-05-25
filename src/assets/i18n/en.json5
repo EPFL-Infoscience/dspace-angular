@@ -6162,4 +6162,5 @@
 
   "cris-layout.rendering.collapse" : "collapse",
 
+  "map.coordinates-invalid": "Coordinates are not valid",
 }
