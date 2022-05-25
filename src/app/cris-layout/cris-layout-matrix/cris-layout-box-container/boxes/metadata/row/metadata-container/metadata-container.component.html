@@ -14,16 +14,25 @@
         </ng-container>
       </ng-container>
       <!-- Show More/collapse button -->
-      <div [class.mx-3]="field.valuesInline">
-        <a (click)="setData('fillAllData')" id="a-more-icon"  href="javascript:void(0);" *ngIf="componentsToBeRenderedMap.size != lastLimitedDataToBeRenderedMap.size + firstLimitedDataToBeRenderedMap.size && isConfigured"><i class="fas fa-chevron-down"></i></a>
-        <a (click)="setData('fillAllData')" id="a-more-label"  href="javascript:void(0);" *ngIf="componentsToBeRenderedMap.size != lastLimitedDataToBeRenderedMap.size + firstLimitedDataToBeRenderedMap.size && isConfigured" [ngbTooltip]=" 'cris-layout.rendering.more.tooltip' | translate ">
-          {{ (lastLimit === 0 ? "cris-layout.rendering.more" : "cris-layout.rendering.more.withlast") | translate}}
-        </a>
-
-        <a (click)="setData('getComputedData')" id="a-collapse-icon"  href="javascript:void(0);" *ngIf="componentsToBeRenderedMap.size == lastLimitedDataToBeRenderedMap.size + firstLimitedDataToBeRenderedMap.size && isConfigured"><i class="fas fa-chevron-up"></i></a>
-        <a (click)="setData('getComputedData')" id="a-collapse-label"  href="javascript:void(0);" *ngIf="componentsToBeRenderedMap.size == lastLimitedDataToBeRenderedMap.size + firstLimitedDataToBeRenderedMap.size && isConfigured" [ngbTooltip]=" 'cris-layout.rendering.collapse' | translate ">
-          {{"cris-layout.rendering.collapse" | translate}}
-        </a>
+      <div *ngIf="isConfigured" [class.mx-3]="field.valuesInline">
+        <ng-container *ngIf="componentsToBeRenderedMap.size != lastLimitedDataToBeRenderedMap.size + firstLimitedDataToBeRenderedMap.size">
+          <a (click)="setData('fillAllData')" id="a-more-icon" href="javascript:void(0);">
+            <i class="fas" [ngClass]="field.valuesInline ? 'fa-chevron-right' : 'fa-chevron-down'"></i>
+          </a>
+          <a (click)="setData('fillAllData')" id="a-more-label" href="javascript:void(0);"
+             [ngbTooltip]=" 'cris-layout.rendering.more.tooltip' | translate ">
+            {{ (lastLimit === 0 ? "cris-layout.rendering.more" : "cris-layout.rendering.more.withlast") | translate}}
+          </a>
+        </ng-container>
+        <ng-container *ngIf="componentsToBeRenderedMap.size == lastLimitedDataToBeRenderedMap.size + firstLimitedDataToBeRenderedMap.size">
+          <a (click)="setData('getComputedData')" id="a-collapse-icon" href="javascript:void(0);">
+            <i class="fas" [ngClass]="field.valuesInline ? 'fa-chevron-left' : 'fa-chevron-up'"></i>
+          </a>
+          <a (click)="setData('getComputedData')" id="a-collapse-label" href="javascript:void(0);"
+             [ngbTooltip]=" 'cris-layout.rendering.collapse' | translate ">
+            {{"cris-layout.rendering.collapse" | translate}}
+          </a>
+        </ng-container>
       </div>
       <!-- Show More/collapse link button END -->
       <ng-container *ngFor="let index of lastLimitedDataToBeRenderedMap.keys(); let last = last;">
