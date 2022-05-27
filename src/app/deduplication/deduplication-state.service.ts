@@ -9,10 +9,12 @@ import {
   getDeduplicationSignaturesTotalPagesSelector,
   getDeduplicationSignaturesCurrentPageSelector,
   getDeduplicationSignaturesTotalsSelector,
+  setsPerSignatureObjectSelector,
 } from './selectors';
 import { SignatureObject } from '../core/deduplication/models/signature.model';
 import { DeduplicationState } from './deduplication.reducer';
 import { RetrieveAllSignaturesAction } from './signatures/deduplication-signatures.actions';
+import { SetObject } from '../core/deduplication/models/set.model';
 
 /**
  * The service handling the Deduplication State.
@@ -107,5 +109,9 @@ export class DeduplicationStateService {
    */
   public dispatchRetrieveDeduplicationSignatures(elementsPerPage: number): void {
     this.store.dispatch(new RetrieveAllSignaturesAction(elementsPerPage));
+  }
+
+  public getDeduplicationSetsPerSignature() {
+   return this.store.pipe(select(setsPerSignatureObjectSelector));
   }
 }

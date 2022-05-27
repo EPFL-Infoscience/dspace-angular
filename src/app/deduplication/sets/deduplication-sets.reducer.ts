@@ -31,7 +31,9 @@ const deduplicationObjectInitialState: DeduplicationSetState = {
  *    the new state
  */
 export function deduplicationSetReducer(state = deduplicationObjectInitialState, action: DeduplicationSetsActions): DeduplicationSetState {
+  console.log(action.type,'action.type');
   switch (action.type) {
+
     /*case DeduplicationObjectsActionTypes.RETRIEVE_ALL_SIGNATURES: {
       return Object.assign({}, deduplicationObjectInitialState, {
         processing: true

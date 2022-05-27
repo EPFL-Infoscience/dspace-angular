@@ -3,6 +3,8 @@ import { subStateSelector } from '../shared/selector.util';
 import { DeduplicationState, deduplicationSelector } from './deduplication.reducer';
 import { SignatureObject } from '../core/deduplication/models/signature.model';
 import { DeduplicationSignatureState } from './signatures/deduplication-signatures.reducer';
+import { DeduplicationSetState } from './sets/deduplication-sets.reducer';
+import { SetObject } from '../core/deduplication/models/set.model';
 
 /**
  * Returns the deduplication state.
@@ -74,3 +76,7 @@ export const getDeduplicationSignaturesCurrentPageSelector = createSelector(_get
 export const getDeduplicationSignaturesTotalsSelector = createSelector(_getDeduplicationState,
   (state: DeduplicationState) => state.signatures.totalElements
 );
+
+export function setsPerSignatureObjectSelector(): MemoizedSelector<DeduplicationState, DeduplicationSetState> {
+  return subStateSelector<DeduplicationState, DeduplicationSetState>(deduplicationSelector, 'sets');
+}
