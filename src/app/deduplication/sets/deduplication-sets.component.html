@@ -1,14 +1,27 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <h2 id="header" class="border-bottom pb-2">Records duplicate Identifiers (DOI, PMID, ARXIV, SCOPUS, ISI)</h2>
-      <p>The page shows potentially duplicate groups by signature. You can select the items to compare or reject. The system records the action "No duplicate" so the match is not show in the future.</p>
-      <ngb-accordion [destroyOnHide]="false" [closeOthers]="true" activeIds="panel-1">
+      <h2 id="header" class="border-bottom pb-2">
+        Records duplicate Identifiers (DOI, PMID, ARXIV, SCOPUS, ISI)
+      </h2>
+      <p>
+        The page shows potentially duplicate groups by signature. You can select
+        the items to compare or reject. The system records the action "No
+        duplicate" so the match is not show in the future.
+      </p>
+      <ngb-accordion
+        [destroyOnHide]="false"
+        [closeOthers]="true"
+        activeIds="panel-1"
+      >
         <ngb-panel id="panel-1">
           <ng-template ngbPanelHeader let-opened="opened">
             <div class="row">
               <div class="col-md-10 mt-1">
-                <h5 class="m-0">d07b50b1cab8d9ff54260784231b8b2a <span class="badge badge-primary">7</span></h5>
+                <h5 class="m-0">
+                  d07b50b1cab8d9ff54260784231b8b2a
+                  <span class="badge badge-primary">7</span>
+                </h5>
               </div>
               <div class="col-md-2 text-right mt-1">
                 <button ngbPanelToggle class="btn btn-outline-info btn-sm">
@@ -18,16 +31,22 @@
             </div>
             <div class="row">
               <div class="col-12">
-                <hr>
+                <hr />
               </div>
             </div>
             <div class="row">
               <div class="col-sm-4 col-md-3 col-lg-2">
-                <span class="badge badge-secondary small">Match other criteria</span>
+                <span class="badge badge-secondary small"
+                  >Match other criteria</span
+                >
               </div>
               <div class="col-sm-8 col-md-9 col-lg-10">
-                <span class="badge badge-info small">d07b50b1cab8d9ff54260784231b8b2a</span>
-                <span class="badge badge-info small">d07b50b1cab8d9ff54260784231b8b2a</span>
+                <span class="badge badge-info small"
+                  >d07b50b1cab8d9ff54260784231b8b2a</span
+                >
+                <span class="badge badge-info small"
+                  >d07b50b1cab8d9ff54260784231b8b2a</span
+                >
               </div>
             </div>
           </ng-template>
@@ -39,13 +58,23 @@
             </div>
             <div class="row">
               <div class="col-md-4">
-                <button class="btn btn-outline-secondary btn-sm mt-1"><i class="fa fa-check-square"></i> Select all</button>
-                <button class="btn btn-outline-secondary btn-sm mt-1"><i class="fa fa-square"></i> Deselect all</button>
+                <button class="btn btn-outline-secondary btn-sm mt-1">
+                  <i class="fa fa-check-square"></i> Select all
+                </button>
+                <button class="btn btn-outline-secondary btn-sm mt-1">
+                  <i class="fa fa-square"></i> Deselect all
+                </button>
               </div>
               <div class="col-md-8 text-right">
-                <button class="btn btn-primary btn-sm mt-1"><i class="fa fa-clone"></i> Compare</button>
-                <button class="btn btn-outline-secondary btn-sm mt-1"><i class="fa fa-times"></i> No duplicates</button>
-                <button class="btn btn-outline-danger btn-sm mt-1"><i class="fa fa-trash-alt"></i> Delete selected</button>
+                <button class="btn btn-primary btn-sm mt-1">
+                  <i class="fa fa-clone"></i> Compare
+                </button>
+                <button class="btn btn-outline-secondary btn-sm mt-1">
+                  <i class="fa fa-times"></i> No duplicates
+                </button>
+                <button class="btn btn-outline-danger btn-sm mt-1">
+                  <i class="fa fa-trash-alt"></i> Delete selected
+                </button>
               </div>
             </div>
             <div class="row mt-2">
@@ -56,8 +85,15 @@
                       <tr class="border border-warning border-thick">
                         <td>
                           <div class="custom-control custom-checkbox ml-0">
-                            <input type="checkbox" class="custom-control-input" id="customCheck1">
-                            <label class="custom-control-label" for="customCheck1"></label>
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              id="customCheck1"
+                            />
+                            <label
+                              class="custom-control-label"
+                              for="customCheck1"
+                            ></label>
                           </div>
                         </td>
                         <td>
@@ -69,7 +105,13 @@
                               </tr>
                               <tr>
                                 <th>Internal identifier:</th>
-                                <td><button class="btn btn-outline-secondary btn-sm">32630</button></td>
+                                <td>
+                                  <button
+                                    class="btn btn-outline-secondary btn-sm"
+                                  >
+                                    32630
+                                  </button>
+                                </td>
                               </tr>
                               <tr>
                                 <th>Last modified:</th>
@@ -77,7 +119,11 @@
                               </tr>
                               <tr>
                                 <th>Status:</th>
-                                <td><span class="badge badge-secondary">Workspace</span></td>
+                                <td>
+                                  <span class="badge badge-secondary"
+                                    >Workspace</span
+                                  >
+                                </td>
                               </tr>
                             </tbody>
                           </table>
@@ -87,12 +133,16 @@
                             <tbody>
                               <tr>
                                 <th>Title:</th>
-                                <td>The VMC survey - XIV. First results on the look-back time star formation rate tomography of the Small Magellanic Cloud</td>
+                                <td>
+                                  The VMC survey - XIV. First results on the
+                                  look-back time star formation rate tomography
+                                  of the Small Magellanic Cloud
+                                </td>
                               </tr>
                               <tr>
                                 <th>Author:</th>
                                 <td>
-                                  RUBELE, STEFANO<br>
+                                  RUBELE, STEFANO<br />
                                   GIRARDI, Leo Alberto
                                 </td>
                               </tr>
@@ -108,17 +158,32 @@
                           </table>
                         </td>
                         <td>
-                          <div class="btn-group btn-group-sm" role="group" aria-label="btn-grp-01-01">
-                            <button class="btn btn-danger" title="Delete"><i class="fa fa-trash-alt"></i></button>
-                            <button class="btn btn-warning" title="Keep this"><i class="fa fa-star"></i></button>
+                          <div
+                            class="btn-group btn-group-sm"
+                            role="group"
+                            aria-label="btn-grp-01-01"
+                          >
+                            <button class="btn btn-danger" title="Delete">
+                              <i class="fa fa-trash-alt"></i>
+                            </button>
+                            <button class="btn btn-warning" title="Keep this">
+                              <i class="fa fa-star"></i>
+                            </button>
                           </div>
                         </td>
                       </tr>
                       <tr>
                         <td>
                           <div class="custom-control custom-checkbox ml-0">
-                            <input type="checkbox" class="custom-control-input" id="customCheck2">
-                            <label class="custom-control-label" for="customCheck2"></label>
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              id="customCheck2"
+                            />
+                            <label
+                              class="custom-control-label"
+                              for="customCheck2"
+                            ></label>
                           </div>
                         </td>
                         <td>
@@ -130,7 +195,13 @@
                               </tr>
                               <tr>
                                 <th>Internal identifier:</th>
-                                <td><button class="btn btn-outline-secondary btn-sm">32634</button></td>
+                                <td>
+                                  <button
+                                    class="btn btn-outline-secondary btn-sm"
+                                  >
+                                    32634
+                                  </button>
+                                </td>
                               </tr>
                               <tr>
                                 <th>Last modified:</th>
@@ -138,7 +209,11 @@
                               </tr>
                               <tr>
                                 <th>Status:</th>
-                                <td><span class="badge badge-secondary">Workspace</span></td>
+                                <td>
+                                  <span class="badge badge-secondary"
+                                    >Workspace</span
+                                  >
+                                </td>
                               </tr>
                             </tbody>
                           </table>
@@ -148,12 +223,16 @@
                             <tbody>
                               <tr>
                                 <th>Title:</th>
-                                <td>The VMC survey - XIV. First results on the look-back time star formation rate tomography of the Small Magellanic Cloud</td>
+                                <td>
+                                  The VMC survey - XIV. First results on the
+                                  look-back time star formation rate tomography
+                                  of the Small Magellanic Cloud
+                                </td>
                               </tr>
                               <tr>
                                 <th>Author:</th>
                                 <td>
-                                  RUBELE, STEFANO<br>
+                                  RUBELE, STEFANO<br />
                                   GIRARDI, Leo Alberto
                                 </td>
                               </tr>
@@ -169,17 +248,35 @@
                           </table>
                         </td>
                         <td>
-                          <div class="btn-group btn-group-sm" role="group" aria-label="btn-grp-01-02">
-                            <button class="btn btn-danger" title="Delete"><i class="fa fa-trash-alt"></i></button>
-                            <button class="btn btn-outline-warning" title="Keep this"><i class="fa fa-star"></i></button>
+                          <div
+                            class="btn-group btn-group-sm"
+                            role="group"
+                            aria-label="btn-grp-01-02"
+                          >
+                            <button class="btn btn-danger" title="Delete">
+                              <i class="fa fa-trash-alt"></i>
+                            </button>
+                            <button
+                              class="btn btn-outline-warning"
+                              title="Keep this"
+                            >
+                              <i class="fa fa-star"></i>
+                            </button>
                           </div>
                         </td>
                       </tr>
                       <tr>
                         <td>
                           <div class="custom-control custom-checkbox ml-0">
-                            <input type="checkbox" class="custom-control-input" id="customCheck3">
-                            <label class="custom-control-label" for="customCheck3"></label>
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              id="customCheck3"
+                            />
+                            <label
+                              class="custom-control-label"
+                              for="customCheck3"
+                            ></label>
                           </div>
                         </td>
                         <td>
@@ -191,7 +288,13 @@
                               </tr>
                               <tr>
                                 <th>Internal identifier:</th>
-                                <td><button class="btn btn-outline-secondary btn-sm">32634</button></td>
+                                <td>
+                                  <button
+                                    class="btn btn-outline-secondary btn-sm"
+                                  >
+                                    32634
+                                  </button>
+                                </td>
                               </tr>
                               <tr>
                                 <th>Last modified:</th>
@@ -199,7 +302,11 @@
                               </tr>
                               <tr>
                                 <th>Status:</th>
-                                <td><span class="badge badge-secondary">Workspace</span></td>
+                                <td>
+                                  <span class="badge badge-secondary"
+                                    >Workspace</span
+                                  >
+                                </td>
                               </tr>
                             </tbody>
                           </table>
@@ -209,12 +316,16 @@
                             <tbody>
                               <tr>
                                 <th>Title:</th>
-                                <td>The VMC survey - XIV. First results on the look-back time star formation rate tomography of the Small Magellanic Cloud</td>
+                                <td>
+                                  The VMC survey - XIV. First results on the
+                                  look-back time star formation rate tomography
+                                  of the Small Magellanic Cloud
+                                </td>
                               </tr>
                               <tr>
                                 <th>Author:</th>
                                 <td>
-                                  RUBELE, STEFANO<br>
+                                  RUBELE, STEFANO<br />
                                   GIRARDI, Leo Alberto
                                 </td>
                               </tr>
@@ -230,9 +341,20 @@
                           </table>
                         </td>
                         <td>
-                          <div class="btn-group btn-group-sm" role="group" aria-label="btn-grp-01-03">
-                            <button class="btn btn-danger" title="Delete"><i class="fa fa-trash-alt"></i></button>
-                            <button class="btn btn-outline-warning" title="Keep this"><i class="fa fa-star"></i></button>
+                          <div
+                            class="btn-group btn-group-sm"
+                            role="group"
+                            aria-label="btn-grp-01-03"
+                          >
+                            <button class="btn btn-danger" title="Delete">
+                              <i class="fa fa-trash-alt"></i>
+                            </button>
+                            <button
+                              class="btn btn-outline-warning"
+                              title="Keep this"
+                            >
+                              <i class="fa fa-star"></i>
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -247,7 +369,10 @@
           <ng-template ngbPanelHeader let-opened="opened">
             <div class="row">
               <div class="col-md-10 mt-1">
-                <h5 class="m-0">ec473787a4086731a18b7dcee7d964b7 <span class="badge badge-primary">4</span></h5>
+                <h5 class="m-0">
+                  ec473787a4086731a18b7dcee7d964b7
+                  <span class="badge badge-primary">4</span>
+                </h5>
               </div>
               <div class="col-md-2 text-right mt-1">
                 <button ngbPanelToggle class="btn btn-outline-info btn-sm">
@@ -264,13 +389,23 @@
             </div>
             <div class="row">
               <div class="col-md-4">
-                <button class="btn btn-outline-secondary btn-sm mt-1"><i class="fa fa-check-square"></i> Select all</button>
-                <button class="btn btn-outline-secondary btn-sm mt-1"><i class="fa fa-square"></i> Deselect all</button>
+                <button class="btn btn-outline-secondary btn-sm mt-1">
+                  <i class="fa fa-check-square"></i> Select all
+                </button>
+                <button class="btn btn-outline-secondary btn-sm mt-1">
+                  <i class="fa fa-square"></i> Deselect all
+                </button>
               </div>
               <div class="col-md-8 text-right">
-                <button class="btn btn-primary btn-sm mt-1"><i class="fa fa-clone"></i> Compare</button>
-                <button class="btn btn-outline-secondary btn-sm mt-1"><i class="fa fa-times"></i> No duplicates</button>
-                <button class="btn btn-outline-danger btn-sm mt-1"><i class="fa fa-trash-alt"></i> Delete selected</button>
+                <button class="btn btn-primary btn-sm mt-1">
+                  <i class="fa fa-clone"></i> Compare
+                </button>
+                <button class="btn btn-outline-secondary btn-sm mt-1">
+                  <i class="fa fa-times"></i> No duplicates
+                </button>
+                <button class="btn btn-outline-danger btn-sm mt-1">
+                  <i class="fa fa-trash-alt"></i> Delete selected
+                </button>
               </div>
             </div>
             <div class="row mt-2">
@@ -281,8 +416,15 @@
                       <tr class="border border-success border-thick">
                         <td>
                           <div class="custom-control custom-checkbox ml-0">
-                            <input type="checkbox" class="custom-control-input" id="customCheck4">
-                            <label class="custom-control-label" for="customCheck4"></label>
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              id="customCheck4"
+                            />
+                            <label
+                              class="custom-control-label"
+                              for="customCheck4"
+                            ></label>
                           </div>
                         </td>
                         <td>
@@ -294,7 +436,13 @@
                               </tr>
                               <tr>
                                 <th>Internal identifier:</th>
-                                <td><button class="btn btn-outline-secondary btn-sm">32630</button></td>
+                                <td>
+                                  <button
+                                    class="btn btn-outline-secondary btn-sm"
+                                  >
+                                    32630
+                                  </button>
+                                </td>
                               </tr>
                               <tr>
                                 <th>Last modified:</th>
@@ -302,7 +450,11 @@
                               </tr>
                               <tr>
                                 <th>Status:</th>
-                                <td><span class="badge badge-secondary">Workspace</span></td>
+                                <td>
+                                  <span class="badge badge-secondary"
+                                    >Workspace</span
+                                  >
+                                </td>
                               </tr>
                             </tbody>
                           </table>
@@ -312,12 +464,16 @@
                             <tbody>
                               <tr>
                                 <th>Title:</th>
-                                <td>The VMC survey - XIV. First results on the look-back time star formation rate tomography of the Small Magellanic Cloud</td>
+                                <td>
+                                  The VMC survey - XIV. First results on the
+                                  look-back time star formation rate tomography
+                                  of the Small Magellanic Cloud
+                                </td>
                               </tr>
                               <tr>
                                 <th>Author:</th>
                                 <td>
-                                  RUBELE, STEFANO<br>
+                                  RUBELE, STEFANO<br />
                                   GIRARDI, Leo Alberto
                                 </td>
                               </tr>
@@ -333,17 +489,32 @@
                           </table>
                         </td>
                         <td>
-                          <div class="btn-group btn-group-sm" role="group" aria-label="btn-grp-02-01">
-                            <button class="btn btn-danger" title="Delete"><i class="fa fa-trash-alt"></i></button>
-                            <button class="btn btn-success" title="Keep this"><i class="fa fa-star"></i></button>
+                          <div
+                            class="btn-group btn-group-sm"
+                            role="group"
+                            aria-label="btn-grp-02-01"
+                          >
+                            <button class="btn btn-danger" title="Delete">
+                              <i class="fa fa-trash-alt"></i>
+                            </button>
+                            <button class="btn btn-success" title="Keep this">
+                              <i class="fa fa-star"></i>
+                            </button>
                           </div>
                         </td>
                       </tr>
                       <tr>
                         <td>
                           <div class="custom-control custom-checkbox ml-0">
-                            <input type="checkbox" class="custom-control-input" id="customCheck5">
-                            <label class="custom-control-label" for="customCheck5"></label>
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              id="customCheck5"
+                            />
+                            <label
+                              class="custom-control-label"
+                              for="customCheck5"
+                            ></label>
                           </div>
                         </td>
                         <td>
@@ -355,7 +526,13 @@
                               </tr>
                               <tr>
                                 <th>Internal identifier:</th>
-                                <td><button class="btn btn-outline-secondary btn-sm">32634</button></td>
+                                <td>
+                                  <button
+                                    class="btn btn-outline-secondary btn-sm"
+                                  >
+                                    32634
+                                  </button>
+                                </td>
                               </tr>
                               <tr>
                                 <th>Last modified:</th>
@@ -363,7 +540,11 @@
                               </tr>
                               <tr>
                                 <th>Status:</th>
-                                <td><span class="badge badge-secondary">Workspace</span></td>
+                                <td>
+                                  <span class="badge badge-secondary"
+                                    >Workspace</span
+                                  >
+                                </td>
                               </tr>
                             </tbody>
                           </table>
@@ -373,12 +554,16 @@
                             <tbody>
                               <tr>
                                 <th>Title:</th>
-                                <td>The VMC survey - XIV. First results on the look-back time star formation rate tomography of the Small Magellanic Cloud</td>
+                                <td>
+                                  The VMC survey - XIV. First results on the
+                                  look-back time star formation rate tomography
+                                  of the Small Magellanic Cloud
+                                </td>
                               </tr>
                               <tr>
                                 <th>Author:</th>
                                 <td>
-                                  RUBELE, STEFANO<br>
+                                  RUBELE, STEFANO<br />
                                   GIRARDI, Leo Alberto
                                 </td>
                               </tr>
@@ -394,17 +579,35 @@
                           </table>
                         </td>
                         <td>
-                          <div class="btn-group btn-group-sm" role="group" aria-label="btn-grp-02-02">
-                            <button class="btn btn-danger" title="Delete"><i class="fa fa-trash-alt"></i></button>
-                            <button class="btn btn-outline-success" title="Keep this"><i class="fa fa-star"></i></button>
+                          <div
+                            class="btn-group btn-group-sm"
+                            role="group"
+                            aria-label="btn-grp-02-02"
+                          >
+                            <button class="btn btn-danger" title="Delete">
+                              <i class="fa fa-trash-alt"></i>
+                            </button>
+                            <button
+                              class="btn btn-outline-success"
+                              title="Keep this"
+                            >
+                              <i class="fa fa-star"></i>
+                            </button>
                           </div>
                         </td>
                       </tr>
                       <tr>
                         <td>
                           <div class="custom-control custom-checkbox ml-0">
-                            <input type="checkbox" class="custom-control-input" id="customCheck6">
-                            <label class="custom-control-label" for="customCheck6"></label>
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              id="customCheck6"
+                            />
+                            <label
+                              class="custom-control-label"
+                              for="customCheck6"
+                            ></label>
                           </div>
                         </td>
                         <td>
@@ -416,7 +619,13 @@
                               </tr>
                               <tr>
                                 <th>Internal identifier:</th>
-                                <td><button class="btn btn-outline-secondary btn-sm">32634</button></td>
+                                <td>
+                                  <button
+                                    class="btn btn-outline-secondary btn-sm"
+                                  >
+                                    32634
+                                  </button>
+                                </td>
                               </tr>
                               <tr>
                                 <th>Last modified:</th>
@@ -424,7 +633,11 @@
                               </tr>
                               <tr>
                                 <th>Status:</th>
-                                <td><span class="badge badge-secondary">Workspace</span></td>
+                                <td>
+                                  <span class="badge badge-secondary"
+                                    >Workspace</span
+                                  >
+                                </td>
                               </tr>
                             </tbody>
                           </table>
@@ -434,12 +647,16 @@
                             <tbody>
                               <tr>
                                 <th>Title:</th>
-                                <td>The VMC survey - XIV. First results on the look-back time star formation rate tomography of the Small Magellanic Cloud</td>
+                                <td>
+                                  The VMC survey - XIV. First results on the
+                                  look-back time star formation rate tomography
+                                  of the Small Magellanic Cloud
+                                </td>
                               </tr>
                               <tr>
                                 <th>Author:</th>
                                 <td>
-                                  RUBELE, STEFANO<br>
+                                  RUBELE, STEFANO<br />
                                   GIRARDI, Leo Alberto
                                 </td>
                               </tr>
@@ -455,9 +672,20 @@
                           </table>
                         </td>
                         <td>
-                          <div class="btn-group btn-group-sm" role="group" aria-label="btn-grp-02-03">
-                            <button class="btn btn-danger" title="Delete"><i class="fa fa-trash-alt"></i></button>
-                            <button class="btn btn-outline-success" title="Keep this"><i class="fa fa-star"></i></button>
+                          <div
+                            class="btn-group btn-group-sm"
+                            role="group"
+                            aria-label="btn-grp-02-03"
+                          >
+                            <button class="btn btn-danger" title="Delete">
+                              <i class="fa fa-trash-alt"></i>
+                            </button>
+                            <button
+                              class="btn btn-outline-success"
+                              title="Keep this"
+                            >
+                              <i class="fa fa-star"></i>
+                            </button>
                           </div>
                         </td>
                       </tr>

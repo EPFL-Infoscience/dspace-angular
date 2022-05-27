@@ -37,7 +37,7 @@ import { I18nBreadcrumbResolver } from '../../core/breadcrumbs/i18n-breadcrumb.r
       },
       {
         canActivate: [AuthenticatedGuard],
-        path: 'set/:id',
+        path: 'set/:id/:rule',
         component: DeduplicationSetsComponent,
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         data: {

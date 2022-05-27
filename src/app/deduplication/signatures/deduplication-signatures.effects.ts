@@ -31,7 +31,6 @@ export class DeduplicationSignaturesEffects {
     withLatestFrom(this.store$),
     switchMap(([action, currentState]: [RetrieveAllSignaturesAction, any]) => {
       const currentPage = (currentState.deduplication as DeduplicationState).signatures.currentPage + 1;
-      debugger
       return this.deduplicationSignaturesService.getSignatures(action.payload.elementsPerPage, currentPage)
       .pipe(
         map((signatures: PaginatedList<SignatureObject>) =>
