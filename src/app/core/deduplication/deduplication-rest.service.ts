@@ -21,6 +21,7 @@ import { SignatureObject } from './models/signature.model';
 import { SIGNATURE_OBJECT } from './models/signature-object.resource-type';
 import { FollowLinkConfig } from '../../shared/utils/follow-link-config.model';
 import { PaginatedList } from '../data/paginated-list.model';
+import { SetObject } from './models/set.model';
 
 /* tslint:disable:max-classes-per-file */
 
@@ -86,7 +87,7 @@ export class DeduplicationRestService {
     protected notificationsService: NotificationsService,
     protected http: HttpClient,
     protected comparator: DefaultChangeAnalyzer<SignatureObject>) {
-      this.dataService = new DataServiceImpl(requestService, rdbService, null, objectCache, halService, notificationsService, http, comparator);
+    this.dataService = new DataServiceImpl(requestService, rdbService, null, objectCache, halService, notificationsService, http, comparator);
   }
 
   /**
@@ -101,8 +102,8 @@ export class DeduplicationRestService {
    */
   public getSignatures(options: FindListOptions = {}, ...linksToFollow: FollowLinkConfig<SignatureObject>[]): Observable<RemoteData<PaginatedList<SignatureObject>>> {
     return this.dataService.getBrowseEndpoint(options).pipe(
-       take(1),
-       mergeMap((href: string) => this.dataService.findAllByHref(href, options, false, true, ...linksToFollow)),
+      take(1),
+      mergeMap((href: string) => this.dataService.findAllByHref(href, options, false, true, ...linksToFollow)),
     );
   }
 
@@ -120,6 +121,13 @@ export class DeduplicationRestService {
     return this.dataService.getBrowseEndpoint(options).pipe(
       take(1),
       mergeMap((href: string) => this.dataService.findByHref(href + '/' + id, false, true, ...linksToFollow))
-   );
+    );
+  }
+
+  public getSetsPerSignature(signatureId: string, options: FindListOptions = {}, ...linksToFollow: FollowLinkConfig<SignatureObject>[]): Observable<RemoteData<PaginatedList<SetObject>>> {
+    return this.dataService.getBrowseEndpoint(options).pipe(
+      take(1),
+      mergeMap((href: string) => this.dataService.findAllByHref(`${href}/${signatureId}`, options, false, true, ...linksToFollow)),
+    );
   }
 }
