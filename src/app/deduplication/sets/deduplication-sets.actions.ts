@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { SetObject } from 'src/app/core/deduplication/models/set.model';
 
 import { type } from '../../shared/ngrx/type';
 
@@ -12,6 +13,7 @@ import { type } from '../../shared/ngrx/type';
  */
 export const DeduplicationSetsActionTypes = {
   RETRIEVE_SETS_BY_SIGNATURE: type('dspace/core/deduplication/RETRIEVE_SETS_BY_SIGNATURE'),
+  ADD_SETS: type('dspace/core/deduplication/ADD_SETS'),
   RETRIEVE_SETS_BY_SIGNATURE_ERROR: type('dspace/core/deduplication/RETRIEVE_SETS_BY_SIGNATURE_ERROR'),
 };
 
@@ -22,6 +24,21 @@ export const DeduplicationSetsActionTypes = {
  */
 export class RetrieveSetsBySignatureAction implements Action {
   type = DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE;
+
+  payload: {
+    elementsPerPage: number;
+    signatureId: string;
+  };
+
+  /**
+   * Create a new RetrieveAllSignaturesAction.
+   *
+   * @param elementsPerPage
+   *    the number of signatures per page
+   */
+  constructor(elementsPerPage: number,signatureId: string) {
+    this.payload = { elementsPerPage , signatureId };
+  }
 }
 
 /**
@@ -31,7 +48,32 @@ export class RetrieveSetsBySignatureErrorAction implements Action {
   type = DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE_ERROR;
 }
 
+
+export class AddSetsAction implements Action {
+  type = DeduplicationSetsActionTypes.ADD_SETS ;
+  payload: {
+    sets: SetObject[];
+    totalPages: number;
+    currentPage: number;
+    totalElements: number;
+    signatureId: string;
+  };
+
+
+  constructor(sets: SetObject[], totalPages: number, currentPage: number, totalElements: number, signatureId: string) {
+    this.payload = {
+      sets,
+      totalPages,
+      currentPage,
+      totalElements,
+      signatureId
+    };
+  }
+}
+
+
 /* tslint:enable:max-classes-per-file */
+
 
 /**
  * Export a type alias of all actions in this action group
@@ -39,4 +81,5 @@ export class RetrieveSetsBySignatureErrorAction implements Action {
  */
 export type DeduplicationSetsActions
   = RetrieveSetsBySignatureAction
+  |AddSetsAction
   |RetrieveSetsBySignatureErrorAction;

@@ -9,12 +9,15 @@ import { SortOptions } from './../../core/cache/models/sort-options.model';
 import { Observable } from 'rxjs';
 import { getFirstCompletedRemoteData } from './../../core/shared/operators';
 import { map } from 'rxjs/operators';
+import { DeduplicationState } from '../deduplication.reducer';
+import { Store } from '@ngrx/store';
+import { RetrieveSetsBySignatureAction } from './deduplication-sets.actions';
 
 
 @Injectable()
-export class DeduplicationSignaturesService {
+export class DeduplicationSetsService {
 
-  constructor(private deduplicationRestService: DeduplicationRestService) {
+  constructor(private deduplicationRestService: DeduplicationRestService, private store: Store<DeduplicationState>) {
   }
 
   public getSets(elementsPerPage, currentPage, signatureId): Observable<PaginatedList<SetObject>> {
@@ -32,9 +35,13 @@ export class DeduplicationSignaturesService {
         if (rd.hasSucceeded) {
           return rd.payload;
         } else {
-          throw new Error('Can\'t retrieve signatures from deduplication REST service');
+          throw new Error('Can\'t retrieve sets per signature from REST service');
         }
       })
     );
+  }
+
+  public dispatchRetrieveDeduplicationSetsBySignature(signatureId: string, elementsPerPage:number): void {
+    this.store.dispatch(new RetrieveSetsBySignatureAction(elementsPerPage, signatureId));
   }
 }
