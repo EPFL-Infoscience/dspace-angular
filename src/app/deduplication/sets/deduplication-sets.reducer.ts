@@ -35,14 +35,7 @@ const deduplicationObjectInitialState: DeduplicationSetState = {
  *    the new state
  */
 export function deduplicationSetReducer(state = deduplicationObjectInitialState, action: DeduplicationSetsActions): DeduplicationSetState {
-  console.log(action.type,'action.type');
   switch (action.type) {
-
-    /*case DeduplicationObjectsActionTypes.RETRIEVE_ALL_SIGNATURES: {
-      return Object.assign({}, deduplicationObjectInitialState, {
-        processing: true
-      });
-    }*/
 
     case DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE: {
       return Object.assign({}, state, {
@@ -60,7 +53,7 @@ export function deduplicationSetReducer(state = deduplicationObjectInitialState,
 
     case DeduplicationSetsActionTypes.ADD_SETS: {
       return Object.assign({}, state, {
-        objects: state.sets.concat(action.payload.sets),
+        sets: state.sets.concat(action.payload.sets),
         processing: false,
         loaded: true,
         totalPages: action.payload.totalPages,

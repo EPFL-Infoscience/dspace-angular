@@ -1,3 +1,4 @@
+import { DeduplicationSetsComponent } from './sets/deduplication-sets.component';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -15,6 +16,7 @@ import { DeduplicationRestService } from '../core/deduplication/deduplication-re
 import { deduplicationEffects } from './deduplication.effects';
 import { DeduplicationSignaturesComponent } from './signatures/deduplication-signatures.component';
 import { DeduplicationSetsService } from './sets/deduplication-sets.service';
+import { DeduplicationSetsRestService } from '../core/deduplication/models/deduplication-sets-rest.service';
 
 const MODULES = [
   CommonModule,
@@ -27,7 +29,7 @@ const MODULES = [
 
 const COMPONENTS = [
   DeduplicationComponent,
-  DeduplicationSignaturesComponent,
+  DeduplicationSignaturesComponent
 ];
 
 const DIRECTIVES = [];
@@ -38,7 +40,8 @@ const PROVIDERS = [
   DeduplicationStateService,
   DeduplicationSignaturesService,
   DeduplicationRestService,
-  DeduplicationSetsService
+  DeduplicationSetsService,
+  DeduplicationSetsRestService
 ];
 
 @NgModule({

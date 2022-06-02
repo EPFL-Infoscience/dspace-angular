@@ -28,6 +28,7 @@ export class RetrieveSetsBySignatureAction implements Action {
   payload: {
     elementsPerPage: number;
     signatureId: string;
+    rule: string;
   };
 
   /**
@@ -36,8 +37,8 @@ export class RetrieveSetsBySignatureAction implements Action {
    * @param elementsPerPage
    *    the number of signatures per page
    */
-  constructor(elementsPerPage: number,signatureId: string) {
-    this.payload = { elementsPerPage , signatureId };
+  constructor(elementsPerPage: number,signatureId: string, rule: string) {
+    this.payload = { elementsPerPage , signatureId, rule};
   }
 }
 
@@ -57,16 +58,18 @@ export class AddSetsAction implements Action {
     currentPage: number;
     totalElements: number;
     signatureId: string;
+    rule: string;
   };
 
 
-  constructor(sets: SetObject[], totalPages: number, currentPage: number, totalElements: number, signatureId: string) {
+  constructor(sets: SetObject[], totalPages: number, currentPage: number, totalElements: number, signatureId: string, rule: string) {
     this.payload = {
       sets,
       totalPages,
       currentPage,
       totalElements,
-      signatureId
+      signatureId,
+      rule
     };
   }
 }

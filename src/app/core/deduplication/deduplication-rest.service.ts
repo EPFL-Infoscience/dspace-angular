@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
-import { mergeMap, take } from 'rxjs/operators';
+import { mergeMap, take, tap } from 'rxjs/operators';
 
 import { CoreState } from '../core.reducers';
 import { HALEndpointService } from '../shared/hal-endpoint.service';
@@ -121,13 +121,6 @@ export class DeduplicationRestService {
     return this.dataService.getBrowseEndpoint(options).pipe(
       take(1),
       mergeMap((href: string) => this.dataService.findByHref(href + '/' + id, false, true, ...linksToFollow))
-    );
-  }
-
-  public getSetsPerSignature(signatureId: string, options: FindListOptions = {}, ...linksToFollow: FollowLinkConfig<SignatureObject>[]): Observable<RemoteData<PaginatedList<SetObject>>> {
-    return this.dataService.getBrowseEndpoint(options).pipe(
-      take(1),
-      mergeMap((href: string) => this.dataService.findAllByHref(`${href}/${signatureId}`, options, false, true, ...linksToFollow)),
     );
   }
 }

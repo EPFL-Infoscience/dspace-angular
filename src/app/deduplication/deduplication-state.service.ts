@@ -15,6 +15,7 @@ import { SignatureObject } from '../core/deduplication/models/signature.model';
 import { DeduplicationState } from './deduplication.reducer';
 import { RetrieveAllSignaturesAction } from './signatures/deduplication-signatures.actions';
 import { SetObject } from '../core/deduplication/models/set.model';
+import { RetrieveSetsBySignatureAction } from './sets/deduplication-sets.actions';
 
 /**
  * The service handling the Deduplication State.
@@ -113,5 +114,10 @@ export class DeduplicationStateService {
 
   public getDeduplicationSetsPerSignature() {
    return this.store.pipe(select(setsPerSignatureObjectSelector));
+  }
+
+
+  public dispatchRetrieveDeduplicationSetsBySignature(signatureId: string, rule: string, elementsPerPage:number): void {
+    this.store.dispatch(new RetrieveSetsBySignatureAction(elementsPerPage, signatureId, rule));
   }
 }

@@ -21,9 +21,20 @@ export class SetObject implements CacheableObject {
    * The type of this ConfigObject
    */
   @excludeFromEquals
+  @autoserialize
   type: ResourceType = DEDUPLICATION_SET;
 
-  // TODO
+  @autoserialize
+  id: string;
+
+  @autoserialize
+  signatureId: string;
+
+  @autoserialize
+  setChecksum: string;
+
+  @autoserialize
+  otherSetIds: string[];
 
   /**
    * The links to all related resources returned by the rest api.
