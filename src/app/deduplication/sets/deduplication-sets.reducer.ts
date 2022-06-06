@@ -5,7 +5,7 @@ import {
 } from './deduplication-sets.actions';
 
 export interface DeduplicationSetState {
-  sets: SetObject[];
+  objects: SetObject[];
   processing: boolean;
   loaded: boolean;
   totalPages: number;
@@ -15,7 +15,7 @@ export interface DeduplicationSetState {
 }
 
 const deduplicationObjectInitialState: DeduplicationSetState = {
-  sets: [],
+  objects: [],
   processing: false,
   loaded: false,
   totalPages: 0,
@@ -53,7 +53,7 @@ export function deduplicationSetReducer(state = deduplicationObjectInitialState,
 
     case DeduplicationSetsActionTypes.ADD_SETS: {
       return Object.assign({}, state, {
-        sets: state.sets.concat(action.payload.sets),
+        objects: state.objects.concat(action.payload.objects),
         processing: false,
         loaded: true,
         totalPages: action.payload.totalPages,

@@ -203,6 +203,7 @@ import { WorkflowOwnerStatistics } from './statistics/models/workflow-owner-stat
 import { LoginStatisticsService } from './statistics/login-statistics.service';
 import { LoginStatistics } from './statistics/models/login-statistics.model';
 import { SignatureObject } from './deduplication/models/signature.model';
+import { SetObject } from './deduplication/models/set.model';
 
 /**
  * When not in production, endpoint responses can be mocked for testing purposes
@@ -427,7 +428,8 @@ export const models =
     WorkflowStepStatistics,
     WorkflowOwnerStatistics,
     LoginStatistics,
-    SignatureObject
+    SignatureObject,
+    SetObject
   ];
 
 @NgModule({

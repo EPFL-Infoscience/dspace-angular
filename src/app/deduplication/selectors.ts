@@ -80,3 +80,50 @@ export const getDeduplicationSignaturesTotalsSelector = createSelector(_getDedup
 export function setsPerSignatureObjectSelector(): MemoizedSelector<DeduplicationState, DeduplicationSetState> {
   return subStateSelector<DeduplicationState, DeduplicationSetState>(deduplicationSelector, 'sets');
 }
+
+export function setsObjectsSelector(): MemoizedSelector<DeduplicationState, SetObject[]> {
+  return subStateSelector<DeduplicationState, SetObject[]>(setsPerSignatureObjectSelector(), 'objects');
+}
+
+
+// sets
+
+export const isDeduplicationSetsLoadedSelector = createSelector(_getDeduplicationState,
+  (state: DeduplicationState) => state.sets.loaded
+);
+
+/**
+ * Returns true if the deduplication signatures are processing.
+ * @function isDeduplicationSignaturesProcessingSelector
+ * @return {boolean}
+ */
+export const isDeduplicationSetsProcessingSelector = createSelector(_getDeduplicationState,
+  (state: DeduplicationState) => state.sets.processing
+);
+
+/**
+ * Returns the total available pages of Deduplication signatures.
+ * @function getDeduplicationSignaturesTotalPagesSelector
+ * @return {number}
+ */
+export const getDeduplicationSetsTotalPagesSelector = createSelector(_getDeduplicationState,
+  (state: DeduplicationState) => state.sets.totalPages
+);
+
+/**
+ * Returns the current page of Deduplication signatures.
+ * @function getDeduplicationSignaturesCurrentPageSelector
+ * @return {number}
+ */
+export const getDeduplicationSetsCurrentPageSelector = createSelector(_getDeduplicationState,
+  (state: DeduplicationState) => state.sets.currentPage
+);
+
+/**
+ * Returns the total number of Deduplication signatures.
+ * @function getDeduplicationSignaturesTotalsSelector
+ * @return {number}
+ */
+export const getDeduplicationSetsTotalsSelector = createSelector(_getDeduplicationState,
+  (state: DeduplicationState) => state.sets.totalElements
+);

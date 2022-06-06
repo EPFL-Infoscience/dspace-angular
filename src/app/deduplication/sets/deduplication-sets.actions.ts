@@ -53,7 +53,7 @@ export class RetrieveSetsBySignatureErrorAction implements Action {
 export class AddSetsAction implements Action {
   type = DeduplicationSetsActionTypes.ADD_SETS ;
   payload: {
-    sets: SetObject[];
+    objects: SetObject[];
     totalPages: number;
     currentPage: number;
     totalElements: number;
@@ -62,9 +62,9 @@ export class AddSetsAction implements Action {
   };
 
 
-  constructor(sets: SetObject[], totalPages: number, currentPage: number, totalElements: number, signatureId: string, rule: string) {
+  constructor(objects: SetObject[], totalPages: number, currentPage: number, totalElements: number, signatureId: string, rule: string) {
     this.payload = {
-      sets,
+      objects,
       totalPages,
       currentPage,
       totalElements,
@@ -73,10 +73,6 @@ export class AddSetsAction implements Action {
     };
   }
 }
-
-
-/* tslint:enable:max-classes-per-file */
-
 
 /**
  * Export a type alias of all actions in this action group

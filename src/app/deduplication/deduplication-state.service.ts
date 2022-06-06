@@ -9,7 +9,12 @@ import {
   getDeduplicationSignaturesTotalPagesSelector,
   getDeduplicationSignaturesCurrentPageSelector,
   getDeduplicationSignaturesTotalsSelector,
-  setsPerSignatureObjectSelector,
+  setsObjectsSelector,
+  isDeduplicationSetsLoadedSelector,
+  isDeduplicationSetsProcessingSelector,
+  getDeduplicationSetsTotalPagesSelector,
+  getDeduplicationSetsCurrentPageSelector,
+  getDeduplicationSetsTotalsSelector,
 } from './selectors';
 import { SignatureObject } from '../core/deduplication/models/signature.model';
 import { DeduplicationState } from './deduplication.reducer';
@@ -112,12 +117,38 @@ export class DeduplicationStateService {
     this.store.dispatch(new RetrieveAllSignaturesAction(elementsPerPage));
   }
 
-  public getDeduplicationSetsPerSignature() {
-   return this.store.pipe(select(setsPerSignatureObjectSelector));
+  public getDeduplicationSetsPerSignature(): Observable<SetObject[]>  {
+   return this.store.pipe(select(setsObjectsSelector()));
   }
-
 
   public dispatchRetrieveDeduplicationSetsBySignature(signatureId: string, rule: string, elementsPerPage:number): void {
     this.store.dispatch(new RetrieveSetsBySignatureAction(elementsPerPage, signatureId, rule));
+  }
+
+  public isDeduplicationSetsLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(isDeduplicationSetsLoadedSelector),
+      map((loaded: boolean) => !loaded)
+    );
+  }
+
+  public isDeduplicationSetsLoaded(): Observable<boolean> {
+    return this.store.pipe(select(isDeduplicationSetsLoadedSelector));
+  }
+
+  public isDeduplicationSetsProcessing(): Observable<boolean> {
+    return this.store.pipe(select(isDeduplicationSetsProcessingSelector));
+  }
+
+  public getDeduplicationSetsTotalPages(): Observable<number> {
+    return this.store.pipe(select(getDeduplicationSetsTotalPagesSelector));
+  }
+
+  public getDeduplicationSetsCurrentPage(): Observable<number> {
+    return this.store.pipe(select(getDeduplicationSetsCurrentPageSelector));
+  }
+
+  public getDeduplicationSetsTotals(): Observable<number> {
+    return this.store.pipe(select(getDeduplicationSetsTotalsSelector));
   }
 }

@@ -21,6 +21,7 @@ import { dataService } from '../../cache/builders/build-decorators';
 import { DEDUPLICATION_SET } from './deduplication-set.resource-type';
 import { RemoteData } from '../../data/remote-data';
 import { isNil } from 'lodash';
+import { SetItemsObject } from './set-items.model';
 
 
 
@@ -90,4 +91,13 @@ export class DeduplicationSetsRestService {
       })
     );
   }
+
+  // public getItemsPerSet(options: FindListOptions = {}, setId: string, ...linksToFollow: FollowLinkConfig<SetItemsObject>[]): Observable<RemoteData<PaginatedList<SetItemsObject>>> {
+  //   return this.dataService.getBrowseEndpoint(options).pipe(
+  //     take(1),
+  //     mergeMap((href: string) => {
+  //       return this.dataService.findAllByHref(`${href}/sets/${setId}/items`, options, false, true, ...linksToFollow);
+  //     })
+  //   );
+  // }
 }

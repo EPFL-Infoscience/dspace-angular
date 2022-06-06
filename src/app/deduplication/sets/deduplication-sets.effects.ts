@@ -31,7 +31,6 @@ export class DeduplicationSetsEffects {
       return this.deduplicationSetsService.getSets(action.payload.elementsPerPage, currentPage, action.payload.signatureId, action.payload.rule)
         .pipe(
           map((sets: PaginatedList<SetObject>) => {
-            console.log(sets, 'sets');
             return new AddSetsAction(sets.page, sets.totalPages, sets.currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule);
           }),
           catchError((error: Error) => {
@@ -50,7 +49,7 @@ export class DeduplicationSetsEffects {
   @Effect({ dispatch: false }) retrieveAllSetsErrorAction$ = this.actions$.pipe(
     ofType(DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE_ERROR),
     tap(() => {
-      this.notificationsService.error(null, this.translate.get('get sets per signature error'));
+      this.notificationsService.error(null, this.translate.get('Cannot get sets'));
     })
   );
 

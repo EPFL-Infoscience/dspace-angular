@@ -1,5 +1,3 @@
-import { DeduplicationSetsComponent } from './sets/deduplication-sets.component';
-import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreModule, Action, StoreConfig } from '@ngrx/store';
