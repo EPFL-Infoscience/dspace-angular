@@ -1,3 +1,4 @@
+import { SetItemsObject } from './../core/deduplication/models/set-items.model';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { subStateSelector } from '../shared/selector.util';
 import { DeduplicationState, deduplicationSelector } from './deduplication.reducer';
@@ -127,3 +128,13 @@ export const getDeduplicationSetsCurrentPageSelector = createSelector(_getDedupl
 export const getDeduplicationSetsTotalsSelector = createSelector(_getDeduplicationState,
   (state: DeduplicationState) => state.sets.totalElements
 );
+
+// items
+
+export function setItemsObjectSelector(): MemoizedSelector<DeduplicationState, DeduplicationSetState> {
+  return subStateSelector<DeduplicationState, DeduplicationSetState>(deduplicationSelector, 'items');
+}
+
+export function setItemsObjectsSelector(): MemoizedSelector<DeduplicationState, SetItemsObject[]> {
+  return subStateSelector<DeduplicationState, SetItemsObject[]>(setItemsObjectSelector(), 'objects');
+}

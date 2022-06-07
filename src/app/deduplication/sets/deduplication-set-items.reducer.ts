@@ -4,26 +4,24 @@ import {
   DeduplicationSetsActions,
 } from './deduplication-sets.actions';
 
-export interface DeduplicationSetState {
+export interface DeduplicationSetItemsState {
   objects: SetObject[];
   processing: boolean;
   loaded: boolean;
   totalPages: number;
   currentPage: number;
   totalElements: number;
-  signatureId: string;
-  rule: string
+  setId: string;
 }
 
-const deduplicationObjectInitialState: DeduplicationSetState = {
+const deduplicationObjectInitialState: DeduplicationSetItemsState = {
   objects: [],
   processing: false,
   loaded: false,
   totalPages: 0,
   currentPage: 0,
   totalElements: 0,
-  signatureId: null,
-  rule: null
+  setId: null
 };
 
 /**
@@ -36,16 +34,16 @@ const deduplicationObjectInitialState: DeduplicationSetState = {
  * @return DeduplicationSetState
  *    the new state
  */
-export function deduplicationSetReducer(state = deduplicationObjectInitialState, action: DeduplicationSetsActions): DeduplicationSetState {
+export function deduplicationSetItemsReducer(state = deduplicationObjectInitialState, action: DeduplicationSetsActions): DeduplicationSetItemsState {
   switch (action.type) {
 
-    case DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE: {
+    case DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS: {
       return Object.assign({}, state, {
         processing: true
       });
     }
 
-    case DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE_ERROR: {
+    case DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS_ERROR: {
       return Object.assign({}, state, {
         processing: false,
         loaded: true,
@@ -53,16 +51,15 @@ export function deduplicationSetReducer(state = deduplicationObjectInitialState,
       });
     }
 
-    case DeduplicationSetsActionTypes.ADD_SETS: {
+    case DeduplicationSetsActionTypes.ADD_SET_ITEMS: {
       return Object.assign({}, state, {
-        objects: state.objects.concat(action.payload.objects),
+        objects: state.objects,
         processing: false,
         loaded: true,
-        totalPages: action.payload.totalPages,
-        currentPage: state.currentPage + 1,
-        totalElements: action.payload.totalElements,
-        signatureId: action.payload.signatureId,
-        rule: action.payload.rule,
+        // totalPages: action.payload.totalPages,
+        // currentPage: state.currentPage + 1,
+        // totalElements: action.payload.totalElements,
+        setId: action.payload.setId,
       });
     }
 

@@ -1,3 +1,4 @@
+import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
 import { SetObject } from 'src/app/core/deduplication/models/set.model';
 import { PaginatedList } from './../../core/data/paginated-list.model';
 import { NotificationsService } from 'src/app/shared/notifications/notifications.service';
@@ -11,6 +12,9 @@ import {
   RetrieveSetsBySignatureErrorAction,
   DeduplicationSetsActionTypes,
   AddSetsAction,
+  RetrieveSetItemsAction,
+  RetrieveSetItemsErrorAction,
+  AddSetItemsAction,
 } from './deduplication-sets.actions';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -50,6 +54,36 @@ export class DeduplicationSetsEffects {
     ofType(DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE_ERROR),
     tap(() => {
       this.notificationsService.error(null, this.translate.get('Cannot get sets'));
+    })
+  );
+
+  @Effect() retrieveAllSetItems$ = this.actions$.pipe(
+    ofType(DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS),
+    withLatestFrom(this.store$),
+    switchMap(([action, currentState]: [RetrieveSetItemsAction, any]) => {
+      // const currentPage = (currentState.deduplication as DeduplicationState).items.currentPage + 1;
+      return this.deduplicationSetsService.getSetItems(action.payload.setId)
+        .pipe(
+          map((items: PaginatedList<SetItemsObject>) => {
+            return new AddSetItemsAction(items.page, action.payload.setId);
+          }),
+          catchError((error: Error) => {
+            if (error) {
+              console.error(error.message);
+            }
+            return observableOf(new RetrieveSetItemsErrorAction());
+          })
+        );
+    })
+  );
+
+  /**
+* Show a notification on error.
+*/
+  @Effect({ dispatch: false }) retrieveAllSetItemsErrorAction$ = this.actions$.pipe(
+    ofType(DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS_ERROR),
+    tap(() => {
+      this.notificationsService.error(null, this.translate.get('Cannot get items'));
     })
   );
 

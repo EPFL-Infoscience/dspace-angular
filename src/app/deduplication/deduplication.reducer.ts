@@ -1,4 +1,5 @@
 import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
+import { deduplicationSetItemsReducer, DeduplicationSetItemsState } from './sets/deduplication-set-items.reducer';
 
 import {
   DeduplicationSetState,
@@ -16,11 +17,13 @@ import {
 export interface DeduplicationState {
   'sets': DeduplicationSetState;
   'signatures': DeduplicationSignatureState;
+  'items': DeduplicationSetItemsState;
 }
 
 export const deduplicationReducers: ActionReducerMap<DeduplicationState> = {
   sets: deduplicationSetReducer,
   signatures: deduplicationSignatureReducer,
+  items: deduplicationSetItemsReducer
 };
 
 export const deduplicationSelector = createFeatureSelector<DeduplicationState>('deduplication');

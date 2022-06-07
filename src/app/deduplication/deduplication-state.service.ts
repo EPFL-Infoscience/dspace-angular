@@ -1,3 +1,4 @@
+import { SetItemsObject } from './../core/deduplication/models/set-items.model';
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -15,12 +16,13 @@ import {
   getDeduplicationSetsTotalPagesSelector,
   getDeduplicationSetsCurrentPageSelector,
   getDeduplicationSetsTotalsSelector,
+  setItemsObjectsSelector,
 } from './selectors';
 import { SignatureObject } from '../core/deduplication/models/signature.model';
 import { DeduplicationState } from './deduplication.reducer';
 import { RetrieveAllSignaturesAction } from './signatures/deduplication-signatures.actions';
 import { SetObject } from '../core/deduplication/models/set.model';
-import { RetrieveSetsBySignatureAction } from './sets/deduplication-sets.actions';
+import { RetrieveSetItemsAction, RetrieveSetsBySignatureAction } from './sets/deduplication-sets.actions';
 
 /**
  * The service handling the Deduplication State.
@@ -151,4 +153,14 @@ export class DeduplicationStateService {
   public getDeduplicationSetsTotals(): Observable<number> {
     return this.store.pipe(select(getDeduplicationSetsTotalsSelector));
   }
+
+  //#region items
+  public getDeduplicationSetItems(): Observable<SetItemsObject[]>  {
+    return this.store.pipe(select(setItemsObjectsSelector()));
+   }
+
+   public dispatchRetrieveDeduplicationSetItems(setId: string, elementsPerPage:number): void {
+     this.store.dispatch(new RetrieveSetItemsAction(elementsPerPage,setId));
+   }
+  //#endregion items
 }

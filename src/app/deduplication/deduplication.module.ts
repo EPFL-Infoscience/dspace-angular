@@ -15,6 +15,7 @@ import { deduplicationEffects } from './deduplication.effects';
 import { DeduplicationSignaturesComponent } from './signatures/deduplication-signatures.component';
 import { DeduplicationSetsService } from './sets/deduplication-sets.service';
 import { DeduplicationSetsRestService } from '../core/deduplication/models/deduplication-sets-rest.service';
+import { DeduplicationSetItemsRestService } from '../core/deduplication/models/deduplication-set-items-rest.service';
 
 const MODULES = [
   CommonModule,
@@ -39,7 +40,8 @@ const PROVIDERS = [
   DeduplicationSignaturesService,
   DeduplicationRestService,
   DeduplicationSetsService,
-  DeduplicationSetsRestService
+  DeduplicationSetsRestService,
+  DeduplicationSetItemsRestService
 ];
 
 @NgModule({

@@ -1,3 +1,5 @@
+import { DeduplicationSetItemsRestService } from './../../core/deduplication/models/deduplication-set-items-rest.service';
+import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
 import { RemoteData } from './../../core/data/remote-data';
 import { PaginatedList } from './../../core/data/paginated-list.model';
 import { FindListOptions } from './../../core/data/request.models';
@@ -14,11 +16,13 @@ import { DeduplicationSetsRestService } from './../../core/deduplication/models/
 export class DeduplicationSetsService {
 
   constructor(
-    private deduplicationRestService: DeduplicationSetsRestService) {
+    private deduplicationRestService: DeduplicationSetsRestService,
+    private deduplicationSetItemsRestService: DeduplicationSetItemsRestService
+    ) {
   }
 
-  public getSets(elementsPerPage, currentPage, signatureId, rule?: string): Observable<PaginatedList<SetObject>> {
-    // const sortOptions = new SortOptions('type' , SortDirection.ASC); //new SortOptions('signatureType', SortDirection.ASC);
+  public getSets(elementsPerPage: number, currentPage: number, signatureId: string, rule?: string): Observable<PaginatedList<SetObject>> {
+    // const sortOptions = new SortOptions('type' , SortDirection.ASC);
     const findListOptions: FindListOptions = {
       elementsPerPage: elementsPerPage,
       currentPage: currentPage,
@@ -33,6 +37,25 @@ export class DeduplicationSetsService {
           return rd.payload;
         } else {
           throw new Error('Can\'t retrieve sets per signature from REST service');
+        }
+      })
+    );
+  }
+
+  public getSetItems(setId: string): Observable<PaginatedList<SetItemsObject>> {
+    // const sortOptions = new SortOptions('type' , SortDirection.ASC);
+    const findListOptions: FindListOptions = {
+      // sort: sortOptions
+    };
+
+    return this.deduplicationSetItemsRestService.getItemsPerSet(findListOptions, setId).pipe(
+      getFirstCompletedRemoteData(),
+      map((rd: RemoteData<PaginatedList<SetItemsObject>>) => {
+        if (rd.hasSucceeded) {
+          console.log(rd.payload, 'rd.payload');
+          return rd.payload;
+        } else {
+          throw new Error('Can\'t retrieve items per set from REST service');
         }
       })
     );
