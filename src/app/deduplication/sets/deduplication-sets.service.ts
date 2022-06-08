@@ -33,7 +33,6 @@ export class DeduplicationSetsService {
       getFirstCompletedRemoteData(),
       map((rd: RemoteData<PaginatedList<SetObject>>) => {
         if (rd.hasSucceeded) {
-          console.log(rd.payload, 'rd.payload');
           return rd.payload;
         } else {
           throw new Error('Can\'t retrieve sets per signature from REST service');
@@ -52,7 +51,6 @@ export class DeduplicationSetsService {
       getFirstCompletedRemoteData(),
       map((rd: RemoteData<PaginatedList<SetItemsObject>>) => {
         if (rd.hasSucceeded) {
-          console.log(rd.payload, 'rd.payload');
           return rd.payload;
         } else {
           throw new Error('Can\'t retrieve items per set from REST service');

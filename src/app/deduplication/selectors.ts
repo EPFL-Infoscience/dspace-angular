@@ -132,7 +132,7 @@ export const getDeduplicationSetsTotalsSelector = createSelector(_getDeduplicati
 // items
 
 export function setItemsObjectSelector(): MemoizedSelector<DeduplicationState, DeduplicationSetState> {
-  return subStateSelector<DeduplicationState, DeduplicationSetState>(deduplicationSelector, 'items');
+  return subStateSelector<DeduplicationState, DeduplicationSetState>(deduplicationSelector,  'items');
 }
 
 export function setItemsObjectsSelector(): MemoizedSelector<DeduplicationState, SetItemsObject[]> {

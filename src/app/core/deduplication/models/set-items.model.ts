@@ -6,6 +6,7 @@ import { ResourceType } from '../../shared/resource-type';
 import { HALLink } from '../../shared/hal-link.model';
 import { typedObject } from '../../cache/builders/build-decorators';
 import { DEDUPLICATION_SET_ITEMS } from './deduplication-set-items.resource-type';
+import { MetadataMap } from '../../shared/metadata.models';
 
 /**
  * The interface representing the deduplication set model
@@ -35,6 +36,23 @@ export class SetItemsObject implements CacheableObject {
   @autoserialize
   handle: string;
 
+  @autoserialize
+  discoverable: boolean;
+
+  @autoserialize
+  entityType: string;
+
+  @autoserialize
+  inArchive: boolean;
+
+  @autoserialize
+  lastModified: Date;
+
+  @autoserialize
+  withdrawn: boolean;
+
+  @autoserialize
+  metadata: MetadataMap;
   /**
    * The links to all related resources returned by the rest api.
    */

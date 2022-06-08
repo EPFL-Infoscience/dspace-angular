@@ -159,8 +159,8 @@ export class DeduplicationStateService {
     return this.store.pipe(select(setItemsObjectsSelector()));
    }
 
-   public dispatchRetrieveDeduplicationSetItems(setId: string, elementsPerPage:number): void {
-     this.store.dispatch(new RetrieveSetItemsAction(elementsPerPage,setId));
+   public dispatchRetrieveDeduplicationSetItems(setId: string): void {
+     this.store.dispatch(new RetrieveSetItemsAction(setId));
    }
   //#endregion items
 }

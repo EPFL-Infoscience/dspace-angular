@@ -34,9 +34,9 @@ export class DeduplicationSetsEffects {
       const currentPage = (currentState.deduplication as DeduplicationState).sets.currentPage + 1;
       return this.deduplicationSetsService.getSets(action.payload.elementsPerPage, currentPage, action.payload.signatureId, action.payload.rule)
         .pipe(
-          map((sets: PaginatedList<SetObject>) => {
-            return new AddSetsAction(sets.page, sets.totalPages, sets.currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule);
-          }),
+          map((sets: PaginatedList<SetObject>) =>
+            new AddSetsAction(sets.page, sets.totalPages, sets.currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule)
+          ),
           catchError((error: Error) => {
             if (error) {
               console.error(error.message);
@@ -61,12 +61,11 @@ export class DeduplicationSetsEffects {
     ofType(DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS),
     withLatestFrom(this.store$),
     switchMap(([action, currentState]: [RetrieveSetItemsAction, any]) => {
-      // const currentPage = (currentState.deduplication as DeduplicationState).items.currentPage + 1;
       return this.deduplicationSetsService.getSetItems(action.payload.setId)
         .pipe(
-          map((items: PaginatedList<SetItemsObject>) => {
-            return new AddSetItemsAction(items.page, action.payload.setId);
-          }),
+          map((items: PaginatedList<SetItemsObject>) =>
+            new AddSetItemsAction(items.page, action.payload.setId)
+          ),
           catchError((error: Error) => {
             if (error) {
               console.error(error.message);

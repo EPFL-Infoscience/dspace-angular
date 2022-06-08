@@ -8,9 +8,9 @@ export interface DeduplicationSetItemsState {
   objects: SetObject[];
   processing: boolean;
   loaded: boolean;
-  totalPages: number;
-  currentPage: number;
-  totalElements: number;
+  // totalPages: number;
+  // currentPage: number;
+  // totalElements: number;
   setId: string;
 }
 
@@ -18,9 +18,9 @@ const deduplicationObjectInitialState: DeduplicationSetItemsState = {
   objects: [],
   processing: false,
   loaded: false,
-  totalPages: 0,
-  currentPage: 0,
-  totalElements: 0,
+  // totalPages: 0,
+  // currentPage: 0,
+  // totalElements: 0,
   setId: null
 };
 
@@ -53,7 +53,7 @@ export function deduplicationSetItemsReducer(state = deduplicationObjectInitialS
 
     case DeduplicationSetsActionTypes.ADD_SET_ITEMS: {
       return Object.assign({}, state, {
-        objects: state.objects,
+        objects: action.payload.objects,
         processing: false,
         loaded: true,
         // totalPages: action.payload.totalPages,

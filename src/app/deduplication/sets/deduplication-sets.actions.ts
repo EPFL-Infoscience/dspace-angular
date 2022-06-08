@@ -66,7 +66,6 @@ export class AddSetsAction implements Action {
     rule: string;
   };
 
-
   constructor(objects: SetObject[], totalPages: number, currentPage: number, totalElements: number, signatureId: string, rule: string) {
     this.payload = {
       objects,
@@ -85,7 +84,6 @@ export class RetrieveSetItemsAction implements Action {
   type = DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS;
 
   payload: {
-    elementsPerPage: number;
     setId: string;
   };
 
@@ -95,8 +93,8 @@ export class RetrieveSetItemsAction implements Action {
    * @param elementsPerPage
    *    the number of signatures per page
    */
-  constructor(elementsPerPage: number, setId: string) {
-    this.payload = { elementsPerPage, setId };
+  constructor( setId: string) {
+    this.payload = { setId };
   }
 }
 
@@ -110,7 +108,7 @@ export class AddSetItemsAction implements Action {
     setId: string;
   };
 
-  constructor(objects: SetItemsObject[],  setId: string) {
+  constructor(objects: SetItemsObject[], setId: string) {
     // totalPages: number, currentPage: number, totalElements: number,
     this.payload = {
       objects,
