@@ -9,19 +9,25 @@
         the items to compare or reject. The system records the action "No
         duplicate" so the match is not show in the future.
       </p>
-      <div *ngIf="(!sets$ || (sets$ | async)?.length == 0) && !(isSetsLoading() | async)" class="col-md-12 text-center">
-        <h4 class="signatures-not-found p-3">No sets found for this signature.</h4>
+      <div *ngIf="
+          (!sets$ || (sets$ | async)?.length == 0) && !(isSetsLoading() | async)
+        " class="col-md-12 text-center">
+        <h4 class="signatures-not-found p-3">
+          No sets found for this signature.
+        </h4>
       </div>
       <ds-loading class="container" *ngIf="isSetsLoading() | async" message="'Loading...' | translate"></ds-loading>
       <ngb-accordion [destroyOnHide]="false" [closeOthers]="true" activeIds="panel-0">
-        <ng-container *ngFor="let set of (sets$ | async); let i = index">
-          <ngb-panel id="panel-{{i}}">
+        <ng-container *ngFor="let set of sets$ | async; let i = index">
+          <ngb-panel id="panel-{{ i }}">
             <ng-template ngbPanelHeader let-opened="opened">
               <div class="row">
                 <div class="col-md-10 mt-1">
                   <h5 class="m-0">
-                    {{set.id}}
-                    <span class="badge badge-primary">{{(getItemsPerSet(set.id) |async).length}}</span>
+                    {{ set.id }}
+                    <span class="badge badge-primary">{{
+                      (getItemsPerSet(set.id) | async).length
+                      }}</span>
                   </h5>
                 </div>
                 <div class="col-md-2 text-right mt-1">
@@ -40,8 +46,8 @@
                   <span class="badge badge-secondary small">Match other criteria</span>
                 </div>
                 <div class="col-sm-8 col-md-9 col-lg-10">
-                  <ng-container *ngFor="let id  of (getItemIds(set.id) | async)">
-                    <span class="badge badge-info small"> {{id}}</span>
+                  <ng-container *ngFor="let id of getItemIds(set.id) | async">
+                    <span class="badge badge-info small"> {{ id }}</span>
                   </ng-container>
                 </div>
               </div>
@@ -65,12 +71,14 @@
                   <button class="btn btn-primary btn-sm mt-1">
                     <i class="fa fa-clone"></i> Compare
                   </button>
-                  <button class="btn btn-outline-secondary btn-sm mt-1">
+                  <button class="btn btn-outline-secondary btn-sm mt-1" (click)="
+                      $event.preventDefault(); confirmDelete(content, set.id, 'set')
+                    ">
                     <i class="fa fa-times"></i> No duplicates
                   </button>
-                  <button class="btn btn-outline-danger btn-sm mt-1">
+                  <!-- <button class="btn btn-outline-danger btn-sm mt-1">
                     <i class="fa fa-trash-alt"></i> Delete selected
-                  </button>
+                  </button> -->
                 </div>
               </div>
               <div class="row mt-2">
@@ -78,12 +86,12 @@
                   <div class="table-responsive">
                     <table class="table table-striped">
                       <tbody>
-                        <ng-container *ngFor="let item of (getItemsPerSet(set.id) |async)">
-                          <tr class="border border-warning border-thick">
+                        <ng-container *ngFor="let item of getItemsPerSet(set.id) | async">
+                          <tr class="border border-thick">
                             <td>
                               <div class="custom-control custom-checkbox ml-0">
-                                <input type="checkbox" class="custom-control-input" id="{{item.id}}" />
-                                <label class="custom-control-label" for="{{item.id}}"></label>
+                                <input type="checkbox" class="custom-control-input" id="{{ item.id }}" />
+                                <label class="custom-control-label" for="{{ item.id }}"></label>
                               </div>
                             </td>
                             <td>
@@ -97,13 +105,13 @@
                                     <th>Internal identifier:</th>
                                     <td>
                                       <button class="btn btn-outline-secondary btn-sm">
-                                        {{item.uuid}}
+                                        {{ item.uuid }}
                                       </button>
                                     </td>
                                   </tr>
                                   <tr>
                                     <th>Last modified:</th>
-                                    <td>{{item.lastModified | date}}</td>
+                                    <td>{{ item.lastModified | date }}</td>
                                   </tr>
                                   <tr>
                                     <th>Status:</th>
@@ -120,190 +128,43 @@
                                   <tr>
                                     <th>Title:</th>
                                     <td>
-                                      {{item.name}}
+                                      {{ item.name }}
                                     </td>
                                   </tr>
                                   <tr>
                                     <th>Author:</th>
                                     <td>
-                                      RUBELE, STEFANO<br />
-                                      GIRARDI, Leo Alberto
+                                      {{ getAuthor(item.metadata) }}
                                     </td>
                                   </tr>
                                   <tr>
                                     <th>Date issued:</th>
-                                    <td>2015</td>
+                                    <td>{{getDateIssued(item.metadata)}}</td>
                                   </tr>
                                   <tr>
                                     <th>Type:</th>
-                                    <td>{{item.entityType}}</td>
+                                    <td>{{ item.entityType }}</td>
                                   </tr>
                                 </tbody>
                               </table>
                             </td>
                             <td>
                               <div class="btn-group btn-group-sm" role="group" aria-label="btn-grp-01-01">
-                                <button class="btn btn-danger" title="Delete">
+                                <button class="btn btn-danger" title="Delete" (click)="
+                                $event.preventDefault(); confirmDelete(content, set.id, 'item')
+                              ">
                                   <i class="fa fa-trash-alt"></i>
                                 </button>
-                                <button class="btn btn-warning" title="Keep this">
+                                <!-- <button
+                                  class="btn btn-warning"
+                                  title="Keep this"
+                                >
                                   <i class="fa fa-star"></i>
-                                </button>
+                                </button> -->
                               </div>
                             </td>
                           </tr>
                         </ng-container>
-
-                        <!-- <tr>
-                          <td>
-                            <div class="custom-control custom-checkbox ml-0">
-                              <input type="checkbox" class="custom-control-input" id="customCheck2" />
-                              <label class="custom-control-label" for="customCheck2"></label>
-                            </div>
-                          </td>
-                          <td>
-                            <table class="table table-borderless small">
-                              <tbody>
-                                <tr>
-                                  <th>Collection:</th>
-                                  <td>1.01 Articoli in rivista</td>
-                                </tr>
-                                <tr>
-                                  <th>Internal identifier:</th>
-                                  <td>
-                                    <button class="btn btn-outline-secondary btn-sm">
-                                      32634
-                                    </button>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <th>Last modified:</th>
-                                  <td>2020-01-28 06:52</td>
-                                </tr>
-                                <tr>
-                                  <th>Status:</th>
-                                  <td>
-                                    <span class="badge badge-secondary">Workspace</span>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </td>
-                          <td>
-                            <table class="table table-borderless small">
-                              <tbody>
-                                <tr>
-                                  <th>Title:</th>
-                                  <td>
-                                    The VMC survey - XIV. First results on the
-                                    look-back time star formation rate tomography
-                                    of the Small Magellanic Cloud
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <th>Author:</th>
-                                  <td>
-                                    RUBELE, STEFANO<br />
-                                    GIRARDI, Leo Alberto
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <th>Date issued:</th>
-                                  <td>2015</td>
-                                </tr>
-                                <tr>
-                                  <th>Type:</th>
-                                  <td>Article</td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </td>
-                          <td>
-                            <div class="btn-group btn-group-sm" role="group" aria-label="btn-grp-01-02">
-                              <button class="btn btn-danger" title="Delete">
-                                <i class="fa fa-trash-alt"></i>
-                              </button>
-                              <button class="btn btn-outline-warning" title="Keep this">
-                                <i class="fa fa-star"></i>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="custom-control custom-checkbox ml-0">
-                              <input type="checkbox" class="custom-control-input" id="customCheck3" />
-                              <label class="custom-control-label" for="customCheck3"></label>
-                            </div>
-                          </td>
-                          <td>
-                            <table class="table table-borderless small">
-                              <tbody>
-                                <tr>
-                                  <th>Collection:</th>
-                                  <td>1.01 Articoli in rivista</td>
-                                </tr>
-                                <tr>
-                                  <th>Internal identifier:</th>
-                                  <td>
-                                    <button class="btn btn-outline-secondary btn-sm">
-                                      32634
-                                    </button>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <th>Last modified:</th>
-                                  <td>2020-01-28 06:52</td>
-                                </tr>
-                                <tr>
-                                  <th>Status:</th>
-                                  <td>
-                                    <span class="badge badge-secondary">Workspace</span>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </td>
-                          <td>
-                            <table class="table table-borderless small">
-                              <tbody>
-                                <tr>
-                                  <th>Title:</th>
-                                  <td>
-                                    The VMC survey - XIV. First results on the
-                                    look-back time star formation rate tomography
-                                    of the Small Magellanic Cloud
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <th>Author:</th>
-                                  <td>
-                                    RUBELE, STEFANO<br />
-                                    GIRARDI, Leo Alberto
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <th>Date issued:</th>
-                                  <td>2015</td>
-                                </tr>
-                                <tr>
-                                  <th>Type:</th>
-                                  <td>Article</td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </td>
-                          <td>
-                            <div class="btn-group btn-group-sm" role="group" aria-label="btn-grp-01-03">
-                              <button class="btn btn-danger" title="Delete">
-                                <i class="fa fa-trash-alt"></i>
-                              </button>
-                              <button class="btn btn-outline-warning" title="Keep this">
-                                <i class="fa fa-star"></i>
-                              </button>
-                            </div>
-                          </td>
-                        </tr> -->
                       </tbody>
                     </table>
                   </div>
@@ -316,3 +177,23 @@
     </div>
   </div>
 </div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-danger">{{ "Remove Element" | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('cancel')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{ "submission.sections.upload.delete.confirm.info" | translate }}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('cancel')">
+      {{ "submission.sections.upload.delete.confirm.cancel" | translate }}
+    </button>
+    <button type="button" class="btn btn-danger" (click)="c('ok')">
+      {{ "submission.sections.upload.delete.confirm.submit" | translate }}
+    </button>
+  </div>
+</ng-template>

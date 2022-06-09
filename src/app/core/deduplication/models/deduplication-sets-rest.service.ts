@@ -21,6 +21,7 @@ import { dataService } from '../../cache/builders/build-decorators';
 import { DEDUPLICATION_SET } from './deduplication-set.resource-type';
 import { RemoteData } from '../../data/remote-data';
 import { isNil } from 'lodash';
+import { NoContent } from '../../shared/NoContent.model';
 
 
 
@@ -88,6 +89,12 @@ export class DeduplicationSetsRestService {
         }
         return this.dataService.findAllByHref(`${href}?${searchmethod}`, options, false, true, ...linksToFollow);
       })
+    );
+  }
+
+  public deleteSet(signatureId: string): Observable<RemoteData<NoContent>> {
+    return this.dataService.delete(signatureId).pipe(
+      take(1)
     );
   }
 }

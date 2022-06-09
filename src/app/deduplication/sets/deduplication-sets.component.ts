@@ -1,3 +1,7 @@
+import { hasValue } from 'src/app/shared/empty.util';
+import { MetadataMap } from './../../core/shared/metadata.models';
+import { TranslateService } from '@ngx-translate/core';
+import { NotificationsService } from './../../shared/notifications/notifications.service';
 import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
@@ -5,6 +9,11 @@ import { Observable, of } from 'rxjs';
 import { SetObject } from '../../core/deduplication/models/set.model';
 import { DeduplicationStateService } from '../deduplication-state.service';
 import { map, take } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DeduplicationSetsService } from './deduplication-sets.service';
+import { NoContent } from 'src/app/core/shared/NoContent.model';
+import { RemoteData } from 'src/app/core/data/remote-data';
+import { isEqual } from 'lodash';
 
 @Component({
   selector: 'ds-deduplication-sets',
@@ -12,6 +21,7 @@ import { map, take } from 'rxjs/operators';
   styleUrls: ['./deduplication-sets.component.scss'],
 })
 export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
+
   public sets$: Observable<SetObject[]>;
 
   public itemsMap: Map<string, Observable<SetItemsObject[]>> = new Map();
@@ -30,7 +40,11 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
 
   constructor(
     private route: ActivatedRoute,
-    private deduplicationStateService: DeduplicationStateService
+    private deduplicationStateService: DeduplicationStateService,
+    private modalService: NgbModal,
+    private deduplicationSetsService: DeduplicationSetsService,
+    private notificationsService: NotificationsService,
+    private translate: TranslateService,
   ) {
     this.signatureId = this.route.snapshot.params.id;
     this.rule = this.route.snapshot.params.rule;
@@ -45,7 +59,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
       this.deduplicationStateService.getDeduplicationSetsTotals();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   /**
    * First deduplication sets loading after view initialization.
@@ -90,7 +104,21 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
   }
 
   getItemsPerSet(setId: string): Observable<SetItemsObject[]> {
-    return this.itemsMap.has(setId) ? this.itemsMap.get(setId) : of([]) ;
+    return this.itemsMap.has(setId) ? this.itemsMap.get(setId) : of([]);
+  }
+
+  getAuthor(metadata: MetadataMap):string {
+    if(metadata){
+         let author = metadata['dc.contributor.author'];
+     return hasValue( author)? author[0].value : '-';
+    }
+  }
+
+  getDateIssued(metadata: MetadataMap):string {
+    if(metadata){
+    let author = metadata['dc.date.issued'];
+     return hasValue( author)? author[0].value : '-';
+    }
   }
 
   getItemIds(setId: string): Observable<string[]> {
@@ -101,5 +129,39 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
         })
       );
     }
+  }
+
+  deleteSet(setId: string) {
+    this.deduplicationSetsService.deleteSet(this.signatureId).subscribe((res: RemoteData<NoContent>) => {
+      if (res.hasSucceeded) {
+        this.deduplicationStateService.dispatchDeleteSet(this.signatureId, setId);
+      } else {
+        this.notificationsService.error(null, this.translate.get('Cannot remove set'))
+      }
+    })
+  }
+
+  deleteItem(itemId: string) {
+    this.deduplicationSetsService.deleteItem(this.signatureId, itemId).subscribe((res: RemoteData<NoContent>) => {
+      if (res.hasSucceeded) {
+        this.deduplicationStateService.dispatchDeleteItem(this.signatureId, itemId);
+      } else {
+        this.notificationsService.error(null, this.translate.get('Cannot remove item'))
+      }
+    })
+  }
+
+  public confirmDelete(content, elementId: string, element: 'item' | 'set') {
+    this.modalService.open(content).result.then(
+      (result) => {
+        if (result === 'ok') {
+          if (isEqual(element, 'set')) {
+            this.deleteSet(elementId);
+          } else {
+            this.deleteItem(elementId);
+          }
+        }
+      }
+    );
   }
 }

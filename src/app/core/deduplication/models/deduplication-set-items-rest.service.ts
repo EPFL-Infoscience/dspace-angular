@@ -20,6 +20,7 @@ import { dataService } from '../../cache/builders/build-decorators';
 import { RemoteData } from '../../data/remote-data';
 import { SetItemsObject } from './set-items.model';
 import { DEDUPLICATION_SET_ITEMS } from './deduplication-set-items.resource-type';
+import { NoContent } from '../../shared/NoContent.model';
 
 /**
  * A private DataService implementation to delegate specific methods to.
@@ -81,6 +82,12 @@ export class DeduplicationSetItemsRestService {
       mergeMap((href: string) => {
         return this.dataService.findAllByHref(`${href}/${setId}/items`, options, false, true, ...linksToFollow);
       })
+    );
+  }
+
+  public deleteItem(signatureId: string, item: string): Observable<RemoteData<NoContent>> {
+    return this.dataService.delete(`${signatureId}/items/${item}`).pipe(
+      take(1),
     );
   }
 }

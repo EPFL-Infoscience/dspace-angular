@@ -22,7 +22,7 @@ import { SignatureObject } from '../core/deduplication/models/signature.model';
 import { DeduplicationState } from './deduplication.reducer';
 import { RetrieveAllSignaturesAction } from './signatures/deduplication-signatures.actions';
 import { SetObject } from '../core/deduplication/models/set.model';
-import { RetrieveSetItemsAction, RetrieveSetsBySignatureAction } from './sets/deduplication-sets.actions';
+import { DeleteItemAction, DeleteSetAction, RetrieveSetItemsAction, RetrieveSetsBySignatureAction } from './sets/deduplication-sets.actions';
 
 /**
  * The service handling the Deduplication State.
@@ -119,11 +119,11 @@ export class DeduplicationStateService {
     this.store.dispatch(new RetrieveAllSignaturesAction(elementsPerPage));
   }
 
-  public getDeduplicationSetsPerSignature(): Observable<SetObject[]>  {
-   return this.store.pipe(select(setsObjectsSelector()));
+  public getDeduplicationSetsPerSignature(): Observable<SetObject[]> {
+    return this.store.pipe(select(setsObjectsSelector()));
   }
 
-  public dispatchRetrieveDeduplicationSetsBySignature(signatureId: string, rule: string, elementsPerPage:number): void {
+  public dispatchRetrieveDeduplicationSetsBySignature(signatureId: string, rule: string, elementsPerPage: number): void {
     this.store.dispatch(new RetrieveSetsBySignatureAction(elementsPerPage, signatureId, rule));
   }
 
@@ -154,13 +154,25 @@ export class DeduplicationStateService {
     return this.store.pipe(select(getDeduplicationSetsTotalsSelector));
   }
 
-  //#region items
-  public getDeduplicationSetItems(): Observable<SetItemsObject[]>  {
-    return this.store.pipe(select(setItemsObjectsSelector()));
-   }
+  public dispatchDeleteSet(signatureId: string, setId: string) {
+    this.store.dispatch(
+      new DeleteSetAction(signatureId, setId)
+    );
+  }
 
-   public dispatchRetrieveDeduplicationSetItems(setId: string): void {
-     this.store.dispatch(new RetrieveSetItemsAction(setId));
-   }
+  //#region items
+  public getDeduplicationSetItems(): Observable<SetItemsObject[]> {
+    return this.store.pipe(select(setItemsObjectsSelector()));
+  }
+
+  public dispatchRetrieveDeduplicationSetItems(setId: string): void {
+    this.store.dispatch(new RetrieveSetItemsAction(setId));
+  }
+
+  public dispatchDeleteItem(signatureId: string, itemId: string) {
+    this.store.dispatch(
+      new DeleteItemAction(signatureId, itemId)
+    );
+  }
   //#endregion items
 }

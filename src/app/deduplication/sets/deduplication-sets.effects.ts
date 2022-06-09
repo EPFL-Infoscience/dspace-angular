@@ -1,7 +1,7 @@
 import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
-import { SetObject } from 'src/app/core/deduplication/models/set.model';
+import { SetObject } from './../../core/deduplication/models/set.model';
 import { PaginatedList } from './../../core/data/paginated-list.model';
-import { NotificationsService } from 'src/app/shared/notifications/notifications.service';
+import { NotificationsService } from './../../shared/notifications/notifications.service';
 import { Injectable } from '@angular/core';
 import { of as observableOf } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';

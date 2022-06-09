@@ -1,7 +1,10 @@
+
+import { hasValue } from './../../shared/empty.util';
 import { SetObject } from '../../core/deduplication/models/set.model';
 import {
   DeduplicationSetsActionTypes,
   DeduplicationSetsActions,
+  DeleteSetAction,
 } from './deduplication-sets.actions';
 
 export interface DeduplicationSetState {
@@ -66,8 +69,25 @@ export function deduplicationSetReducer(state = deduplicationObjectInitialState,
       });
     }
 
+    case DeduplicationSetsActionTypes.DELETE_SET: {
+      return deleteSet(state, action as DeleteSetAction);
+    }
+
     default: {
       return state;
     }
   }
 }
+
+function deleteSet(state: DeduplicationSetState, action: DeleteSetAction): DeduplicationSetState {
+  let setData = [...state.objects];
+  if (hasValue(setData)) {
+    const setIdx = setData.findIndex(x => x.id == action.payload.setId);
+    if (setIdx > -1) {
+      setData.splice(setIdx, 1);
+      return { ...state, objects: [...setData] };
+    }
+  }
+  return state;
+}
+

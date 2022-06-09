@@ -1,7 +1,9 @@
+import { hasValue } from 'src/app/shared/empty.util';
 import { SetObject } from '../../core/deduplication/models/set.model';
 import {
   DeduplicationSetsActionTypes,
   DeduplicationSetsActions,
+  DeleteItemAction,
 } from './deduplication-sets.actions';
 
 export interface DeduplicationSetItemsState {
@@ -63,8 +65,24 @@ export function deduplicationSetItemsReducer(state = deduplicationObjectInitialS
       });
     }
 
+    case DeduplicationSetsActionTypes.DELETE_ITEM: {
+      return deleteItem(state, action as DeleteItemAction);
+    }
+
     default: {
       return state;
     }
   }
+}
+
+function deleteItem(state: DeduplicationSetItemsState, action: DeleteItemAction): DeduplicationSetItemsState {
+  let itemsData = [...state.objects];
+  if (hasValue(itemsData)) {
+    const itemIdx = itemsData.findIndex(x => x.id == action.payload.itemId);
+    if (itemIdx > -1) {
+      itemsData.splice(itemIdx, 1);
+      return { ...state, objects: [...itemsData] };
+    }
+  }
+  return state;
 }

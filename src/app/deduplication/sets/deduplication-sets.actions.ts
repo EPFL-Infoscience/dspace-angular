@@ -19,6 +19,9 @@ export const DeduplicationSetsActionTypes = {
   RETRIEVE_ALL_SET_ITEMS: type('dspace/core/deduplication/RETRIEVE_ALL_SET_ITEMS'),
   ADD_SET_ITEMS: type('dspace/core/deduplication/ADD_SET_ITEMS'),
   RETRIEVE_ALL_SET_ITEMS_ERROR: type('dspace/core/deduplication/RETRIEVE_ALL_SET_ITEMS_ERROR'),
+  DELETE_SET: type('dspace/core/deduplication/DELETE_SET'),
+  DELETE_SET_ERROR: type('dspace/core/deduplication/DELETE_SET_ERROR'),
+  DELETE_ITEM: type('dspace/core/deduplication/DELETE_ITEM'),
 };
 
 /* tslint:disable:max-classes-per-file */
@@ -93,7 +96,7 @@ export class RetrieveSetItemsAction implements Action {
    * @param elementsPerPage
    *    the number of signatures per page
    */
-  constructor( setId: string) {
+  constructor(setId: string) {
     this.payload = { setId };
   }
 }
@@ -124,6 +127,34 @@ export class RetrieveSetItemsErrorAction implements Action {
   type = DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS_ERROR;
 }
 
+export class DeleteSetAction implements Action {
+  type = DeduplicationSetsActionTypes.DELETE_SET;
+  payload: {
+    signatureId: string;
+    setId: string;
+  };
+
+  constructor(signatureId: string, setId: string) {
+    this.payload = { signatureId, setId };
+  }
+}
+
+export class DeleteSetErrorAction implements Action {
+  type = DeduplicationSetsActionTypes.DELETE_SET_ERROR;
+}
+
+export class DeleteItemAction implements Action {
+  type = DeduplicationSetsActionTypes.DELETE_ITEM;
+  payload: {
+    signatureId: string;
+    itemId: string;
+  };
+
+  constructor(signatureId: string, itemId: string) {
+    this.payload = { signatureId, itemId };
+  }
+}
+
 //#endregion Set Items
 
 /**
@@ -136,4 +167,6 @@ export type DeduplicationSetsActions
   | RetrieveSetsBySignatureErrorAction
   | RetrieveSetItemsAction
   | AddSetItemsAction
-  | RetrieveSetItemsErrorAction;
+  | RetrieveSetItemsErrorAction
+  | DeleteSetAction
+  | DeleteItemAction;
