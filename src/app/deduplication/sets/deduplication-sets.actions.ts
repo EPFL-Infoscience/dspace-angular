@@ -24,8 +24,6 @@ export const DeduplicationSetsActionTypes = {
   DELETE_ITEM: type('dspace/core/deduplication/DELETE_ITEM'),
 };
 
-/* tslint:disable:max-classes-per-file */
-
 //#region Sets
 
 /**
@@ -58,6 +56,10 @@ export class RetrieveSetsBySignatureErrorAction implements Action {
   type = DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE_ERROR;
 }
 
+/**
+ * An ngrx action to load the deduplication sets objects.
+ * Called by the RetrieveAllSetsAction effect.
+ */
 export class AddSetsAction implements Action {
   type = DeduplicationSetsActionTypes.ADD_SETS;
   payload: {
@@ -69,6 +71,15 @@ export class AddSetsAction implements Action {
     rule: string;
   };
 
+  /**
+   * Creates an instance of AddSetsAction.
+   * @param {SetObject[]} objects - the list of sets
+   * @param {number} totalPages
+   * @param {number} currentPage
+   * @param {number} totalElements
+   * @param {string} signatureId - the signature id of the sets
+   * @param {string} rule - the rule of the sets
+   */
   constructor(objects: SetObject[], totalPages: number, currentPage: number, totalElements: number, signatureId: string, rule: string) {
     this.payload = {
       objects,
@@ -91,42 +102,49 @@ export class RetrieveSetItemsAction implements Action {
   };
 
   /**
-   * Create a new RetrieveAllSignaturesAction.
-   *
-   * @param elementsPerPage
-   *    the number of signatures per page
+   * Creates an instance of RetrieveSetItemsAction.
+   * @param {string} setId
+   * @memberof RetrieveSetItemsAction
    */
   constructor(setId: string) {
     this.payload = { setId };
   }
 }
 
+/**
+ * An ngrx action to load the deduplication set items objects.
+ * Called by the RetrieveAllSetItemsAction effect.
+ */
 export class AddSetItemsAction implements Action {
   type = DeduplicationSetsActionTypes.ADD_SET_ITEMS;
   payload: {
     objects: SetItemsObject[];
-    // totalPages: number;
-    // currentPage: number;
-    // totalElements: number;
     setId: string;
   };
 
+  /**
+   * Creates an instance of AddSetItemsAction.
+   * @param objects - the list of set items
+   * @param setId - the id of the set items
+   */
   constructor(objects: SetItemsObject[], setId: string) {
-    // totalPages: number, currentPage: number, totalElements: number,
     this.payload = {
       objects,
-      // totalPages,
-      // currentPage,
-      // totalElements,
       setId,
     };
   }
 }
 
+/**
+ * An ngrx action for retrieving deduplication set items' error.
+ */
 export class RetrieveSetItemsErrorAction implements Action {
   type = DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS_ERROR;
 }
 
+/**
+ * An ngrx action to delete a deduplication set.
+ */
 export class DeleteSetAction implements Action {
   type = DeduplicationSetsActionTypes.DELETE_SET;
   payload: {
@@ -134,15 +152,22 @@ export class DeleteSetAction implements Action {
     setId: string;
   };
 
+  /**
+   * Creates an instance of DeleteSetAction.
+   * @param signatureId - the signature id of the set
+   * @param setId - the id of the set
+   */
   constructor(signatureId: string, setId: string) {
     this.payload = { signatureId, setId };
   }
 }
 
-export class DeleteSetErrorAction implements Action {
-  type = DeduplicationSetsActionTypes.DELETE_SET_ERROR;
-}
-
+/**
+ * An ngrx action to delete a deduplication set error.
+ * @export
+ * @class DeleteItemAction
+ * @implements {Action}
+ */
 export class DeleteItemAction implements Action {
   type = DeduplicationSetsActionTypes.DELETE_ITEM;
   payload: {
@@ -150,6 +175,11 @@ export class DeleteItemAction implements Action {
     itemId: string;
   };
 
+  /**
+   * Creates an instance of DeleteItemAction.
+   * @param signatureId - the signature id of the set
+   * @param itemId - the id of the item
+   */
   constructor(signatureId: string, itemId: string) {
     this.payload = { signatureId, itemId };
   }

@@ -7,6 +7,10 @@ import {
   DeleteSetAction,
 } from './deduplication-sets.actions';
 
+/**
+* The interface representing the set items state.
+ * @interface DeduplicationSetState
+ */
 export interface DeduplicationSetState {
   objects: SetObject[];
   processing: boolean;
@@ -18,6 +22,9 @@ export interface DeduplicationSetState {
   rule: string
 }
 
+/**
+ * Used for the set state initialization.
+ */
 const deduplicationObjectInitialState: DeduplicationSetState = {
   objects: [],
   processing: false,
@@ -79,6 +86,12 @@ export function deduplicationSetReducer(state = deduplicationObjectInitialState,
   }
 }
 
+/**
+ * Deletes the set from the state.
+ * @param state - the current state
+ * @param action - the action to perform on the state
+ * @returns - the new state
+ */
 function deleteSet(state: DeduplicationSetState, action: DeleteSetAction): DeduplicationSetState {
   let setData = [...state.objects];
   if (hasValue(setData)) {

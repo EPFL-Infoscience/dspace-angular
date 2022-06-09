@@ -6,10 +6,9 @@ import { PaginatedList } from './../../core/data/paginated-list.model';
 import { FindListOptions } from './../../core/data/request.models';
 import { SetObject } from './../../core/deduplication/models/set.model';
 import { Injectable } from "@angular/core";
-import { SortOptions } from './../../core/cache/models/sort-options.model';
 import { Observable, of } from 'rxjs';
 import { getFirstCompletedRemoteData } from './../../core/shared/operators';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { DeduplicationSetsRestService } from './../../core/deduplication/models/deduplication-sets-rest.service';
 
 
@@ -21,12 +20,19 @@ export class DeduplicationSetsService {
   ) {
   }
 
+  /**
+   * Returns the sets with the given signature id
+   *
+   * @param {number} elementsPerPage - the number of elements per page
+   * @param {number} currentPage - the current page
+   * @param {string} signatureId - the signature id
+   * @param {string} [rule] - the rule of the submitter
+   * @return {*}  {Observable<PaginatedList<SetObject>>}
+   */
   public getSets(elementsPerPage: number, currentPage: number, signatureId: string, rule?: string): Observable<PaginatedList<SetObject>> {
-    // const sortOptions = new SortOptions('type' , SortDirection.ASC);
     const findListOptions: FindListOptions = {
       elementsPerPage: elementsPerPage,
-      currentPage: currentPage,
-      // sort: sortOptions
+      currentPage: currentPage
     };
 
     return this.deduplicationRestService.getSetsPerSignature(findListOptions, signatureId, rule).pipe(
@@ -41,12 +47,13 @@ export class DeduplicationSetsService {
     );
   }
 
+  /**
+   * Returns the set items with the given set id
+   * @param {string} setId - the set id
+   * @return {*}  {Observable<PaginatedList<SetItemsObject>>}
+   */
   public getSetItems(setId: string): Observable<PaginatedList<SetItemsObject>> {
-    // const sortOptions = new SortOptions('type' , SortDirection.ASC);
-    const findListOptions: FindListOptions = {
-      // sort: sortOptions
-    };
-
+    const findListOptions: FindListOptions = {};
     return this.deduplicationSetItemsRestService.getItemsPerSet(findListOptions, setId).pipe(
       getFirstCompletedRemoteData(),
       map((rd: RemoteData<PaginatedList<SetItemsObject>>) => {
@@ -59,6 +66,10 @@ export class DeduplicationSetsService {
     );
   }
 
+  /**
+   * Deletes the set with the given id
+   * @param signatureId - the signature id of the set
+   */
   public deleteSet(signatureId: string): Observable<RemoteData<NoContent>> {
     return this.deduplicationRestService.deleteSet(signatureId).pipe(
       catchError((error) => {
@@ -67,6 +78,11 @@ export class DeduplicationSetsService {
     );
   }
 
+  /**
+   * Deletes the item with the given id
+   * @param signatureId - the signature id of the set
+   * @param itemId - the item id of the element to be removed
+   */
   public deleteItem(signatureId: string, itemId: string): Observable<RemoteData<NoContent>> {
     return this.deduplicationSetItemsRestService.deleteItem(signatureId, itemId).pipe(
       catchError((error) => {

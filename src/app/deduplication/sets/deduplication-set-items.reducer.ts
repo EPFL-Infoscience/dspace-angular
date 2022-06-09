@@ -6,23 +6,23 @@ import {
   DeleteItemAction,
 } from './deduplication-sets.actions';
 
+/**
+ * The interface representing the set items state.
+ */
 export interface DeduplicationSetItemsState {
   objects: SetObject[];
   processing: boolean;
   loaded: boolean;
-  // totalPages: number;
-  // currentPage: number;
-  // totalElements: number;
   setId: string;
 }
 
+/**
+ * Used for the items state initialization.
+ */
 const deduplicationObjectInitialState: DeduplicationSetItemsState = {
   objects: [],
   processing: false,
   loaded: false,
-  // totalPages: 0,
-  // currentPage: 0,
-  // totalElements: 0,
   setId: null
 };
 
@@ -58,9 +58,6 @@ export function deduplicationSetItemsReducer(state = deduplicationObjectInitialS
         objects: action.payload.objects,
         processing: false,
         loaded: true,
-        // totalPages: action.payload.totalPages,
-        // currentPage: state.currentPage + 1,
-        // totalElements: action.payload.totalElements,
         setId: action.payload.setId,
       });
     }
@@ -75,13 +72,19 @@ export function deduplicationSetItemsReducer(state = deduplicationObjectInitialS
   }
 }
 
+/**
+ * Deletes an item from the state.
+ * @param {DeduplicationSetItemsState} state - the current state
+ * @param {DeleteItemAction} action - the action to perform on the state
+ * @return {*}  {DeduplicationSetItemsState} - the new state
+ */
 function deleteItem(state: DeduplicationSetItemsState, action: DeleteItemAction): DeduplicationSetItemsState {
   let itemsData = [...state.objects];
   if (hasValue(itemsData)) {
     const itemIdx = itemsData.findIndex(x => x.id == action.payload.itemId);
     if (itemIdx > -1) {
       itemsData.splice(itemIdx, 1);
-      return { ...state, objects: [...itemsData] };
+      return  { ...state, objects: [...itemsData] };
     }
   }
   return state;

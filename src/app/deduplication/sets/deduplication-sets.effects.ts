@@ -27,6 +27,9 @@ import { DeduplicationSetsService } from './deduplication-sets.service';
 @Injectable()
 export class DeduplicationSetsEffects {
 
+  /**
+   * Retrieve all deduplication sets per signature managing pagination and errors.
+   */
   @Effect() retrieveAllSets$ = this.actions$.pipe(
     ofType(DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE),
     withLatestFrom(this.store$),
@@ -48,8 +51,8 @@ export class DeduplicationSetsEffects {
   );
 
   /**
-* Show a notification on error.
-*/
+  * Show a notification on error.
+  */
   @Effect({ dispatch: false }) retrieveAllSetsErrorAction$ = this.actions$.pipe(
     ofType(DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE_ERROR),
     tap(() => {
@@ -57,6 +60,9 @@ export class DeduplicationSetsEffects {
     })
   );
 
+  /**
+   * Retrieve all items per set.
+   */
   @Effect() retrieveAllSetItems$ = this.actions$.pipe(
     ofType(DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS),
     withLatestFrom(this.store$),
@@ -77,8 +83,8 @@ export class DeduplicationSetsEffects {
   );
 
   /**
-* Show a notification on error.
-*/
+  * Show a notification on error.
+  */
   @Effect({ dispatch: false }) retrieveAllSetItemsErrorAction$ = this.actions$.pipe(
     ofType(DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS_ERROR),
     tap(() => {

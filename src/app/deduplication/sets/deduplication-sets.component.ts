@@ -22,20 +22,49 @@ import { isEqual } from 'lodash';
 })
 export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
 
+  /**
+   * The deduplication signatures' sets list.
+   * @type {Observable<SetObject[]>}
+   */
   public sets$: Observable<SetObject[]>;
 
+  /**
+   * Stores all items per set.
+   * @type {Map<string, Observable<SetItemsObject[]>>}
+   */
   public itemsMap: Map<string, Observable<SetItemsObject[]>> = new Map();
 
+  /**
+   * The id of the signature to which the sets belong to.
+   * @type {string}
+   */
   public signatureId: string;
 
+  /**
+   * Refers to sets pending submitter check
+   * @type {string}
+   */
   public rule: string;
 
+  /**
+   * The number of elements per page.
+   * @protected
+   */
   protected elementsPerPage = 5;
 
-  public totalPages$: Observable<number>;
+  /**
+   * The signatures' sets total pages.
+   */
+  public setsTotalPages$: Observable<number>;
 
-  public currentPage$: Observable<number>;
+  /**
+   * The sets current page.
+   */
+  public setCurrentPage$: Observable<number>;
 
+  /**
+   * The sets total elements.
+   */
   public totalElements$: Observable<number>;
 
   constructor(
@@ -48,12 +77,11 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
   ) {
     this.signatureId = this.route.snapshot.params.id;
     this.rule = this.route.snapshot.params.rule;
-
     this.sets$ =
       this.deduplicationStateService.getDeduplicationSetsPerSignature();
-    this.totalPages$ =
+    this.setsTotalPages$ =
       this.deduplicationStateService.getDeduplicationSetsTotalPages();
-    this.currentPage$ =
+    this.setCurrentPage$ =
       this.deduplicationStateService.getDeduplicationSetsCurrentPage();
     this.totalElements$ =
       this.deduplicationStateService.getDeduplicationSetsTotals();
@@ -74,6 +102,9 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
       });
   }
 
+  /**
+   * Retrieves the deduplication sets.
+   */
   retrieveDeduplicationSets() {
     this.deduplicationStateService.dispatchRetrieveDeduplicationSetsBySignature(
       this.signatureId,
@@ -82,45 +113,69 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
     );
   }
 
+  /**
+   *  Returns the information about the loading status of the sets (if it's running or not).
+   * @returns {Observable<boolean>}
+   */
   public isSetsLoading(): Observable<boolean> {
     return this.deduplicationStateService.isDeduplicationSetsLoading();
   }
 
+  /**
+   * Retrieves the items per set.
+   */
   getAllItems() {
     this.sets$
-      .pipe(
-        map((sets: SetObject[]) => {
-          sets.forEach((set) => {
-            this.deduplicationStateService.dispatchRetrieveDeduplicationSetItems(
-              set.id
-            );
-            const items$: Observable<SetItemsObject[]> =
-              this.deduplicationStateService.getDeduplicationSetItems();
-            this.itemsMap.set(set.id, items$);
-          });
-        })
-      )
-      .subscribe();
+      .subscribe((sets: SetObject[]) => {
+        sets.forEach((set) => {
+          this.deduplicationStateService.dispatchRetrieveDeduplicationSetItems(
+            set.id
+          );
+          const items$: Observable<SetItemsObject[]> =
+            this.deduplicationStateService.getDeduplicationSetItems();
+          this.itemsMap.set(set.id, items$);
+        });
+      });
   }
 
+  /**
+   * Retrieves the items per set from the Map
+   * @param setId The id of the set to which the items belong to.
+   * @returns {Observable<SetItemsObject[]>}
+   */
   getItemsPerSet(setId: string): Observable<SetItemsObject[]> {
     return this.itemsMap.has(setId) ? this.itemsMap.get(setId) : of([]);
   }
 
-  getAuthor(metadata: MetadataMap):string {
-    if(metadata){
-         let author = metadata['dc.contributor.author'];
-     return hasValue( author)? author[0].value : '-';
+  /**
+   * Returns the item's author.
+   * @param metadata The metadata of the item
+   * @returns {string} The value or a missing value if the metadata is not defined
+   */
+  getAuthor(metadata: MetadataMap): string {
+    if (metadata) {
+      let author = metadata['dc.contributor.author'];
+      return hasValue(author) ? author[0].value : '-';
     }
   }
 
-  getDateIssued(metadata: MetadataMap):string {
-    if(metadata){
-    let author = metadata['dc.date.issued'];
-     return hasValue( author)? author[0].value : '-';
+  /**
+   * Returns the item's date issued.
+   * @param metadata The metadata of the item
+   * @returns  {string} The value or a missing value if the metadata is not defined
+   */
+  getDateIssued(metadata: MetadataMap): string {
+    if (metadata) {
+      let author = metadata['dc.date.issued'];
+      return hasValue(author) ? author[0].value : '-';
     }
   }
 
+  /**
+   * Returns the item's ids.
+   * @param setId The id of the set to which the items belong to.
+   * @returns { Observable<string[]>}
+   */
   getItemIds(setId: string): Observable<string[]> {
     if (this.itemsMap.has(setId)) {
       return this.itemsMap.get(setId).pipe(
@@ -131,6 +186,10 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Delete the set.
+   * @param setId The id of the set to which the items belong to.
+   */
   deleteSet(setId: string) {
     this.deduplicationSetsService.deleteSet(this.signatureId).subscribe((res: RemoteData<NoContent>) => {
       if (res.hasSucceeded) {
@@ -141,6 +200,10 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
     })
   }
 
+  /**
+   * Delete the item.
+   * @param itemId The id of the item to be deleted
+   */
   deleteItem(itemId: string) {
     this.deduplicationSetsService.deleteItem(this.signatureId, itemId).subscribe((res: RemoteData<NoContent>) => {
       if (res.hasSucceeded) {
@@ -151,6 +214,12 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
     })
   }
 
+  /**
+   * Confirms the deletion of the set | item.
+   * @param content The modal content
+   * @param elementId itemId | setId (based on situation)
+   * @param element 'item' | 'set' (identifier for the element to be deleted)
+   */
   public confirmDelete(content, elementId: string, element: 'item' | 'set') {
     this.modalService.open(content).result.then(
       (result) => {

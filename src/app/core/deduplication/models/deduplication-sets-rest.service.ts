@@ -79,6 +79,14 @@ export class DeduplicationSetsRestService {
     this.dataService = new DataServiceImpl(requestService, rdbService, null, objectCache, halService, notificationsService, http, comparator);
   }
 
+  /**
+   * Return the list of all deduplication sets for the given signature.
+   * @param options Find list options object.
+   * @param signatureId The id of the signature to retrieve the sets for.
+   * @param rule The rule to filter the sets by.
+   * @param linksToFollow List of {@link FollowLinkConfig} that indicate which {@link HALLink}s should be automatically resolved.
+   * @returns List of sets for the given signature.
+   */
   public getSetsPerSignature(options: FindListOptions = {}, signatureId: string, rule?: string, ...linksToFollow: FollowLinkConfig<SetObject>[]): Observable<RemoteData<PaginatedList<SetObject>>> {
     return this.dataService.getBrowseEndpoint(options).pipe(
       take(1),
@@ -92,6 +100,10 @@ export class DeduplicationSetsRestService {
     );
   }
 
+  /**
+   * Delete the given signature set.
+   * @param signatureId The id of the signature to which the set belongs.
+   */
   public deleteSet(signatureId: string): Observable<RemoteData<NoContent>> {
     return this.dataService.delete(signatureId).pipe(
       take(1)

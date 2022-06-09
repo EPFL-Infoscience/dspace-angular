@@ -21,7 +21,7 @@ const _getDeduplicationState = (state: any) => state.deduplication;
  * @return {DeduplicationSignatureState}
  */
 export function signaturesStateSelector(): MemoizedSelector<DeduplicationState, DeduplicationSignatureState> {
-  return subStateSelector<DeduplicationState,DeduplicationSignatureState>(deduplicationSelector, 'signatures');
+  return subStateSelector<DeduplicationState, DeduplicationSignatureState>(deduplicationSelector, 'signatures');
 }
 
 /**
@@ -78,17 +78,23 @@ export const getDeduplicationSignaturesTotalsSelector = createSelector(_getDedup
   (state: DeduplicationState) => state.signatures.totalElements
 );
 
+/**
+ * Returns the deduplication sets State.
+ */
 export function setsPerSignatureObjectSelector(): MemoizedSelector<DeduplicationState, DeduplicationSetState> {
   return subStateSelector<DeduplicationState, DeduplicationSetState>(deduplicationSelector, 'sets');
 }
 
+/**
+ * Returns the deduplication sets list.
+ */
 export function setsObjectsSelector(): MemoizedSelector<DeduplicationState, SetObject[]> {
   return subStateSelector<DeduplicationState, SetObject[]>(setsPerSignatureObjectSelector(), 'objects');
 }
 
-
-// sets
-
+/**
+ * Returns true if the deduplication sets are loaded.
+ */
 export const isDeduplicationSetsLoadedSelector = createSelector(_getDeduplicationState,
   (state: DeduplicationState) => state.sets.loaded
 );
@@ -129,12 +135,16 @@ export const getDeduplicationSetsTotalsSelector = createSelector(_getDeduplicati
   (state: DeduplicationState) => state.sets.totalElements
 );
 
-// items
-
+/**
+ * Returns the items State.
+ */
 export function setItemsObjectSelector(): MemoizedSelector<DeduplicationState, DeduplicationSetState> {
-  return subStateSelector<DeduplicationState, DeduplicationSetState>(deduplicationSelector,  'items');
+  return subStateSelector<DeduplicationState, DeduplicationSetState>(deduplicationSelector, 'items');
 }
 
+/*
+ * Returns the items list.
+ */
 export function setItemsObjectsSelector(): MemoizedSelector<DeduplicationState, SetItemsObject[]> {
   return subStateSelector<DeduplicationState, SetItemsObject[]>(setItemsObjectSelector(), 'objects');
 }

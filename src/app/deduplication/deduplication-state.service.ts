@@ -119,14 +119,29 @@ export class DeduplicationStateService {
     this.store.dispatch(new RetrieveAllSignaturesAction(elementsPerPage));
   }
 
+  //#region Sets
+
+  /**
+   * Returns the list of deduplication sets from the state.
+   * @return {*}  {Observable<SetObject[]>}
+   */
   public getDeduplicationSetsPerSignature(): Observable<SetObject[]> {
     return this.store.pipe(select(setsObjectsSelector()));
   }
 
+  /**
+   *  Dispatch a request to change the Sets state, retrieving the sets from the server.
+   * @param signatureId The signature id to retrieve the sets
+   * @param rule The rule to filter the sets
+   * @param elementsPerPage The number of elements per page
+   */
   public dispatchRetrieveDeduplicationSetsBySignature(signatureId: string, rule: string, elementsPerPage: number): void {
     this.store.dispatch(new RetrieveSetsBySignatureAction(elementsPerPage, signatureId, rule));
   }
 
+  /**
+   * @returns {Observable<boolean>} 'true' if the sets are loading, 'false' otherwise.
+   */
   public isDeduplicationSetsLoading(): Observable<boolean> {
     return this.store.pipe(
       select(isDeduplicationSetsLoadedSelector),
@@ -134,45 +149,79 @@ export class DeduplicationStateService {
     );
   }
 
+  /**
+   * @returns {Observable<boolean>} 'true' if the sets are loaded, 'false' otherwise.
+   */
   public isDeduplicationSetsLoaded(): Observable<boolean> {
     return this.store.pipe(select(isDeduplicationSetsLoadedSelector));
   }
 
+  /**
+   * @returns {Observable<boolean>} 'true' if the sets are processing, 'false' otherwise.
+   */
   public isDeduplicationSetsProcessing(): Observable<boolean> {
     return this.store.pipe(select(isDeduplicationSetsProcessingSelector));
   }
 
+  /**
+   * @returns {Observable<number>} The number of the deduplication sets pages.
+   */
   public getDeduplicationSetsTotalPages(): Observable<number> {
     return this.store.pipe(select(getDeduplicationSetsTotalPagesSelector));
   }
 
+  /**
+   * @returns {Observable<number>} The number of the current deduplication sets page.
+   */
   public getDeduplicationSetsCurrentPage(): Observable<number> {
     return this.store.pipe(select(getDeduplicationSetsCurrentPageSelector));
   }
 
+  /**
+   * @returns {Observable<number>} The number of the deduplication sets.
+   */
   public getDeduplicationSetsTotals(): Observable<number> {
     return this.store.pipe(select(getDeduplicationSetsTotalsSelector));
   }
 
+  /**
+   * Dispatch a request to change the Sets state.
+   * @param signatureId The signature id to retrieve the sets
+   * @param setId The id of the set to be removed
+   */
   public dispatchDeleteSet(signatureId: string, setId: string) {
     this.store.dispatch(
       new DeleteSetAction(signatureId, setId)
     );
   }
+  //#endregion Sets
 
-  //#region items
+  //#region Items
+
+  /**
+   * @returns {Observable<ItemObject[]>} The list of items from the state.
+   */
   public getDeduplicationSetItems(): Observable<SetItemsObject[]> {
     return this.store.pipe(select(setItemsObjectsSelector()));
   }
 
+  /**
+   * Dispatch a request to change the Items state, retrieving the items from the server.
+   * @param setId The id of the set to retrieve the items
+   */
   public dispatchRetrieveDeduplicationSetItems(setId: string): void {
     this.store.dispatch(new RetrieveSetItemsAction(setId));
   }
 
+  /**
+   * Dispatch a request to change the Items state.
+   * @param signatureId The signature id to retrieve the sets
+   * @param itemId The id of the item to be removed
+   */
   public dispatchDeleteItem(signatureId: string, itemId: string) {
     this.store.dispatch(
       new DeleteItemAction(signatureId, itemId)
     );
   }
-  //#endregion items
+  //#endregion Items
 }

@@ -12,7 +12,7 @@ import {
 } from './signatures/deduplication-signatures.reducer';
 
 /**
- * The Submission State
+ * The Deduplication State
  */
 export interface DeduplicationState {
   'sets': DeduplicationSetState;

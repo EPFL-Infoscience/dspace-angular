@@ -76,6 +76,13 @@ export class DeduplicationSetItemsRestService {
     this.dataService = new DataServiceImpl(requestService, rdbService, null, objectCache, halService, notificationsService, http, comparator);
   }
 
+  /**
+   * Returns the list of items for the given set.
+   * @param options Find list options object.
+   * @param setId The set id to get the items for.
+   * @param linksToFollow  List of {@link FollowLinkConfig} that indicate which {@link HALLink}s should be automatically resolved.
+   * @returns The list of set items.
+   */
   public getItemsPerSet(options: FindListOptions = {}, setId: string, ...linksToFollow: FollowLinkConfig<SetItemsObject>[]): Observable<RemoteData<PaginatedList<SetItemsObject>>> {
     return this.dataService.getBrowseEndpoint(options).pipe(
       take(1),
@@ -85,8 +92,13 @@ export class DeduplicationSetItemsRestService {
     );
   }
 
-  public deleteItem(signatureId: string, item: string): Observable<RemoteData<NoContent>> {
-    return this.dataService.delete(`${signatureId}/items/${item}`).pipe(
+  /**
+   * Deletes the given set item.
+   * @param signatureId The id of the signature to which the set items belong.
+   * @param itemId The id of the item to delete.
+   */
+  public deleteItem(signatureId: string, itemId: string): Observable<RemoteData<NoContent>> {
+    return this.dataService.delete(`${signatureId}/items/${itemId}`).pipe(
       take(1),
     );
   }
