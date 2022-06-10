@@ -1,6 +1,6 @@
 import { SetItemsObject } from './../core/deduplication/models/set-items.model';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { subStateSelector } from '../shared/selector.util';
+import { arraySubStateSelector, subStateSelector } from '../shared/selector.util';
 import { DeduplicationState, deduplicationSelector } from './deduplication.reducer';
 import { SignatureObject } from '../core/deduplication/models/signature.model';
 import { DeduplicationSignatureState } from './signatures/deduplication-signatures.reducer';
@@ -145,6 +145,6 @@ export function setItemsObjectSelector(): MemoizedSelector<DeduplicationState, D
 /*
  * Returns the items list.
  */
-export function setItemsObjectsSelector(): MemoizedSelector<DeduplicationState, SetItemsObject[]> {
-  return subStateSelector<DeduplicationState, SetItemsObject[]>(setItemsObjectSelector(), 'objects');
+export function setItemsObjectsSelector(setId): MemoizedSelector<DeduplicationState, SetItemsObject[]> {
+  return arraySubStateSelector<DeduplicationState, SetItemsObject[]>(setItemsObjectSelector(), setId, 'objects', 'setId');
 }

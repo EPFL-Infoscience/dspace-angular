@@ -17,7 +17,7 @@ import {
 export interface DeduplicationState {
   'sets': DeduplicationSetState;
   'signatures': DeduplicationSignatureState;
-  'items': DeduplicationSetItemsState;
+  'items': DeduplicationSetItemsState[];
 }
 
 export const deduplicationReducers: ActionReducerMap<DeduplicationState> = {

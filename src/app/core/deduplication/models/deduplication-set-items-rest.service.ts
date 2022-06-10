@@ -21,6 +21,7 @@ import { RemoteData } from '../../data/remote-data';
 import { SetItemsObject } from './set-items.model';
 import { DEDUPLICATION_SET_ITEMS } from './deduplication-set-items.resource-type';
 import { NoContent } from '../../shared/NoContent.model';
+import { getFirstCompletedRemoteData } from '../../shared/operators';
 
 /**
  * A private DataService implementation to delegate specific methods to.
@@ -97,9 +98,10 @@ export class DeduplicationSetItemsRestService {
    * @param signatureId The id of the signature to which the set items belong.
    * @param itemId The id of the item to delete.
    */
-  public deleteItem(signatureId: string, itemId: string): Observable<RemoteData<NoContent>> {
-    return this.dataService.delete(`${signatureId}/items/${itemId}`).pipe(
-      take(1),
+  public deleteItem(signatureId: string, itemId: string, seChecksum: string): Observable<RemoteData<NoContent>> {
+    return this.dataService.delete(`${signatureId}:${seChecksum}/items/${itemId}`).pipe(
+      getFirstCompletedRemoteData(),
+      take(1)
     );
   }
 }

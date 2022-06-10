@@ -1,3 +1,4 @@
+import { getAllSucceededRemoteData, getFirstCompletedRemoteData } from './../../shared/operators';
 import { PaginatedList } from './../../data/paginated-list.model';
 import { FollowLinkConfig } from './../../../shared/utils/follow-link-config.model';
 import { FindListOptions } from './../../data/request.models';
@@ -103,9 +104,11 @@ export class DeduplicationSetsRestService {
   /**
    * Delete the given signature set.
    * @param signatureId The id of the signature to which the set belongs.
+   * @param checksum
    */
-  public deleteSet(signatureId: string): Observable<RemoteData<NoContent>> {
-    return this.dataService.delete(signatureId).pipe(
+  public deleteSet(signatureId: string, checksum: string): Observable<RemoteData<NoContent>> {
+    return this.dataService.delete(`${signatureId}:${checksum}`).pipe(
+      getFirstCompletedRemoteData(),
       take(1)
     );
   }

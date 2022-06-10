@@ -69,9 +69,10 @@ export class DeduplicationSetsService {
   /**
    * Deletes the set with the given id
    * @param signatureId - the signature id of the set
+   * @param checksum
    */
-  public deleteSet(signatureId: string): Observable<RemoteData<NoContent>> {
-    return this.deduplicationRestService.deleteSet(signatureId).pipe(
+  public deleteSet(signatureId: string, checksum: string): Observable<RemoteData<NoContent>> {
+    return this.deduplicationRestService.deleteSet(signatureId, checksum).pipe(
       catchError((error) => {
         throw new Error('Can\'t remove the set from REST service');
       })
@@ -83,8 +84,8 @@ export class DeduplicationSetsService {
    * @param signatureId - the signature id of the set
    * @param itemId - the item id of the element to be removed
    */
-  public deleteItem(signatureId: string, itemId: string): Observable<RemoteData<NoContent>> {
-    return this.deduplicationSetItemsRestService.deleteItem(signatureId, itemId).pipe(
+  public deleteItem(signatureId: string, itemId: string, seChecksum: string): Observable<RemoteData<NoContent>> {
+    return this.deduplicationSetItemsRestService.deleteItem(signatureId, itemId, seChecksum).pipe(
       catchError((error) => {
         throw new Error('Can\'t remove the set from REST service');
       })

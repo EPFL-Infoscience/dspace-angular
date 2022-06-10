@@ -1,0 +1,41 @@
+import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'dsSetItemStatusList'
+})
+export class GetItemStatusListPipe implements PipeTransform {
+
+  /**
+   * Takes an item and returns all its statuses
+   * @param item Item Object
+   * @returns {string[]} the list of statuses per item
+   */
+  transform(item: SetItemsObject): string[] {
+    if (item) {
+      let statusList = [];
+      if (item.isDiscoverable) {
+        statusList.push(ItemStatus.DISCOVERABLE.toString());
+      }
+
+      if (item.isWithdrawn) {
+        statusList.push(ItemStatus.WITHDRAWN.toString());
+      }
+
+      if (item.isArchived) {
+        statusList.push(ItemStatus.IN_ARCHIVE.toString());
+      }
+
+      return statusList;
+    }
+  }
+}
+
+/**
+ * Status of an item
+ */
+export enum ItemStatus {
+  DISCOVERABLE = 'DISCOVERABLE',
+  WITHDRAWN = ' WITHDRAWN',
+  IN_ARCHIVE = 'IN ARCHIVE'
+}

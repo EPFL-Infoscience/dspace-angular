@@ -1,4 +1,4 @@
-import { autoserialize, deserialize } from 'cerialize';
+import { autoserialize, autoserializeAs, deserialize } from 'cerialize';
 
 import { CacheableObject } from '../../cache/object-cache.reducer';
 import { excludeFromEquals } from '../../utilities/equals.decorators';
@@ -36,20 +36,20 @@ export class SetItemsObject implements CacheableObject {
   @autoserialize
   handle: string;
 
-  @autoserialize
-  discoverable: boolean;
+  @autoserializeAs(Boolean, 'inArchive')
+  isArchived: boolean;
+
+  @autoserializeAs(Boolean, 'discoverable')
+  isDiscoverable: boolean;
+
+  @autoserializeAs(Boolean, 'withdrawn')
+  isWithdrawn: boolean;
 
   @autoserialize
   entityType: string;
 
   @autoserialize
-  inArchive: boolean;
-
-  @autoserialize
   lastModified: Date;
-
-  @autoserialize
-  withdrawn: boolean;
 
   @autoserialize
   metadata: MetadataMap;

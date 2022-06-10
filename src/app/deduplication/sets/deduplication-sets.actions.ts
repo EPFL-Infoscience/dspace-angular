@@ -173,6 +173,7 @@ export class DeleteItemAction implements Action {
   payload: {
     signatureId: string;
     itemId: string;
+    setId: string;
   };
 
   /**
@@ -180,8 +181,8 @@ export class DeleteItemAction implements Action {
    * @param signatureId - the signature id of the set
    * @param itemId - the id of the item
    */
-  constructor(signatureId: string, itemId: string) {
-    this.payload = { signatureId, itemId };
+  constructor(signatureId: string, itemId: string, setId: string) {
+    this.payload = { signatureId, itemId, setId };
   }
 }
 

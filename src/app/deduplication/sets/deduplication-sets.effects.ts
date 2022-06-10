@@ -5,7 +5,7 @@ import { NotificationsService } from './../../shared/notifications/notifications
 import { Injectable } from '@angular/core';
 import { of as observableOf } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { catchError, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import {
   RetrieveSetsBySignatureAction,
@@ -66,7 +66,7 @@ export class DeduplicationSetsEffects {
   @Effect() retrieveAllSetItems$ = this.actions$.pipe(
     ofType(DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS),
     withLatestFrom(this.store$),
-    switchMap(([action, currentState]: [RetrieveSetItemsAction, any]) => {
+    mergeMap(([action, currentState]: [RetrieveSetItemsAction, any]) => {
       return this.deduplicationSetsService.getSetItems(action.payload.setId)
         .pipe(
           map((items: PaginatedList<SetItemsObject>) =>

@@ -1,3 +1,4 @@
+import { GetItemStatusListPipe } from './../../deduplication/sets/get-item-status-list.pipe';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -20,8 +21,8 @@ import { DeduplicationSetsComponent } from '../../deduplication/sets/deduplicati
   ],
   declarations: [
     AdminDeduplicationPageComponent,
-    DeduplicationSetsComponent
-
+    DeduplicationSetsComponent,
+    GetItemStatusListPipe
   ],
   entryComponents: []
 })

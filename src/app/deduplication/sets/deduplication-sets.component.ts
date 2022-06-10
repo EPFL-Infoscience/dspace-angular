@@ -1,3 +1,5 @@
+import { FeatureID } from './../../core/data/feature-authorization/feature-id';
+import { AuthorizationDataService } from './../../core/data/feature-authorization/authorization-data.service';
 import { hasValue } from 'src/app/shared/empty.util';
 import { MetadataMap } from './../../core/shared/metadata.models';
 import { TranslateService } from '@ngx-translate/core';
@@ -21,7 +23,6 @@ import { isEqual } from 'lodash';
   styleUrls: ['./deduplication-sets.component.scss'],
 })
 export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
-
   /**
    * The deduplication signatures' sets list.
    * @type {Observable<SetObject[]>}
@@ -67,6 +68,18 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
    */
   public totalElements$: Observable<number>;
 
+  /**
+   * Role of the logged in user.
+   * @type {Observable<boolean>}
+   */
+  public isAdmin$: Observable<boolean>;
+
+  /**
+   * Stores the checked items per set.
+   * @type {Map<string, SelectedItemData[]>}
+   */
+  checkedItemsList: Map<string, SelectedItemData[]> = new Map();
+
   constructor(
     private route: ActivatedRoute,
     private deduplicationStateService: DeduplicationStateService,
@@ -74,6 +87,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
     private deduplicationSetsService: DeduplicationSetsService,
     private notificationsService: NotificationsService,
     private translate: TranslateService,
+    private authorizationService: AuthorizationDataService
   ) {
     this.signatureId = this.route.snapshot.params.id;
     this.rule = this.route.snapshot.params.rule;
@@ -85,6 +99,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
       this.deduplicationStateService.getDeduplicationSetsCurrentPage();
     this.totalElements$ =
       this.deduplicationStateService.getDeduplicationSetsTotals();
+    this.isAdmin$ = this.isCurrentUserAdmin();
   }
 
   ngOnInit(): void { }
@@ -125,17 +140,16 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
    * Retrieves the items per set.
    */
   getAllItems() {
-    this.sets$
-      .subscribe((sets: SetObject[]) => {
-        sets.forEach((set) => {
-          this.deduplicationStateService.dispatchRetrieveDeduplicationSetItems(
-            set.id
-          );
-          const items$: Observable<SetItemsObject[]> =
-            this.deduplicationStateService.getDeduplicationSetItems();
-          this.itemsMap.set(set.id, items$);
-        });
+    this.sets$.subscribe((sets: SetObject[]) => {
+      sets.forEach((set) => {
+        this.deduplicationStateService.dispatchRetrieveDeduplicationSetItems(
+          set.id
+        );
+        const items$: Observable<SetItemsObject[]> =
+          this.deduplicationStateService.getDeduplicationSetItems(set.id);
+        this.itemsMap.set(set.id, items$);
       });
+    });
   }
 
   /**
@@ -148,26 +162,66 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Returns the item's author.
+   * Returns the item's authors.
    * @param metadata The metadata of the item
-   * @returns {string} The value or a missing value if the metadata is not defined
+   * @returns {string}
    */
-  getAuthor(metadata: MetadataMap): string {
+  getAuthor(metadata: MetadataMap): string[] {
     if (metadata) {
-      let author = metadata['dc.contributor.author'];
-      return hasValue(author) ? author[0].value : '-';
+      let authorList = metadata['dc.contributor.author'];
+      if (hasValue(authorList)) {
+        return authorList.map(x => x.value);
+      } else {
+        return ['-'];
+      }
     }
   }
 
   /**
-   * Returns the item's date issued.
+   * Returns the item's dates issued.
    * @param metadata The metadata of the item
-   * @returns  {string} The value or a missing value if the metadata is not defined
+   * @returns  {string[]}
    */
-  getDateIssued(metadata: MetadataMap): string {
+  getDateIssued(metadata: MetadataMap): string[] {
+    if (hasValue(metadata)) {
+      let dates = metadata['dc.date.issued'];
+      if (hasValue(dates)) {
+        return dates.map(x => x.value);
+      } else {
+        return ['-'];
+      }
+    }
+  }
+
+  /**
+   * Returns the item's titles.
+   * @param metadata The metadata of the item
+   * @returns {string[]}
+   */
+  getItemTitle(metadata: MetadataMap): string[] {
+    if (hasValue(metadata)) {
+      let titles = metadata['dc.title'];
+      if (hasValue(titles)) {
+        return titles.map(x => x.value);
+      } else {
+        return ['-'];
+      }
+    }
+  }
+
+  /**
+   * Returns the item's types.
+   * @param metadata The metadata of the item
+   * @returns  {string[]}
+   */
+  getType(metadata: MetadataMap): string[] {
     if (metadata) {
-      let author = metadata['dc.date.issued'];
-      return hasValue(author) ? author[0].value : '-';
+      let types = metadata['dc.type'];
+      if (hasValue(types)) {
+        return types.map(x => x.value);
+      } else {
+        return ['-'];
+      }
     }
   }
 
@@ -180,7 +234,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
     if (this.itemsMap.has(setId)) {
       return this.itemsMap.get(setId).pipe(
         map((item: SetItemsObject[]) => {
-          return item.map((x) => x.id);
+          return item?.map((x) => x.id);
         })
       );
     }
@@ -190,28 +244,45 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
    * Delete the set.
    * @param setId The id of the set to which the items belong to.
    */
-  deleteSet(setId: string) {
-    this.deduplicationSetsService.deleteSet(this.signatureId).subscribe((res: RemoteData<NoContent>) => {
-      if (res.hasSucceeded) {
-        this.deduplicationStateService.dispatchDeleteSet(this.signatureId, setId);
-      } else {
-        this.notificationsService.error(null, this.translate.get('Cannot remove set'))
-      }
-    })
+  deleteSet(setId: string, setChecksum: string) {
+    this.deduplicationSetsService
+      .deleteSet(this.signatureId, setChecksum)
+      .subscribe((res: RemoteData<NoContent>) => {
+        if (res.hasSucceeded) {
+          this.deduplicationStateService.dispatchDeleteSet(
+            this.signatureId,
+            setId
+          );
+        } else {
+          this.notificationsService.error(
+            null,
+            this.translate.get('Cannot remove set')
+          );
+        }
+      });
   }
 
   /**
    * Delete the item.
    * @param itemId The id of the item to be deleted
    */
-  deleteItem(itemId: string) {
-    this.deduplicationSetsService.deleteItem(this.signatureId, itemId).subscribe((res: RemoteData<NoContent>) => {
-      if (res.hasSucceeded) {
-        this.deduplicationStateService.dispatchDeleteItem(this.signatureId, itemId);
-      } else {
-        this.notificationsService.error(null, this.translate.get('Cannot remove item'))
-      }
-    })
+  deleteItem(itemId: string, setChecksum: string, setId: string) {
+    this.deduplicationSetsService
+      .deleteItem(this.signatureId, itemId, setChecksum)
+      .subscribe((res: RemoteData<NoContent>) => {
+        if (res.hasSucceeded) {
+          this.deduplicationStateService.dispatchDeleteItem(
+            this.signatureId,
+            itemId,
+            setId
+          );
+        } else {
+          this.notificationsService.error(
+            null,
+            this.translate.get('Cannot remove item')
+          );
+        }
+      });
   }
 
   /**
@@ -220,17 +291,73 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
    * @param elementId itemId | setId (based on situation)
    * @param element 'item' | 'set' (identifier for the element to be deleted)
    */
-  public confirmDelete(content, elementId: string, element: 'item' | 'set') {
-    this.modalService.open(content).result.then(
-      (result) => {
-        if (result === 'ok') {
-          if (isEqual(element, 'set')) {
-            this.deleteSet(elementId);
-          } else {
-            this.deleteItem(elementId);
-          }
+  public confirmDelete(
+    content,
+    elementId: string,
+    element: 'item' | 'set',
+    setChecksum: string,
+    setId?: string
+  ) {
+    this.modalService.open(content).result.then((result) => {
+      if (isEqual(result, 'ok')) {
+        if (isEqual(element, 'set')) {
+          this.deleteSet(elementId, setChecksum);
+        } else {
+          this.deleteItem(elementId, setChecksum, setId);
         }
       }
-    );
+    });
   }
+
+ /**
+  * Calculates the number of checked items per set.
+  * @param {*} event Checkbox event
+  * @param {string} itemId The id of the item is checked
+  * @param {string} setId The id of the set to which the item belongs to
+  */
+ onItemCheck(event, itemId: string, setId: string) {
+    if (this.checkedItemsList.has(setId)) {
+      if (event.target.checked) {
+        this.checkedItemsList.get(setId).push({
+          itemId: itemId,
+          checked: event.target.checked,
+        });
+      } else if (!event.target.checked) {
+        let element = this.checkedItemsList
+          .get(setId)
+          .findIndex((x) => x.itemId === itemId);
+        this.checkedItemsList.get(setId).splice(element, 1);
+      }
+    } else {
+      this.checkedItemsList.set(setId, [
+        {
+          checked: event.target.checked,
+          itemId: itemId,
+        },
+      ]);
+    }
+  }
+
+  noDuplicatesAction(setId: string) {
+    if (!this.checkedItemsList.has(setId) || this.checkedItemsList.get(setId).length < 2) {
+      this.notificationsService.warning(null, this.translate.get('Please select at least two items'));
+    } else {
+      // TODO: implement no duplicates action
+    }
+  }
+
+  /**
+   * Returns if the logged in user is an Admin.
+   * @returns {Observable<boolean>}
+   */
+  private isCurrentUserAdmin(): Observable<boolean> {
+    return this.authorizationService
+      .isAuthorized(FeatureID.AdministratorOf, undefined, undefined)
+      .pipe(take(1));
+  }
+}
+
+export interface SelectedItemData {
+  checked: boolean;
+  itemId: string;
 }

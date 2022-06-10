@@ -9,15 +9,26 @@
         the items to compare or reject. The system records the action "No
         duplicate" so the match is not show in the future.
       </p>
-      <div *ngIf="
+      <div
+        *ngIf="
           (!sets$ || (sets$ | async)?.length == 0) && !(isSetsLoading() | async)
-        " class="col-md-12 text-center">
+        "
+        class="col-md-12 text-center"
+      >
         <h4 class="signatures-not-found p-3">
           No sets found for this signature.
         </h4>
       </div>
-      <ds-loading class="container" *ngIf="isSetsLoading() | async" message="'Loading...' | translate"></ds-loading>
-      <ngb-accordion [destroyOnHide]="false" [closeOthers]="true" activeIds="panel-0">
+      <ds-loading
+        class="container"
+        *ngIf="isSetsLoading() | async"
+        message="'Loading...' | translate"
+      ></ds-loading>
+      <ngb-accordion
+        [destroyOnHide]="false"
+        [closeOthers]="true"
+        activeIds="panel-0"
+      >
         <ng-container *ngFor="let set of sets$ | async; let i = index">
           <ngb-panel id="panel-{{ i }}">
             <ng-template ngbPanelHeader let-opened="opened">
@@ -25,9 +36,9 @@
                 <div class="col-md-10 mt-1">
                   <h5 class="m-0">
                     {{ set.id }}
-                    <span class="badge badge-primary">{{
-                      (getItemsPerSet(set.id) | async).length
-                      }}</span>
+                    <span class="badge badge-primary">
+                      {{ (getItemsPerSet(set.id) | async)?.length }}
+                    </span>
                   </h5>
                 </div>
                 <div class="col-md-2 text-right mt-1">
@@ -53,123 +64,212 @@
               </div>
             </ng-template>
             <ng-template ngbPanelContent>
-              <div class="row">
-                <div class="col-12">
-                  <p class="small">Select the items to compare them.</p>
+              <ng-container
+                *ngIf="(getItemsPerSet(set.id) | async)?.length == 0"
+              >
+                No items found.
+              </ng-container>
+              <ng-container
+                *ngIf="(getItemsPerSet(set.id) | async)?.length > 0"
+              >
+                <div class="row">
+                  <div class="col-12">
+                    <p class="small">Select the items to compare them.</p>
+                  </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-md-4">
-                  <button class="btn btn-outline-secondary btn-sm mt-1">
-                    <i class="fa fa-check-square"></i> Select all
-                  </button>
-                  <button class="btn btn-outline-secondary btn-sm mt-1">
-                    <i class="fa fa-square"></i> Deselect all
-                  </button>
+                <div class="row">
+                  <div class="col-md-4">
+                    <button class="btn btn-outline-secondary btn-sm mt-1">
+                      <i class="fa fa-check-square"></i> Select all
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm mt-1">
+                      <i class="fa fa-square"></i> Deselect all
+                    </button>
+                  </div>
+                  <div class="col-md-8 text-right">
+                    <button class="btn btn-primary btn-sm mt-1">
+                      <i class="fa fa-clone"></i> Compare
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm mt-1" (click)="noDuplicatesAction(set.id)">
+                      <i class="fa fa-times"></i> No duplicates
+                    </button>
+                    <button
+                      class="btn btn-outline-danger btn-sm mt-1"
+                      *ngIf="isAdmin$ | async"
+                      (click)="
+                        $event.preventDefault();
+                        confirmDelete(content, set.id, 'set', set.setChecksum)
+                      "
+                    >
+                      <i class="fa fa-trash-alt"></i> Delete set
+                    </button>
+                  </div>
                 </div>
-                <div class="col-md-8 text-right">
-                  <button class="btn btn-primary btn-sm mt-1">
-                    <i class="fa fa-clone"></i> Compare
-                  </button>
-                  <button class="btn btn-outline-secondary btn-sm mt-1" (click)="
-                      $event.preventDefault(); confirmDelete(content, set.id, 'set')
-                    ">
-                    <i class="fa fa-times"></i> No duplicates
-                  </button>
-                  <!-- <button class="btn btn-outline-danger btn-sm mt-1">
-                    <i class="fa fa-trash-alt"></i> Delete selected
-                  </button> -->
-                </div>
-              </div>
-              <div class="row mt-2">
-                <div class="col-12">
-                  <div class="table-responsive">
-                    <table class="table table-striped">
-                      <tbody>
-                        <ng-container *ngFor="let item of getItemsPerSet(set.id) | async">
-                          <tr class="border border-thick">
-                            <td>
-                              <div class="custom-control custom-checkbox ml-0">
-                                <input type="checkbox" class="custom-control-input" id="{{ item.id }}" />
-                                <label class="custom-control-label" for="{{ item.id }}"></label>
-                              </div>
-                            </td>
-                            <td>
-                              <table class="table table-borderless small">
-                                <tbody>
-                                  <tr>
-                                    <th>Collection:</th>
-                                    <td>1.01 Articoli in rivista</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Internal identifier:</th>
-                                    <td>
-                                      <button class="btn btn-outline-secondary btn-sm">
-                                        {{ item.uuid }}
-                                      </button>
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <th>Last modified:</th>
-                                    <td>{{ item.lastModified | date }}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Status:</th>
-                                    <td>
-                                      <span class="badge badge-secondary">Workspace</span>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </td>
-                            <td>
-                              <table class="table table-borderless small">
-                                <tbody>
-                                  <tr>
-                                    <th>Title:</th>
-                                    <td>
-                                      {{ item.name }}
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <th>Author:</th>
-                                    <td>
-                                      {{ getAuthor(item.metadata) }}
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <th>Date issued:</th>
-                                    <td>{{getDateIssued(item.metadata)}}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Type:</th>
-                                    <td>{{ item.entityType }}</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </td>
-                            <td>
-                              <div class="btn-group btn-group-sm" role="group" aria-label="btn-grp-01-01">
-                                <button class="btn btn-danger" title="Delete" (click)="
-                                $event.preventDefault(); confirmDelete(content, set.id, 'item')
-                              ">
-                                  <i class="fa fa-trash-alt"></i>
-                                </button>
-                                <!-- <button
+                <div class="row mt-2">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <table class="table table-striped">
+                        <tbody>
+                          <ng-container
+                            *ngFor="
+                              let item of getItemsPerSet(set.id) | async"
+                          >
+                            <tr class="border border-thick">
+                              <td>
+                                <div
+                                  class="custom-control custom-checkbox ml-0"
+                                >
+                                  <input
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    [id]="item.uuid"
+                                    (change)="
+                                      onItemCheck($event, item.uuid, set.id)
+                                    "
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    [for]="item.uuid"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td>
+                                <table class="table table-borderless small">
+                                  <tbody>
+                                    <tr>
+                                      <th>Collection:</th>
+                                      <td>{{ item.entityType }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Internal identifier:</th>
+                                      <td>
+                                        <button
+                                          class="btn btn-outline-secondary btn-sm"
+                                        >
+                                          {{ item.uuid }}
+                                        </button>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <th>Last modified:</th>
+                                      <td>{{ item.lastModified | date }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Status:</th>
+                                      <td>
+                                        <ng-container
+                                          *ngFor="
+                                            let status of item
+                                              | dsSetItemStatusList
+                                          "
+                                        >
+                                          <span class="badge badge-secondary">{{
+                                            status | titlecase
+                                          }}</span>
+                                        </ng-container>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </td>
+                              <td>
+                                <table class="table table-borderless small">
+                                  <tbody>
+                                    <tr>
+                                      <th>Title:</th>
+                                      <td>
+                                        <ng-container
+                                          *ngFor="
+                                            let title of getItemTitle(
+                                              item.metadata
+                                            )
+                                          "
+                                        >
+                                          <span>{{ title | titlecase }}</span>
+                                        </ng-container>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <th>Author:</th>
+                                      <td>
+                                        <ng-container
+                                          *ngFor="
+                                            let author of getAuthor(
+                                              item.metadata
+                                            )
+                                          "
+                                        >
+                                          <span>{{ author | titlecase }}</span>
+                                        </ng-container>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <th>Date issued:</th>
+                                      <td>
+                                        <ng-container
+                                          *ngFor="
+                                            let date of getDateIssued(
+                                              item.metadata
+                                            )
+                                          "
+                                        >
+                                          <span>{{ date }}</span>
+                                        </ng-container>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <th>Type:</th>
+                                      <td>
+                                        <ng-container
+                                          *ngFor="
+                                            let type of getType(item.metadata)
+                                          "
+                                        >
+                                          <span>{{ type }}</span>
+                                        </ng-container>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </td>
+                              <td>
+                                <div
+                                  class="btn-group btn-group-sm"
+                                  role="group"
+                                  aria-label="btn-grp-01-01"
+                                >
+                                  <button
+                                    class="btn btn-danger"
+                                    title="Delete"
+                                    (click)="
+                                      $event.preventDefault();
+                                      confirmDelete(
+                                        content,
+                                        item.uuid,
+                                        'item',
+                                        set.setChecksum,
+                                        set.id
+                                      )
+                                    "
+                                  >
+                                    <i class="fa fa-trash-alt"></i>
+                                  </button>
+                                  <!-- <button
                                   class="btn btn-warning"
                                   title="Keep this"
                                 >
                                   <i class="fa fa-star"></i>
                                 </button> -->
-                              </div>
-                            </td>
-                          </tr>
-                        </ng-container>
-                      </tbody>
-                    </table>
+                                </div>
+                              </td>
+                            </tr>
+                          </ng-container>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </ng-container>
             </ng-template>
           </ngb-panel>
         </ng-container>
@@ -181,7 +281,12 @@
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title text-danger">{{ "Remove Element" | translate }}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('cancel')">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="d('cancel')"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>

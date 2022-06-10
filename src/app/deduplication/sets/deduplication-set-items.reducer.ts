@@ -1,5 +1,5 @@
+import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
 import { hasValue } from 'src/app/shared/empty.util';
-import { SetObject } from '../../core/deduplication/models/set.model';
 import {
   DeduplicationSetsActionTypes,
   DeduplicationSetsActions,
@@ -10,7 +10,7 @@ import {
  * The interface representing the set items state.
  */
 export interface DeduplicationSetItemsState {
-  objects: SetObject[];
+  objects: SetItemsObject[];
   processing: boolean;
   loaded: boolean;
   setId: string;
@@ -19,12 +19,12 @@ export interface DeduplicationSetItemsState {
 /**
  * Used for the items state initialization.
  */
-const deduplicationObjectInitialState: DeduplicationSetItemsState = {
+const deduplicationObjectInitialState: DeduplicationSetItemsState[] = [{
   objects: [],
   processing: false,
   loaded: false,
   setId: null
-};
+}];
 
 /**
  * The deduplication sets Reducer
@@ -36,11 +36,12 @@ const deduplicationObjectInitialState: DeduplicationSetItemsState = {
  * @return DeduplicationSetState
  *    the new state
  */
-export function deduplicationSetItemsReducer(state = deduplicationObjectInitialState, action: DeduplicationSetsActions): DeduplicationSetItemsState {
+export function deduplicationSetItemsReducer(state = deduplicationObjectInitialState, action: DeduplicationSetsActions): DeduplicationSetItemsState[] {
   switch (action.type) {
 
     case DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS: {
-      return Object.assign({}, state, {
+      let requestedState = state?.find(item => item.setId === action.payload.setId);
+      return Object.assign([], requestedState, {
         processing: true
       });
     }
@@ -54,12 +55,12 @@ export function deduplicationSetItemsReducer(state = deduplicationObjectInitialS
     }
 
     case DeduplicationSetsActionTypes.ADD_SET_ITEMS: {
-      return Object.assign({}, state, {
+      return state.concat([{
         objects: action.payload.objects,
         processing: false,
         loaded: true,
         setId: action.payload.setId,
-      });
+      }]);
     }
 
     case DeduplicationSetsActionTypes.DELETE_ITEM: {
@@ -78,13 +79,18 @@ export function deduplicationSetItemsReducer(state = deduplicationObjectInitialS
  * @param {DeleteItemAction} action - the action to perform on the state
  * @return {*}  {DeduplicationSetItemsState} - the new state
  */
-function deleteItem(state: DeduplicationSetItemsState, action: DeleteItemAction): DeduplicationSetItemsState {
-  let itemsData = [...state.objects];
+function deleteItem(state: DeduplicationSetItemsState[], action: DeleteItemAction): DeduplicationSetItemsState[] {
+  let itemsData = [...state.find(item => item.setId === action.payload.setId)?.objects];
   if (hasValue(itemsData)) {
     const itemIdx = itemsData.findIndex(x => x.id == action.payload.itemId);
     if (itemIdx > -1) {
       itemsData.splice(itemIdx, 1);
-      return  { ...state, objects: [...itemsData] };
+      return Object.assign({}, state, {
+        objects: itemsData,
+        processing: false,
+        loaded: true,
+        setId: action.payload.setId,
+      });
     }
   }
   return state;

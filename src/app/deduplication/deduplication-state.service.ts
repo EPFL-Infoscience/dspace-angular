@@ -201,8 +201,8 @@ export class DeduplicationStateService {
   /**
    * @returns {Observable<ItemObject[]>} The list of items from the state.
    */
-  public getDeduplicationSetItems(): Observable<SetItemsObject[]> {
-    return this.store.pipe(select(setItemsObjectsSelector()));
+  public getDeduplicationSetItems(setId: string): Observable<SetItemsObject[]> {
+    return this.store.pipe(select(setItemsObjectsSelector(setId)));
   }
 
   /**
@@ -217,10 +217,11 @@ export class DeduplicationStateService {
    * Dispatch a request to change the Items state.
    * @param signatureId The signature id to retrieve the sets
    * @param itemId The id of the item to be removed
+   * @param setId The id of the to which the item belong
    */
-  public dispatchDeleteItem(signatureId: string, itemId: string) {
+  public dispatchDeleteItem(signatureId: string, itemId: string, setId:string) {
     this.store.dispatch(
-      new DeleteItemAction(signatureId, itemId)
+      new DeleteItemAction(signatureId, itemId, setId)
     );
   }
   //#endregion Items

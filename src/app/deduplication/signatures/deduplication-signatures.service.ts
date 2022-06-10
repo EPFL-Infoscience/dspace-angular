@@ -46,8 +46,6 @@ export class DeduplicationSignaturesService {
       getFirstCompletedRemoteData(),
       map((rd: RemoteData<PaginatedList<SignatureObject>>) => {
         if (rd.hasSucceeded) {
-          console.log(rd.payload, 'signature');
-
           return rd.payload;
         } else {
           throw new Error('Can\'t retrieve signatures from deduplication REST service');
