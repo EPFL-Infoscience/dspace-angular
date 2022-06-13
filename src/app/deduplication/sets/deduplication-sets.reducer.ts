@@ -1,3 +1,4 @@
+import { isEqual } from 'lodash';
 
 import { hasValue } from './../../shared/empty.util';
 import { SetObject } from '../../core/deduplication/models/set.model';
@@ -7,10 +8,10 @@ import {
   DeleteSetAction,
 } from './deduplication-sets.actions';
 
-/**
-* The interface representing the set items state.
- * @interface DeduplicationSetState
- */
+ /**
+  * The interface representing the set items state.
+  * @interface DeduplicationSetState
+  */
 export interface DeduplicationSetState {
   objects: SetObject[];
   processing: boolean;
@@ -19,7 +20,7 @@ export interface DeduplicationSetState {
   currentPage: number;
   totalElements: number;
   signatureId: string;
-  rule: string
+  rule: string;
 }
 
 /**
@@ -93,9 +94,9 @@ export function deduplicationSetReducer(state = deduplicationObjectInitialState,
  * @returns - the new state
  */
 function deleteSet(state: DeduplicationSetState, action: DeleteSetAction): DeduplicationSetState {
-  let setData = [...state.objects];
+  const setData = [...state.objects];
   if (hasValue(setData)) {
-    const setIdx = setData.findIndex(x => x.id == action.payload.setId);
+    const setIdx = setData.findIndex(x => isEqual(x.id, action.payload.setId));
     if (setIdx > -1) {
       setData.splice(setIdx, 1);
       return { ...state, objects: [...setData] };

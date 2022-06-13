@@ -13,7 +13,7 @@ export class GetItemStatusListPipe implements PipeTransform {
    */
   transform(item: SetItemsObject): string[] {
     if (item) {
-      let statusList = [];
+      const statusList = [];
       if (item.isDiscoverable) {
         statusList.push(ItemStatus.DISCOVERABLE.toString());
       }

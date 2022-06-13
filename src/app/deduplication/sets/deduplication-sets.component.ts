@@ -22,7 +22,7 @@ import { isEqual } from 'lodash';
   templateUrl: './deduplication-sets.component.html',
   styleUrls: ['./deduplication-sets.component.scss'],
 })
-export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
+export class DeduplicationSetsComponent implements AfterViewInit {
   /**
    * The deduplication signatures' sets list.
    * @type {Observable<SetObject[]>}
@@ -102,8 +102,6 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
     this.isAdmin$ = this.isCurrentUserAdmin();
   }
 
-  ngOnInit(): void { }
-
   /**
    * First deduplication sets loading after view initialization.
    */
@@ -124,7 +122,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
     this.deduplicationStateService.dispatchRetrieveDeduplicationSetsBySignature(
       this.signatureId,
       this.rule,
-      this.elementsPerPage
+      null
     );
   }
 
@@ -168,7 +166,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
    */
   getAuthor(metadata: MetadataMap): string[] {
     if (metadata) {
-      let authorList = metadata['dc.contributor.author'];
+      const authorList = metadata['dc.contributor.author'];
       if (hasValue(authorList)) {
         return authorList.map(x => x.value);
       } else {
@@ -184,7 +182,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
    */
   getDateIssued(metadata: MetadataMap): string[] {
     if (hasValue(metadata)) {
-      let dates = metadata['dc.date.issued'];
+      const dates = metadata['dc.date.issued'];
       if (hasValue(dates)) {
         return dates.map(x => x.value);
       } else {
@@ -200,7 +198,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
    */
   getItemTitle(metadata: MetadataMap): string[] {
     if (hasValue(metadata)) {
-      let titles = metadata['dc.title'];
+      const titles = metadata['dc.title'];
       if (hasValue(titles)) {
         return titles.map(x => x.value);
       } else {
@@ -216,7 +214,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
    */
   getType(metadata: MetadataMap): string[] {
     if (metadata) {
-      let types = metadata['dc.type'];
+      const types = metadata['dc.type'];
       if (hasValue(types)) {
         return types.map(x => x.value);
       } else {
@@ -323,7 +321,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
           checked: event.target.checked,
         });
       } else if (!event.target.checked) {
-        let element = this.checkedItemsList
+        const element = this.checkedItemsList
           .get(setId)
           .findIndex((x) => x.itemId === itemId);
         this.checkedItemsList.get(setId).splice(element, 1);

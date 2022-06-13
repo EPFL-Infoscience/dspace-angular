@@ -34,8 +34,8 @@ export class DeduplicationSetsEffects {
     ofType(DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE),
     withLatestFrom(this.store$),
     switchMap(([action, currentState]: [RetrieveSetsBySignatureAction, any]) => {
-      const currentPage = (currentState.deduplication as DeduplicationState).sets.currentPage + 1;
-      return this.deduplicationSetsService.getSets(action.payload.elementsPerPage, currentPage, action.payload.signatureId, action.payload.rule)
+      // const currentPage = (currentState.deduplication as DeduplicationState).sets.currentPage + 1;
+      return this.deduplicationSetsService.getSets(action.payload.elementsPerPage, null, action.payload.signatureId, action.payload.rule)
         .pipe(
           map((sets: PaginatedList<SetObject>) =>
             new AddSetsAction(sets.page, sets.totalPages, sets.currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule)
@@ -51,8 +51,8 @@ export class DeduplicationSetsEffects {
   );
 
   /**
-  * Show a notification on error.
-  */
+   * Show a notification on error.
+   */
   @Effect({ dispatch: false }) retrieveAllSetsErrorAction$ = this.actions$.pipe(
     ofType(DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE_ERROR),
     tap(() => {
@@ -83,8 +83,8 @@ export class DeduplicationSetsEffects {
   );
 
   /**
-  * Show a notification on error.
-  */
+   * Show a notification on error.
+   */
   @Effect({ dispatch: false }) retrieveAllSetItemsErrorAction$ = this.actions$.pipe(
     ofType(DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS_ERROR),
     tap(() => {

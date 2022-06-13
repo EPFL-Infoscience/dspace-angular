@@ -21,7 +21,6 @@ import { SignatureObject } from './models/signature.model';
 import { SIGNATURE_OBJECT } from './models/signature-object.resource-type';
 import { FollowLinkConfig } from '../../shared/utils/follow-link-config.model';
 import { PaginatedList } from '../data/paginated-list.model';
-import { SetObject } from './models/set.model';
 
 /* tslint:disable:max-classes-per-file */
 

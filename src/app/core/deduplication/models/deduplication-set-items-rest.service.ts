@@ -23,6 +23,9 @@ import { DEDUPLICATION_SET_ITEMS } from './deduplication-set-items.resource-type
 import { NoContent } from '../../shared/NoContent.model';
 import { getFirstCompletedRemoteData } from '../../shared/operators';
 
+/* tslint:disable:max-classes-per-file */
+
+
 /**
  * A private DataService implementation to delegate specific methods to.
  */

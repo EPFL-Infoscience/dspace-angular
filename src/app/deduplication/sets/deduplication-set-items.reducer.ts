@@ -1,3 +1,4 @@
+import { isEqual } from 'lodash';
 import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
 import { hasValue } from 'src/app/shared/empty.util';
 import {
@@ -40,7 +41,7 @@ export function deduplicationSetItemsReducer(state = deduplicationObjectInitialS
   switch (action.type) {
 
     case DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS: {
-      let requestedState = state?.find(item => item.setId === action.payload.setId);
+      const requestedState = state?.find(item => item.setId === action.payload.setId);
       return Object.assign([], requestedState, {
         processing: true
       });
@@ -80,9 +81,9 @@ export function deduplicationSetItemsReducer(state = deduplicationObjectInitialS
  * @return {*}  {DeduplicationSetItemsState} - the new state
  */
 function deleteItem(state: DeduplicationSetItemsState[], action: DeleteItemAction): DeduplicationSetItemsState[] {
-  let itemsData = [...state.find(item => item.setId === action.payload.setId)?.objects];
+  const itemsData = [...state.find(item => isEqual(item.setId, action.payload.setId))?.objects];
   if (hasValue(itemsData)) {
-    const itemIdx = itemsData.findIndex(x => x.id == action.payload.itemId);
+    const itemIdx = itemsData.findIndex(x => isEqual(x.id, action.payload.itemId));
     if (itemIdx > -1) {
       itemsData.splice(itemIdx, 1);
       return Object.assign({}, state, {

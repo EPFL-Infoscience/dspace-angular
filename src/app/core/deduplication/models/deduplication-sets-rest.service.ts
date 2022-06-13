@@ -24,7 +24,7 @@ import { RemoteData } from '../../data/remote-data';
 import { isNil } from 'lodash';
 import { NoContent } from '../../shared/NoContent.model';
 
-
+/* tslint:disable:max-classes-per-file */
 
 /**
  * A private DataService implementation to delegate specific methods to.

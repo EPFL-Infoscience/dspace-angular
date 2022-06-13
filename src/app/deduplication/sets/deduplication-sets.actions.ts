@@ -4,6 +4,8 @@ import { SetObject } from 'src/app/core/deduplication/models/set.model';
 
 import { type } from '../../shared/ngrx/type';
 
+/* tslint:disable:max-classes-per-file */
+
 /**
  * For each action type in an action group, make a simple
  * enum object for all of this group's action types.
