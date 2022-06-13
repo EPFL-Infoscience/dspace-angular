@@ -6,7 +6,7 @@ import { PaginatedList } from './../../core/data/paginated-list.model';
 import { FindListOptions } from './../../core/data/request.models';
 import { SetObject } from './../../core/deduplication/models/set.model';
 import { Injectable } from "@angular/core";
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { getFirstCompletedRemoteData } from './../../core/shared/operators';
 import { catchError, map } from 'rxjs/operators';
 import { DeduplicationSetsRestService } from './../../core/deduplication/models/deduplication-sets-rest.service';

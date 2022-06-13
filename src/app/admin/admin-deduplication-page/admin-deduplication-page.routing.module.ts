@@ -42,7 +42,7 @@ import { I18nBreadcrumbResolver } from '../../core/breadcrumbs/i18n-breadcrumb.r
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         data: {
           title: 'sets',
-          breadcrumbKey: 'Sets',
+          breadcrumbKey: 'sets',
           showBreadcrumbsFluid: false
         },
       }

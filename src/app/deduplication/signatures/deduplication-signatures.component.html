@@ -1,6 +1,6 @@
 <div class="row tab-pane-deduplication">
   <div *ngIf="!signatures || (signatures | async)?.length == 0" class="col-md-12 text-center">
-    <h4 class="signatures-not-found p-3">No signatures found.</h4>
+    <h4 class="signatures-not-found p-3">{{'deduplication.signature.no-data' | translate}}</h4>
   </div>
   <div *ngFor="let signature of (signatures | async); let i = index" class="col-md-{{bootstrapColNumber}}">
     <div class="card card bg-light mb-3 text-center">

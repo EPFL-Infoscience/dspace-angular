@@ -1525,6 +1525,8 @@
 
   "deduplication.signature.loading": "Loading signatures ...",
 
+  "deduplication.signature.no-data": "No signatures found.",
+
   "deduplication.signature.groupAdminstratorCheck.text": "Total potential match (Admin check):",
 
   "deduplication.signature.groupReviewerCheck.text": "Remaining to check by librarian (quality check):",
@@ -1541,6 +1543,65 @@
 
   "deduplication.signature.cardTitle.identifier": "Identifiers",
 
+  "deduplication.sets.breadcrumbs": "Sets",
+
+  "deduplication.sets.title": "Records duplicate Identifiers (DOI, PMID, ARXIV, SCOPUS, ISI)",
+
+  "deduplication.sets.subtitle": "The page shows potentially duplicate groups by signature. You can select the items to compare or reject. The system records the action \"No duplicate\" so the match is not show in the future.",
+
+  "deduplication.sets.message.no-data": "No sets found for this signature.",
+
+  "deduplication.sets.message.no-items": "No items found.",
+
+  "deduplication.sets.message.loading": "Loading ...",
+
+  "deduplication.sets.label.match-criteria": "Match other criteria",
+
+  "deduplication.sets.label.select-to-compare": "Select the items to compare them.",
+
+  "deduplication.sets.button.select-all": "Select all",
+
+  "deduplication.sets.button.deselect-all": "Deselect all",
+
+  "deduplication.sets.button.compare": "Compare",
+
+  "deduplication.sets.button.no-duplicates": "No duplicates",
+
+  "deduplication.sets.button.delete-set": "Delete set",
+
+  "deduplication.sets.label.collection": "Collection",
+
+  "deduplication.sets.label.identifier": "Internal identifier",
+
+  "deduplication.sets.label.last-modified": "Last modified",
+
+  "deduplication.sets.label.status": "Status",
+
+  "deduplication.sets.label.title": "Title",
+
+  "deduplication.sets.label.author": "Author",
+
+  "deduplication.sets.label.date-issued": "Date issued",
+
+  "deduplication.sets.label.type": "Type",
+
+  "deduplication.sets.modal.title": "Remove Element",
+
+  "deduplication.sets.modal.confirm.info": "This operation can't be undone. Are you sure?",
+
+  "deduplication.sets.modal.confirm.cancel": "Cancel",
+
+  "deduplication.sets.modal.delete.submit": "Delete",
+
+  "deduplication.sets.notification.cannot-remove-set": "An error occurred while removing the set",
+
+  "deduplication.sets.notification.cannot-remove-item": "An error occurred while removing the item",
+
+  "deduplication.sets.notification.cannot-get-set": "An error occurred while loading the sets",
+
+  "deduplication.sets.notification.cannot-get-item": "An error occurred while loading the items",
+
+  "deduplication.sets.notification.select-items": "Please select at least two items",
 
   "datafile.listelement.badge": "Data File",
 

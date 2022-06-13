@@ -3,7 +3,6 @@ import { take, map } from 'rxjs/operators';
 import { Observable, of, combineLatest } from 'rxjs';
 import { DeduplicationStateService } from './deduplication-state.service';
 import { SignatureObject } from '../core/deduplication/models/signature.model';
-import { AddSignaturesAction } from './signatures/deduplication-signatures.actions';
 
 /**
  * Component to display the deduplication signatures page.

@@ -1,4 +1,4 @@
-import { getAllSucceededRemoteData, getFirstCompletedRemoteData } from './../../shared/operators';
+import { getFirstCompletedRemoteData } from './../../shared/operators';
 import { PaginatedList } from './../../data/paginated-list.model';
 import { FollowLinkConfig } from './../../../shared/utils/follow-link-config.model';
 import { FindListOptions } from './../../data/request.models';

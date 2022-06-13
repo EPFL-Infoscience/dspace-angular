@@ -56,7 +56,7 @@ export class DeduplicationSetsEffects {
   @Effect({ dispatch: false }) retrieveAllSetsErrorAction$ = this.actions$.pipe(
     ofType(DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE_ERROR),
     tap(() => {
-      this.notificationsService.error(null, this.translate.get('Cannot get sets'));
+      this.notificationsService.error(null, this.translate.get('deduplication.sets.notification.cannot-get-set'));
     })
   );
 
@@ -88,7 +88,7 @@ export class DeduplicationSetsEffects {
   @Effect({ dispatch: false }) retrieveAllSetItemsErrorAction$ = this.actions$.pipe(
     ofType(DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS_ERROR),
     tap(() => {
-      this.notificationsService.error(null, this.translate.get('Cannot get items'));
+      this.notificationsService.error(null, this.translate.get('deduplication.sets.notification.cannot-get-item'));
     })
   );
 

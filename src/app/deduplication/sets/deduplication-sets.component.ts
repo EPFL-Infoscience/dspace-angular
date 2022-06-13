@@ -256,7 +256,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
         } else {
           this.notificationsService.error(
             null,
-            this.translate.get('Cannot remove set')
+            this.translate.get('deduplication.sets.notification.cannot-remove-set')
           );
         }
       });
@@ -279,7 +279,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
         } else {
           this.notificationsService.error(
             null,
-            this.translate.get('Cannot remove item')
+            this.translate.get('deduplication.sets.notification.cannot-remove-item')
           );
         }
       });
@@ -340,7 +340,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
 
   noDuplicatesAction(setId: string) {
     if (!this.checkedItemsList.has(setId) || this.checkedItemsList.get(setId).length < 2) {
-      this.notificationsService.warning(null, this.translate.get('Please select at least two items'));
+      this.notificationsService.warning(null, this.translate.get('deduplication.sets.notification.select-items'));
     } else {
       // TODO: implement no duplicates action
     }

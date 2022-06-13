@@ -2,12 +2,10 @@
   <div class="row">
     <div class="col-12">
       <h2 id="header" class="border-bottom pb-2">
-        Records duplicate Identifiers (DOI, PMID, ARXIV, SCOPUS, ISI)
+        {{'deduplication.sets.title' | translate}}
       </h2>
       <p>
-        The page shows potentially duplicate groups by signature. You can select
-        the items to compare or reject. The system records the action "No
-        duplicate" so the match is not show in the future.
+        {{'deduplication.sets.subtitle' | translate}}
       </p>
       <div
         *ngIf="
@@ -16,13 +14,13 @@
         class="col-md-12 text-center"
       >
         <h4 class="signatures-not-found p-3">
-          No sets found for this signature.
+          {{'deduplication.sets.message.no-data' | translate}}
         </h4>
       </div>
       <ds-loading
         class="container"
         *ngIf="isSetsLoading() | async"
-        message="'Loading...' | translate"
+        [message]="'deduplication.sets.message.loading' | translate"
       ></ds-loading>
       <ngb-accordion
         [destroyOnHide]="false"
@@ -54,7 +52,9 @@
               </div>
               <div class="row">
                 <div class="col-sm-4 col-md-3 col-lg-2">
-                  <span class="badge badge-secondary small">Match other criteria</span>
+                  <span class="badge badge-secondary small"
+                    >{{'deduplication.sets.label.match-criteria' | translate}}</span
+                  >
                 </div>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                   <ng-container *ngFor="let id of getItemIds(set.id) | async">
@@ -67,31 +67,35 @@
               <ng-container
                 *ngIf="(getItemsPerSet(set.id) | async)?.length == 0"
               >
-                No items found.
+                {{'deduplication.sets.message.no-items' | translate}}
               </ng-container>
               <ng-container
                 *ngIf="(getItemsPerSet(set.id) | async)?.length > 0"
               >
                 <div class="row">
                   <div class="col-12">
-                    <p class="small">Select the items to compare them.</p>
+                    <p class="small">{{'deduplication.sets.label.select-to-compare' | translate}}</p>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-4">
                     <button class="btn btn-outline-secondary btn-sm mt-1">
-                      <i class="fa fa-check-square"></i> Select all
+                      <i class="fa fa-check-square"></i> {{'deduplication.sets.button.select-all' | translate}}
                     </button>
                     <button class="btn btn-outline-secondary btn-sm mt-1">
-                      <i class="fa fa-square"></i> Deselect all
+                      <i class="fa fa-square"></i>
+                      {{'deduplication.sets.button.deselect-all' | translate}}
                     </button>
                   </div>
                   <div class="col-md-8 text-right">
                     <button class="btn btn-primary btn-sm mt-1">
-                      <i class="fa fa-clone"></i> Compare
+                      <i class="fa fa-clone"></i> {{'deduplication.sets.button.compare' | translate}}
                     </button>
-                    <button class="btn btn-outline-secondary btn-sm mt-1" (click)="noDuplicatesAction(set.id)">
-                      <i class="fa fa-times"></i> No duplicates
+                    <button
+                      class="btn btn-outline-secondary btn-sm mt-1"
+                      (click)="noDuplicatesAction(set.id)"
+                    >
+                      <i class="fa fa-times"></i> {{'deduplication.sets.button.no-duplicates' | translate}}
                     </button>
                     <button
                       class="btn btn-outline-danger btn-sm mt-1"
@@ -101,7 +105,7 @@
                         confirmDelete(content, set.id, 'set', set.setChecksum)
                       "
                     >
-                      <i class="fa fa-trash-alt"></i> Delete set
+                      <i class="fa fa-trash-alt"></i> {{'deduplication.sets.button.delete-set' | translate}}
                     </button>
                   </div>
                 </div>
@@ -111,8 +115,7 @@
                       <table class="table table-striped">
                         <tbody>
                           <ng-container
-                            *ngFor="
-                              let item of getItemsPerSet(set.id) | async"
+                            *ngFor="let item of getItemsPerSet(set.id) | async"
                           >
                             <tr class="border border-thick">
                               <td>
@@ -137,11 +140,11 @@
                                 <table class="table table-borderless small">
                                   <tbody>
                                     <tr>
-                                      <th>Collection:</th>
+                                      <th>{{'deduplication.sets.label.collection' | translate }}:</th>
                                       <td>{{ item.entityType }}</td>
                                     </tr>
                                     <tr>
-                                      <th>Internal identifier:</th>
+                                      <th>{{'deduplication.sets.label.identifier' | translate}}:</th>
                                       <td>
                                         <button
                                           class="btn btn-outline-secondary btn-sm"
@@ -151,11 +154,11 @@
                                       </td>
                                     </tr>
                                     <tr>
-                                      <th>Last modified:</th>
+                                      <th>{{'deduplication.sets.label.last-modified' | translate}}:</th>
                                       <td>{{ item.lastModified | date }}</td>
                                     </tr>
                                     <tr>
-                                      <th>Status:</th>
+                                      <th>{{'deduplication.sets.label.status' | translate}}:</th>
                                       <td>
                                         <ng-container
                                           *ngFor="
@@ -176,56 +179,64 @@
                                 <table class="table table-borderless small">
                                   <tbody>
                                     <tr>
-                                      <th>Title:</th>
+                                      <th>{{'deduplication.sets.label.title' | translate}}:</th>
                                       <td>
                                         <ng-container
                                           *ngFor="
                                             let title of getItemTitle(
                                               item.metadata
-                                            )
+                                            );
+                                            let isLast = last
                                           "
                                         >
                                           <span>{{ title | titlecase }}</span>
+                                          <span *ngIf="!isLast">,</span>
                                         </ng-container>
                                       </td>
                                     </tr>
                                     <tr>
-                                      <th>Author:</th>
+                                      <th>{{'deduplication.sets.label.author' | translate}}:</th>
                                       <td>
                                         <ng-container
                                           *ngFor="
                                             let author of getAuthor(
                                               item.metadata
-                                            )
+                                            );
+                                            let isLast = last
                                           "
                                         >
                                           <span>{{ author | titlecase }}</span>
+                                          <span *ngIf="!isLast">,</span>
                                         </ng-container>
                                       </td>
                                     </tr>
                                     <tr>
-                                      <th>Date issued:</th>
+                                      <th>{{'deduplication.sets.label.date-issued' | translate}}:</th>
                                       <td>
                                         <ng-container
                                           *ngFor="
                                             let date of getDateIssued(
                                               item.metadata
-                                            )
+                                            );
+                                            let isLast = last
                                           "
                                         >
                                           <span>{{ date }}</span>
+                                          <span *ngIf="!isLast">,</span>
                                         </ng-container>
                                       </td>
                                     </tr>
                                     <tr>
-                                      <th>Type:</th>
+                                      <th>{{'deduplication.sets.label.type' | translate}}:</th>
                                       <td>
                                         <ng-container
                                           *ngFor="
-                                            let type of getType(item.metadata)
+                                            let type of getType(item.metadata);
+                                            let isLast = last
                                           "
                                         >
                                           <span>{{ type }}</span>
+                                          <span *ngIf="!isLast">,</span>
                                         </ng-container>
                                       </td>
                                     </tr>
@@ -280,7 +291,7 @@
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title text-danger">{{ "Remove Element" | translate }}</h4>
+    <h4 class="modal-title text-danger">{{ 'deduplication.sets.modal.title' | translate }}</h4>
     <button
       type="button"
       class="close"
@@ -291,14 +302,14 @@
     </button>
   </div>
   <div class="modal-body">
-    <p>{{ "submission.sections.upload.delete.confirm.info" | translate }}</p>
+    <p>{{ 'deduplication.sets.modal.confirm.info' | translate }}</p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="c('cancel')">
-      {{ "submission.sections.upload.delete.confirm.cancel" | translate }}
+      {{ 'deduplication.sets.modal.confirm.cancel' | translate }}
     </button>
     <button type="button" class="btn btn-danger" (click)="c('ok')">
-      {{ "submission.sections.upload.delete.confirm.submit" | translate }}
+      {{ 'deduplication.sets.modal.delete.submit' | translate }}
     </button>
   </div>
 </ng-template>
