@@ -18,7 +18,6 @@ import {
 } from './deduplication-sets.actions';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { DeduplicationState } from '../deduplication.reducer';
 import { DeduplicationSetsService } from './deduplication-sets.service';
 
 /**
@@ -80,6 +79,7 @@ export class DeduplicationSetsEffects {
           })
         );
     })
+
   );
 
   /**

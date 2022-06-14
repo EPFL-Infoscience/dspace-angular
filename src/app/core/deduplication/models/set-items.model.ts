@@ -1,5 +1,4 @@
 import { autoserialize, autoserializeAs, deserialize } from 'cerialize';
-
 import { CacheableObject } from '../../cache/object-cache.reducer';
 import { excludeFromEquals } from '../../utilities/equals.decorators';
 import { ResourceType } from '../../shared/resource-type';
@@ -53,11 +52,13 @@ export class SetItemsObject implements CacheableObject {
 
   @autoserialize
   metadata: MetadataMap;
+
   /**
    * The links to all related resources returned by the rest api.
    */
   @deserialize
   _links: {
     self: HALLink,
+    owningCollection: HALLink,
   };
 }

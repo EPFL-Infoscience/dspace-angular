@@ -41,7 +41,7 @@ export function deduplicationSetItemsReducer(state = deduplicationObjectInitialS
   switch (action.type) {
 
     case DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS: {
-      const requestedState = state?.find(item => item.setId === action.payload.setId);
+      const requestedState = state.find(item => item.setId === action.payload.setId);
       return Object.assign([], requestedState, {
         processing: true
       });
@@ -65,7 +65,7 @@ export function deduplicationSetItemsReducer(state = deduplicationObjectInitialS
     }
 
     case DeduplicationSetsActionTypes.DELETE_ITEM: {
-      return deleteItem(state, action as DeleteItemAction);
+      return deleteItem(state, action);
     }
 
     default: {
@@ -86,12 +86,7 @@ function deleteItem(state: DeduplicationSetItemsState[], action: DeleteItemActio
     const itemIdx = itemsData.findIndex(x => isEqual(x.id, action.payload.itemId));
     if (itemIdx > -1) {
       itemsData.splice(itemIdx, 1);
-      return Object.assign({}, state, {
-        objects: itemsData,
-        processing: false,
-        loaded: true,
-        setId: action.payload.setId,
-      });
+      return [...state.map(item => {return isEqual(item.setId, action.payload.setId) ? {...item, objects: itemsData} : item; })];
     }
   }
   return state;

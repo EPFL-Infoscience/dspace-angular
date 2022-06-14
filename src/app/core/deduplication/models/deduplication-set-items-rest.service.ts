@@ -97,11 +97,11 @@ export class DeduplicationSetItemsRestService {
   }
 
   /**
-   * Deletes the given set item.
+   * On 'No duplicate' remove the given set item.
    * @param signatureId The id of the signature to which the set items belong.
    * @param itemId The id of the item to delete.
    */
-  public deleteItem(signatureId: string, itemId: string, seChecksum: string): Observable<RemoteData<NoContent>> {
+  public removeItem(signatureId: string, itemId: string, seChecksum: string): Observable<RemoteData<NoContent>> {
     return this.dataService.delete(`${signatureId}:${seChecksum}/items/${itemId}`).pipe(
       getFirstCompletedRemoteData(),
       take(1)

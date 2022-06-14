@@ -219,7 +219,7 @@ export class DeduplicationStateService {
    * @param itemId The id of the item to be removed
    * @param setId The id of the to which the item belong
    */
-  public dispatchDeleteItem(signatureId: string, itemId: string, setId: string) {
+  public dispatchRemoveItem(signatureId: string, itemId: string, setId: string) {
     this.store.dispatch(
       new DeleteItemAction(signatureId, itemId, setId)
     );

@@ -8,10 +8,10 @@ import {
   DeleteSetAction,
 } from './deduplication-sets.actions';
 
- /**
-  * The interface representing the set items state.
-  * @interface DeduplicationSetState
-  */
+/**
+ * The interface representing the set items state.
+ * @interface DeduplicationSetState
+ */
 export interface DeduplicationSetState {
   objects: SetObject[];
   processing: boolean;
@@ -66,11 +66,11 @@ export function deduplicationSetReducer(state = deduplicationObjectInitialState,
 
     case DeduplicationSetsActionTypes.ADD_SETS: {
       return Object.assign({}, state, {
-        objects: state.objects.concat(action.payload.objects),
+        objects: action.payload.objects,//state.objects.concat(action.payload.objects),
         processing: false,
         loaded: true,
         totalPages: action.payload.totalPages,
-        currentPage: state.currentPage + 1,
+        currentPage: state.currentPage, //state.currentPage + 1,
         totalElements: action.payload.totalElements,
         signatureId: action.payload.signatureId,
         rule: action.payload.rule,

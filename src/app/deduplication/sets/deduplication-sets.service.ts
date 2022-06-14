@@ -1,3 +1,6 @@
+import { CollectionDataService } from './../../core/data/collection-data.service';
+import { Collection } from './../../core/shared/collection.model';
+import { ItemDataService } from './../../core/data/item-data.service';
 import { NoContent } from './../../core/shared/NoContent.model';
 import { DeduplicationSetItemsRestService } from './../../core/deduplication/models/deduplication-set-items-rest.service';
 import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
@@ -7,7 +10,7 @@ import { FindListOptions } from './../../core/data/request.models';
 import { SetObject } from './../../core/deduplication/models/set.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { getFirstCompletedRemoteData } from './../../core/shared/operators';
+import { getFirstCompletedRemoteData, getFirstSucceededRemoteDataWithNotEmptyPayload } from './../../core/shared/operators';
 import { catchError, map } from 'rxjs/operators';
 import { DeduplicationSetsRestService } from './../../core/deduplication/models/deduplication-sets-rest.service';
 
@@ -16,7 +19,9 @@ import { DeduplicationSetsRestService } from './../../core/deduplication/models/
 export class DeduplicationSetsService {
   constructor(
     private deduplicationRestService: DeduplicationSetsRestService,
-    private deduplicationSetItemsRestService: DeduplicationSetItemsRestService
+    private deduplicationSetItemsRestService: DeduplicationSetItemsRestService,
+    private itemDataService: ItemDataService,
+    private collectionDataService: CollectionDataService
   ) {
   }
 
@@ -84,11 +89,19 @@ export class DeduplicationSetsService {
    * @param signatureId - the signature id of the set
    * @param itemId - the item id of the element to be removed
    */
-  public deleteItem(signatureId: string, itemId: string, seChecksum: string): Observable<RemoteData<NoContent>> {
-    return this.deduplicationSetItemsRestService.deleteItem(signatureId, itemId, seChecksum).pipe(
+  public removeItem(signatureId: string, itemId: string, seChecksum: string): Observable<RemoteData<NoContent>> {
+    return this.deduplicationSetItemsRestService.removeItem(signatureId, itemId, seChecksum).pipe(
       catchError((error) => {
         throw new Error('Can\'t remove the set from REST service');
       })
     );
+  }
+
+  public deleteSetItem(itemId: string): Observable<RemoteData<NoContent>> {
+    return this.itemDataService.delete(itemId);
+  }
+
+  public getItemOwningCollection(href: string): Observable<RemoteData<Collection>> {
+    return this.collectionDataService.findByHref(href);
   }
 }
