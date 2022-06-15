@@ -1,4 +1,4 @@
-import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
+import { SetItemsObject } from '../../../core/deduplication/models/set-items.model';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({

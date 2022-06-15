@@ -427,6 +427,43 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   }
 
   /**
+   * Selects all items in a set.
+   */
+  selectAllItems(setId: string) {
+    if (this.checkedItemsList.has(setId)) {
+      this.checkedItemsList.delete(setId);
+    }
+    let items: SelectedItemData[] = [];
+    this.getItemIds(setId).subscribe((itemIds: string[]) => {
+      itemIds.forEach((itemId) => {
+        items.push({
+          itemId: itemId,
+          checked: true
+        })
+      })
+    })
+    this.checkedItemsList.set(setId, items);
+  }
+
+  /**
+   * Checks if the item is checked or not.
+   */
+  isItemChecked(itemId: string, setId: string) {
+    if (this.checkedItemsList.has(setId)) {
+      return this.checkedItemsList.get(setId).find((x) => isEqual(x.itemId, itemId))?.checked;
+    }
+    return false;
+  }
+
+  /**
+   * Unselects all items in the set.
+   */
+  unselectAllItems(setId: string) {
+    if (this.checkedItemsList.has(setId)) {
+      this.checkedItemsList.delete(setId);
+    }
+  }
+  /**
    * Returns if the logged in user is an Admin.
    * @returns {Observable<boolean>}
    */

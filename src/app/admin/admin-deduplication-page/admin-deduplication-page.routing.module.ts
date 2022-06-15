@@ -41,7 +41,7 @@ import { I18nBreadcrumbResolver } from '../../core/breadcrumbs/i18n-breadcrumb.r
         component: DeduplicationSetsComponent,
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         data: {
-          title: 'sets',
+          title: 'sets.breadcrumbs',
           breadcrumbKey: 'sets',
           showBreadcrumbsFluid: false
         },

@@ -1543,7 +1543,7 @@
 
   "deduplication.signature.cardTitle.identifier": "Identifiers",
 
-  "deduplication.sets.breadcrumbs": "Sets",
+  "sets.breadcrumbs": "Deduplication Sets",
 
   "deduplication.sets.title": "Records duplicate Identifiers (DOI, PMID, ARXIV, SCOPUS, ISI)",
 
