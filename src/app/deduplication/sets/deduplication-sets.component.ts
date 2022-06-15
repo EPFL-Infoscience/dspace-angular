@@ -1,7 +1,7 @@
 import { Collection } from './../../core/shared/collection.model';
 import { FeatureID } from './../../core/data/feature-authorization/feature-id';
 import { AuthorizationDataService } from './../../core/data/feature-authorization/authorization-data.service';
-import { hasValue } from 'src/app/shared/empty.util';
+import { hasValue } from './../../shared/empty.util';
 import { MetadataMap } from './../../core/shared/metadata.models';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationsService } from './../../shared/notifications/notifications.service';
@@ -14,13 +14,13 @@ import { DeduplicationStateService } from '../deduplication-state.service';
 import { map, take } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeduplicationSetsService } from './deduplication-sets.service';
-import { NoContent } from 'src/app/core/shared/NoContent.model';
-import { RemoteData } from 'src/app/core/data/remote-data';
+import { NoContent } from './../../core/shared/NoContent.model';
+import { RemoteData } from './../../core/data/remote-data';
 import { isEqual } from 'lodash';
 import {
   getFirstCompletedRemoteData,
   getRemoteDataPayload,
-} from 'src/app/core/shared/operators';
+} from './../../core/shared/operators';
 
 @Component({
   selector: 'ds-deduplication-sets',
@@ -122,7 +122,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   /**
    * Retrieves the deduplication sets.
    */
-  retrieveDeduplicationSets() {
+  protected retrieveDeduplicationSets() {
     this.deduplicationStateService.dispatchRetrieveDeduplicationSetsBySignature(
       this.signatureId,
       this.rule,
@@ -142,7 +142,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   /**
    * Retrieves the items per set.
    */
-  getAllItems() {
+  protected getAllItems() {
     this.sets$.subscribe((sets: SetObject[]) => {
       sets.forEach((set) => {
         this.deduplicationStateService.dispatchRetrieveDeduplicationSetItems(
@@ -244,7 +244,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   }
 
   /**
-   * Delete the set.
+   * Deletes the set.
    * @param setId The id of the set to which the items belong to.
    */
   protected deleteSet(setId: string, setChecksum: string) {
@@ -268,7 +268,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   }
 
   /**
-   * Delete the item.
+   * Removes items (case of no deduplicaton).
    * @param itemId The id of the item to be deleted
    */
   protected removeItem(itemId: string, setChecksum: string, setId: string) {
@@ -347,6 +347,12 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * Checks if there are at least 2 selected items and performes the deletion of the set.
+   * @param content The modal content
+   * @param setId The id of the set to which the items belong to.
+   * @param setChecksum The checksum of the set.
+   */
   noDuplicatesAction(content, setId: string, setChecksum: string) {
     if (
       !this.checkedItemsList.has(setId) ||
@@ -361,6 +367,11 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * Retrieves the owning collection of the item.
+   * @param item The item for which the collection name is to be retrieved
+   * @returns {Observable<string> } The name of the collection
+   */
   getItemOwningCollectionName(item: SetItemsObject): Observable<string> {
     if (hasValue(item._links?.owningCollection.href)) {
       return this.deduplicationSetsService
@@ -377,6 +388,11 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * Deletes an item based on the item status.
+   * @param itemId The id of the item to be deleted
+   * @param setId The id of the set to which the item belongs to
+   */
   protected deleteItem(itemId: string, setId) {
     if (this.itemsMap.has(setId)) {
       this.getItemsPerSet(setId)
@@ -393,7 +409,6 @@ export class DeduplicationSetsComponent implements AfterViewInit {
               .subscribe((res: RemoteData<NoContent>) => {
                 if (res.hasSucceeded) {
                   this.dispatchRemoveItem(itemId, setId);
-                  // this.retrieveDeduplicationSets();
                 } else {
                   this.notificationsService.error(
                     null,
@@ -404,7 +419,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
                 }
               });
           } else if (item && item.isDiscoverable) {
-            //TODO: delete item based on other status
+            // TODO: delete item based on other status
             console.log('Item is Discoverable');
           }
         });
@@ -421,6 +436,11 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       .pipe(take(1));
   }
 
+  /**
+   * Request to change the status of the sets' items.
+   * @param itemId The id of the item to be removed
+   * @param setId The id of the set to which the item belongs to
+   */
   private dispatchRemoveItem(itemId: string, setId: string) {
     this.deduplicationStateService.dispatchRemoveItem(
       this.signatureId,

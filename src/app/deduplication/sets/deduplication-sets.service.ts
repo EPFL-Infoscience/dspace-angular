@@ -10,7 +10,7 @@ import { FindListOptions } from './../../core/data/request.models';
 import { SetObject } from './../../core/deduplication/models/set.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { getFirstCompletedRemoteData, getFirstSucceededRemoteDataWithNotEmptyPayload } from './../../core/shared/operators';
+import { getFirstCompletedRemoteData } from './../../core/shared/operators';
 import { catchError, map } from 'rxjs/operators';
 import { DeduplicationSetsRestService } from './../../core/deduplication/models/deduplication-sets-rest.service';
 
