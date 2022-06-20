@@ -8,7 +8,8 @@
       <!-- First metadata -->
       <ng-container *ngFor="let index of firstLimitedDataToBeRenderedMap.keys(); let last = last;">
         <ng-container *ngFor="let mdg of firstLimitedDataToBeRenderedMap.get(index)">
-          <ds-metadata-render [item]="item" [field]="mdg.field" [metadataValue]="mdg.value">
+          <ds-metadata-render [item]="item" [field]="mdg.field" [metadataValue]="mdg.value"
+                              [renderingSubType]="renderingSubType">
           </ds-metadata-render>
           <div *ngIf="field.valuesInline && !last" class="mx-2">&bull;</div>
         </ng-container>
@@ -37,7 +38,8 @@
       <!-- Show More/collapse link button END -->
       <ng-container *ngFor="let index of lastLimitedDataToBeRenderedMap.keys(); let last = last;">
         <ng-container *ngFor="let mdg of lastLimitedDataToBeRenderedMap.get(index)">
-          <ds-metadata-render [item]="item" [field]="mdg.field" [metadataValue]="mdg.value">
+          <ds-metadata-render [item]="item" [field]="mdg.field" [metadataValue]="mdg.value"
+                              [renderingSubType]="renderingSubType">
           </ds-metadata-render>
           <div *ngIf="field.valuesInline && !last" class="mx-2">&bull;</div>
         </ng-container>
