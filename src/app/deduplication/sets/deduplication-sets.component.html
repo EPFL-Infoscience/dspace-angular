@@ -240,18 +240,15 @@
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title text-danger">{{ 'deduplication.sets.modal.title' | translate }}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('cancel')">
-      <span aria-hidden="true">&times;</span>
-    </button>
   </div>
   <div class="modal-body">
     <p>{{ 'deduplication.sets.modal.confirm.info' | translate }}</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="c('cancel')">
+    <button type="button" class="btn btn-secondary" (click)="d('cancel')">
       {{ 'deduplication.sets.modal.confirm.cancel' | translate }}
     </button>
-    <button type="button" class="btn btn-danger" (click)="c('ok')">
+    <button type="button" class="btn btn-danger" (click)="d('ok')">
       {{ 'deduplication.sets.modal.delete.submit' | translate }}
     </button>
   </div>

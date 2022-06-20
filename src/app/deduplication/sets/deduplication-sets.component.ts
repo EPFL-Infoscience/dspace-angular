@@ -1,3 +1,5 @@
+import { WorkflowItem } from './../../core/submission/models/workflowitem.model';
+import { SubmitDataResponseDefinitionObject } from './../../core/shared/submit-data-response-definition.model';
 import { Collection } from './../../core/shared/collection.model';
 import { FeatureID } from './../../core/data/feature-authorization/feature-id';
 import { AuthorizationDataService } from './../../core/data/feature-authorization/authorization-data.service';
@@ -11,16 +13,17 @@ import { Component, AfterViewInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { SetObject } from '../../core/deduplication/models/set.model';
 import { DeduplicationStateService } from '../deduplication-state.service';
-import { map, take } from 'rxjs/operators';
+import { map, take, concatMap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeduplicationSetsService } from './deduplication-sets.service';
 import { NoContent } from './../../core/shared/NoContent.model';
 import { RemoteData } from './../../core/data/remote-data';
-import { isEqual } from 'lodash';
+import { isEqual, isNull } from 'lodash';
 import {
   getFirstCompletedRemoteData,
   getRemoteDataPayload,
 } from './../../core/shared/operators';
+import { ConfigObject } from './../../core/config/models/config.model';
 
 @Component({
   selector: 'ds-deduplication-sets',
@@ -275,8 +278,9 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     this.deduplicationSetsService
       .removeItem(this.signatureId, itemId, setChecksum)
       .subscribe((res: RemoteData<NoContent>) => {
-        if (res.hasSucceeded) {
+        if (res.hasSucceeded || isEqual(res.statusCode, 204)) {
           this.dispatchRemoveItem(itemId, setId);
+          this.notificationsService.success(null, 'Item Removed');
         } else {
           this.notificationsService.error(
             null,
@@ -301,7 +305,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     setChecksum: string,
     setId?: string
   ) {
-    this.modalService.open(content).result.then((result) => {
+    this.modalService.open(content).dismissed.subscribe((result) => {
       if (isEqual(result, 'ok')) {
         if (isEqual(element, 'set')) {
           this.deleteSet(elementId, setChecksum);
@@ -393,22 +397,24 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * @param itemId The id of the item to be deleted
    * @param setId The id of the set to which the item belongs to
    */
-  protected deleteItem(itemId: string, setId) {
+  protected deleteItem(itemId: string, setId): void {
     if (this.itemsMap.has(setId)) {
       this.getItemsPerSet(setId)
         .pipe(
           map((items: SetItemsObject[]) =>
             items?.find((x) => isEqual(x.id, itemId))
           )
-        ).subscribe((item: SetItemsObject) => {
+        )
+        .subscribe((item: SetItemsObject) => {
           if (item && item.isArchived) {
-            console.log('Item is archived');
+            // delete item from set if item status is Archived
             this.deduplicationSetsService
               .deleteSetItem(itemId)
               .pipe(getFirstCompletedRemoteData(), take(1))
               .subscribe((res: RemoteData<NoContent>) => {
-                if (res.hasSucceeded) {
+                if (res.hasSucceeded || isEqual(res.statusCode, 204)) {
                   this.dispatchRemoveItem(itemId, setId);
+                  this.notificationsService.success(null, 'Item Removed');
                 } else {
                   this.notificationsService.error(
                     null,
@@ -418,9 +424,55 @@ export class DeduplicationSetsComponent implements AfterViewInit {
                   );
                 }
               });
-          } else if (item && item.isDiscoverable) {
-            // TODO: delete item based on other status
-            console.log('Item is Discoverable');
+            return;
+          }
+
+          if (item) {
+            // In other case get item submission status
+            // If status is workspaceItem or workflowItem
+            this.getItemSubmissionStatus(itemId)
+              .pipe(take(1))
+              .subscribe((x) => {
+                const object = x;
+                if (!isNull(object)) {
+                  if (object instanceof WorkflowItem) {
+                    // if WorkflowItem
+                    this.deleteWorkfowItem(object.id).subscribe(
+                      (res: SubmitDataResponseDefinitionObject) => {
+                        this.dispatchRemoveItem(itemId, setId);
+                        this.notificationsService.success(null, 'Item Removed');
+                      },
+                      (err) => {
+                        this.notificationsService.error(
+                          null,
+                          this.translate.get(
+                            'deduplication.sets.notification.cannot-remove-item'
+                          )
+                        );
+                      }
+                    );
+                  } else {
+                    // if WorkspaceItem
+                    this.deduplicationSetsService.deleteWorkspaceItemById(
+                      (object[0] as ConfigObject).id
+                    ).subscribe(
+                      (res) => {
+                        this.dispatchRemoveItem(itemId, setId);
+                        this.notificationsService.success(null, 'Item Removed');
+                      },
+                      (err) => {
+                        this.notificationsService.error(
+                          null,
+                          this.translate.get(
+                            'deduplication.sets.notification.cannot-remove-item'
+                          )
+                        );
+                      }
+                    );
+                  }
+                }
+              });
+            return;
           }
         });
     }
@@ -433,15 +485,15 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     if (this.checkedItemsList.has(setId)) {
       this.checkedItemsList.delete(setId);
     }
-    let items: SelectedItemData[] = [];
+    const items: SelectedItemData[] = [];
     this.getItemIds(setId).subscribe((itemIds: string[]) => {
       itemIds.forEach((itemId) => {
         items.push({
           itemId: itemId,
-          checked: true
-        })
-      })
-    })
+          checked: true,
+        });
+      });
+    });
     this.checkedItemsList.set(setId, items);
   }
 
@@ -450,7 +502,9 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    */
   isItemChecked(itemId: string, setId: string) {
     if (this.checkedItemsList.has(setId)) {
-      return this.checkedItemsList.get(setId).find((x) => isEqual(x.itemId, itemId))?.checked;
+      return this.checkedItemsList
+        .get(setId)
+        .find((x) => isEqual(x.itemId, itemId))?.checked;
     }
     return false;
   }
@@ -462,15 +516,6 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     if (this.checkedItemsList.has(setId)) {
       this.checkedItemsList.delete(setId);
     }
-  }
-  /**
-   * Returns if the logged in user is an Admin.
-   * @returns {Observable<boolean>}
-   */
-  private isCurrentUserAdmin(): Observable<boolean> {
-    return this.authorizationService
-      .isAuthorized(FeatureID.AdministratorOf, undefined, undefined)
-      .pipe(take(1));
   }
 
   /**
@@ -484,6 +529,102 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       itemId,
       setId
     );
+
+    // if length of remained items is
+    if (this.itemsMap.has(setId)) {
+      this.itemsMap.get(setId).subscribe((items: SetItemsObject[]) => {
+        if (items && isEqual(items.length, 1)) {
+          this.itemsMap.delete(setId);
+        }
+      });
+    }
+  }
+
+  /**
+   * Get workflow/workspace item if it exists
+   * @param itemId The id of the item
+   * @returns {Observable<WorkflowItem | null | SubmitDataResponseDefinitionObject>}
+   * The WorkflowItem (if it exists) or WorkspaceItem or null if it doesn't exist
+   */
+  private getItemSubmissionStatus(
+    itemId: string
+  ): Observable<WorkflowItem | null | SubmitDataResponseDefinitionObject> {
+    return this.getWorkflowItemStatus(itemId).pipe(
+      concatMap((res: WorkflowItem | null) => {
+        if (isNull(res)) {
+          return this.getWorkspaceItemStatus(itemId);
+        } else {
+          return of(res);
+        }
+      })
+    );
+  }
+
+  /**
+   * Get WorkspaceItem if it exists.
+   * @param itemId The id of the item to get the status for
+   * @returns {Observable<SubmitDataResponseDefinitionObject>}
+   */
+  private getWorkspaceItemStatus(
+    itemId: string
+  ): Observable<SubmitDataResponseDefinitionObject> {
+    return this.deduplicationSetsService.getSubmissionWorkspaceitem(itemId);
+  }
+
+  /**
+   * Get WorkflowItem submission status.
+   * If the response status is 200, the item is a WorkflowItem.
+   * If the response status is 204, the item is not found as WorkflowItem.
+   * @param itemId The id of the item to get the status for
+   * @returns {Observable<WorkflowItem | null>} The WorkflowItem or null
+   */
+  private getWorkflowItemStatus(
+    itemId: string
+  ): Observable<WorkflowItem | null> {
+    return this.deduplicationSetsService
+      .getSubmissionWorkflowItems(itemId)
+      .pipe(
+        map((res) => {
+          if (isEqual(res.statusCode, 200)) {
+            return res.payload;
+          } else {
+            return null;
+          }
+        })
+      );
+  }
+
+  /**
+   * Deletes WorkflowItem. (The item is converted into a WorkspaceItem),
+   * Gets the WorkspaceItem and deletes it.
+   * @param itemId The id of the item to be deleted
+   */
+  private deleteWorkfowItem(itemId: string) {
+    if (itemId) {
+      return this.deduplicationSetsService.deleteWorkflowItem(itemId).pipe(
+        concatMap((res: RemoteData<NoContent>) => {
+          if (res.hasSucceeded || isEqual(res.statusCode, 204)) {
+            return this.getWorkspaceItemStatus(itemId).pipe(
+              concatMap((item: SubmitDataResponseDefinitionObject) => {
+                if (hasValue(item)) {
+                  return this.deduplicationSetsService.deleteWorkspaceItemById((item[0] as ConfigObject).id);
+                }
+              })
+            );
+          }
+        })
+      );
+    }
+  }
+
+  /**
+   * Returns if the logged in user is an Admin.
+   * @returns {Observable<boolean>}
+   */
+  private isCurrentUserAdmin(): Observable<boolean> {
+    return this.authorizationService
+      .isAuthorized(FeatureID.AdministratorOf, undefined, undefined)
+      .pipe(take(1));
   }
 }
 

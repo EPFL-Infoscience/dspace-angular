@@ -1,3 +1,4 @@
+import { WorkflowItemDataService } from './../../submission/workflowitem-data.service';
 import { PaginatedList } from '../../data/paginated-list.model';
 import { FollowLinkConfig } from '../../../shared/utils/follow-link-config.model';
 import { FindListOptions } from '../../data/request.models';
@@ -43,7 +44,8 @@ class DataServiceImpl extends DataService<SetItemsObject> {
     protected halService: HALEndpointService,
     protected notificationsService: NotificationsService,
     protected http: HttpClient,
-    protected comparator: ChangeAnalyzer<SetItemsObject>) {
+    protected comparator: ChangeAnalyzer<SetItemsObject>
+  ) {
     super();
   }
 }
@@ -76,7 +78,8 @@ export class DeduplicationSetItemsRestService {
     protected halService: HALEndpointService,
     protected notificationsService: NotificationsService,
     protected http: HttpClient,
-    protected comparator: DefaultChangeAnalyzer<SetItemsObject>) {
+    protected comparator: DefaultChangeAnalyzer<SetItemsObject>
+  ) {
     this.dataService = new DataServiceImpl(requestService, rdbService, null, objectCache, halService, notificationsService, http, comparator);
   }
 
