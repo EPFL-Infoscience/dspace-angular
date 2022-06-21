@@ -1,0 +1,9 @@
+<div [class]="'d-flex flex-column mt-1 ' + valueStyle">
+  <ds-chips
+    *ngIf="chips && chips.hasItems()"
+    [browseLink]="'/browse/' + metadataType"
+    [clickable]="false"
+    [chips]="chips"
+    [showIcons]="false"
+    [editable]="false"></ds-chips>
+</div>

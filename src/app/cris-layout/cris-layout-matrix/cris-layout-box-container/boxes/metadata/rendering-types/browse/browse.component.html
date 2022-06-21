@@ -1,0 +1,5 @@
+<div [class]="field.styleValue">
+  <span class="text-value cursor-pointer" [routerLink]="['/browse/' + metadataType]" [queryParams]="{value: metadataValue.value}">
+    {{ metadataValue.value }}
+  </span>
+</div>

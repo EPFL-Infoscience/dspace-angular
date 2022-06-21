@@ -9,6 +9,7 @@ import { UploaderService } from '../uploader/uploader.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Options } from 'sortablejs';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 const TOOLTIP_TEXT_LIMIT = 21;
 @Component({
   selector: 'ds-chips',
@@ -21,6 +22,7 @@ export class ChipsComponent implements OnChanges {
   @Input() editable = false;
   @Input() showIcons = false;
   @Input() clickable = true;
+  @Input() browseLink = null;
 
   @Output() selected: EventEmitter<number> = new EventEmitter<number>();
   @Output() remove: EventEmitter<number> = new EventEmitter<number>();
@@ -35,7 +37,8 @@ export class ChipsComponent implements OnChanges {
   constructor(
     private cdr: ChangeDetectorRef,
     private uploaderService: UploaderService,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private router: Router) {
 
     this.options = {
       animation: 300,
@@ -147,5 +150,9 @@ export class ChipsComponent implements OnChanges {
       text = `${text.substring(0,TOOLTIP_TEXT_LIMIT)}...`;
     }
     return text;
+  }
+
+  openBrowseLink(key, value) {
+    this.router.navigate([this.browseLink], { queryParams: { [key]: value } });
   }
 }

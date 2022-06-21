@@ -14,6 +14,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ConfidenceType } from '../../core/shared/confidence-type';
 import { SortablejsModule } from 'ngx-sortablejs';
 import { environment } from '../../../environments/environment.test';
+import { RouterMock } from '../mocks/router.mock';
+import { Router } from '@angular/router';
 
 describe('ChipsComponent test suite', () => {
 
@@ -23,10 +25,12 @@ describe('ChipsComponent test suite', () => {
   let chipsFixture: ComponentFixture<ChipsComponent>;
   let html;
   let chips: Chips;
+  let router;
 
   // waitForAsync beforeEach
   beforeEach(waitForAsync(() => {
 
+    router = new RouterMock();
     TestBed.configureTestingModule({
       imports: [
         NgbModule,
@@ -39,6 +43,7 @@ describe('ChipsComponent test suite', () => {
         AuthorityConfidenceStateDirective
       ], // declare the test component
       providers: [
+        { provide: Router, useValue: router },
         ChangeDetectorRef,
         ChipsComponent,
         UploaderService
