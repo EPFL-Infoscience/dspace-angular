@@ -4698,6 +4698,8 @@
 
   "search.filters.applied.charts.no.data.found": "No data found",
 
+  "search.filters.applied.charts.show.hide": "Show/Hide",
+
 
 
 
@@ -4765,6 +4767,8 @@
 
   "search.filters.filter.editor.placeholder": "Editor",
 
+  "search.filters.filter.editor.label": "Search editor",
+
   "search.filters.filter.withdrawn.head": "Withdrawn",
 
   "search.filters.filter.entityType.head": "Item Type",
@@ -4786,6 +4790,8 @@
   "search.filters.filter.funding.head": "Funding",
 
   "search.filters.filter.funding.placeholder": "Funding",
+
+  "search.filters.filter.funding.label": "Search funding",
 
   "search.filters.filter.has_content_in_original_bundle.head": "Has files",
 
@@ -4842,6 +4848,8 @@
   "search.filters.filter.organization.head": "Organization",
 
   "search.filters.filter.organization.placeholder": "Organization",
+
+  "search.filters.filter.organization.label": "Search organization",
 
   "search.filters.filter.organizationAddressCountry.head": "Country",
 
@@ -4961,6 +4969,12 @@
   "search.sidebar.settings.sort-by": "Sort By",
 
   "search.sidebar.settings.title": "Settings",
+
+  "search.sidebar.show.hide": "Show/Hide",
+
+  "search.sidebar.show.hide.filters.tooltip": "Show/Hide filters sidebar",
+
+  "search.sidebar.show.hide.charts.tooltip": "Show/Hide charts",
 
 
 
