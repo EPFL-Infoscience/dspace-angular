@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LayoutField } from 'src/app/core/layout/models/box.model';
-import { Item } from 'src/app/core/shared/item.model';
-import { Chips } from 'src/app/shared/chips/models/chips.model';
+import { LayoutField } from '../../../../../../../core/layout/models/box.model';
+import { Item } from '../../../../../../../core/shared/item.model';
+import { Chips } from '../../../../../../../shared/chips/models/chips.model';
 
 import { FieldRenderingType, MetadataBoxFieldRendering } from '../metadata-box.decorator';
 import { RenderingTypeStructuredModelComponent } from '../rendering-type-structured.model';

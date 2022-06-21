@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Chips } from 'src/app/shared/chips/models/chips.model';
 
 import { FieldRenderingType, MetadataBoxFieldRendering } from '../metadata-box.decorator';
 import { RenderingTypeValueModelComponent } from '../rendering-type-value.model';
