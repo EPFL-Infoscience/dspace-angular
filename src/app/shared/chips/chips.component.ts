@@ -9,7 +9,6 @@ import { UploaderService } from '../uploader/uploader.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Options } from 'sortablejs';
 import { BehaviorSubject } from 'rxjs';
-import { Router } from '@angular/router';
 const TOOLTIP_TEXT_LIMIT = 21;
 @Component({
   selector: 'ds-chips',
@@ -37,8 +36,7 @@ export class ChipsComponent implements OnChanges {
   constructor(
     private cdr: ChangeDetectorRef,
     private uploaderService: UploaderService,
-    private translate: TranslateService,
-    private router: Router) {
+    private translate: TranslateService) {
 
     this.options = {
       animation: 300,
