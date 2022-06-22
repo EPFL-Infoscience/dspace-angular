@@ -22,7 +22,7 @@ export class ChipsComponent implements OnChanges {
   @Input() editable = false;
   @Input() showIcons = false;
   @Input() clickable = true;
-  @Input() browseLink = null;
+  @Input() linkHref = null;
 
   @Output() selected: EventEmitter<number> = new EventEmitter<number>();
   @Output() remove: EventEmitter<number> = new EventEmitter<number>();
@@ -56,8 +56,10 @@ export class ChipsComponent implements OnChanges {
   }
 
   chipsSelected(event: Event, index: number) {
-    event.preventDefault();
-    this.selected.emit(index);
+    if (!this.linkHref){
+      event.preventDefault();
+      this.selected.emit(index);
+    }
   }
 
   removeChips(event: Event, index: number) {
@@ -152,7 +154,11 @@ export class ChipsComponent implements OnChanges {
     return text;
   }
 
-  openBrowseLink(key, value) {
-    this.router.navigate([this.browseLink], { queryParams: { [key]: value } });
+  getQueryParamsLinkHref(key, value) {
+    if (this.linkHref) {
+      return {[key]: value};
+    } else {
+      return null;
+    }
   }
 }

@@ -13,15 +13,6 @@ import { RenderingTypeValueModelComponent } from '../rendering-type-value.model'
   styleUrls: ['./browse.component.scss']
 })
 @MetadataBoxFieldRendering(FieldRenderingType.BROWSE)
-export class BrowseComponent extends RenderingTypeValueModelComponent implements OnInit {
-  /**
-   * Type for rendering
-   */
-  metadataType: string;
-
-  ngOnInit(): void {
-    let fieldArray = this.field.metadata.split('.');
-    this.metadataType = fieldArray[fieldArray.length - 1];
-  }
+export class BrowseComponent extends RenderingTypeValueModelComponent {
 
 }

@@ -1,5 +1,5 @@
 <div [class]="field.styleValue">
-  <span class="text-value cursor-pointer" [routerLink]="['/browse/' + metadataType]" [queryParams]="{value: metadataValue.value}">
+  <a class="text-value" [routerLink]="['/browse/' + renderingSubType]" [queryParams]="{value: metadataValue.value}">
     {{ metadataValue.value }}
-  </span>
+  </a>
 </div>

@@ -76,7 +76,7 @@ describe('BrowseComponent', () => {
   });
 
   it('check metadata rendering', (done) => {
-    const spanValueFound = fixture.debugElement.queryAll(By.css('span.text-value'));
+    const spanValueFound = fixture.debugElement.queryAll(By.css('a.text-value'));
     expect(spanValueFound.length).toBe(1);
     expect(spanValueFound[0].nativeElement.textContent).toContain(metadataValue.value);
     done();
