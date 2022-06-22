@@ -38,7 +38,7 @@ export class TagBrowseComponent extends RenderingTypeStructuredModelComponent im
   }
 
   ngOnInit(): void {
-    let fieldArray = this.field.metadata.split('.');
+    let fieldArray = this.field.rendering.split('.');
     this.metadataType = fieldArray[fieldArray.length - 1];
     if ( this.indexToBeRendered > 0 ) {
       this.initChips([this.metadataValues[this.indexToBeRendered]]);
