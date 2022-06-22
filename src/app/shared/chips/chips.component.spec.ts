@@ -14,7 +14,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ConfidenceType } from '../../core/shared/confidence-type';
 import { SortablejsModule } from 'ngx-sortablejs';
 import { environment } from '../../../environments/environment.test';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ChipsComponent test suite', () => {
@@ -32,6 +31,7 @@ describe('ChipsComponent test suite', () => {
     TestBed.configureTestingModule({
       imports: [
         NgbModule,
+        RouterTestingModule,
         SortablejsModule.forRoot({ animation: 150 }),
         TranslateModule.forRoot()
       ],
@@ -41,7 +41,6 @@ describe('ChipsComponent test suite', () => {
         AuthorityConfidenceStateDirective
       ], // declare the test component
       providers: [
-        { provide: Router, useValue: RouterTestingModule },
         ChangeDetectorRef,
         ChipsComponent,
         UploaderService
