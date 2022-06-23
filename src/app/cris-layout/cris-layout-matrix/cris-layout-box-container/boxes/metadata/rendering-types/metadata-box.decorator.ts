@@ -18,6 +18,7 @@ export enum FieldRenderingType {
   VALUEPAIR = 'VALUEPAIR',
   HTML = 'HTML',
   MAP = 'MAP',
+  MARKDOWN = 'MARKDOWN',
 }
 
 const fieldType = new Map();

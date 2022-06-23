@@ -51,7 +51,9 @@ import { ComcolModule } from '../shared/comcol/comcol.module';
 import { SearchModule } from '../shared/search/search.module';
 import {
   HtmlComponent
-} from "./cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/html/html.component";
+} from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/html/html.component';
+import { MarkdownComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/markdown/markdown.component';
+import { NuMarkdownModule } from '@ng-util/markdown';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -79,7 +81,8 @@ const ENTRY_COMPONENTS = [
   OrcidComponent,
   ValuepairComponent,
   TagComponent,
-  MapComponent
+  MapComponent,
+  MarkdownComponent
 ];
 @NgModule({
   declarations: [
@@ -102,7 +105,8 @@ const ENTRY_COMPONENTS = [
     DsDatePipe,
     RowComponent,
     MetadataContainerComponent,
-    MetadataRenderComponent
+    MetadataRenderComponent,
+    MarkdownComponent
   ],
   providers:[ LoadMoreService ],
   imports: [
@@ -115,6 +119,7 @@ const ENTRY_COMPONENTS = [
     NgbAccordionModule,
     ComcolModule,
     MiradorViewerModule,
+    NuMarkdownModule
   ],
   exports: [
     CrisLayoutComponent,
