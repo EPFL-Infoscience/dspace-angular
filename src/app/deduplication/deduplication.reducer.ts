@@ -1,4 +1,5 @@
 import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
+import { deduplicationItemsToCompareReducer, DeduplicationItemsToCompareState } from './deduplication-merge/deduplication-items-merge.reducer';
 import { deduplicationSetItemsReducer, DeduplicationSetItemsState } from './sets/deduplication-set-items.reducer';
 
 import {
@@ -18,12 +19,14 @@ export interface DeduplicationState {
   'sets': DeduplicationSetState;
   'signatures': DeduplicationSignatureState;
   'items': DeduplicationSetItemsState[];
+  'compare': DeduplicationItemsToCompareState
 }
 
 export const deduplicationReducers: ActionReducerMap<DeduplicationState> = {
   sets: deduplicationSetReducer,
   signatures: deduplicationSignatureReducer,
-  items: deduplicationSetItemsReducer
+  items: deduplicationSetItemsReducer,
+  compare: deduplicationItemsToCompareReducer
 };
 
 export const deduplicationSelector = createFeatureSelector<DeduplicationState>('deduplication');

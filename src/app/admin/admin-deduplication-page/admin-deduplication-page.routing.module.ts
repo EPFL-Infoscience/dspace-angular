@@ -6,6 +6,7 @@ import { AuthenticatedGuard } from '../../core/auth/authenticated.guard';
 import { AdminDeduplicationPageComponent } from './admin-deduplication-page.component';
 import { I18nBreadcrumbsService } from '../../core/breadcrumbs/i18n-breadcrumbs.service';
 import { I18nBreadcrumbResolver } from '../../core/breadcrumbs/i18n-breadcrumb.resolver';
+import { DeduplicationMergeComponent } from './../../deduplication/deduplication-merge/deduplication-merge.component';
 
 @NgModule({
   imports: [
@@ -14,26 +15,13 @@ import { I18nBreadcrumbResolver } from '../../core/breadcrumbs/i18n-breadcrumb.r
         canActivate: [AuthenticatedGuard],
         path: '',
         component: AdminDeduplicationPageComponent,
-        // pathMatch: 'full',
+        pathMatch: 'full',
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         data: {
           title: 'deduplication.page.title',
           breadcrumbKey: 'deduplication',
           showBreadcrumbsFluid: false
         },
-        // children:[
-        //   {
-        //     path: 'set/:id',
-        //     pathMatch: 'full',
-        //     component: DeduplicationSetsComponent,
-        //     resolve: { breadcrumb: I18nBreadcrumbResolver },
-        //     data: {
-        //       title: 'sets',
-        //       breadcrumbKey: 'Sets',
-        //       showBreadcrumbsFluid: false
-        //     },
-        //   }
-        // ]
       },
       {
         canActivate: [AuthenticatedGuard],
@@ -43,6 +31,17 @@ import { I18nBreadcrumbResolver } from '../../core/breadcrumbs/i18n-breadcrumb.r
         data: {
           title: 'sets.breadcrumbs',
           breadcrumbKey: 'sets',
+          showBreadcrumbsFluid: false
+        },
+      },
+      {
+        canActivate: [AuthenticatedGuard],
+        path: 'compare/:setId',
+        component: DeduplicationMergeComponent,
+        resolve: { breadcrumb: I18nBreadcrumbResolver },
+        data: {
+          title: 'Compare Deduplications',
+          breadcrumbKey: 'compare',
           showBreadcrumbsFluid: false
         },
       }

@@ -16,6 +16,7 @@ import { DeduplicationSignaturesComponent } from './signatures/deduplication-sig
 import { DeduplicationSetsService } from './sets/deduplication-sets.service';
 import { DeduplicationSetsRestService } from '../core/deduplication/models/deduplication-sets-rest.service';
 import { DeduplicationSetItemsRestService } from '../core/deduplication/models/deduplication-set-items-rest.service';
+
 const MODULES = [
   CommonModule,
   SharedModule,
@@ -27,7 +28,7 @@ const MODULES = [
 
 const COMPONENTS = [
   DeduplicationComponent,
-  DeduplicationSignaturesComponent
+  DeduplicationSignaturesComponent,
 ];
 
 const DIRECTIVES = [];
@@ -50,7 +51,7 @@ const PROVIDERS = [
   declarations: [
     ...COMPONENTS,
     ...DIRECTIVES,
-    ...ENTRY_COMPONENTS
+    ...ENTRY_COMPONENTS,
   ],
   providers: [
     ...PROVIDERS

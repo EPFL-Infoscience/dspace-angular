@@ -17,24 +17,31 @@ import {
   getDeduplicationSetsCurrentPageSelector,
   getDeduplicationSetsTotalsSelector,
   setItemsObjectsSelector,
+  itemsToCompareObjectSelector,
 } from './selectors';
 import { SignatureObject } from '../core/deduplication/models/signature.model';
 import { DeduplicationState } from './deduplication.reducer';
 import { RetrieveAllSignaturesAction } from './signatures/deduplication-signatures.actions';
 import { SetObject } from '../core/deduplication/models/set.model';
-import { DeleteItemAction, DeleteSetAction, RetrieveSetItemsAction, RetrieveSetsBySignatureAction } from './sets/deduplication-sets.actions';
+import {
+  DeleteItemAction,
+  DeleteSetAction,
+  RetrieveSetItemsAction,
+  RetrieveSetsBySignatureAction,
+  AddItemsToCompareAction,
+  DeleteItemsToCompareAction,
+} from './sets/deduplication-sets.actions';
 
 /**
  * The service handling the Deduplication State.
  */
 @Injectable()
 export class DeduplicationStateService {
-
   /**
    * Initialize the service variables.
    * @param {Store<DeduplicationState>} store
    */
-  constructor(private store: Store<DeduplicationState>) { }
+  constructor(private store: Store<DeduplicationState>) {}
 
   /**
    * Returns the list of deduplication signatures from the state.
@@ -86,7 +93,9 @@ export class DeduplicationStateService {
    *    The number of the deduplication signatures pages.
    */
   public getDeduplicationSignaturesTotalPages(): Observable<number> {
-    return this.store.pipe(select(getDeduplicationSignaturesTotalPagesSelector));
+    return this.store.pipe(
+      select(getDeduplicationSignaturesTotalPagesSelector)
+    );
   }
 
   /**
@@ -96,7 +105,9 @@ export class DeduplicationStateService {
    *    The number of the current deduplication signatures page.
    */
   public getDeduplicationSignaturesCurrentPage(): Observable<number> {
-    return this.store.pipe(select(getDeduplicationSignaturesCurrentPageSelector));
+    return this.store.pipe(
+      select(getDeduplicationSignaturesCurrentPageSelector)
+    );
   }
 
   /**
@@ -115,7 +126,9 @@ export class DeduplicationStateService {
    * @param elementsPerPage
    *    The number of the signatures per page.
    */
-  public dispatchRetrieveDeduplicationSignatures(elementsPerPage: number): void {
+  public dispatchRetrieveDeduplicationSignatures(
+    elementsPerPage: number
+  ): void {
     this.store.dispatch(new RetrieveAllSignaturesAction(elementsPerPage));
   }
 
@@ -135,8 +148,14 @@ export class DeduplicationStateService {
    * @param rule The rule to filter the sets
    * @param elementsPerPage The number of elements per page
    */
-  public dispatchRetrieveDeduplicationSetsBySignature(signatureId: string, rule: string, elementsPerPage: number): void {
-    this.store.dispatch(new RetrieveSetsBySignatureAction(elementsPerPage, signatureId, rule));
+  public dispatchRetrieveDeduplicationSetsBySignature(
+    signatureId: string,
+    rule: string,
+    elementsPerPage: number
+  ): void {
+    this.store.dispatch(
+      new RetrieveSetsBySignatureAction(elementsPerPage, signatureId, rule)
+    );
   }
 
   /**
@@ -190,9 +209,7 @@ export class DeduplicationStateService {
    * @param setId The id of the set to be removed
    */
   public dispatchDeleteSet(signatureId: string, setId: string) {
-    this.store.dispatch(
-      new DeleteSetAction(signatureId, setId)
-    );
+    this.store.dispatch(new DeleteSetAction(signatureId, setId));
   }
   //#endregion Sets
 
@@ -219,10 +236,24 @@ export class DeduplicationStateService {
    * @param itemId The id of the item to be removed
    * @param setId The id of the to which the item belong
    */
-  public dispatchRemoveItem(signatureId: string, itemId: string, setId: string) {
-    this.store.dispatch(
-      new DeleteItemAction(signatureId, itemId, setId)
-    );
+  public dispatchRemoveItem(
+    signatureId: string,
+    itemId: string,
+    setId: string
+  ) {
+    this.store.dispatch(new DeleteItemAction(signatureId, itemId, setId));
+  }
+
+  public getItemsToCompare(): Observable<SetItemsObject[]> {
+    return this.store.pipe(select(itemsToCompareObjectSelector()));
+  }
+
+  public dispatchAddItemsToCompare(items: SetItemsObject[]) {
+    this.store.dispatch(new AddItemsToCompareAction(items));
+  }
+
+  public dispatchRemoveItemsToCompare() {
+    this.store.dispatch(new DeleteItemsToCompareAction());
   }
   //#endregion Items
 }

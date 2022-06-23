@@ -148,3 +148,13 @@ export function setItemsObjectSelector(): MemoizedSelector<DeduplicationState, D
 export function setItemsObjectsSelector(setId): MemoizedSelector<DeduplicationState, SetItemsObject[]> {
   return arraySubStateSelector<DeduplicationState, SetItemsObject[]>(setItemsObjectSelector(), setId, 'objects', 'setId');
 }
+
+
+ export function itemsToCompareStateSelector(): MemoizedSelector<DeduplicationState, DeduplicationSetState> {
+  return subStateSelector<DeduplicationState, DeduplicationSetState>(deduplicationSelector, 'compare');
+}
+
+
+export function itemsToCompareObjectSelector(): MemoizedSelector<DeduplicationState, SetItemsObject[]> {
+  return subStateSelector<DeduplicationState, SetItemsObject[]>(itemsToCompareStateSelector(), 'objects');
+}

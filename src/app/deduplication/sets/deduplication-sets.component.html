@@ -75,7 +75,7 @@
                   </button>
                 </div>
                 <div class="col-md-8 text-right">
-                  <button class="btn btn-primary btn-sm mt-1">
+                  <button class="btn btn-primary btn-sm mt-1" (click)="onCompare(set.id)">
                     <i class="fa fa-clone"></i> {{'deduplication.sets.button.compare' | translate}}
                   </button>
                   <button class="btn btn-outline-secondary btn-sm mt-1"
@@ -101,7 +101,7 @@
                               <div class="custom-control custom-checkbox ml-0">
                                 <input type="checkbox" class="custom-control-input" [id]="item.uuid"
                                   [checked]="isItemChecked(item.uuid,set.id)" (change)="
-                                      onItemCheck($event, item.uuid, set.id)
+                                      onItemCheck($event, item, set.id)
                                     " />
                                 <label class="custom-control-label" [for]="item.uuid"></label>
                               </div>

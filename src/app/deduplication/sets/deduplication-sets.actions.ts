@@ -24,6 +24,9 @@ export const DeduplicationSetsActionTypes = {
   DELETE_SET: type('dspace/core/deduplication/DELETE_SET'),
   DELETE_SET_ERROR: type('dspace/core/deduplication/DELETE_SET_ERROR'),
   DELETE_ITEM: type('dspace/core/deduplication/DELETE_ITEM'),
+  ADD_ITEMS_TO_COMPARE: type('dspace/core/deduplication/ADD_ITEMS_TO_COMPARE'),
+  RETRIEVE_ITEMS_TO_COMPARE: type('dspace/core/deduplication/RETRIEVE_ITEMS_TO_COMPARE'),
+  DELETE_ITEMS_TO_COMPARE: type('dspace/core/deduplication/DELETE_ITEMS_TO_COMPARE'),
 };
 
 //#region Sets
@@ -188,6 +191,49 @@ export class DeleteItemAction implements Action {
   }
 }
 
+export class RetrieveItemsToCompareAction implements Action {
+  type = DeduplicationSetsActionTypes.RETRIEVE_ITEMS_TO_COMPARE;
+
+  payload: {
+    objects: SetItemsObject[];
+  };
+
+  /**
+   * Creates an instance of RetrieveSetItemsAction.
+   * @param {string} setId
+   * @memberof RetrieveSetItemsAction
+   */
+  constructor(objects: SetItemsObject[]) {
+    this.payload = { objects };
+  }
+}
+
+export class AddItemsToCompareAction implements Action {
+  type = DeduplicationSetsActionTypes.ADD_ITEMS_TO_COMPARE;
+  payload: {
+    objects: SetItemsObject[];
+  };
+
+  /**
+   * Creates an instance of AddSetItemsAction.
+   * @param objects - the list of set items
+   * @param setId - the id of the set items
+   */
+  constructor(objects: SetItemsObject[]) {
+    this.payload = {
+      objects,
+    };
+  }
+}
+
+export class DeleteItemsToCompareAction implements Action {
+  type = DeduplicationSetsActionTypes.DELETE_ITEMS_TO_COMPARE;
+  constructor() { }
+}
+
+//  TODO: RetrieveItemsToCompareAction ERROR
+
+
 //#endregion Set Items
 
 /**
@@ -202,4 +248,7 @@ export type DeduplicationSetsActions
   | AddSetItemsAction
   | RetrieveSetItemsErrorAction
   | DeleteSetAction
-  | DeleteItemAction;
+  | DeleteItemAction
+  | RetrieveItemsToCompareAction
+  | AddItemsToCompareAction
+  | DeleteItemsToCompareAction;

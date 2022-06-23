@@ -92,7 +92,7 @@ export class DeduplicationSetsRestService {
     return this.dataService.getBrowseEndpoint(options).pipe(
       take(1),
       mergeMap((href: string) => {
-        let searchmethod = `sets/search/findBySignature?signature-id=${signatureId}`;
+        let searchmethod = `sets/search/findBySignature?signature-id=${signatureId}&haveItems=true`;
         if (!isNil(rule)) {
           searchmethod = searchmethod + `&rule=${rule}`;
         }
