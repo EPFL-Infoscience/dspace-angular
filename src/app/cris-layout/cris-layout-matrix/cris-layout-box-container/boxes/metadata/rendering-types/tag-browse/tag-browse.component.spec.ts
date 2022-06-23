@@ -35,9 +35,9 @@ describe('TagBrowseComponent', () => {
 
 
   const mockField: LayoutField = {
-    'metadata': 'tag-browse.title',
+    'metadata': 'dc.title',
     'label': 'Title',
-    'rendering': null,
+    'rendering': 'tag-browser.type.subject',
     'fieldType': 'METADATA',
     'style': null,
     'styleLabel': 'test-style-label',

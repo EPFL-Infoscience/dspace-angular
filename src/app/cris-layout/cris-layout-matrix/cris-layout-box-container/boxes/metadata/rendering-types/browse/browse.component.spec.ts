@@ -35,9 +35,9 @@ describe('BrowseComponent', () => {
 
 
   const mockField: LayoutField = {
-    'metadata': 'browse.title',
+    'metadata': 'dc.title',
     'label': 'Title',
-    'rendering': null,
+    'rendering': 'browse.title',
     'fieldType': 'METADATA',
     'style': null,
     'styleLabel': 'test-style-label',

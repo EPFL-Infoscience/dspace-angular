@@ -9,6 +9,7 @@ import { UploaderService } from '../uploader/uploader.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Options } from 'sortablejs';
 import { BehaviorSubject } from 'rxjs';
+import { Router, UrlTree } from '@angular/router';
 const TOOLTIP_TEXT_LIMIT = 21;
 @Component({
   selector: 'ds-chips',
@@ -21,7 +22,6 @@ export class ChipsComponent implements OnChanges {
   @Input() editable = false;
   @Input() showIcons = false;
   @Input() clickable = true;
-  @Input() linkHref = null;
 
   @Output() selected: EventEmitter<number> = new EventEmitter<number>();
   @Output() remove: EventEmitter<number> = new EventEmitter<number>();
@@ -36,7 +36,8 @@ export class ChipsComponent implements OnChanges {
   constructor(
     private cdr: ChangeDetectorRef,
     private uploaderService: UploaderService,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private router: Router) {
 
     this.options = {
       animation: 300,
@@ -54,7 +55,7 @@ export class ChipsComponent implements OnChanges {
   }
 
   chipsSelected(event: Event, index: number) {
-    if (!this.linkHref){
+    if (!this.chips[index].hasHref()){
       event.preventDefault();
       this.selected.emit(index);
     }
@@ -150,5 +151,12 @@ export class ChipsComponent implements OnChanges {
       text = `${text.substring(0,TOOLTIP_TEXT_LIMIT)}...`;
     }
     return text;
+  }
+  getHrefRoot(url) {
+    return url.split('?')[0];
+  }
+  getHrefQueryParams(url) {
+    const tree: UrlTree = this.router.parseUrl(url);
+    return tree.queryParams;
   }
 }

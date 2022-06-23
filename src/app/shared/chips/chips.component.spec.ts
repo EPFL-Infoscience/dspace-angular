@@ -240,6 +240,24 @@ describe('ChipsComponent test suite', () => {
 
   });
 
+  describe('getHref', () => {
+    beforeEach(() => {
+      chips = new Chips([]);
+      chipsFixture = TestBed.createComponent(ChipsComponent);
+      chipsComp = chipsFixture.componentInstance; // TruncatableComponent test instance
+      chipsComp.chips = chips;
+      chipsFixture.detectChanges();
+    });
+
+    it('should return the value of the reference if present, null otherwise', () => {
+      const href = '/browse/subject?value=dspace';
+      expect(chipsComp.getHrefRoot(href)).toEqual('/browse/subject');
+
+      expect(chipsComp.getHrefQueryParams(href)).toEqual({value: 'dspace'});
+    });
+
+  });
+
 });
 
 // declare a test component
