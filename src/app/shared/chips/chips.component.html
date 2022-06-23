@@ -16,7 +16,7 @@
           (mouseover)="showTooltip(t, i)"
           (mouseout)="t.close()">
         <a class="flex-sm-fill text-sm-center nav-link active bg-info"
-           [routerLink]="linkHref ? linkHref : null" [queryParams]="getQueryParamsLinkHref(c.fieldToDisplay, c.display)"
+           [href]="linkHref ? (linkHref + '?' + c.fieldToDisplay + '=' + c.display) : null"
            [class.disabled]="(editable && c.editMode) || dragged == i || !clickable"
            [class.chip-selected]="(editable && c.editMode) || dragged == i"
            (click)="chipsSelected($event, i);">

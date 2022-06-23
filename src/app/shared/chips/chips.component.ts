@@ -151,12 +151,4 @@ export class ChipsComponent implements OnChanges {
     }
     return text;
   }
-
-  getQueryParamsLinkHref(key, value) {
-    if (this.linkHref) {
-      return {[key]: value};
-    } else {
-      return null;
-    }
-  }
 }
