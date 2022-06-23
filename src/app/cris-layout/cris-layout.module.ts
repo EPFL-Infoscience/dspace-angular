@@ -54,6 +54,8 @@ import {
 } from "./cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/html/html.component";
 import { BrowseComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/browse/browse.component';
 import { TagBrowseComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/tag-browse/tag-browse.component';
+import { MarkdownComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/markdown/markdown.component';
+import { NuMarkdownModule } from '@ng-util/markdown';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -83,7 +85,8 @@ const ENTRY_COMPONENTS = [
   TagComponent,
   MapComponent,
   BrowseComponent,
-  TagBrowseComponent
+  TagBrowseComponent,
+  MarkdownComponent
 ];
 @NgModule({
   declarations: [
@@ -106,7 +109,8 @@ const ENTRY_COMPONENTS = [
     DsDatePipe,
     RowComponent,
     MetadataContainerComponent,
-    MetadataRenderComponent
+    MetadataRenderComponent,
+    MarkdownComponent
   ],
   providers:[ LoadMoreService ],
   imports: [
@@ -119,6 +123,7 @@ const ENTRY_COMPONENTS = [
     NgbAccordionModule,
     ComcolModule,
     MiradorViewerModule,
+    NuMarkdownModule
   ],
   exports: [
     CrisLayoutComponent,

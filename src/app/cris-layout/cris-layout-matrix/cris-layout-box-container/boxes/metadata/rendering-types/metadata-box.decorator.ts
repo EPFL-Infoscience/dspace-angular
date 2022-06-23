@@ -19,7 +19,8 @@ export enum FieldRenderingType {
   HTML = 'HTML',
   MAP = 'MAP',
   BROWSE = 'BROWSE',
-  TAGBROWSE = 'TAG-BROWSE'
+  TAGBROWSE = 'TAG-BROWSE',
+  MARKDOWN = 'MARKDOWN',
 }
 
 const fieldType = new Map();
