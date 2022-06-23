@@ -49,9 +49,9 @@ import { LoadMoreService } from './services/load-more.service';
 import { MiradorViewerModule } from '../item-page/mirador-viewer/mirador-viewer.module';
 import { ComcolModule } from '../shared/comcol/comcol.module';
 import { SearchModule } from '../shared/search/search.module';
-import {
-  HtmlComponent
-} from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/html/html.component';
+import { HtmlComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/html/html.component';
+import { BrowseComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/browse/browse.component';
+import { TagBrowseComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/tag-browse/tag-browse.component';
 import { MarkdownComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/markdown/markdown.component';
 import { NuMarkdownModule } from '@ng-util/markdown';
 
@@ -82,6 +82,8 @@ const ENTRY_COMPONENTS = [
   ValuepairComponent,
   TagComponent,
   MapComponent,
+  BrowseComponent,
+  TagBrowseComponent,
   MarkdownComponent
 ];
 @NgModule({
