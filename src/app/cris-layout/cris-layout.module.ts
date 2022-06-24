@@ -54,6 +54,8 @@ import { BrowseComponent } from './cris-layout-matrix/cris-layout-box-container/
 import { TagBrowseComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/tag-browse/tag-browse.component';
 import { MarkdownComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/markdown/markdown.component';
 import { NuMarkdownModule } from '@ng-util/markdown';
+import { SearchComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/search/search.component';
+import { TagSearchComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/tag-search/tag-search.component';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -84,7 +86,9 @@ const ENTRY_COMPONENTS = [
   MapComponent,
   BrowseComponent,
   TagBrowseComponent,
-  MarkdownComponent
+  MarkdownComponent,
+  SearchComponent,
+  TagSearchComponent,
 ];
 @NgModule({
   declarations: [
