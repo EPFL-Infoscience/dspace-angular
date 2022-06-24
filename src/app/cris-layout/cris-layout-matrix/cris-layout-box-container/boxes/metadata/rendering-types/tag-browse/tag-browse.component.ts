@@ -24,8 +24,8 @@ export class TagBrowseComponent extends RenderingTypeStructuredModelComponent im
   metadataType: string;
 
   /**
-  * This is the chips component which will be rendered in the template
-  */
+   * This is the chips component which will be rendered in the template
+   */
   public chips: Chips;
 
   constructor(
@@ -48,10 +48,10 @@ export class TagBrowseComponent extends RenderingTypeStructuredModelComponent im
   }
 
   /**
-  * Creates the chips component with the required values
-  * @params initChipsValues values to be rendered in chip items
-  */
-   private initChips(initChipsValues: any[]): void {
+   * Creates the chips component with the required values
+   * @params initChipsValues values to be rendered in chip items
+   */
+  private initChips(initChipsValues: any[]): void {
     initChipsValues.forEach((element, ind) => {
       const el = element;
       initChipsValues[ind] = {

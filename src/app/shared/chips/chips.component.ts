@@ -55,7 +55,7 @@ export class ChipsComponent implements OnChanges {
   }
 
   chipsSelected(event: Event, index: number) {
-    if (!this.chips[index].hasHref()){
+    if (!this.chips.getChips()[index].hasHref()) {
       event.preventDefault();
       this.selected.emit(index);
     }

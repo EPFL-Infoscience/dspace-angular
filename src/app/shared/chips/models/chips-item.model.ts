@@ -56,7 +56,7 @@ export class ChipsItem {
   }
 
   hasHref(): boolean {
-    return isNotEmpty(this._item?.href);
+    return isNotEmpty(this.item?.href);
   }
 
   hasVisibleIcons(): boolean {
