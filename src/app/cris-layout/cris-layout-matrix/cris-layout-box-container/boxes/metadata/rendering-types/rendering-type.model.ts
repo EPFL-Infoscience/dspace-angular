@@ -5,6 +5,7 @@ import { Item } from '../../../../../../core/shared/item.model';
 import { TranslateService } from '@ngx-translate/core';
 import { LayoutField } from '../../../../../../core/layout/models/box.model';
 import { MetadataValue } from '../../../../../../core/shared/metadata.models';
+import { Chips } from '../../../../../../shared/chips/models/chips.model';
 
 /**
  * This class defines the basic model to extends for create a new
@@ -96,5 +97,50 @@ export abstract class RenderingTypeModelComponent {
    */
   get valueStyle(): string {
     return this.field.styleValue || '';
+  }
+
+  /**
+   * returns the search link
+   */
+  getSearchHrefLink(rendering, renderingSubType, metadata, metadataValue): string {
+    let searchLinkHref = '/search?';
+    let fieldArray = rendering.split('.');
+    const index = fieldArray[fieldArray.length - 1];
+    if (renderingSubType !== 'default') {
+      searchLinkHref += 'configuration=' + renderingSubType + '&';
+    }
+    if (index === 'default') {
+      searchLinkHref += 'query="' + metadataValue + '"';
+    } else if (index === 'auto') {
+      searchLinkHref += 'query=' + metadata + ':"' + metadataValue + '"';
+    } else {
+      searchLinkHref += 'query=' + index + ':"' + metadataValue + '"';
+    }
+    return searchLinkHref;
+  }
+
+  /**
+   * Creates the chips component with the required values
+   * @params initChipsValues values to be rendered in chip items
+   */
+   initRenderingChips(initChipsValues: any[], type = 'tag', metadataType = '') {
+    if (type === 'search') {
+      initChipsValues.forEach((element, ind) => {
+        const el = element;
+        initChipsValues[ind] = {
+          value: el,
+          href: this.getSearchHrefLink(this.field.rendering, this.renderingSubType, this.field.metadata, el)
+        };
+      });
+    } else if (type === 'browse') {
+      initChipsValues.forEach((element, ind) => {
+        const el = element;
+        initChipsValues[ind] = {
+          value: el,
+          href: '/browse/' + metadataType + '?value=' + el
+        };
+      });
+    }
+    return new Chips(initChipsValues,'value');
   }
 }

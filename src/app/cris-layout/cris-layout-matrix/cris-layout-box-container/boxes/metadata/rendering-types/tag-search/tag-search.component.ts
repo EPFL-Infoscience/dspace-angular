@@ -18,17 +18,13 @@ import { RenderingTypeStructuredModelComponent } from '../rendering-type-structu
 })
 @MetadataBoxFieldRendering(FieldRenderingType.TAGSEARCH, true)
 export class TagSearchComponent extends RenderingTypeStructuredModelComponent implements OnInit {
-  /**
-   * the index to use to build the search query to be used in the link
-   */
-  index: string;
 
   /**
    * This is the chips component which will be rendered in the template
    */
   public chips: Chips;
 
-  searchLinkHref = '/search?';
+  searchLinkHref: string;
 
   constructor(
     @Inject('fieldProvider') public fieldProvider: LayoutField,
@@ -40,19 +36,6 @@ export class TagSearchComponent extends RenderingTypeStructuredModelComponent im
   }
 
   ngOnInit(): void {
-    let fieldArray = this.field.rendering.split('.');
-    this.index = fieldArray[fieldArray.length - 1];
-    if (this.renderingSubType !== 'default') {
-      this.searchLinkHref += 'configuration=' + this.renderingSubType + '&';
-    }
-    if (this.index === 'default') {
-      this.searchLinkHref += 'query="';
-    } else if (this.index === 'auto') {
-      this.searchLinkHref += 'query=' + this.field.metadata + ':"';
-    } else {
-      this.searchLinkHref += 'query=' + this.index + ':"';
-    }
-
     if ( this.indexToBeRendered > 0 ) {
       this.initChips([this.metadataValues[this.indexToBeRendered]]);
     } else {
@@ -65,14 +48,7 @@ export class TagSearchComponent extends RenderingTypeStructuredModelComponent im
    * @params initChipsValues values to be rendered in chip items
    */
   private initChips(initChipsValues: any[]): void {
-    initChipsValues.forEach((element, ind) => {
-      const el = element;
-      initChipsValues[ind] = {
-        value: el,
-        href: this.searchLinkHref + el + '"'
-      };
-    });
-    this.chips = new Chips(initChipsValues,'value');
+    this.chips = this.initRenderingChips(initChipsValues, 'search');
   }
 
 }

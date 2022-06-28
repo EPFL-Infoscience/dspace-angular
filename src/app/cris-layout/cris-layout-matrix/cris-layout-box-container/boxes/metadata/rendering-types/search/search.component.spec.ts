@@ -10,6 +10,7 @@ import { TranslateLoaderMock } from '../../../../../../../shared/mocks/translate
 import { DsDatePipe } from '../../../../../../pipes/ds-date.pipe';
 import { LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { MetadataValue } from '../../../../../../../core/shared/metadata.models';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
@@ -53,7 +54,7 @@ describe('SearchComponent', () => {
           provide: TranslateLoader,
           useClass: TranslateLoaderMock
         }
-      }), BrowserAnimationsModule],
+      }), BrowserAnimationsModule, RouterTestingModule],
       providers: [
         { provide: 'fieldProvider', useValue: mockField },
         { provide: 'itemProvider', useValue: testItem },
