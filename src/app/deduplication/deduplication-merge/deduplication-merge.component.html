@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-12">
       <h2 id="header" class="border-bottom pb-2">
-        {{'Merge Deduplications' | translate}}
+        {{ "Merge Deduplications" | translate }}
       </h2>
 
       <!-- <div class="col-md-12 text-center">
@@ -13,34 +13,50 @@
 
       <!-- <ds-loading class="container" *ngIf="isSetsLoading() | async"
         [message]="'deduplication.sets.message.loading' | translate"></ds-loading> -->
-      <ng-container *ngFor="let item of itemsToCompare$ | async ">
-        <pre>
-           {{item.metadata | json}}
-        </pre>
-        <hr>
+
+      <!-- <p>Records to compare</p> -->
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Entities</th>
+            <th scope="col">Identifier</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              {{'Title test'}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ng-container *ngFor="let item of storedItems$ | async">
+        <ngb-accordion [destroyOnHide]="false" [closeOthers]="true" activeIds="panel-0">
+          <ngb-panel id="panel-{{ 0 }}">
+            <ng-template ngbPanelHeader let-opened="opened">
+              <div class="row">
+                <div class="col-md-10 mt-1">
+                  <h5 class="m-0">{{ item.name }} ({{ item.uuid }})</h5>
+                </div>
+                <div class="col-md-2 text-right mt-1">
+                  <button ngbPanelToggle class="btn btn-sm" [ngClass]="opened ? 'btn-info' : 'btn-outline-info'">
+                    <i *ngIf="!opened" class="fa fa-chevron-up"></i>
+                    <i *ngIf="opened" class="fa fa-chevron-down"></i>
+                  </button>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <pre>
+                {{ item.metadata | json }}
+             </pre>
+              <hr />
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
       </ng-container>
-      <ngb-accordion [destroyOnHide]="false" [closeOthers]="true" activeIds="panel-0">
-        <ngb-panel id="panel-{{ 0 }}">
-          <ng-template ngbPanelHeader let-opened="opened">
-            <div class="row">
-              <div class="col-md-10 mt-1">
-                <h5 class="m-0">
-                  Header
-                </h5>
-              </div>
-              <div class="col-md-2 text-right mt-1">
-                <button ngbPanelToggle class="btn btn-sm" [ngClass]="opened ?'btn-info' : 'btn-outline-info'">
-                  <i *ngIf="!opened" class="fa fa-chevron-up"></i>
-                  <i *ngIf="opened" class="fa fa-chevron-down"></i>
-                </button>
-              </div>
-            </div>
-          </ng-template>
-          <ng-template ngbPanelContent>
-            CONTENT
-          </ng-template>
-        </ngb-panel>
-      </ngb-accordion>
     </div>
   </div>
 </div>
