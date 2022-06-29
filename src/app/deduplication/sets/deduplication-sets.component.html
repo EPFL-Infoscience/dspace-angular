@@ -101,7 +101,7 @@
                               <div class="custom-control custom-checkbox ml-0">
                                 <input type="checkbox" class="custom-control-input" [id]="item.uuid"
                                   [checked]="isItemChecked(item.uuid,set.id)" (change)="
-                                      onItemCheck($event, item, set.id)
+                                      onItemCheck($event, item.uuid, set.id)
                                     " />
                                 <label class="custom-control-label" [for]="item.uuid"></label>
                               </div>

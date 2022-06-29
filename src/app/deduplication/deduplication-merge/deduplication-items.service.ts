@@ -11,9 +11,9 @@ export class DeduplicationItemsService {
 
   constructor(private itemDataService: ItemDataService) { }
 
-  public getItemData(itemId: string): Observable<Item> {
+  public getItemData(itemId: string): Observable<RemoteData<Item>>{
     return this.itemDataService.findById(itemId).pipe(
-      getRemoteDataPayload()
+      // getRemoteDataPayload()
     );
   }
 }

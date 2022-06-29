@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { of as observableOf } from 'rxjs';
 import { DeduplicationSignaturesService } from './deduplication-signatures.service';
 import { SortOptions, SortDirection } from '../../core/cache/models/sort-options.model';
-import { DeduplicationRestService } from '../../core/deduplication/deduplication-rest.service';
+import { DeduplicationRestService } from '../../core/deduplication/services/deduplication-rest.service';
 import { PageInfo } from '../../core/shared/page-info.model';
 import { FindListOptions } from '../../core/data/request.models';
 import {

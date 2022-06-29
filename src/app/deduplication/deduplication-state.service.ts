@@ -244,11 +244,11 @@ export class DeduplicationStateService {
     this.store.dispatch(new DeleteItemAction(signatureId, itemId, setId));
   }
 
-  public getItemsToCompare(): Observable<SetItemsObject[]> {
+  public getItemsToCompare(): Observable<string[]> {
     return this.store.pipe(select(itemsToCompareObjectSelector()));
   }
 
-  public dispatchAddItemsToCompare(items: SetItemsObject[]) {
+  public dispatchAddItemsToCompare(items: string[]) {
     this.store.dispatch(new AddItemsToCompareAction(items));
   }
 

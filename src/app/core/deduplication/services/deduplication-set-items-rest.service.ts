@@ -18,8 +18,8 @@ import { mergeMap, take } from 'rxjs/operators';
 import { DataService } from '../../data/data.service';
 import { dataService } from '../../cache/builders/build-decorators';
 import { RemoteData } from '../../data/remote-data';
-import { SetItemsObject } from './set-items.model';
-import { DEDUPLICATION_SET_ITEMS } from './deduplication-set-items.resource-type';
+import { SetItemsObject } from '../models/set-items.model';
+import { DEDUPLICATION_SET_ITEMS } from '../models/deduplication-set-items.resource-type';
 import { NoContent } from '../../shared/NoContent.model';
 import { getFirstCompletedRemoteData } from '../../shared/operators';
 

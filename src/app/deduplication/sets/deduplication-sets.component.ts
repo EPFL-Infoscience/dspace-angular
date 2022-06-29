@@ -313,7 +313,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
         } else if (isEqual(element, 'no-dupliacation')) {
           this.checkedItemsList.get(setId).forEach((selectedElement: SelectedItemData) => {
             if (selectedElement.checked) {
-              this.removeItem(selectedElement.item.uuid, setChecksum, setId);
+              this.removeItem(selectedElement.itemId, setChecksum, setId);
             }
           });
         } else if (isEqual(element, 'item')) {
@@ -329,24 +329,24 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * @param {string} itemId The id of the item is checked
    * @param {string} setId The id of the set to which the item belongs to
    */
-  onItemCheck(event, item: SetItemsObject, setId: string) {
+  onItemCheck(event, itemId: string, setId: string) {
     if (this.checkedItemsList.has(setId)) {
       if (event.target.checked) {
         this.checkedItemsList.get(setId).push({
-          item: item,
+          itemId: itemId,
           checked: event.target.checked,
         });
       } else if (!event.target.checked) {
         const element = this.checkedItemsList
           .get(setId)
-          .findIndex((x) => isEqual(x.item.uuid, item.uuid));
+          .findIndex((x) => isEqual(x.itemId, itemId));
         this.checkedItemsList.get(setId).splice(element, 1);
       }
     } else {
       this.checkedItemsList.set(setId, [
         {
           checked: event.target.checked,
-          item: item,
+          itemId: itemId,
         },
       ]);
     }
@@ -487,10 +487,10 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       this.checkedItemsList.delete(setId);
     }
     const selectedItems: SelectedItemData[] = [];
-    this.getItemsPerSet(setId).subscribe((items: SetItemsObject[]) => {
-      items.forEach((item) => {
+    this.getItemIds(setId).subscribe((itemIds: string[]) => {
+      itemIds.forEach((itemId) => {
         selectedItems.push({
-          item: item,
+          itemId: itemId,
           checked: true,
         });
       });
@@ -505,7 +505,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     if (this.checkedItemsList.has(setId)) {
       return this.checkedItemsList
         .get(setId)
-        .find((x) => isEqual(x.item.uuid, itemId))?.checked;
+        .find((x) => isEqual(x.itemId, itemId))?.checked;
     }
     return false;
   }
@@ -520,11 +520,11 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   }
 
   onCompare(setId: string) {
-    if (this.checkedItemsList.has(setId)) {
+    if (this.checkedItemsList.has(setId) && this.checkedItemsList.get(setId).length >= 2) {
       const selectedItemsMap = this.checkedItemsList.get(setId);
       if (hasValue(selectedItemsMap)) {
         const itemsPerSet = selectedItemsMap.map(element =>
-          element.item
+          element.itemId
         );
         this.deduplicationStateService.dispatchAddItemsToCompare(itemsPerSet);
         this.router.navigate(['/admin/deduplication/compare', setId]);
@@ -646,5 +646,5 @@ export class DeduplicationSetsComponent implements AfterViewInit {
 
 export interface SelectedItemData {
   checked: boolean;
-  item: SetItemsObject;
+  itemId: string;
 }

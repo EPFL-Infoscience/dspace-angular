@@ -5,7 +5,7 @@ import { CollectionDataService } from './../../core/data/collection-data.service
 import { Collection } from './../../core/shared/collection.model';
 import { ItemDataService } from './../../core/data/item-data.service';
 import { NoContent } from './../../core/shared/NoContent.model';
-import { DeduplicationSetItemsRestService } from './../../core/deduplication/models/deduplication-set-items-rest.service';
+import { DeduplicationSetItemsRestService } from '../../core/deduplication/services/deduplication-set-items-rest.service';
 import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
 import { RemoteData } from './../../core/data/remote-data';
 import { PaginatedList } from './../../core/data/paginated-list.model';
@@ -15,7 +15,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { getFirstCompletedRemoteData } from './../../core/shared/operators';
 import { catchError, map, take } from 'rxjs/operators';
-import { DeduplicationSetsRestService } from './../../core/deduplication/models/deduplication-sets-rest.service';
+import { DeduplicationSetsRestService } from '../../core/deduplication/services/deduplication-sets-rest.service';
 import { WorkflowItemDataService } from './../../core/submission/workflowitem-data.service';
 
 

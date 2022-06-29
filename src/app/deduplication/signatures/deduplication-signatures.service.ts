@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DeduplicationRestService } from '../../core/deduplication/deduplication-rest.service';
+import { DeduplicationRestService } from '../../core/deduplication/services/deduplication-rest.service';
 import { SortDirection, SortOptions } from '../../core/cache/models/sort-options.model';
 import { FindListOptions } from '../../core/data/request.models';
 import { RemoteData } from '../../core/data/remote-data';

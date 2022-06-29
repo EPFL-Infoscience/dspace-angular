@@ -1,7 +1,7 @@
 import { SignatureObject } from '../../core/deduplication/models/signature.model';
 import { ResourceType } from '../../core/shared/resource-type';
 import { DeduplicationStateService } from '../../deduplication/deduplication-state.service';
-import { DeduplicationRestService } from '../../core/deduplication/deduplication-rest.service';
+import { DeduplicationRestService } from '../../core/deduplication/services/deduplication-rest.service';
 
 // REST Mock ---------------------------------------------------------------------
 // -------------------------------------------------------------------------------

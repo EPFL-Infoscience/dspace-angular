@@ -211,7 +211,7 @@ export class RetrieveItemsToCompareAction implements Action {
 export class AddItemsToCompareAction implements Action {
   type = DeduplicationSetsActionTypes.ADD_ITEMS_TO_COMPARE;
   payload: {
-    objects: SetItemsObject[];
+    objects: string[];
   };
 
   /**
@@ -219,7 +219,7 @@ export class AddItemsToCompareAction implements Action {
    * @param objects - the list of set items
    * @param setId - the id of the set items
    */
-  constructor(objects: SetItemsObject[]) {
+  constructor(objects: string[]) {
     this.payload = {
       objects,
     };

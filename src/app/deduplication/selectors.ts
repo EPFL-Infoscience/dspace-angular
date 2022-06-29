@@ -155,6 +155,6 @@ export function setItemsObjectsSelector(setId): MemoizedSelector<DeduplicationSt
 }
 
 
-export function itemsToCompareObjectSelector(): MemoizedSelector<DeduplicationState, SetItemsObject[]> {
-  return subStateSelector<DeduplicationState, SetItemsObject[]>(itemsToCompareStateSelector(), 'objects');
+export function itemsToCompareObjectSelector(): MemoizedSelector<DeduplicationState, string[]> {
+  return subStateSelector<DeduplicationState, string[]>(itemsToCompareStateSelector(), 'objects');
 }

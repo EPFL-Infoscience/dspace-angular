@@ -10,12 +10,12 @@ import { DeduplicationComponent } from './deduplication.component';
 import { DeduplicationStateService } from './deduplication-state.service';
 import { DeduplicationSignaturesService } from './signatures/deduplication-signatures.service';
 import { DeduplicationState, deduplicationReducers } from './deduplication.reducer';
-import { DeduplicationRestService } from '../core/deduplication/deduplication-rest.service';
+import { DeduplicationRestService } from '../core/deduplication/services/deduplication-rest.service';
 import { deduplicationEffects } from './deduplication.effects';
 import { DeduplicationSignaturesComponent } from './signatures/deduplication-signatures.component';
 import { DeduplicationSetsService } from './sets/deduplication-sets.service';
-import { DeduplicationSetsRestService } from '../core/deduplication/models/deduplication-sets-rest.service';
-import { DeduplicationSetItemsRestService } from '../core/deduplication/models/deduplication-set-items-rest.service';
+import { DeduplicationSetsRestService } from '../core/deduplication/services/deduplication-sets-rest.service';
+import { DeduplicationSetItemsRestService } from '../core/deduplication/services/deduplication-set-items-rest.service';
 import { DeduplicationItemsService } from './deduplication-merge/deduplication-items.service';
 
 const MODULES = [

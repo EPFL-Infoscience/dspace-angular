@@ -5,16 +5,16 @@
         {{ "Merge Deduplications" | translate }}
       </h2>
 
-      <!-- <div class="col-md-12 text-center">
+      <div class="col-md-12 text-center" *ngIf="itemsToCompare.length == 0">
         <h4 class="p-3">
-          {{'no-data' | translate}}
+          {{ "no-data" | translate }}
         </h4>
-      </div> -->
+      </div>
 
       <!-- <ds-loading class="container" *ngIf="isSetsLoading() | async"
         [message]="'deduplication.sets.message.loading' | translate"></ds-loading> -->
 
-      <!-- <p>Records to compare</p> -->
+      <p>Records to compare</p>
 
       <table class="table table-striped">
         <thead>
@@ -24,21 +24,30 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              {{'Title test'}}
-            </td>
-          </tr>
+          <ng-container *ngIf="itemsToCompare">
+            <tr *ngFor="let itemObj of itemsToCompare">
+              <td>
+                {{ (itemObj.object$ | async)?.name }}
+              </td>
+              <td>
+                <span *ngIf="itemObj.color" [ngStyle]="{ color: itemObj.color }">
+                  ({{ (itemObj.object$ | async)?.uuid }})
+                </span>
+              </td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
-
-      <ng-container *ngFor="let item of storedItems$ | async">
-        <ngb-accordion [destroyOnHide]="false" [closeOthers]="true" activeIds="panel-0">
+      <ng-container *ngIf="itemsToCompare.length > 0">
+        <ngb-accordion [destroyOnHide]="false" [closeOthers]="true" activeIds="panel-0" *ngFor="
+            let keyvalue of (itemsToCompare[0].object$ | async)?.metadata
+              | keyvalue
+          ">
           <ngb-panel id="panel-{{ 0 }}">
             <ng-template ngbPanelHeader let-opened="opened">
               <div class="row">
-                <div class="col-md-10 mt-1">
-                  <h5 class="m-0">{{ item.name }} ({{ item.uuid }})</h5>
+                <div class="col-md-10 mt-1 uppercase">
+                  {{ keyvalue.key }}
                 </div>
                 <div class="col-md-2 text-right mt-1">
                   <button ngbPanelToggle class="btn btn-sm" [ngClass]="opened ? 'btn-info' : 'btn-outline-info'">
@@ -49,10 +58,27 @@
               </div>
             </ng-template>
             <ng-template ngbPanelContent>
-              <pre>
-                {{ item.metadata | json }}
-             </pre>
-              <hr />
+              <ng-container *ngFor="let itemObj of itemsToCompare; let i = index">
+                <ng-container *ngFor="
+                    let data of (itemObj.object$ | async)?.metadata[
+                      keyvalue.key
+                    ]
+                  ">
+
+                  <div class="row item-container" *ngIf="itemObj.color"
+                    [ngStyle]="{ 'background-color': itemObj.color }">
+                    <div class="col-1">
+                      <input type="checkbox" name="" id="">
+                    </div>
+                    <span class="col-6">
+                      {{ data.value }}
+                    </span>
+                    <span class="col-5 justify-content-end">
+                      ({{ (itemObj.object$ | async)?.uuid }})
+                    </span>
+                  </div>
+                </ng-container>
+              </ng-container>
             </ng-template>
           </ngb-panel>
         </ngb-accordion>

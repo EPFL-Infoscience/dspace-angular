@@ -1,11 +1,11 @@
+import { getRemoteDataPayload } from './../../core/shared/operators';
 import { Item } from './../../core/shared/item.model';
-
-import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { DeduplicationStateService } from './../deduplication-state.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { mergeMap, concat, concatMap, map } from 'rxjs/operators';
 import { DeduplicationItemsService } from './deduplication-items.service';
+import { map } from 'rxjs/operators';
+import { hasValue } from '../../shared/empty.util';
 
 @Component({
   selector: 'ds-deduplication-merge',
@@ -13,26 +13,68 @@ import { DeduplicationItemsService } from './deduplication-items.service';
   styleUrls: ['./deduplication-merge.component.scss'],
 })
 export class DeduplicationMergeComponent implements OnInit, OnDestroy {
+  protected storedItemIds$: Observable<string[]>;
 
-  storedItems$: Observable<SetItemsObject[]>;
-  itemsToCompare$: Observable<Item[]>;
+  public itemsToCompare: ItemData[] = [];
 
   constructor(
     private deduplicationStateService: DeduplicationStateService,
-    private deduplicationItemsService: DeduplicationItemsService,
+    private deduplicationItemsService: DeduplicationItemsService
   ) {
-    this.storedItems$ = this.deduplicationStateService.getItemsToCompare();
-    this.deduplicationItemsService.getItemData('53ed7a31-7581-41d4-84ec-99a61f3fa755').subscribe(res=>{
-      console.log(res,'test');
+    this.storedItemIds$ = this.deduplicationStateService.getItemsToCompare();
+    this.getItemsData();
+  }
 
+  ngOnInit(): void {
+    // this.getItemsData();
+  }
+
+  public getItemsData() {
+    this.storedItemIds$.subscribe((itemIds: string[]) => {
+      itemIds.forEach((itemId: string) => {
+        const item$: Observable<Item> = this.deduplicationItemsService
+          .getItemData(itemId)
+          .pipe(
+            getRemoteDataPayload(),
+            map((res: Item) => {
+              if (hasValue(res)) {
+                return res;
+              }
+            })
+          );
+        this.itemsToCompare.push({
+          object$: item$,
+          color: this.generateIdColor(
+            this.itemsToCompare[this.itemsToCompare.length - 1]
+              ? this.itemsToCompare[this.itemsToCompare.length - 1].color
+              : 'ffffff'
+          ),
+        });
+      });
     });
   }
 
-  ngOnInit(): void { }
-
   ngOnDestroy(): void {
     // Remove the items from store
-    console.log('Remove the items');
+    console.log(
+      'Remove the items from store',
+      new Date().getHours(),
+      ': ',
+      new Date().getMinutes()
+    );
     this.deduplicationStateService.dispatchRemoveItemsToCompare();
   }
+
+  private generateIdColor(color: string) {
+    let hash = 0;
+    for (var i = 0; i < color.length; i++) {
+      hash = color.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const c = (hash & 0x00f5fcff).toString(16).toUpperCase();
+    return `#${'00000'.substring(0, 6 - c.length) + c}`;
+  }
+}
+export interface ItemData {
+  object$: Observable<Item>;
+  color: string;
 }
