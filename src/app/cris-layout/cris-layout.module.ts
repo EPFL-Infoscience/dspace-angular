@@ -53,7 +53,7 @@ import { HtmlComponent } from './cris-layout-matrix/cris-layout-box-container/bo
 import { BrowseComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/browse/browse.component';
 import { TagBrowseComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/tag-browse/tag-browse.component';
 import { MarkdownComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/markdown/markdown.component';
-import { NuMarkdownModule } from '@ng-util/markdown';
+import { DsMarkdownViewerModule } from '../shared/markdown-viewer/ds-markdown-viewer.module';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -121,7 +121,7 @@ const ENTRY_COMPONENTS = [
     NgbAccordionModule,
     ComcolModule,
     MiradorViewerModule,
-    NuMarkdownModule
+    DsMarkdownViewerModule
   ],
   exports: [
     CrisLayoutComponent,
