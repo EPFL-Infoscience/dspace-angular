@@ -75,7 +75,7 @@ describe('MarkdownComponent', () => {
   });
 
   it('check metadata rendering', (done) => {
-    const spanValueFound = fixture.debugElement.queryAll(By.css('nu-markdown-preview'));
+    const spanValueFound = fixture.debugElement.queryAll(By.css('ds-markdown-viewer'));
     expect(spanValueFound.length).toBe(1);
     done();
   });
