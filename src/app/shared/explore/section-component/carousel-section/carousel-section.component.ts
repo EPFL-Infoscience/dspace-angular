@@ -69,7 +69,7 @@ export class CarouselSectionComponent implements OnInit {
     this.paginatedSearchOptions = new PaginatedSearchOptions({
       configuration: discoveryConfigurationName,
       pagination: pagination,
-      sort: new SortOptions(sortField, sortDirection),
+      sort: this.carouselSection.sortField ? new SortOptions(sortField, sortDirection) : undefined,
       dsoTypes: [DSpaceObjectType.ITEM],
       forcedEmbeddedKeys: ['bundles']
     });
