@@ -44,9 +44,17 @@ import { ValuepairComponent } from './cris-layout-matrix/cris-layout-box-contain
 import { TagComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/tag/tag.component';
 import { MetadataContainerComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/row/metadata-container/metadata-container.component';
 import { MetadataRenderComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/row/metadata-container/metadata-render/metadata-render.component';
+import { MapComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/map/map.component';
+import { GooglemapsModule } from '../shared/googlemaps/googlemaps.module';
+import { LoadMoreService } from './services/load-more.service';
 import { MiradorViewerModule } from '../item-page/mirador-viewer/mirador-viewer.module';
 import { ComcolModule } from '../shared/comcol/comcol.module';
 import { SearchModule } from '../shared/search/search.module';
+import { HtmlComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/html/html.component';
+import { BrowseComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/browse/browse.component';
+import { TagBrowseComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/tag-browse/tag-browse.component';
+import { MarkdownComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/markdown/markdown.component';
+import { DsMarkdownViewerModule } from '../shared/markdown-viewer/ds-markdown-viewer.module';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -54,6 +62,7 @@ const ENTRY_COMPONENTS = [
   CrisLayoutHorizontalComponent,
   CrisLayoutMetadataBoxComponent,
   TextComponent,
+  HtmlComponent,
   HeadingComponent,
   CrisLayoutRelationBoxComponent,
   CrisLayoutIIIFViewerBoxComponent,
@@ -74,6 +83,10 @@ const ENTRY_COMPONENTS = [
   OrcidComponent,
   ValuepairComponent,
   TagComponent,
+  MapComponent,
+  BrowseComponent,
+  TagBrowseComponent,
+  MarkdownComponent
 ];
 @NgModule({
   declarations: [
@@ -96,17 +109,21 @@ const ENTRY_COMPONENTS = [
     DsDatePipe,
     RowComponent,
     MetadataContainerComponent,
-    MetadataRenderComponent
+    MetadataRenderComponent,
+    MarkdownComponent
   ],
+  providers:[ LoadMoreService ],
   imports: [
     CommonModule,
     SharedModule,
     SearchModule.withEntryComponents(),
+    GooglemapsModule,
     MyDSpacePageModule,
     ContextMenuModule.withEntryComponents(),
     NgbAccordionModule,
     ComcolModule,
     MiradorViewerModule,
+    DsMarkdownViewerModule
   ],
   exports: [
     CrisLayoutComponent,
