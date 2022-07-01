@@ -34,6 +34,7 @@ import { OrcidAuthorizationsComponent } from './cris-layout-matrix/cris-layout-b
 import { OrcidSyncSettingsComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/orcid-sync-settings/orcid-sync-settings.component';
 import { CrisLayoutMetricsBoxComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metrics/cris-layout-metrics-box.component';
 import { CrisLayoutIIIFViewerBoxComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/iiif-viewer/cris-layout-iiif-viewer-box.component';
+import { CrisLayoutIIIFToolbarBoxComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/iiif-toolbar/cris-layout-iiif-toolbar-box.component';
 import { MetricRowComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metrics/metric-row/metric-row.component';
 import { ContextMenuModule } from '../shared/context-menu/context-menu.module';
 import { TableComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/metadataGroup/table/table.component';
@@ -65,6 +66,7 @@ const ENTRY_COMPONENTS = [
   HeadingComponent,
   CrisLayoutRelationBoxComponent,
   CrisLayoutIIIFViewerBoxComponent,
+  CrisLayoutIIIFToolbarBoxComponent,
   LongtextComponent,
   DateComponent,
   LinkComponent,
