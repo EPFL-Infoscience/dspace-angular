@@ -1,4 +1,4 @@
-import { getRemoteDataPayload } from './../../core/shared/operators';
+import { MetadataValue } from './../../core/shared/metadata.models';
 import { Item } from './../../core/shared/item.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { DeduplicationStateService } from './../deduplication-state.service';
@@ -6,6 +6,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DeduplicationItemsService } from './deduplication-items.service';
 import { map } from 'rxjs/operators';
 import { hasValue } from '../../shared/empty.util';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'ds-deduplication-merge',
@@ -17,17 +18,22 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
 
   public itemsToCompare: ItemData[] = [];
 
+  public differencesArray: string[][] = [];
+
+  public setId: string;
+
   constructor(
     private deduplicationStateService: DeduplicationStateService,
-    private deduplicationItemsService: DeduplicationItemsService
+    private deduplicationItemsService: DeduplicationItemsService,
+    private route: ActivatedRoute,
   ) {
     this.storedItemIds$ = this.deduplicationStateService.getItemsToCompare();
     this.getItemsData();
+    // * setId: signature-id:set-checksum *
+    this.setId = this.route.snapshot.params.setId;
   }
 
-  ngOnInit(): void {
-    // this.getItemsData();
-  }
+  ngOnInit(): void { }
 
   public getItemsData() {
     this.storedItemIds$.subscribe((itemIds: string[]) => {
@@ -35,7 +41,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         const item$: Observable<Item> = this.deduplicationItemsService
           .getItemData(itemId)
           .pipe(
-            getRemoteDataPayload(),
             map((res: Item) => {
               if (hasValue(res)) {
                 return res;
@@ -54,15 +59,23 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    // Remove the items from store
-    console.log(
-      'Remove the items from store',
-      new Date().getHours(),
-      ': ',
-      new Date().getMinutes()
-    );
-    this.deduplicationStateService.dispatchRemoveItemsToCompare();
+  merge() {
+    // TODO: Implement logic
+  }
+
+
+
+  showDiff(keyvalue, asdf?) {
+    for (let index = 0; index < this.itemsToCompare.length; index++) {
+      const item = this.itemsToCompare[index].object$;
+
+      item.subscribe((res: Item) => {
+        res.metadata[keyvalue.key].forEach((metadataValue: MetadataValue) => {
+          console.log(metadataValue, 'metadataValue');
+
+        });
+      });
+    }
   }
 
   private generateIdColor(color: string) {
@@ -70,10 +83,16 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     for (var i = 0; i < color.length; i++) {
       hash = color.charCodeAt(i) + ((hash << 5) - hash);
     }
-    const c = (hash & 0x00f5fcff).toString(16).toUpperCase();
+    const c = (hash & 0x00f4f0af).toString(16).toUpperCase();
     return `#${'00000'.substring(0, 6 - c.length) + c}`;
   }
+
+  ngOnDestroy(): void {
+    // Remove the items from store
+    this.deduplicationStateService.dispatchRemoveItemsToCompare();
+  }
 }
+
 export interface ItemData {
   object$: Observable<Item>;
   color: string;

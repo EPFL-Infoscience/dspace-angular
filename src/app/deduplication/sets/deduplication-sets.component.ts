@@ -519,14 +519,16 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     }
   }
 
-  onCompare(setId: string) {
-    if (this.checkedItemsList.has(setId) && this.checkedItemsList.get(setId).length >= 2) {
-      const selectedItemsMap = this.checkedItemsList.get(setId);
+  onCompare(setChecksum: string, set_id: string) {
+    if (this.checkedItemsList.has(set_id) && this.checkedItemsList.get(set_id).length >= 2) {
+      const selectedItemsMap = this.checkedItemsList.get(set_id);
       if (hasValue(selectedItemsMap)) {
         const itemsPerSet = selectedItemsMap.map(element =>
           element.itemId
         );
         this.deduplicationStateService.dispatchAddItemsToCompare(itemsPerSet);
+        // * setId: signature-id:set-checksum *
+        const setId = `${this.signatureId}:${setChecksum}`;
         this.router.navigate(['/admin/deduplication/compare', setId]);
       }
     } else {

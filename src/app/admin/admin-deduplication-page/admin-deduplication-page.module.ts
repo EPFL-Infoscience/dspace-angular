@@ -10,6 +10,7 @@ import { AdminDeduplicationPageRoutingModule } from './admin-deduplication-page.
 import { DedupicationModule } from '../../deduplication/deduplication.module';
 import { DeduplicationSetsComponent } from './../../deduplication/sets/deduplication-sets.component';
 import { DeduplicationMergeComponent } from './../../deduplication/deduplication-merge/deduplication-merge.component';
+import { DsGetBundlePipe } from '../../deduplication/deduplication-merge/ds-get-bundle.pipe';
 
 const COMPONENTS = [
   AdminDeduplicationPageComponent,
@@ -27,7 +28,8 @@ const COMPONENTS = [
   ],
   declarations: [
     ...COMPONENTS,
-    GetItemStatusListPipe
+    GetItemStatusListPipe,
+    DsGetBundlePipe
   ],
   entryComponents: []
 })
