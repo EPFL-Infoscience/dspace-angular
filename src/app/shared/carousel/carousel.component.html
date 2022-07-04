@@ -2,8 +2,8 @@
   <ng-template ngbSlide *ngFor="let object of items; let i = index; let last = last">
     <a>
       <div class="picsum-img-wrapper text-center"
-            *ngIf="( findBitstream(object.indexableObject) | async ) && ( findBitstream(object.indexableObject) | async )?.length > 0">
-        <img [src]="( findBitstream(object.indexableObject) | async )[0]._links.content.href">
+            *ngIf="( findBitstreamImage(object.indexableObject) | async )">
+        <img [src]="( findBitstreamImage(object.indexableObject) | async )">
       </div>
     </a>
     <div class="carousel-caption">

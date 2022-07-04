@@ -1,16 +1,15 @@
 import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of as observableOf } from 'rxjs';
+import { map, switchMap, filter, take } from 'rxjs/operators';
 import { PaginatedList } from '../../core/data/paginated-list.model';
-import { RemoteData } from '../../core/data/remote-data';
 import { BitstreamFormat } from '../../core/shared/bitstream-format.model';
 import { Bitstream } from '../../core/shared/bitstream.model';
 import { Item } from '../../core/shared/item.model';
 import { BitstreamDataService } from '../../core/data/bitstream-data.service';
 import { CarouselSection } from '../../core/layout/models/section.model';
 import { NativeWindowRef, NativeWindowService } from '../../core/services/window.service';
-import { getFirstCompletedRemoteData } from '../../core/shared/operators';
+import { getFirstSucceededRemoteDataPayload, getRemoteDataPayload } from '../../core/shared/operators';
 import { hasValue } from '../empty.util';
 import { ItemSearchResult } from '../object-collection/shared/item-search-result.model';
 import { followLink } from '../utils/follow-link-config.model';
@@ -120,43 +119,34 @@ export class CarouselComponent implements OnInit {
   /**
    * function to find a bitstream of an item
    */
-  findBitstream(item: Item) {
+  findBitstreamImage(item: Item): Observable<string> {
     return this.bitstreamDataService.findAllByItemAndBundleName(
       item,
       'ORIGINAL',
-      {elementsPerPage: 20, currentPage: 0},
+      {},
       true,
       true,
       followLink('format'),
     ).pipe(
-      getFirstCompletedRemoteData(),
-      map((bitstreamsRD: RemoteData<PaginatedList<Bitstream>>) => {
-        if (hasValue(bitstreamsRD.payload)) {
-          if ( bitstreamsRD.payload.page.length > 0) {
-            const finalBitstreams = bitstreamsRD.payload.page.filter((bitstream: Bitstream) => {
-              if (hasValue(bitstream)) {
-                if (hasValue(bitstream.format)) {
-                  let formatCheck;
-                  bitstream.format.pipe(
-                    map((format) => format.payload),
-                    map((format: BitstreamFormat) => {
-                      if (hasValue(format)) {
-                        if (hasValue(format.mimetype)) {
-                          if (format.mimetype.includes('image')) {
-                            return true;
-                          } else { return false; }
-                        } else {return false; }
-                      } else {return false; }
-                    }),
-                  ).subscribe(res => { formatCheck = res; });
-                  return formatCheck;
-                } else { return false; }
-              } else { return false; }
-            });
-            return finalBitstreams;
-          } else { return null; }
-        } else { return null; }
-      }),
+      getFirstSucceededRemoteDataPayload(),
+      // Return the array of bitstreams with paginated list
+      map((bitstreamList: PaginatedList<Bitstream>) => { return bitstreamList.page; }),
+      // Returns the bitstream in the list one at a time
+      switchMap((bitstreams: Bitstream[]) => bitstreams),
+      // Retrieve the format for each bitstream
+      switchMap((bitstream: Bitstream) => bitstream.format.pipe(
+        getFirstSucceededRemoteDataPayload(),
+        // Keep the original bitstream, because we will need it for the link at the end, not the format
+        // format is taken just to check the mimetype
+        map((format: BitstreamFormat) => [bitstream, format])
+      )),
+      // Filter out only pairs with image format bitstreams
+      filter(([bitstream, format]: [Bitstream, BitstreamFormat]) =>
+        hasValue(format) && hasValue(bitstream) && format.mimetype.includes('image/')),
+      // We only need 1
+      take(1),
+      // Returns the link of the match
+      map(([bitstream, ]: [Bitstream, BitstreamFormat]) => bitstream._links.content.href)
     );
   }
 
