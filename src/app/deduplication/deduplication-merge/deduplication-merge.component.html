@@ -13,7 +13,7 @@
 
       <ng-container *ngIf="itemsToCompare && itemsToCompare.length > 0">
         <p>Records to compare</p>
-        <table class="table table-striped">
+        <table class="table table-striped mb-4">
           <thead>
             <tr>
               <th scope="col">Entities</th>
@@ -35,7 +35,6 @@
           </tbody>
         </table>
 
-        <hr />
         <h6>Bitstreams per Item</h6>
         <table class="table table-striped">
           <thead>
@@ -104,9 +103,9 @@
                   >
                     Show Diff
                   </button>
-                  <button class="btn btn-sm btn-danger mr-2">
+                  <!-- <button class="btn btn-sm btn-danger mr-2">
                     <i class="fa fa-trash"></i>
-                  </button>
+                  </button> -->
                   <button
                     ngbPanelToggle
                     class="btn btn-sm"
@@ -146,6 +145,14 @@
                             keyvalue.key +
                             dataIdx
                           "
+                          (change)="
+                            onValueSelect(
+                              keyvalue.key,
+                              targetItemHref.value,
+                              data.place,
+                              'multiple'
+                            )
+                          "
                         />
                         <label
                           class="custom-control-label"
@@ -157,6 +164,12 @@
                         ></label>
                       </div>
                     </div>
+                    <input
+                      type="hidden"
+                      name=""
+                      #targetItemHref
+                      [value]="(itemObj.object$ | async)?._links.self.href"
+                    />
 
                     <!-- if only one selection can occur-->
                     <!-- TODO: depends on rest properties -->
@@ -174,6 +187,14 @@
                           "
                           [value]="
                             (itemObj.object$ | async)?.uuid + keyvalue.key
+                          "
+                          (change)="
+                            onValueSelect(
+                              keyvalue.key,
+                              targetItemHref.value,
+                              data.place,
+                              'single'
+                            )
                           "
                         />
                         <label
