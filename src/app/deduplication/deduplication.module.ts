@@ -17,6 +17,8 @@ import { DeduplicationSetsService } from './sets/deduplication-sets.service';
 import { DeduplicationSetsRestService } from '../core/deduplication/services/deduplication-sets-rest.service';
 import { DeduplicationSetItemsRestService } from '../core/deduplication/services/deduplication-set-items-rest.service';
 import { DeduplicationItemsService } from './deduplication-merge/deduplication-items.service';
+import { ShowDifferencesComponent } from './show-differences/show-differences.component';
+import { TextDiffPipe } from './show-differences/pipes/text-diff.pipe';
 
 const MODULES = [
   CommonModule,
@@ -54,6 +56,8 @@ const PROVIDERS = [
     ...COMPONENTS,
     ...DIRECTIVES,
     ...ENTRY_COMPONENTS,
+    ShowDifferencesComponent,
+    TextDiffPipe,
   ],
   providers: [
     ...PROVIDERS

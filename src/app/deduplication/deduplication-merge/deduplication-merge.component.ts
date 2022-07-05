@@ -1,3 +1,5 @@
+import { ItemsMetadataValues, ShowDifferencesComponent } from './../show-differences/show-differences.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Bitstream } from './../../core/shared/bitstream.model';
 import { MetadataValue } from './../../core/shared/metadata.models';
 import { Item } from './../../core/shared/item.model';
@@ -31,6 +33,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     private deduplicationStateService: DeduplicationStateService,
     private deduplicationItemsService: DeduplicationItemsService,
     private getBitstreamsPipe: DsGetBundlePipe,
+    private modalService: NgbModal,
     private route: ActivatedRoute
   ) {
     this.storedItemIds$ = this.deduplicationStateService.getItemsToCompare();
@@ -142,16 +145,24 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     });
   }
 
-  showDiff(keyvalue, asdf?) {
+  showDiff(keyvalue) {
+    let itemsToCompare:ItemsMetadataValues[] = [];
     for (let index = 0; index < this.itemsToCompare.length; index++) {
       const item = this.itemsToCompare[index].object$;
 
       item.subscribe((res: Item) => {
         res.metadata[keyvalue.key].forEach((metadataValue: MetadataValue) => {
-          console.log(metadataValue, 'metadataValue');
+          // console.log(metadataValue, 'metadataValue');
+          itemsToCompare.push({
+            itemId: res.uuid,
+            value: metadataValue,
+          });
         });
       });
     }
+
+    const modalRef = this.modalService.open(ShowDifferencesComponent);
+    modalRef.componentInstance.itemList = itemsToCompare;
   }
 
   private generateIdColor(color: string) {
