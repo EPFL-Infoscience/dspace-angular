@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { SortDirection, SortOptions } from '../../../../core/cache/models/sort-options.model';
 import { PaginatedList } from '../../../../core/data/paginated-list.model';
 import { RemoteData } from '../../../../core/data/remote-data';
@@ -37,7 +38,7 @@ export class CarouselSectionComponent implements OnInit {
   /**
    * Search results of provided carousel configurations.
    */
-  searchResults: Observable<RemoteData<PaginatedList<SearchResult<DSpaceObject>>>>;
+  searchResults$: Observable<RemoteData<PaginatedList<SearchResult<DSpaceObject>>>>;
 
   /**
    * Paginated Search Options of current carousel configurations.
@@ -74,10 +75,10 @@ export class CarouselSectionComponent implements OnInit {
       forcedEmbeddedKeys: ['bundles']
     });
 
-    this.searchResults = this.searchService.search(this.paginatedSearchOptions).pipe(
+    this.searchResults$ = this.searchService.search(this.paginatedSearchOptions).pipe(
+      tap(() => this.isLoading$.next(false)),
       getFirstCompletedRemoteData(),
     );
-    this.searchResults.subscribe(() => this.isLoading$.next(false));
   }
 
 }
