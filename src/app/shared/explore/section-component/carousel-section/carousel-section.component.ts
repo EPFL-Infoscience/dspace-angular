@@ -86,8 +86,8 @@ export class CarouselSectionComponent implements OnInit {
     });
 
     this.searchResults$ = this.searchService.search(this.paginatedSearchOptions).pipe(
-      tap(() => this.isLoading$.next(false)),
       getFirstCompletedRemoteData(),
+      tap(() => this.isLoading$.next(false)),
     );
   }
 
