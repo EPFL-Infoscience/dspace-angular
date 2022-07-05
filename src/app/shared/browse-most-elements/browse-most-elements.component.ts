@@ -1,3 +1,4 @@
+import { CollectionElementLinkType } from './../object-collection/collection-element-link.type';
 import { isEqual } from 'lodash';
 import { ViewMode } from './../../core/shared/view-mode.model';
 import { Router } from '@angular/router';
@@ -27,9 +28,13 @@ export class BrowseMostElementsComponent implements OnInit {
 
   @Input() topSection: TopSection;
 
+  @Input() mode: LayoutModeEnum;
+
   searchResults: RemoteData<PaginatedList<SearchResult<DSpaceObject>>>;
 
-  cardLayoutMode = LayoutModeEnum.CARD;
+  public cardLayoutMode = LayoutModeEnum.CARD;
+
+  public collectionElementLinkTypeEnum = CollectionElementLinkType;
 
   constructor(
     private searchService: SearchService,
@@ -52,7 +57,7 @@ export class BrowseMostElementsComponent implements OnInit {
   }
 
   showAllResults() {
-    const view = isEqual(this.topSection.defaultLayoutMode, LayoutModeEnum.LIST)
+    const view = isEqual(this.mode, LayoutModeEnum.LIST)
       ? ViewMode.ListElement
       : ViewMode.GridElement;
     this.router.navigate(['/search'], {

@@ -2,7 +2,7 @@
   <ng-container *ngIf="searchResults">
     <ng-container
       *ngIf="
-        topSection && topSection.defaultLayoutMode == cardLayoutMode;
+        topSection && mode == cardLayoutMode;
         else listLayout
       "
     >
@@ -12,7 +12,7 @@
         [sortConfig]="paginatedSearchOptions.sort"
         [objects]="searchResults"
         [hideGear]="true"
-        [linkType]="'None'"
+        [linkType]="collectionElementLinkTypeEnum.None"
         [context]="context"
         [hidePaginationDetail]="true"
       >

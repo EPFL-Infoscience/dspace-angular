@@ -1,8 +1,7 @@
 <div class="container">
   <div class="row my-2" *ngIf="topSection.showLayoutSwitch">
     <div class="col">
-      <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic"
-        [(ngModel)]="topSection.defaultLayoutMode">
+      <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="layoutMode">
         <label ngbButtonLabel class="btn-outline-primary">
           <input ngbButton type="radio" [value]="'list'" />
           <i class="fa fa-list-ul" title="List"></i>
@@ -14,19 +13,31 @@
       </div>
     </div>
   </div>
-  <div [ngClass]="{ 'card': topSection.showAsCard }">
-    <div [ngClass]="{ 'card-header': topSection.showAsCard }" *ngIf="topSection.showAsCard">
-      <span *ngIf="topSection.titleKey">{{ "explore.index." + topSection.titleKey | translate }}
-      </span>
-      <span *ngIf="!topSection.titleKey">{{ "explore.index." + topSection.sortField | translate }}
-      </span>
-    </div>
-    <div [ngClass]="topSection.showAsCard ? 'card-body' : 'row'">
-      <div [ngClass]="{ 'col px-2': !topSection.showAsCard }">
+
+  <ng-container *ngIf="topSection.showAsCard">
+    <!-- CARD VIEW -->
+    <div class="card">
+      <div class="card-header">
+        <span *ngIf="topSection.titleKey">{{ "explore.index." + topSection.titleKey | translate }}
+        </span>
+        <span *ngIf="!topSection.titleKey">{{ "explore.index." + topSection.sortField | translate }}
+        </span>
+      </div>
+      <div class="card-body">
         <ds-themed-browse-most-elements [context]="context" [paginatedSearchOptions]="paginatedSearchOptions"
-          [topSection]="topSection">
+          [topSection]="topSection" [mode]="layoutMode">
         </ds-themed-browse-most-elements>
       </div>
     </div>
-  </div>
+  </ng-container>
+  <ng-container *ngIf="!topSection.showAsCard">
+    <!-- LIST VIEW -->
+    <div class="row">
+      <div class="col px-2">
+        <ds-themed-browse-most-elements [context]="context" [paginatedSearchOptions]="paginatedSearchOptions"
+          [topSection]="topSection" [mode]="layoutMode">
+        </ds-themed-browse-most-elements>
+      </div>
+    </div>
+  </ng-container>
 </div>
