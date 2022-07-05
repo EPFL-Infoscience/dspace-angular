@@ -50,6 +50,16 @@ export class CarouselSectionComponent implements OnInit {
    */
   isLoading$ = new BehaviorSubject(true);
 
+  /**
+   * default value for field sorting
+   */
+  DEFAULT_SORT_FIELD = 'dc.date.accessioned';
+
+  /**
+   * default value for field sorting direction
+   */
+  DEFAULT_SORT_DIRECTION = 'desc';
+
   constructor (
     private searchService: SearchService,
     ) {
@@ -57,8 +67,8 @@ export class CarouselSectionComponent implements OnInit {
 
   ngOnInit() {
     const discoveryConfigurationName = this.carouselSection.discoveryConfigurationName;
-    const order = this.carouselSection.order;
-    const sortField = this.carouselSection.sortField;
+    const order = this.carouselSection.order ?? this.DEFAULT_SORT_DIRECTION;
+    const sortField = this.carouselSection.sortField ?? this.DEFAULT_SORT_FIELD;
     const numberOfItems = this.carouselSection.numberOfItems;
     const sortDirection = order && order.toUpperCase() === 'ASC' ? SortDirection.ASC : SortDirection.DESC;
     const pagination: PaginationComponentOptions = Object.assign(new PaginationComponentOptions(), {
@@ -70,7 +80,7 @@ export class CarouselSectionComponent implements OnInit {
     this.paginatedSearchOptions = new PaginatedSearchOptions({
       configuration: discoveryConfigurationName,
       pagination: pagination,
-      sort: this.carouselSection.sortField ? new SortOptions(sortField, sortDirection) : undefined,
+      sort: new SortOptions(sortField, sortDirection),
       dsoTypes: [DSpaceObjectType.ITEM],
       forcedEmbeddedKeys: ['bundles']
     });
