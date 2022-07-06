@@ -438,7 +438,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
                 if (!isNull(object)) {
                   if (object instanceof WorkflowItem) {
                     // if WorkflowItem
-                    this.deleteWorkfowItem(object.id).subscribe(
+                    this.deleteWorkflowItem(object.id).subscribe(
                       (res: SubmitDataResponseDefinitionObject) => {
                         this.dispatchRemoveItem(itemId, setId);
                         this.notificationsService.success(null, 'Item Removed');
@@ -488,12 +488,14 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     }
     const selectedItems: SelectedItemData[] = [];
     this.getItemIds(setId).subscribe((itemIds: string[]) => {
-      itemIds.forEach((itemId) => {
-        selectedItems.push({
-          itemId: itemId,
-          checked: true,
+      if (itemIds) {
+        itemIds.forEach((itemId) => {
+          selectedItems.push({
+            itemId: itemId,
+            checked: true,
+          });
         });
-      });
+      }
     });
     this.checkedItemsList.set(setId, selectedItems);
   }
@@ -529,7 +531,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
         this.deduplicationStateService.dispatchAddItemsToCompare(itemsPerSet);
         // * setId: signature-id:set-checksum *
         const setId = `${this.signatureId}:${setChecksum}`;
-        this.router.navigate(['/admin/deduplication/compare', setId]);
+        this.router.navigate([`/admin/deduplication/compare`, setId]);
       }
     } else {
       this.notificationsService.info(null, 'Select at least two items');
@@ -617,8 +619,8 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * Gets the WorkspaceItem and deletes it.
    * @param itemId The id of the item to be deleted
    */
-  private deleteWorkfowItem(itemId: string) {
-    if (itemId) {
+  private deleteWorkflowItem(itemId: string) {
+    if (hasValue(itemId)) {
       return this.deduplicationSetsService.deleteWorkflowItem(itemId).pipe(
         concatMap((res: RemoteData<NoContent>) => {
           if (res.hasSucceeded || isEqual(res.statusCode, 204)) {

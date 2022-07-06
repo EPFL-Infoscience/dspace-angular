@@ -1,13 +1,22 @@
-import { ItemsMetadataValues, ShowDifferencesComponent } from './../show-differences/show-differences.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
+import { getRemoteDataPayload } from './../../core/shared/operators';
+import { ConfigurationDataService } from './../../core/data/configuration-data.service';
+import {
+  ItemsMetadataValues,
+  ShowDifferencesComponent,
+} from './../show-differences/show-differences.component';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Bitstream } from './../../core/shared/bitstream.model';
-import { MetadataValue } from './../../core/shared/metadata.models';
+import {
+  MetadataValue,
+  MetadataMap,
+} from './../../core/shared/metadata.models';
 import { Item } from './../../core/shared/item.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { DeduplicationStateService } from './../deduplication-state.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DeduplicationItemsService } from './deduplication-items.service';
-import { map,  concatMap } from 'rxjs/operators';
+import { map, concatMap, take } from 'rxjs/operators';
 import { hasValue } from '../../shared/empty.util';
 import { ActivatedRoute } from '@angular/router';
 import { DsGetBundlePipe } from './ds-get-bundle.pipe';
@@ -29,15 +38,20 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
 
   protected bitstreamList: string[] = [];
 
+  protected excludedMetadataKeys: string[] = [];
+
+  protected modalRef: NgbModalRef;
+
   constructor(
     private deduplicationStateService: DeduplicationStateService,
     private deduplicationItemsService: DeduplicationItemsService,
     private getBitstreamsPipe: DsGetBundlePipe,
     private modalService: NgbModal,
+    private configurationDataService: ConfigurationDataService,
     private route: ActivatedRoute
   ) {
     this.storedItemIds$ = this.deduplicationStateService.getItemsToCompare();
-    this.getItemsData();
+    this.getExcludedMetadata();
     // * setId: signature-id:set-checksum *
     this.setId = this.route.snapshot.params.setId;
   }
@@ -47,18 +61,53 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     this.getItembitstreams();
   }
 
-  public getItemsData() {
+  private getExcludedMetadata() {
+    this.configurationDataService
+      .findByPropertyName('merge.excluded-metadata')
+      .pipe(
+        take(1),
+        getRemoteDataPayload())
+      .subscribe((res: ConfigurationProperty) => {
+        if (hasValue(res)) {
+          this.excludedMetadataKeys = [...res.values];
+        }
+        this.getItemsData();
+      });
+  }
+
+  private getItemsData() {
     this.storedItemIds$.subscribe((itemIds: string[]) => {
       itemIds.forEach((itemId: string) => {
         const item$: Observable<Item> = this.deduplicationItemsService
           .getItemData(itemId)
           .pipe(
-            map((res: Item) => {
-              if (hasValue(res)) {
-                return res;
+            take(1),
+            map((item: Item) => {
+              if (hasValue(item)) {
+                let keys: string[] = Object.keys(item.metadata);
+                // get only the metadata keys that are not excluded
+                keys = keys.filter((key) => {
+                  return !this.excludedMetadataKeys.includes(key);
+                });
+                // calculate MetadataMap for each item based on the keys to be included
+                let dataToInclude: MetadataMap = new MetadataMap();
+                let keyValuePair = Object.entries(item.metadata);
+                keyValuePair.forEach(([key, value]) => {
+                  if (keys.includes(key)) {
+                    dataToInclude[key] = value;
+                  }
+                });
+
+                item = Object.assign(new Item(), {
+                  ...item,
+                  metadata: dataToInclude
+                });
+
+                return item;
               }
             })
           );
+
         this.itemsToCompare.push({
           object$: item$,
           color: this.generateIdColor(
@@ -80,7 +129,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     };
 
     console.log(mergedItems, 'mergedItems');
-
   }
 
   onValueSelect(
@@ -131,11 +179,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         .transform(item.object$)
         .pipe(
           concatMap((res$: Observable<Bitstream[]>) => {
-            return res$.pipe(
-              map((bitstreams: Bitstream[]) =>
-                 bitstreams
-              )
-            );
+            return res$.pipe(map((bitstreams: Bitstream[]) => bitstreams));
           })
         )
         .subscribe((bitstreams: Bitstream[]) => {
@@ -146,23 +190,31 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   }
 
   showDiff(keyvalue) {
-    let itemsToCompare:ItemsMetadataValues[] = [];
+    let valuesToCompare: ItemsMetadataValues[] = [];
     for (let index = 0; index < this.itemsToCompare.length; index++) {
       const item = this.itemsToCompare[index].object$;
-
+      const color = this.itemsToCompare[index].color;
       item.subscribe((res: Item) => {
-        res.metadata[keyvalue.key].forEach((metadataValue: MetadataValue) => {
-          // console.log(metadataValue, 'metadataValue');
-          itemsToCompare.push({
-            itemId: res.uuid,
-            value: metadataValue,
+        if (hasValue(res)) {
+          res.metadata[keyvalue.key].forEach((metadataValue: MetadataValue) => {
+            valuesToCompare.push({
+              itemId: res.uuid,
+              value: metadataValue,
+              color: color,
+            });
           });
-        });
+        }
       });
     }
 
-    const modalRef = this.modalService.open(ShowDifferencesComponent);
-    modalRef.componentInstance.itemList = itemsToCompare;
+    this.modalRef = this.modalService.open(ShowDifferencesComponent, {
+      backdrop: 'static',
+      centered: true,
+      scrollable: true,
+      size: 'lg',
+    });
+    this.modalRef.componentInstance.itemList = valuesToCompare;
+    this.modalRef.componentInstance.metadataKey = keyvalue.key;
   }
 
   private generateIdColor(color: string) {
@@ -177,6 +229,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // Remove the items from store
     this.deduplicationStateService.dispatchRemoveItemsToCompare();
+    this.modalRef?.close();
   }
 }
 

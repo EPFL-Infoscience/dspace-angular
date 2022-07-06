@@ -18,7 +18,7 @@ export class DsGetBundlePipe implements PipeTransform {
   transform(object$: Observable<Item>): Observable<Observable<Bitstream[]>> {
     return object$.pipe(
       mergeMap((item: Item) => {
-        if (item.bundles) {
+        if (item && item.bundles) {
           return item.bundles.pipe(
             getAllSucceededRemoteData(),
             getRemoteDataPayload(),

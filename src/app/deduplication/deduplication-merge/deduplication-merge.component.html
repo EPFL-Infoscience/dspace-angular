@@ -73,7 +73,8 @@
 
       <ng-container *ngIf="itemsToCompare.length > 0">
         <div class="justify-content-end pr-3 mb-1 row">
-          <button class="btn btn-primary" (click)="merge()">
+          <button class="btn btn-secondary" (click)="merge()">
+            <i class="fa fa-code pr-1" aria-hidden="true"></i>
             {{ "Merge" | translate }}
           </button>
         </div>
@@ -97,7 +98,7 @@
 
                 <div class="col-md-3 text-right mt-1">
                   <button
-                    *ngIf="keyvalue.value && keyvalue.value.length > 1"
+                    *ngIf="keyvalue.value && keyvalue.value.length > 0"
                     class="btn btn-sm btn-warning mr-2"
                     (click)="showDiff(keyvalue)"
                   >

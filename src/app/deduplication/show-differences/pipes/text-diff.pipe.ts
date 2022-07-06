@@ -1,17 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import * as diff from 'simple-text-diff';
-const diffPatch = diff.default.diffPatch;
+import * as htmldiff from './../configs/htmldiff.js';
 
 @Pipe({
-  name: 'dsTextDiff'
+  name: 'dsTextDiff',
 })
 export class TextDiffPipe implements PipeTransform {
-
   transform(value1: string, value2: string): unknown {
-    const result1 = diffPatch(value1, value2);
-    console.log(result1);
-
-    return result1.after;
+    return htmldiff(value1, value2);
   }
 }
-
