@@ -53,7 +53,7 @@ export class CarouselSectionComponent implements OnInit {
   /**
    * default value for field sorting
    */
-  DEFAULT_SORT_FIELD = 'dc.date.accessioned';
+  DEFAULT_SORT_FIELD = 'lastModified';
 
   /**
    * default value for field sorting direction
