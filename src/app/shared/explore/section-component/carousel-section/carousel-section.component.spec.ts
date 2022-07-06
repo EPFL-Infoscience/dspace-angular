@@ -116,7 +116,7 @@ describe('CarouselSectionComponent', () => {
 
     it('should init search results data properly', (done) => {
         const expected = cold('(a|)', { a: searchResultRD });
-        expect(component.searchResults).toBeObservable(expected);
+        expect(component.searchResults$).toBeObservable(expected);
         done();
     });
 
