@@ -1,27 +1,27 @@
 import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, Observable, of as observableOf } from 'rxjs';
-import { map, switchMap, filter, take } from 'rxjs/operators';
+import { BehaviorSubject, from, Observable } from 'rxjs';
+import { filter, map, mergeMap, scan, switchMap, take } from 'rxjs/operators';
 import { PaginatedList } from '../../core/data/paginated-list.model';
 import { BitstreamFormat } from '../../core/shared/bitstream-format.model';
 import { Bitstream } from '../../core/shared/bitstream.model';
-import { Item } from '../../core/shared/item.model';
 import { BitstreamDataService } from '../../core/data/bitstream-data.service';
 import { CarouselSection } from '../../core/layout/models/section.model';
 import { NativeWindowRef, NativeWindowService } from '../../core/services/window.service';
-import { getFirstSucceededRemoteDataPayload, getRemoteDataPayload } from '../../core/shared/operators';
+import { getFirstCompletedRemoteData } from '../../core/shared/operators';
 import { hasValue } from '../empty.util';
 import { ItemSearchResult } from '../object-collection/shared/item-search-result.model';
 import { followLink } from '../utils/follow-link-config.model';
+import { RemoteData } from '../../core/data/remote-data';
 
 /**
  * Component representing the Carousel component section.
  */
 @Component({
-    selector: 'ds-carousel',
-    templateUrl: './carousel.component.html',
-    styleUrls: ['./carousel.component.scss'],
-    providers: []
+  selector: 'ds-carousel',
+  templateUrl: './carousel.component.html',
+  styleUrls: ['./carousel.component.scss'],
+  providers: []
 })
 export class CarouselComponent implements OnInit {
   /**
@@ -71,17 +71,19 @@ export class CarouselComponent implements OnInit {
    */
   pauseOnIndicator = false;
 
+  itemToImageHrefMap$ = new BehaviorSubject<Map<string, string>>(new Map<string, string>());
+
   /**
    * reference to the carousel
    */
-  @ViewChild('carousel', {static : true}) carousel: NgbCarousel;
+  @ViewChild('carousel', {static: true}) carousel: NgbCarousel;
 
   isLoading$ = new BehaviorSubject(true);
 
-  constructor (
+  constructor(
     protected bitstreamDataService: BitstreamDataService,
     @Inject(NativeWindowService) private _window: NativeWindowRef,
-    ) {
+  ) {
   }
 
   ngOnInit() {
@@ -89,6 +91,10 @@ export class CarouselComponent implements OnInit {
     this.title = this.carouselSection.title;
     this.link = this.carouselSection.link;
     this.description = this.carouselSection.description;
+
+    this.findAllBitstreamImages().subscribe((res) => {
+      this.itemToImageHrefMap$.next(res);
+    });
   }
 
   /**
@@ -117,36 +123,37 @@ export class CarouselComponent implements OnInit {
   }
 
   /**
-   * function to find a bitstream of an item
+   * Find the first image of each item
    */
-  findBitstreamImage(item: Item): Observable<string> {
-    return this.bitstreamDataService.findAllByItemAndBundleName(
-      item,
-      'ORIGINAL',
-      {},
-      true,
-      true,
-      followLink('format'),
-    ).pipe(
-      getFirstSucceededRemoteDataPayload(),
-      // Return the array of bitstreams with paginated list
-      map((bitstreamList: PaginatedList<Bitstream>) => { return bitstreamList.page; }),
-      // Returns the bitstream in the list one at a time
-      switchMap((bitstreams: Bitstream[]) => bitstreams),
-      // Retrieve the format for each bitstream
-      switchMap((bitstream: Bitstream) => bitstream.format.pipe(
-        getFirstSucceededRemoteDataPayload(),
-        // Keep the original bitstream, because we will need it for the link at the end, not the format
-        // format is taken just to check the mimetype
-        map((format: BitstreamFormat) => [bitstream, format])
-      )),
-      // Filter out only pairs with image format bitstreams
-      filter(([bitstream, format]: [Bitstream, BitstreamFormat]) =>
-        hasValue(format) && hasValue(bitstream) && format.mimetype.includes('image/')),
-      // We only need 1
-      take(1),
-      // Returns the link of the match
-      map(([bitstream, ]: [Bitstream, BitstreamFormat]) => bitstream._links.content.href)
+  findAllBitstreamImages(): Observable<Map<string, string>> {
+    return from(this.items).pipe(
+      map((itemSR) => itemSR.indexableObject),
+      mergeMap((item) => this.bitstreamDataService.findAllByItemAndBundleName(
+          item,
+          'ORIGINAL',
+          {},
+          true,
+          true,
+          followLink('format'),
+        ).pipe(
+          getFirstCompletedRemoteData(),
+          switchMap((rd: RemoteData<PaginatedList<Bitstream>>) => rd.hasSucceeded ? rd.payload.page : []),
+          mergeMap((bitstream: Bitstream) => bitstream.format.pipe(
+            getFirstCompletedRemoteData(),
+            filter((bitstreamFormatRD: RemoteData<BitstreamFormat>) =>
+              bitstreamFormatRD.hasSucceeded && hasValue(bitstreamFormatRD.payload) && hasValue(bitstream) &&
+              bitstreamFormatRD.payload.mimetype.includes('image/')
+            ),
+            map(() => bitstream)
+          )),
+          take(1),
+          map((bitstream: Bitstream) => [item.uuid, bitstream._links.content.href]),
+        ),
+      ),
+      scan((acc: Map<string, string>, value: [string, string]) => {
+        acc.set(value[0], value[1]);
+        return acc;
+      }, new Map<string, string>()),
     );
   }
 

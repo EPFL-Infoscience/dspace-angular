@@ -1,18 +1,18 @@
 <ngb-carousel #carousel [interval]="2000" (slide)="onSlide($event)">
-  <ng-template ngbSlide *ngFor="let object of items; let i = index; let last = last">
+  <ng-template ngbSlide *ngFor="let item of items; let i = index; let last = last">
     <a>
-      <div class="picsum-img-wrapper" *ngIf="( findBitstreamImage(object.indexableObject) | async ); let imgSrc">
-        <img [src]="imgSrc" [alt]="object.indexableObject.metadata[title][0].value">
+      <div class="picsum-img-wrapper" *ngIf="(itemToImageHrefMap$ | async).get(item.indexableObject.uuid); let href">
+        <img [src]="href" [alt]="item.indexableObject.metadata[title][0].value">
       </div>
     </a>
     <div class="carousel-caption">
       <div class="carousel-caption-inner">
-        <a (click)="openLinkUrl(object.indexableObject.metadata[link])">
-          <h3 class="text-dark" id="carouselObjTitle" *ngIf="object.indexableObject.metadata[title]">
-            {{object.indexableObject.metadata[title][0].value}}</h3>
+        <a (click)="openLinkUrl(item.indexableObject.metadata[link])">
+          <h3 class="text-dark" id="carouselObjTitle" *ngIf="item.indexableObject.metadata[title]">
+            {{item.indexableObject.metadata[title][0].value}}</h3>
         </a>
         <div class="text-truncate text-dark" id="carouselObjDesc"
-             *ngIf="object.indexableObject.metadata[description]; let descriptionObj">
+             *ngIf="item.indexableObject.metadata[description]; let descriptionObj">
           {{descriptionObj[0].value}}
         </div>
       </div>
