@@ -1,18 +1,18 @@
-import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
-import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, from, Observable } from 'rxjs';
-import { filter, map, mergeMap, scan, switchMap, take } from 'rxjs/operators';
-import { PaginatedList } from '../../core/data/paginated-list.model';
-import { BitstreamFormat } from '../../core/shared/bitstream-format.model';
-import { Bitstream } from '../../core/shared/bitstream.model';
-import { BitstreamDataService } from '../../core/data/bitstream-data.service';
-import { CarouselSection } from '../../core/layout/models/section.model';
-import { NativeWindowRef, NativeWindowService } from '../../core/services/window.service';
-import { getFirstCompletedRemoteData } from '../../core/shared/operators';
-import { hasValue } from '../empty.util';
-import { ItemSearchResult } from '../object-collection/shared/item-search-result.model';
-import { followLink } from '../utils/follow-link-config.model';
-import { RemoteData } from '../../core/data/remote-data';
+import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
+import {NgbCarousel, NgbSlideEvent, NgbSlideEventSource} from '@ng-bootstrap/ng-bootstrap';
+import {BehaviorSubject, from, Observable} from 'rxjs';
+import {filter, map, mergeMap, scan, switchMap, take} from 'rxjs/operators';
+import {PaginatedList} from '../../core/data/paginated-list.model';
+import {BitstreamFormat} from '../../core/shared/bitstream-format.model';
+import {Bitstream} from '../../core/shared/bitstream.model';
+import {BitstreamDataService} from '../../core/data/bitstream-data.service';
+import {NativeWindowRef, NativeWindowService} from '../../core/services/window.service';
+import {getFirstCompletedRemoteData} from '../../core/shared/operators';
+import {hasValue} from '../empty.util';
+import {ItemSearchResult} from '../object-collection/shared/item-search-result.model';
+import {followLink} from '../utils/follow-link-config.model';
+import {RemoteData} from '../../core/data/remote-data';
+import {CarouselOptions} from './carousel-options.model';
 
 /**
  * Component representing the Carousel component section.
@@ -34,12 +34,7 @@ export class CarouselComponent implements OnInit {
    * Carousel section configurations.
    */
   @Input()
-  carouselSection: CarouselSection;
-
-  /**
-   * Carousel section discovery Configuration.
-   */
-  discoveryConfiguration: string;
+  carouselOptions: CarouselOptions;
 
   /**
    * Carousel section title field.
@@ -87,10 +82,9 @@ export class CarouselComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.discoveryConfiguration = this.carouselSection.discoveryConfigurationName;
-    this.title = this.carouselSection.title;
-    this.link = this.carouselSection.link;
-    this.description = this.carouselSection.description;
+    this.title = this.carouselOptions.title;
+    this.link = this.carouselOptions.link;
+    this.description = this.carouselOptions.description;
 
     this.findAllBitstreamImages().subscribe((res) => {
       this.itemToImageHrefMap$.next(res);
@@ -129,12 +123,7 @@ export class CarouselComponent implements OnInit {
     return from(this.items).pipe(
       map((itemSR) => itemSR.indexableObject),
       mergeMap((item) => this.bitstreamDataService.findAllByItemAndBundleName(
-          item,
-          'ORIGINAL',
-          {},
-          true,
-          true,
-          followLink('format'),
+          item, 'ORIGINAL', {}, true, true, followLink('format'),
         ).pipe(
           getFirstCompletedRemoteData(),
           switchMap((rd: RemoteData<PaginatedList<Bitstream>>) => rd.hasSucceeded ? rd.payload.page : []),

@@ -1,77 +1,87 @@
-::ng-deep .carousel-control-prev-icon, ::ng-deep .carousel-control-next-icon {
-  width: 32px;
-  height: 32px;
-  padding: 6px;
-  background-color: rgba(0,0,0,0.5);
-  background-origin: content-box;
-  border-radius: 16px;
-}
+:host {
+  ::ng-deep {
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+      width: 32px;
+      height: 32px;
+      padding: 6px;
+      background-color: rgba(0, 0, 0, 0.5);
+      background-origin: content-box;
+      border-radius: 16px;
+    }
 
-::ng-deep .carousel-control-prev, ::ng-deep .carousel-control-next {
-  z-index: 15;
-  cursor: pointer;
-}
+    .carousel-control-prev, .carousel-control-next {
+      z-index: 15;
+      cursor: pointer;
+    }
 
-::ng-deep .carousel-item {
-  min-height: var(--ds-carousel-item-min-height);
-}
+    .carousel-indicators {
+      padding-bottom: 6px;
+    }
 
-::ng-deep .carousel-indicators{
-  padding-bottom: 6px;
-}
+    .carousel-indicators li {
+      background-color: var(--ds-carousel-indicators-background-color);
+    }
 
-::ng-deep .carousel-indicators li {
-  background-color: var(--ds-carousel-indicators-background-color);
-}
-
-.carousel-caption {
-  background: var(--ds-carousel-caption-background);
-  position: absolute;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  padding-top: 10px;
-  padding-bottom: 45px;
-}
-
-.carousel-caption-inner {
-  width: 80%;
-  margin: 0 auto;
-  a {
-    cursor: pointer;
+    .carousel-caption {
+      background: var(--ds-carousel-caption-background);
+      position: absolute;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      padding-top: 10px;
+      padding-bottom: 45px;
+    }
   }
-}
 
-
-.picsum-img-wrapper {
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-
-  img {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
+  .carousel-caption-inner {
+    width: 80%;
+    margin: 0 auto;
   }
-}
 
-.play-pause-button {
-  z-index: 15;
-  margin-top: -30px;
-  position: relative
-}
+  .picsum-img-wrapper {
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
 
+  .play-pause-button {
+    z-index: 15;
+    margin-top: -30px;
+    position: relative
+  }
 
-:host .inner-caption {
-  background-color: rgba(255, 255, 255, 0.5);
-}
+  .inner-caption {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
 
+  .carousel-content-wrapper {
+    z-index: -1;
+    min-height: 180px;
+  }
 
-.line-clamp {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  .carousel-caption-text {
+    overflow-y: scroll;
+    max-height: 4.5rem;
+  }
+
+  .carousel-caption-text::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .carousel-caption-text::-webkit-scrollbar-track {
+    background: none;
+  }
+
+  .carousel-caption-text::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    border: none;
+  }
+
+  button.toggle-paused {
+    outline: none;
+    box-shadow: none !important
+  }
+
 }

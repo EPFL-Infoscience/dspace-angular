@@ -12,6 +12,7 @@ import { PaginationComponentOptions } from '../../../pagination/pagination-compo
 import { PaginatedSearchOptions } from '../../../search/models/paginated-search-options.model';
 import { SearchResult } from '../../../search/models/search-result.model';
 import { CarouselSection } from '../../../../core/layout/models/section.model';
+import {CarouselOptions} from '../../../carousel/carousel-options.model';
 
 /**
  * Component representing the Carousel component section.
@@ -51,6 +52,11 @@ export class CarouselSectionComponent implements OnInit {
   isLoading$ = new BehaviorSubject(true);
 
   /**
+   * Carousel options
+   */
+  carouselOptions: CarouselOptions;
+
+  /**
    * default value for field sorting
    */
   DEFAULT_SORT_FIELD = 'lastModified';
@@ -76,6 +82,21 @@ export class CarouselSectionComponent implements OnInit {
       pageSize: numberOfItems,
       currentPage: 1
     });
+
+    this.carouselOptions = {
+      description: this.carouselSection.description,
+      link: this.carouselSection.link,
+      title: this.carouselSection.title,
+      keepAspectRatio: true,
+      carouselHeightPx: 500,
+      aspectRatio: 4 / 1,
+      fitWidth: false,
+      fitHeight: false,
+      targetBlank: true,
+      captionStyle: 'text-dark text-justify'
+    };
+
+    console.log('OPTIONS = ' + JSON.stringify(this.carouselOptions));
 
     this.paginatedSearchOptions = new PaginatedSearchOptions({
       configuration: discoveryConfigurationName,

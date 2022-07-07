@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CarouselComponent } from './carousel.component';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
+import { SharedModule } from '../shared.module';
 
 const COMPONENTS = [
     CarouselComponent
@@ -14,9 +15,10 @@ const MODULES = [
 const PROVIDERS = [];
 
 @NgModule({
-  imports: [
-    ...MODULES
-  ],
+    imports: [
+        ...MODULES,
+        SharedModule
+    ],
   declarations: [
     ...COMPONENTS
   ],
