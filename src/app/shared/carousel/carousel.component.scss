@@ -23,6 +23,7 @@
     }
 
     .carousel-caption {
+      color: var(--ds-carousel-caption-color);
       background: var(--ds-carousel-caption-background);
       position: absolute;
       right: 0;

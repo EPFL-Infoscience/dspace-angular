@@ -93,7 +93,8 @@ export class CarouselSectionComponent implements OnInit {
       fitWidth: false,
       fitHeight: false,
       targetBlank: true,
-      captionStyle: 'text-dark text-justify'
+      captionStyle: 'text-dark text-justify',
+      titleStyle: 'text-dark text-center',
     };
 
     console.log('OPTIONS = ' + JSON.stringify(this.carouselOptions));

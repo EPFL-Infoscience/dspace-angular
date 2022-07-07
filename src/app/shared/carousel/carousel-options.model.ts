@@ -26,4 +26,9 @@ export interface CarouselOptions {
    * Classes to be applied to the caption
    */
   captionStyle: string;
+
+  /**
+   * Classes to be applied to the title
+   */
+  titleStyle: string;
 }
