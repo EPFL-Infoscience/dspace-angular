@@ -1,3 +1,4 @@
+import { MergeObject } from './deduplication/models/merge-object.model';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
@@ -431,7 +432,8 @@ export const models =
     LoginStatistics,
     SignatureObject,
     SetObject,
-    SetItemsObject
+    SetItemsObject,
+    MergeObject
   ];
 
 @NgModule({

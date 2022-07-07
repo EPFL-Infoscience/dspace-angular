@@ -1,3 +1,4 @@
+import { DsGetBundlePipe } from './pipes/ds-get-bundle.pipe';
 import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
 import { getRemoteDataPayload } from './../../core/shared/operators';
 import { ConfigurationDataService } from './../../core/data/configuration-data.service';
@@ -19,7 +20,6 @@ import { DeduplicationItemsService } from './deduplication-items.service';
 import { map, concatMap, take } from 'rxjs/operators';
 import { hasValue } from '../../shared/empty.util';
 import { ActivatedRoute } from '@angular/router';
-import { DsGetBundlePipe } from './ds-get-bundle.pipe';
 
 @Component({
   selector: 'ds-deduplication-merge',
@@ -32,6 +32,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
 
   protected setId: string;
 
+  private targetItemId: string;
+
   public itemsToCompare: ItemData[] = [];
 
   protected mergedMetadataFields: ItemsMetadataField[] = [];
@@ -39,6 +41,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   protected bitstreamList: string[] = [];
 
   protected excludedMetadataKeys: string[] = [];
+
+  protected mergedItems: string[] = [];
 
   protected modalRef: NgbModalRef;
 
@@ -77,6 +81,9 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
 
   private getItemsData() {
     this.storedItemIds$.subscribe((itemIds: string[]) => {
+      if (itemIds.length > 0) {
+        this.targetItemId = itemIds[0];
+      }
       itemIds.forEach((itemId: string) => {
         const item$: Observable<Item> = this.deduplicationItemsService
           .getItemData(itemId)
@@ -84,6 +91,11 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
             take(1),
             map((item: Item) => {
               if (hasValue(item)) {
+                // if item link is not in the list, add it
+                if (!this.mergedItems.includes(item._links.self.href)) {
+                  this.mergedItems.push(item._links.self.href);
+                }
+
                 let keys: string[] = Object.keys(item.metadata);
                 // get only the metadata keys that are not excluded
                 keys = keys.filter((key) => {
@@ -121,14 +133,23 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   }
 
   merge() {
-    // TODO: Implement logic
     let mergedItems: MergeItems = {
       setId: this.setId,
-      bitstreams: this.bitstreamList,
-      metadata: this.mergedMetadataFields,
+      bitstreams: [...this.bitstreamList],
+      metadata: [...this.mergedMetadataFields],
+      mergedItems: [...this.mergedItems]
     };
 
-    console.log(mergedItems, 'mergedItems');
+    // console.log(mergedItems, 'mergedItems');
+    // debugger
+    this.deduplicationItemsService.mergeData(mergedItems, this.targetItemId)
+      .subscribe((res) => {
+        if (hasValue(res)) {
+          console.log('success');
+        } else {
+          console.log('error');
+        }
+      });
   }
 
   onValueSelect(
@@ -179,7 +200,9 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         .transform(item.object$)
         .pipe(
           concatMap((res$: Observable<Bitstream[]>) => {
-            return res$.pipe(map((bitstreams: Bitstream[]) => bitstreams));
+            return res$.pipe(
+              map((bitstreams: Bitstream[]) => bitstreams)
+            );
           })
         )
         .subscribe((bitstreams: Bitstream[]) => {
@@ -241,6 +264,7 @@ export interface ItemData {
 export interface MergeItems {
   setId: string;
   bitstreams: string[];
+  mergedItems: string[];
   metadata: ItemsMetadataField[];
 }
 

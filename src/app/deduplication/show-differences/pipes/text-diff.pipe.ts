@@ -5,7 +5,7 @@ import * as htmldiff from './../configs/htmldiff.js';
   name: 'dsTextDiff',
 })
 export class TextDiffPipe implements PipeTransform {
-  transform(value1: string, value2: string): unknown {
+  transform(value1: string, value2: string) {
     return htmldiff(value1, value2);
   }
 }

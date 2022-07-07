@@ -19,6 +19,8 @@ import { DeduplicationSetItemsRestService } from '../core/deduplication/services
 import { DeduplicationItemsService } from './deduplication-merge/deduplication-items.service';
 import { ShowDifferencesComponent } from './show-differences/show-differences.component';
 import { TextDiffPipe } from './show-differences/pipes/text-diff.pipe';
+import { DeduplicationMergeRestService } from '../core/deduplication/services/deduplication-merge-rest.service';
+
 
 const MODULES = [
   CommonModule,
@@ -26,12 +28,12 @@ const MODULES = [
   CoreModule.forRoot(),
   StoreModule.forFeature('deduplication', deduplicationReducers, storeModuleConfig as StoreConfig<DeduplicationState, Action>),
   EffectsModule.forFeature(deduplicationEffects),
-  // NgbAccordionModule,
 ];
 
 const COMPONENTS = [
   DeduplicationComponent,
   DeduplicationSignaturesComponent,
+  ShowDifferencesComponent
 ];
 
 const DIRECTIVES = [];
@@ -45,7 +47,8 @@ const PROVIDERS = [
   DeduplicationSetsService,
   DeduplicationSetsRestService,
   DeduplicationSetItemsRestService,
-  DeduplicationItemsService
+  DeduplicationItemsService,
+  DeduplicationMergeRestService
 ];
 
 @NgModule({
@@ -56,8 +59,7 @@ const PROVIDERS = [
     ...COMPONENTS,
     ...DIRECTIVES,
     ...ENTRY_COMPONENTS,
-    ShowDifferencesComponent,
-    TextDiffPipe,
+    TextDiffPipe
   ],
   providers: [
     ...PROVIDERS

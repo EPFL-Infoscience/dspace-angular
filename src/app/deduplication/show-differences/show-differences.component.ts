@@ -1,6 +1,6 @@
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MetadataValue } from './../../core/shared/metadata.models';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { hasValue } from '../../shared/empty.util';
 
 @Component({

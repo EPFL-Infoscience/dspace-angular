@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
-import { mergeMap, take, tap } from 'rxjs/operators';
+import { mergeMap, take } from 'rxjs/operators';
 
 import { CoreState } from '../../core.reducers';
 import { HALEndpointService } from '../../shared/hal-endpoint.service';

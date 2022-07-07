@@ -1,12 +1,9 @@
-import { Bitstream } from './../../core/shared/bitstream.model';
-import {
-  getAllSucceededRemoteData,
-  getRemoteDataPayload,
-  getPaginatedListPayload,
-} from './../../core/shared/operators';
-import { Bundle } from './../../core/shared/bundle.model';
-import { PaginatedList } from './../../core/data/paginated-list.model';
-import { Item } from './../../core/shared/item.model';
+import { PaginatedList } from './../../../core/data/paginated-list.model';
+import { Bundle } from './../../../core/shared/bundle.model';
+import { getAllSucceededRemoteData, getRemoteDataPayload, getPaginatedListPayload } from './../../../core/shared/operators';
+import { Bitstream } from './../../../core/shared/bitstream.model';
+import { Item } from './../../../core/shared/item.model';
+
 import { Pipe, PipeTransform } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map,  mergeMap } from 'rxjs/operators';
