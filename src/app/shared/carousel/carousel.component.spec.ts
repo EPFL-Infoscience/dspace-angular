@@ -34,6 +34,7 @@ import { PaginatedList } from '../../core/data/paginated-list.model';
 import { createPaginatedList } from '../testing/utils.test';
 import { ItemSearchResult } from '../object-collection/shared/item-search-result.model';
 import { BitstreamFormat } from '../../core/shared/bitstream-format.model';
+import { CarouselOptions } from './carousel-options.model';
 
 describe('CarouselComponent', () => {
     let component: CarouselComponent;
@@ -50,6 +51,20 @@ describe('CarouselComponent', () => {
         },
     });
 
+    const carouselOptions: CarouselOptions = {
+      title: 'dc.title',
+      link: '',
+      description: 'dc.description',
+      fitWidth: false,
+      fitHeight: true,
+      targetBlank: true,
+      keepAspectRatio: false,
+      carouselHeightPx: 50,
+      aspectRatio: 1,
+      captionStyle: '',
+      titleStyle: ''
+    };
+
     const firstItemResult = Object.assign(new ItemSearchResult(), {
         indexableObject: Object.assign(new DSpaceObject(), {
             id: 'd317835d-7b06-4219-91e2-1191900cb897',
@@ -59,7 +74,7 @@ describe('CarouselComponent', () => {
                 'dc.title': [
                     { value: 'Test' }
                 ],
-                'dc.description.abstract': [
+                'dc.description': [
                     { value: 'Lorem Ipsum' }
                 ]
             },
@@ -173,17 +188,7 @@ describe('CarouselComponent', () => {
         component = fixture.componentInstance;
         mockBitstreamDataService.findAllByItemAndBundleName.and.returnValue(createSuccessfulRemoteDataObject$(createPaginatedList([mockBitstream1])));
         component.items = [firstItemResult];
-        component.carouselSection = {
-            discoveryConfigurationName: 'person',
-            style: 'col-md-12',
-            title: 'dc.title',
-            order: 'dc.title',
-            sortField: 'asc',
-            numberOfItems: 1,
-            link: '',
-            description: 'dc.description.abstract',
-            componentType: 'carousel'
-          };
+        component.carouselOptions = carouselOptions;
 
         fixture.detectChanges();
     });
@@ -194,13 +199,13 @@ describe('CarouselComponent', () => {
 
 
     it('should render title', (done) => {
-        const title = fixture.debugElement.queryAll(By.css('#carouselObjTitle'));
+        const title = fixture.debugElement.queryAll(By.css('[data-test="carouselObjTitle"]'));
         expect(title.length).toBe(1);
         done();
     });
 
     it('should render description', (done) => {
-        const desc = fixture.debugElement.queryAll(By.css('#carouselObjDesc'));
+        const desc = fixture.debugElement.queryAll(By.css('[data-test="carouselObjDesc"]'));
         expect(desc.length).toBe(1);
         done();
     });
@@ -217,17 +222,7 @@ describe('CarouselComponent', () => {
             component = fixture.componentInstance;
             mockBitstreamDataService.findAllByItemAndBundleName.and.returnValue(createSuccessfulRemoteDataObject$(createPaginatedList([mockBitstream2])));
             component.items = [secondItemResult];
-            component.carouselSection = {
-                discoveryConfigurationName: 'person',
-                style: 'col-md-12',
-                title: 'dc.title',
-                order: 'dc.title',
-                sortField: 'asc',
-                numberOfItems: 1,
-                link: '',
-                description: 'dc.description.abstract',
-                componentType: 'carousel'
-            };
+            component.carouselOptions = carouselOptions;
 
             fixture.detectChanges();
         });

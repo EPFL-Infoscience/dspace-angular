@@ -17,10 +17,10 @@
         </div>
         <div class="carousel-caption">
           <div class="carousel-caption-inner">
-            <h3 id="carouselObjTitle" [class]="carouselOptions.captionStyle"
+            <h3 data-test="carouselObjTitle" [class]="carouselOptions.captionStyle"
                 *ngIf="item.indexableObject.metadata[title]">
               {{item.indexableObject.metadata[title][0].value}}</h3>
-            <div id="carouselObjDesc" class="carousel-caption-text pr-2" [class]="carouselOptions.captionStyle"
+            <div data-test="carouselObjDesc" class="carousel-caption-text pr-2" [class]="carouselOptions.captionStyle"
                  *ngIf="item.indexableObject.metadata[description]; let descriptionObj">
               {{descriptionObj[0].value}}
             </div>
