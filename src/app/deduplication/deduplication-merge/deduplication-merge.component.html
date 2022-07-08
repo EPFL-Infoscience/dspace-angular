@@ -46,10 +46,13 @@
           </thead>
           <tbody>
             <ng-container *ngFor="let itemObj of itemsToCompare">
+              <ds-loading
+                [showMessage]="false"
+                *ngIf="!(itemObj.object$ | dsGetBitstreams | async | async)"
+              >
+              </ds-loading>
               <tr
-                *ngFor="
-                  let bitstream of itemObj.object$ | dsGetBundle | async | async
-                "
+                *ngFor="let bitstream of itemObj.object$ | dsGetBitstreams | async | async"
               >
                 <td>
                   <span *ngFor="let title of bitstream.metadata['dc.title']">

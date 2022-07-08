@@ -1,6 +1,4 @@
-import { getRemoteDataPayload } from './../../shared/operators';
-import { RemoteData } from './../../data/remote-data';
-import { take, map, mergeMap, catchError } from 'rxjs/operators';
+import {  mergeMap } from 'rxjs/operators';
 import { DefaultChangeAnalyzer } from './../../data/default-change-analyzer.service';
 import { MERGE_OBJECT } from './../models/merge-object.resource-type';
 import { RemoteDataBuildService } from './../../cache/builders/remote-data-build.service';
@@ -9,7 +7,7 @@ import { Injectable } from '@angular/core';
 import { DataService } from '../../data/data.service';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
-import { NotificationsService } from 'src/app/shared/notifications/notifications.service';
+import { NotificationsService } from './../../../shared/notifications/notifications.service';
 import { ObjectCacheService } from '../../cache/object-cache.service';
 import { CoreState } from '../../core.reducers';
 import { ChangeAnalyzer } from '../../data/change-analyzer';
@@ -93,10 +91,8 @@ export class DeduplicationMergeRestService {
   }
 
   public mergeItemsData(data: any, targetItemId: string) {
-
     return this.halService.getEndpoint(this.dataService.getLinkPath()).pipe(
       mergeMap(endpoint => {
-        console.log(endpoint);
         const object = {
           ...data,
           _links: {
@@ -105,12 +101,8 @@ export class DeduplicationMergeRestService {
             },
           },
         };
-        console.log(object, 'object');
-
         return this.dataService.put(object);
       })
     )
-
-
   }
 }

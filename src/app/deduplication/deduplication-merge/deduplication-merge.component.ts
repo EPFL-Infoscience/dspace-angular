@@ -1,4 +1,4 @@
-import { DsGetBundlePipe } from './pipes/ds-get-bundle.pipe';
+import { DsGetBitstreamsPipe } from './pipes/ds-get-bundle.pipe';
 import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
 import { getRemoteDataPayload } from './../../core/shared/operators';
 import { ConfigurationDataService } from './../../core/data/configuration-data.service';
@@ -19,13 +19,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DeduplicationItemsService } from './deduplication-items.service';
 import { map, concatMap, take } from 'rxjs/operators';
 import { hasValue } from '../../shared/empty.util';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { KeyValue } from '@angular/common';
 
 @Component({
   selector: 'ds-deduplication-merge',
   templateUrl: './deduplication-merge.component.html',
   styleUrls: ['./deduplication-merge.component.scss'],
-  providers: [DsGetBundlePipe],
+  providers: [DsGetBitstreamsPipe],
 })
 export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   protected storedItemIds$: Observable<string[]>;
@@ -49,10 +50,12 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   constructor(
     private deduplicationStateService: DeduplicationStateService,
     private deduplicationItemsService: DeduplicationItemsService,
-    private getBitstreamsPipe: DsGetBundlePipe,
+    private getBitstreamsPipe: DsGetBitstreamsPipe,
     private modalService: NgbModal,
     private configurationDataService: ConfigurationDataService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+
   ) {
     this.storedItemIds$ = this.deduplicationStateService.getItemsToCompare();
     this.getExcludedMetadata();
@@ -145,9 +148,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     this.deduplicationItemsService.mergeData(mergedItems, this.targetItemId)
       .subscribe((res) => {
         if (hasValue(res)) {
-          console.log('success');
-        } else {
-          console.log('error');
+          this.router.navigate(['/deduplication/sets', this.setId]);
         }
       });
   }
@@ -212,7 +213,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     });
   }
 
-  showDiff(keyvalue) {
+  showDiff(keyvalue: KeyValue<string, MetadataValue>) {
     let valuesToCompare: ItemsMetadataValues[] = [];
     for (let index = 0; index < this.itemsToCompare.length; index++) {
       const item = this.itemsToCompare[index].object$;
@@ -246,7 +247,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       hash = color.charCodeAt(i) + ((hash << 5) - hash);
     }
     const c = (hash & 0x00f4f0af).toString(16).toUpperCase();
-    return `#${'00000'.substring(0, 6 - c.length) + c}`;
+    return `#${'ff8080'.substring(0, 6 - c.length) + c}`;
   }
 
   ngOnDestroy(): void {

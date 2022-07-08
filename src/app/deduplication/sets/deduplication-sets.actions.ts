@@ -1,6 +1,6 @@
 import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
 import { Action } from '@ngrx/store';
-import { SetObject } from 'src/app/core/deduplication/models/set.model';
+import { SetObject } from './../../core/deduplication/models/set.model';
 
 import { type } from '../../shared/ngrx/type';
 

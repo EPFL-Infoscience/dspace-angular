@@ -525,7 +525,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     if (this.checkedItemsList.has(set_id) && this.checkedItemsList.get(set_id).length >= 2) {
       const selectedItemsMap = this.checkedItemsList.get(set_id);
       if (hasValue(selectedItemsMap)) {
-        const itemsPerSet = selectedItemsMap.map(element =>
+        const itemsPerSet: string[] = selectedItemsMap.map(element =>
           element.itemId
         );
         this.deduplicationStateService.dispatchAddItemsToCompare(itemsPerSet);

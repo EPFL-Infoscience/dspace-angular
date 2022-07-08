@@ -10,14 +10,19 @@ import { AdminDeduplicationPageRoutingModule } from './admin-deduplication-page.
 import { DedupicationModule } from '../../deduplication/deduplication.module';
 import { DeduplicationSetsComponent } from './../../deduplication/sets/deduplication-sets.component';
 import { DeduplicationMergeComponent } from './../../deduplication/deduplication-merge/deduplication-merge.component';
-import { DsGetBundlePipe } from './../../deduplication/deduplication-merge/pipes/ds-get-bundle.pipe';
-
+import { DsGetBitstreamsPipe } from './../../deduplication/deduplication-merge/pipes/ds-get-bundle.pipe';
 
 const COMPONENTS = [
   AdminDeduplicationPageComponent,
   DeduplicationSetsComponent,
   DeduplicationMergeComponent,
 ];
+
+const PIPES = [
+  GetItemStatusListPipe,
+  DsGetBitstreamsPipe
+];
+
 @NgModule({
   imports: [
     CommonModule,
@@ -29,8 +34,7 @@ const COMPONENTS = [
   ],
   declarations: [
     ...COMPONENTS,
-    GetItemStatusListPipe,
-    DsGetBundlePipe
+    ...PIPES
   ],
   entryComponents: []
 })

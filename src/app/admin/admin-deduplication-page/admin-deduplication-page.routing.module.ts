@@ -33,19 +33,7 @@ import { DeduplicationMergeComponent } from './../../deduplication/deduplication
           breadcrumbKey: 'sets',
           showBreadcrumbsFluid: false
         }
-        // ,
-        // children: [
-        //   {
-        //     path: 'compare/:setId',
-        //     component: DeduplicationMergeComponent,
-        //     resolve: { breadcrumb: I18nBreadcrumbResolver },
-        //     data: {
-        //       title: 'Compare Deduplications',
-        //       breadcrumbKey: 'compare',
-        //       showBreadcrumbsFluid: false
-        //     },
-        //   }
-        // ]
+
       },
       {
         canActivate: [AuthenticatedGuard],

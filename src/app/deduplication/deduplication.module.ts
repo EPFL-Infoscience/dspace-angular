@@ -21,7 +21,6 @@ import { ShowDifferencesComponent } from './show-differences/show-differences.co
 import { TextDiffPipe } from './show-differences/pipes/text-diff.pipe';
 import { DeduplicationMergeRestService } from '../core/deduplication/services/deduplication-merge-rest.service';
 
-
 const MODULES = [
   CommonModule,
   SharedModule,
@@ -34,6 +33,10 @@ const COMPONENTS = [
   DeduplicationComponent,
   DeduplicationSignaturesComponent,
   ShowDifferencesComponent
+];
+
+const PIPES = [
+  TextDiffPipe
 ];
 
 const DIRECTIVES = [];
@@ -59,7 +62,7 @@ const PROVIDERS = [
     ...COMPONENTS,
     ...DIRECTIVES,
     ...ENTRY_COMPONENTS,
-    TextDiffPipe
+    ...PIPES
   ],
   providers: [
     ...PROVIDERS
