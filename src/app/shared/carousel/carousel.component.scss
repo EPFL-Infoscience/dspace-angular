@@ -3,10 +3,17 @@
     .carousel-control-prev-icon, .carousel-control-next-icon {
       width: 32px;
       height: 32px;
-      padding: 6px;
       background-color: var(--ds-carousel-controls-color);
       background-origin: content-box;
       border-radius: 16px;
+    }
+
+    .carousel-control-prev-icon {
+      padding: 6px 7px 6px 5px;
+    }
+
+    .carousel-control-next-icon {
+      padding: 6px 5px 6px 7px;
     }
 
     .carousel-control-prev, .carousel-control-next {
