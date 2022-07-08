@@ -1,10 +1,13 @@
 <ngb-carousel #carousel [interval]="2000" (slide)="onSlide($event)" class="ds-carousel">
   <ng-template ngbSlide *ngFor="let item of items; let i = index; let last = last">
-    <a href="javascript:void(0);" (click)="openLinkUrl(item.indexableObject.metadata[link])"
-       *ngIf="item.indexableObject.metadata[link]; else carouselContent"
-       [target]="carouselOptions.targetBlank ? '_blank' : null">
-      <ng-container *ngTemplateOutlet="carouselContent"></ng-container>
-    </a>
+    <ng-container *ngIf="getItemLink(item.indexableObject); let currentLink; else carouselContent">
+      <a *ngIf="isLinkInternal(currentLink)" [routerLink]="currentLink">
+        <ng-container *ngTemplateOutlet="carouselContent"></ng-container>
+      </a>
+      <a *ngIf="!isLinkInternal(currentLink)" [href]="currentLink" [target]="carouselOptions.targetBlank ? '_blank' : null">
+        <ng-container *ngTemplateOutlet="carouselContent"></ng-container>
+      </a>
+    </ng-container>
     <ng-template #carouselContent>
       <div class="carousel-content-wrapper"
            [ngStyle]="{
@@ -17,7 +20,7 @@
         </div>
         <div class="carousel-caption">
           <div class="carousel-caption-inner">
-            <h3 data-test="carouselObjTitle" [class]="carouselOptions.captionStyle"
+            <h3 data-test="carouselObjTitle" [class]="carouselOptions.titleStyle"
                 *ngIf="item.indexableObject.metadata[title]">
               {{item.indexableObject.metadata[title][0].value}}</h3>
             <div data-test="carouselObjDesc" class="carousel-caption-text pr-2" [class]="carouselOptions.captionStyle"

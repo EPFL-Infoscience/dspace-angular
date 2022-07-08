@@ -13,6 +13,7 @@ import {ItemSearchResult} from '../object-collection/shared/item-search-result.m
 import {followLink} from '../utils/follow-link-config.model';
 import {RemoteData} from '../../core/data/remote-data';
 import {CarouselOptions} from './carousel-options.model';
+import {Item} from '../../core/shared/item.model';
 
 /**
  * Component representing the Carousel component section.
@@ -144,6 +145,15 @@ export class CarouselComponent implements OnInit {
         return acc;
       }, new Map<string, string>()),
     );
+  }
+
+  getItemLink(item: Item): string {
+    return item.firstMetadataValue(this.link);
+  }
+
+  isLinkInternal(link: string) {
+    console.log('LINK ' + link + ' is ' + (link.startsWith('/') ? 'internal' : 'external'));
+    return link.startsWith('/');
   }
 
   /**

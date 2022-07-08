@@ -4,14 +4,14 @@
       width: 32px;
       height: 32px;
       padding: 6px;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: var(--ds-carousel-controls-color);
       background-origin: content-box;
       border-radius: 16px;
     }
 
     .carousel-control-prev, .carousel-control-next {
-      z-index: 15;
       cursor: pointer;
+      width: 12%;
     }
 
     .carousel-indicators {
@@ -19,7 +19,7 @@
     }
 
     .carousel-indicators li {
-      background-color: var(--ds-carousel-indicators-background-color);
+      background-color: var(--ds-carousel-controls-color);
     }
 
     .carousel-caption {
@@ -31,6 +31,8 @@
       bottom: 0;
       padding-top: 10px;
       padding-bottom: 45px;
+      width: 76%;
+      margin: 0 auto;
     }
   }
 
@@ -52,10 +54,6 @@
     position: relative
   }
 
-  .inner-caption {
-    background-color: rgba(255, 255, 255, 0.5);
-  }
-
   .carousel-content-wrapper {
     z-index: -1;
     min-height: 180px;
@@ -75,7 +73,7 @@
   }
 
   .carousel-caption-text::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--ds-carousel-controls-color);
     border-radius: 10px;
     border: none;
   }
