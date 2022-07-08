@@ -14,22 +14,15 @@ import { ServerConfig } from './server-config.interface';
 import { SubmissionConfig } from './submission-config.interface';
 import { ThemeConfig } from './theme.model';
 import { UIServerConfig } from './ui-server-config.interface';
-import { UniversalConfig } from './universal-config.interface';
 import { AddThisPluginConfig } from './addThisPlugin-config';
 import { CmsMetadata } from './cms-metadata';
 import { CrisLayoutConfig, LayoutConfig, SuggestionConfig } from './layout-config.interfaces';
 import { MetadataSecurityConfig } from './metadata-security-config';
 import { FollowAuthorityMetadata } from './search-follow-metadata.interface';
+import { MetricVisualizationConfig } from './metric-visualization-config.interfaces';
 
 export class DefaultAppConfig implements AppConfig {
   production = false;
-
-  // Angular Universal settings
-  universal: UniversalConfig = {
-    preboot: true,
-    async: true,
-    time: false
-  };
 
   // NOTE: will log all redux actions and transfers in console
   debug = false;
@@ -221,7 +214,8 @@ export class DefaultAppConfig implements AppConfig {
     { code: 'nl', label: 'Nederlands', active: true },
     { code: 'pt-PT', label: 'Português', active: true },
     { code: 'pt-BR', label: 'Português do Brasil', active: true },
-    { code: 'fi', label: 'Suomi', active: true }
+    { code: 'fi', label: 'Suomi', active: true },
+    { code: 'bn', label: 'বাংলা', active: true }
   ];
 
   // Browse-By Pages
@@ -418,8 +412,12 @@ export class DefaultAppConfig implements AppConfig {
     },
     metadataBox: {
       defaultMetadataLabelColStyle: 'col-3',
-      defaultMetadataValueColStyle: 'col-9'
-    }
+      defaultMetadataValueColStyle: 'col-9',
+      loadMore: {
+        first: 5,
+        last: 1,
+      }
+    },
   };
 
   layout: LayoutConfig = {
@@ -470,4 +468,47 @@ export class DefaultAppConfig implements AppConfig {
     scriptUrl: 'http://s7.addthis.com/js/300/addthis_widget.js#pubid=',
     socialNetworksEnabled: false
   };
+
+  metricVisualizationConfig: MetricVisualizationConfig[] = [
+    {
+      type: 'altmetric',
+      icon: null,
+      class: 'alert-light',
+    },
+    {
+      type: 'plumX',
+      icon: null,
+      class: '',
+    },
+    {
+      type: 'dimensions',
+      icon: 'fa fa-cubes',
+      class: 'alert-light',
+    },
+    {
+      type: 'google-scholar',
+      icon: '/assets/images/google-scholar.svg',
+      class: 'alert-info',
+    },
+    {
+      type: 'embedded-view',
+      icon: 'fa fa-eye',
+      class: 'alert-success'
+    },
+    {
+      type: 'embedded-download',
+      icon: 'fa fa-cloud-download-alt',
+      class: 'alert-danger',
+    },
+    {
+      type: 'view',
+      icon: 'fa fa-eye',
+      class: 'alert-success',
+    },
+    {
+      type: 'download',
+      icon: 'fa fa-cloud-download-alt',
+      class: 'alert-danger',
+    },
+  ];
 }

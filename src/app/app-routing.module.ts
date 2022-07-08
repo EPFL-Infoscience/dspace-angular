@@ -144,8 +144,8 @@ import { StatisticsAdministratorGuard } from './core/data/feature-authorization/
           },
           {
             path: 'explore',
-            loadChildren: () => import('./+explore/explore.module')
-              .then((m) => m.ExploreModule),
+            loadChildren: () => import('./explore-page/explore-page.module')
+              .then((m) => m.ExplorePageModule),
           },
           {
             path: ADMIN_MODULE_PATH,
@@ -238,7 +238,6 @@ import { StatisticsAdministratorGuard } from './core/data/feature-authorization/
             path: 'statistics',
             loadChildren: () => import('./statistics-page/statistics-page-routing.module')
               .then((m) => m.StatisticsPageRoutingModule),
-            canActivate: [StatisticsAdministratorGuard]
           },
           {
             path: ACCESS_CONTROL_MODULE_PATH,
