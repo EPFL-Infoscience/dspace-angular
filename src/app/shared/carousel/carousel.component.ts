@@ -152,7 +152,6 @@ export class CarouselComponent implements OnInit {
   }
 
   isLinkInternal(link: string) {
-    console.log('LINK ' + link + ' is ' + (link.startsWith('/') ? 'internal' : 'external'));
     return link.startsWith('/');
   }
 
