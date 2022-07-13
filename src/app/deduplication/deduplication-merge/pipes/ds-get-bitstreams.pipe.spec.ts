@@ -1,5 +1,5 @@
-import { DSONameService } from './../../../core/breadcrumbs/dso-name.service';
-import { GetBitstreamsPipe } from './ds-get-bundle.pipe';
+import { DSONameService } from '../../../core/breadcrumbs/dso-name.service';
+import { GetBitstreamsPipe } from './ds-get-bitstreams.pipe';
 
 describe('GetBitstreamsPipe', () => {
 

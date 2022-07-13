@@ -33,23 +33,20 @@ export class GetBitstreamsPipe implements PipeTransform {
             getAllSucceededRemoteData(),
             getRemoteDataPayload(),
             getPaginatedListPayload(),
-            map((x: Bundle[]) => {
-              console.log(x);
-              return x.filter((bundle) =>
+            map((x: Bundle[]) =>
+              x.filter((bundle) =>
                 isEqual(this.dsoNameService.getName(bundle), 'ORIGINAL')
-              );
-            }),
+              )
+            ),
             mergeMap((bundle: Bundle[]) => {
               if (bundle.length > 0) {
                 return bundle.map((b: Bundle) => {
                   return b.bitstreams.pipe(
                     getAllSucceededRemoteData(),
                     getRemoteDataPayload(),
-                    map((bitstreams: PaginatedList<Bitstream>) => {
-                      console.log(bitstreams.page);
-
-                      return bitstreams.page;
-                    })
+                    map((bitstreams: PaginatedList<Bitstream>) =>
+                      bitstreams.page
+                    )
                   );
                 });
               }

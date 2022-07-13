@@ -16,7 +16,10 @@
       </div>
 
       <ng-container *ngIf="itemsToCompare && itemsToCompare.length > 0">
-        <h5>{{ "deduplication.merge.label.info" | translate }}</h5>
+        <div class="col-md-12 text-center">
+          <h5>{{ "deduplication.merge.label.info" | translate }}</h5>
+        </div>
+
         <!-- Item Data Tabel -->
         <table class="table table-striped mb-4">
           <thead>
@@ -60,16 +63,12 @@
                 >
               </td>
               <td>
-                <span
-                  *ngIf="itemObj.color"
-                  [ngStyle]="{ color: itemObj.color }"
-                >
                   {{ (itemObj.object$ | async)?.handle }}
-                </span>
+                  <br>
+                  {{ (itemObj.object$ | async) | json }}
               </td>
               <td>
                 <span
-                  *ngIf="itemObj.color"
                   [ngStyle]="{ color: itemObj.color }"
                 >
                   {{ (itemObj.object$ | async)?.uuid }}
@@ -79,7 +78,9 @@
           </tbody>
         </table>
 
-        <h5>{{ "deduplication.merge.label.bitstreams" | translate }}</h5>
+        <div class="col-md-12 text-center border-top pt-2">
+          <h5>{{ "deduplication.merge.label.bitstreams" | translate }}</h5>
+        </div>
         <!-- Bitstream Data Tabel -->
         <table class="table table-striped">
           <thead>
@@ -105,10 +106,7 @@
                 }}
               </th>
               <th scope="col">
-                {{
-                  "Actions"
-                    | translate
-                }}
+                {{ "Actions" | translate }}
               </th>
             </tr>
           </thead>
@@ -133,6 +131,10 @@
                       type="checkbox"
                       class="custom-control-input"
                       [id]="bitstream.uuid"
+                      [checked]="
+                        bitstreamList.includes(bitstream._links.self.href)
+                      "
+                      (change)="onBitstreamChecked($event, bitstream)"
                     />
                     <label
                       class="custom-control-label"
@@ -148,10 +150,10 @@
                 <td>{{ bitstream.uuid }}<br /></td>
                 <td>
                   <span
-                    *ngIf="itemObj.color"
                     [ngStyle]="{ color: itemObj.color }"
                   >
-                    ({{ (itemObj.object$ | async)?.uuid }})
+                    {{ (itemObj.object$ | async)?.uuid }}
+                    {{ (itemObj.object$ | async) | json }}
                   </span>
                 </td>
                 <td>
@@ -224,7 +226,6 @@
                 >
                   <div
                     class="row item-container"
-                    *ngIf="itemObj.color"
                     [ngStyle]="{ 'background-color': itemObj.color }"
                   >
                     <!-- if more than one selection can occur-->

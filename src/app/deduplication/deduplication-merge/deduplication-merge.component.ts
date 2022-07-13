@@ -1,8 +1,8 @@
 import { Collection } from './../../core/shared/collection.model';
 import { isEqual } from 'lodash';
-import { GetBitstreamsPipe } from './pipes/ds-get-bundle.pipe';
+import { GetBitstreamsPipe } from './pipes/ds-get-bitstreams.pipe';
 import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
-import { getFirstSucceededRemoteData, getRemoteDataPayload, getFirstSucceededRemoteDataPayload } from './../../core/shared/operators';
+import { getFirstSucceededRemoteDataPayload } from './../../core/shared/operators';
 import { ConfigurationDataService } from './../../core/data/configuration-data.service';
 import {
   ItemsMetadataValues,
@@ -78,7 +78,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy, AfterView
    * @private
    * @type {string[]}
    */
-  private bitstreamList: string[] = [];
+  public bitstreamList: string[] = [];
 
   /**
    * List of excluded metadata keys
@@ -114,7 +114,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy, AfterView
   ) {
     this.storedItemIds$ = this.deduplicationStateService.getItemsToCompare();
     this.setId = this.route.snapshot.params.setId;
-
   }
 
   ngOnInit(): void {
@@ -128,15 +127,13 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy, AfterView
 
   /**
    * Get excluded metadata keys from the REST configurations
+   * and then get items with the corresponding metadata
    */
   private getExcludedMetadata() {
-    // console.log('merge.excluded-metadata');
-
     this.configurationDataService
       .findByPropertyName('merge.excluded-metadata')
       .pipe(
-        getFirstSucceededRemoteData(),
-        getRemoteDataPayload()
+        getFirstSucceededRemoteDataPayload()
       )
       .subscribe((res: ConfigurationProperty) => {
         if (hasValue(res)) {
@@ -164,7 +161,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy, AfterView
         const item$: Observable<Item> = this.deduplicationItemsService
           .getItemData(itemId)
           .pipe(
-            take(1),
             map((item: Item) => {
               if (hasValue(item)) {
                 // if item link is not in the list, add it
@@ -215,8 +211,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy, AfterView
       mergedItems: [...this.mergedItems]
     };
 
-    // console.log(mergedItems, 'mergedItems');
-    // debugger
+
     this.deduplicationItemsService.mergeData(mergedItems, this.targetItemId)
       .subscribe((res) => {
         if (hasValue(res)) {
@@ -258,6 +253,22 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy, AfterView
           item: itemLink,
           place: place,
         });
+    }
+  }
+
+  /**
+   * Add/remove the bitstream from @var bitstreamList based on the selection
+   * @param event The event that triggered the checkbox change
+   * @param bitstream The bitstream to be checked or unchecked
+   */
+  onBitstreamChecked(event, bitstream: Bitstream) {
+    const idx = this.bitstreamList.findIndex(link => isEqual(link, bitstream._links.self.href));
+    if (event.target.checked && idx < 0) {
+      // if element is checked and not in the list, add it
+      this.bitstreamList.push(bitstream._links.self.href);
+    } else if (!event.target.checked && idx > -1) {
+      // if element is unchecked, remove it from the list
+      this.bitstreamList.splice(idx, 1);
     }
   }
 
@@ -316,17 +327,20 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy, AfterView
     for (let index = 0; index < this.itemsToCompare.length; index++) {
       const item = this.itemsToCompare[index].object$;
       const color = this.itemsToCompare[index].color;
-      item.subscribe((res: Item) => {
-        if (hasValue(res)) {
-          res.metadata[keyvalue.key].forEach((metadataValue: MetadataValue) => {
-            valuesToCompare.push({
-              itemId: res.uuid,
-              value: metadataValue,
-              color: color,
+
+      if (item) {
+        item.subscribe((res: Item) => {
+          if (hasValue(res)) {
+            res.metadata[keyvalue.key].forEach((metadataValue: MetadataValue) => {
+              valuesToCompare.push({
+                itemId: res.uuid,
+                value: metadataValue,
+                color: color,
+              });
             });
-          });
-        }
-      });
+          }
+        });
+      }
     }
 
     this.modalRef = this.modalService.open(ShowDifferencesComponent, {
@@ -344,7 +358,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy, AfterView
       switchMap((res: Item) => {
         return res.owningCollection.pipe(
           getFirstSucceededRemoteDataPayload(),
-          map((res: Collection) => res.metadata['dc.title'][0].value)
+          map((res: Collection) => res.metadata['dc.title'] ? res.metadata['dc.title'][0].value : '-')
         )
       })
     )

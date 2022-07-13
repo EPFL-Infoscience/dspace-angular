@@ -21,8 +21,7 @@ import { RemoteData } from './../../core/data/remote-data';
 import { isEqual, isNull } from 'lodash';
 import {
   getFirstCompletedRemoteData,
-  getFirstSucceededRemoteData,
-  getRemoteDataPayload,
+  getFirstSucceededRemoteDataPayload
 } from './../../core/shared/operators';
 import { ConfigObject } from './../../core/config/models/config.model';
 
@@ -385,8 +384,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       return this.deduplicationSetsService
         .getItemOwningCollection(item._links.owningCollection.href)
         .pipe(
-          getFirstSucceededRemoteData(),
-          getRemoteDataPayload(),
+          getFirstSucceededRemoteDataPayload(),
           map(
             (collection: Collection) =>
               collection?.metadata['dc.title'][0].value

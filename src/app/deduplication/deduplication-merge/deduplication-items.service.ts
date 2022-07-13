@@ -5,9 +5,8 @@ import { map } from 'rxjs/operators';
 import { MergeItems } from './deduplication-merge.component';
 import { DeduplicationMergeRestService } from './../../core/deduplication/services/deduplication-merge-rest.service';
 import {
-  getRemoteDataPayload,
   getFirstCompletedRemoteData,
-  getFirstSucceededRemoteData,
+  getFirstSucceededRemoteDataPayload
 } from './../../core/shared/operators';
 import { followLink } from './../../shared/utils/follow-link-config.model';
 import { Item } from './../../core/shared/item.model';
@@ -35,8 +34,7 @@ export class DeduplicationItemsService {
         followLink('owningCollection')
       )
       .pipe(
-        getFirstSucceededRemoteData(),
-        getRemoteDataPayload()
+        getFirstSucceededRemoteDataPayload()
       );
   }
 
