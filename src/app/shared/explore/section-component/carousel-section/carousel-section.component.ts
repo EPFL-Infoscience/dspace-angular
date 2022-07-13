@@ -87,14 +87,14 @@ export class CarouselSectionComponent implements OnInit {
       description: this.carouselSection.description,
       link: this.carouselSection.link,
       title: this.carouselSection.title,
-      keepAspectRatio: false,
-      carouselHeightPx: 600,
-      aspectRatio: undefined,
-      fitWidth: false,
-      fitHeight: false,
-      targetBlank: true,
-      captionStyle: 'text-dark text-justify',
-      titleStyle: 'text-dark text-center',
+      keepAspectRatio: this.carouselSection.keepAspectRatio,
+      carouselHeightPx: this.carouselSection.carouselHeightPx,
+      aspectRatio: this.carouselSection.aspectRatio,
+      fitWidth: this.carouselSection.fitWidth,
+      fitHeight: this.carouselSection.fitHeight,
+      targetBlank: this.carouselSection.targetBlank,
+      captionStyle: this.carouselSection.captionStyle,
+      titleStyle: this.carouselSection.titleStyle,
     };
 
     this.paginatedSearchOptions = new PaginatedSearchOptions({

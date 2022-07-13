@@ -103,4 +103,12 @@ export interface CarouselSection extends SectionComponent {
   link: string;
   description: string;
   componentType: 'carousel';
+  targetBlank: boolean ;
+  fitWidth: boolean;
+  fitHeight: boolean;
+  keepAspectRatio: boolean;
+  aspectRatio: number;
+  carouselHeightPx: number;
+  captionStyle: string;
+  titleStyle: string;
 }
