@@ -56,6 +56,13 @@ export interface TopSection extends SectionComponent {
   titleKey: string;
   componentType: 'top';
   numberOfItems: number;
+
+  showAsCard: boolean;
+  showLayoutSwitch: boolean;
+  defaultLayoutMode: LayoutModeEnum;
+  cardStyle?: string;
+  itemListStyle?: string;
+  showAllResults: boolean;
 }
 
 export interface SearchSection extends SectionComponent {
@@ -91,4 +98,9 @@ export interface TopSectionColumn {
   style: string;
   metadataField: string;
   titleKey: string;
+}
+
+export enum LayoutModeEnum {
+  LIST = 'list',
+  CARD = 'card'
 }
