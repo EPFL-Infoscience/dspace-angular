@@ -88,7 +88,7 @@ export class CarouselSectionComponent implements OnInit {
       link: this.carouselSection.link,
       title: this.carouselSection.title,
       keepAspectRatio: this.carouselSection.keepAspectRatio,
-      carouselHeightPx: this.carouselSection.carouselHeightPx,
+      carouselHeightPx: this.carouselSection.carouselHeightPx ?? 400,
       aspectRatio: this.carouselSection.aspectRatio,
       fitWidth: this.carouselSection.fitWidth,
       fitHeight: this.carouselSection.fitHeight,
