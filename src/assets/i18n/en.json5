@@ -1543,7 +1543,9 @@
 
   "deduplication.signature.cardTitle.identifier": "Identifiers",
 
-  "sets.breadcrumbs": "Deduplication Sets",
+  "sets.breadcrumbs": "Compare Items",
+
+  "compare.breadcrumbs": "Merge Deduplications",
 
   "deduplication.sets.title": "Records duplicate Identifiers (DOI, PMID, ARXIV, SCOPUS, ISI)",
 
@@ -1602,6 +1604,44 @@
   "deduplication.sets.notification.cannot-get-item": "An error occurred while loading the items",
 
   "deduplication.sets.notification.select-items": "Please select at least two items",
+
+  "deduplication.sets.notification.item-removed": "Item Removed",
+
+  "deduplication.merge.label.title": "Merge Deduplications",
+
+  "deduplication.merge.label.title": "Merge Deduplications",
+
+  "deduplication.merge.message.no-data": "No data found",
+
+  "deduplication.merge.label.info": "Records to compare",
+
+  "deduplication.merge.label.bitstreams": "Bitstreams per Item",
+
+  "deduplication.merge.table.header.entities": "Entities",
+
+  "deduplication.merge.table.header.identifier": "Identifier",
+
+  "deduplication.merge.table.header.title": "Title",
+
+  "deduplication.merge.table.bitstream.header.title": "Bitstream Title",
+
+  "deduplication.merge.table.bitstream.header.identifier": "Bitstream Identifier",
+
+  "deduplication.merge.table.bitstream.header.item-identifier": "Item Identifier",
+
+  "deduplication.merge.button.label.merge": "Merge",
+
+  "deduplication.merge.button.label.show-diff": "Show Diff",
+
+  "deduplication.merge.show-diff.modal.header": "Differences for values under",
+
+  "deduplication.merge.show-diff.modal.label.differences": "Differences",
+
+  "deduplication.merge.show-diff.modal.button.close": "Close",
+
+  "deduplication.merge.notification.message-success": "Merge finished successfully",
+
+  "deduplication.merge.notification.message-error": "Merge failed",
 
   "datafile.listelement.badge": "Data File",
 

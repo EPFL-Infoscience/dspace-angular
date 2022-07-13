@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title">
-    Differences for values under <u>{{ metadataKey }}</u>
+    {{'deduplication.merge.show-diff.modal.header' | translate}} <u>{{ metadataKey }}</u>
   </h4>
 </div>
 <div class="modal-body">
@@ -34,7 +34,7 @@
 
         <!-- DIFFERENCES -->
         <div class="card">
-          <div class="card-header">Differences</div>
+          <div class="card-header">{{'deduplication.merge.show-diff.modal.label.differences' | translate}}</div>
           <div class="card-body">
             <div [innerHTML]="value1.innerHTML | dsTextDiff: value2.innerHTML"></div>
           </div>
@@ -46,6 +46,6 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">
-    Close
+    {{'deduplication.merge.show-diff.modal.button.close' | translate}}
   </button>
 </div>

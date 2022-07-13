@@ -17,9 +17,14 @@ import { map, mergeMap } from 'rxjs/operators';
 @Pipe({
   name: 'dsGetBitstreams',
 })
-export class DsGetBitstreamsPipe implements PipeTransform {
-  constructor(private dsoNameService: DSONameService) {}
+export class GetBitstreamsPipe implements PipeTransform {
+  constructor(private dsoNameService: DSONameService) { }
 
+  /**
+   * Get the item object and returns the bitstreams
+   * for the 'ORIGINAL' bundle
+   * @param object$ Observable of Item object
+   */
   transform(object$: Observable<Item>): Observable<Observable<Bitstream[]>> {
     return object$.pipe(
       mergeMap((item: Item) => {
@@ -29,6 +34,7 @@ export class DsGetBitstreamsPipe implements PipeTransform {
             getRemoteDataPayload(),
             getPaginatedListPayload(),
             map((x: Bundle[]) => {
+              console.log(x);
               return x.filter((bundle) =>
                 isEqual(this.dsoNameService.getName(bundle), 'ORIGINAL')
               );
@@ -40,6 +46,8 @@ export class DsGetBitstreamsPipe implements PipeTransform {
                     getAllSucceededRemoteData(),
                     getRemoteDataPayload(),
                     map((bitstreams: PaginatedList<Bitstream>) => {
+                      console.log(bitstreams.page);
+
                       return bitstreams.page;
                     })
                   );

@@ -21,6 +21,7 @@ import { RemoteData } from './../../core/data/remote-data';
 import { isEqual, isNull } from 'lodash';
 import {
   getFirstCompletedRemoteData,
+  getFirstSucceededRemoteData,
   getRemoteDataPayload,
 } from './../../core/shared/operators';
 import { ConfigObject } from './../../core/config/models/config.model';
@@ -281,7 +282,9 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       .subscribe((res: RemoteData<NoContent>) => {
         if (res.hasSucceeded || isEqual(res.statusCode, 204)) {
           this.dispatchRemoveItem(itemId, setId);
-          this.notificationsService.success(null, 'Item Removed');
+          this.notificationsService.success(null, this.translate.get(
+            'deduplication.sets.notification.item-removed'
+          ));
         } else {
           this.notificationsService.error(
             null,
@@ -382,6 +385,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       return this.deduplicationSetsService
         .getItemOwningCollection(item._links.owningCollection.href)
         .pipe(
+          getFirstSucceededRemoteData(),
           getRemoteDataPayload(),
           map(
             (collection: Collection) =>
@@ -415,7 +419,9 @@ export class DeduplicationSetsComponent implements AfterViewInit {
               .subscribe((res: RemoteData<NoContent>) => {
                 if (res.hasSucceeded || isEqual(res.statusCode, 204)) {
                   this.dispatchRemoveItem(itemId, setId);
-                  this.notificationsService.success(null, 'Item Removed');
+                  this.notificationsService.success(null, this.translate.get(
+                    'deduplication.sets.notification.item-removed'
+                  ));
                 } else {
                   this.notificationsService.error(
                     null,
@@ -437,11 +443,13 @@ export class DeduplicationSetsComponent implements AfterViewInit {
                 const object = x;
                 if (!isNull(object)) {
                   if (object instanceof WorkflowItem) {
-                    // if WorkflowItem
+                    //  WorkflowItem
                     this.deleteWorkflowItem(object.id).subscribe(
                       (res: SubmitDataResponseDefinitionObject) => {
                         this.dispatchRemoveItem(itemId, setId);
-                        this.notificationsService.success(null, 'Item Removed');
+                        this.notificationsService.success(null, this.translate.get(
+                          'deduplication.sets.notification.item-removed'
+                        ));
                       },
                       (err) => {
                         this.notificationsService.error(
@@ -453,13 +461,15 @@ export class DeduplicationSetsComponent implements AfterViewInit {
                       }
                     );
                   } else {
-                    // if WorkspaceItem
+                    //  WorkspaceItem
                     this.deduplicationSetsService.deleteWorkspaceItemById(
                       (object[0] as ConfigObject).id
                     ).subscribe(
                       (res) => {
                         this.dispatchRemoveItem(itemId, setId);
-                        this.notificationsService.success(null, 'Item Removed');
+                        this.notificationsService.success(null, this.translate.get(
+                          'deduplication.sets.notification.item-removed'
+                        ));
                       },
                       (err) => {
                         this.notificationsService.error(
@@ -521,6 +531,14 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * 1. Checks if there are at least 2 items selected in the set, in order to compare them among them.
+   * 2. Set the selected items data in the store, in order to be used in the merge page.
+   * 3. Redirects to the merge page by @var setId: signature-id:set-checksum.
+   * 4. If there are no items selected, show a warning message.
+   * @param setChecksum The checksum of the set.
+   * @param set_id The id of the set.
+   */
   onCompare(setChecksum: string, set_id: string) {
     if (this.checkedItemsList.has(set_id) && this.checkedItemsList.get(set_id).length >= 2) {
       const selectedItemsMap = this.checkedItemsList.get(set_id);
@@ -529,12 +547,13 @@ export class DeduplicationSetsComponent implements AfterViewInit {
           element.itemId
         );
         this.deduplicationStateService.dispatchAddItemsToCompare(itemsPerSet);
-        // * setId: signature-id:set-checksum *
         const setId = `${this.signatureId}:${setChecksum}`;
         this.router.navigate([`/admin/deduplication/compare`, setId]);
       }
     } else {
-      this.notificationsService.info(null, 'Select at least two items');
+      this.notificationsService.info(null, this.translate.get(
+        'deduplication.sets.notification.select-items'
+      ));
     }
   }
 
@@ -549,8 +568,6 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       itemId,
       setId
     );
-
-    // if length of remained items is
     if (this.itemsMap.has(setId)) {
       this.itemsMap.get(setId).subscribe((items: SetItemsObject[]) => {
         if (items && isEqual(items.length, 1)) {
@@ -648,6 +665,9 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   }
 }
 
+/**
+ * Interface for the selected items from the set.
+ */
 export interface SelectedItemData {
   checked: boolean;
   itemId: string;

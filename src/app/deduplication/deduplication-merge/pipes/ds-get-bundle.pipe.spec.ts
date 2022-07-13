@@ -1,7 +1,7 @@
 import { DSONameService } from './../../../core/breadcrumbs/dso-name.service';
-import { DsGetBitstreamsPipe } from './ds-get-bundle.pipe';
+import { GetBitstreamsPipe } from './ds-get-bundle.pipe';
 
-describe('DsGetBitstreamsPipe', () => {
+describe('GetBitstreamsPipe', () => {
 
   let dsoDataService: DSONameService;
 
@@ -10,7 +10,7 @@ describe('DsGetBitstreamsPipe', () => {
   });
 
   it('create an instance', () => {
-    const pipe = new DsGetBitstreamsPipe(dsoDataService);
+    const pipe = new GetBitstreamsPipe(dsoDataService);
     expect(pipe).toBeTruthy();
   });
 });

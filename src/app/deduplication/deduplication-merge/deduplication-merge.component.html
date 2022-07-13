@@ -2,46 +2,114 @@
   <div class="row">
     <div class="col-12">
       <h2 id="header" class="border-bottom pb-2">
-        {{ "Merge Deduplications" | translate }}
+        {{ "deduplication.merge.label.title" | translate }}
       </h2>
 
-      <div class="col-md-12 text-center" *ngIf="itemsToCompare.length == 0">
+      <div class="col-md-12 text-center" *ngIf="!itemsToCompare">
+        <ds-loading> </ds-loading>
+      </div>
+
+      <div class="col-md-12 text-center" *ngIf="itemsToCompare?.length == 0">
         <h4 class="p-3">
-          {{ "no-data" | translate }}
+          {{ "deduplication.merge.message.no-data" | translate }}
         </h4>
       </div>
 
       <ng-container *ngIf="itemsToCompare && itemsToCompare.length > 0">
-        <p>Records to compare</p>
+        <h5>{{ "deduplication.merge.label.info" | translate }}</h5>
+        <!-- Item Data Tabel -->
         <table class="table table-striped mb-4">
           <thead>
             <tr>
-              <th scope="col">Entities</th>
-              <th scope="col">Identifier</th>
+              <th scope="col">
+                {{ "deduplication.merge.table.header.entities" | translate }}
+              </th>
+              <th scope="col">{{ "Handle" | translate }}</th>
+              <th scope="col">
+                {{ "deduplication.merge.table.header.identifier" | translate }}
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let itemObj of itemsToCompare">
-              <td>Title: {{ (itemObj.object$ | async)?.name }}</td>
+              <td>
+                <span>
+                  <strong>
+                    {{
+                      "deduplication.merge.table.header.title" | translate
+                    }}:</strong
+                  >
+                  {{ (itemObj.object$ | async)?.name }}</span
+                >
+                <br />
+                <span *ngIf="(itemObj.object$ | async)?.metadata['dc.type']">
+                  <strong>Type:</strong>
+                  {{
+                    (itemObj.object$ | async)?.metadata["dc.type"][0].value
+                  }}</span
+                >
+                <br />
+                <span>
+                  <strong>Entity type:</strong>
+                  {{ (itemObj.object$ | async)?.type }}</span
+                >
+                <br />
+                <strong>Collection:</strong>
+                <span>
+                  {{ getOwningCollectionTitle(itemObj.object$) | async }}</span
+                >
+              </td>
               <td>
                 <span
                   *ngIf="itemObj.color"
                   [ngStyle]="{ color: itemObj.color }"
                 >
-                  ({{ (itemObj.object$ | async)?.uuid }})
+                  {{ (itemObj.object$ | async)?.handle }}
+                </span>
+              </td>
+              <td>
+                <span
+                  *ngIf="itemObj.color"
+                  [ngStyle]="{ color: itemObj.color }"
+                >
+                  {{ (itemObj.object$ | async)?.uuid }}
                 </span>
               </td>
             </tr>
           </tbody>
         </table>
 
-        <h6>Bitstreams per Item</h6>
+        <h5>{{ "deduplication.merge.label.bitstreams" | translate }}</h5>
+        <!-- Bitstream Data Tabel -->
         <table class="table table-striped">
           <thead>
             <tr>
-              <th scope="col">Bitstream Title</th>
-              <th scope="col">Bitstream Identifier</th>
-              <th scope="col">Item Identifier</th>
+              <th scope="col">
+                {{ "Select" | translate }}
+              </th>
+              <th scope="col">
+                {{
+                  "deduplication.merge.table.bitstream.header.title" | translate
+                }}
+              </th>
+              <th scope="col">
+                {{
+                  "deduplication.merge.table.bitstream.header.identifier"
+                    | translate
+                }}
+              </th>
+              <th scope="col">
+                {{
+                  "deduplication.merge.table.bitstream.header.item-identifier"
+                    | translate
+                }}
+              </th>
+              <th scope="col">
+                {{
+                  "Actions"
+                    | translate
+                }}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -52,8 +120,26 @@
               >
               </ds-loading>
               <tr
-                *ngFor="let bitstream of itemObj.object$ | dsGetBitstreams | async | async"
+                *ngFor="
+                  let bitstream of itemObj.object$
+                    | dsGetBitstreams
+                    | async
+                    | async
+                "
               >
+                <td>
+                  <div class="custom-control custom-checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      [id]="bitstream.uuid"
+                    />
+                    <label
+                      class="custom-control-label"
+                      [for]="bitstream.uuid"
+                    ></label>
+                  </div>
+                </td>
                 <td>
                   <span *ngFor="let title of bitstream.metadata['dc.title']">
                     {{ title.value }} <br />
@@ -68,17 +154,18 @@
                     ({{ (itemObj.object$ | async)?.uuid }})
                   </span>
                 </td>
+                <td>
+                  <a> View</a>
+                </td>
               </tr>
             </ng-container>
           </tbody>
         </table>
-      </ng-container>
 
-      <ng-container *ngIf="itemsToCompare.length > 0">
         <div class="justify-content-end pr-3 mb-1 row">
           <button class="btn btn-secondary" (click)="merge()">
             <i class="fa fa-code pr-1" aria-hidden="true"></i>
-            {{ "Merge" | translate }}
+            {{ "deduplication.merge.button.label.merge" | translate }}
           </button>
         </div>
 
@@ -105,7 +192,9 @@
                     class="btn btn-sm btn-warning mr-2"
                     (click)="showDiff(keyvalue)"
                   >
-                    Show Diff
+                    {{
+                      "deduplication.merge.button.label.show-diff" | translate
+                    }}
                   </button>
                   <!-- <button class="btn btn-sm btn-danger mr-2">
                     <i class="fa fa-trash"></i>

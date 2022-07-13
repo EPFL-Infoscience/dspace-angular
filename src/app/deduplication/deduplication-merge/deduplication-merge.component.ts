@@ -1,6 +1,8 @@
-import { DsGetBitstreamsPipe } from './pipes/ds-get-bundle.pipe';
+import { Collection } from './../../core/shared/collection.model';
+import { isEqual } from 'lodash';
+import { GetBitstreamsPipe } from './pipes/ds-get-bundle.pipe';
 import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
-import { getRemoteDataPayload } from './../../core/shared/operators';
+import { getFirstSucceededRemoteData, getRemoteDataPayload, getFirstSucceededRemoteDataPayload } from './../../core/shared/operators';
 import { ConfigurationDataService } from './../../core/data/configuration-data.service';
 import {
   ItemsMetadataValues,
@@ -15,9 +17,9 @@ import {
 import { Item } from './../../core/shared/item.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { DeduplicationStateService } from './../deduplication-state.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { DeduplicationItemsService } from './deduplication-items.service';
-import { map, concatMap, take } from 'rxjs/operators';
+import { map, concatMap, take, switchMap } from 'rxjs/operators';
 import { hasValue } from '../../shared/empty.util';
 import { ActivatedRoute, Router } from '@angular/router';
 import { KeyValue } from '@angular/common';
@@ -26,54 +28,116 @@ import { KeyValue } from '@angular/common';
   selector: 'ds-deduplication-merge',
   templateUrl: './deduplication-merge.component.html',
   styleUrls: ['./deduplication-merge.component.scss'],
-  providers: [DsGetBitstreamsPipe],
+  providers: [GetBitstreamsPipe],
 })
-export class DeduplicationMergeComponent implements OnInit, OnDestroy {
-  protected storedItemIds$: Observable<string[]>;
+export class DeduplicationMergeComponent implements OnInit, OnDestroy, AfterViewInit {
+  /**
+   * Stores the item ids to compare
+   * @private
+   * @type {Observable<string[]>}
+   */
+  private storedItemIds$: Observable<string[]>;
 
-  protected setId: string;
+  /**
+   * The composed set id of the items to compare
+   * setId: signature-id:set-checksum
+   * @private
+   * @type {string}
+   */
+  private setId: string;
 
+  /**
+   * The id of the first item to compare
+   * It can be used as target item id for the merge
+   * and can be sent as a parameter for the merge request
+   * @private
+   * @type {string}
+   */
   private targetItemId: string;
 
-  public itemsToCompare: ItemData[] = [];
+  /**
+   * Stores data for the retreaved items,
+   * that are going to be compared among them.
+   * Stores the data of the item and the generated color for each id,
+   * in order to be identified between them.
+   * @type {ItemData[]}
+   */
+  public itemsToCompare: ItemData[];
 
-  protected mergedMetadataFields: ItemsMetadataField[] = [];
+  /**
+   * Stores all the metadata fields (keys, based on the first item)
+   * and the sources of these metadata fields (selected values to be merged)
+   * @private
+   * @type {ItemsMetadataField[]}
+   */
+  private mergedMetadataFields: ItemsMetadataField[] = [];
 
-  protected bitstreamList: string[] = [];
+  /**
+   * Stores the bitstream list of each item
+   * for the bundle 'ORIGINAL'
+   * @private
+   * @type {string[]}
+   */
+  private bitstreamList: string[] = [];
 
-  protected excludedMetadataKeys: string[] = [];
+  /**
+   * List of excluded metadata keys
+   * retrieved from the REST configurations
+   * @private
+   * @type {string[]}
+   */
+  private excludedMetadataKeys: string[] = [];
 
-  protected mergedItems: string[] = [];
+  /**
+   * List of items' self links that are going to be compared
+   * @private
+   * @type {string[]}
+   */
+  private mergedItems: string[] = [];
 
+  /**
+   * Reference to the modal instance
+   * @protected
+   * @type {NgbModalRef}
+   */
   protected modalRef: NgbModalRef;
 
   constructor(
     private deduplicationStateService: DeduplicationStateService,
     private deduplicationItemsService: DeduplicationItemsService,
-    private getBitstreamsPipe: DsGetBitstreamsPipe,
+    private getBitstreamsPipe: GetBitstreamsPipe,
     private modalService: NgbModal,
     private configurationDataService: ConfigurationDataService,
     private route: ActivatedRoute,
     private router: Router,
-
+    private chd: ChangeDetectorRef
   ) {
     this.storedItemIds$ = this.deduplicationStateService.getItemsToCompare();
-    this.getExcludedMetadata();
-    // * setId: signature-id:set-checksum *
     this.setId = this.route.snapshot.params.setId;
+
   }
 
   ngOnInit(): void {
+    this.getExcludedMetadata();
+  }
+
+  ngAfterViewInit(): void {
     this.buildMergeObject();
     this.getItembitstreams();
   }
 
+  /**
+   * Get excluded metadata keys from the REST configurations
+   */
   private getExcludedMetadata() {
+    // console.log('merge.excluded-metadata');
+
     this.configurationDataService
       .findByPropertyName('merge.excluded-metadata')
       .pipe(
-        take(1),
-        getRemoteDataPayload())
+        getFirstSucceededRemoteData(),
+        getRemoteDataPayload()
+      )
       .subscribe((res: ConfigurationProperty) => {
         if (hasValue(res)) {
           this.excludedMetadataKeys = [...res.values];
@@ -82,11 +146,20 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       });
   }
 
+  /**
+   * Get items ids from the store,
+   * set the target item id,
+   * and get the data for each item to compare, based on item id.
+   * Prepares the merge items links @var mergedItems for the merge request.
+   * Calculates the metadata fields to be merged, based on @var excludedMetadataKeys.
+   * Prepares the @var itemsToCompare for the template.
+   */
   private getItemsData() {
     this.storedItemIds$.subscribe((itemIds: string[]) => {
       if (itemIds.length > 0) {
         this.targetItemId = itemIds[0];
       }
+      this.itemsToCompare = new Array<ItemData>();
       itemIds.forEach((itemId: string) => {
         const item$: Observable<Item> = this.deduplicationItemsService
           .getItemData(itemId)
@@ -101,14 +174,12 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
 
                 let keys: string[] = Object.keys(item.metadata);
                 // get only the metadata keys that are not excluded
-                keys = keys.filter((key) => {
-                  return !this.excludedMetadataKeys.includes(key);
-                });
+                let keysToInclude = keys.filter(k => !this.excludedMetadataKeys.includes(k));
                 // calculate MetadataMap for each item based on the keys to be included
                 let dataToInclude: MetadataMap = new MetadataMap();
                 let keyValuePair = Object.entries(item.metadata);
                 keyValuePair.forEach(([key, value]) => {
-                  if (keys.includes(key)) {
+                  if (keysToInclude.includes(key)) {
                     dataToInclude[key] = value;
                   }
                 });
@@ -132,6 +203,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
           ),
         });
       });
+      this.chd.detectChanges();
     });
   }
 
@@ -153,6 +225,13 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       });
   }
 
+  /**
+   * Calculates the @var mergedMetadataFields on value selection
+   * @param field The metadata field to be merged
+   * @param itemLink The self link of the selected item
+   * @param place Place of the item
+   * @param selectType The type of the selection (single or multiple)
+   */
   onValueSelect(
     field: string,
     itemLink: string,
@@ -163,17 +242,18 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       .find((x) => x.metadataField === field)
       .sources.findIndex((x) => x.item === itemLink);
 
+    // 1.if the selection mode is 'single', remove the previous selection
+    // 2.if the item is in the list, remove it.
     if (selectType === 'single' || metadataSourceIdx > -1) {
-      // if the item is in the list, remove it.
       this.mergedMetadataFields
-        .find((x) => x.metadataField === field)
+        .find((x) => isEqual(x.metadataField, field))
         .sources.splice(metadataSourceIdx, 1);
     }
 
     // if the item is not in the list, add it
     if (metadataSourceIdx < 0) {
       this.mergedMetadataFields
-        .find((x) => x.metadataField === field)
+        .find((x) => isEqual(x.metadataField, field))
         .sources.push({
           item: itemLink,
           place: place,
@@ -181,38 +261,56 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Builts the initial structure of @var mergedMetadataFields
+   * with all metadata fields of the first item
+   * and with empty sources array
+   */
   private buildMergeObject() {
-    this.itemsToCompare[0]?.object$.subscribe((res: Item) => {
-      if (res) {
-        let keys = Object.keys(res.metadata);
-        this.mergedMetadataFields = keys.map((key) => {
-          return {
-            metadataField: key,
-            sources: [],
-          };
-        });
-      }
-    });
+    if (this.itemsToCompare) {
+      this.itemsToCompare[0]?.object$.subscribe((res: Item) => {
+        if (res) {
+          let keys = Object.keys(res.metadata);
+          this.mergedMetadataFields = keys.map((key) => {
+            return {
+              metadataField: key,
+              sources: [],
+            };
+          });
+        }
+      });
+
+    }
   }
 
+  /**
+   * Get the bitstreams of the selected items
+   */
   private getItembitstreams() {
-    this.itemsToCompare.map((item) => {
-      this.getBitstreamsPipe
-        .transform(item.object$)
-        .pipe(
-          concatMap((res$: Observable<Bitstream[]>) => {
-            return res$.pipe(
-              map((bitstreams: Bitstream[]) => bitstreams)
-            );
-          })
-        )
-        .subscribe((bitstreams: Bitstream[]) => {
-          let linksPerItem = bitstreams.map((b) => b._links.self.href);
-          this.bitstreamList = this.bitstreamList.concat(...linksPerItem);
-        });
-    });
+    if (this.itemsToCompare) {
+      this.itemsToCompare.map((item) => {
+        this.getBitstreamsPipe
+          .transform(item.object$)
+          .pipe(
+            concatMap((res$: Observable<Bitstream[]>) => {
+              return res$.pipe(
+                map((bitstreams: Bitstream[]) => bitstreams)
+              );
+            })
+          )
+          .subscribe((bitstreams: Bitstream[]) => {
+            let linksPerItem = bitstreams.map((b) => b._links.self.href);
+            this.bitstreamList = this.bitstreamList.concat(...linksPerItem);
+          });
+      });
+    }
   }
 
+  /**
+   * Prepare the list of items show the difference between their values.
+   * Opens the modal and passes the data.
+   * @param keyvalue The keyvalue pair of the item's metadata
+   */
   showDiff(keyvalue: KeyValue<string, MetadataValue>) {
     let valuesToCompare: ItemsMetadataValues[] = [];
     for (let index = 0; index < this.itemsToCompare.length; index++) {
@@ -241,6 +339,25 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     this.modalRef.componentInstance.metadataKey = keyvalue.key;
   }
 
+  getOwningCollectionTitle(item$: Observable<Item>): Observable<string> {
+    return item$.pipe(
+      switchMap((res: Item) => {
+        return res.owningCollection.pipe(
+          getFirstSucceededRemoteDataPayload(),
+          map((res: Collection) => res.metadata['dc.title'][0].value)
+        )
+      })
+    )
+  }
+
+  /**
+   * Generates randomly the same colors for each item,
+   * starting from a given color and adding a random number to it,
+   * based on previous used color @param color.
+   * @param color The last used color,
+   * in which is based the new generated color
+   * @returns The new color for the next item
+   */
   private generateIdColor(color: string) {
     let hash = 0;
     for (var i = 0; i < color.length; i++) {
@@ -250,6 +367,10 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     return `#${'ff8080'.substring(0, 6 - c.length) + c}`;
   }
 
+  /**
+   * 1.Remove the items from the store
+   * 2.Close the modal ref
+   */
   ngOnDestroy(): void {
     // Remove the items from store
     this.deduplicationStateService.dispatchRemoveItemsToCompare();
@@ -257,11 +378,18 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   }
 }
 
+/**
+ * The interface used for the model of the items data
+ * and identifier color for the template
+ */
 export interface ItemData {
   object$: Observable<Item>;
   color: string;
 }
 
+/**
+ * The interface used for the model of the merged metadata fields
+ */
 export interface MergeItems {
   setId: string;
   bitstreams: string[];
@@ -269,11 +397,17 @@ export interface MergeItems {
   metadata: ItemsMetadataField[];
 }
 
+/**
+ * The interface used for the model of the metadata fields
+ */
 export interface ItemsMetadataField {
   metadataField: string;
   sources: ItemMetadataSource[];
 }
 
+/**
+ * The interface used for the model of the metadata sources
+ */
 export interface ItemMetadataSource {
   item: string;
   place: number;
