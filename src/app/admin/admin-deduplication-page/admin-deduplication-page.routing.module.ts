@@ -33,11 +33,10 @@ import { DeduplicationMergeComponent } from './../../deduplication/deduplication
           breadcrumbKey: 'sets',
           showBreadcrumbsFluid: false
         }
-
       },
       {
         canActivate: [AuthenticatedGuard],
-        path: 'compare/:setId',
+        path: 'compare/:signatureId/:setChecksum',
         component: DeduplicationMergeComponent,
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         data: {

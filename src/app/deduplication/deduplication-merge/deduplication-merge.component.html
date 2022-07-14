@@ -39,39 +39,30 @@
                 <span>
                   <strong>
                     {{
-                      "deduplication.merge.table.header.title" | translate
-                    }}:</strong
-                  >
-                  {{ (itemObj.object$ | async)?.name }}</span
-                >
+                    "deduplication.merge.table.header.title" | translate
+                    }}:</strong>
+                  {{ itemObj.object?.name }}</span>
                 <br />
-                <span *ngIf="(itemObj.object$ | async)?.metadata['dc.type']">
+                <span *ngIf="(itemObj.object)?.metadata['dc.type']">
                   <strong>Type:</strong>
                   {{
-                    (itemObj.object$ | async)?.metadata["dc.type"][0].value
-                  }}</span
-                >
+                  (itemObj.object)?.metadata["dc.type"][0].value
+                  }}</span>
                 <br />
                 <span>
                   <strong>Entity type:</strong>
-                  {{ (itemObj.object$ | async)?.type }}</span
-                >
+                  {{ (itemObj.object)?.type }}</span>
                 <br />
                 <strong>Collection:</strong>
                 <span>
-                  {{ getOwningCollectionTitle(itemObj.object$) | async }}</span
-                >
+                  {{ getOwningCollectionTitle(itemObj.object) | async }}</span>
               </td>
               <td>
-                  {{ (itemObj.object$ | async)?.handle }}
-                  <br>
-                  {{ (itemObj.object$ | async) | json }}
+                {{ (itemObj.object)?.handle }}
               </td>
               <td>
-                <span
-                  [ngStyle]="{ color: itemObj.color }"
-                >
-                  {{ (itemObj.object$ | async)?.uuid }}
+                <span [ngStyle]="{ color: itemObj.color }">
+                  {{ (itemObj.object)?.uuid }}
                 </span>
               </td>
             </tr>
@@ -90,19 +81,19 @@
               </th>
               <th scope="col">
                 {{
-                  "deduplication.merge.table.bitstream.header.title" | translate
+                "deduplication.merge.table.bitstream.header.title" | translate
                 }}
               </th>
               <th scope="col">
                 {{
-                  "deduplication.merge.table.bitstream.header.identifier"
-                    | translate
+                "deduplication.merge.table.bitstream.header.identifier"
+                | translate
                 }}
               </th>
               <th scope="col">
                 {{
-                  "deduplication.merge.table.bitstream.header.item-identifier"
-                    | translate
+                "deduplication.merge.table.bitstream.header.item-identifier"
+                | translate
                 }}
               </th>
               <th scope="col">
@@ -112,34 +103,20 @@
           </thead>
           <tbody>
             <ng-container *ngFor="let itemObj of itemsToCompare">
-              <ds-loading
-                [showMessage]="false"
-                *ngIf="!(itemObj.object$ | dsGetBitstreams | async | async)"
-              >
+              <ds-loading [showMessage]="false" *ngIf="!(itemObj.object | dsGetBitstreams | async | async)">
               </ds-loading>
-              <tr
-                *ngFor="
-                  let bitstream of itemObj.object$
+              <tr *ngFor="
+                  let bitstream of itemObj.object
                     | dsGetBitstreams
                     | async
                     | async
-                "
-              >
+                ">
                 <td>
                   <div class="custom-control custom-checkbox">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      [id]="bitstream.uuid"
-                      [checked]="
+                    <input type="checkbox" class="custom-control-input" [id]="bitstream.uuid" [checked]="
                         bitstreamList.includes(bitstream._links.self.href)
-                      "
-                      (change)="onBitstreamChecked($event, bitstream)"
-                    />
-                    <label
-                      class="custom-control-label"
-                      [for]="bitstream.uuid"
-                    ></label>
+                      " (change)="onBitstreamChecked($event, bitstream)" />
+                    <label class="custom-control-label" [for]="bitstream.uuid"></label>
                   </div>
                 </td>
                 <td>
@@ -149,11 +126,8 @@
                 </td>
                 <td>{{ bitstream.uuid }}<br /></td>
                 <td>
-                  <span
-                    [ngStyle]="{ color: itemObj.color }"
-                  >
-                    {{ (itemObj.object$ | async)?.uuid }}
-                    {{ (itemObj.object$ | async) | json }}
+                  <span [ngStyle]="{ color: itemObj.color }">
+                    {{ (itemObj.object)?.uuid }}
                   </span>
                 </td>
                 <td>
@@ -171,16 +145,11 @@
           </button>
         </div>
 
-        <ngb-accordion
-          [destroyOnHide]="false"
-          [closeOthers]="true"
-          activeIds="panel-0"
-          *ngFor="
-            let keyvalue of (itemsToCompare[0].object$ | async)?.metadata
+        <ngb-accordion [destroyOnHide]="false" [closeOthers]="true" activeIds="panel-0" *ngFor="
+            let keyvalue of (itemsToCompare[0].object)?.metadata
               | keyvalue;
             let kIdx = index
-          "
-        >
+          ">
           <ngb-panel id="panel-{{ 0 }}">
             <ng-template ngbPanelHeader let-opened="opened">
               <div class="row">
@@ -189,23 +158,16 @@
                 </div>
 
                 <div class="col-md-3 text-right mt-1">
-                  <button
-                    *ngIf="keyvalue.value && keyvalue.value.length > 0"
-                    class="btn btn-sm btn-warning mr-2"
-                    (click)="showDiff(keyvalue)"
-                  >
+                  <button *ngIf="keyvalue.value && keyvalue.value.length > 0" class="btn btn-sm btn-warning mr-2"
+                    (click)="showDiff(keyvalue)">
                     {{
-                      "deduplication.merge.button.label.show-diff" | translate
+                    "deduplication.merge.button.label.show-diff" | translate
                     }}
                   </button>
                   <!-- <button class="btn btn-sm btn-danger mr-2">
                     <i class="fa fa-trash"></i>
                   </button> -->
-                  <button
-                    ngbPanelToggle
-                    class="btn btn-sm"
-                    [ngClass]="opened ? 'btn-info' : 'btn-outline-info'"
-                  >
+                  <button ngbPanelToggle class="btn btn-sm" [ngClass]="opened ? 'btn-info' : 'btn-outline-info'">
                     <i *ngIf="!opened" class="fa fa-chevron-up"></i>
                     <i *ngIf="opened" class="fa fa-chevron-down"></i>
                   </button>
@@ -213,92 +175,62 @@
               </div>
             </ng-template>
             <ng-template ngbPanelContent>
-              <ng-container
-                *ngFor="let itemObj of itemsToCompare; let i = index"
-              >
-                <ng-container
-                  *ngFor="
-                    let data of (itemObj.object$ | async)?.metadata[
+              <ng-container *ngFor="let itemObj of itemsToCompare; let i = index">
+                <ng-container *ngFor="
+                    let data of (itemObj.object)?.metadata[
                       keyvalue.key
                     ];
                     let dataIdx = index
-                  "
-                >
-                  <div
-                    class="row item-container"
-                    [ngStyle]="{ 'background-color': itemObj.color }"
-                  >
+                  ">
+                  <div class="row item-container" [ngStyle]="{ 'background-color': itemObj.color }">
                     <!-- if more than one selection can occur-->
                     <div class="col-1" *ngIf="kIdx % 2 != 0">
                       <div class="custom-control custom-checkbox">
-                        <input
-                          type="checkbox"
-                          class="custom-control-input"
-                          [id]="
-                            (itemObj.object$ | async)?.uuid +
+                        <input type="checkbox" class="custom-control-input" [id]="
+                            (itemObj.object)?.uuid +
                             keyvalue.key +
                             dataIdx
-                          "
-                          (change)="
+                          " (change)="
                             onValueSelect(
                               keyvalue.key,
                               targetItemHref.value,
                               data.place,
                               'multiple'
                             )
-                          "
-                        />
-                        <label
-                          class="custom-control-label"
-                          [for]="
-                            (itemObj.object$ | async)?.uuid +
+                          " />
+                        <label class="custom-control-label" [for]="
+                            (itemObj.object)?.uuid +
                             keyvalue.key +
                             dataIdx
-                          "
-                        ></label>
+                          "></label>
                       </div>
                     </div>
-                    <input
-                      type="hidden"
-                      name=""
-                      #targetItemHref
-                      [value]="(itemObj.object$ | async)?._links.self.href"
-                    />
+                    <input type="hidden" name="" #targetItemHref [value]="(itemObj.object)?._links.self.href" />
 
                     <!-- if only one selection can occur-->
                     <!-- TODO: depends on rest properties -->
 
                     <div class="col-1" *ngIf="kIdx % 2 == 0">
                       <div class="custom-control custom-radio">
-                        <input
-                          class="custom-control-input"
-                          type="radio"
-                          [name]="keyvalue.key"
-                          [id]="
-                            (itemObj.object$ | async)?.uuid +
+                        <input class="custom-control-input" type="radio" [name]="keyvalue.key" [id]="
+                            (itemObj.object)?.uuid +
                             keyvalue.key +
                             dataIdx
-                          "
-                          [value]="
-                            (itemObj.object$ | async)?.uuid + keyvalue.key
-                          "
-                          (change)="
+                          " [value]="
+                            (itemObj.object)?.uuid + keyvalue.key
+                          " (change)="
                             onValueSelect(
                               keyvalue.key,
                               targetItemHref.value,
                               data.place,
                               'single'
                             )
-                          "
-                        />
-                        <label
-                          class="custom-control-label"
-                          [for]="
-                            (itemObj.object$ | async)?.uuid +
+                          " />
+                        <label class="custom-control-label" [for]="
+                            (itemObj.object)?.uuid +
                             keyvalue.key +
                             dataIdx
-                          "
-                        ></label>
+                          "></label>
                       </div>
                     </div>
 
@@ -306,7 +238,7 @@
                       {{ data.value }}
                     </span>
                     <span class="col-5">
-                      ({{ (itemObj.object$ | async)?.uuid }})
+                      ({{ (itemObj.object)?.uuid }})
                     </span>
                   </div>
                 </ng-container>
