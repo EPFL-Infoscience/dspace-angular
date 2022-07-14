@@ -85,6 +85,11 @@ export class ObjectGridComponent implements OnInit {
   @Input() configStyle = '';
 
   /**
+   * Default column style
+   */
+  @Input() columnStyle;
+
+  /**
    * Behavior subject to output the current listable objects
    */
   private _objects$: BehaviorSubject<RemoteData<PaginatedList<ListableObject>>>;
@@ -166,6 +171,7 @@ export class ObjectGridComponent implements OnInit {
    * Initialize the instance variables
    */
   ngOnInit(): void {
+    this.columnStyle = this.columnStyle ? this.columnStyle : 'col-sm-6 col-lg-4';
     const nbColumns$ = this.hostWindow.widthCategory.pipe(
       map((widthCat: WidthCategory) => {
         switch (widthCat) {

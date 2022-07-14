@@ -62,6 +62,7 @@ export interface TopSection extends SectionComponent {
   defaultLayoutMode: LayoutModeEnum;
   cardStyle?: string;
   itemListStyle?: string;
+  cardColumnStyle?: string;
   showAllResults: boolean;
 }
 
