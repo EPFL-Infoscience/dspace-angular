@@ -46,6 +46,21 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
   @Input() selectedItem: any = null;
 
   /**
+   * The boolean to check whether it is in view mode or not
+   */
+  @Input() isViewMode = false;
+
+  /**
+   * The boolean to check whether search enabled
+   */
+  @Input() enabledSearch = true;
+
+  /**
+   * The boolean to check the component used in public
+   */
+  @Input() isPublic = false;
+
+  /**
    * Contain a descriptive message for this vocabulary retrieved from i18n files
    */
   description: Observable<string>;
@@ -214,11 +229,14 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
 
     this.loading = this.vocabularyTreeviewService.isLoading();
 
-    this.isAuthenticated.pipe(
-      find((isAuth) => isAuth)
-    ).subscribe(() => {
+    this.isAuthenticated.subscribe((res) => {
       const entryId: string = (this.selectedItem) ? this.getEntryId(this.selectedItem) : null;
-      this.vocabularyTreeviewService.initialize(this.vocabularyOptions, new PageInfo(), entryId);
+      if (res) {
+        this.vocabularyTreeviewService.initialize(this.vocabularyOptions, new PageInfo(), entryId);
+      } else if (this.isPublic) {
+        console.log(this.selectedItem);
+        this.vocabularyTreeviewService.initialize(this.vocabularyOptions, new PageInfo(), this.selectedItem.value, this.isPublic);
+      }
     });
   }
 
@@ -251,9 +269,11 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
    * Emit a new select Event
    */
   onSelect(entry: VocabularyEntryDetail) {
-     const value = new FormFieldMetadataValueObject(entry.value, null, entry.securityLevel, entry.id);
-    this.select.emit(value);
-    this.activeModal.close(value);
+    if (!this.isViewMode) {
+      const value = new FormFieldMetadataValueObject(entry.value, null, entry.securityLevel, entry.id);
+      this.select.emit(value);
+      this.activeModal.close(value);
+    }
   }
 
   /**

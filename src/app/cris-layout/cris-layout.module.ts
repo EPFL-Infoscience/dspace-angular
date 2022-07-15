@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
 import { CrisLayoutLoaderDirective } from './directives/cris-layout-loader.directive';
@@ -114,7 +114,7 @@ const ENTRY_COMPONENTS = [
     MetadataRenderComponent,
     MarkdownComponent
   ],
-  providers:[ LoadMoreService ],
+  providers:[ LoadMoreService, NgbActiveModal ],
   imports: [
     CommonModule,
     SharedModule,
