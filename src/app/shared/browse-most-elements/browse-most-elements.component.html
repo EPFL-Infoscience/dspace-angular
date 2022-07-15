@@ -12,10 +12,9 @@
         [config]="paginatedSearchOptions.pagination"
         [sortConfig]="paginatedSearchOptions.sort"
         [objects]="searchResults"
-        [hideGear]="true"
         [linkType]="collectionElementLinkTypeEnum.None"
         [context]="context"
-        [hidePaginationDetail]="true"
+        (paginationChange)="onPaginationChange()"
       >
       </ds-object-grid>
     </ng-container>

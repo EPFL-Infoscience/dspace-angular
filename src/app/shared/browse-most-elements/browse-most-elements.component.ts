@@ -1,7 +1,7 @@
 import { CollectionElementLinkType } from './../object-collection/collection-element-link.type';
 import { isEqual } from 'lodash';
 import { ViewMode } from './../../core/shared/view-mode.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router, NavigationEnd } from '@angular/router';
 import {
   LayoutModeEnum,
   TopSection,
@@ -15,6 +15,7 @@ import { Context } from '../../core/shared/context.model';
 import { RemoteData } from '../../core/data/remote-data';
 import { PaginatedList } from '../../core/data/paginated-list.model';
 import { getFirstCompletedRemoteData } from '../../core/shared/operators';
+import { hasValue } from '../empty.util';
 
 @Component({
   selector: 'ds-browse-most-elements',
@@ -39,12 +40,17 @@ export class BrowseMostElementsComponent implements OnInit {
   constructor(
     private searchService: SearchService,
     private cdr: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private aroute: ActivatedRoute,
   ) {
     /* */
   }
 
   ngOnInit() {
+    this.getSearchResults();
+  }
+
+  private getSearchResults() {
     this.searchService
       .search(this.paginatedSearchOptions)
       .pipe(getFirstCompletedRemoteData())
@@ -56,16 +62,37 @@ export class BrowseMostElementsComponent implements OnInit {
       );
   }
 
-  showAllResults() {
+  async showAllResults() {
     const view = isEqual(this.mode, LayoutModeEnum.LIST)
       ? ViewMode.ListElement
       : ViewMode.GridElement;
-    this.router.navigate(['/search'], {
+    await this.router.navigate(['/search'], {
       queryParams: {
         configuration: this.paginatedSearchOptions.configuration,
         view: view,
       },
       replaceUrl: true,
+    });
+  }
+
+  onPaginationChange() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.aroute.queryParams
+          .subscribe((params: Params) => {
+            if (hasValue(params['search-object-pagination.page'])) {
+              let pagination = Object.assign(new PaginatedSearchOptions(this.paginatedSearchOptions), {
+                ...this.paginatedSearchOptions,
+                pagination: {
+                  ...this.paginatedSearchOptions.pagination,
+                  currentPage: params['search-object-pagination.page']
+                }
+              });
+              this.paginatedSearchOptions = pagination;
+              this.getSearchResults();
+            }
+          });
+      }
     });
   }
 }
