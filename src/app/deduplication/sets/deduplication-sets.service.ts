@@ -1,3 +1,4 @@
+import { followLink } from './../../shared/utils/follow-link-config.model';
 import { WorkflowItem } from './../../core/submission/models/workflowitem.model';
 import { SubmitDataResponseDefinitionObject } from './../../core/shared/submit-data-response-definition.model';
 import { SubmissionRestService } from './../../core/submission/submission-rest.service';
@@ -65,7 +66,7 @@ export class DeduplicationSetsService {
    */
   public getSetItems(setId: string): Observable<PaginatedList<SetItemsObject>> {
     const findListOptions: FindListOptions = {};
-    return this.deduplicationSetItemsRestService.getItemsPerSet(findListOptions, setId).pipe(
+    return this.deduplicationSetItemsRestService.getItemsPerSet(findListOptions, setId, followLink('owningCollection')).pipe(
       getFirstCompletedRemoteData(),
       map((rd: RemoteData<PaginatedList<SetItemsObject>>) => {
         if (rd.hasSucceeded) {

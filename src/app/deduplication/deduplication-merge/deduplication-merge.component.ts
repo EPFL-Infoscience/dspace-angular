@@ -32,7 +32,6 @@ import { forkJoin } from 'rxjs';
   providers: [GetBitstreamsPipe],
 })
 export class DeduplicationMergeComponent implements OnInit, OnDestroy {
-
   private storedItemIds: string[] = [];
 
   /**
@@ -100,6 +99,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    */
   protected modalRef: NgbModalRef;
 
+  public compareMetadataValues: CompareItemMetadataValue[] = [];
+
   constructor(
     private cookieService: CookieService,
     private deduplicationItemsService: DeduplicationItemsService,
@@ -112,7 +113,9 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   ) {
     this.signatureId = this.route.snapshot.params.signatureId;
     this.setChecksum = this.route.snapshot.params.setChecksum;
-    const itemIds = this.cookieService.get(`items-to-compare-${this.setChecksum}`);
+    const itemIds = this.cookieService.get(
+      `items-to-compare-${this.setChecksum}`
+    );
     this.storedItemIds = itemIds ? itemIds : [];
   }
 
@@ -145,7 +148,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * Prepares the @var itemsToCompare for the template.
    */
   private getItemsData() {
-
     if (this.storedItemIds.length > 0) {
       this.targetItemId = this.storedItemIds[0];
       let itemCalls = [];
@@ -168,6 +170,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
               keyValuePair.forEach(([key, value]) => {
                 if (keysToInclude.includes(key)) {
                   dataToInclude[key] = value;
+                  this.calculateMetdataValues(item, key, value);
                 }
               });
 
@@ -180,6 +183,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
             }
           })
         );
+
         itemCalls.push(call);
       });
 
@@ -196,12 +200,61 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
           });
         });
 
+        console.log(
+          this.compareMetadataValues,
+          'foreach this.compareMetadataValues'
+        );
         this.buildMergeObject();
         this.getItemBitstreams();
       });
       this.chd.detectChanges();
     } else {
       this.itemsToCompare = new Array<ItemData>();
+    }
+  }
+
+  // TODO: Not finished yet
+  private calculateMetdataValues(
+    item: Item,
+    key: string,
+    value: MetadataValue[]
+  ) {
+    let element: CompareItemMetadataValue = {
+      key: '',
+      values: [],
+      itemIds: [],
+      color: '',
+    };
+
+    if (this.compareMetadataValues.findIndex((k) => k.key === key) < 0) {
+      element.key = key;
+      if (!element.itemIds.includes(item.uuid)) {
+        element.itemIds.push(item.uuid);
+      }
+      const valueList = value.map((v) => v.value);
+      element.itemIds.push(item.uuid);
+      element.values = [...valueList];
+      this.compareMetadataValues.push(element);
+    } else {
+
+      let found_element = this.compareMetadataValues.find((k) => k.key === key);
+
+      if (!found_element.itemIds.includes(item.uuid)) {
+        found_element.itemIds.push(item.uuid);
+      }
+
+      const valueList = value.map((v) => {
+        if (
+          !found_element.values.some(
+            (x) => x.toLowerCase() === v.value.toLowerCase()
+          )
+        ) {
+          return v.value;
+        }
+      });
+
+
+      found_element.values = [...found_element.values, ...valueList];
     }
   }
 
@@ -391,6 +444,18 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
  */
 export interface ItemData {
   object: Item;
+  color: string;
+}
+
+export interface CompareItemObject extends Item {
+  color: string;
+  // includedMetadata: MetadataMap;
+}
+
+export interface CompareItemMetadataValue {
+  key: string;
+  values: string[];
+  itemIds: string[];
   color: string;
 }
 
