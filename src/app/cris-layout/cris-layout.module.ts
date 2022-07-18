@@ -56,7 +56,7 @@ import { TagBrowseComponent } from './cris-layout-matrix/cris-layout-box-contain
 import { MarkdownComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/markdown/markdown.component';
 import { SearchComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/search/search.component';
 import { TagSearchComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/tag-search/tag-search.component';
-import { DsMarkdownViewerModule } from '../shared/markdown-viewer/ds-markdown-viewer.module';
+import { MarkdownViewerModule } from '../shared/markdown-viewer/markdown-viewer.module';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -127,7 +127,7 @@ const ENTRY_COMPONENTS = [
     NgbAccordionModule,
     ComcolModule,
     MiradorViewerModule,
-    DsMarkdownViewerModule
+    MarkdownViewerModule
   ],
   exports: [
     CrisLayoutComponent,
