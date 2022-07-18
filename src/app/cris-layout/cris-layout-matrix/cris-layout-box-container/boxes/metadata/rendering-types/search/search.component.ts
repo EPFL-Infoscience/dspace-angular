@@ -1,13 +1,13 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { LayoutField } from '../../../../../../../core/layout/models/box.model';
-import { Item } from '../../../../../../../core/shared/item.model';
-import { MetadataValue } from '../../../../../../../core/shared/metadata.models';
-import { ResolverStrategyService } from '../../../../../../../cris-layout/services/resolver-strategy.service';
+import {Component, Inject, OnInit} from '@angular/core';
+import {Router, UrlTree} from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+import {LayoutField} from '../../../../../../../core/layout/models/box.model';
+import {Item} from '../../../../../../../core/shared/item.model';
+import {MetadataValue} from '../../../../../../../core/shared/metadata.models';
+import {ResolverStrategyService} from '../../../../../../services/resolver-strategy.service';
 
-import { FieldRenderingType, MetadataBoxFieldRendering } from '../metadata-box.decorator';
-import { RenderingTypeValueModelComponent } from '../rendering-type-value.model';
+import {FieldRenderingType, MetadataBoxFieldRendering} from '../metadata-box.decorator';
+import {RenderingTypeValueModelComponent} from '../rendering-type-value.model';
 
 /**
  * This component renders the search metadata fields
@@ -26,13 +26,15 @@ export class SearchComponent extends RenderingTypeValueModelComponent implements
    */
   searchQueryParams: any = {};
 
-  constructor (@Inject('fieldProvider') public fieldProvider: LayoutField,
-  @Inject('itemProvider') public itemProvider: Item,
-  @Inject('metadataValueProvider') public metadataValueProvider: MetadataValue,
-  @Inject('renderingSubTypeProvider') public renderingSubTypeProvider: string,
-  protected resolver: ResolverStrategyService,
-  protected translateService: TranslateService,
-  private router: Router) {
+  constructor(
+    @Inject('fieldProvider') public fieldProvider: LayoutField,
+    @Inject('itemProvider') public itemProvider: Item,
+    @Inject('metadataValueProvider') public metadataValueProvider: MetadataValue,
+    @Inject('renderingSubTypeProvider') public renderingSubTypeProvider: string,
+    protected resolver: ResolverStrategyService,
+    protected translateService: TranslateService,
+    private router: Router
+  ) {
     super(fieldProvider, itemProvider, metadataValueProvider, renderingSubTypeProvider, translateService);
   }
 
