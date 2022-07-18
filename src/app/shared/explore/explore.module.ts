@@ -20,6 +20,9 @@ import { ThemedSearchSectionComponent } from './section-component/search-section
 import { TextSectionComponent } from './section-component/text-section/text-section.component';
 import { ThemedTextSectionComponent } from './section-component/text-section/themed-text-section.component';
 import { SharedModule } from '../shared.module';
+import { CarouselSectionComponent } from './section-component/carousel-section/carousel-section.component';
+import { ThemedCarouselSectionComponent } from './section-component/carousel-section/themed-carousel-section.component';
+import { CarouselModule } from '../carousel/carousel.module';
 
 const COMPONENTS = [
   BrowseSectionComponent,
@@ -36,6 +39,8 @@ const COMPONENTS = [
   ThemedTextSectionComponent,
   TopSectionComponent,
   ThemedTopSectionComponent,
+  CarouselSectionComponent,
+  ThemedCarouselSectionComponent
 ];
 
 @NgModule({
@@ -44,7 +49,8 @@ const COMPONENTS = [
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    CarouselModule
   ],
   exports: [
     ...COMPONENTS
