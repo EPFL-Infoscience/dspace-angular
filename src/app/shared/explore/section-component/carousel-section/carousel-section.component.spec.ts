@@ -104,7 +104,15 @@ describe('CarouselSectionComponent', () => {
             numberOfItems: 1,
             link: '',
             description: 'dc.description.abstract',
-            componentType: 'carousel'
+            componentType: 'carousel',
+            targetBlank: true,
+            fitWidth: false,
+            fitHeight: false,
+            keepAspectRatio: false,
+            aspectRatio: undefined,
+            carouselHeightPx: undefined,
+            captionStyle: undefined,
+            titleStyle: undefined,
           };
 
         fixture.detectChanges();
