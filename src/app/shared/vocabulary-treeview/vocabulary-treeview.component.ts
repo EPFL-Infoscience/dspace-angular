@@ -234,7 +234,6 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
       if (res) {
         this.vocabularyTreeviewService.initialize(this.vocabularyOptions, new PageInfo(), entryId);
       } else if (this.isPublic) {
-        console.log(this.selectedItem);
         this.vocabularyTreeviewService.initialize(this.vocabularyOptions, new PageInfo(), this.selectedItem.value, this.isPublic);
       }
     });
