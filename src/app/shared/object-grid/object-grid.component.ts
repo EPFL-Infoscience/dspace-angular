@@ -87,7 +87,12 @@ export class ObjectGridComponent implements OnInit {
   /**
    * Default column style
    */
-  @Input() columnStyle;
+  @Input() columnStyle: string;
+
+  /**
+   * When no paginator is needed to be displayed it can be set to true
+   */
+  @Input() noPagination = false;
 
   /**
    * Behavior subject to output the current listable objects
@@ -171,7 +176,7 @@ export class ObjectGridComponent implements OnInit {
    * Initialize the instance variables
    */
   ngOnInit(): void {
-    this.columnStyle = this.columnStyle ? this.columnStyle : 'col-sm-6 col-lg-4';
+    this.columnStyle ??= 'col-sm-6 col-lg-4';
     const nbColumns$ = this.hostWindow.widthCategory.pipe(
       map((widthCat: WidthCategory) => {
         switch (widthCat) {
