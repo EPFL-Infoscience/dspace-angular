@@ -43,8 +43,6 @@ export class HierarchyComponent extends CrisLayoutBoxModelComponent implements O
   }
 
   ngOnInit() {
-    console.log(this.boxProvider);
-    console.log(this.itemProvider);
     this.vocabularyHeader = this.boxProvider.shortname;
     this.vocabularyOptions = new VocabularyOptions(this.boxProvider.configuration.vocabulary, this.boxProvider.configuration.metadata);
     super.ngOnInit();
