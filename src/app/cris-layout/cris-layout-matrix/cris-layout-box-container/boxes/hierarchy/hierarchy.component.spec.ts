@@ -45,7 +45,12 @@ describe('HierarchyComponent', () => {
     'security': 0,
     'boxType': 'IIIFVIEWER',
     'maxColumns': null,
-    'configuration': null,
+    'configuration': {
+      'type': 'boxhierarchyconfiguration',
+      'vocabulary': 'orgunits',
+      'metadata': 'person.affiliation.name',
+      'maxColumns': null
+    },
     'metadataSecurityFields': [],
     'container': false
   });

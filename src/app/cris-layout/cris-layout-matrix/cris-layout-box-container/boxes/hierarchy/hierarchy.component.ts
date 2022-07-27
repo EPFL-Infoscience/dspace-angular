@@ -17,28 +17,37 @@ export class HierarchyComponent extends CrisLayoutBoxModelComponent implements O
   /**
    * The {@link VocabularyOptions} object
    */
-  vocabularyOptions = new VocabularyOptions('publication-coar-types', 'dc.type');
+  vocabularyOptions: VocabularyOptions;
 
   /**
    * For hierarchical vocabularies express the preference to preload the tree at a specific
    * level of depth (0 only the top nodes are shown, 1 also their children are preloaded and so on)
    */
-  preloadLevel = 0;
+  preloadLevel = 2;
 
   /**
    * The selected Item from submission
    */
   selectedItem: any = {};
 
+  /**
+   * The vocabulary header
+   */
+  vocabularyHeader: string;
+
   constructor(
     protected translateService: TranslateService,
-    @Inject('boxProvider') public boxProvider: CrisLayoutBox,
+    @Inject('boxProvider') public boxProvider: any,
     @Inject('itemProvider') public itemProvider: Item) {
     super(translateService, boxProvider, itemProvider);
   }
 
   ngOnInit() {
+    console.log(this.boxProvider);
+    console.log(this.itemProvider);
+    this.vocabularyHeader = this.boxProvider.shortname;
+    this.vocabularyOptions = new VocabularyOptions(this.boxProvider.configuration.vocabulary, this.boxProvider.configuration.metadata);
     super.ngOnInit();
-    this.selectedItem = this.item.firstMetadata('dc.type');
+    this.selectedItem = this.item.firstMetadata(this.boxProvider.configuration.metadata);
   }
 }

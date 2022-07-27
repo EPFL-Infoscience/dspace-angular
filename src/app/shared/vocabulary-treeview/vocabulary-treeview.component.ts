@@ -19,6 +19,7 @@ import { VocabularyEntry } from '../../core/submission/vocabularies/models/vocab
 import { VocabularyTreeFlattener } from './vocabulary-tree-flattener';
 import { VocabularyTreeFlatDataSource } from './vocabulary-tree-flat-data-source';
 import { FormFieldMetadataValueObject } from '../form/builder/models/form-field-metadata-value.model';
+import { Router } from '@angular/router';
 
 /**
  * Component that show a hierarchical vocabulary in a tree view
@@ -44,6 +45,11 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
    * The vocabulary entry already selected, if any
    */
   @Input() selectedItem: any = null;
+
+  /**
+   * The vocabulary entry already selected, if any
+   */
+  @Input() vocabularyHeader: string = null;
 
   /**
    * The boolean to check whether it is in view mode or not
@@ -128,7 +134,8 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
     public activeModal: NgbActiveModal,
     private vocabularyTreeviewService: VocabularyTreeviewService,
     private store: Store<CoreState>,
-    private translate: TranslateService
+    private translate: TranslateService,
+    protected router: Router,
   ) {
     this.treeFlattener = new VocabularyTreeFlattener(this.transformer, this.getLevel,
       this.isExpandable, this.getChildren);
@@ -272,6 +279,8 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
       const value = new FormFieldMetadataValueObject(entry.value, null, entry.securityLevel, entry.id);
       this.select.emit(value);
       this.activeModal.close(value);
+    } else {
+      this.router.navigate(['/items/' + entry.otherInformation.id]);
     }
   }
 

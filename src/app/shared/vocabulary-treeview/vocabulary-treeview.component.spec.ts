@@ -21,6 +21,7 @@ import { AuthTokenInfo } from '../../core/auth/models/auth-token-info.model';
 import { authReducer } from '../../core/auth/auth.reducer';
 import { storeModuleConfig } from '../../app.reducer';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('VocabularyTreeviewComponent test suite', () => {
 
@@ -66,6 +67,7 @@ describe('VocabularyTreeviewComponent test suite', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
+        RouterTestingModule,
         CdkTreeModule,
         StoreModule.forRoot({ auth: authReducer }, storeModuleConfig),
         TranslateModule.forRoot()
