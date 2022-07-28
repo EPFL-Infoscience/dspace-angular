@@ -1,3 +1,4 @@
+import { followLink } from './../utils/follow-link-config.model';
 import { CollectionElementLinkType } from './../object-collection/collection-element-link.type';
 import { isEqual } from 'lodash';
 import { ViewMode } from './../../core/shared/view-mode.model';
@@ -50,7 +51,7 @@ export class BrowseMostElementsComponent implements OnInit {
 
   private getSearchResults() {
     this.searchService
-      .search(this.paginatedSearchOptions)
+      .search(this.paginatedSearchOptions, null, true, true, followLink('thumbnail'))
       .pipe(getFirstCompletedRemoteData())
       .subscribe(
         (response: RemoteData<PaginatedList<SearchResult<DSpaceObject>>>) => {
