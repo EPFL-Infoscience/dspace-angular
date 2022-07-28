@@ -47,7 +47,7 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
   @Input() selectedItem: any = null;
 
   /**
-   * The vocabulary entry already selected, if any
+   * The i18n key suffix to use for header title
    */
   @Input() vocabularyHeader: string = null;
 
@@ -236,9 +236,9 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
 
     this.loading = this.vocabularyTreeviewService.isLoading();
 
-    this.isAuthenticated.subscribe((res) => {
+    this.isAuthenticated.subscribe((isAuth: boolean) => {
       const entryId: string = (this.selectedItem) ? this.getEntryId(this.selectedItem) : null;
-      if (res) {
+      if (isAuth) {
         this.vocabularyTreeviewService.initialize(this.vocabularyOptions, new PageInfo(), entryId);
       } else if (this.isPublic) {
         this.vocabularyTreeviewService.initialize(this.vocabularyOptions, new PageInfo(), this.selectedItem.value, this.isPublic);
