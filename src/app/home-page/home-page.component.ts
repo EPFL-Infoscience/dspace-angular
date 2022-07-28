@@ -1,8 +1,7 @@
-import { SectionData } from './mock-sections-data';
 import { Component, OnInit } from '@angular/core';
 import { map, take } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Site } from '../core/shared/site.model';
 import { SectionComponent, TextRowSection } from '../core/layout/models/section.model';
 import { SectionDataService } from '../core/layout/section-data.service';
