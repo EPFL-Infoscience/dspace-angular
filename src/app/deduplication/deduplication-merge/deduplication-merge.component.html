@@ -145,107 +145,119 @@
           </button>
         </div>
 
-        <ngb-accordion [destroyOnHide]="false" [closeOthers]="true" activeIds="panel-0" *ngFor="
-            let keyvalue of (itemsToCompare[0].object)?.metadata
-              | keyvalue;
-            let kIdx = index
-          ">
-          <ngb-panel id="panel-{{ 0 }}">
-            <ng-template ngbPanelHeader let-opened="opened">
-              <div class="row">
-                <div class="col-md-9 mt-1 uppercase">
-                  {{ keyvalue.key }}
-                </div>
+        <ng-container *ngIf="newCompareMetadataValues.size > 0">
+          <ngb-accordion [destroyOnHide]="false" [closeOthers]="true" activeIds="panel-0" *ngFor="
+          let metadataKeyValues of newCompareMetadataValues | keyvalue;
+          let kIdx = index
+        ">
+            <ngb-panel id="panel-{{ 0 }}">
+              <ng-template ngbPanelHeader let-opened="opened">
+                <div class="row">
+                  <div class="col-md-9 mt-1 uppercase">
+                    {{ metadataKeyValues.key }}
+                  </div>
 
-                <div class="col-md-3 text-right mt-1">
-                  <button *ngIf="keyvalue.value && keyvalue.value.length > 0" class="btn btn-sm btn-warning mr-2"
-                    (click)="showDiff(keyvalue)">
-                    {{
-                    "deduplication.merge.button.label.show-diff" | translate
-                    }}
-                  </button>
-                  <!-- <button class="btn btn-sm btn-danger mr-2">
+                  <div class="col-md-3 text-right mt-1">
+                    <button *ngIf="metadataKeyValues.value.length > 1" class="btn btn-sm btn-warning mr-2"
+                      (click)="showDiff(metadataKeyValues)">
+                      {{
+                      "deduplication.merge.button.label.show-diff" | translate
+                      }}
+                    </button>
+                    <!-- <button class="btn btn-sm btn-danger mr-2">
                     <i class="fa fa-trash"></i>
                   </button> -->
-                  <button ngbPanelToggle class="btn btn-sm" [ngClass]="opened ? 'btn-info' : 'btn-outline-info'">
-                    <i *ngIf="!opened" class="fa fa-chevron-up"></i>
-                    <i *ngIf="opened" class="fa fa-chevron-down"></i>
-                  </button>
+                    <button ngbPanelToggle class="btn btn-sm" [ngClass]="opened ? 'btn-info' : 'btn-outline-info'">
+                      <i *ngIf="!opened" class="fa fa-chevron-up"></i>
+                      <i *ngIf="opened" class="fa fa-chevron-down"></i>
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </ng-template>
-            <ng-template ngbPanelContent>
-              <ng-container *ngFor="let itemObj of itemsToCompare; let i = index">
+              </ng-template>
+              <ng-template ngbPanelContent>
                 <ng-container *ngFor="
-                    let data of (itemObj.object)?.metadata[
-                      keyvalue.key
-                    ];
-                    let dataIdx = index
+                    let itemsData of metadataKeyValues.value;
+                    let last = last;
                   ">
-                  <div class="row item-container" [ngStyle]="{ 'background-color': itemObj.color }">
+                  <div class="row">
                     <!-- if more than one selection can occur-->
+
                     <div class="col-1" *ngIf="kIdx % 2 != 0">
                       <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" [id]="
-                            (itemObj.object)?.uuid +
-                            keyvalue.key +
-                            dataIdx
+                        metadataKeyValues.key +
+                          itemsData.value +
+                          kIdx
                           " (change)="
                             onValueSelect(
-                              keyvalue.key,
-                              targetItemHref.value,
-                              data.place,
+                              metadataKeyValues.key,
+                              itemsData.metadataPlace,
+                              itemsData.items,
                               'multiple'
                             )
                           " />
                         <label class="custom-control-label" [for]="
-                            (itemObj.object)?.uuid +
-                            keyvalue.key +
-                            dataIdx
+                        metadataKeyValues.key +
+                        itemsData.value +
+                            kIdx
                           "></label>
                       </div>
                     </div>
-                    <input type="hidden" name="" #targetItemHref [value]="(itemObj.object)?._links.self.href" />
 
                     <!-- if only one selection can occur-->
                     <!-- TODO: depends on rest properties -->
 
                     <div class="col-1" *ngIf="kIdx % 2 == 0">
                       <div class="custom-control custom-radio">
-                        <input class="custom-control-input" type="radio" [name]="keyvalue.key" [id]="
-                            (itemObj.object)?.uuid +
-                            keyvalue.key +
-                            dataIdx
+                        <input class="custom-control-input" type="radio" [name]="metadataKeyValues.key" [id]="
+                        metadataKeyValues.key +
+                        itemsData.value +
+                            kIdx
                           " [value]="
-                            (itemObj.object)?.uuid + keyvalue.key
+                          itemsData.value + metadataKeyValues.key
                           " (change)="
                             onValueSelect(
-                              keyvalue.key,
-                              targetItemHref.value,
-                              data.place,
+                              metadataKeyValues.key,
+                              itemsData.metadataPlace,
+                              itemsData.items,
                               'single'
                             )
                           " />
                         <label class="custom-control-label" [for]="
-                            (itemObj.object)?.uuid +
-                            keyvalue.key +
-                            dataIdx
+                        metadataKeyValues.key +
+                        itemsData.value +
+                            kIdx
                           "></label>
                       </div>
                     </div>
-
-                    <span class="col-6" [id]="data.uuid">
-                      {{ data.value }}
-                    </span>
-                    <span class="col-5">
-                      ({{ (itemObj.object)?.uuid }})
-                    </span>
+                    <ng-container *ngIf="itemsData.items.length > 1;else manyValues">
+                      <span class="col-6">
+                        {{itemsData.value }}
+                      </span>
+                      <span class="col-5">
+                        <ng-container *ngFor="let item of itemsData.items;let idx = index">
+                          <span [ngStyle]="{ 'background-color': item.color }">
+                            ({{ item.itemId }})
+                          </span>
+                          <span *ngIf="idx !== itemsData.items.length-1 "> ,</span>
+                        </ng-container>
+                      </span>
+                    </ng-container>
+                    <ng-template #manyValues>
+                      <span class="col-6">
+                        {{itemsData.value }}
+                      </span>
+                      <span class="col-5" [ngStyle]="{ 'color': itemsData.items[0].color }" >
+                        {{itemsData.items[0].itemId }}
+                      </span>
+                    </ng-template>
                   </div>
+                  <hr *ngIf="metadataKeyValues.value.length > 1 && !last ">
                 </ng-container>
-              </ng-container>
-            </ng-template>
-          </ngb-panel>
-        </ngb-accordion>
+              </ng-template>
+            </ngb-panel>
+          </ngb-accordion>
+        </ng-container>
       </ng-container>
     </div>
   </div>
