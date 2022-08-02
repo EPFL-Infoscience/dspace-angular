@@ -145,9 +145,9 @@
           </button>
         </div>
 
-        <ng-container *ngIf="newCompareMetadataValues.size > 0">
+        <ng-container *ngIf="compareMetadataValues.size > 0">
           <ngb-accordion [destroyOnHide]="false" [closeOthers]="true" activeIds="panel-0" *ngFor="
-          let metadataKeyValues of newCompareMetadataValues | keyvalue;
+          let metadataKeyValues of compareMetadataValues | keyvalue;
           let kIdx = index
         ">
             <ngb-panel id="panel-{{ 0 }}">
@@ -159,7 +159,7 @@
 
                   <div class="col-md-3 text-right mt-1">
                     <button *ngIf="metadataKeyValues.value.length > 1" class="btn btn-sm btn-warning mr-2"
-                      (click)="showDiff(metadataKeyValues)">
+                      (click)="showDiff(metadataKeyValues.key)">
                       {{
                       "deduplication.merge.button.label.show-diff" | translate
                       }}
@@ -181,33 +181,26 @@
                   ">
                   <div class="row">
                     <!-- if more than one selection can occur-->
-
-                    <div class="col-1" *ngIf="kIdx % 2 != 0">
+                    <div class="col-1" *ngIf="kIdx % 2 == 0">
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" [id]="
-                        metadataKeyValues.key +
-                          itemsData.value +
-                          kIdx
-                          " (change)="
+                        <input type="checkbox" class="custom-control-input"
+                          [checked]="isValueChecked(metadataKeyValues.key, itemsData.value)" [id]="
+                        metadataKeyValues.key + itemsData.value + kIdx" (change)="
                             onValueSelect(
                               metadataKeyValues.key,
-                              itemsData.metadataPlace,
                               itemsData.items,
                               'multiple'
                             )
                           " />
                         <label class="custom-control-label" [for]="
-                        metadataKeyValues.key +
-                        itemsData.value +
-                            kIdx
-                          "></label>
+                        metadataKeyValues.key + itemsData.value + kIdx "></label>
                       </div>
                     </div>
 
                     <!-- if only one selection can occur-->
                     <!-- TODO: depends on rest properties -->
 
-                    <div class="col-1" *ngIf="kIdx % 2 == 0">
+                    <div class="col-1" *ngIf="kIdx % 2 != 0">
                       <div class="custom-control custom-radio">
                         <input class="custom-control-input" type="radio" [name]="metadataKeyValues.key" [id]="
                         metadataKeyValues.key +
@@ -218,7 +211,6 @@
                           " (change)="
                             onValueSelect(
                               metadataKeyValues.key,
-                              itemsData.metadataPlace,
                               itemsData.items,
                               'single'
                             )
@@ -236,8 +228,8 @@
                       </span>
                       <span class="col-5">
                         <ng-container *ngFor="let item of itemsData.items;let idx = index">
-                          <span [ngStyle]="{ 'background-color': item.color }">
-                            ({{ item.itemId }})
+                          <span [ngStyle]="{ 'color': item.color }">
+                            {{ item.itemId }}
                           </span>
                           <span *ngIf="idx !== itemsData.items.length-1 "> ,</span>
                         </ng-container>
@@ -247,7 +239,7 @@
                       <span class="col-6">
                         {{itemsData.value }}
                       </span>
-                      <span class="col-5" [ngStyle]="{ 'color': itemsData.items[0].color }" >
+                      <span class="col-5" [ngStyle]="{ 'color': itemsData.items[0].color }">
                         {{itemsData.items[0].itemId }}
                       </span>
                     </ng-template>

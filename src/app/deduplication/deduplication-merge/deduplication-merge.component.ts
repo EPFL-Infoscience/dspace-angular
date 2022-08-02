@@ -12,7 +12,6 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Bitstream } from './../../core/shared/bitstream.model';
 import {
   MetadataValue,
-  MetadataMap,
 } from './../../core/shared/metadata.models';
 import { Item } from './../../core/shared/item.model';
 import { Observable } from 'rxjs/internal/Observable';
@@ -21,7 +20,6 @@ import { DeduplicationItemsService } from './deduplication-items.service';
 import { map, concatMap } from 'rxjs/operators';
 import { hasValue } from '../../shared/empty.util';
 import { ActivatedRoute, Router } from '@angular/router';
-import { KeyValue } from '@angular/common';
 import { CookieService } from '../../core/services/cookie.service';
 import { forkJoin } from 'rxjs';
 
@@ -99,7 +97,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    */
   protected modalRef: NgbModalRef;
 
-  public newCompareMetadataValues: Map<string, NewMetadataItemsObject[]> = new Map();
+  public compareMetadataValues: Map<string, NewMetadataMapObject[]> = new Map();
 
   constructor(
     private cookieService: CookieService,
@@ -164,20 +162,11 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
               let keysToInclude = keys.filter(
                 (k) => !this.excludedMetadataKeys.includes(k)
               );
-              // calculate MetadataMap for each item based on the keys to be included
-              let dataToInclude: MetadataMap = new MetadataMap();
-              let keyValuePair = Object.entries(item.metadata);
-              keyValuePair.forEach(([key, value]) => {
-                if (keysToInclude.includes(key)) {
-                  dataToInclude[key] = value;
-                  this.calculateNewMetadataValues(item, key, value);
-                }
-              });
 
-              item = Object.assign(new Item(), {
-                ...item,
-                metadata: dataToInclude,
-              });
+              // calculate MetadataMap for each item based on the keys to be included
+              keysToInclude.map((key) => {
+                this.calculateNewMetadataValues(item, key);
+              })
 
               return item;
             }
@@ -194,7 +183,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
             this.itemsToCompare[this.itemsToCompare.length - 1]
               ? this.itemsToCompare[this.itemsToCompare.length - 1].color
               : 'ffffff'
-          )
+          );
           this.itemsToCompare.push({
             object: item,
             color: color,
@@ -203,9 +192,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
           this.setColorPerItemInMetadataMap(item.id, color);
         });
 
-        this.buildMergeObject();
+        // this.buildMergeObjectStructure();
         this.getItemBitstreams();
-
       });
       this.chd.detectChanges();
     } else {
@@ -213,51 +201,74 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     }
   }
 
-  calculateNewMetadataValues(item: Item, key: string, values: MetadataValue[]) {
-    let mapObject: NewMetadataItemsObject[] = this.newCompareMetadataValues.get(key);
-    values.forEach((value: MetadataValue) => {
-      if (this.newCompareMetadataValues.has(key)) {
-        let object: NewMetadataItemsObject = mapObject?.find(x => isEqual(x.value.toLowerCase(), value.value.toLowerCase()));
+  calculateNewMetadataValues(item: Item, key: string) {
+    // get the object from metadata map that are going to be rendered in the template
+    let mapObject: NewMetadataMapObject[] = this.compareMetadataValues.get(key);
+
+    item.metadata[key].forEach((value: MetadataValue) => {
+      if (this.compareMetadataValues.has(key)) {
+        // if the key is already in the map, check if this value already exists in the map
+        let object: NewMetadataMapObject = mapObject?.find((x) =>
+          isEqual(x.value.toLowerCase(), value.value.toLowerCase())
+        );
         if (hasValue(object)) {
+          // if the value is already in the map, add the item data to the object,
+          // for the same value (item) add the item id and link
           object.items.push({
             itemId: item.id,
             metadataPlace: value.place,
             color: '',
-            _link: item._links.self.href
+            _link: item._links.self.href,
           });
         } else {
-          let newObject: NewMetadataItemsObject = {
+          // if the value is not in the map, add new object to the map
+          let newObject: NewMetadataMapObject = {
             value: value.value,
-            items: [{
-              itemId: item.id,
-              metadataPlace: value.place,
-              color: '',
-              _link: item._links.self.href
-            }]
-          }
+            items: [
+              {
+                itemId: item.id,
+                metadataPlace: value.place,
+                color: '',
+                _link: item._links.self.href,
+              },
+            ],
+          };
+          // if the key is already in the map, add the new object to existing values,
+          // otherwise add the new value metadata values array
           if (mapObject) {
             mapObject.push(newObject);
           } else {
-            mapObject = new Array<NewMetadataItemsObject>(newObject);
+            let existingValues = this.compareMetadataValues.get(key)
+            existingValues.push(newObject);
           }
         }
       } else {
-        let newObject: NewMetadataItemsObject = {
+        // if the key is not in the map, add the key and value to the map
+        let newObject: NewMetadataMapObject = {
           value: value.value,
-          items: [{
-            itemId: item.id,
-            metadataPlace: value.place,
-            color: '',
-            _link: item._links.self.href
-          }]
-        }
-
-        this.newCompareMetadataValues.set(key, [newObject]);
+          items: [
+            {
+              itemId: item.id,
+              metadataPlace: value.place,
+              color: '',
+              _link: item._links.self.href,
+            },
+          ],
+        };
+        this.compareMetadataValues.set(key, [newObject]);
       }
+      this.buildMergeObjectStructure(key, item._links.self.href, value.place);
     });
-    this.chd.detectChanges();
   }
 
+  isValueChecked(key: string, value: string): boolean {
+    if (this.compareMetadataValues.has(key)) {
+      const object = this.compareMetadataValues.get(key).find((x) => x.value === value);
+      return hasValue(object);
+    }
+
+    return false;
+  }
 
   /**
    * setId: signature-id:set-checksum
@@ -282,42 +293,50 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   /**
    * Calculates the @var mergedMetadataFields on value selection
    * @param field The metadata field to be merged
-   * @param itemLink The self link of the selected item
-   * @param place Place of the item
+   * @param items The selected item's data
    * @param selectType The type of the selection (single or multiple)
    */
   onValueSelect(
     field: string,
-    place: number,
-    items: NewItemContainer[],
+    items: ItemContainer[],
     selectType: 'single' | 'multiple'
   ) {
-
     let metadataSourceIdx = -1;
 
     if (items.length > 0) {
       metadataSourceIdx = this.mergedMetadataFields
         .find((x) => x.metadataField === field)
-        .sources.findIndex((x) => items.find(y => y._link === x.item));
+        .sources.findIndex((x) => items.find((y) => y._link === x.item));
     }
 
     // 1.if the selection mode is 'single', remove the previous selection
     // 2.if the item is in the list, remove it.
-    if (selectType === 'single' || metadataSourceIdx > -1) {
+    if (isEqual(selectType, 'single') || (isEqual(selectType, 'multiple') && metadataSourceIdx > -1)) {
       this.mergedMetadataFields
         .find((x) => isEqual(x.metadataField, field))
         .sources.splice(metadataSourceIdx, 1);
     }
-    this.mergedMetadataFields[metadataSourceIdx].metadataField
+
     // if the item is not in the list, add it
-    if (metadataSourceIdx < 0) {
-      debugger;
-      // this.mergedMetadataFields
-      //   .find((x) => isEqual(x.metadataField, field))
-      //   .sources.push({
-      //     item: itemLink,
-      //     place: place,
-      //   });
+    if (metadataSourceIdx < 0 || isEqual(selectType, 'single')) {
+      let _link = '';
+      let place = 0;
+
+      if (isEqual(items.length, 1)) {
+        _link = items[0]._link;
+        place = items[0].metadataPlace;
+      } else {
+        let itemValue = items.find(x => x.itemId == this.targetItemId);
+        _link = itemValue ? itemValue._link : this.itemsToCompare.find(x => x.object.id == this.targetItemId).object._links.self.href;
+        place = itemValue ? itemValue.metadataPlace : this.itemsToCompare.find(x => x.object.id == this.targetItemId).object.metadata[field][0].place;
+      }
+
+      this.mergedMetadataFields
+        .find((x) => isEqual(x.metadataField, field))
+        .sources.push({
+          item: _link,
+          place: place,
+        });
     }
   }
 
@@ -344,26 +363,34 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * with all metadata fields of the first item
    * and with empty sources array
    */
-  private buildMergeObject() {
-    if (this.itemsToCompare && this.itemsToCompare.length > 0) {
-      let keys = Object.keys(this.itemsToCompare[0].object.metadata);
-      this.mergedMetadataFields = keys.map((key) => {
-        return {
-          metadataField: key,
-          sources: [],
-        };
+  private buildMergeObjectStructure(metadataKey: string, itemLink: string, place: number) {
+    if (this.mergedMetadataFields.findIndex(x => x.metadataField === metadataKey) < 0) {
+      this.mergedMetadataFields.push({
+        metadataField: metadataKey,
+        sources: [{
+          item: itemLink,
+          place: place,
+        }],
+      });
+    } else {
+      this.mergedMetadataFields.find(x => x.metadataField === metadataKey).sources.push({
+        item: itemLink,
+        place: place,
       });
     }
   }
 
-  setColorPerItemInMetadataMap(itemId: string, color: string) {
-    this.newCompareMetadataValues.forEach((value, key) => {
-      let metadataObject: NewMetadataItemsObject = value.find(x => x.items.find(y => y.itemId === itemId));
-      if (hasValue(metadataObject)) {
-        let value = metadataObject.items.find(y => y.itemId === itemId);
-        value.color = color;
+  private setColorPerItemInMetadataMap(itemId: string, color: string) {
+    this.compareMetadataValues.forEach((value) => {
+      let metadataObject: NewMetadataMapObject[] = value.filter((x) =>
+        x.items.find((y) => y.itemId === itemId)
+      );
+      if (metadataObject.length > 0) {
+        metadataObject.map((values) => {
+          values.items.find((x) => x.itemId === itemId).color = color;
+        });
       }
-    })
+    });
   }
 
   /**
@@ -392,13 +419,13 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * Opens the modal and passes the data.
    * @param keyvalue The keyvalue pair of the item's metadata
    */
-  showDiff(keyvalue: KeyValue<string, MetadataValue>) {
+  showDiff(key: string) {
     let valuesToCompare: ItemsMetadataValues[] = [];
     for (let index = 0; index < this.itemsToCompare.length; index++) {
       const item = this.itemsToCompare[index].object;
       const color = this.itemsToCompare[index].color;
       if (hasValue(item)) {
-        item.metadata[keyvalue.key].forEach((metadataValue: MetadataValue) => {
+        item.metadata[key].forEach((metadataValue: MetadataValue) => {
           valuesToCompare.push({
             itemId: item.uuid,
             value: metadataValue,
@@ -415,7 +442,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       size: 'lg',
     });
     this.modalRef.componentInstance.itemList = valuesToCompare;
-    this.modalRef.componentInstance.metadataKey = keyvalue.key;
+    this.modalRef.componentInstance.metadataKey = key;
   }
 
   getOwningCollectionTitle(item: Item): Observable<string> {
@@ -445,11 +472,11 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * 1.Remove the items from coocies
+   * 1.Remove the items from cookies
    * 2.Close the modal ref
    */
   ngOnDestroy(): void {
-    // Remove the items from coocies
+    // Remove the items from cookies
     this.cookieService.remove(`items-to-compare-${this.setChecksum}`);
     this.modalRef?.close();
   }
@@ -464,29 +491,15 @@ export interface ItemData {
   color: string;
 }
 
-
-export interface NewMetadataItemsObject {
+export interface NewMetadataMapObject {
   value: string;
-  items: NewItemContainer[];
+  items: ItemContainer[];
 }
-
-export interface NewItemContainer {
+export interface ItemContainer {
   itemId: string;
   metadataPlace: number;
   color: string;
   _link: string;
-}
-
-export interface CompareItemObject extends Item {
-  color: string;
-  // includedMetadata: MetadataMap;
-}
-
-export interface CompareItemMetadataValue {
-  key: string;
-  values: string[];
-  itemIds: string[];
-  color: string;
 }
 
 /**
