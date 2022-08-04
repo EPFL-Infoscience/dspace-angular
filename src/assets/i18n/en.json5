@@ -3113,6 +3113,8 @@
 
   "iiifviewer.fullscreen.notice": "Use full screen for better viewing.",
 
+  "iiifviewer.page.back": "Back to item's page",
+
   "iiif.listelement.badge": "Image Media",
 
   "iiif.page.titleprefix": "Image: ",
@@ -3122,6 +3124,16 @@
   "iiif.page.issue": "Issue: ",
 
   "iiif.page.description": "Description: ",
+
+  "iiiftoolbar.mirador": "Open in Mirador",
+
+  "iiiftoolbar.iiif.dropdown": "IIIF",
+
+  "iiiftoolbar.iiif.open-manifest": "Open Manifest",
+
+  "iiiftoolbar.iiif.copy-clipboard": "Copy to clipboard",
+
+  "iiiftoolbar.iiif.copy-clipboard-notification": "IIIF manifest has been copied to clipboard",
 
 
   "loading.bitstream": "Loading bitstream...",
@@ -6181,5 +6193,19 @@
 
   "invitation.ignore-btn": "Ignore",
 
-  "authority-confidence.search-label":"Search"
+  "authority-confidence.search-label":"Search",
+
+  "crisref.metadata.view.first" : "View first",
+
+  "crisref.metadata.view.last" : "View last",
+
+  "cris-layout.rendering.more" : "more",
+
+  "cris-layout.rendering.more.withlast" : "more",
+
+  "cris-layout.rendering.more.tooltip" : "click to see all",
+
+  "cris-layout.rendering.collapse" : "collapse",
+
+  "map.coordinates-invalid": "Coordinates are not valid",
 }
