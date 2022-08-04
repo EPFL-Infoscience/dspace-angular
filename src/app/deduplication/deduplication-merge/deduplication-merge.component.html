@@ -139,14 +139,24 @@
         </table>
 
         <div class="justify-content-end pr-3 mb-1 row">
-          <button class="btn btn-secondary" (click)="merge()">
+          <button *ngIf="!isExpanded" class="btn btn-secondary mr-1" (click)="expandAll()">
+            <i class="fa fa-chevron-down pr-1" aria-hidden="true"></i>
+            {{ "Expand All" }}
+          </button>
+
+          <button *ngIf="isExpanded" class="btn btn-secondary mr-1" (click)="collapseAll()">
+            <i class="fa fa-chevron-up pr-1" aria-hidden="true"></i>
+            {{ "Collapse All" }}
+          </button>
+
+          <button class="btn btn-info" (click)="merge()">
             <i class="fa fa-code pr-1" aria-hidden="true"></i>
             {{ "deduplication.merge.button.label.merge" | translate }}
           </button>
         </div>
 
         <ng-container *ngIf="compareMetadataValues.size > 0">
-          <ngb-accordion [destroyOnHide]="false" [closeOthers]="true" activeIds="panel-0" *ngFor="
+          <ngb-accordion #accordions [destroyOnHide]="false" [closeOthers]="false" activeIds="panel-0" *ngFor="
           let metadataKeyValues of compareMetadataValues | keyvalue;
           let kIdx = index
         ">
@@ -164,9 +174,9 @@
                       "deduplication.merge.button.label.show-diff" | translate
                       }}
                     </button>
-                    <!-- <button class="btn btn-sm btn-danger mr-2">
-                    <i class="fa fa-trash"></i>
-                  </button> -->
+                    <button ngbTooltip="Remove values for this metadata field" pacement="left" class="btn btn-sm btn-danger mr-2" (click)="removeValuesFromMerge(metadataKeyValues.key)">
+                      <i class="fa fa-trash"></i>
+                    </button>
                     <button ngbPanelToggle class="btn btn-sm" [ngClass]="opened ? 'btn-info' : 'btn-outline-info'">
                       <i *ngIf="!opened" class="fa fa-chevron-up"></i>
                       <i *ngIf="opened" class="fa fa-chevron-down"></i>
@@ -178,14 +188,17 @@
                 <ng-container *ngFor="
                     let itemsData of metadataKeyValues.value;
                     let last = last;
+                    let itemIdx = index;
                   ">
-                  <div class="row">
+                  <div class="row"
+                    [ngClass]="{'heighlighted-selection': isValueChecked(metadataKeyValues.key, itemsData.items)}">
+
                     <!-- if more than one selection can occur-->
                     <div class="col-1" *ngIf="kIdx % 2 == 0">
                       <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input"
-                          [checked]="isValueChecked(metadataKeyValues.key, itemsData.value)" [id]="
-                        metadataKeyValues.key + itemsData.value + kIdx" (change)="
+                          [checked]="isValueChecked(metadataKeyValues.key, itemsData.items)" [id]="
+                        metadataKeyValues.key + itemsData.value + itemIdx" (change)="
                             onValueSelect(
                               metadataKeyValues.key,
                               itemsData.items,
@@ -193,7 +206,7 @@
                             )
                           " />
                         <label class="custom-control-label" [for]="
-                        metadataKeyValues.key + itemsData.value + kIdx "></label>
+                        metadataKeyValues.key + itemsData.value + itemIdx "></label>
                       </div>
                     </div>
 
@@ -205,7 +218,7 @@
                         <input class="custom-control-input" type="radio" [name]="metadataKeyValues.key" [id]="
                         metadataKeyValues.key +
                         itemsData.value +
-                            kIdx
+                        itemIdx
                           " [value]="
                           itemsData.value + metadataKeyValues.key
                           " (change)="
@@ -218,7 +231,7 @@
                         <label class="custom-control-label" [for]="
                         metadataKeyValues.key +
                         itemsData.value +
-                            kIdx
+                        itemIdx
                           "></label>
                       </div>
                     </div>
