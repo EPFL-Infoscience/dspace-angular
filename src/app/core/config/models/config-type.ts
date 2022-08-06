@@ -4,6 +4,8 @@ export const SUBMISSION_DEFINITIONS_TYPE = new ResourceType('submissiondefinitio
 
 export const SUBMISSION_DEFINITION_TYPE = new ResourceType('submissiondefinition');
 
+export const COLLECTION_SUBMISSION_DEFINITION_TYPE = new ResourceType('collectionsubmissiondefinition');
+
 export const SUBMISSION_FORM_TYPE = new ResourceType('submissionform');
 
 export const SUBMISSION_FORMS_TYPE = new ResourceType('submissionforms');

@@ -125,6 +125,10 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getExcludedMetadata();
+    // TODO: Test method to get the items submission definition data
+    this.deduplicationItemsService.getCollectionSubmissionDefinition('8bb47238-2964-4d9f-be56-e912bf17ac58').subscribe(collection => {
+      console.log(collection, 'collection');
+    })
   }
 
   /**
@@ -197,8 +201,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
 
           this.setColorPerItemInMetadataMap(item.id, color);
         });
-
-        // this.buildMergeObjectStructure();
         this.getItemBitstreams();
       });
       this.chd.detectChanges();
@@ -476,8 +478,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     if (this.mergedMetadataFields.findIndex(x => isEqual(x.metadataField, key)) > -1) {
       this.mergedMetadataFields.find(x => isEqual(x.metadataField, key)).sources = [];
     }
-
-    console.log(this.mergedMetadataFields);
   }
 
   /**

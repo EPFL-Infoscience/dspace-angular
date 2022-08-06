@@ -22,7 +22,7 @@
 
         <!-- Item Data Tabel -->
         <table class="table table-striped mb-4">
-          <thead>
+          <thead class="bundle-row">
             <tr>
               <th scope="col">
                 {{ "deduplication.merge.table.header.entities" | translate }}
@@ -69,11 +69,8 @@
           </tbody>
         </table>
 
-        <div class="col-md-12 text-center border-top pt-2">
-          <h5>{{ "deduplication.merge.label.bitstreams" | translate }}</h5>
-        </div>
         <!-- Bitstream Data Tabel -->
-        <table class="table table-striped">
+        <!-- <table class="table table-striped">
           <thead>
             <tr>
               <th scope="col">
@@ -136,7 +133,24 @@
               </tr>
             </ng-container>
           </tbody>
-        </table>
+        </table> -->
+        <ng-container *ngFor="let itemObj of itemsToCompare;let isLast=last">
+          <div class="col-md-12 text-center pt-2">
+            <h5>{{ "deduplication.merge.label.bitstreams" | translate }}
+              <span [ngStyle]="{'color': itemObj.color}">
+                {{itemObj.object.uuid}}
+              </span>
+            </h5>
+          </div>
+          <ds-item-bitstreams [item]="itemObj.object"> </ds-item-bitstreams>
+          <hr class="bitstream-container-separator">
+        </ng-container>
+
+        <div class="col-md-12 text-center pt-2">
+          <h5 class="font-weight-bold">
+            Metadata to be merged
+          </h5>
+        </div>
 
         <div class="justify-content-end pr-3 mb-1 row">
           <button *ngIf="!isExpanded" class="btn btn-secondary mr-1" (click)="expandAll()">
@@ -174,10 +188,11 @@
                       "deduplication.merge.button.label.show-diff" | translate
                       }}
                     </button>
-                    <button ngbTooltip="Remove values for this metadata field" pacement="left" class="btn btn-sm btn-danger mr-2" (click)="removeValuesFromMerge(metadataKeyValues.key)">
+                    <button ngbTooltip="Remove values for this metadata field" placement="left"
+                      class="btn btn-sm btn-danger mr-2" (click)="removeValuesFromMerge(metadataKeyValues.key)">
                       <i class="fa fa-trash"></i>
                     </button>
-                    <button ngbPanelToggle class="btn btn-sm" [ngClass]="opened ? 'btn-info' : 'btn-outline-info'">
+                    <button ngbPanelToggle  class="btn btn-sm" [ngClass]="opened ? 'btn-info' : 'btn-outline-info'">
                       <i *ngIf="!opened" class="fa fa-chevron-up"></i>
                       <i *ngIf="opened" class="fa fa-chevron-down"></i>
                     </button>

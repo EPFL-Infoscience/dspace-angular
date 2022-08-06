@@ -206,6 +206,7 @@ import { LoginStatistics } from './statistics/models/login-statistics.model';
 import { SignatureObject } from './deduplication/models/signature.model';
 import { SetObject } from './deduplication/models/set.model';
 import { SetItemsObject } from './deduplication/models/set-items.model';
+import { CollectionSubmissionDefinitionsConfigService } from './config/collection-submission-definitions-config.service';
 
 /**
  * When not in production, endpoint responses can be mocked for testing purposes
@@ -348,6 +349,7 @@ const PROVIDERS = [
   WorkflowStepStatisticsService,
   WorkflowOwnerStatisticsService,
   LoginStatisticsService,
+  CollectionSubmissionDefinitionsConfigService
 ];
 
 /**

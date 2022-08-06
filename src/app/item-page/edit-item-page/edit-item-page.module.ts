@@ -87,7 +87,8 @@ import { EditMetadataSecurityComponent } from './edit-metadata-security/edit-met
   ],
   exports: [
     ItemMetadataComponent,
-    EditMetadataSecurityComponent
+    EditMetadataSecurityComponent,
+    ItemBitstreamsComponent
   ]
 })
 export class EditItemPageModule {
