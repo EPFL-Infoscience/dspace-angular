@@ -88,7 +88,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * Stores the checked items per set.
    * @type {Map<string, SelectedItemData[]>}
    */
-  checkedItemsList: Map<string, SelectedItemData[]> = new Map();
+  public checkedItemsList: Map<string, SelectedItemData[]> = new Map();
 
   constructor(
     private route: ActivatedRoute,

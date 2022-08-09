@@ -1,3 +1,5 @@
-.border-thick {
-  border-width: 2px !important;
+::ng-deep {
+  .accordion.set-acc .card-body {
+    padding-bottom: 0 !important;
+  }
 }
