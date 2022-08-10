@@ -54,6 +54,8 @@ import { HtmlComponent } from './cris-layout-matrix/cris-layout-box-container/bo
 import { BrowseComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/browse/browse.component';
 import { TagBrowseComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/tag-browse/tag-browse.component';
 import { MarkdownComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/markdown/markdown.component';
+import { SearchComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/search/search.component';
+import { TagSearchComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/tag-search/tag-search.component';
 import { MarkdownViewerModule } from '../shared/markdown-viewer/markdown-viewer.module';
 
 const ENTRY_COMPONENTS = [
@@ -86,7 +88,9 @@ const ENTRY_COMPONENTS = [
   MapComponent,
   BrowseComponent,
   TagBrowseComponent,
-  MarkdownComponent
+  MarkdownComponent,
+  SearchComponent,
+  TagSearchComponent,
 ];
 @NgModule({
   declarations: [
