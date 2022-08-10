@@ -129,7 +129,7 @@ export abstract class RenderingTypeModelComponent {
    * Creates the chips component with the required values
    * @params initChipsValues values to be rendered in chip items
    */
-   initRenderingChips(initChipsValues: any[], type = 'tag', metadataType = '') {
+  initRenderingChips(initChipsValues: any[], type = 'tag', metadataType = '') {
     if (type === 'search') {
       initChipsValues.forEach((element, ind) => {
         initChipsValues[ind] = {
