@@ -22,6 +22,7 @@ import { hasValue } from '../../shared/empty.util';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from '../../core/services/cookie.service';
 import { forkJoin } from 'rxjs';
+import { SubmissionRepeatableFieldsMock } from './submission-repeatable-fields.mock';
 
 @Component({
   selector: 'ds-deduplication-merge',
@@ -30,26 +31,34 @@ import { forkJoin } from 'rxjs';
   providers: [GetBitstreamsPipe],
 })
 export class DeduplicationMergeComponent implements OnInit, OnDestroy {
-
-
+  /**
+   * Accordions references in order to collapse/expand them on click
+   * @type {QueryList<NgbAccordion>}
+   */
   @ViewChildren(NgbAccordion) accordions: QueryList<NgbAccordion>;
 
+  /**
+   * Item ids from the cookie, selected from previous page to me compared
+   * @type {string[]}
+   */
   private storedItemIds: string[] = [];
 
   /**
-   * The composed signature id of the items to compare
-   * @private
+   * The signature id of the items to compare
    * @type {string}
    */
   private signatureId: string;
 
+  /**
+   * The set-checksum of the set
+   * @type {string}
+   */
   private setChecksum: string;
 
   /**
    * The id of the first item to compare
    * It can be used as target item id for the merge
    * and can be sent as a parameter for the merge request
-   * @private
    * @type {string}
    */
   private targetItemId: string;
@@ -66,7 +75,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   /**
    * Stores all the metadata fields (keys, based on the first item)
    * and the sources of these metadata fields (selected values to be merged)
-   * @private
    * @type {ItemsMetadataField[]}
    */
   private mergedMetadataFields: ItemsMetadataField[] = [];
@@ -74,7 +82,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   /**
    * Stores the bitstream list of each item
    * for the bundle 'ORIGINAL'
-   * @private
    * @type {string[]}
    */
   public bitstreamList: string[] = [];
@@ -82,28 +89,40 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   /**
    * List of excluded metadata keys
    * retrieved from the REST configurations
-   * @private
    * @type {string[]}
    */
   private excludedMetadataKeys: string[] = [];
 
   /**
    * List of items' self links that are going to be compared
-   * @private
    * @type {string[]}
    */
   private mergedItems: string[] = [];
 
   /**
    * Reference to the modal instance
-   * @protected
    * @type {NgbModalRef}
    */
   protected modalRef: NgbModalRef;
 
-  public compareMetadataValues: Map<string, NewMetadataMapObject[]> = new Map();
+  /**
+   * Stores the data of the item's metadata,based on the metadata keys.
+   * @interface MetadataMapObject defines the structure of the neccessary data to show for the metadata values.
+   * @type {Map<string, MetadataMapObject[]>}
+   */
+  public compareMetadataValues: Map<string, MetadataMapObject[]> = new Map();
 
-  isExpanded: boolean = true;
+  /**
+   * Flag to control the accordion expansion
+   * @type {boolean}
+   */
+  public isExpanded: boolean = true;
+
+  /**
+   * Stores the list of metadata fields (keys) that can accept multiple values
+   * @type {string[]}
+   */
+  repeatableFields: string[] = [];
 
   constructor(
     private cookieService: CookieService,
@@ -125,10 +144,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getExcludedMetadata();
-    // TODO: Test method to get the items submission definition data
-    this.deduplicationItemsService.getCollectionSubmissionDefinition('8bb47238-2964-4d9f-be56-e912bf17ac58').subscribe(collection => {
-      console.log(collection, 'collection');
-    })
   }
 
   /**
@@ -158,6 +173,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   private getItemsData() {
     if (this.storedItemIds.length > 0) {
       this.targetItemId = this.storedItemIds[0];
+      // TODO: remove this when the backend is fixed
+      this.repeatableFields = SubmissionRepeatableFieldsMock.repeatableFields;
       let itemCalls = [];
       this.storedItemIds.forEach((itemId: string) => {
         let call = this.deduplicationItemsService.getItemData(itemId).pipe(
@@ -211,12 +228,12 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
 
   calculateNewMetadataValues(item: Item, key: string) {
     // get the object from metadata map that are going to be rendered in the template
-    let mapObject: NewMetadataMapObject[] = this.compareMetadataValues.get(key);
+    let mapObject: MetadataMapObject[] = this.compareMetadataValues.get(key);
 
     item.metadata[key].forEach((value: MetadataValue) => {
       if (this.compareMetadataValues.has(key)) {
         // if the key is already in the map, check if this value already exists in the map
-        let object: NewMetadataMapObject = mapObject?.find((x) =>
+        let object: MetadataMapObject = mapObject?.find((x) =>
           isEqual(x.value.toLowerCase(), value.value.toLowerCase())
         );
         if (hasValue(object)) {
@@ -230,7 +247,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
           });
         } else {
           // if the value is not in the map, add new object to the map
-          let newObject: NewMetadataMapObject = {
+          let newObject: MetadataMapObject = {
             value: value.value,
             items: [
               {
@@ -252,7 +269,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         }
       } else {
         // if the key is not in the map, add the key and value to the map
-        let newObject: NewMetadataMapObject = {
+        let newObject: MetadataMapObject = {
           value: value.value,
           items: [
             {
@@ -265,8 +282,15 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         };
         this.compareMetadataValues.set(key, [newObject]);
       }
-      this.buildMergeObjectStructure(key, item._links.self.href, value.place);
+      this.buildMergeObjectStructure(key, item._links.self.href, value.place, item.uuid);
     });
+  }
+
+  hasMultipleSelection(key: string) {
+    if (this.repeatableFields.length > 0) {
+      return this.repeatableFields.some((field) => isEqual(field, key));
+    }
+    return false;
   }
 
   isValueChecked(key: string, items: ItemContainer[]): boolean {
@@ -275,7 +299,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       const object: ItemMetadataSource = objectList.find(y => items?.some(i => isEqual(i._link, y.item) && isEqual(i.metadataPlace, y.place)));
       return hasValue(object);
     }
-
     return false;
   }
 
@@ -311,8 +334,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     selectType: 'single' | 'multiple'
   ) {
     let metadataSourceIdx = -1;
-    console.log(field, items);
-
     if (items.length > 0) {
       metadataSourceIdx = this.mergedMetadataFields
         .find((x) => isEqual(x.metadataField, field))
@@ -368,12 +389,12 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     }
   }
 
-  expandAll() {
+  public expandAll() {
     this.isExpanded = true;
     this.accordions.toArray().forEach(x => x.expandAll());
   }
 
-  collapseAll() {
+  public collapseAll() {
     this.isExpanded = false;
     this.accordions.toArray().forEach(x => x.collapseAll());
   }
@@ -381,10 +402,17 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   /**
    * Builts the initial structure of @var mergedMetadataFields
    * with all metadata fields of the first item
-   * and with source arrays
+   * and with source arrays.
+   * Source arrays are built based on repeatable metadata fileds.
+   * If the metadata field is not repeatable,
+   * the source array will contain, as preselected, only the first element of target item.
+   * @param metadataKey Meta data field key
+   * @param itemLink The self link of the item to be merged
+   * @param place Place of the metadata field, based on rest response
    */
-  private buildMergeObjectStructure(metadataKey: string, itemLink: string, place: number) {
-    if (this.mergedMetadataFields.findIndex(x => isEqual(x.metadataField, metadataKey)) < 0) {
+  private buildMergeObjectStructure(metadataKey: string, itemLink: string, place: number, itemId: string) {
+    if (!this.mergedMetadataFields.some(x => isEqual(x.metadataField, metadataKey)) && isEqual(this.targetItemId, itemId)) {
+      // if the metadata field is not in the list, add it
       this.mergedMetadataFields.push({
         metadataField: metadataKey,
         sources: [{
@@ -392,7 +420,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
           place: place,
         }],
       });
-    } else {
+    } else if (this.mergedMetadataFields.some(x => isEqual(x.metadataField, metadataKey)) && this.repeatableFields.some(x => isEqual(x, metadataKey))) {
+      // if the metadata field is in the list, add the item to the source array
       this.mergedMetadataFields.find(x => isEqual(x.metadataField, metadataKey)).sources.push({
         item: itemLink,
         place: place,
@@ -402,7 +431,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
 
   private setColorPerItemInMetadataMap(itemId: string, color: string) {
     this.compareMetadataValues.forEach((value) => {
-      let metadataObject: NewMetadataMapObject[] = value.filter((x) =>
+      let metadataObject: MetadataMapObject[] = value.filter((x) =>
         x.items.find((y) => isEqual(y.itemId, itemId))
       );
       if (metadataObject.length > 0) {
@@ -517,10 +546,11 @@ export interface ItemData {
   color: string;
 }
 
-export interface NewMetadataMapObject {
+export interface MetadataMapObject {
   value: string;
   items: ItemContainer[];
 }
+
 export interface ItemContainer {
   itemId: string;
   metadataPlace: number;
