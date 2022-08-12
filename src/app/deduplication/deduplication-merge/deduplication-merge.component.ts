@@ -163,12 +163,13 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Get items ids from the store,
-   * set the target item id,
-   * and get the data for each item to compare, based on item id.
-   * Prepares the merge items links @var mergedItems for the merge request.
-   * Calculates the metadata fields to be merged, based on @var excludedMetadataKeys.
-   * Prepares the @var itemsToCompare for the template.
+   * 1.Get item ids from the store.
+   * 2.Set the target item id.
+   * 3.Get the data for each item to compare, based on item id.
+   * 4.Prepares the merge items links @var mergedItems for the merge request.
+   * 5.Calculates the metadata fields to be merged, based on @var excludedMetadataKeys.
+   * 6.Prepares the @var itemsToCompare for the template.
+   * 7.Prepares the @var bitstreamList for the merge request.
    */
   private getItemsData() {
     if (this.storedItemIds.length > 0) {
@@ -189,17 +190,14 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
               let keysToInclude = keys.filter(
                 (k) => !this.excludedMetadataKeys.includes(k)
               );
-
               // calculate MetadataMap for each item based on the keys to be included
               keysToInclude.map((key) => {
                 this.calculateNewMetadataValues(item, key);
               })
-
               return item;
             }
           })
         );
-
         itemCalls.push(call);
       });
 
@@ -215,7 +213,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
             object: item,
             color: color,
           });
-
           this.setColorPerItemInMetadataMap(item.id, color);
         });
         this.getItemBitstreams();
@@ -226,10 +223,15 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Based on excluded metadata keys,
+   * calculate the metadata fields to be rendered in the template.
+   * @param item The item for which the metadata new structure is calculated
+   * @param key The metadata field key
+   */
   calculateNewMetadataValues(item: Item, key: string) {
     // get the object from metadata map that are going to be rendered in the template
     let mapObject: MetadataMapObject[] = this.compareMetadataValues.get(key);
-
     item.metadata[key].forEach((value: MetadataValue) => {
       if (this.compareMetadataValues.has(key)) {
         // if the key is already in the map, check if this value already exists in the map
@@ -286,13 +288,25 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     });
   }
 
-  hasMultipleSelection(key: string) {
+  /**
+   * Defines weather the given metadata field is repeatable or not,
+   * based on the @var repeatableFields,which is retreated from the REST configuration.
+   * @param key The metadata field key
+   * @returns true if the key is found on @var repeatableFields list, false otherwise
+   */
+  hasMultipleSelection(key: string): boolean {
     if (this.repeatableFields.length > 0) {
       return this.repeatableFields.some((field) => isEqual(field, key));
     }
     return false;
   }
 
+  /**
+   * Returns weather the current selected values to be checked in the template.
+   * @param key The metadata field key
+   * @param items The items data for the given key
+   * @returns true if the key is found on @var mergedMetadataFields list, false otherwise
+   */
   isValueChecked(key: string, items: ItemContainer[]): boolean {
     if (this.mergedMetadataFields.findIndex(x => isEqual(x.metadataField, key)) > -1) {
       const objectList: ItemMetadataSource[] = this.mergedMetadataFields.find(x => isEqual(x.metadataField, key)).sources;
@@ -302,12 +316,10 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  /**
-   * setId: signature-id:set-checksum
-   */
+
   merge() {
     let mergedItems: MergeItems = {
-      setId: `${this.signatureId}:${this.setChecksum}`,
+      setId: `${this.signatureId}:${this.setChecksum}`, //setId: signature-id:set-checksum
       bitstreams: [...this.bitstreamList],
       metadata: [...this.mergedMetadataFields],
       mergedItems: [...this.mergedItems],
@@ -389,11 +401,17 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Expands all the accordions in the template
+   */
   public expandAll() {
     this.isExpanded = true;
     this.accordions.toArray().forEach(x => x.expandAll());
   }
 
+  /**
+   * Collapses all the accordions in the template
+   */
   public collapseAll() {
     this.isExpanded = false;
     this.accordions.toArray().forEach(x => x.collapseAll());
@@ -429,6 +447,13 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Defines the color for each item id in the metadata values,
+   * in order to have the same color for each item id,
+   * as the ones listed in the items table.
+   * @param itemId The id of the item to be compared
+   * @param color The pre-set color of the item
+   */
   private setColorPerItemInMetadataMap(itemId: string, color: string) {
     this.compareMetadataValues.forEach((value) => {
       let metadataObject: MetadataMapObject[] = value.filter((x) =>
@@ -494,6 +519,10 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     this.modalRef.componentInstance.metadataKey = key;
   }
 
+  /**
+   * Returns the item's owning collection title or empty answer otherwise
+   * @param item The item to be compared
+   */
   getOwningCollectionTitle(item: Item): Observable<string> {
     return item.owningCollection.pipe(
       getFirstSucceededRemoteDataPayload(),
@@ -503,7 +532,11 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     );
   }
 
-  removeValuesFromMerge(key: string) {
+  /**
+   * Removes values from the list of items to be merged.
+   * @param key The key of the metadata field
+   */
+  onDeleteAction(key: string) {
     if (this.mergedMetadataFields.findIndex(x => isEqual(x.metadataField, key)) > -1) {
       this.mergedMetadataFields.find(x => isEqual(x.metadataField, key)).sources = [];
     }
@@ -546,11 +579,17 @@ export interface ItemData {
   color: string;
 }
 
+/**
+ * The interface used for the model of the metadata values
+ */
 export interface MetadataMapObject {
   value: string;
   items: ItemContainer[];
 }
 
+/**
+ * The interface used for the model of the items to be merged
+ */
 export interface ItemContainer {
   itemId: string;
   metadataPlace: number;

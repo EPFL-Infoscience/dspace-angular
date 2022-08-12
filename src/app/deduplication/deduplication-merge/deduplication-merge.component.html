@@ -139,19 +139,21 @@
         </table> -->
         <ng-container *ngFor="let itemObj of itemsToCompare; let isLast = last">
           <div class="col-md-12 text-center pt-2">
-            <h5>
+            <h6 class="font-weight-bold">
               {{ "deduplication.merge.label.bitstreams" | translate }}
               <span [ngStyle]="{ color: itemObj.color }">
                 {{ itemObj.object.uuid }}
               </span>
-            </h5>
+            </h6>
           </div>
           <ds-item-bitstreams [item]="itemObj.object"> </ds-item-bitstreams>
           <hr class="bitstream-container-separator" />
         </ng-container>
 
         <div class="col-md-12 text-center pt-2">
-          <h5 class="font-weight-bold">Metadata to be merged</h5>
+          <h5 class="font-weight-bold">
+            {{ "deduplication.merge.label.merge-metadata" | translate }}
+          </h5>
         </div>
 
         <div class="justify-content-end pr-3 mb-1 row">
@@ -161,7 +163,7 @@
             (click)="expandAll()"
           >
             <i class="fa fa-chevron-down pr-1" aria-hidden="true"></i>
-            {{ "Expand All" }}
+            {{ "deduplication.merge.button.label.expand-all" | translate }}
           </button>
 
           <button
@@ -170,7 +172,7 @@
             (click)="collapseAll()"
           >
             <i class="fa fa-chevron-up pr-1" aria-hidden="true"></i>
-            {{ "Collapse All" }}
+            {{ "deduplication.merge.button.label.collapse-all" | translate }}
           </button>
 
           <button class="btn btn-info" (click)="merge()">
@@ -207,10 +209,10 @@
                       }}
                     </button>
                     <button
-                      ngbTooltip="Remove values for this metadata field"
+                      [ngbTooltip]="'deduplication.merge.tooltip.delete-info' | translate"
                       placement="left"
                       class="btn btn-sm btn-danger mr-2"
-                      (click)="removeValuesFromMerge(metadataKeyValues.key)"
+                      (click)="onDeleteAction(metadataKeyValues.key)"
                     >
                       <i class="fa fa-trash"></i>
                     </button>

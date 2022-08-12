@@ -1615,7 +1615,9 @@
 
   "deduplication.merge.label.info": "Records to compare",
 
-  "deduplication.merge.label.bitstreams": "Bitstreams per Item",
+  "deduplication.merge.label.bitstreams": "Bitstreams for",
+
+  "deduplication.merge.label.merge-metadata": "Metadata to be merged",
 
   "deduplication.merge.table.header.entities": "Entities",
 
@@ -1631,6 +1633,10 @@
 
   "deduplication.merge.button.label.merge": "Merge",
 
+  "deduplication.merge.button.label.collapse-all": "Collapse All",
+
+  "deduplication.merge.button.label.expand-all": "Expand All",
+
   "deduplication.merge.button.label.show-diff": "Show Diff",
 
   "deduplication.merge.show-diff.modal.header": "Differences for values under",
@@ -1642,6 +1648,8 @@
   "deduplication.merge.notification.message-success": "Merge finished successfully",
 
   "deduplication.merge.notification.message-error": "Merge failed",
+
+  "deduplication.merge.tooltip.delete-info": "Remove values for this metadata field",
 
   "datafile.listelement.badge": "Data File",
 
