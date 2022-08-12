@@ -20,6 +20,7 @@ import { DeduplicationItemsService } from './deduplication-merge/deduplication-i
 import { ShowDifferencesComponent } from './show-differences/show-differences.component';
 import { TextDiffPipe } from './show-differences/pipes/text-diff.pipe';
 import { DeduplicationMergeRestService } from '../core/deduplication/services/deduplication-merge-rest.service';
+import { DeduplicationMergeResultComponent } from './deduplication-merge-result/deduplication-merge-result.component';
 
 const MODULES = [
   CommonModule,
@@ -32,7 +33,8 @@ const MODULES = [
 const COMPONENTS = [
   DeduplicationComponent,
   DeduplicationSignaturesComponent,
-  ShowDifferencesComponent
+  ShowDifferencesComponent,
+  DeduplicationMergeResultComponent,
 ];
 
 const PIPES = [
@@ -62,7 +64,7 @@ const PROVIDERS = [
     ...COMPONENTS,
     ...DIRECTIVES,
     ...ENTRY_COMPONENTS,
-    ...PIPES
+    ...PIPES,
   ],
   providers: [
     ...PROVIDERS

@@ -2,7 +2,6 @@ import { NotificationsService } from '../../shared/notifications/notifications.s
 import { RemoteData } from './../../core/data/remote-data';
 import { MergeObject } from './../../core/deduplication/models/merge-object.model';
 import { map } from 'rxjs/operators';
-import { MergeItems } from './deduplication-merge.component';
 import { DeduplicationMergeRestService } from './../../core/deduplication/services/deduplication-merge-rest.service';
 import {
   getFirstCompletedRemoteData,
@@ -14,6 +13,7 @@ import { ItemDataService } from './../../core/data/item-data.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { MergeItems } from '../interfaces/deduplication-merge.models';
 @Injectable()
 export class DeduplicationItemsService {
   constructor(

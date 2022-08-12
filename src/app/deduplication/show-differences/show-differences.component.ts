@@ -1,7 +1,7 @@
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { MetadataValue } from './../../core/shared/metadata.models';
 import { Component, Input, OnInit } from '@angular/core';
 import { hasValue } from '../../shared/empty.util';
+import { ItemData, ItemsMetadataValues } from '../interfaces/deduplication-differences.models';
 
 @Component({
   selector: 'ds-show-differences',
@@ -59,20 +59,3 @@ export class ShowDifferencesComponent implements OnInit {
   }
 }
 
-/**
- * The model of the item data
- */
-export interface ItemData {
-  id: string;    // item id
-  text: string;  // the text to compare
-  color: string; // identifier color of the item
-}
-
-/**
- * The model of items' metadata values
- */
-export interface ItemsMetadataValues {
-  itemId: string;
-  value: MetadataValue;
-  color: string;
-}

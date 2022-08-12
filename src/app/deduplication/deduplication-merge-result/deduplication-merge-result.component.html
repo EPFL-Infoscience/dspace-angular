@@ -1,0 +1,76 @@
+<div class="modal-header bg-info text-light">
+  <h4 class="modal-title">
+    {{ "Final Merge Result" | translate }}
+  </h4>
+</div>
+<div class="modal-body">
+  <ng-container *ngIf="compareMetadataValues.size > 0">
+    <ng-container
+      *ngFor="
+        let metadataKeyValues of compareMetadataValues | keyvalue;
+        let idx = index
+      "
+    >
+      <div class="card">
+        <div class="card-header">
+          {{ metadataKeyValues.key }}
+        </div>
+        <div class="card-body">
+          <ng-container
+            *ngFor="
+              let itemsData of metadataKeyValues.value;
+              let last = last;
+              let itemIdx = index
+            "
+          >
+            <ng-container>
+              <div class="row">
+                <ng-container
+                  *ngIf="itemsData.items.length > 1; else manyValues"
+                >
+                  <span class="col-6">
+                    {{ itemsData.value }}
+                  </span>
+                  <span class="col-5">
+                    <ng-container
+                      *ngFor="let item of itemsData.items; let idx = index"
+                    >
+                      <span [ngStyle]="{ color: item.color }">
+                        {{ item.itemId }}
+                      </span>
+                      <span *ngIf="idx !== itemsData.items.length - 1"> ,</span>
+                    </ng-container>
+                  </span>
+                </ng-container>
+                <ng-template #manyValues>
+                  <span class="col-6">
+                    {{ itemsData.value }}
+                  </span>
+                  <span
+                    class="col-5"
+                    [ngStyle]="{ color: itemsData.items[0].color }"
+                  >
+                    {{ itemsData.items[0].itemId }}
+                  </span>
+                </ng-template>
+              </div>
+              <hr *ngIf="metadataKeyValues.value.length > 1 && !last" />
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="compareMetadataValues.size == 0">
+    No Data to show
+  </ng-container>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="activeModal.close()"
+  >
+    {{ "deduplication.merge.show-diff.modal.button.close" | translate }}
+  </button>
+</div>

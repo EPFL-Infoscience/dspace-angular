@@ -25,6 +25,7 @@ import {
 } from './../../core/shared/operators';
 import { ConfigObject } from './../../core/config/models/config.model';
 import { CookieService } from 'src/app/core/services/cookie.service';
+import { SelectedItemData } from '../interfaces/deduplication-sets.models';
 
 @Component({
   selector: 'ds-deduplication-sets',
@@ -697,10 +698,3 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   }
 }
 
-/**
- * Interface for the selected items from the set.
- */
-export interface SelectedItemData {
-  checked: boolean;
-  itemId: string;
-}

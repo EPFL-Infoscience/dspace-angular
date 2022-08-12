@@ -150,7 +150,7 @@
           <hr class="bitstream-container-separator" />
         </ng-container>
 
-        <div class="col-md-12 text-center pt-2">
+        <div class="col-md-12 text-center py-2 mb-3">
           <h5 class="font-weight-bold">
             {{ "deduplication.merge.label.merge-metadata" | translate }}
           </h5>
@@ -159,7 +159,7 @@
         <div class="justify-content-end pr-3 mb-1 row">
           <button
             *ngIf="!isExpanded"
-            class="btn btn-secondary mr-1"
+            class="btn btn-outline-secondary mr-1"
             (click)="expandAll()"
           >
             <i class="fa fa-chevron-down pr-1" aria-hidden="true"></i>
@@ -168,12 +168,39 @@
 
           <button
             *ngIf="isExpanded"
-            class="btn btn-secondary mr-1"
+            class="btn btn-outline-secondary mr-1"
             (click)="collapseAll()"
           >
             <i class="fa fa-chevron-up pr-1" aria-hidden="true"></i>
             {{ "deduplication.merge.button.label.collapse-all" | translate }}
           </button>
+
+          <button
+            *ngIf="!showFinalResults"
+            class="btn btn-outline-secondary mr-1"
+            (click)="showFinalResult()"
+          >
+            <i class="fa fa-tasks pr-1"></i>
+            {{ "Show Final Result" | translate }}
+          </button>
+
+          <button
+            *ngIf="showFinalResults"
+            class="btn btn-outline-warning mr-1"
+            (click)="hideFinalResult()"
+          >
+            <i class="fas fa-arrow-left pr-1"></i>
+            {{ "Show All Data" | translate }}
+          </button>
+
+          <button
+          class="btn btn-outline-warning mr-1"
+          (click)="openFinalResultsModal()"
+        >
+          <i class="fas fa-arrow-left pr-1"></i>
+          {{ "Open modal to show final result" | translate }}
+        </button>
+
 
           <button class="btn btn-info" (click)="merge()">
             <i class="fa fa-code pr-1" aria-hidden="true"></i>
@@ -209,7 +236,9 @@
                       }}
                     </button>
                     <button
-                      [ngbTooltip]="'deduplication.merge.tooltip.delete-info' | translate"
+                      [ngbTooltip]="
+                        'deduplication.merge.tooltip.delete-info' | translate
+                      "
                       placement="left"
                       class="btn btn-sm btn-danger mr-2"
                       (click)="onDeleteAction(metadataKeyValues.key)"
@@ -235,76 +264,48 @@
                     let itemIdx = index
                   "
                 >
-                  <div
-                    class="row"
-                    [ngClass]="{
-                      'heighlighted-selection': isValueChecked(
-                        metadataKeyValues.key,
-                        itemsData.items
-                      )
-                    }"
+                  <ng-container
+                    *ngIf="
+                      showFinalResults
+                        ? isValueChecked(metadataKeyValues.key, itemsData.items)
+                        : true
+                    "
                   >
-                    <!-- if more than one selection can occur-->
                     <div
-                      class="col-1"
-                      *ngIf="
-                        hasMultipleSelection(metadataKeyValues.key);
-                        else singleSelection
-                      "
+                      class="row"
+                      [ngClass]="{
+                        'heighlighted-selection': isValueChecked(
+                          metadataKeyValues.key,
+                          itemsData.items
+                        )
+                      }"
                     >
-                      <div class="custom-control custom-checkbox">
-                        <input
-                          type="checkbox"
-                          class="custom-control-input"
-                          [checked]="
-                            isValueChecked(
-                              metadataKeyValues.key,
-                              itemsData.items
-                            )
-                          "
-                          [id]="
-                            metadataKeyValues.key + itemsData.value + itemIdx
-                          "
-                          (change)="
-                            onValueSelect(
-                              metadataKeyValues.key,
-                              itemsData.items,
-                              'multiple'
-                            )
-                          "
-                        />
-                        <label
-                          class="custom-control-label"
-                          [for]="
-                            metadataKeyValues.key + itemsData.value + itemIdx
-                          "
-                        ></label>
-                      </div>
-                    </div>
-
-                    <!-- if only one selection can occur-->
-                    <ng-template #singleSelection>
-                      <div class="col-1">
-                        <div class="custom-control custom-radio">
+                      <!-- if more than one selection can occur-->
+                      <div
+                        class="col-1"
+                        *ngIf="
+                          hasMultipleSelection(metadataKeyValues.key);
+                          else singleSelection
+                        "
+                      >
+                        <div class="custom-control custom-checkbox">
                           <input
+                            type="checkbox"
                             class="custom-control-input"
-                            type="radio"
-                            [name]="metadataKeyValues.key"
-                            [id]="
-                              metadataKeyValues.key + itemsData.value + itemIdx
-                            "
                             [checked]="
                               isValueChecked(
                                 metadataKeyValues.key,
                                 itemsData.items
                               )
                             "
-                            [value]="itemsData.value + metadataKeyValues.key"
+                            [id]="
+                              metadataKeyValues.key + itemsData.value + itemIdx
+                            "
                             (change)="
                               onValueSelect(
                                 metadataKeyValues.key,
                                 itemsData.items,
-                                'single'
+                                'multiple'
                               )
                             "
                           />
@@ -316,39 +317,82 @@
                           ></label>
                         </div>
                       </div>
-                    </ng-template>
-                    <ng-container
-                      *ngIf="itemsData.items.length > 1; else manyValues"
-                    >
-                      <span class="col-6">
-                        {{ itemsData.value }}
-                      </span>
-                      <span class="col-5">
-                        <ng-container
-                          *ngFor="let item of itemsData.items; let idx = index"
-                        >
-                          <span [ngStyle]="{ color: item.color }">
-                            {{ item.itemId }}
-                          </span>
-                          <span *ngIf="idx !== itemsData.items.length - 1">
-                            ,</span
-                          >
-                        </ng-container>
-                      </span>
-                    </ng-container>
-                    <ng-template #manyValues>
-                      <span class="col-6">
-                        {{ itemsData.value }}
-                      </span>
-                      <span
-                        class="col-5"
-                        [ngStyle]="{ color: itemsData.items[0].color }"
+
+                      <!-- if only one selection can occur-->
+                      <ng-template #singleSelection>
+                        <div class="col-1">
+                          <div class="custom-control custom-radio">
+                            <input
+                              class="custom-control-input"
+                              type="radio"
+                              [name]="metadataKeyValues.key"
+                              [id]="
+                                metadataKeyValues.key +
+                                itemsData.value +
+                                itemIdx
+                              "
+                              [checked]="
+                                isValueChecked(
+                                  metadataKeyValues.key,
+                                  itemsData.items
+                                )
+                              "
+                              [value]="itemsData.value + metadataKeyValues.key"
+                              (change)="
+                                onValueSelect(
+                                  metadataKeyValues.key,
+                                  itemsData.items,
+                                  'single'
+                                )
+                              "
+                            />
+                            <label
+                              class="custom-control-label"
+                              [for]="
+                                metadataKeyValues.key +
+                                itemsData.value +
+                                itemIdx
+                              "
+                            ></label>
+                          </div>
+                        </div>
+                      </ng-template>
+                      <ng-container
+                        *ngIf="itemsData.items.length > 1; else manyValues"
                       >
-                        {{ itemsData.items[0].itemId }}
-                      </span>
-                    </ng-template>
-                  </div>
-                  <hr *ngIf="metadataKeyValues.value.length > 1 && !last" />
+                        <span class="col-6">
+                          {{ itemsData.value }}
+                        </span>
+                        <span class="col-5">
+                          <ng-container
+                            *ngFor="
+                              let item of itemsData.items;
+                              let idx = index
+                            "
+                          >
+                            <span [ngStyle]="{ color: item.color }">
+                              {{ item.itemId }}
+                            </span>
+                            <span *ngIf="idx !== itemsData.items.length - 1">
+                              ,</span
+                            >
+                          </ng-container>
+                        </span>
+                      </ng-container>
+                      <ng-template #manyValues>
+                        <span class="col-6">
+                          {{ itemsData.value }}
+                        </span>
+                        <span
+                          class="col-5"
+                          [ngStyle]="{ color: itemsData.items[0].color }"
+                        >
+                          {{ itemsData.items[0].itemId }}
+                        </span>
+                      </ng-template>
+                    </div>
+                    <hr *ngIf="metadataKeyValues.value.length > 1 && !last" />
+                  </ng-container>
                 </ng-container>
               </ng-template>
             </ngb-panel>

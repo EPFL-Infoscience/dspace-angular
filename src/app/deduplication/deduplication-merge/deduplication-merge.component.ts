@@ -5,7 +5,6 @@ import { ConfigurationProperty } from './../../core/shared/configuration-propert
 import { getFirstSucceededRemoteDataPayload } from './../../core/shared/operators';
 import { ConfigurationDataService } from './../../core/data/configuration-data.service';
 import {
-  ItemsMetadataValues,
   ShowDifferencesComponent,
 } from './../show-differences/show-differences.component';
 import { NgbAccordion, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -23,6 +22,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from '../../core/services/cookie.service';
 import { forkJoin } from 'rxjs';
 import { SubmissionRepeatableFieldsMock } from './submission-repeatable-fields.mock';
+import { ItemContainer, ItemData, ItemMetadataSource, ItemsMetadataField, MergeItems, MetadataMapObject } from '../interfaces/deduplication-merge.models';
+import { ItemsMetadataValues } from '../interfaces/deduplication-differences.models';
+import { DeduplicationMergeResultComponent } from '../deduplication-merge-result/deduplication-merge-result.component';
 
 @Component({
   selector: 'ds-deduplication-merge',
@@ -116,7 +118,12 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * Flag to control the accordion expansion
    * @type {boolean}
    */
-  public isExpanded: boolean = true;
+  public isExpanded = true;
+
+  /**
+   * Flag to control final result display
+   */
+  public showFinalResults = false;
 
   /**
    * Stores the list of metadata fields (keys) that can accept multiple values
@@ -316,7 +323,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     return false;
   }
 
-
   merge() {
     let mergedItems: MergeItems = {
       setId: `${this.signatureId}:${this.setChecksum}`, //setId: signature-id:set-checksum
@@ -415,6 +421,14 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   public collapseAll() {
     this.isExpanded = false;
     this.accordions.toArray().forEach(x => x.collapseAll());
+  }
+
+  showFinalResult() {
+    this.showFinalResults = true;
+  }
+
+  hideFinalResult() {
+    this.showFinalResults = false;
   }
 
   /**
@@ -519,6 +533,25 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     this.modalRef.componentInstance.metadataKey = key;
   }
 
+  openFinalResultsModal() {
+    this.modalRef = this.modalService.open(DeduplicationMergeResultComponent, {
+      backdrop: 'static',
+      centered: true,
+      scrollable: true,
+      size: 'xl',
+    });
+    let newMap: Map<string, MetadataMapObject[]> = new Map();
+    this.compareMetadataValues.forEach((values: MetadataMapObject[], key: string) => {
+      let selectedValues = values.map((value) => {
+        if (this.isValueChecked(key, value.items)) {
+          return value;
+        }
+      }).filter((x) => hasValue(x));
+      newMap.set(key, selectedValues);
+    });
+    this.modalRef.componentInstance.compareMetadataValues = newMap;
+  }
+
   /**
    * Returns the item's owning collection title or empty answer otherwise
    * @param item The item to be compared
@@ -568,57 +601,4 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     this.cookieService.remove(`items-to-compare-${this.setChecksum}`);
     this.modalRef?.close();
   }
-}
-
-/**
- * The interface used for the model of the items data
- * and identifier color for the template
- */
-export interface ItemData {
-  object: Item;
-  color: string;
-}
-
-/**
- * The interface used for the model of the metadata values
- */
-export interface MetadataMapObject {
-  value: string;
-  items: ItemContainer[];
-}
-
-/**
- * The interface used for the model of the items to be merged
- */
-export interface ItemContainer {
-  itemId: string;
-  metadataPlace: number;
-  color: string;
-  _link: string;
-}
-
-/**
- * The interface used for the model of the merged metadata fields
- */
-export interface MergeItems {
-  setId: string;
-  bitstreams: string[];
-  mergedItems: string[];
-  metadata: ItemsMetadataField[];
-}
-
-/**
- * The interface used for the model of the metadata fields
- */
-export interface ItemsMetadataField {
-  metadataField: string;
-  sources: ItemMetadataSource[];
-}
-
-/**
- * The interface used for the model of the metadata sources
- */
-export interface ItemMetadataSource {
-  item: string;
-  place: number;
 }
