@@ -16,4 +16,11 @@
     <!--</span>-->
     <!--</ds-truncatable-part>-->
     <!--</span>-->
+    <div *ngIf="additionalMetadataFields">
+      <ds-truncatable-part [id]="dso.id" [minLines]="1">
+        <ng-container *ngFor="let meta of dso.allMetadataValues(additionalMetadataFields)">
+          <div class='item-additional' [innerHTML]="meta"></div>
+        </ng-container>
+      </ds-truncatable-part>
+    </div>
 </ds-truncatable>

@@ -27,9 +27,16 @@
             </span>
           </ds-truncatable-part>
         </span>
-        <div *ngIf="dso.firstMetadataValue('dc.description.abstract')" class="item-list-abstract">
-          <ds-truncatable-part [id]="dso.id" [minLines]="3"><span
-              [innerHTML]="firstMetadataValue('dc.description.abstract')"></span>
+        <div *ngIf="dso.firstMetadataValue('dc.description.abstract')" class="item-list-abstract" style="border: solid 2px red">
+          <ds-truncatable-part [id]="dso.id" [minLines]="3">
+            <div [innerHTML]="firstMetadataValue('dc.description.abstract')"></div>
+          </ds-truncatable-part>
+        </div>
+        <div *ngIf="additionalMetadataFields" class="item-list-additional" style="border: solid 2px blue">
+          <ds-truncatable-part [id]="dso.id" [minLines]="1">
+            <ng-container *ngFor="let meta of dso.allMetadataValues(additionalMetadataFields)">
+              <div [innerHTML]="meta"></div>
+            </ng-container>
           </ds-truncatable-part>
         </div>
       </ds-truncatable>
