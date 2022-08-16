@@ -6084,6 +6084,10 @@
   "vocabulary.import-external.preview.import.success": "Entity created successfully.",
 
   "vocabulary-treeview.header": "Hierarchical tree view",
+  
+  "vocabulary-treeview.header.affiliation": "Affiliation",
+
+  "vocabulary-treeview.header.hierarchy": "Hierarchy",
 
   "vocabulary-treeview.load-more": "Load more",
 

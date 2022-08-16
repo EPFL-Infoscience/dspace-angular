@@ -472,7 +472,7 @@ const ENTRY_COMPONENTS = [
   SearchChartLineComponent,
   ThemedBrowseMostElementsComponent,
   SearchChartBarHorizontalComponent,
-  RelationshipsListComponent,
+  RelationshipsListComponent
 ];
 
 const SHARED_ITEM_PAGE_COMPONENTS = [

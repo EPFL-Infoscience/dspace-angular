@@ -8,25 +8,23 @@ import { FieldRenderingType, MetadataBoxFieldRendering } from '../metadata-box.d
 import { RenderingTypeStructuredModelComponent } from '../rendering-type-structured.model';
 
 /**
- * This component renders the tag browse metadata fields
+ * This component renders the tag search metadata fields
  */
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'div[ds-tag-browse]',
-  templateUrl: './tag-browse.component.html',
-  styleUrls: ['./tag-browse.component.scss']
+  selector: 'div[ds-tag-search]',
+  templateUrl: './tag-search.component.html',
+  styleUrls: ['./tag-search.component.scss']
 })
-@MetadataBoxFieldRendering(FieldRenderingType.TAGBROWSE, true)
-export class TagBrowseComponent extends RenderingTypeStructuredModelComponent implements OnInit {
-  /**
-   * Type for rendering
-   */
-  metadataType: string;
+@MetadataBoxFieldRendering(FieldRenderingType.TAGSEARCH, true)
+export class TagSearchComponent extends RenderingTypeStructuredModelComponent implements OnInit {
 
   /**
    * This is the chips component which will be rendered in the template
    */
   public chips: Chips;
+
+  searchLinkHref: string;
 
   constructor(
     @Inject('fieldProvider') public fieldProvider: LayoutField,
@@ -38,8 +36,6 @@ export class TagBrowseComponent extends RenderingTypeStructuredModelComponent im
   }
 
   ngOnInit(): void {
-    let fieldArray = this.field.rendering.split('.');
-    this.metadataType = fieldArray[fieldArray.length - 1];
     if ( this.indexToBeRendered > 0 ) {
       this.initChips([this.metadataValues[this.indexToBeRendered]]);
     } else {
@@ -52,7 +48,7 @@ export class TagBrowseComponent extends RenderingTypeStructuredModelComponent im
    * @params initChipsValues values to be rendered in chip items
    */
   private initChips(initChipsValues: any[]): void {
-    this.chips = this.initRenderingChips(initChipsValues, 'browse', this.metadataType);
+    this.chips = this.initRenderingChips(initChipsValues, 'search');
   }
 
 }

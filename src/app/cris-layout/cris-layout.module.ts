@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
 import { CrisLayoutLoaderDirective } from './directives/cris-layout-loader.directive';
@@ -50,11 +50,14 @@ import { LoadMoreService } from './services/load-more.service';
 import { MiradorViewerModule } from '../item-page/mirador-viewer/mirador-viewer.module';
 import { ComcolModule } from '../shared/comcol/comcol.module';
 import { SearchModule } from '../shared/search/search.module';
+import { HierarchyComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/hierarchy/hierarchy.component';
 import { HtmlComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/html/html.component';
 import { BrowseComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/browse/browse.component';
 import { TagBrowseComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/tag-browse/tag-browse.component';
 import { MarkdownComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/markdown/markdown.component';
-import { DsMarkdownViewerModule } from '../shared/markdown-viewer/ds-markdown-viewer.module';
+import { SearchComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/search/search.component';
+import { TagSearchComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/tag-search/tag-search.component';
+import { MarkdownViewerModule } from '../shared/markdown-viewer/markdown-viewer.module';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -74,6 +77,7 @@ const ENTRY_COMPONENTS = [
   CrisrefComponent,
   ThumbnailComponent,
   AttachmentComponent,
+  HierarchyComponent,
   OrcidSyncQueueComponent,
   OrcidAuthorizationsComponent,
   OrcidSyncSettingsComponent,
@@ -86,7 +90,9 @@ const ENTRY_COMPONENTS = [
   MapComponent,
   BrowseComponent,
   TagBrowseComponent,
-  MarkdownComponent
+  MarkdownComponent,
+  SearchComponent,
+  TagSearchComponent,
 ];
 @NgModule({
   declarations: [
@@ -112,7 +118,7 @@ const ENTRY_COMPONENTS = [
     MetadataRenderComponent,
     MarkdownComponent
   ],
-  providers:[ LoadMoreService ],
+  providers:[ LoadMoreService, NgbActiveModal ],
   imports: [
     CommonModule,
     SharedModule,
@@ -123,7 +129,7 @@ const ENTRY_COMPONENTS = [
     NgbAccordionModule,
     ComcolModule,
     MiradorViewerModule,
-    DsMarkdownViewerModule
+    MarkdownViewerModule
   ],
   exports: [
     CrisLayoutComponent,
