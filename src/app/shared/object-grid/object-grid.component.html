@@ -18,10 +18,8 @@
     (next)="goNext()"
     >
       <div class="card-columns row" *ngIf="objects?.hasSucceeded">
-        <div class="card-column col" [ngClass]="columnStyle" *ngFor="let column of (columns$ | async)" @fadeIn>
-          <div class="card-element" *ngFor="let object of column">
-            <ds-listable-object-component-loader [configStyle]="configStyle" [object]="object" [viewMode]="viewMode" [context]="context" [linkType]="linkType"></ds-listable-object-component-loader>
-          </div>
+        <div class="card-column col mb-3 object-grid" [ngClass]="columnStyle" *ngFor="let result of (results$ | async)" @fadeIn>
+          <ds-listable-object-component-loader [configStyle]="configStyle" [object]="result" [viewMode]="viewMode" [context]="context" [linkType]="linkType"></ds-listable-object-component-loader>
         </div>
       </div>
     <ds-error *ngIf="objects.hasFailed" message="{{'error.objects' | translate}}"></ds-error>
@@ -30,10 +28,10 @@
 </ng-container>
 <ng-template #withoutPagination>
   <div class="card-columns row" *ngIf="objects?.hasSucceeded">
-    <div class="card-column col" [ngClass]="columnStyle" *ngFor="let column of (columns$ | async)" @fadeIn>
-      <div class="card-element" *ngFor="let object of column">
-        <ds-listable-object-component-loader [configStyle]="configStyle" [object]="object" [viewMode]="viewMode" [context]="context" [linkType]="linkType"></ds-listable-object-component-loader>
-      </div>
+    <div class="card-column col mb-3 object-grid" [ngClass]="columnStyle" *ngFor="let result of (results$ | async)" @fadeIn>
+      <ds-listable-object-component-loader [configStyle]="configStyle" [object]="result" [viewMode]="viewMode" [context]="context" [linkType]="linkType"></ds-listable-object-component-loader>
     </div>
   </div>
+  <ds-error *ngIf="objects.hasFailed" message="{{'error.objects' | translate}}"></ds-error>
+  <ds-loading *ngIf="objects.isLoading" message="{{'loading.objects' | translate}}"></ds-loading>
 </ng-template>
