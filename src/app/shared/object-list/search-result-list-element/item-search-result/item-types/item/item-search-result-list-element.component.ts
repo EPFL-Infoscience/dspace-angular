@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { listableObjectComponent } from '../../../../../object-collection/shared/listable-object/listable-object.decorator';
 import { ViewMode } from '../../../../../../core/shared/view-mode.model';
 import { ItemSearchResult } from '../../../../../object-collection/shared/item-search-result.model';
@@ -8,7 +8,7 @@ import { getItemPageRoute } from '../../../../../../item-page/item-page-routing-
 import { Context } from '../../../../../../core/shared/context.model';
 import { TruncatableService } from '../../../../../truncatable/truncatable.service';
 import { DSONameService } from '../../../../../../core/breadcrumbs/dso-name.service';
-import {hasValue, isNotEmpty} from '../../../../../empty.util';
+import { hasValue, isNotEmpty } from '../../../../../empty.util';
 import { environment } from 'src/environments/environment';
 
 @listableObjectComponent('PublicationSearchResult', ViewMode.ListElement)

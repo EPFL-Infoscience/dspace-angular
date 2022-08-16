@@ -17,7 +17,7 @@
                 <span [innerHTML]="value"></span>
               </span>
             </div>
-            <div *ngIf="additionalMetadataFields" class="item-list-additional" style="border: solid 2px blue">
+            <div *ngIf="additionalMetadataFields" class="item-list-additional">
               <ng-container *ngFor="let meta of dso.allMetadataValues(additionalMetadataFields)">
                 <div class='item-additional' [innerHTML]="meta"></div>
               </ng-container>
