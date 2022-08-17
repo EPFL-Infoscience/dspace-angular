@@ -21,6 +21,7 @@ import { ShowDifferencesComponent } from './show-differences/show-differences.co
 import { TextDiffPipe } from './show-differences/pipes/text-diff.pipe';
 import { DeduplicationMergeRestService } from '../core/deduplication/services/deduplication-merge-rest.service';
 import { DeduplicationMergeResultComponent } from './deduplication-merge-result/deduplication-merge-result.component';
+import { SubmissionRepeatableFieldsRestService } from '../core/deduplication/services/submission-repeatable-fields-rest.service';
 
 const MODULES = [
   CommonModule,
@@ -53,7 +54,8 @@ const PROVIDERS = [
   DeduplicationSetsRestService,
   DeduplicationSetItemsRestService,
   DeduplicationItemsService,
-  DeduplicationMergeRestService
+  DeduplicationMergeRestService,
+  SubmissionRepeatableFieldsRestService
 ];
 
 @NgModule({

@@ -1,7 +1,5 @@
-import { getFirstCompletedRemoteData } from '../../shared/operators';
-import { PaginatedList } from '../../data/paginated-list.model';
-import { FollowLinkConfig } from '../../../shared/utils/follow-link-config.model';
-import { FindListOptions } from '../../data/request.models';
+import { switchMap } from 'rxjs/operators';
+import { FollowLinkConfig } from './../../../shared/utils/follow-link-config.model';
 import { DefaultChangeAnalyzer } from '../../data/default-change-analyzer.service';
 import { ChangeAnalyzer } from '../../data/change-analyzer';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
@@ -14,26 +12,23 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 
-import { Observable } from 'rxjs';
-import { mergeMap, take } from 'rxjs/operators';
-import { SetObject } from '../models/set.model';
 import { DataService } from '../../data/data.service';
 import { dataService } from '../../cache/builders/build-decorators';
-import { DEDUPLICATION_SET } from '../models/deduplication-set.resource-type';
+import { SubmissionRepeatableFieldsObject } from '../models/submission-repeatable-fields.model';
+import { SUBMISSION_REPEATABLE_FIELDS } from '../models/submission-repeatable-fields.resource-type';
+import { Observable } from 'rxjs';
 import { RemoteData } from '../../data/remote-data';
-import { isNil } from 'lodash';
-import { NoContent } from '../../shared/NoContent.model';
 
 /* tslint:disable:max-classes-per-file */
 
 /**
  * A private DataService implementation to delegate specific methods to.
  */
-class DataServiceImpl extends DataService<SetObject> {
+class DataServiceImpl extends DataService<SubmissionRepeatableFieldsObject> {
   /**
    * The REST endpoint.
    */
-  protected linkPath = 'sets';
+  protected linkPath = 'submissionrepeatablefields';
 
   constructor(
     protected requestService: RequestService,
@@ -43,21 +38,20 @@ class DataServiceImpl extends DataService<SetObject> {
     protected halService: HALEndpointService,
     protected notificationsService: NotificationsService,
     protected http: HttpClient,
-    protected comparator: ChangeAnalyzer<SetObject>) {
+    protected comparator: ChangeAnalyzer<SubmissionRepeatableFieldsObject>) {
     super();
   }
 }
 
-/**
- * The service handling all deduplication REST requests.
- */
 @Injectable()
-@dataService(DEDUPLICATION_SET)
-export class DeduplicationSetsRestService {
+@dataService(SUBMISSION_REPEATABLE_FIELDS)
+export class SubmissionRepeatableFieldsRestService {
   /**
    * A private DataService implementation to delegate specific methods to.
    */
   private dataService: DataServiceImpl;
+
+  protected searchFindByItem = 'search/findByItem';
 
   /**
    * Initialize service variables
@@ -67,7 +61,7 @@ export class DeduplicationSetsRestService {
    * @param {HALEndpointService} halService
    * @param {NotificationsService} notificationsService
    * @param {HttpClient} http
-   * @param {DefaultChangeAnalyzer<SetObject>} comparator
+   * @param {DefaultChangeAnalyzer<SubmissionRepeatableFieldsObject>} comparator
    */
   constructor(
     protected requestService: RequestService,
@@ -76,37 +70,22 @@ export class DeduplicationSetsRestService {
     protected halService: HALEndpointService,
     protected notificationsService: NotificationsService,
     protected http: HttpClient,
-    protected comparator: DefaultChangeAnalyzer<SetObject>) {
+    protected comparator: DefaultChangeAnalyzer<SubmissionRepeatableFieldsObject>) {
     this.dataService = new DataServiceImpl(requestService, rdbService, null, objectCache, halService, notificationsService, http, comparator);
   }
 
   /**
-   * Return the list of all deduplication sets for the given signature.
-   * @param options Find list options object.
-   * @param signatureId The id of the signature to retrieve the sets for.
-   * @param rule The rule to filter the sets by.
+   * GET the submission repeatable fields for the given item UUID
+   * @param itemUuid The item's uuid
    * @param linksToFollow List of {@link FollowLinkConfig} that indicate which {@link HALLink}s should be automatically resolved.
-   * @returns List of sets for the given signature.
+   * @returns The object with the given uuid and a list of repeatable fields
    */
-  public getSetsPerSignature(options: FindListOptions = {}, ...linksToFollow: FollowLinkConfig<SetObject>[]): Observable<RemoteData<PaginatedList<SetObject>>> {
-    return this.dataService.getBrowseEndpoint(options).pipe(
-      take(1),
-      mergeMap((href: string) => {
-        const searchmethod = `sets/search/findBySignature`;
-        return this.dataService.findAllByHref(`${href}?${searchmethod}`, options, false, true, ...linksToFollow);
+  public getSubmissionRepeatableFields(itemUuid: string, ...linksToFollow: FollowLinkConfig<SubmissionRepeatableFieldsObject>[]):Observable<RemoteData<SubmissionRepeatableFieldsObject>> {
+    return this.dataService.getBrowseEndpoint().pipe(
+      switchMap((href: string) => {
+        let searchmethod = `${this.searchFindByItem}?uuid=${itemUuid}`;
+        return this.dataService.findByHref(`${href}/${searchmethod}`, false, true, ...linksToFollow);
       })
-    );
-  }
-
-  /**
-   * Delete the given signature set.
-   * @param signatureId The id of the signature to which the set belongs.
-   * @param checksum
-   */
-  public deleteSet(signatureId: string, checksum: string): Observable<RemoteData<NoContent>> {
-    return this.dataService.delete(`${signatureId}:${checksum}`).pipe(
-      getFirstCompletedRemoteData(),
-      take(1)
     );
   }
 }
