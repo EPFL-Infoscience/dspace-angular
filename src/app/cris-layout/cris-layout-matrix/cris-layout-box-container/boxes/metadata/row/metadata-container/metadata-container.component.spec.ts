@@ -514,6 +514,8 @@ describe('MetadataContainerComponent', () => {
         expect(moreTag).toBeTruthy();
     });
   });
+})
+  ;
 
   describe('Check LoadMoreService with no configuration is provided', () => {
     let loadMoreService: LoadMoreService;
