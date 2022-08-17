@@ -5026,6 +5026,10 @@
 
   "sorting.dc.title.DESC": "Title Descending",
 
+  "sorting.dc.contributor.author.ASC": "First Author Ascending",
+
+  "sorting.dc.contributor.author.DESC": "First Author Descending",
+
   "sorting.metric.view.ASC" : "Views Ascending",
 
   "sorting.metric.view.DESC" : "Views Descending",
@@ -6102,7 +6106,7 @@
   "vocabulary.import-external.preview.import.success": "Entity created successfully.",
 
   "vocabulary-treeview.header": "Hierarchical tree view",
-  
+
   "vocabulary-treeview.header.affiliation": "Affiliation",
 
   "vocabulary-treeview.header.hierarchy": "Hierarchy",
