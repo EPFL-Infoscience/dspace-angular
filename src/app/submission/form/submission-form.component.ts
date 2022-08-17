@@ -77,6 +77,12 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
   @Input() entityType: string;
 
   /**
+    * Submission type is workflow item submission
+    * @type {boolean}
+    */
+  @Input() isWorkFlow;
+
+  /**
    * The configuration id that define this submission
    * @type {string}
    */
@@ -116,6 +122,7 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
    * @type {Array}
    */
   protected subs: Subscription[] = [];
+
 
   /**
    * Initialize instance variables
@@ -174,27 +181,27 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
         map((isLoading: boolean) => isLoading),
         distinctUntilChanged());
       // init submission state
-        this.subs.push(
-          this.halService.getEndpoint(this.submissionService.getSubmissionObjectLinkName()).pipe(
-            filter((href: string) => isNotEmpty(href)),
-            distinctUntilChanged())
-            .subscribe((endpointURL) => {
-              this.uploadFilesOptions.authToken = this.authService.buildAuthHeader();
-              this.uploadFilesOptions.url = endpointURL.concat(`/${this.submissionId}`);
-              this.definitionId = this.submissionDefinition.name;
-              // const { errors } = item;
-              this.submissionService.dispatchInit(
-                this.collectionId,
-                this.submissionId,
-                this.selfUrl,
-                this.submissionDefinition,
-                this.sections,
-                this.item,
-                this.submissionErrors,
-                this.metadataSecurityConfiguration);
-              this.changeDetectorRef.detectChanges();
-            })
-        );
+      this.subs.push(
+        this.halService.getEndpoint(this.submissionService.getSubmissionObjectLinkName()).pipe(
+          filter((href: string) => isNotEmpty(href)),
+          distinctUntilChanged())
+          .subscribe((endpointURL) => {
+            this.uploadFilesOptions.authToken = this.authService.buildAuthHeader();
+            this.uploadFilesOptions.url = endpointURL.concat(`/${this.submissionId}`);
+            this.definitionId = this.submissionDefinition.name;
+            // const { errors } = item;
+            this.submissionService.dispatchInit(
+              this.collectionId,
+              this.submissionId,
+              this.selfUrl,
+              this.submissionDefinition,
+              this.sections,
+              this.item,
+              this.submissionErrors,
+              this.metadataSecurityConfiguration);
+            this.changeDetectorRef.detectChanges();
+          })
+      );
 
       // start auto save
       this.submissionService.startAutoSave(this.submissionId);
@@ -229,7 +236,7 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
     this.metadataSecurityConfigDataService.findById(this.entityType).pipe(
       getFirstCompletedRemoteData(),
     ).subscribe(res => {
-      this.metadataSecurityConfiguration   = res.payload;
+      this.metadataSecurityConfiguration = res.payload;
       this.collectionId = (submissionObject.collection as Collection).id;
       if (this.definitionId !== (submissionObject.submissionDefinition as SubmissionDefinitionsModel).name) {
         this.sections = submissionObject.sections;
@@ -243,7 +250,7 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
           this.sections,
           this.item,
           this.metadataSecurityConfiguration
-         );
+        );
       } else {
         this.changeDetectorRef.detectChanges();
       }

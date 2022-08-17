@@ -2,7 +2,7 @@ import { Component, Injector, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
 import { ClaimedTaskDataService } from '../../../core/tasks/claimed-task-data.service';
@@ -62,12 +62,12 @@ export class ClaimedTaskActionsComponent extends MyDSpaceActionsComponent<Claime
    * @param workflowActionService
    */
   constructor(protected injector: Injector,
-              protected router: Router,
-              protected notificationsService: NotificationsService,
-              protected translate: TranslateService,
-              protected searchService: SearchService,
-              protected requestService: RequestService,
-              protected workflowActionService: WorkflowActionDataService) {
+    protected router: Router,
+    protected notificationsService: NotificationsService,
+    protected translate: TranslateService,
+    protected searchService: SearchService,
+    protected requestService: RequestService,
+    protected workflowActionService: WorkflowActionDataService) {
     super(ClaimedTask.type, injector, router, notificationsService, translate, searchService, requestService);
   }
 
@@ -75,6 +75,7 @@ export class ClaimedTaskActionsComponent extends MyDSpaceActionsComponent<Claime
    * Initialize objects
    */
   ngOnInit() {
+    console.log(this.object);
     this.initObjects(this.object);
     this.initAction(this.object);
   }
@@ -99,7 +100,7 @@ export class ClaimedTaskActionsComponent extends MyDSpaceActionsComponent<Claime
    * @param object
    */
   initAction(object: ClaimedTask) {
-    this.actionRD$ = object.action;
+    this.actionRD$ = object.action.pipe(tap(res => console.log(res)));
   }
 
   /**

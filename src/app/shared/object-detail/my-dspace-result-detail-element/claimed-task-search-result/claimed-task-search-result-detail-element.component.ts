@@ -53,6 +53,7 @@ export class ClaimedTaskSearchResultDetailElementComponent extends SearchResultD
       followLink('item', {}, followLink('bundles')),
       followLink('submitter')
     ), followLink('action'));
+
     this.workflowitemRD$ = this.dso.workflowitem as Observable<RemoteData<WorkflowItem>>;
   }
 

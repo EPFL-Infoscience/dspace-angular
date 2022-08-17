@@ -24,6 +24,7 @@ import { MetadataSecurityConfigurationService } from '../../core/submission/meta
 import { MetadataSecurityConfiguration } from '../../core/submission/models/metadata-security-configuration';
 import { createFailedRemoteDataObject$ } from '../../shared/remote-data.utils';
 import { SubmissionEditCanDeactivateService } from './submission-edit-can-deactivate.service';
+import { WORKFLOWITEM } from 'src/app/core/eperson/models/workflowitem.resource-type';
 
 /**
  * This component allows to edit an existing workspaceitem/workflowitem.
@@ -100,6 +101,7 @@ export class SubmissionEditComponent implements OnDestroy, OnInit {
 
   private canDeactivate = false;
 
+  isWorkFlow = false;
   /**
    * Initialize instance variables
    *
@@ -169,7 +171,7 @@ export class SubmissionEditComponent implements OnDestroy, OnInit {
               })
             )
           ])
-        )))
+          )))
       ).subscribe(([submissionObjectRD, metadataSecurityRD]: [RemoteData<SubmissionObject>, RemoteData<MetadataSecurityConfiguration>]) => {
         if (submissionObjectRD.hasSucceeded) {
           if (isEmpty(submissionObjectRD.payload)) {
@@ -179,6 +181,8 @@ export class SubmissionEditComponent implements OnDestroy, OnInit {
             if (metadataSecurityRD.hasSucceeded) {
               this.metadataSecurityConfiguration = metadataSecurityRD.payload;
             }
+
+            this.isWorkFlow = submissionObjectRD.payload.type as any === WORKFLOWITEM.value;
             const { errors } = submissionObjectRD.payload;
             this.submissionErrors = parseSectionErrors(errors);
             this.submissionId = submissionObjectRD.payload.id.toString();
