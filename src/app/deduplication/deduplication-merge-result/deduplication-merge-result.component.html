@@ -1,4 +1,4 @@
-<div class="modal-header bg-info text-light">
+<div class="modal-header bg-light text-info">
   <h4 class="modal-title">
     {{ "Final Merge Result" | translate }}
   </h4>
@@ -31,7 +31,7 @@
                   <span class="col-6">
                     {{ itemsData.value }}
                   </span>
-                  <span class="col-5">
+                  <span class="col-6">
                     <ng-container
                       *ngFor="let item of itemsData.items; let idx = index"
                     >
@@ -47,7 +47,7 @@
                     {{ itemsData.value }}
                   </span>
                   <span
-                    class="col-5"
+                    class="col-6"
                     [ngStyle]="{ color: itemsData.items[0].color }"
                   >
                     {{ itemsData.items[0].itemId }}
