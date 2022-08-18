@@ -1632,6 +1632,19 @@
 
   "curation-task.task.vscan.label": "Virus Scan",
 
+  "curation-task.task.estaipsize.label": "Estimate Storage Space for AIP(s)",
+
+  "curation-task.task.transmitaip.label": "Transmit AIP(s) to Storage",
+
+  "curation-task.task.transmitsingleaip.label": "Transmit Single Object AIP to Storage",
+
+  "curation-task.task.removeaip.label": "Remove AIP(s) from Storage",
+
+  "curation-task.task.restorefromaip.label": "Restore Missing Object(s) from AIP(s)",
+
+  "curation-task.task.restoresinglefromaip.label": "Restore Single Object from AIP",
+
+  "curation-task.task.fetchaip.label": "Fetch AIP(s) from Storage",
 
 
   "curation.form.task-select.label": "Task:",
