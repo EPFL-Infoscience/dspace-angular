@@ -207,6 +207,7 @@ import { ThemedItemListPreviewComponent } from './object-list/my-dspace-result-l
 import { ItemCorrectionComponent } from './object-collection/shared/mydspace-item-correction/item-correction.component';
 import { MetricsModule } from './metric/metrics.module';
 import { SearchChartBarHorizontalComponent } from './search/search-charts/search-chart/search-chart-bar-horizontal/search-chart-bar-horizontal.component';
+import { AdditionalMetadataComponent } from './object-list/search-result-list-element/additional-metadata/additional-metadata.component';
 
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
@@ -524,6 +525,7 @@ const DIRECTIVES = [
     ItemVersionsSummaryModalComponent,
     ItemVersionsDeleteModalComponent,
     ItemExportAlertComponent,
+    AdditionalMetadataComponent,
   ],
   providers: [
     ...PROVIDERS
@@ -534,7 +536,8 @@ const DIRECTIVES = [
     ...COMPONENTS,
     ...SHARED_ITEM_PAGE_COMPONENTS,
     ...DIRECTIVES,
-    TranslateModule
+    TranslateModule,
+    AdditionalMetadataComponent
   ]
 })
 

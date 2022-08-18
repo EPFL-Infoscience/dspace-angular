@@ -1,0 +1,25 @@
+<div *ngIf="additionalMetadataFields">
+  <ng-container *ngFor="let metadataField of additionalMetadataFields">
+
+    <!-- when there is only one value flex-row allows to show label and value on the same line -->
+    <div [ngClass]="{'d-flex flex-row': item.allMetadata(metadataField.metadata).length == 1}">
+
+      <div *ngIf="metadataField.label" class="font-weight-bold mr-1">{{metadataField.label | translate}}:</div>
+
+      <ng-container *ngFor="let metadata of item.allMetadata(metadataField.metadata)">
+
+        <ng-container [ngSwitch]="metadataField.rendering">
+
+          <ng-container *ngSwitchDefault>
+            <div class="metadata" [innerHTML]="metadata.value"></div>
+          </ng-container>
+
+        </ng-container>
+
+      </ng-container>
+
+    </div>
+
+  </ng-container>
+
+</div>

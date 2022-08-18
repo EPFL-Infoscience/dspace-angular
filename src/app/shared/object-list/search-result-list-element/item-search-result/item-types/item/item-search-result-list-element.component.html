@@ -32,13 +32,7 @@
             <div [innerHTML]="firstMetadataValue('dc.description.abstract')"></div>
           </ds-truncatable-part>
         </div>
-        <div *ngIf="additionalMetadataFields" class="item-list-additional">
-          <ds-truncatable-part [id]="dso.id" [minLines]="1">
-            <ng-container *ngFor="let meta of dso.allMetadataValues(additionalMetadataFields)">
-              <div [innerHTML]="meta"></div>
-            </ng-container>
-          </ds-truncatable-part>
-        </div>
+        <ds-additional-metadata [item]="dso"></ds-additional-metadata>
       </ds-truncatable>
       <ds-metric-badges *ngIf="!hideMetrics" class="d-block clearfix" [item]="dso"></ds-metric-badges>
     </div>
