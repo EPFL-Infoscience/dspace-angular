@@ -1871,6 +1871,8 @@
 
   "explore.index.dc.title" : "Title",
 
+  "explore.index.doi" : "DOI",
+
   "explore.index.editor" : "Editor",
 
   "explore.index.eqtitle" : "Title",
@@ -1923,7 +1925,11 @@
 
   "explore.index.jobTitle" : "Job title",
 
+  "explore.index.journal" : "Journal",
+
   "explore.index.knowsLanguage" : "Knows languages",
+
+  "explore.index.orcid" : "ORCID",
 
   "explore.index.organization" : "Organization",
 
