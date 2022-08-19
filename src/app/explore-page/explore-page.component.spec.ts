@@ -10,14 +10,14 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { TranslateLoaderMock } from '../shared/mocks/translate-loader.mock';
 import { RemoteData } from '../core/data/remote-data';
-import { BrowseSection, FacetSection, SearchSection, Section, TopSection } from '../core/layout/models/section.model';
+import { BrowseSection, FacetSection, LayoutModeEnum, SearchSection, Section, TopSection } from '../core/layout/models/section.model';
 import { SectionDataService } from '../core/layout/section-data.service';
 import { createSuccessfulRemoteDataObject$ } from '../shared/remote-data.utils';
-import { ExploreComponent } from './explore.component';
+import { ExplorePageComponent } from './explore-page.component';
 
 describe('ExploreComponent', () => {
-  let component: ExploreComponent;
-  let fixture: ComponentFixture<ExploreComponent>;
+  let component: ExplorePageComponent;
+  let fixture: ComponentFixture<ExplorePageComponent>;
 
   let sectionDataServiceStub: any;
   let route: any;
@@ -35,7 +35,11 @@ describe('ExploreComponent', () => {
     order: 'desc',
     sortField: 'dc.date.accessioned',
     numberOfItems: 5,
-    titleKey: 'lastPublications'
+    titleKey: 'lastPublications',
+    showAsCard: true,
+    showLayoutSwitch: true,
+    defaultLayoutMode: LayoutModeEnum.LIST,
+    showAllResults: true,
   };
 
   const searchComponent: SearchSection = {
@@ -82,8 +86,8 @@ describe('ExploreComponent', () => {
           }
         }),
       ],
-      declarations: [ExploreComponent],
-      providers: [ExploreComponent,
+      declarations: [ExplorePageComponent],
+      providers: [ExplorePageComponent,
         { provide: SectionDataService, useValue: sectionDataServiceStub },
         { provide: ActivatedRoute, useValue: route }],
       schemas: [NO_ERRORS_SCHEMA]
@@ -92,12 +96,12 @@ describe('ExploreComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ExploreComponent);
+    fixture = TestBed.createComponent(ExplorePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create ExploreComponent', inject([ExploreComponent], (comp: ExploreComponent) => {
+  it('should create ExploreComponent', inject([ExplorePageComponent], (comp: ExplorePageComponent) => {
     expect(comp).toBeDefined();
   }));
 

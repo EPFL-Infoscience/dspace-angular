@@ -12,7 +12,6 @@ import { RemoteData } from '../core/data/remote-data';
   selector: 'ds-thumbnail',
   styleUrls: ['./thumbnail.component.scss'],
   templateUrl: './thumbnail.component.html',
-  preserveWhitespaces: false,
 })
 export class ThumbnailComponent implements OnChanges {
   /**
@@ -45,6 +44,11 @@ export class ThumbnailComponent implements OnChanges {
    * Limit thumbnail width to --ds-thumbnail-max-width
    */
   @Input() limitWidth? = true;
+
+  /**
+   * Keep image aspect ratio, add padding and do not crop the image
+   */
+  @Input() keepAspectRatio? = false;
 
   isLoading: boolean;
 
