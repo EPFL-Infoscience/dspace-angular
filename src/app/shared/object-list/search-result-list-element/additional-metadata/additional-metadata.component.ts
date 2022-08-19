@@ -1,9 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Item } from '../../../../core/shared/item.model';
-import { AdditionalMetadataConfig } from '../../../../../config/search-result-config.interface';
+import {
+  SearchResultAdditionalMetadataEntityTypeConfig,
+  SearchResultAdditionalMetadataFieldConfig
+} from '../../../../../config/search-result-config.interface';
 import { environment } from '../../../../../environments/environment';
 import { MetadataLinkValue } from '../../../../cris-layout/models/cris-layout-metadata-link-value.model';
-import {hasValue, isNotEmpty} from '../../../empty.util';
+import { hasValue, isNotEmpty } from '../../../empty.util';
 import { MetadataValue } from '../../../../core/shared/metadata.models';
 import { ResolverStrategyService } from '../../../../cris-layout/services/resolver-strategy.service';
 
@@ -24,7 +27,7 @@ export class AdditionalMetadataComponent implements OnInit {
   /**
    * A list of additional metadata fields to display
    */
-  public additionalMetadataFields: AdditionalMetadataConfig[];
+  public additionalMetadataFields: SearchResultAdditionalMetadataFieldConfig[];
 
   constructor(
     protected resolver: ResolverStrategyService,
@@ -33,24 +36,37 @@ export class AdditionalMetadataComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.additionalMetadataFields = environment.searchResult.additionalMetadataFields.filter(
-      (field) => field.itemType.toLocaleLowerCase() ===
-        this.item.entityType.toLocaleLowerCase() &&
-        this.item.hasMetadata(field.metadata)
+    const entityTypeConfig = environment.searchResult.additionalMetadataFields.filter(
+      (field: SearchResultAdditionalMetadataEntityTypeConfig) => field.entityType.toLocaleLowerCase() === this.item.entityType.toLocaleLowerCase()
+    );
+
+    const fallbackConfig = environment.searchResult.additionalMetadataFields.filter(
+      (field: SearchResultAdditionalMetadataEntityTypeConfig) => field.entityType.toLocaleLowerCase() === 'fallback'
+    );
+
+    let unfilteredAdditionalMetadataFields: SearchResultAdditionalMetadataFieldConfig[];
+
+    if (entityTypeConfig.length > 0) {
+      unfilteredAdditionalMetadataFields = entityTypeConfig[0].metadataConfiguration;
+    } else if (fallbackConfig.length > 0) {
+      unfilteredAdditionalMetadataFields = fallbackConfig[0].metadataConfiguration;
+    }
+
+    this.additionalMetadataFields = unfilteredAdditionalMetadataFields.filter(
+      (field) => this.item.hasMetadata(field.metadata)
     );
 
   }
 
-
-  metadataRenderingType(metadata: AdditionalMetadataConfig): string {
+  metadataRenderingType(metadata: SearchResultAdditionalMetadataFieldConfig): string {
     return metadata.rendering.split('.')[0];
   }
 
-  metadataRenderingSubtype(metadata: AdditionalMetadataConfig): string {
+  metadataRenderingSubtype(metadata: SearchResultAdditionalMetadataFieldConfig): string {
     return metadata.rendering.split('.')[1];
   }
 
-  linkData(configuration: AdditionalMetadataConfig, metadataValue: MetadataValue): LinkData {
+  linkData(configuration: SearchResultAdditionalMetadataFieldConfig, metadataValue: MetadataValue): LinkData {
 
     const renderingSubtype = this.metadataRenderingSubtype(configuration);
     let linkData = {} as LinkData;
@@ -67,7 +83,7 @@ export class AdditionalMetadataComponent implements OnInit {
     return linkData;
   }
 
-  identifierData(configuration: AdditionalMetadataConfig, metadataValue: MetadataValue): LinkData {
+  identifierData(configuration: SearchResultAdditionalMetadataFieldConfig, metadataValue: MetadataValue): LinkData {
     // TODO needs to be refactored (code from identifier.component.ts)
     const renderingSubtype = this.metadataRenderingSubtype(configuration);
     let linkData: LinkData;
