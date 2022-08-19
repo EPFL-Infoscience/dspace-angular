@@ -6,7 +6,7 @@
       <i class="fas fa-trash"></i> {{'submission.general.discard.submit' | translate}}
     </button>
   </div>
-  <div class="col text-right d-flex justify-content-end align-items-center">
+  <div class="col text-right d-flex justify-content-end align-items-center flex-wrap">
     <span
       *ngIf="!(hasUnsavedModification | async) && !(processingSaveStatus | async) && !(processingDepositStatus | async)">
       <i class="fas fa-check-circle"></i> {{'submission.general.info.saved' | translate}}
@@ -27,8 +27,7 @@
       </div>
     </div>
 
-    <ds-claimed-task-actions *ngIf="isWorkFlow && !!workFlowItem" [object]="workFlowItem">
-    </ds-claimed-task-actions>
+
     <div class="ml-2 space-children-mr">
       <button type="button" class="btn btn-secondary" id="save"
         [disabled]="(processingSaveStatus | async) || !(hasUnsavedModification | async)" (click)="save($event)">
@@ -45,6 +44,10 @@
         <span><i class="fas fa-plus"></i> {{'submission.general.deposit' | translate}}</span>
       </button>
     </div>
+
+    <ds-claimed-task-actions *ngIf="isWorkFlow && !!claimedTask" [object]="claimedTask" [workflowAction$]="action"
+      [hasModifications]="hasUnsavedModification | async">
+    </ds-claimed-task-actions>
   </div>
 </div>
 

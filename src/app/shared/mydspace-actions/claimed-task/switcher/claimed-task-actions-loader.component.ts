@@ -3,9 +3,11 @@ import {
   ComponentFactoryResolver,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild
 } from '@angular/core';
 import { getComponentByWorkflowTaskOption } from './claimed-task-actions-decorator';
@@ -24,7 +26,7 @@ import { MyDSpaceActionsResult } from '../../mydspace-actions';
  * Component for loading a ClaimedTaskAction component depending on the "option" input
  * Passes on the ClaimedTask to the component and subscribes to the processCompleted output
  */
-export class ClaimedTaskActionsLoaderComponent implements OnInit, OnDestroy {
+export class ClaimedTaskActionsLoaderComponent implements OnInit, OnDestroy, OnChanges {
   /**
    * The ClaimedTask object
    */
@@ -37,6 +39,11 @@ export class ClaimedTaskActionsLoaderComponent implements OnInit, OnDestroy {
   @Input() option: string;
 
   /**
+   * If the actions need to be disabled
+   */
+  @Input() disabled = false;
+
+  /**
    * Emits the success or failure of a processed action
    */
   @Output() processCompleted = new EventEmitter<MyDSpaceActionsResult>();
@@ -44,8 +51,10 @@ export class ClaimedTaskActionsLoaderComponent implements OnInit, OnDestroy {
   /**
    * Directive to determine where the dynamic child component is located
    */
-  @ViewChild(ClaimedTaskActionsDirective, {static: true}) claimedTaskActionsDirective: ClaimedTaskActionsDirective;
+  @ViewChild(ClaimedTaskActionsDirective, { static: true }) claimedTaskActionsDirective: ClaimedTaskActionsDirective;
 
+
+  public componentInstance: ClaimedTaskActionsAbstractComponent;
   /**
    * Array to track all subscriptions and unsubscribe them onDestroy
    * @type {Array}
@@ -68,11 +77,18 @@ export class ClaimedTaskActionsLoaderComponent implements OnInit, OnDestroy {
       viewContainerRef.clear();
 
       const componentRef = viewContainerRef.createComponent(componentFactory);
-      const componentInstance = (componentRef.instance as ClaimedTaskActionsAbstractComponent);
-      componentInstance.object = this.object;
-      if (hasValue(componentInstance.processCompleted)) {
-        this.subs.push(componentInstance.processCompleted.subscribe((result) => this.processCompleted.emit(result)));
+      this.componentInstance = (componentRef.instance as ClaimedTaskActionsAbstractComponent);
+      this.componentInstance.object = this.object;
+      this.componentInstance.disabled = this.disabled;
+      if (hasValue(this.componentInstance.processCompleted)) {
+        this.subs.push(this.componentInstance.processCompleted.subscribe((result) => this.processCompleted.emit(result)));
       }
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.componentInstance && changes.hasOwnProperty('disabled')) {
+      this.componentInstance.disabled = this.disabled;
     }
   }
 

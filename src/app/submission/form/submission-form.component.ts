@@ -80,7 +80,7 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
     * Submission type is workflow item submission
     * @type {boolean}
     */
-  @Input() isWorkFlow;
+  @Input() isWorkFlow: boolean;
 
   /**
    * The configuration id that define this submission

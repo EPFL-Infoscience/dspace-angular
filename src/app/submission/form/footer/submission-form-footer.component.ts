@@ -1,18 +1,20 @@
 import { ClaimedTask } from './../../../core/tasks/models/claimed-task-object.model';
-import { getFirstSucceededRemoteDataPayload } from './../../../core/shared/operators';
+import { getFirstSucceededRemoteDataPayload, getFirstSucceededRemoteData } from './../../../core/shared/operators';
 import { ClaimedTaskDataService } from './../../../core/tasks/claimed-task-data.service';
 import { LinkService } from './../../../core/cache/builders/link.service';
 import { followLink } from './../../../shared/utils/follow-link-config.model';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 import { Observable, of as observableOf } from 'rxjs';
-import { first, map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SubmissionRestService } from '../../../core/submission/submission-rest.service';
 import { SubmissionService } from '../../submission.service';
 import { SubmissionScopeType } from '../../../core/submission/submission-scope-type';
 import { isNotEmpty } from '../../../shared/empty.util';
+import { WorkflowAction } from '../../../core/tasks/models/workflow-action-object.model';
+import { RemoteData } from '../../../core/data/remote-data';
 
 /**
  * This component represents submission form footer bar.
@@ -42,7 +44,6 @@ export class SubmissionFormFooterComponent implements OnInit, OnChanges {
     */
   @Input() item;
 
-  object;
   /**
    * A boolean representing if a submission deposit operation is pending
    * @type {Observable<boolean>}
@@ -72,9 +73,15 @@ export class SubmissionFormFooterComponent implements OnInit, OnChanges {
    */
   public hasUnsavedModification: Observable<boolean>;
 
-  workFlowItem$: Observable<ClaimedTask>;
+  /**
+   * ClaimedTask of the item if submission is workflow
+   */
+  public claimedTask: ClaimedTask;
 
-  workFlowItem;
+  /**
+   * The possible workflow actions of the ClaimedTask
+   */
+  public action: RemoteData<WorkflowAction>;
 
   /**
    * Initialize instance variables
@@ -90,6 +97,9 @@ export class SubmissionFormFooterComponent implements OnInit, OnChanges {
     private submissionService: SubmissionService) {
   }
 
+  /**
+   * Get ClaimedTask from the item if its a workflow item
+   */
   ngOnInit() {
     if (this.isWorkFlow) {
       this.claimedTaskDataService.findByItem(this.item.id).pipe(
@@ -99,14 +109,17 @@ export class SubmissionFormFooterComponent implements OnInit, OnChanges {
             this.linkService.resolveLinks(claimedTask, followLink('workflowitem', {},
               followLink('item'), followLink('submitter')
             ), followLink('action'));
-            this.workFlowItem = claimedTask;
             return claimedTask;
           }
           return null;
         })
       ).subscribe((result) => {
-        result.action.pipe(first()).subscribe(action => console.log(action));
-        this.workFlowItem = result;
+        this.claimedTask = result;
+        this.claimedTask.action.pipe(
+          getFirstSucceededRemoteData(),
+        ).subscribe((action) => {
+          this.action = action;
+        });
       });
     }
   }
