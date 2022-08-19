@@ -59,7 +59,6 @@ export class AdditionalMetadataComponent implements OnInit {
       linkData.href = `mailto:${metadataValue.value}`;
       linkData.text = metadataValue.value;
     } else {
-      console.log('linkData mv = ' + JSON.stringify(metadataValue));
       const startsWithProtocol = [/^https?:\/\//, /^ftp:\/\//];
       linkData.href = startsWithProtocol.some(rx => rx.test(metadataValue.value)) ? metadataValue.value : `http://${metadataValue.value}`;
       linkData.text = metadataValue.value;
