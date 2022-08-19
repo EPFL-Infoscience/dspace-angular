@@ -5782,7 +5782,7 @@
 
   "submission.sections.submit.progressbar.CClicense": "Creative commons license",
 
-  "submission.sections.submit.progressbar.CustomUrlStep": "Custom url",
+  "submission.sections.submit.progressbar.custom-url": "Custom url",
 
   "submission.sections.submit.progressbar.describe.equipment": "Equipment basic information",
 
@@ -5836,9 +5836,25 @@
 
   "submission.sections.submit.progressbar.upload": "Upload files",
 
-  "submission.sections.submit.progressbar.correction-step": "Corrections",
+  "submission.sections.submit.progressbar.upload-publication": "Upload files",
 
+  "submission.sections.submit.progressbar.upload-product": "Upload files",
 
+  "submission.sections.submit.progressbar.upload-patent": "Upload files",
+
+  "submission.sections.submit.progressbar.upload-project": "Upload files",
+
+  "submission.sections.submit.progressbar.upload-funding": "Upload files",
+
+  "submission.sections.submit.progressbar.upload-event": "Upload files",
+
+  "submission.sections.submit.progressbar.upload-journal": "Upload files",
+
+  "submission.sections.submit.progressbar.upload-orgunit": "Upload files",
+
+  "submission.sections.submit.progressbar.upload-person": "Upload files",
+
+  "submission.sections.submit.progressbar.correction": "Corrections",
 
   "submission.sections.status.errors.title": "Errors",
 
