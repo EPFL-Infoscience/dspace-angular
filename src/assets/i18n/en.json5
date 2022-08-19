@@ -4723,6 +4723,14 @@
 
   "search.filters.applied.f.graphpubldatetrl": "Public date RTL",
 
+  "search.filters.applied.f.original_bundle_datacite_available.min": "Start Date",
+
+  "search.filters.applied.f.original_bundle_datacite_available.max": "End Date",
+
+  "search.filters.applied.f.original_bundle_datacite_rights": "File Accessibility",
+
+  "search.filters.applied.f.original_bundle_oaire_licenseCondition": "File License",
+
   "search.filters.applied.f.organization": "Organisation",
 
   "search.filters.applied.charts.defaultConfiguration.title": "Search Output",
@@ -4919,6 +4927,24 @@
   "search.filters.filter.organizationFoundingDate.placeholder": "Date Founded",
 
   "search.filters.filter.organizationFoundingDate.label": "Search date founded",
+
+  "search.filters.filter.original_bundle_oaire_licenseCondition.head": "File License",
+
+  "search.filters.filter.original_bundle_oaire_licenseCondition.placeholder": "File License",
+
+  "search.filters.filter.original_bundle_oaire_licenseCondition.label": "Search file license",
+
+  "search.filters.filter.original_bundle_datacite_available.head": "Embargo",
+
+  "search.filters.filter.original_bundle_datacite_available.min.label": "Start",
+
+  "search.filters.filter.original_bundle_datacite_available.max.label": "End",
+
+  "search.filters.filter.original_bundle_datacite_rights.head": "File Accessibility",
+
+  "search.filters.filter.original_bundle_datacite_rights.placeholder": "File Accessibility",
+
+  "search.filters.filter.original_bundle_datacite_rights.label": "Search file accessibility",
 
   "search.filters.filter.scope.head": "Scope",
 
