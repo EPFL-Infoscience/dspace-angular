@@ -1618,6 +1618,12 @@
 
   "cris-layout.advanced-attachment.viewMore": "View More",
 
+  "cris-layout.advanced-attachment.oaire.licenseCondition": "License Condition",
+
+  "cris-layout.advanced-attachment.datacite.rights": "Access type",
+
+  "cris-layout.advanced-attachment.datacite.available": "Embargo End Date",
+
   "cris-layout.attachment.viewMore": "View More",
 
   "curation-task.task.checklinks.label":  "Check Links in Metadata",
