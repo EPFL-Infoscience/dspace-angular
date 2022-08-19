@@ -12,8 +12,6 @@ import { Bitstream } from '../../../../core/shared/bitstream.model';
 import { FileService } from '../../../../core/shared/file.service';
 import { HALEndpointService } from '../../../../core/shared/hal-endpoint.service';
 import { SearchResult } from '../../../search/models/search-result.model';
-import { environment } from 'src/environments/environment';
-import { hasValue, isNotEmpty } from 'src/app/shared/empty.util';
 
 /**
  * This component show metadata for the given item object in the detail view.
@@ -47,11 +45,6 @@ export class ItemDetailPreviewComponent {
   @Input() showSubmitter = false;
 
   /**
-   * A list of additional metadatas to display
-   */
-  public additionalMetadatas: string[];
-
-  /**
    * The item's thumbnail
    */
   public bitstreams$: Observable<Bitstream[]>;
@@ -71,12 +64,6 @@ export class ItemDetailPreviewComponent {
   constructor(private fileService: FileService,
               private halService: HALEndpointService,
               private bitstreamDataService: BitstreamDataService) {
-  }
-
-  ngOnInit() {
-    if (hasValue(environment.myDSpace) && isNotEmpty(environment.myDSpace.additionalMetadatas)) {
-      this.additionalMetadatas = environment.myDSpace.additionalMetadatas.map(m => m.value);
-    }
   }
 
   /**

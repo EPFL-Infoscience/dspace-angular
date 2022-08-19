@@ -308,13 +308,3 @@ addThisPlugin:
   siteId: ''
   scriptUrl: "http://s7.addthis.com/js/300/addthis_widget.js#pubid="
   socialNetworksEnabled: false
-
-# MyDSpace Config
-myDSpace:
-  # Add additional metadatas to display at the end of the item component. By default, this is an empty list.
-  additionalMetadatas: []
-  # Replace the empty list by some values here.
-  # additionalMetadatas:
-    # - value: metadata.1
-    # - value: metadata.2
-    # - ...

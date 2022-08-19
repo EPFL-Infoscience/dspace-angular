@@ -22,7 +22,6 @@ import { AddThisPluginConfig } from './addThisPlugin-config';
 import { FollowAuthorityMetadata } from './search-follow-metadata.interface';
 import { AdvancedAttachmentRenderingConfig } from './advanced-attachment-rendering.config';
 import { AttachmentRenderingConfig } from './attachment-rendering.config';
-import { MyDSpaceConfig } from './my-dspace.interface';
 import { SearchResultConfig } from './search-result-config.interface';
 
 interface AppConfig extends Config {
@@ -52,7 +51,6 @@ interface AppConfig extends Config {
   metricVisualizationConfig: MetricVisualizationConfig[];
   attachmentRendering: AttachmentRenderingConfig;
   advancedAttachmentRendering: AdvancedAttachmentRenderingConfig;
-  myDSpace: MyDSpaceConfig;
   searchResult: SearchResultConfig;
 }
 

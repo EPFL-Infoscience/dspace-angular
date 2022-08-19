@@ -9,7 +9,6 @@ import { FormConfig } from './form-config.interfaces';
 import { ItemPageConfig } from './item-page-config.interface';
 import { LangConfig } from './lang-config.interface';
 import { MediaViewerConfig } from './media-viewer-config.interface';
-import { MyDSpaceConfig } from './my-dspace.interface';
 import { INotificationBoardOptions } from './notifications-config.interfaces';
 import { ServerConfig } from './server-config.interface';
 import { SubmissionConfig } from './submission-config.interface';
@@ -553,11 +552,6 @@ export class DefaultAppConfig implements AppConfig {
         type: AdvancedAttachmentElementType.Attribute,
       }
     ]
-  };
-
-  // The default MyDSpace Config
-  myDSpace: MyDSpaceConfig = {
-    additionalMetadatas: []
   };
 
   searchResult: SearchResultConfig = {
