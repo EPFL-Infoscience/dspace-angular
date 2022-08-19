@@ -1600,6 +1600,26 @@
 
   "cris-layout.toggle.aria.close": "Collapse {{sectionHeader}} section",
 
+  "cris-layout.advanced-attachment.dc.title": "Name",
+
+  "cris-layout.advanced-attachment.size": "Size",
+
+  "cris-layout.advanced-attachment.format": "Format",
+
+  "cris-layout.advanced-attachment.dc.type": "Type",
+
+  "cris-layout.advanced-attachment.dc.description": "Description",
+
+  "cris-layout.advanced-attachment.no_thumbnail": "No Thumbnail Available",
+
+  "cris-layout.advanced-attachment.download": "Download",
+
+  "cris-layout.advanced-attachment.requestACopy": "Request a copy",
+
+  "cris-layout.advanced-attachment.viewMore": "View More",
+
+  "cris-layout.attachment.viewMore": "View More",
+
   "curation-task.task.checklinks.label":  "Check Links in Metadata",
 
   "curation-task.task.noop.label": "NOOP",
@@ -1612,6 +1632,19 @@
 
   "curation-task.task.vscan.label": "Virus Scan",
 
+  "curation-task.task.estaipsize.label": "Estimate Storage Space for AIP(s)",
+
+  "curation-task.task.transmitaip.label": "Transmit AIP(s) to Storage",
+
+  "curation-task.task.transmitsingleaip.label": "Transmit Single Object AIP to Storage",
+
+  "curation-task.task.removeaip.label": "Remove AIP(s) from Storage",
+
+  "curation-task.task.restorefromaip.label": "Restore Missing Object(s) from AIP(s)",
+
+  "curation-task.task.restoresinglefromaip.label": "Restore Single Object from AIP",
+
+  "curation-task.task.fetchaip.label": "Fetch AIP(s) from Storage",
 
 
   "curation.form.task-select.label": "Task:",
@@ -1838,6 +1871,8 @@
 
   "explore.index.dc.title" : "Title",
 
+  "explore.index.doi" : "DOI",
+
   "explore.index.editor" : "Editor",
 
   "explore.index.eqtitle" : "Title",
@@ -1890,7 +1925,11 @@
 
   "explore.index.jobTitle" : "Job title",
 
+  "explore.index.journal" : "Journal",
+
   "explore.index.knowsLanguage" : "Knows languages",
+
+  "explore.index.orcid" : "ORCID",
 
   "explore.index.organization" : "Organization",
 
@@ -5032,6 +5071,10 @@
 
   "sorting.dc.title.DESC": "Title Descending",
 
+  "sorting.dc.contributor.author.ASC": "First Author Ascending",
+
+  "sorting.dc.contributor.author.DESC": "First Author Descending",
+
   "sorting.metric.view.ASC" : "Views Ascending",
 
   "sorting.metric.view.DESC" : "Views Descending",
@@ -5765,7 +5808,7 @@
 
   "submission.sections.submit.progressbar.CClicense": "Creative commons license",
 
-  "submission.sections.submit.progressbar.CustomUrlStep": "Custom url",
+  "submission.sections.submit.progressbar.custom-url": "Custom url",
 
   "submission.sections.submit.progressbar.describe.equipment": "Equipment basic information",
 
@@ -5819,9 +5862,25 @@
 
   "submission.sections.submit.progressbar.upload": "Upload files",
 
-  "submission.sections.submit.progressbar.correction-step": "Corrections",
+  "submission.sections.submit.progressbar.upload-publication": "Upload files",
 
+  "submission.sections.submit.progressbar.upload-product": "Upload files",
 
+  "submission.sections.submit.progressbar.upload-patent": "Upload files",
+
+  "submission.sections.submit.progressbar.upload-project": "Upload files",
+
+  "submission.sections.submit.progressbar.upload-funding": "Upload files",
+
+  "submission.sections.submit.progressbar.upload-event": "Upload files",
+
+  "submission.sections.submit.progressbar.upload-journal": "Upload files",
+
+  "submission.sections.submit.progressbar.upload-orgunit": "Upload files",
+
+  "submission.sections.submit.progressbar.upload-person": "Upload files",
+
+  "submission.sections.submit.progressbar.correction": "Corrections",
 
   "submission.sections.status.errors.title": "Errors",
 
@@ -6108,6 +6167,10 @@
   "vocabulary.import-external.preview.import.success": "Entity created successfully.",
 
   "vocabulary-treeview.header": "Hierarchical tree view",
+
+  "vocabulary-treeview.header.affiliation": "Affiliation",
+
+  "vocabulary-treeview.header.hierarchy": "Hierarchy",
 
   "vocabulary-treeview.load-more": "Load more",
 

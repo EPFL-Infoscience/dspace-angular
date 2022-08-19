@@ -52,14 +52,7 @@ export class TagBrowseComponent extends RenderingTypeStructuredModelComponent im
    * @params initChipsValues values to be rendered in chip items
    */
   private initChips(initChipsValues: any[]): void {
-    initChipsValues.forEach((element, ind) => {
-      const el = element;
-      initChipsValues[ind] = {
-        value: el,
-        href: '/browse/' + this.metadataType + '?value=' + el
-      };
-    });
-    this.chips = new Chips(initChipsValues,'value');
+    this.chips = this.initRenderingChips(initChipsValues, 'browse', this.metadataType);
   }
 
 }

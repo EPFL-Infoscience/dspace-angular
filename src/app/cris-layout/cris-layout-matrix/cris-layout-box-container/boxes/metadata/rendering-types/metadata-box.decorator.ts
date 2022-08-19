@@ -16,11 +16,14 @@ export enum FieldRenderingType {
   ORCID = 'ORCID',
   TAG = 'TAG',
   VALUEPAIR = 'VALUEPAIR',
+  ADVANCEDATTACHMENT = 'ADVANCEDATTACHMENT',
   HTML = 'HTML',
   MAP = 'MAP',
   BROWSE = 'BROWSE',
   TAGBROWSE = 'TAG-BROWSE',
   MARKDOWN = 'MARKDOWN',
+  SEARCH = 'SEARCH',
+  TAGSEARCH = 'TAG-SEARCH',
 }
 
 const fieldType = new Map();
