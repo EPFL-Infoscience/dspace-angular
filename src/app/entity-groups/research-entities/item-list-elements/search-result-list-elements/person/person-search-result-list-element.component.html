@@ -17,13 +17,9 @@
                 <span [innerHTML]="value"></span>
               </span>
             </div>
-            <div *ngIf="additionalMetadataFields" class="item-list-additional">
-              <ng-container *ngFor="let meta of dso.allMetadataValues(additionalMetadataFields)">
-                <div class='item-additional' [innerHTML]="meta"></div>
-              </ng-container>
-            </div>
           </ds-truncatable-part>
         </span>
+        <ds-additional-metadata [item]="dso"></ds-additional-metadata>
       </ds-truncatable>
     </div>
   </div>

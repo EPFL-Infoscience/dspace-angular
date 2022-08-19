@@ -8,8 +8,6 @@ import { getItemPageRoute } from '../../../../../../item-page/item-page-routing-
 import { Context } from '../../../../../../core/shared/context.model';
 import { TruncatableService } from '../../../../../truncatable/truncatable.service';
 import { DSONameService } from '../../../../../../core/breadcrumbs/dso-name.service';
-import { hasValue, isNotEmpty } from '../../../../../empty.util';
-import { environment } from 'src/environments/environment';
 
 @listableObjectComponent('PublicationSearchResult', ViewMode.ListElement)
 @listableObjectComponent(ItemSearchResult, ViewMode.ListElement)
@@ -35,17 +33,9 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
    */
   itemPageRoute: string;
 
-  /**
-   * A list of additional metadata fields to display
-   */
-  public additionalMetadataFields: string[];
-
   ngOnInit(): void {
     super.ngOnInit();
     this.itemPageRoute = getItemPageRoute(this.dso);
-    if (hasValue(environment.myDSpace) && isNotEmpty(environment.myDSpace.additionalMetadataFields)) {
-      this.additionalMetadataFields = environment.myDSpace.additionalMetadataFields;
-    }
   }
 
 }

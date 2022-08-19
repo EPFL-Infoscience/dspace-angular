@@ -23,6 +23,7 @@ import { FollowAuthorityMetadata } from './search-follow-metadata.interface';
 import { AdvancedAttachmentRenderingConfig } from './advanced-attachment-rendering.config';
 import { AttachmentRenderingConfig } from './attachment-rendering.config';
 import { MyDSpaceConfig } from './my-dspace.interface';
+import { SearchResultConfig } from './search-result-config.interface';
 
 interface AppConfig extends Config {
   ui: UIServerConfig;
@@ -52,6 +53,7 @@ interface AppConfig extends Config {
   attachmentRendering: AttachmentRenderingConfig;
   advancedAttachmentRendering: AdvancedAttachmentRenderingConfig;
   myDSpace: MyDSpaceConfig;
+  searchResult: SearchResultConfig;
 }
 
 const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG');

@@ -11,11 +11,5 @@
       <span class="item-list-org-unit-description" [innerHTML]="firstMetadataValue('dc.description.abstract')"></span>
     </ds-truncatable-part>
   </div>
-  <div *ngIf="additionalMetadataFields">
-    <ds-truncatable-part [id]="dso.id" [minLines]="1">
-      <ng-container *ngFor="let meta of dso.allMetadataValues(additionalMetadataFields)">
-        <div class='item-additional' [innerHTML]="meta"></div>
-      </ng-container>
-    </ds-truncatable-part>
-  </div>
+  <ds-additional-metadata [item]="dso"></ds-additional-metadata>
 </ds-truncatable>

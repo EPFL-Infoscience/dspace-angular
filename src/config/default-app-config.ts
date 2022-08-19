@@ -23,6 +23,7 @@ import { FollowAuthorityMetadata } from './search-follow-metadata.interface';
 import { MetricVisualizationConfig } from './metric-visualization-config.interfaces';
 import { AdvancedAttachmentRenderingConfig, AdvancedAttachmentElementType } from './advanced-attachment-rendering.config';
 import { AttachmentRenderingConfig } from './attachment-rendering.config';
+import { SearchResultConfig } from './search-result-config.interface';
 
 export class DefaultAppConfig implements AppConfig {
   production = false;
@@ -558,4 +559,9 @@ export class DefaultAppConfig implements AppConfig {
   myDSpace: MyDSpaceConfig = {
     additionalMetadataFields: []
   };
+
+  searchResult: SearchResultConfig = {
+    additionalMetadataFields: []
+  };
+
 }
