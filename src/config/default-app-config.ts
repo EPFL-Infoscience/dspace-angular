@@ -564,6 +564,4 @@ export class DefaultAppConfig implements AppConfig {
     additionalMetadataFields: []
   };
 
-
-
 }

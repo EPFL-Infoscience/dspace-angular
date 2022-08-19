@@ -1,24 +1,53 @@
 <div *ngIf="additionalMetadataFields">
-  <ng-container *ngFor="let metadataField of additionalMetadataFields">
+  <ng-container *ngFor="let metadataFieldConfiguration of additionalMetadataFields">
 
-    <!-- when there is only one value flex-row allows to show label and value on the same line -->
-    <div [ngClass]="{'d-flex flex-row': item.allMetadata(metadataField.metadata).length == 1}">
+    <ng-template #label>
+      <span class="font-weight-bold mr-1 text-muted">{{metadataFieldConfiguration.label | translate}}:</span>
+    </ng-template>
 
-      <div *ngIf="metadataField.label" class="font-weight-bold mr-1">{{metadataField.label | translate}}:</div>
+    <!-- If there are more values then show the label on a separate line -->
+    <ng-container *ngIf="metadataFieldConfiguration.label && item.allMetadata(metadataFieldConfiguration.metadata).length > 1">
+      <ng-container *ngTemplateOutlet="label"></ng-container>
+    </ng-container>
 
-      <ng-container *ngFor="let metadata of item.allMetadata(metadataField.metadata)">
+    <ng-container *ngFor="let metadataValue of item.allMetadata(metadataFieldConfiguration.metadata); let c = count">
 
-        <ng-container [ngSwitch]="metadataField.rendering">
+      <div>
+
+        <!-- If there is onlu one value then show the label together with the value -->
+        <ng-container *ngIf="metadataFieldConfiguration.label && c === 1" class="font-weight-bold mr-1">
+          <ng-container *ngTemplateOutlet="label"></ng-container>
+        </ng-container>
+
+        <ng-container [ngSwitch]="metadataRenderingType(metadataFieldConfiguration)">
+
+          <ng-container *ngSwitchCase="'crisref'">
+              <ds-metadata-link-view [item]="item" [metadata]="metadataValue"></ds-metadata-link-view>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'link'">
+            <ng-container *ngVar="linkData(metadataFieldConfiguration, metadataValue) as linkData">
+              <a href="{{linkData.href}}" target="_blank" [innerHTML]="linkData.text"></a>
+            </ng-container>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'identifier'">
+            <ng-container *ngVar="identifierData(metadataFieldConfiguration, metadataValue) as identifierData">
+              <a href="{{identifierData.href}}" target="_blank" [innerHTML]="identifierData.text"></a>
+            </ng-container>
+          </ng-container>
 
           <ng-container *ngSwitchDefault>
-            <div class="metadata" [innerHTML]="metadata.value"></div>
+            <span class="metadata" [innerHTML]="metadataValue.value"></span>
           </ng-container>
 
         </ng-container>
 
-      </ng-container>
+      </div>
 
-    </div>
+    </ng-container>
+
+    <!--</div>-->
 
   </ng-container>
 
