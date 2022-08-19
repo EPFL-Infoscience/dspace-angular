@@ -557,7 +557,7 @@ export class DefaultAppConfig implements AppConfig {
 
   // The default MyDSpace Config
   myDSpace: MyDSpaceConfig = {
-    additionalMetadataFields: []
+    additionalMetadatas: []
   };
 
   searchResult: SearchResultConfig = {

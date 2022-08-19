@@ -311,10 +311,10 @@ addThisPlugin:
 
 # MyDSpace Config
 myDSpace:
-  # Add additional metadata fields to display at the end of the item component. By default, this is an empty list.
-  additionalMetadataFields: []
+  # Add additional metadatas to display at the end of the item component. By default, this is an empty list.
+  additionalMetadatas: []
   # Replace the empty list by some values here.
-  # additionalMetadataFields:
-    # - metadata.1
-    # - metadata.2
+  # additionalMetadatas:
+    # - value: metadata.1
+    # - value: metadata.2
     # - ...

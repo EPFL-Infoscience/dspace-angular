@@ -415,6 +415,6 @@ export const environment: BuildConfig = {
   },
 
   myDSpace: {
-    additionalMetadataFields: []
-  }
+    additionalMetadatas: []
+  },
 };
