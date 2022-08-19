@@ -6,18 +6,16 @@
     </ng-template>
 
     <!-- If there are more values then show the label on a separate line -->
-    <ng-container *ngIf="metadataFieldConfiguration.label && item.allMetadata(metadataFieldConfiguration.metadata).length > 1">
+    <div *ngIf="metadataFieldConfiguration.label && item.allMetadata(metadataFieldConfiguration.metadata).length > 1">
       <ng-container *ngTemplateOutlet="label"></ng-container>
-    </ng-container>
+    </div>
 
-    <ng-container *ngFor="let metadataValue of item.allMetadata(metadataFieldConfiguration.metadata); let c = count">
-
-      <div>
+    <div *ngFor="let metadataValue of item.allMetadata(metadataFieldConfiguration.metadata); let c = count">
 
         <!-- If there is onlu one value then show the label together with the value -->
-        <ng-container *ngIf="metadataFieldConfiguration.label && c === 1" class="font-weight-bold mr-1">
+        <span *ngIf="metadataFieldConfiguration.label && c === 1">
           <ng-container *ngTemplateOutlet="label"></ng-container>
-        </ng-container>
+        </span>
 
         <ng-container [ngSwitch]="metadataRenderingType(metadataFieldConfiguration)">
 
@@ -43,9 +41,7 @@
 
         </ng-container>
 
-      </div>
-
-    </ng-container>
+    </div>
 
     <!--</div>-->
 
