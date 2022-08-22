@@ -22,6 +22,8 @@ interface LinkData {
 })
 export class AdditionalMetadataComponent implements OnInit {
 
+  DEFAULT_CONFIG_NAME = 'default';
+
   @Input() item: Item;
 
   /**
@@ -40,16 +42,16 @@ export class AdditionalMetadataComponent implements OnInit {
       (field: SearchResultAdditionalMetadataEntityTypeConfig) => field.entityType.toLocaleLowerCase() === this.item.entityType.toLocaleLowerCase()
     );
 
-    const fallbackConfig = environment.searchResult.additionalMetadataFields.filter(
-      (field: SearchResultAdditionalMetadataEntityTypeConfig) => field.entityType.toLocaleLowerCase() === 'fallback'
+    const defaultConfig = environment.searchResult.additionalMetadataFields.filter(
+      (field: SearchResultAdditionalMetadataEntityTypeConfig) => field.entityType.toLocaleLowerCase() === this.DEFAULT_CONFIG_NAME
     );
 
     let unfilteredAdditionalMetadataFields: SearchResultAdditionalMetadataFieldConfig[];
 
     if (entityTypeConfig.length > 0) {
       unfilteredAdditionalMetadataFields = entityTypeConfig[0].metadataConfiguration;
-    } else if (fallbackConfig.length > 0) {
-      unfilteredAdditionalMetadataFields = fallbackConfig[0].metadataConfiguration;
+    } else if (defaultConfig.length > 0) {
+      unfilteredAdditionalMetadataFields = defaultConfig[0].metadataConfiguration;
     }
 
     this.additionalMetadataFields = unfilteredAdditionalMetadataFields.filter(
