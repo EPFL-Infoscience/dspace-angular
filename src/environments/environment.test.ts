@@ -414,4 +414,13 @@ export const environment: BuildConfig = {
     ]
   },
 
+  searchResult: {
+    additionalMetadataFields: [
+      {
+        entityType: 'default',
+        metadataConfiguration: []
+      }
+    ]
+  }
+
 };

@@ -555,7 +555,12 @@ export class DefaultAppConfig implements AppConfig {
   };
 
   searchResult: SearchResultConfig = {
-    additionalMetadataFields: []
+    additionalMetadataFields: [
+      {
+        entityType: 'default',
+        metadataConfiguration: []
+      }
+    ]
   };
 
 }
