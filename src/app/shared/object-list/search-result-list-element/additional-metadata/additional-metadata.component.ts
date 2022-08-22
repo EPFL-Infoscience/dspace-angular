@@ -8,6 +8,10 @@ import { MetadataValue } from '../../../../core/shared/metadata.models';
 import { ResolverStrategyService } from '../../../../cris-layout/services/resolver-strategy.service';
 import { DSpaceObject } from '../../../../core/shared/dspace-object.model';
 import { AdditionalMetadataConfig } from '../../../../../config/additional-metadata.config';
+import { getFirstSucceededRemoteDataPayload, getPaginatedListPayload } from '../../../../core/shared/operators';
+import {map, mapTo, take, tap} from 'rxjs/operators';
+import {interval, Observable, of, race} from 'rxjs';
+import { VocabularyService } from '../../../../core/submission/vocabularies/vocabulary.service';
 
 interface LinkData {
   href: string,
@@ -139,5 +143,27 @@ export class AdditionalMetadataComponent implements OnInit {
       text
     };
   }
+
+  valuepairData(metadataValue: MetadataValue, vocabularyName: string): Observable<string> {
+
+    const authority = metadataValue.authority ? metadataValue.authority.split(':') : undefined;
+    const isControlledVocabulary = authority?.length > 1 && authority[0] === vocabularyName;
+    const value = isControlledVocabulary ? authority[1] : metadataValue.value;
+
+    const entry$ = this.vocabularyService.getPublicVocabularyEntryByValue(vocabularyName, value).pipe(
+      getFirstSucceededRemoteDataPayload(),
+      getPaginatedListPayload(),
+      map((res) => res[0]?.display ?? metadataValue.value),
+    );
+
+    // fallback values to be shown if the display value cannot be retrieved
+    const initValue$ = interval(1000).pipe(mapTo(metadataValue.value));
+
+    return race([entry$, initValue$]).pipe(
+      take(1)
+    );
+
+  }
+
 
 }

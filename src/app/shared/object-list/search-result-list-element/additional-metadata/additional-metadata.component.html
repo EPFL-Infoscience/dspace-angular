@@ -35,6 +35,10 @@
             </ng-container>
           </ng-container>
 
+          <ng-container *ngSwitchCase="'valuepair'">
+            {{ valuepairData(metadataValue, metadataRenderingSubtype(metadataFieldConfiguration)) | async }}
+          </ng-container>
+
           <ng-container *ngSwitchDefault>
             <span class="metadata" [innerHTML]="metadataValue.value"></span>
           </ng-container>
