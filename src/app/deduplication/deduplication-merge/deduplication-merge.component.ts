@@ -476,6 +476,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * @param bitstream The bitstream to be checked or unchecked
    */
   onBitstreamChecked(event, bitstream: Bitstream) {
+    // TODO: Remove method when is not used anymore
     const idx = this.bitstreamList.findIndex((link) =>
       isEqual(link, bitstream._links.self.href)
     );
@@ -596,7 +597,11 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
           )
           .subscribe((bitstreams: Bitstream[]) => {
             const linksPerItem = bitstreams.map((b) => b._links.self.href);
-            this.bitstreamList = this.bitstreamList.concat(...linksPerItem);
+            linksPerItem.forEach((link) => {
+              if (!this.bitstreamList.includes(link)) {
+                this.bitstreamList.push(link);
+              }
+            })
           });
       });
     }
