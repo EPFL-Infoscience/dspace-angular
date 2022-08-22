@@ -32,7 +32,7 @@
             <div [innerHTML]="firstMetadataValue('dc.description.abstract')"></div>
           </ds-truncatable-part>
         </div>
-        <ds-additional-metadata [item]="dso"></ds-additional-metadata>
+        <ds-additional-metadata [object]="dso"></ds-additional-metadata>
       </ds-truncatable>
       <ds-metric-badges *ngIf="!hideMetrics" class="d-block clearfix" [item]="dso"></ds-metric-badges>
     </div>

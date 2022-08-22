@@ -1,4 +1,5 @@
 import { Config } from './config.interface';
+import { AdditionalMetadataConfig } from './additional-metadata.config';
 
 export interface SearchResultConfig extends Config {
   additionalMetadataFields: SearchResultAdditionalMetadataEntityTypeConfig[],
@@ -6,11 +7,5 @@ export interface SearchResultConfig extends Config {
 
 export interface SearchResultAdditionalMetadataEntityTypeConfig extends Config {
   entityType: string,
-  metadataConfiguration: SearchResultAdditionalMetadataFieldConfig[],
-}
-
-export interface SearchResultAdditionalMetadataFieldConfig extends Config {
-  metadata: string,
-  rendering: string,
-  label?: string,
+  metadataConfiguration: AdditionalMetadataConfig[],
 }

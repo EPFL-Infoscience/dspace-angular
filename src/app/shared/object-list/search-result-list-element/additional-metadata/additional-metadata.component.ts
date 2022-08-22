@@ -1,14 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Item } from '../../../../core/shared/item.model';
-import {
-  SearchResultAdditionalMetadataEntityTypeConfig,
-  SearchResultAdditionalMetadataFieldConfig
-} from '../../../../../config/search-result-config.interface';
+import { SearchResultAdditionalMetadataEntityTypeConfig } from '../../../../../config/search-result-config.interface';
 import { environment } from '../../../../../environments/environment';
 import { MetadataLinkValue } from '../../../../cris-layout/models/cris-layout-metadata-link-value.model';
 import { hasValue, isNotEmpty } from '../../../empty.util';
 import { MetadataValue } from '../../../../core/shared/metadata.models';
 import { ResolverStrategyService } from '../../../../cris-layout/services/resolver-strategy.service';
+import { DSpaceObject } from '../../../../core/shared/dspace-object.model';
+import { AdditionalMetadataConfig } from '../../../../../config/additional-metadata.config';
 
 interface LinkData {
   href: string,
@@ -24,12 +23,12 @@ export class AdditionalMetadataComponent implements OnInit {
 
   DEFAULT_CONFIG_NAME = 'default';
 
-  @Input() item: Item;
+  @Input() object: Item | DSpaceObject;
 
   /**
    * A list of additional metadata fields to display
    */
-  public additionalMetadataFields: SearchResultAdditionalMetadataFieldConfig[];
+  public additionalMetadataFields: AdditionalMetadataConfig[];
 
   constructor(
     protected resolver: ResolverStrategyService,
@@ -39,14 +38,14 @@ export class AdditionalMetadataComponent implements OnInit {
   ngOnInit(): void {
 
     const entityTypeConfig = environment.searchResult.additionalMetadataFields.filter(
-      (field: SearchResultAdditionalMetadataEntityTypeConfig) => field.entityType.toLocaleLowerCase() === this.item.entityType.toLocaleLowerCase()
+      (field: SearchResultAdditionalMetadataEntityTypeConfig) => field.entityType.toLocaleLowerCase() === (this.object as Item).entityType.toLocaleLowerCase()
     );
 
     const defaultConfig = environment.searchResult.additionalMetadataFields.filter(
       (field: SearchResultAdditionalMetadataEntityTypeConfig) => field.entityType.toLocaleLowerCase() === this.DEFAULT_CONFIG_NAME
     );
 
-    let unfilteredAdditionalMetadataFields: SearchResultAdditionalMetadataFieldConfig[];
+    let unfilteredAdditionalMetadataFields: AdditionalMetadataConfig[];
 
     if (entityTypeConfig.length > 0) {
       unfilteredAdditionalMetadataFields = entityTypeConfig[0].metadataConfiguration;
@@ -55,20 +54,20 @@ export class AdditionalMetadataComponent implements OnInit {
     }
 
     this.additionalMetadataFields = unfilteredAdditionalMetadataFields.filter(
-      (field) => this.item.hasMetadata(field.metadata)
+      (field) => this.object.hasMetadata(field.name)
     );
 
   }
 
-  metadataRenderingType(metadata: SearchResultAdditionalMetadataFieldConfig): string {
+  metadataRenderingType(metadata: AdditionalMetadataConfig): string {
     return metadata.rendering.split('.')[0];
   }
 
-  metadataRenderingSubtype(metadata: SearchResultAdditionalMetadataFieldConfig): string {
+  metadataRenderingSubtype(metadata: AdditionalMetadataConfig): string {
     return metadata.rendering.split('.')[1];
   }
 
-  linkData(configuration: SearchResultAdditionalMetadataFieldConfig, metadataValue: MetadataValue): LinkData {
+  linkData(configuration: AdditionalMetadataConfig, metadataValue: MetadataValue): LinkData {
 
     const renderingSubtype = this.metadataRenderingSubtype(configuration);
     let linkData = {} as LinkData;
@@ -85,7 +84,7 @@ export class AdditionalMetadataComponent implements OnInit {
     return linkData;
   }
 
-  identifierData(configuration: SearchResultAdditionalMetadataFieldConfig, metadataValue: MetadataValue): LinkData {
+  identifierData(configuration: AdditionalMetadataConfig, metadataValue: MetadataValue): LinkData {
     // TODO needs to be refactored (code from identifier.component.ts)
     const renderingSubtype = this.metadataRenderingSubtype(configuration);
     let linkData: LinkData;
