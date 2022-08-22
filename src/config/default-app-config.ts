@@ -20,7 +20,7 @@ import { CrisLayoutConfig, LayoutConfig, SuggestionConfig } from './layout-confi
 import { MetadataSecurityConfig } from './metadata-security-config';
 import { FollowAuthorityMetadata } from './search-follow-metadata.interface';
 import { MetricVisualizationConfig } from './metric-visualization-config.interfaces';
-import { AdvancedAttachmentRenderingConfig, AdvancedAttachmentElementType } from './advanced-attachment-rendering.config';
+import { AdvancedAttachmentRenderingConfig } from './advanced-attachment-rendering.config';
 import { AttachmentRenderingConfig } from './attachment-rendering.config';
 import { SearchResultConfig } from './search-result-config.interface';
 
@@ -530,26 +530,28 @@ export class DefaultAppConfig implements AppConfig {
     metadata: [
       {
         name: 'dc.title',
-        type: AdvancedAttachmentElementType.Metadata,
-        truncatable: false
+        rendering: 'text',
+        label: 'cris-layout.advanced-attachment.dc.title'
       },
       {
         name: 'dc.type',
-        type: AdvancedAttachmentElementType.Metadata,
-        truncatable: false
+        rendering: 'text',
+        label: 'cris-layout.advanced-attachment.dc.type'
       },
       {
         name: 'dc.description',
-        type: AdvancedAttachmentElementType.Metadata,
-        truncatable: true
+        rendering: 'text',
+        label: 'cris-layout.advanced-attachment.dc.description'
       },
+    ],
+    attributes: [
       {
         name: 'size',
-        type: AdvancedAttachmentElementType.Attribute,
+        label: 'cris-layout.advanced-attachment.size'
       },
       {
         name: 'format',
-        type: AdvancedAttachmentElementType.Attribute,
+        label: 'cris-layout.advanced-attachment.format'
       }
     ]
   };

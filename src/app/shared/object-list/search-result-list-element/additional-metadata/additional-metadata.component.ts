@@ -25,6 +25,8 @@ export class AdditionalMetadataComponent implements OnInit {
 
   @Input() object: Item | DSpaceObject;
 
+  @Input() objectType = 'item';
+
   /**
    * A list of additional metadata fields to display
    */
@@ -32,30 +34,39 @@ export class AdditionalMetadataComponent implements OnInit {
 
   constructor(
     protected resolver: ResolverStrategyService,
+    protected vocabularyService: VocabularyService,
   ) {
   }
 
   ngOnInit(): void {
 
-    const entityTypeConfig = environment.searchResult.additionalMetadataFields.filter(
-      (field: SearchResultAdditionalMetadataEntityTypeConfig) => field.entityType.toLocaleLowerCase() === (this.object as Item).entityType.toLocaleLowerCase()
-    );
+    if (this.objectType === 'item') {
 
-    const defaultConfig = environment.searchResult.additionalMetadataFields.filter(
-      (field: SearchResultAdditionalMetadataEntityTypeConfig) => field.entityType.toLocaleLowerCase() === this.DEFAULT_CONFIG_NAME
-    );
+      const entityTypeConfig = environment.searchResult.additionalMetadataFields.filter(
+        (field: SearchResultAdditionalMetadataEntityTypeConfig) => field.entityType.toLocaleLowerCase() === (this.object as Item).entityType.toLocaleLowerCase()
+      );
 
-    let unfilteredAdditionalMetadataFields: AdditionalMetadataConfig[];
+      const defaultConfig = environment.searchResult.additionalMetadataFields.filter(
+        (field: SearchResultAdditionalMetadataEntityTypeConfig) => field.entityType.toLocaleLowerCase() === this.DEFAULT_CONFIG_NAME
+      );
 
-    if (entityTypeConfig.length > 0) {
-      unfilteredAdditionalMetadataFields = entityTypeConfig[0].metadataConfiguration;
-    } else if (defaultConfig.length > 0) {
-      unfilteredAdditionalMetadataFields = defaultConfig[0].metadataConfiguration;
+      let unfilteredAdditionalMetadataFields: AdditionalMetadataConfig[];
+
+      if (entityTypeConfig.length > 0) {
+        unfilteredAdditionalMetadataFields = entityTypeConfig[0].metadataConfiguration;
+      } else if (defaultConfig.length > 0) {
+        unfilteredAdditionalMetadataFields = defaultConfig[0].metadataConfiguration;
+      }
+
+      this.additionalMetadataFields = unfilteredAdditionalMetadataFields.filter(
+        (field) => this.object.hasMetadata(field.name)
+      );
+
+    } else if (this.objectType === 'attachment') {
+      this.additionalMetadataFields = environment.advancedAttachmentRendering.metadata.filter(
+        (field) => this.object.hasMetadata(field.name)
+      );
     }
-
-    this.additionalMetadataFields = unfilteredAdditionalMetadataFields.filter(
-      (field) => this.object.hasMetadata(field.name)
-    );
 
   }
 

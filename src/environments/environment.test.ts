@@ -2,7 +2,6 @@
 import { BuildConfig } from 'src/config/build-config.interface';
 import { RestRequestMethod } from '../app/core/data/rest-request-method';
 import { NotificationAnimationsType } from '../app/shared/notifications/models/notification-animations-type';
-import { AdvancedAttachmentElementType } from '../config/advanced-attachment-rendering.config';
 
 export const environment: BuildConfig = {
   production: false,
@@ -388,7 +387,7 @@ export const environment: BuildConfig = {
       elementsPerPage: 2
     },
     metadata: [
-      {
+      /*{
         name: 'dc.title',
         type: AdvancedAttachmentElementType.Metadata,
         truncatable: false
@@ -410,8 +409,9 @@ export const environment: BuildConfig = {
       {
         name: 'format',
         type: AdvancedAttachmentElementType.Attribute,
-      }
-    ]
+      }*/
+    ],
+    attributes: []
   },
 
   searchResult: {

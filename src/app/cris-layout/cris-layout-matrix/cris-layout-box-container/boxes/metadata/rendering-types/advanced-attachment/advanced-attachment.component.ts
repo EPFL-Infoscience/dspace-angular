@@ -1,4 +1,3 @@
-import { AdvancedAttachmentElementType } from '../../../../../../../../config/advanced-attachment-rendering.config';
 import { environment } from '../../../../../../../../environments/environment';
 import { Component, Inject, OnInit } from '@angular/core';
 
@@ -32,17 +31,12 @@ export class AdvancedAttachmentComponent extends BitstreamRenderingModelComponen
   /**
    * Environment variables configuring the fields to be viewed
    */
-  envMetadata = environment.advancedAttachmentRendering.metadata;
+  envAttributes = environment.advancedAttachmentRendering.attributes;
 
   /**
    * Environment variables configuring pagination
    */
   envPagination = environment.advancedAttachmentRendering.pagination;
-
-  /**
-   * Configuration type enum
-   */
-  AdvancedAttachmentElementType = AdvancedAttachmentElementType;
 
   constructor(
     @Inject('fieldProvider') public fieldProvider: LayoutField,

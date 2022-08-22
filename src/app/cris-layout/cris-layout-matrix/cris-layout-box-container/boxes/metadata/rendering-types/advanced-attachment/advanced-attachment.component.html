@@ -6,40 +6,21 @@
       </div>
       <div class="col-5">
 
-        <ng-container *ngFor="let attachmentConf of envMetadata">
+        <ds-additional-metadata [object]="attachment" [objectType]="'attachment'"></ds-additional-metadata>
 
-          <div class="content" [attr.data-test]="attachmentConf.name"
-            *ngIf="attachment.firstMetadataValue(attachmentConf.name) || attachmentConf.type == AdvancedAttachmentElementType.Attribute">
-            <strong>{{ 'cris-layout.advanced-attachment.'+attachmentConf.name | translate }}</strong>
-
-            <ng-container *ngIf="attachmentConf.type == AdvancedAttachmentElementType.Metadata">
-
-              <p class="word-break m-0" *ngIf="!attachmentConf.truncatable">
-                {{attachment.firstMetadataValue(attachmentConf.name)}}
-              </p>
-
-              <ds-truncatable *ngIf="attachmentConf.truncatable" [id]=" attachment.id">
-                <ds-truncatable-part [id]="attachment.id" [minLines]="1">
-                  {{attachment.firstMetadataValue(attachmentConf.name)}}
-                </ds-truncatable-part>
-              </ds-truncatable>
-
-            </ng-container>
-
-            <ng-container *ngIf="attachmentConf.type == AdvancedAttachmentElementType.Attribute">
-              <ng-container *ngIf="attachmentConf.name == 'format'">
-                <p class="word-break m-0">{{getFormat(attachment) | async}}</p>
-              </ng-container>
-
-              <ng-container *ngIf="attachmentConf.name == 'size'">
-                <p class="word-break m-0">{{getSize(attachment) | dsFileSize}}</p>
-              </ng-container>
-            </ng-container>
-
-          </div>
-        </ng-container>
-
+        <div *ngFor="let attributeConf of envAttributes">
+          <span class="font-weight-bold mr-1 text-muted">{{attributeConf.label | translate}}:</span>
+          <ng-container [ngSwitch]="attributeConf.name">
+            <span *ngSwitchCase="'format'">
+              {{getFormat(attachment) | async}}
+            </span>
+            <span *ngSwitchCase="'size'">
+              {{getSize(attachment) | dsFileSize}}
+            </span>
+          </ng-container>
+        </div>
       </div>
+
       <div class="col-4 text-right">
         <ds-file-download-button [bitstream]="attachment" [enableRequestACopy]="true" [item]="item">
         </ds-file-download-button>
