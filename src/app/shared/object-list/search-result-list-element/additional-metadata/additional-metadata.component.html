@@ -36,7 +36,7 @@
           </ng-container>
 
           <ng-container *ngSwitchCase="'valuepair'">
-            {{ valuepairData(metadataValue, metadataRenderingSubtype(metadataFieldConfiguration)) | async }}
+             <span [innerHTML]="valuepairData(metadataValue, metadataRenderingSubtype(metadataFieldConfiguration)) | async"></span>
           </ng-container>
 
           <ng-container *ngSwitchDefault>
