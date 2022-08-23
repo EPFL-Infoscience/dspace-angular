@@ -26,7 +26,7 @@ export class ItemExportModalLauncherComponent implements OnInit, OnDestroy {
   @Input() item: Item;
   @Input() searchOptions$: Observable<SearchOptions>;
 
-  bulkExportLimit: string = '0';
+  bulkExportLimit = '0';
 
   /**
    * List of subscriptions
