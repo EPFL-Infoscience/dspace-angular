@@ -97,6 +97,7 @@ describe('ItemExportComponent', () => {
       component.molteplicity = 'molteplicity' as any;
       component.item = mockItem;
       component.itemType = itemType;
+      component.bulkExportLimit = '-1' as any;
 
       // data
       configuration = { format: 'format', entityType: 'entityType' } as any;
@@ -170,6 +171,7 @@ describe('ItemExportComponent', () => {
       component.searchOptions = 'searchOptions' as any;
       component.molteplicity = 'molteplicity' as any;
       component.itemType = itemType;
+      component.bulkExportLimit = '-1' as any;
       component.exportForm = new FormGroup({
         format: new FormControl('format', [Validators.required]),
         entityType: new FormControl('Person', [Validators.required]),

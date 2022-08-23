@@ -29,6 +29,7 @@ export class ItemExportComponent implements OnInit {
   @Input() item: Item;
   @Input() searchOptions: SearchOptions;
   @Input() itemType: ItemType;
+  @Input() bulkExportLimit: string;
 
   public configuration: ItemExportFormConfiguration;
   public exportForm: FormGroup;
