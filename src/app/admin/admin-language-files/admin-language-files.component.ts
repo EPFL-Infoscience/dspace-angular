@@ -3,14 +3,14 @@ import { environment } from '../../../environments/environment';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { ScriptDataService } from '../../core/data/processes/script-data.service';
+import { RequestService } from '../../core/data/request.service';
 
 @Component({
-  selector: 'ds-admin-language-labels',
-  templateUrl: './admin-language-labels.component.html',
-  styleUrls: ['./admin-language-labels.component.scss']
+  selector: 'ds-admin-language-files',
+  templateUrl: './admin-language-files.component.html',
+  styleUrls: ['./admin-language-files.component.scss']
 })
-export class AdminLanguageLabelsComponent {
+export class AdminLanguageFilesComponent {
 
   fileObj = new Map<string, File>();
 
@@ -21,7 +21,7 @@ export class AdminLanguageLabelsComponent {
   constructor(
       protected notificationsService: NotificationsService,
       protected translate: TranslateService,
-      private scriptDataService: ScriptDataService,
+      protected requestService: RequestService,
   ) { }
 
 
@@ -33,6 +33,11 @@ export class AdminLanguageLabelsComponent {
     if (this.fileObj.size) {
 
       this.fileObj.forEach((file, langCode) => {
+
+        const postHref = '';
+
+        const requestId = this.requestService.generateRequestId();
+
 
       });
 

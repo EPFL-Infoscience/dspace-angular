@@ -9,7 +9,7 @@ import { AdminCurationTasksComponent } from './admin-curation-tasks/admin-curati
 import { AdminEditUserAgreementComponent } from './admin-edit-user-agreement/admin-edit-user-agreement.component';
 import { NOTIFICATIONS_MODULE_PATH, REGISTRIES_MODULE_PATH } from './admin-routing-paths';
 import {EditCmsMetadataComponent} from './edit-cms-metadata/edit-cms-metadata.component';
-import { AdminLanguageLabelsComponent } from './admin-language-labels/admin-language-labels.component';
+import { AdminLanguageFilesComponent } from './admin-language-files/admin-language-files.component';
 
 @NgModule({
   imports: [
@@ -61,10 +61,10 @@ import { AdminLanguageLabelsComponent } from './admin-language-labels/admin-lang
         data: { title: 'admin.edit-cms-metadata.title', breadcrumbKey: 'admin.edit-cms-metadata' }
       },
       {
-        path: 'language-labels',
+        path: 'language-files',
         resolve: { breadcrumb: I18nBreadcrumbResolver },
-        component: AdminLanguageLabelsComponent,
-        data: { title: 'admin.language-labels.title', breadcrumbKey: 'admin.language-labels' }
+        component: AdminLanguageFilesComponent,
+        data: { title: 'admin.language-files.title', breadcrumbKey: 'admin.language-labels' }
       },
     ])
   ],

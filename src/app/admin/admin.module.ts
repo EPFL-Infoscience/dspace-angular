@@ -12,7 +12,7 @@ import { ExpandableAdminSidebarSectionComponent } from './admin-sidebar/expandab
 import { AdminEditUserAgreementComponent } from './admin-edit-user-agreement/admin-edit-user-agreement.component';
 import { EditCmsMetadataComponent } from './edit-cms-metadata/edit-cms-metadata.component';
 import { MarkdownEditorModule } from '../shared/markdown-editor/markdown-editor.module';
-import { AdminLanguageLabelsComponent } from './admin-language-labels/admin-language-labels.component';
+import { AdminLanguageFilesComponent } from './admin-language-files/admin-language-files.component';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -36,7 +36,7 @@ const ENTRY_COMPONENTS = [
     MetadataImportPageComponent,
     AdminEditUserAgreementComponent,
     EditCmsMetadataComponent,
-    AdminLanguageLabelsComponent
+    AdminLanguageFilesComponent
   ]
 })
 export class AdminModule {

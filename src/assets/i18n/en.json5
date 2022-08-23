@@ -117,7 +117,9 @@
   "admin.institution.explore.title": "Explore Institutions",
 
 
-  "admin.language-labels.title": "Language labels",
+  "admin.language-labels.title": "Language files",
+
+  "admin.language-labels.breadcrumbs": "Language files",
 
   "admin.language-labels.upload-file": "Upload {{langLabel}} language file",
 
@@ -3412,6 +3414,8 @@
 
   "menu.section.import_metadata": "Metadata",
 
+
+  "menu.section.language_files_upload": "Upload language files",
 
 
   "menu.section.new": "New",
