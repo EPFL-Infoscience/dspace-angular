@@ -53,8 +53,11 @@ export class ClaimedTaskActionsLoaderComponent implements OnInit, OnDestroy, OnC
    */
   @ViewChild(ClaimedTaskActionsDirective, { static: true }) claimedTaskActionsDirective: ClaimedTaskActionsDirective;
 
-
+  /**
+   * Reference to the component instance generated
+   */
   public componentInstance: ClaimedTaskActionsAbstractComponent;
+
   /**
    * Array to track all subscriptions and unsubscribe them onDestroy
    * @type {Array}
@@ -68,7 +71,6 @@ export class ClaimedTaskActionsLoaderComponent implements OnInit, OnDestroy, OnC
    * Fetch, create and initialize the relevant component
    */
   ngOnInit(): void {
-
     const comp = this.getComponentByWorkflowTaskOption(this.option);
     if (hasValue(comp)) {
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(comp);
@@ -86,6 +88,9 @@ export class ClaimedTaskActionsLoaderComponent implements OnInit, OnDestroy, OnC
     }
   }
 
+  /**
+   * When the variable disable changes also make changes in the reference component instance
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (this.componentInstance && changes.hasOwnProperty('disabled')) {
       this.componentInstance.disabled = this.disabled;

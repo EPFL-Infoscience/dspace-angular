@@ -143,6 +143,9 @@ export class ClaimedTaskActionsComponent extends MyDSpaceActionsComponent<Claime
     return getWorkflowItemViewRoute(workflowitem?.id);
   }
 
+  /**
+   * When action process completed emit processCompleted and redirect if editing metadata of workflow item
+   */
   processCompletedFunction(event) {
     if (!!this.workflowAction$) {
       this.processCompleted.emit(event);
