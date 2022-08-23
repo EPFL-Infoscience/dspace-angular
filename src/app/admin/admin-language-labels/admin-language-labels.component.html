@@ -1,0 +1,14 @@
+<div class="container">
+  <h2>{{getLabel('title') | translate}}</h2>
+  <p>{{getLabel('select-files-note') | translate}}</p>
+  <ng-container *ngFor="let language of availableLanguages">
+    <p class="font-weight-bold">{{getLabel('upload-file') | translate : {langLabel: language.label} }}</p>
+    <ds-file-dropzone-no-uploader
+            (onFileAdded)="setFile($event, language.code)"
+            [dropMessageLabel]="getLabel('dropMsg')"
+            [dropMessageLabelReplacement]="getLabel('dropMsgReplace')">
+    </ds-file-dropzone-no-uploader>
+    <p class="small text-muted">{{getLabel('rename-note') | translate : {langCode: language.code} }}</p>
+  </ng-container>
+  <div><button class="btn btn-outline-primary float-right" (click)="uploadFiles()">{{getLabel('upload') | translate}}</button></div>
+</div>

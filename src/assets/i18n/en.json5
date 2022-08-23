@@ -117,6 +117,21 @@
   "admin.institution.explore.title": "Explore Institutions",
 
 
+  "admin.language-labels.title": "Language labels",
+
+  "admin.language-labels.upload-file": "Upload {{langLabel}} language file",
+
+  "admin.language-labels.select-files-note": "Choose one or more files to upload",
+
+  "admin.language-labels.rename-note": "Uploaded file will be renamed to {{langCode}}.json5",
+
+  "admin.language-labels.dropMsg": "Drop the language file here",
+
+  "admin.language-labels.dropMsgReplace": "Drop a new .json5 file here to replace the current one",
+
+  "admin.language-labels.upload": "Upload language files",
+
+
 
   "admin.registries.bitstream-formats.breadcrumbs": "Format registry",
 
