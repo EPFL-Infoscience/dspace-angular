@@ -73,6 +73,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    */
   private setChecksum: string;
 
+  private rule: string;
+
   /**
    * The id of the first item to compare
    * It can be used as target item id for the merge
@@ -139,7 +141,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   /**
    * Flag to control final result display
    */
-  public showFinalResults = false;
+  // public showFinalResults = false;
 
   /**
    * Stores the list of metadata fields (keys) that can accept multiple values
@@ -163,6 +165,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       `items-to-compare-${this.setChecksum}`
     );
     this.storedItemIds = itemIds ?? [];
+    this.rule = this.route.snapshot.queryParams.rule;
+
   }
 
   ngOnInit(): void {
@@ -376,16 +380,38 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       metadata: [...this.mergedMetadataFields],
       mergedItems: [...this.mergedItems],
     };
+    console.log(mergedItems);
 
     this.deduplicationItemsService
       .mergeData(mergedItems, this.targetItemId)
       .subscribe((res) => {
         if (hasValue(res)) {
-          this.router.navigate(['/deduplication/sets', this.signatureId]);
+          this.router.navigate(['/deduplication/sets', this.signatureId, this.rule]);
         }
       });
   }
 
+  onMerge(content) {
+    this.modalService.open(content).dismissed.subscribe((result) => {
+      if (isEqual(result, 'ok')) {
+        let mergedItems: MergeItems = {
+          setId: `${this.signatureId}:${this.setChecksum}`, //setId: signature-id:set-checksum
+          bitstreams: [...this.bitstreamList],
+          metadata: [...this.mergedMetadataFields],
+          mergedItems: [...this.mergedItems],
+        };
+        console.log(mergedItems);
+
+        this.deduplicationItemsService
+          .mergeData(mergedItems, this.targetItemId)
+          .subscribe((res) => {
+            if (hasValue(res)) {
+              this.router.navigate(['admin/deduplication/set', this.signatureId]);
+            }
+          });
+      }
+    });
+  }
   /**
    * Calculates the @var mergedMetadataFields on value selection
    * @param field The metadata field to be merged
@@ -457,16 +483,16 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    */
   uncheckValue(field: string, items: ItemContainer[], selectType: 'single' | 'multiple') {
     if (this.isValueChecked(field, items) && isEqual(selectType, 'single')) {
-     const metadataSourceIdx = this.mergedMetadataFields
-      .find((x) => isEqual(x.metadataField, field))
-      .sources.findIndex((x) =>
-        items.find(
-          (y) => isEqual(y._link, x.item) && isEqual(y.metadataPlace, x.place)
-        )
-      );
+      const metadataSourceIdx = this.mergedMetadataFields
+        .find((x) => isEqual(x.metadataField, field))
+        .sources.findIndex((x) =>
+          items.find(
+            (y) => isEqual(y._link, x.item) && isEqual(y.metadataPlace, x.place)
+          )
+        );
       this.mergedMetadataFields
-      .find((x) => isEqual(x.metadataField, field))
-      .sources.splice(metadataSourceIdx, 1);
+        .find((x) => isEqual(x.metadataField, field))
+        .sources.splice(metadataSourceIdx, 1);
     }
   }
 
@@ -505,13 +531,13 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     this.accordions.toArray().forEach((x) => x.collapseAll());
   }
 
-  showFinalResult() {
-    this.showFinalResults = true;
-  }
+  // showFinalResult() {
+  //   this.showFinalResults = true;
+  // }
 
-  hideFinalResult() {
-    this.showFinalResults = false;
-  }
+  // hideFinalResult() {
+  //   this.showFinalResults = false;
+  // }
 
   /**
    * Builts the initial structure of @var mergedMetadataFields
@@ -668,8 +694,13 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   getOwningCollectionTitle(item: Item): Observable<string> {
     return item.owningCollection.pipe(
       getFirstSucceededRemoteDataPayload(),
-      map((res: Collection) =>
-        res.metadata['dc.title'] ? res.metadata['dc.title'][0].value : '-'
+      map((res: Collection) => {
+        if (hasValue(res)) {
+          return res.metadata['dc.title'] ? res.metadata['dc.title'][0].value : '-';
+        }
+
+        return '-';
+      }
       )
     );
   }
@@ -705,6 +736,10 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     }
     const c = (hash & 0x00f4f0af).toString(16).toUpperCase();
     return `#${'ff8080'.substring(0, 6 - c.length) + c}`;
+  }
+
+  goBack() {
+    this.router.navigate(['admin/deduplication/set', this.signatureId, this.rule]);
   }
 
   /**

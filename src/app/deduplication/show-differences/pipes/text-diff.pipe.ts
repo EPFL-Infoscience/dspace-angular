@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import * as htmldiff from './../configs/htmldiff.js';
+import * as htmldiff from 'htmldiff/src/htmldiff.js';
 
 @Pipe({
   name: 'dsTextDiff',

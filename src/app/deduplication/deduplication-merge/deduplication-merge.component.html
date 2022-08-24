@@ -1,138 +1,153 @@
 <div class="container">
+  <div class="row border-bottom pb-2 justify-content-between">
+    <h2 id="header">
+      {{ "deduplication.merge.label.title" | translate }}
+    </h2>
+    <button class="btn btn-secondary" (click)="goBack()">
+      <i class="fa fa-arrow-left" aria-hidden="true"></i>
+    </button>
+  </div>
+
   <div class="row">
-    <div class="col-12">
-      <h2 id="header" class="border-bottom pb-2">
-        {{ "deduplication.merge.label.title" | translate }}
-      </h2>
+    <div class="col-md-12 text-center" *ngIf="!itemsToCompare">
+      <ds-loading> </ds-loading>
+    </div>
 
-      <div class="col-md-12 text-center" *ngIf="!itemsToCompare">
-        <ds-loading> </ds-loading>
+    <div class="col-md-12 text-center" *ngIf="itemsToCompare?.length == 0">
+      <h4 class="p-3">
+        {{ "deduplication.merge.message.no-data" | translate }}
+      </h4>
+    </div>
+
+    <ng-container *ngIf="itemsToCompare && itemsToCompare.length > 0">
+      <div class="col-md-12 text-center">
+        <h5>{{ "deduplication.merge.label.info" | translate }}</h5>
       </div>
 
-      <div class="col-md-12 text-center" *ngIf="itemsToCompare?.length == 0">
-        <h4 class="p-3">
-          {{ "deduplication.merge.message.no-data" | translate }}
-        </h4>
-      </div>
+      <!-- Item Data Tabel -->
+      <table class="table table-striped mb-4">
+        <thead class="bundle-row">
+          <tr>
+            <th scope="col">
+              {{ "deduplication.merge.table.header.entities" | translate }}
+            </th>
+            <th scope="col">{{ "Handle" | translate }}</th>
+            <th scope="col">
+              {{ "deduplication.merge.table.header.identifier" | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let itemObj of itemsToCompare">
+            <td>
+              <span>
+                <strong>
+                  {{
+                  "deduplication.merge.table.header.title" | translate
+                  }}:</strong>
+                {{ itemObj.object?.name }}</span>
+              <br />
+              <span *ngIf="itemObj.object?.metadata['dc.type']">
+                <strong>Type:</strong>
+                {{ itemObj.object?.metadata["dc.type"][0].value }}</span>
+              <br />
+              <span>
+                <strong>Entity type:</strong>
+                {{ itemObj.object?.type }}</span>
+              <br />
+              <strong>Collection:</strong>
+              <span>
+                {{ getOwningCollectionTitle(itemObj.object) | async }}</span>
+            </td>
+            <td>
+              {{ itemObj.object?.handle }}
+            </td>
+            <td>
+              <span [ngStyle]="{ color: itemObj.color }">
+                {{ itemObj.object?.uuid }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-      <ng-container *ngIf="itemsToCompare && itemsToCompare.length > 0">
-        <div class="col-md-12 text-center">
-          <h5>{{ "deduplication.merge.label.info" | translate }}</h5>
-        </div>
-
-        <!-- Item Data Tabel -->
-        <table class="table table-striped mb-4">
-          <thead class="bundle-row">
-            <tr>
-              <th scope="col">
-                {{ "deduplication.merge.table.header.entities" | translate }}
-              </th>
-              <th scope="col">{{ "Handle" | translate }}</th>
-              <th scope="col">
-                {{ "deduplication.merge.table.header.identifier" | translate }}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let itemObj of itemsToCompare">
-              <td>
-                <span>
-                  <strong>
-                    {{
-                    "deduplication.merge.table.header.title" | translate
-                    }}:</strong>
-                  {{ itemObj.object?.name }}</span>
-                <br />
-                <span *ngIf="itemObj.object?.metadata['dc.type']">
-                  <strong>Type:</strong>
-                  {{ itemObj.object?.metadata["dc.type"][0].value }}</span>
-                <br />
-                <span>
-                  <strong>Entity type:</strong>
-                  {{ itemObj.object?.type }}</span>
-                <br />
-                <strong>Collection:</strong>
-                <span>
-                  {{ getOwningCollectionTitle(itemObj.object) | async }}</span>
-              </td>
-              <td>
-                {{ itemObj.object?.handle }}
-              </td>
-              <td>
-                <span [ngStyle]="{ color: itemObj.color }">
-                  {{ itemObj.object?.uuid }}
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- Bitstream Data Tabel -->
-        <!-- <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">
-                {{ "Select" | translate }}
-              </th>
-              <th scope="col">
-                {{
-                "deduplication.merge.table.bitstream.header.title" | translate
-                }}
-              </th>
-              <th scope="col">
-                {{
-                "deduplication.merge.table.bitstream.header.identifier"
-                | translate
-                }}
-              </th>
-              <th scope="col">
-                {{
-                "deduplication.merge.table.bitstream.header.item-identifier"
-                | translate
-                }}
-              </th>
-              <th scope="col">
-                {{ "Actions" | translate }}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <ng-container *ngFor="let itemObj of itemsToCompare">
-              <ds-loading [showMessage]="false" *ngIf="!(itemObj.object | dsGetBitstreams | async | async)">
-              </ds-loading>
-              <tr *ngFor="
+      <!-- Bitstream Data Tabel -->
+      <table class="table table-striped">
+        <thead class="bundle-row">
+          <tr>
+            <th scope="col">
+              {{ "Select" | translate }}
+            </th>
+            <th scope="col">
+              {{
+              "deduplication.merge.table.bitstream.header.title" | translate
+              }}
+            </th>
+            <th scope="col">
+              {{
+              "deduplication.merge.table.bitstream.header.identifier"
+              | translate
+              }}
+            </th>
+            <th scope="col">
+              {{
+              "deduplication.merge.table.bitstream.header.item-identifier"
+              | translate
+              }}
+            </th>
+            <th scope="col">
+              {{
+              "CheckSum"
+              | translate
+              }}
+            </th>
+            <th scope="col">
+              {{ "Actions" | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let itemObj of itemsToCompare">
+            <ds-loading [showMessage]="false" *ngIf="!(itemObj.object | dsGetBitstreams | async | async)">
+            </ds-loading>
+            <tr *ngFor="
                   let bitstream of itemObj.object
                     | dsGetBitstreams
                     | async
                     | async
                 ">
-                <td>
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" [id]="bitstream.uuid" [checked]="
+              <td>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" [id]="bitstream.uuid" [checked]="
                         bitstreamList.includes(bitstream._links.self.href)
                       " (change)="onBitstreamChecked($event, bitstream)" />
-                    <label class="custom-control-label" [for]="bitstream.uuid"></label>
-                  </div>
-                </td>
-                <td>
-                  <span *ngFor="let title of bitstream.metadata['dc.title']">
-                    {{ title.value }} <br />
-                  </span>
-                </td>
-                <td>{{ bitstream.uuid }}<br /></td>
-                <td>
-                  <span [ngStyle]="{ color: itemObj.color }">
-                    {{ (itemObj.object)?.uuid }}
-                  </span>
-                </td>
-                <td>
-                  <a> View</a>
-                </td>
-              </tr>
-            </ng-container>
-          </tbody>
-        </table> -->
-        <ng-container *ngFor="let itemObj of itemsToCompare; let isLast = last">
+                  <label class="custom-control-label" [for]="bitstream.uuid"></label>
+                </div>
+              </td>
+              <td>
+                <span *ngFor="let title of bitstream.metadata['dc.title']">
+                  {{ title.value }} <br />
+                </span>
+              </td>
+              <td>{{ bitstream.uuid }}<br /></td>
+              <td>
+                <span [ngStyle]="{ color: itemObj.color }">
+                  {{ (itemObj.object)?.uuid }}
+                </span>
+              </td>
+              <td>
+                <span >
+                  {{ bitstream.checkSum.value }}
+                </span>
+              </td>
+              <td>
+                <a> View</a>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+      <!-- <ng-container *ngFor="let itemObj of itemsToCompare; let isLast = last">
           <div class="col-md-12 text-center pt-2">
             <h6 class="font-weight-bold">
               {{ "deduplication.merge.label.bitstreams" | translate }}
@@ -143,103 +158,94 @@
           </div>
           <ds-item-bitstreams [item]="itemObj.object"> </ds-item-bitstreams>
           <hr class="bitstream-container-separator" />
-        </ng-container>
+        </ng-container> -->
 
-        <div class="col-md-12 text-center py-2 mb-3">
-          <h5 class="font-weight-bold">
-            {{ "deduplication.merge.label.merge-metadata" | translate }}
-          </h5>
-        </div>
+      <div class="col-md-12 text-center py-2 mb-3">
+        <h5 class="font-weight-bold">
+          {{ "deduplication.merge.label.merge-metadata" | translate }}
+        </h5>
+      </div>
 
-        <div class="justify-content-end pr-3 mb-1 row">
-          <button *ngIf="!isExpanded" class="btn btn-outline-secondary mr-1" (click)="expandAll()">
-            <i class="fa fa-chevron-down pr-1" aria-hidden="true"></i>
-            {{ "deduplication.merge.button.label.expand-all" | translate }}
-          </button>
+      <div class="text-right pr-3 mb-1 col-md-12">
+        <button *ngIf="!isExpanded" class="btn btn-outline-info mr-1" (click)="expandAll()">
+          <i class="fa fa-chevron-down pr-1" aria-hidden="true"></i>
+          {{ "deduplication.merge.button.label.expand-all" | translate }}
+        </button>
 
-          <button *ngIf="isExpanded" class="btn btn-outline-secondary mr-1" (click)="collapseAll()">
-            <i class="fa fa-chevron-up pr-1" aria-hidden="true"></i>
-            {{ "deduplication.merge.button.label.collapse-all" | translate }}
-          </button>
+        <button *ngIf="isExpanded" class="btn btn-outline-info mr-1" (click)="collapseAll()">
+          <i class="fa fa-chevron-up pr-1" aria-hidden="true"></i>
+          {{ "deduplication.merge.button.label.collapse-all" | translate }}
+        </button>
 
-          <button *ngIf="!showFinalResults" class="btn btn-outline-secondary mr-1" (click)="showFinalResult()">
-            <i class="fa fa-tasks pr-1"></i>
-            {{ "Show Final Result" | translate }}
-          </button>
+        <button class="btn btn-primary mr-1" (click)="openFinalResultsModal()">
+          <i class="fas fa-tasks pr-1"></i>
+          {{ "Preview & Merge" | translate }}
+        </button>
 
-          <button *ngIf="showFinalResults" class="btn btn-outline-warning mr-1" (click)="hideFinalResult()">
-            <i class="fas fa-arrow-left pr-1"></i>
-            {{ "Show All Data" | translate }}
-          </button>
+        <!-- <button class="btn btn-info" (click)="
+          $event.preventDefault();
+          onMerge(content)
+        ">
+          <i class="fa fa-code pr-1" aria-hidden="true"></i>
+          {{'Merge' | translate}}
+        </button> -->
+      </div>
 
-          <button class="btn btn-outline-warning mr-1" (click)="openFinalResultsModal()">
-            <i class="fas fa-tasks pr-1"></i>
-            {{ "Open modal to show final result" | translate }}
-          </button>
-
-
-          <button class="btn btn-info" (click)="merge()">
-            <i class="fa fa-code pr-1" aria-hidden="true"></i>
-            {{ "deduplication.merge.button.label.merge" | translate }}
-          </button>
-        </div>
-
-        <ng-container *ngIf="compareMetadataValues.size > 0">
-          <ngb-accordion [destroyOnHide]="false" [closeOthers]="false" activeIds="panel-0" *ngFor="
+      <div class="col-md-12">
+      <ng-container *ngIf="compareMetadataValues.size > 0">
+        <ngb-accordion [destroyOnHide]="false" [closeOthers]="false" activeIds="panel-0" *ngFor="
               let metadataKeyValues of compareMetadataValues | keyvalue;
               let kIdx = index
             ">
-            <ngb-panel id="panel-{{ 0 }}">
-              <ng-template ngbPanelHeader let-opened="opened">
-                <div class="row">
-                  <div class="col-md-9 mt-1 uppercase">
-                    {{ metadataKeyValues.key }}
-                  </div>
-
-                  <div class="col-md-3 text-right mt-1">
-                    <button *ngIf="metadataKeyValues.value.length > 1" class="btn btn-sm btn-warning mr-2"
-                      (click)="showDiff(metadataKeyValues.key)">
-                      {{
-                      "deduplication.merge.button.label.show-diff" | translate
-                      }}
-                    </button>
-                    <button [ngbTooltip]="
-                        'deduplication.merge.tooltip.delete-info' | translate
-                      " placement="left" class="btn btn-sm btn-danger mr-2"
-                      (click)="onDeleteAction(metadataKeyValues.key)">
-                      <i class="fa fa-trash"></i>
-                    </button>
-                    <button ngbPanelToggle class="btn btn-sm" [ngClass]="opened ? 'btn-info' : 'btn-outline-info'">
-                      <i *ngIf="!opened" class="fa fa-chevron-up"></i>
-                      <i *ngIf="opened" class="fa fa-chevron-down"></i>
-                    </button>
-                  </div>
+          <ngb-panel id="panel-{{ 0 }}">
+            <ng-template ngbPanelHeader let-opened="opened">
+              <div class="row">
+                <div class="col-md-9 mt-1 uppercase">
+                  {{ metadataKeyValues.key }}
                 </div>
-              </ng-template>
-              <ng-template ngbPanelContent>
-                <ng-container *ngFor="
+
+                <div class="col-md-3 text-right mt-1">
+                  <button *ngIf="metadataKeyValues.value.length > 1" class="btn btn-sm btn-info mr-2"
+                    (click)="showDiff(metadataKeyValues.key)">
+                    {{
+                    "deduplication.merge.button.label.show-diff" | translate
+                    }}
+                  </button>
+                  <button [ngbTooltip]="
+                        'deduplication.merge.tooltip.delete-info' | translate
+                      " placement="left" class="btn btn-sm btn-warning mr-2"
+                    (click)="onDeleteAction(metadataKeyValues.key)">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                  <button ngbPanelToggle class="btn btn-sm" [ngClass]="opened ? 'btn-secondary' : 'btn-outline-secondary'">
+                    <i *ngIf="!opened" class="fa fa-chevron-up"></i>
+                    <i *ngIf="opened" class="fa fa-chevron-down"></i>
+                  </button>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <ng-container *ngFor="
                     let itemsData of metadataKeyValues.value;
                     let last = last;
                     let itemIdx = index
                   ">
-                  <ng-container *ngIf="
-                      showFinalResults
-                        ? isValueChecked(metadataKeyValues.key, itemsData.items)
-                        : true
-                    ">
-                    <div class="row" [ngClass]="{
+                <!-- <ng-container *ngIf="
+                       isValueChecked(metadataKeyValues.key, itemsData.items)
+                    "> -->
+                  <div class="row" [ngClass]="{
                         'heighlighted-selection': isValueChecked(
                           metadataKeyValues.key,
                           itemsData.items
                         )
                       }">
-                      <!-- if more than one selection can occur-->
-                      <div class="col-1" *ngIf="
+                    <!-- if more than one selection can occur-->
+                    <div class="col-1" *ngIf="
                           hasMultipleSelection(metadataKeyValues.key);
                           else singleSelection
                         ">
-                        <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" [checked]="
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" [checked]="
                               isValueChecked(
                                 metadataKeyValues.key,
                                 itemsData.items
@@ -253,17 +259,17 @@
                                 'multiple'
                               )
                             " />
-                          <label class="custom-control-label" [for]="
+                        <label class="custom-control-label" [for]="
                               metadataKeyValues.key + itemsData.value + itemIdx
                             "></label>
-                        </div>
                       </div>
+                    </div>
 
-                      <!-- if only one selection can occur-->
-                      <ng-template #singleSelection>
-                        <div class="col-1">
-                          <div class="custom-control custom-radio">
-                            <input class="custom-control-input" type="radio" [name]="metadataKeyValues.key" [id]="
+                    <!-- if only one selection can occur-->
+                    <ng-template #singleSelection>
+                      <div class="col-1">
+                        <div class="custom-control custom-radio">
+                          <input class="custom-control-input" type="radio" [name]="metadataKeyValues.key" [id]="
                                 metadataKeyValues.key +
                                 itemsData.value +
                                 itemIdx
@@ -278,51 +284,63 @@
                                   itemsData.items,
                                   'single'
                                 )
-                              "
-                              (click)="uncheckValue(metadataKeyValues.key, itemsData.items, 'single')"
-                              />
-                            <label class="custom-control-label" [for]="
+                              " (click)="uncheckValue(metadataKeyValues.key, itemsData.items, 'single')" />
+                          <label class="custom-control-label" [for]="
                                 metadataKeyValues.key +
                                 itemsData.value +
                                 itemIdx
                               "></label>
-                          </div>
                         </div>
-                      </ng-template>
-                      <ng-container *ngIf="itemsData.items.length > 1; else manyValues">
-                        <span class="col-6">
-                          {{ itemsData.value }}
-                        </span>
-                        <span class="col-5">
-                          <ng-container *ngFor="
+                      </div>
+                    </ng-template>
+                    <ng-container *ngIf="itemsData.items.length > 1; else manyValues">
+                      <span class="col-6">
+                        {{ itemsData.value }}
+                      </span>
+                      <span class="col-5">
+                        <ng-container *ngFor="
                               let item of itemsData.items;
                               let idx = index
                             ">
-                            <span [ngStyle]="{ color: item.color }">
-                              {{ item.itemId }}
-                            </span>
-                            <span *ngIf="idx !== itemsData.items.length - 1">
-                              ,</span>
-                          </ng-container>
-                        </span>
-                      </ng-container>
-                      <ng-template #manyValues>
-                        <span class="col-6">
-                          {{ itemsData.value }}
-                        </span>
-                        <span class="col-5" [ngStyle]="{ color: itemsData.items[0].color }">
-                          {{ itemsData.items[0].itemId }}
-                        </span>
-                      </ng-template>
-                    </div>
-                    <hr *ngIf="metadataKeyValues.value.length > 1 && !last" />
-                  </ng-container>
-                </ng-container>
-              </ng-template>
-            </ngb-panel>
-          </ngb-accordion>
-        </ng-container>
+                          <span [ngStyle]="{ color: item.color }">
+                            {{ item.itemId }}
+                          </span>
+                          <span *ngIf="idx !== itemsData.items.length - 1">
+                            ,</span>
+                        </ng-container>
+                      </span>
+                    </ng-container>
+                    <ng-template #manyValues>
+                      <span class="col-6">
+                        {{ itemsData.value }}
+                      </span>
+                      <span class="col-5" [ngStyle]="{ color: itemsData.items[0].color }">
+                        {{ itemsData.items[0].itemId }}
+                      </span>
+                    </ng-template>
+                  </div>
+                  <hr *ngIf="metadataKeyValues.value.length > 1 && !last" />
+                <!-- </ng-container> -->
+              </ng-container>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
       </ng-container>
     </div>
+    </ng-container>
   </div>
 </div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-info">{{ 'Confirm Merge' | translate }}</h4>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="d('cancel')">
+      {{ 'deduplication.sets.modal.confirm.cancel' | translate }}
+    </button>
+    <button type="button" class="btn btn-info" (click)="d('ok')">
+      {{ 'Confirm' | translate }}
+    </button>
+  </div>
+</ng-template>

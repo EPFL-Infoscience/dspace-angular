@@ -574,11 +574,10 @@ export class DeduplicationSetsComponent implements AfterViewInit {
           `items-to-compare-${setChecksum}`,
           JSON.stringify(itemsPerSet)
         );
-        this.router.navigate([
-          `/admin/deduplication/compare`,
-          this.signatureId,
-          setChecksum,
-        ]);
+        this.router.navigate(
+          [`/admin/deduplication/compare`, this.signatureId, setChecksum],
+          { queryParams: { rule: this.rule } }
+        );
       }
     } else {
       this.notificationsService.info(
@@ -697,4 +696,3 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       .pipe(take(1));
   }
 }
-
