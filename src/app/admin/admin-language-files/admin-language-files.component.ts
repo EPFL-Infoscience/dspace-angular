@@ -56,7 +56,6 @@ export class AdminLanguageFilesComponent implements OnInit {
   }
 
   getLabel(value: string): string {
-    console.log('GV ' + value);
     return `${this.labelPrefix}.${value}`;
   }
 
