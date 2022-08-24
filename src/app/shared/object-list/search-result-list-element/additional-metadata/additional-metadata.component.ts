@@ -54,7 +54,7 @@ export class AdditionalMetadataComponent implements OnInit {
         (field: SearchResultAdditionalMetadataEntityTypeConfig) => field.entityType.toLocaleLowerCase() === this.DEFAULT_CONFIG_NAME
       );
 
-      let unfilteredAdditionalMetadataFields: AdditionalMetadataConfig[];
+      let unfilteredAdditionalMetadataFields: AdditionalMetadataConfig[] = [];
 
       if (entityTypeConfig.length > 0) {
         unfilteredAdditionalMetadataFields = entityTypeConfig[0].metadataConfiguration;
