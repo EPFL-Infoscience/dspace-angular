@@ -4,10 +4,15 @@ import { NotificationsService } from '../../shared/notifications/notifications.s
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { RequestService } from '../../core/data/request.service';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, tap } from 'rxjs/operators';
 import { HALEndpointService } from '../../core/shared/hal-endpoint.service';
 import { UploaderOptions } from '../../shared/uploader/uploader-options.model';
 import { AuthService } from '../../core/auth/auth.service';
+
+interface Endpoint {
+  baseUri: string,
+  params: string[],
+}
 
 @Component({
   selector: 'ds-admin-language-files',
@@ -22,7 +27,7 @@ export class AdminLanguageFilesComponent implements OnInit {
 
   labelPrefix = 'admin.language-labels';
 
-  uploadFilesEndpoint$: Observable<string>;
+  uploadFilesEndpoint$: Observable<Endpoint>;
 
   constructor(
     protected notificationsService: NotificationsService,
@@ -36,6 +41,17 @@ export class AdminLanguageFilesComponent implements OnInit {
   ngOnInit() {
 
     this.uploadFilesEndpoint$ = this.halService.getEndpoint('adminfile').pipe(
+      map((res) => {
+        const templateRegex = /{\?[^(?{})]*}$/;
+        const baseUri = res.replace(templateRegex,'');
+        const paramTemplate = res.match(templateRegex);
+        const params: string[] = paramTemplate ? paramTemplate[0].substring(2,paramTemplate[0].length - 1).split(',') : [];
+        const endpoint: Endpoint = {
+          baseUri,
+          params
+        };
+        return endpoint;
+      }),
       shareReplay(),
     );
 
@@ -55,8 +71,8 @@ export class AdminLanguageFilesComponent implements OnInit {
 
   uploadFilesOptions(langCode: string): Observable<UploaderOptions> {
     return this.uploadFilesEndpoint$.pipe(
-      map((endpointURL) => Object.assign(new UploaderOptions(), {
-          url: `${endpointURL}?lang=${langCode}`,
+      map((endpoint: Endpoint) => Object.assign(new UploaderOptions(), {
+          url: `${endpoint.baseUri}?${endpoint.params[0]}=${langCode}`,
           authToken: this.authService.buildAuthHeader(),
           maxFileNumber: 1,
         }),
