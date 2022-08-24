@@ -1,0 +1,13 @@
+<div class="container">
+  <h2>{{getLabel('title') | translate}}</h2>
+  <ng-container *ngFor="let language of availableLanguages">
+    <p class="font-weight-bold">{{getLabel('upload-file') | translate : {langName: language.label} }}</p>
+    <ds-uploader [uploadFilesOptions]="uploadFilesOptions(language.code) | async"
+                 [dropMsg]="getLabel('dropMsg') | translate : {langName: language.label}"
+                 [enableDragOverDocument]="false"
+                 (onCompleteItem)="onCompleteItem($event, language.label)"
+                 (onUploadError)="onUploadError($event, language.label)"
+    ></ds-uploader>
+    <p class="small text-muted">{{getLabel('rename-note') | translate : {langCode: language.code} }}</p>
+  </ng-container>
+</div>

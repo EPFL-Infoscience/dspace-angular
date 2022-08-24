@@ -117,6 +117,25 @@
   "admin.institution.explore.title": "Explore Institutions",
 
 
+  "admin.language-labels.title": "Language files",
+
+  "admin.language-labels.breadcrumbs": "Language files",
+
+  "admin.language-labels.upload-file": "Upload {{langName}} language file",
+
+  "admin.language-labels.rename-note": "Uploaded file will be renamed to {{langCode}}.json5",
+
+  "admin.language-labels.dropMsg": "Drop the {{langName}} language file here",
+
+  "admin.language-labels.notification.upload-success.title": "Upload completed",
+
+  "admin.language-labels.notification.upload-success.content": "The {{langName}} file has been successfully uploaded",
+
+  "admin.language-labels.notification.upload-error.title": "Upload failed",
+
+  "admin.language-labels.notification.upload-error.content": "The {{langName}} file has not been uploaded",
+
+
 
   "admin.registries.bitstream-formats.breadcrumbs": "Format registry",
 
@@ -3397,6 +3416,8 @@
 
   "menu.section.import_metadata": "Metadata",
 
+
+  "menu.section.language_files_upload": "Upload language files",
 
 
   "menu.section.new": "New",
