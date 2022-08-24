@@ -121,17 +121,19 @@
 
   "admin.language-labels.breadcrumbs": "Language files",
 
-  "admin.language-labels.upload-file": "Upload {{langLabel}} language file",
-
-  "admin.language-labels.select-files-note": "Choose one or more files to upload",
+  "admin.language-labels.upload-file": "Upload {{langName}} language file",
 
   "admin.language-labels.rename-note": "Uploaded file will be renamed to {{langCode}}.json5",
 
-  "admin.language-labels.dropMsg": "Drop the language file here",
+  "admin.language-labels.dropMsg": "Drop the {{langName}} language file here",
 
-  "admin.language-labels.dropMsgReplace": "Drop a new .json5 file here to replace the current one",
+  "admin.language-labels.notification.upload-success.title": "Upload completed",
 
-  "admin.language-labels.upload": "Upload language files",
+  "admin.language-labels.notification.upload-success.content": "The {{langName}} file has been successfully uploaded",
+
+  "admin.language-labels.notification.upload-error.title": "Upload failed",
+
+  "admin.language-labels.notification.upload-error.content": "The {{langName}} file has not been uploaded",
 
 
 

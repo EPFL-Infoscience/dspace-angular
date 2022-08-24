@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AdminLanguageFilesComponent } from './admin-language-files.component';
 
-describe('AdminLanguageLabelsComponent', () => {
+fdescribe('AdminLanguageLabelsComponent', () => {
   let component: AdminLanguageFilesComponent;
   let fixture: ComponentFixture<AdminLanguageFilesComponent>;
 
