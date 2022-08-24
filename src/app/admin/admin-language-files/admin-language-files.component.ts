@@ -4,7 +4,7 @@ import { NotificationsService } from '../../shared/notifications/notifications.s
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { RequestService } from '../../core/data/request.service';
-import { map, shareReplay, tap } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { HALEndpointService } from '../../core/shared/hal-endpoint.service';
 import { UploaderOptions } from '../../shared/uploader/uploader-options.model';
 import { AuthService } from '../../core/auth/auth.service';
@@ -21,8 +21,6 @@ interface Endpoint {
 })
 export class AdminLanguageFilesComponent implements OnInit {
 
-  fileObj = new Map<string, File>();
-
   availableLanguages = environment.languages;
 
   labelPrefix = 'admin.language-labels';
@@ -31,7 +29,7 @@ export class AdminLanguageFilesComponent implements OnInit {
 
   constructor(
     protected notificationsService: NotificationsService,
-    protected translate: TranslateService,
+    protected translateService: TranslateService,
     protected requestService: RequestService,
     private halService: HALEndpointService,
     private authService: AuthService,
@@ -57,16 +55,13 @@ export class AdminLanguageFilesComponent implements OnInit {
 
   }
 
-  setFile($event: File, langCode: string) {
-    this.fileObj.set(langCode, $event);
-  }
-
   getLabel(value: string): string {
+    console.log('GV ' + value);
     return `${this.labelPrefix}.${value}`;
   }
 
   getTranslation(value: string, params?: any): Observable<string> {
-    return this.translate.get(`${this.labelPrefix}.${value}`, params);
+    return this.translateService.get(`${this.labelPrefix}.${value}`, params);
   }
 
   uploadFilesOptions(langCode: string): Observable<UploaderOptions> {
