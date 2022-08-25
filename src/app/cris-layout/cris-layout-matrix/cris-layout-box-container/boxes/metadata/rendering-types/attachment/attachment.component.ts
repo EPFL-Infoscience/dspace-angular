@@ -32,6 +32,7 @@ export class AttachmentComponent extends BitstreamRenderingModelComponent implem
    * Envoirment variables configuring pagination
    */
   envPagination = environment.attachmentRendering.pagination;
+
   constructor(
     @Inject('fieldProvider') public fieldProvider: LayoutField,
     @Inject('itemProvider') public itemProvider: Item,

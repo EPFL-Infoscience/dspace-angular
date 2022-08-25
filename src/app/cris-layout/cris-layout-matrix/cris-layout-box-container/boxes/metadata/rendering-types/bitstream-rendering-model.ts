@@ -53,6 +53,16 @@ export abstract class BitstreamRenderingModelComponent extends RenderingTypeStru
   */
   totalPages: number = null;
 
+  /**
+  * Determine if there is any pdf in the list so we can display preview pdf section
+  */
+  hasAnyPdf = false;
+
+  /**
+  * The pdf link to be displayed in the preview pdf section
+  */
+  pdfSrc: string;
+
   constructor(
     @Inject('fieldProvider') public fieldProvider: LayoutField,
     @Inject('itemProvider') public itemProvider: Item,
@@ -68,7 +78,7 @@ export abstract class BitstreamRenderingModelComponent extends RenderingTypeStru
    */
   getBitstreams(): Observable<Bitstream[]> {
     const thumbnailRequest = this.bitstreamDataService
-      .findAllByItemAndBundleName(this.item, 'THUMBNAIL')
+      .findAllByItemAndBundleName(this.item, 'THUMBNAIL', {}, false, false, followLink('format'))
       .pipe(
         getFirstCompletedRemoteData(),
         map((response: RemoteData<PaginatedList<Bitstream>>) => {
@@ -79,7 +89,7 @@ export abstract class BitstreamRenderingModelComponent extends RenderingTypeStru
       );
 
     const previewRequest = this.bitstreamDataService
-      .findAllByItemAndBundleName(this.item, 'PREVIEW')
+      .findAllByItemAndBundleName(this.item, 'PREVIEW', {}, false, false, followLink('format'))
       .pipe(
         getFirstCompletedRemoteData(),
         map((response: RemoteData<PaginatedList<Bitstream>>) => {
@@ -96,7 +106,7 @@ export abstract class BitstreamRenderingModelComponent extends RenderingTypeStru
       );
 
     const originalRequest = this.bitstreamDataService
-      .findAllByItemAndBundleName(this.item, this.field.bitstream.bundle)
+      .findAllByItemAndBundleName(this.item, this.field.bitstream.bundle, {}, false, false, followLink('format'))
       .pipe(
         getFirstCompletedRemoteData(),
         map((response: RemoteData<PaginatedList<Bitstream>>) => {
@@ -169,6 +179,9 @@ export abstract class BitstreamRenderingModelComponent extends RenderingTypeStru
   getFormat(bitstream: Bitstream): Observable<string> {
     return bitstream.format?.pipe(
       map((rd: RemoteData<BitstreamFormat>) => {
+        if (rd.payload?.shortDescription === 'Adobe PDF') {
+          this.hasAnyPdf = true;
+        }
         return rd.payload?.shortDescription;
       })
     );
@@ -220,5 +233,11 @@ export abstract class BitstreamRenderingModelComponent extends RenderingTypeStru
     }
   }
 
+  /**
+   * When button is clicked set the current attachment url to be displayed in preview pdf section
+   */
+  previewPdf(attachment) {
+    this.pdfSrc = attachment._links.content.href;
+  }
 
 }
