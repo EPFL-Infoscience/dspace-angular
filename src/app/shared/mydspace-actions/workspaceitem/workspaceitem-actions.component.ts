@@ -1,4 +1,4 @@
-import { Component, Injector, Input } from '@angular/core';
+import { Component, Injector, Input, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { BehaviorSubject } from 'rxjs';
@@ -14,6 +14,7 @@ import { SearchService } from '../../../core/shared/search/search.service';
 import { getFirstCompletedRemoteData } from '../../../core/shared/operators';
 import { RemoteData } from '../../../core/data/remote-data';
 import { NoContent } from '../../../core/shared/NoContent.model';
+import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap/modal/modal-config';
 
 /**
  * This component represents actions related to WorkspaceItem object.
@@ -85,4 +86,13 @@ export class WorkspaceitemActionsComponent extends MyDSpaceActionsComponent<Work
     this.object = object;
   }
 
+  openChangeSubmitterModal(template: TemplateRef<any>) {
+    const options: NgbModalOptions = { size: 'xl' };
+    const modal = this.modalService.open(template, options);
+    modal.result.then((res) => {
+      console.log(this.object);
+      console.log(res);
+    }).catch((err) => undefined);
+
+  }
 }
