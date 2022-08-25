@@ -209,6 +209,13 @@ import { MetricsModule } from './metric/metrics.module';
 import { SearchChartBarHorizontalComponent } from './search/search-charts/search-chart/search-chart-bar-horizontal/search-chart-bar-horizontal.component';
 import { ThumbnailService } from './thumbnail/thumbnail.service';
 import { AdditionalMetadataComponent } from './object-list/search-result-list-element/additional-metadata/additional-metadata.component';
+import { EpersonGroupListComponent } from './eperson-group-list/eperson-group-list.component';
+import {
+  EpersonSearchBoxComponent
+} from './eperson-group-list/eperson-search-box/eperson-search-box.component';
+import {
+  GroupSearchBoxComponent
+} from './eperson-group-list/group-search-box/group-search-box.component';
 
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
@@ -405,7 +412,12 @@ const COMPONENTS = [
   MetadataLinkViewComponent,
   ExportExcelSelectorComponent,
   ThemedBrowseMostElementsComponent,
-  SearchChartBarHorizontalComponent
+  SearchChartBarHorizontalComponent,
+
+  EpersonGroupListComponent,
+  EpersonSearchBoxComponent,
+  GroupSearchBoxComponent,
+
 ];
 
 const ENTRY_COMPONENTS = [
