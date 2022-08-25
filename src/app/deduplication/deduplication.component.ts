@@ -94,51 +94,9 @@ export class DeduplicationComponent implements OnInit {
   }
 
   /**
-   * Used to know if the 'show more' button should be enabled or disabled.
-   *
-   * @return Observable<boolean>
-   *    'true' if there are more pages to load, 'false' otherwise.
-   */
-  public showMoreButton(): Observable<boolean> {
-    return combineLatest([this.totalElements$, this.signatures$]).pipe(
-      map(([totalElements, signatures]) => {
-
-        if (this.elementsPerPage > totalElements) {
-          this.totalRemainingElements = 0;
-        } else {
-          const remainingElements = totalElements - signatures.length;
-          this.totalRemainingElements = remainingElements > 0 ? remainingElements : 0;
-        }
-
-        return this.totalRemainingElements > 0;
-      })
-    );
-  }
-
-  // public showMoreButton(): Observable<boolean> {
-  //   return combineLatest([ this.totalPages$, this.currentPage$, this.totalElements$ ]).pipe(
-  //     map(([totalPages, currentPage, totalElements]) => {
-  //       let output: boolean;
-  //       if (totalPages < 2 || totalPages === currentPage + 1) {
-  //         output = false;
-  //       } else {
-  //         output = true;
-  //       }
-  //       const totalShowElements = (currentPage + 1) * this.elementsPerPage;
-  //       if (totalShowElements > totalElements) {
-  //         this.totalRemainingElements = 0;
-  //       } else {
-  //         this.totalRemainingElements = totalElements - totalShowElements;
-  //       }
-  //       return output;
-  //     })
-  //   );
-  // }
-
-  /**
    * Retrieve more deduplication signatures from the server.
    */
   public addMoreDeduplicationSignatures(): void {
-    this.deduplicationStateService.dispatchRetrieveDeduplicationSignatures(this.elementsPerPage);
+    this.deduplicationStateService.dispatchRetrieveDeduplicationSignatures();
   }
 }

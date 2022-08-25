@@ -30,7 +30,7 @@ describe('deduplicationSignatureReducer test suite', () => {
     const expectedState = deduplicationSignatureInitialState;
     expectedState.processing = true;
 
-    const action = new RetrieveAllSignaturesAction(elementPerPage);
+    const action = new RetrieveAllSignaturesAction();
     const newState = deduplicationSignatureReducer(deduplicationSignatureInitialState, action);
 
     expect(newState).toEqual(expectedState);

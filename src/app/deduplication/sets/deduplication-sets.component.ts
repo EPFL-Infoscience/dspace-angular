@@ -9,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NotificationsService } from './../../shared/notifications/notifications.service';
 import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { SetObject } from '../../core/deduplication/models/set.model';
 import { DeduplicationStateService } from '../deduplication-state.service';
@@ -34,6 +34,9 @@ import { SelectedItemData } from '../interfaces/deduplication-sets.models';
   providers: [],
 })
 export class DeduplicationSetsComponent implements AfterViewInit {
+
+  @ViewChild('compareBtnSelector') compareBtnSelector: any;
+
   /**
    * The deduplication signatures' sets list.
    * @type {Observable<SetObject[]>}
@@ -517,6 +520,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     if (this.checkedItemsList.has(setId)) {
       this.checkedItemsList.delete(setId);
     }
+    this.compareBtnSelector.nativeElement.focus();
     const selectedItems: SelectedItemData[] = [];
     this.getItemIds(setId).subscribe((itemIds: string[]) => {
       if (itemIds) {
@@ -684,6 +688,10 @@ export class DeduplicationSetsComponent implements AfterViewInit {
         })
       );
     }
+  }
+
+  goBack(){
+    this.router.navigate(['admin/deduplication']);
   }
 
   /**

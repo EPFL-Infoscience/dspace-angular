@@ -33,9 +33,7 @@ export class RetrieveAllSignaturesAction implements Action {
    * @param elementsPerPage
    *    the number of signatures per page
    */
-  constructor(elementsPerPage: number) {
-    this.payload = { elementsPerPage };
-  }
+  constructor() {}
 }
 
 /**

@@ -22,6 +22,9 @@ import { TextDiffPipe } from './show-differences/pipes/text-diff.pipe';
 import { DeduplicationMergeRestService } from '../core/deduplication/services/deduplication-merge-rest.service';
 import { DeduplicationMergeResultComponent } from './deduplication-merge-result/deduplication-merge-result.component';
 import { SubmissionRepeatableFieldsRestService } from '../core/deduplication/services/submission-repeatable-fields-rest.service';
+import { BitstreamTableComponent } from './bitstream-table/bitstream-table.component';
+import { GetBitstreamsPipe } from './deduplication-merge/pipes/ds-get-bitstreams.pipe';
+import { ItemsTableComponent } from './items-table/items-table.component';
 
 const MODULES = [
   CommonModule,
@@ -36,10 +39,13 @@ const COMPONENTS = [
   DeduplicationSignaturesComponent,
   ShowDifferencesComponent,
   DeduplicationMergeResultComponent,
+  BitstreamTableComponent,
+  ItemsTableComponent,
 ];
 
 const PIPES = [
-  TextDiffPipe
+  TextDiffPipe,
+  GetBitstreamsPipe
 ];
 
 const DIRECTIVES = [];

@@ -1,22 +1,31 @@
 <div class="container">
+  <div class="row justify-content-between border-bottom mb-2 pb-1">
+    <h2 id="header">
+      {{'deduplication.sets.title' | translate}}
+    </h2>
+
+    <button class="btn btn-secondary" [ngbTooltip]="'Go to Deduplication Panel' | translate " (click)="goBack()">
+      <i class="fa fa-arrow-left" aria-hidden="true"></i>
+    </button>
+  </div>
   <div class="row">
-    <div class="col-12">
-      <h2 id="header" class="border-bottom pb-2">
-        {{'deduplication.sets.title' | translate}}
-      </h2>
-      <!-- <p>
-      {{rule}}  {{'' | translate}}
-      </p> -->
-      <p>
-        {{'deduplication.sets.subtitle' | translate}}
-      </p>
-      <div *ngIf="
-          (!sets$ || (sets$ | async)?.length == 0) && !(isSetsLoading() | async)
-        " class="col-md-12 text-center">
-        <h4 class="p-3">
-          {{'deduplication.sets.message.no-data' | translate}}
-        </h4>
-      </div>
+    <h5>
+      Based on <span class="font-weight-bold"> {{rule | titlecase}} </span> rule you can identify deduplication based
+      on <span class="font-weight-bold"> {{signatureId | titlecase}} </span>
+    </h5>
+    <p>
+      {{'deduplication.sets.subtitle' | translate}}
+    </p>
+    <div *ngIf="
+        (!sets$ || (sets$ | async)?.length == 0) && !(isSetsLoading() | async)
+      " class="col-md-12 text-center">
+      <h4 class="p-3">
+        {{'deduplication.sets.message.no-data' | translate}}
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 p-0">
       <ds-loading class="container" *ngIf="isSetsLoading() | async"
         [message]="'deduplication.sets.message.loading' | translate"></ds-loading>
       <ngb-accordion class="set-acc" [destroyOnHide]="false" [closeOthers]="true" activeIds="panel-0"
@@ -33,7 +42,8 @@
                 </h5>
               </div>
               <div class="col-md-2 text-right mt-1">
-                <button ngbPanelToggle class="btn btn-sm" [ngClass]="opened ?'btn-info' : 'btn-outline-info'">
+                <button ngbPanelToggle class="btn btn-sm"
+                  [ngClass]="opened ? 'btn-secondary' : 'btn-outline-secondary'">
                   <i *ngIf="!opened" class="fa fa-chevron-up"></i>
                   <i *ngIf="opened" class="fa fa-chevron-down"></i>
                 </button>
@@ -82,7 +92,7 @@
                   </button>
                 </div>
                 <div class="col-md-8 text-right">
-                  <button class="btn btn-primary btn-sm mt-1" (click)="onCompare(set.setChecksum,set.id)">
+                  <button #compareBtnSelector class="btn btn-primary btn-sm mt-1" (click)="onCompare(set.setChecksum,set.id)">
                     <i class="fa fa-clone"></i> {{'deduplication.sets.button.compare' | translate}}
                   </button>
                   <button class="btn btn-outline-secondary btn-sm mt-1"

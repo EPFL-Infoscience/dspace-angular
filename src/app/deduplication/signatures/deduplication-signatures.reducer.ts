@@ -49,11 +49,11 @@ export function deduplicationSignatureReducer(state = deduplicationSignatureInit
 
     case DeduplicationSignaturesActionTypes.ADD_SIGNATURES: {
       return Object.assign({}, state, {
-        objects: state.objects.concat(action.payload.signatures),
+        objects: action.payload.signatures,
         processing: false,
         loaded: true,
         totalPages: action.payload.totalPages,
-        currentPage: state.currentPage + 1,
+        currentPage: state.currentPage,
         totalElements: action.payload.totalElements
       });
     }

@@ -1,5 +1,4 @@
 import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/models/submission-repeatable-fields.model';
-import { Collection } from './../../core/shared/collection.model';
 import { isEqual } from 'lodash';
 import { GetBitstreamsPipe } from './pipes/ds-get-bitstreams.pipe';
 import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
@@ -382,13 +381,13 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     };
     console.log(mergedItems);
 
-    this.deduplicationItemsService
-      .mergeData(mergedItems, this.targetItemId)
-      .subscribe((res) => {
-        if (hasValue(res)) {
-          this.router.navigate(['/deduplication/sets', this.signatureId, this.rule]);
-        }
-      });
+    // this.deduplicationItemsService
+    //   .mergeData(mergedItems, this.targetItemId)
+    //   .subscribe((res) => {
+    //     if (hasValue(res)) {
+    //       this.router.navigate(['/deduplication/sets', this.signatureId, this.rule]);
+    //     }
+    //   });
   }
 
   onMerge(content) {
@@ -497,25 +496,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Add/remove the bitstream from @var bitstreamList based on the selection
-   * @param event The event that triggered the checkbox change
-   * @param bitstream The bitstream to be checked or unchecked
-   */
-  onBitstreamChecked(event, bitstream: Bitstream) {
-    // TODO: Remove method when is not used anymore
-    const idx = this.bitstreamList.findIndex((link) =>
-      isEqual(link, bitstream._links.self.href)
-    );
-    if (event.target.checked && idx < 0) {
-      // if element is checked and not in the list, add it
-      this.bitstreamList.push(bitstream._links.self.href);
-    } else if (!event.target.checked && idx > -1) {
-      // if element is unchecked, remove it from the list
-      this.bitstreamList.splice(idx, 1);
-    }
-  }
-
-  /**
    * Expands all the accordions in the template
    */
   public expandAll() {
@@ -530,14 +510,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     this.isExpanded = false;
     this.accordions.toArray().forEach((x) => x.collapseAll());
   }
-
-  // showFinalResult() {
-  //   this.showFinalResults = true;
-  // }
-
-  // hideFinalResult() {
-  //   this.showFinalResults = false;
-  // }
 
   /**
    * Builts the initial structure of @var mergedMetadataFields
@@ -685,24 +657,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       }
     );
     this.modalRef.componentInstance.compareMetadataValues = newMap;
-  }
-
-  /**
-   * Returns the item's owning collection title or empty answer otherwise
-   * @param item The item to be compared
-   */
-  getOwningCollectionTitle(item: Item): Observable<string> {
-    return item.owningCollection.pipe(
-      getFirstSucceededRemoteDataPayload(),
-      map((res: Collection) => {
-        if (hasValue(res)) {
-          return res.metadata['dc.title'] ? res.metadata['dc.title'][0].value : '-';
-        }
-
-        return '-';
-      }
-      )
-    );
   }
 
   /**

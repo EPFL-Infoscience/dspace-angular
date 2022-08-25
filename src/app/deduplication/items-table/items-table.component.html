@@ -1,0 +1,51 @@
+<table class="table table-bordered">
+  <thead class="bundle-row">
+    <tr>
+      <th scope="col">
+        {{ "deduplication.merge.table.header.entities" | translate }}
+      </th>
+      <th scope="col">{{ "Handle" | translate }}</th>
+      <th scope="col">
+        {{ "deduplication.merge.table.header.identifier" | translate }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let itemObj of itemsToCompare">
+      <td>
+        <span>
+          <strong>
+            {{ "deduplication.merge.table.header.title" | translate }}:</strong
+          >
+          {{ itemObj.object?.name }}</span
+        >
+        <br />
+        <span *ngIf="itemObj.object?.metadata['dc.type']">
+          <strong>Type:</strong>
+          {{ itemObj.object?.metadata["dc.type"][0].value }}</span
+        >
+        <br />
+        <span>
+          <strong>Entity type:</strong>
+          {{ itemObj.object?.type }}</span
+        >
+        <br />
+        <strong>Collection:</strong>
+        <span> {{ getOwningCollectionTitle(itemObj.object) | async }}</span>
+      </td>
+      <td>
+        {{ itemObj.object?.handle }}
+      </td>
+      <td>
+        <a
+          [routerLink]="getItemPage(itemObj.object)"
+          role="button"
+        >
+          <span [ngStyle]="{ color: itemObj.color }">
+            {{ itemObj.object?.uuid }}
+          </span>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>

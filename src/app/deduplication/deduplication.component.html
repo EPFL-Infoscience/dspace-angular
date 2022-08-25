@@ -23,26 +23,6 @@
               [elementsPerRow]="elementsPerPage"
             >
             </ds-deduplication-signatures>
-            <div class="row">
-              <div class="col-md-12 text-center">
-                <hr />
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  [disabled]="
-                    (isSignaturesProcessing() | async) ||
-                    !(showMoreButton() | async)
-                  "
-                  (click)="addMoreDeduplicationSignatures()"
-                >
-                  {{ "deduplication.home.tab.show-more" | translate }}
-                  <span class="badge badge-light">{{
-                    totalRemainingElements
-                  }}</span>
-                  <i class="fa fa-angle-double-right"></i>
-                </button>
-              </div>
-            </div>
           </ng-template>
         </li>
         <li [ngbNavItem]="'compare'">

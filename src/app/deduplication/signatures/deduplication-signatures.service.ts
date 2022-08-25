@@ -25,24 +25,11 @@ export class DeduplicationSignaturesService {
 
   /**
    * Return the list of deduplication signatures managing pagination and errors.
-   *
-   * @param elementsPerPage
-   *    The number of the signatures per page
-   * @param currentPage
-   *    The page number to retrieve
    * @return Observable<PaginatedList<SignatureObject>>
    *    The list of deduplication signatures.
    */
-  public getSignatures(elementsPerPage, currentPage): Observable<PaginatedList<SignatureObject>> {
-    const sortOptions = new SortOptions('signatureType', SortDirection.ASC);
-
-    const findListOptions: FindListOptions = {
-      elementsPerPage: elementsPerPage,
-      currentPage: currentPage,
-      sort: sortOptions
-    };
-
-    return this.deduplicationRestService.getSignatures(findListOptions).pipe(
+  public getSignatures(): Observable<PaginatedList<SignatureObject>> {
+    return this.deduplicationRestService.getSignatures().pipe(
       getFirstCompletedRemoteData(),
       map((rd: RemoteData<PaginatedList<SignatureObject>>) => {
         if (rd.hasSucceeded) {

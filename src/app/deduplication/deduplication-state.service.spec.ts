@@ -259,8 +259,8 @@ describe('DeduplicationStateService', () => {
     describe('dispatchRetrieveDeduplicationSignatures', () => {
       it('Should call store.dispatch', () => {
         const elementsPerPage = 3;
-        const action = new RetrieveAllSignaturesAction(elementsPerPage);
-        service.dispatchRetrieveDeduplicationSignatures(elementsPerPage);
+        const action = new RetrieveAllSignaturesAction();
+        service.dispatchRetrieveDeduplicationSignatures();
         expect(serviceAsAny.store.dispatch).toHaveBeenCalledWith(action);
       });
     });

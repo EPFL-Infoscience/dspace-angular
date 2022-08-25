@@ -126,10 +126,8 @@ export class DeduplicationStateService {
    * @param elementsPerPage
    *    The number of the signatures per page.
    */
-  public dispatchRetrieveDeduplicationSignatures(
-    elementsPerPage: number
-  ): void {
-    this.store.dispatch(new RetrieveAllSignaturesAction(elementsPerPage));
+  public dispatchRetrieveDeduplicationSignatures(): void {
+    this.store.dispatch(new RetrieveAllSignaturesAction());
   }
 
   //#region Sets

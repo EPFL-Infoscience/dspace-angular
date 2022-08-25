@@ -1,9 +1,9 @@
 <div class="container">
-  <div class="row border-bottom pb-2 justify-content-between">
+  <div class="row border-bottom mb-2 pb-1 justify-content-between">
     <h2 id="header">
       {{ "deduplication.merge.label.title" | translate }}
     </h2>
-    <button class="btn btn-secondary" (click)="goBack()">
+    <button class="btn btn-secondary" (click)="goBack()" [ngbTooltip]="'Go to sets' | translate ">
       <i class="fa fa-arrow-left" aria-hidden="true"></i>
     </button>
   </div>
@@ -25,140 +25,14 @@
       </div>
 
       <!-- Item Data Tabel -->
-      <table class="table table-striped mb-4">
-        <thead class="bundle-row">
-          <tr>
-            <th scope="col">
-              {{ "deduplication.merge.table.header.entities" | translate }}
-            </th>
-            <th scope="col">{{ "Handle" | translate }}</th>
-            <th scope="col">
-              {{ "deduplication.merge.table.header.identifier" | translate }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let itemObj of itemsToCompare">
-            <td>
-              <span>
-                <strong>
-                  {{
-                  "deduplication.merge.table.header.title" | translate
-                  }}:</strong>
-                {{ itemObj.object?.name }}</span>
-              <br />
-              <span *ngIf="itemObj.object?.metadata['dc.type']">
-                <strong>Type:</strong>
-                {{ itemObj.object?.metadata["dc.type"][0].value }}</span>
-              <br />
-              <span>
-                <strong>Entity type:</strong>
-                {{ itemObj.object?.type }}</span>
-              <br />
-              <strong>Collection:</strong>
-              <span>
-                {{ getOwningCollectionTitle(itemObj.object) | async }}</span>
-            </td>
-            <td>
-              {{ itemObj.object?.handle }}
-            </td>
-            <td>
-              <span [ngStyle]="{ color: itemObj.color }">
-                {{ itemObj.object?.uuid }}
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <ng-container *ngIf="itemsToCompare">
+        <div class="col-md-12 p-0">
+          <ds-items-table [itemsToCompare]="itemsToCompare"></ds-items-table>
+        </div>
+      </ng-container>
 
       <!-- Bitstream Data Tabel -->
-      <table class="table table-striped">
-        <thead class="bundle-row">
-          <tr>
-            <th scope="col">
-              {{ "Select" | translate }}
-            </th>
-            <th scope="col">
-              {{
-              "deduplication.merge.table.bitstream.header.title" | translate
-              }}
-            </th>
-            <th scope="col">
-              {{
-              "deduplication.merge.table.bitstream.header.identifier"
-              | translate
-              }}
-            </th>
-            <th scope="col">
-              {{
-              "deduplication.merge.table.bitstream.header.item-identifier"
-              | translate
-              }}
-            </th>
-            <th scope="col">
-              {{
-              "CheckSum"
-              | translate
-              }}
-            </th>
-            <th scope="col">
-              {{ "Actions" | translate }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <ng-container *ngFor="let itemObj of itemsToCompare">
-            <ds-loading [showMessage]="false" *ngIf="!(itemObj.object | dsGetBitstreams | async | async)">
-            </ds-loading>
-            <tr *ngFor="
-                  let bitstream of itemObj.object
-                    | dsGetBitstreams
-                    | async
-                    | async
-                ">
-              <td>
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" [id]="bitstream.uuid" [checked]="
-                        bitstreamList.includes(bitstream._links.self.href)
-                      " (change)="onBitstreamChecked($event, bitstream)" />
-                  <label class="custom-control-label" [for]="bitstream.uuid"></label>
-                </div>
-              </td>
-              <td>
-                <span *ngFor="let title of bitstream.metadata['dc.title']">
-                  {{ title.value }} <br />
-                </span>
-              </td>
-              <td>{{ bitstream.uuid }}<br /></td>
-              <td>
-                <span [ngStyle]="{ color: itemObj.color }">
-                  {{ (itemObj.object)?.uuid }}
-                </span>
-              </td>
-              <td>
-                <span >
-                  {{ bitstream.checkSum.value }}
-                </span>
-              </td>
-              <td>
-                <a> View</a>
-              </td>
-            </tr>
-          </ng-container>
-        </tbody>
-      </table>
-      <!-- <ng-container *ngFor="let itemObj of itemsToCompare; let isLast = last">
-          <div class="col-md-12 text-center pt-2">
-            <h6 class="font-weight-bold">
-              {{ "deduplication.merge.label.bitstreams" | translate }}
-              <span [ngStyle]="{ color: itemObj.color }">
-                {{ itemObj.object.uuid }}
-              </span>
-            </h6>
-          </div>
-          <ds-item-bitstreams [item]="itemObj.object"> </ds-item-bitstreams>
-          <hr class="bitstream-container-separator" />
-        </ng-container> -->
+      <ds-bitstream-table [itemsToCompare]="itemsToCompare" [bitstreamList]="bitstreamList"> </ds-bitstream-table>
 
       <div class="col-md-12 text-center py-2 mb-3">
         <h5 class="font-weight-bold">
@@ -182,13 +56,12 @@
           {{ "Preview & Merge" | translate }}
         </button>
 
-        <!-- <button class="btn btn-info" (click)="
-          $event.preventDefault();
-          onMerge(content)
+        <button class="btn btn-info" (click)="
+          merge()
         ">
           <i class="fa fa-code pr-1" aria-hidden="true"></i>
           {{'Merge' | translate}}
-        </button> -->
+        </button>
       </div>
 
       <div class="col-md-12">

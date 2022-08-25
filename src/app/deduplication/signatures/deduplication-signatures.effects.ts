@@ -14,7 +14,6 @@ import {
 import { SignatureObject } from '../../core/deduplication/models/signature.model';
 import { PaginatedList } from '../../core/data/paginated-list.model';
 import { DeduplicationSignaturesService } from './deduplication-signatures.service';
-import { DeduplicationState } from '../deduplication.reducer';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 
 /**
@@ -30,8 +29,7 @@ export class DeduplicationSignaturesEffects {
     ofType(DeduplicationSignaturesActionTypes.RETRIEVE_ALL_SIGNATURES),
     withLatestFrom(this.store$),
     switchMap(([action, currentState]: [RetrieveAllSignaturesAction, any]) => {
-      const currentPage = (currentState.deduplication as DeduplicationState).signatures.currentPage + 1;
-      return this.deduplicationSignaturesService.getSignatures(action.payload.elementsPerPage, currentPage)
+      return this.deduplicationSignaturesService.getSignatures()
       .pipe(
         map((signatures: PaginatedList<SignatureObject>) =>
            new AddSignaturesAction(signatures.page, signatures.totalPages, signatures.currentPage, signatures.totalElements)
