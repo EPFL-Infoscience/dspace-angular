@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { Observable, of as observableOf, Subscription, timer as observableTimer } from 'rxjs';
+import { Observable, of, of as observableOf, Subscription, timer as observableTimer } from 'rxjs';
 import { catchError, concatMap, distinctUntilChanged, filter, find, map, startWith, take, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -701,6 +701,11 @@ export class SubmissionService {
         return createFailedRemoteDataObject$<SubmissionObject>(errorResponse.errorMessage, errorResponse.statusCode || 404);
       })
     );
+  }
+
+  changeSubmitter(workspaceItemHref: string, submitterId: string): Observable<any> {
+    const postHref = `${workspaceItemHref}/changesubmitter?submitterIdentifier=${submitterId}`;
+    return of(postHref);
   }
 
   /**
