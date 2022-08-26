@@ -7,6 +7,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { NouisliderModule } from 'ng2-nouislider';
 import {
+  NgbAccordionModule,
   NgbCollapseModule,
   NgbDatepickerModule,
   NgbDropdownModule,
@@ -210,6 +211,9 @@ import { MetricsModule } from './metric/metrics.module';
 import { SearchChartBarHorizontalComponent } from './search/search-charts/search-chart/search-chart-bar-horizontal/search-chart-bar-horizontal.component';
 import { ThumbnailService } from './thumbnail/thumbnail.service';
 import { AdditionalMetadataComponent } from './object-list/search-result-list-element/additional-metadata/additional-metadata.component';
+import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
+import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
+
 
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
@@ -226,6 +230,7 @@ const MODULES = [
   NgbPaginationModule,
   NgbDropdownModule,
   NgbTooltipModule,
+  NgbAccordionModule,
   ReactiveFormsModule,
   RouterModule,
   NouisliderModule,
@@ -234,6 +239,7 @@ const MODULES = [
   CdkTreeModule,
   MetricsModule,
   NgbModule,
+  PdfJsViewerModule
 ];
 
 const ROOT_MODULES = [
@@ -407,7 +413,8 @@ const COMPONENTS = [
   MetadataLinkViewComponent,
   ExportExcelSelectorComponent,
   ThemedBrowseMostElementsComponent,
-  SearchChartBarHorizontalComponent
+  SearchChartBarHorizontalComponent,
+  PdfViewerComponent,
 ];
 
 const ENTRY_COMPONENTS = [
@@ -474,7 +481,8 @@ const ENTRY_COMPONENTS = [
   SearchChartLineComponent,
   ThemedBrowseMostElementsComponent,
   SearchChartBarHorizontalComponent,
-  RelationshipsListComponent
+  RelationshipsListComponent,
+  PdfViewerComponent,
 ];
 
 const SHARED_ITEM_PAGE_COMPONENTS = [

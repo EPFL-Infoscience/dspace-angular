@@ -22,7 +22,8 @@
       </div>
 
       <div class="col-4 text-right">
-        <ds-file-download-button [bitstream]="attachment" [enableRequestACopy]="true" [item]="item">
+        <ds-file-download-button [bitstream]="attachment" [enableRequestACopy]="true" [item]="item"
+          [format]="getFormat(attachment) |async" (previewPdf)="previewPdf(attachment)">
         </ds-file-download-button>
       </div>
     </div>
@@ -33,4 +34,5 @@
       {{'cris-layout.advanced-attachment.viewMore' | translate}}
     </button>
   </div>
+  <ds-pdf-viewer *ngIf="hasAnyPdf" [pdfSrc]="pdfSrc"></ds-pdf-viewer>
 </div>
