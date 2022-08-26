@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { Observable, of, of as observableOf, Subscription, timer as observableTimer } from 'rxjs';
+import { Observable, of as observableOf, Subscription, timer as observableTimer } from 'rxjs';
 import { catchError, concatMap, distinctUntilChanged, filter, find, map, startWith, take, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -50,6 +50,7 @@ import { NotificationOptions } from '../shared/notifications/models/notification
 import { ScrollToConfigOptions, ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
 import { SubmissionVisibility } from './utils/visibility.util';
 import { MetadataSecurityConfiguration } from '../core/submission/models/metadata-security-configuration';
+import { WorkspaceItem } from '../core/submission/models/workspaceitem.model';
 
 /**
  * A service that provides methods used in submission process.
@@ -703,9 +704,28 @@ export class SubmissionService {
     );
   }
 
-  changeSubmitter(workspaceItemHref: string, submitterId: string): Observable<any> {
-    const postHref = `${workspaceItemHref}/changesubmitter?submitterIdentifier=${submitterId}`;
-    return of(postHref);
+  changeSubmitter(workspaceItem: WorkspaceItem, submitter: any): Observable<any> {
+
+    const linkName = 'changesubmitter';
+
+    const workspaceItemId = workspaceItem.id;
+
+    const submitterId = encodeURI(submitter.email);
+
+    // TODO: this value is improperly passed to postToEndpoint parameter scopeId
+    const secondLinkSegment = 'changesubmitter';
+
+    const paramsObj = Object.create({});
+    paramsObj.submitterIdentifier = submitterId;
+    paramsObj.itemId = workspaceItemId;
+
+    const params = new HttpParams({ fromObject: paramsObj });
+    const options: HttpOptions = Object.create({});
+    options.params = params;
+    return this.restService.postToEndpointWithoutProjection(linkName, {}, secondLinkSegment, options, null).pipe(
+      tap(console.log)
+      );
+
   }
 
   /**

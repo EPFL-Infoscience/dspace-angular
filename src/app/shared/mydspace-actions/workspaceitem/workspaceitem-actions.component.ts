@@ -16,6 +16,7 @@ import { RemoteData } from '../../../core/data/remote-data';
 import { NoContent } from '../../../core/shared/NoContent.model';
 import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap/modal/modal-config';
 import { SubmissionService } from '../../../submission/submission.service';
+import { DSpaceObject } from '../../../core/shared/dspace-object.model';
 
 /**
  * This component represents actions related to WorkspaceItem object.
@@ -92,8 +93,8 @@ export class WorkspaceitemActionsComponent extends MyDSpaceActionsComponent<Work
   openChangeSubmitterModal(template: TemplateRef<any>) {
     const options: NgbModalOptions = { size: 'xl' };
     const modal = this.modalService.open(template, options);
-    modal.result.then((submitter) => {
-      this.submissionService.changeSubmitter(this.object._links.self.href, submitter.uuid).subscribe(console.log);
+    modal.result.then((submitter: DSpaceObject) => {
+      this.submissionService.changeSubmitter(this.object, submitter).subscribe(console.log);
     }).catch((err) => undefined);
 
   }
