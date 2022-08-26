@@ -58,7 +58,7 @@ export abstract class BitstreamRenderingModelComponent extends RenderingTypeStru
    */
   getBitstreams(options?: FindListOptions): Observable<PaginatedList<Bitstream>> {
     return this.bitstreamDataService
-      .findAllByItemAndBundleName(this.item, this.field.bitstream.bundle, options, false, false, followLink('thumbnail'))
+      .findAllByItemAndBundleName(this.item, this.field.bitstream.bundle, options, false, false, followLink('thumbnail'), followLink( 'format'))
       .pipe(
         getFirstCompletedRemoteData(),
         map((response: RemoteData<PaginatedList<Bitstream>>) => {
@@ -107,7 +107,7 @@ export abstract class BitstreamRenderingModelComponent extends RenderingTypeStru
   getFormat(bitstream: Bitstream): Observable<string> {
     return bitstream.format?.pipe(
       map((rd: RemoteData<BitstreamFormat>) => {
-        if (rd.payload?.shortDescription === 'Adobe PDF') {
+        if (rd.payload?.mimetype === 'application/pdf') {
           this.hasAnyPdf = true;
         }
         return rd.payload?.shortDescription;
