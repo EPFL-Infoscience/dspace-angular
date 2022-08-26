@@ -373,4 +373,54 @@ export const environment: BuildConfig = {
       class: 'alert-danger',
     },
   ],
+
+  attachmentRendering: {
+    pagination: {
+      enabled: true,
+      elementsPerPage: 2
+    },
+  },
+
+  advancedAttachmentRendering: {
+    pagination: {
+      enabled: true,
+      elementsPerPage: 2
+    },
+    metadata: [
+      /*{
+        name: 'dc.title',
+        type: AdvancedAttachmentElementType.Metadata,
+        truncatable: false
+      },
+      {
+        name: 'dc.type',
+        type: AdvancedAttachmentElementType.Metadata,
+        truncatable: false
+      },
+      {
+        name: 'dc.description',
+        type: AdvancedAttachmentElementType.Metadata,
+        truncatable: true
+      },
+      {
+        name: 'size',
+        type: AdvancedAttachmentElementType.Attribute,
+      },
+      {
+        name: 'format',
+        type: AdvancedAttachmentElementType.Attribute,
+      }*/
+    ],
+    attributes: []
+  },
+
+  searchResult: {
+    additionalMetadataFields: [
+      {
+        entityType: 'default',
+        metadataConfiguration: []
+      }
+    ]
+  }
+
 };

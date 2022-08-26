@@ -117,6 +117,25 @@
   "admin.institution.explore.title": "Explore Institutions",
 
 
+  "admin.language-labels.title": "Language files",
+
+  "admin.language-labels.breadcrumbs": "Language files",
+
+  "admin.language-labels.upload-file": "Upload {{langName}} language file",
+
+  "admin.language-labels.rename-note": "Uploaded file will be renamed to {{langCode}}.json5",
+
+  "admin.language-labels.dropMsg": "Drop the {{langName}} language file here",
+
+  "admin.language-labels.notification.upload-success.title": "Upload completed",
+
+  "admin.language-labels.notification.upload-success.content": "The {{langName}} file has been successfully uploaded",
+
+  "admin.language-labels.notification.upload-error.title": "Upload failed",
+
+  "admin.language-labels.notification.upload-error.content": "The {{langName}} file has not been uploaded",
+
+
 
   "admin.registries.bitstream-formats.breadcrumbs": "Format registry",
 
@@ -1600,11 +1619,39 @@
 
   "cris-layout.toggle.aria.close": "Collapse {{sectionHeader}} section",
 
+  "cris-layout.advanced-attachment.dc.title": "Name",
+
+  "cris-layout.advanced-attachment.size": "Size",
+
+  "cris-layout.advanced-attachment.format": "Format",
+
+  "cris-layout.advanced-attachment.dc.type": "Type",
+
+  "cris-layout.advanced-attachment.dc.description": "Description",
+
+  "cris-layout.advanced-attachment.no_thumbnail": "No Thumbnail Available",
+
+  "cris-layout.advanced-attachment.download": "Download",
+
+  "cris-layout.advanced-attachment.requestACopy": "Request a copy",
+
+  "cris-layout.advanced-attachment.viewMore": "View More",
+
+  "cris-layout.advanced-attachment.oaire.licenseCondition": "License Condition",
+
+  "cris-layout.advanced-attachment.datacite.rights": "Access type",
+
+  "cris-layout.advanced-attachment.datacite.available": "Embargo End Date",
+
+  "cris-layout.attachment.viewMore": "View More",
+
   "curation-task.task.checklinks.label":  "Check Links in Metadata",
 
   "curation-task.task.noop.label": "NOOP",
 
   "curation-task.task.profileformats.label": "Profile Bitstream Formats",
+
+   "curation-task.task.registerdoi.label": "Mint DOI",
 
   "curation-task.task.requiredmetadata.label": "Check for Required Metadata",
 
@@ -1612,7 +1659,19 @@
 
   "curation-task.task.vscan.label": "Virus Scan",
 
+  "curation-task.task.estaipsize.label": "Estimate Storage Space for AIP(s)",
 
+  "curation-task.task.transmitaip.label": "Transmit AIP(s) to Storage",
+
+  "curation-task.task.transmitsingleaip.label": "Transmit Single Object AIP to Storage",
+
+  "curation-task.task.removeaip.label": "Remove AIP(s) from Storage",
+
+  "curation-task.task.restorefromaip.label": "Restore Missing Object(s) from AIP(s)",
+
+  "curation-task.task.restoresinglefromaip.label": "Restore Single Object from AIP",
+
+  "curation-task.task.fetchaip.label": "Fetch AIP(s) from Storage",
 
   "curation.form.task-select.label": "Task:",
 
@@ -1838,6 +1897,8 @@
 
   "explore.index.dc.title" : "Title",
 
+  "explore.index.doi" : "DOI",
+
   "explore.index.editor" : "Editor",
 
   "explore.index.eqtitle" : "Title",
@@ -1890,7 +1951,11 @@
 
   "explore.index.jobTitle" : "Job title",
 
+  "explore.index.journal" : "Journal",
+
   "explore.index.knowsLanguage" : "Knows languages",
+
+  "explore.index.orcid" : "ORCID",
 
   "explore.index.organization" : "Organization",
 
@@ -2183,6 +2248,8 @@
   "home.top-level-communities.head": "Communities in DSpace Cris",
 
   "home.top-level-communities.help": "Search for a collection",
+
+  "home.top-section.view-results": "View all results",
 
 
 
@@ -2693,8 +2760,6 @@
   "item.search.results.head": "Item Search Results",
 
   "item.search.title": "Item Search",
-
-
 
   "item.page.abstract": "Abstract",
 
@@ -3353,6 +3418,8 @@
   "menu.section.import_metadata": "Metadata",
 
 
+  "menu.section.language_files_upload": "Upload language files",
+
 
   "menu.section.new": "New",
 
@@ -3501,6 +3568,8 @@
 
   "statistics.login.page.no-data-found": "No data found",
 
+  "statistics.login.title statistics.workflow.title" : "Login Statistics",
+
   "manage.relations": "Manage Relations",
 
   "menu.section.toggle.access_control": "Toggle Access Control section",
@@ -3612,6 +3681,8 @@
   "mydspace.show.workflow": "Workflow tasks",
 
   "mydspace.show.workspace": "Your Submissions",
+
+  "mydspace.show.otherworkspace": "Other Workspace Submissions",
 
   "mydspace.status.archived": "Archived",
 
@@ -4245,6 +4316,36 @@
 
   "profile.breadcrumbs": "Update Profile",
 
+  "profile.card.access-token": "Personal access token",
+
+  "profile.card.access-token.copy": "Copy token",
+
+  "profile.card.access-token.copy-info": "Make sure to copy your personal access token now. You won’t be able to see it again!",
+
+  "profile.card.access-token.info": "Tokens you have generated that can be used to access the DSpace-CRIS API.",
+
+  "profile.card.access-token.create.error": "An error occurred while generating the token, please try again later.",
+
+  "profile.card.access-token.create-warning.title": "Generate a new personal access token",
+
+  "profile.card.access-token.create-warning.msg": "Are you sure you want to generate a new personal access token?\nThis will revoke access for the existing personal access token. This action cannot be undone.",
+
+  "profile.card.access-token.delete-warning.title": "Revoke the new personal access token",
+
+  "profile.card.access-token.delete-warning.msg": "Are you sure you want to revoke access for the personal access token? This action cannot be undone.",
+
+  "profile.card.access-token.confirm": "Confirm",
+
+  "profile.card.access-token.cancel": "Cancel",
+
+  "profile.card.access-token.create": "Generate new token",
+
+  "profile.card.access-token.delete": "Revoke token",
+
+  "profile.card.access-token.no-token-generated": "You don't have personal access token. Generate a personal access token for quick access to the DSpace-CRIS API.",
+
+  "profile.card.access-token.token-generated": "You have already generated a personal access token.",
+
   "profile.card.identify": "Identify",
 
   "profile.card.security": "Security",
@@ -4684,6 +4785,14 @@
 
   "search.filters.applied.f.graphpubldatetrl": "Public date RTL",
 
+  "search.filters.applied.f.original_bundle_datacite_available.min": "Start Date",
+
+  "search.filters.applied.f.original_bundle_datacite_available.max": "End Date",
+
+  "search.filters.applied.f.original_bundle_datacite_rights": "File Accessibility",
+
+  "search.filters.applied.f.original_bundle_oaire_licenseCondition": "File License",
+
   "search.filters.applied.f.organization": "Organisation",
 
   "search.filters.applied.charts.defaultConfiguration.title": "Search Output",
@@ -4881,6 +4990,24 @@
 
   "search.filters.filter.organizationFoundingDate.label": "Search date founded",
 
+  "search.filters.filter.original_bundle_oaire_licenseCondition.head": "File License",
+
+  "search.filters.filter.original_bundle_oaire_licenseCondition.placeholder": "File License",
+
+  "search.filters.filter.original_bundle_oaire_licenseCondition.label": "Search file license",
+
+  "search.filters.filter.original_bundle_datacite_available.head": "Embargo",
+
+  "search.filters.filter.original_bundle_datacite_available.min.label": "Start",
+
+  "search.filters.filter.original_bundle_datacite_available.max.label": "End",
+
+  "search.filters.filter.original_bundle_datacite_rights.head": "File Accessibility",
+
+  "search.filters.filter.original_bundle_datacite_rights.placeholder": "File Accessibility",
+
+  "search.filters.filter.original_bundle_datacite_rights.label": "Search file accessibility",
+
   "search.filters.filter.scope.head": "Scope",
 
   "search.filters.filter.scope.placeholder": "Scope filter",
@@ -4959,6 +5086,8 @@
 
   "orgunit.search.results.head": "Organizations Search Results",
 
+  "homePageTopItems.search.results.head": "Home Page Items Results",
+
   "search.results.no-results": "Your search returned no results. Having trouble finding what you're looking for? Try putting",
 
   "search.results.no-results-link": "quotes around it",
@@ -5005,6 +5134,10 @@
   "sorting.dc.title.ASC": "Title Ascending",
 
   "sorting.dc.title.DESC": "Title Descending",
+
+  "sorting.dc.contributor.author.ASC": "First Author Ascending",
+
+  "sorting.dc.contributor.author.DESC": "First Author Descending",
 
   "sorting.metric.view.ASC" : "Views Ascending",
 
@@ -5110,6 +5243,8 @@
   "statistics.table.downloadReports.title.TopCities": "Top city downloads",
 
   "statistics.table.mainReports.header.views": "Views",
+
+  "statistics.table.mainReports.header.bitstream": "File Visits",
 
   "statistics.table.mainReports.header.continent": "Continent",
 
@@ -5739,7 +5874,7 @@
 
   "submission.sections.submit.progressbar.CClicense": "Creative commons license",
 
-  "submission.sections.submit.progressbar.CustomUrlStep": "Custom url",
+  "submission.sections.submit.progressbar.custom-url": "Custom url",
 
   "submission.sections.submit.progressbar.describe.equipment": "Equipment basic information",
 
@@ -5793,9 +5928,25 @@
 
   "submission.sections.submit.progressbar.upload": "Upload files",
 
-  "submission.sections.submit.progressbar.correction-step": "Corrections",
+  "submission.sections.submit.progressbar.upload-publication": "Upload files",
 
+  "submission.sections.submit.progressbar.upload-product": "Upload files",
 
+  "submission.sections.submit.progressbar.upload-patent": "Upload files",
+
+  "submission.sections.submit.progressbar.upload-project": "Upload files",
+
+  "submission.sections.submit.progressbar.upload-funding": "Upload files",
+
+  "submission.sections.submit.progressbar.upload-event": "Upload files",
+
+  "submission.sections.submit.progressbar.upload-journal": "Upload files",
+
+  "submission.sections.submit.progressbar.upload-orgunit": "Upload files",
+
+  "submission.sections.submit.progressbar.upload-person": "Upload files",
+
+  "submission.sections.submit.progressbar.correction": "Corrections",
 
   "submission.sections.status.errors.title": "Errors",
 
@@ -6083,6 +6234,10 @@
 
   "vocabulary-treeview.header": "Hierarchical tree view",
 
+  "vocabulary-treeview.header.affiliation": "Affiliation",
+
+  "vocabulary-treeview.header.hierarchy": "Hierarchy",
+
   "vocabulary-treeview.load-more": "Load more",
 
   "vocabulary-treeview.search.form.reset": "Reset",
@@ -6116,6 +6271,8 @@
   "virtual-metadata.delete-relationship.modal-head": "Select the items for which you want to save the virtual metadata as real metadata",
 
 
+
+  "otherworkspace.search.results.head": "Workspace submissions",
 
   "workspace.search.results.head": "Your submissions",
 

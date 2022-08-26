@@ -21,6 +21,9 @@ export enum FieldRenderingType {
   BROWSE = 'BROWSE',
   TAGBROWSE = 'TAG-BROWSE',
   MARKDOWN = 'MARKDOWN',
+  SEARCH = 'SEARCH',
+  TAGSEARCH = 'TAG-SEARCH',
+  ADVANCEDATTACHMENT = 'ADVANCEDATTACHMENT',
 }
 
 const fieldType = new Map();

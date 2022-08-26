@@ -7,14 +7,15 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { NouisliderModule } from 'ng2-nouislider';
 import {
-    NgbCollapseModule,
-    NgbDatepickerModule,
-    NgbDropdownModule,
-    NgbNavModule,
-    NgbPaginationModule,
-    NgbTimepickerModule,
-    NgbTooltipModule,
-    NgbTypeaheadModule
+  NgbCollapseModule,
+  NgbDatepickerModule,
+  NgbDropdownModule,
+  NgbModule,
+  NgbNavModule,
+  NgbPaginationModule,
+  NgbTimepickerModule,
+  NgbTooltipModule,
+  NgbTypeaheadModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { MissingTranslationHandler, TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -207,6 +208,8 @@ import { ThemedItemListPreviewComponent } from './object-list/my-dspace-result-l
 import { ItemCorrectionComponent } from './object-collection/shared/mydspace-item-correction/item-correction.component';
 import { MetricsModule } from './metric/metrics.module';
 import { SearchChartBarHorizontalComponent } from './search/search-charts/search-chart/search-chart-bar-horizontal/search-chart-bar-horizontal.component';
+import { ThumbnailService } from './thumbnail/thumbnail.service';
+import { AdditionalMetadataComponent } from './object-list/search-result-list-element/additional-metadata/additional-metadata.component';
 
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
@@ -229,7 +232,8 @@ const MODULES = [
   MomentModule,
   DragDropModule,
   CdkTreeModule,
-  MetricsModule
+  MetricsModule,
+  NgbModule,
 ];
 
 const ROOT_MODULES = [
@@ -487,7 +491,8 @@ const SHARED_ITEM_PAGE_COMPONENTS = [
 const PROVIDERS = [
   TruncatableService,
   MockAdminGuard,
-  AbstractTrackableComponent
+  AbstractTrackableComponent,
+  ThumbnailService
 ];
 
 const DIRECTIVES = [
@@ -524,6 +529,7 @@ const DIRECTIVES = [
     ItemVersionsSummaryModalComponent,
     ItemVersionsDeleteModalComponent,
     ItemExportAlertComponent,
+    AdditionalMetadataComponent,
   ],
   providers: [
     ...PROVIDERS
@@ -534,7 +540,8 @@ const DIRECTIVES = [
     ...COMPONENTS,
     ...SHARED_ITEM_PAGE_COMPONENTS,
     ...DIRECTIVES,
-    TranslateModule
+    TranslateModule,
+    AdditionalMetadataComponent
   ]
 })
 

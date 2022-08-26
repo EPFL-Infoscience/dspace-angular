@@ -20,6 +20,9 @@ import { CrisLayoutConfig, LayoutConfig, SuggestionConfig } from './layout-confi
 import { MetadataSecurityConfig } from './metadata-security-config';
 import { FollowAuthorityMetadata } from './search-follow-metadata.interface';
 import { MetricVisualizationConfig } from './metric-visualization-config.interfaces';
+import { AdvancedAttachmentRenderingConfig } from './advanced-attachment-rendering.config';
+import { AttachmentRenderingConfig } from './attachment-rendering.config';
+import { SearchResultConfig } from './search-result-config.interface';
 
 export class DefaultAppConfig implements AppConfig {
   production = false;
@@ -511,4 +514,55 @@ export class DefaultAppConfig implements AppConfig {
       class: 'alert-danger',
     },
   ];
+
+  attachmentRendering: AttachmentRenderingConfig = {
+    pagination: {
+      enabled: true,
+      elementsPerPage: 2,
+    },
+  };
+
+  advancedAttachmentRendering: AdvancedAttachmentRenderingConfig = {
+    pagination: {
+      enabled: true,
+      elementsPerPage: 2,
+    },
+    metadata: [
+      {
+        name: 'dc.title',
+        rendering: 'text',
+        label: 'cris-layout.advanced-attachment.dc.title'
+      },
+      {
+        name: 'dc.type',
+        rendering: 'text',
+        label: 'cris-layout.advanced-attachment.dc.type'
+      },
+      {
+        name: 'dc.description',
+        rendering: 'text',
+        label: 'cris-layout.advanced-attachment.dc.description'
+      },
+    ],
+    attributes: [
+      {
+        name: 'size',
+        label: 'cris-layout.advanced-attachment.size'
+      },
+      {
+        name: 'format',
+        label: 'cris-layout.advanced-attachment.format'
+      }
+    ]
+  };
+
+  searchResult: SearchResultConfig = {
+    additionalMetadataFields: [
+      {
+        entityType: 'default',
+        metadataConfiguration: []
+      }
+    ]
+  };
+
 }
