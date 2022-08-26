@@ -722,9 +722,7 @@ export class SubmissionService {
     const params = new HttpParams({ fromObject: paramsObj });
     const options: HttpOptions = Object.create({});
     options.params = params;
-    return this.restService.postToEndpointWithoutProjection(linkName, {}, secondLinkSegment, options, null).pipe(
-      tap(console.log)
-      );
+    return this.restService.postToEndpointWithoutProjection(linkName, {}, secondLinkSegment, options, null);
 
   }
 

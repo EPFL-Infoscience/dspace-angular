@@ -58,6 +58,14 @@ export class SubmissionRestService {
     );
   }
 
+  protected fetchRequestWithoutResponse(requestId: string): Observable<boolean> {
+    return this.rdbService.buildFromRequestUUID<SubmissionResponse>(requestId).pipe(
+      getFirstCompletedRemoteData(),
+      map((response: RemoteData<SubmissionResponse>) => response.hasSucceeded),
+      distinctUntilChanged()
+    );
+  }
+
   /**
    * Create the HREF for a specific submission object based on its identifier
    *
@@ -160,7 +168,7 @@ export class SubmissionRestService {
       distinctUntilChanged());
   }
 
-  public postToEndpointWithoutProjection(linkName: string, body: any, scopeId?: string, options?: HttpOptions, collectionId?: string): Observable<SubmitDataResponseDefinitionObject> {
+  public postToEndpointWithoutProjection(linkName: string, body: any, scopeId?: string, options?: HttpOptions, collectionId?: string): Observable<boolean> {
     const requestId = this.requestService.generateRequestId();
     const templateRegex = /{\?[^(?{})]*}$/;
     return this.halService.getEndpoint(linkName).pipe(
@@ -170,7 +178,7 @@ export class SubmissionRestService {
       distinctUntilChanged(),
       map((endpointURL: string) => new SubmissionPostRequest(requestId, endpointURL, body, options)),
       tap((request: PostRequest) => this.requestService.send(request)),
-      mergeMap(() => this.fetchRequest(requestId)),
+      mergeMap(() => this.fetchRequestWithoutResponse(requestId)),
       distinctUntilChanged(),
     );
   }
