@@ -206,6 +206,25 @@ import { WorkflowOwnerStatistics } from './statistics/models/workflow-owner-stat
 import { LoginStatisticsService } from './statistics/login-statistics.service';
 import { LoginStatistics } from './statistics/models/login-statistics.model';
 import { MachineToken } from './auth/models/machine-token.model';
+import { SchemaJsonLDService } from './metadata/schema-json-ld/schema-json-ld.service';
+import {
+  PublicationScholarlyArticleSchemaType
+} from './metadata/schema-json-ld/schema-types/publication/publication-scholarly-article-schema-type';
+import {
+  PublicationChapterSchemaType
+} from './metadata/schema-json-ld/schema-types/publication/publication-chapter-schema-type';
+import {
+  PublicationBookSchemaType
+} from './metadata/schema-json-ld/schema-types/publication/publication-book-schema-type';
+import {
+  PublicationThesisSchemaType
+} from './metadata/schema-json-ld/schema-types/publication/publication-thesis-schema-type';
+import {
+  PublicationCreativeWorkSchemaType
+} from './metadata/schema-json-ld/schema-types/publication/publication-creative-work-schema-type';
+import {
+  PublicationReportSchemaType
+} from './metadata/schema-json-ld/schema-types/publication/publication-report-schema-type';
 
 /**
  * When not in production, endpoint responses can be mocked for testing purposes
@@ -249,6 +268,7 @@ const PROVIDERS = [
   HostWindowService,
   ItemDataService,
   MetadataService,
+  SchemaJsonLDService,
   ObjectCacheService,
   PaginationComponentOptions,
   ResourcePolicyService,
@@ -349,6 +369,15 @@ const PROVIDERS = [
   LoginStatisticsService,
 ];
 
+const SCHEMA_PROVIDERS = [
+  PublicationBookSchemaType,
+  PublicationChapterSchemaType,
+  PublicationCreativeWorkSchemaType,
+  PublicationReportSchemaType,
+  PublicationScholarlyArticleSchemaType,
+  PublicationThesisSchemaType
+];
+
 /**
  * Declaration needed to make sure all decorator functions are called in time
  */
@@ -443,7 +472,8 @@ export const models =
     ...EXPORTS
   ],
   providers: [
-    ...PROVIDERS
+    ...PROVIDERS,
+    ...SCHEMA_PROVIDERS
   ]
 })
 
