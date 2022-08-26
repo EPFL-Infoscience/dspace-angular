@@ -11,6 +11,7 @@ import {
   NgbCollapseModule,
   NgbDatepickerModule,
   NgbDropdownModule,
+  NgbModule,
   NgbNavModule,
   NgbPaginationModule,
   NgbTimepickerModule,
@@ -237,6 +238,7 @@ const MODULES = [
   DragDropModule,
   CdkTreeModule,
   MetricsModule,
+  NgbModule,
   PdfJsViewerModule
 ];
 

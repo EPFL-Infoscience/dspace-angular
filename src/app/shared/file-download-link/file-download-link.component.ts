@@ -41,6 +41,7 @@ export class FileDownloadLinkComponent implements OnInit {
 
   @Input() canPreview = false;
 
+  @Input() showIcon = false;
 
   /**
    * When previewPdf button is clicked emit the event.

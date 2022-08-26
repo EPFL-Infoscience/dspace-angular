@@ -152,6 +152,8 @@ export class UploaderComponent {
       if (isNotEmpty(response)) {
         const responsePath = JSON.parse(response);
         this.onCompleteItem.emit(responsePath);
+      } else if (isNotEmpty(status)) {
+        this.onCompleteItem.emit({status});
       }
     };
     this.uploader.onErrorItem = (item: any, response: any, status: any, headers: any) => {

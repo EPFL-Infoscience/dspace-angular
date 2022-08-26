@@ -1,16 +1,12 @@
-import { environment } from '../../../../../../../../environments/environment';
 import { Component, Inject, OnInit } from '@angular/core';
-
-import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { FieldRenderingType, MetadataBoxFieldRendering } from '../metadata-box.decorator';
-import { BitstreamRenderingModelComponent } from '../bitstream-rendering-model';
 import { BitstreamDataService } from '../../../../../../../core/data/bitstream-data.service';
-import { Bitstream } from '../../../../../../../core/shared/bitstream.model';
 import { Item } from '../../../../../../../core/shared/item.model';
 import { LayoutField } from '../../../../../../../core/layout/models/box.model';
-import { FindListOptions } from '../../../../../../../core/data/request.models';
+import { AttachmentComponent } from '../attachment/attachment.component';
+import { environment } from '../../../../../../../../environments/environment';
 
 @Component({
   selector: 'ds-advanced-attachment',
@@ -21,12 +17,7 @@ import { FindListOptions } from '../../../../../../../core/data/request.models';
  * This component renders the attachment with an advanced layout.
  */
 @MetadataBoxFieldRendering(FieldRenderingType.ADVANCEDATTACHMENT, true)
-export class AdvancedAttachmentComponent extends BitstreamRenderingModelComponent implements OnInit {
-
-  /**
-   * List of bitstreams to show in the list
-   */
-  bitstreams$: Observable<Bitstream[]>;
+export class AdvancedAttachmentComponent extends AttachmentComponent implements OnInit {
 
   /**
    * Environment variables configuring the fields to be viewed
@@ -46,36 +37,6 @@ export class AdvancedAttachmentComponent extends BitstreamRenderingModelComponen
     protected translateService: TranslateService
   ) {
     super(fieldProvider, itemProvider, renderingSubTypeProvider, bitstreamDataService, translateService);
-  }
-
-  /**
-  * On init check if we want to show the attachment list with pagination or show all attachments
-  */
-  ngOnInit() {
-    this.pageOptions = Object.assign(new FindListOptions(), {
-      elementsPerPage: this.envPagination.elementsPerPage,
-      currentPage: 1
-    });
-    if (this.envPagination.enabled) {
-      this.startWithPagination();
-      this.getVisibleBitstreams();
-    } else {
-      this.startWithAll();
-    }
-  }
-
-  /**
-   * Start the list with all the attachments
-   */
-  startWithAll() {
-    this.bitstreams$ = this.getBitstreams();
-  }
-
-  /**
-   * Get the bitstreams until a specific page
-   */
-  getVisibleBitstreams() {
-    this.bitstreams$ = this.getPaginatedBitstreams();
   }
 
 }

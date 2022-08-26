@@ -8,9 +8,9 @@ import { MetadataValue } from '../../../../core/shared/metadata.models';
 import { ResolverStrategyService } from '../../../../cris-layout/services/resolver-strategy.service';
 import { DSpaceObject } from '../../../../core/shared/dspace-object.model';
 import { AdditionalMetadataConfig } from '../../../../../config/additional-metadata.config';
-import { getFirstSucceededRemoteDataPayload, getPaginatedListPayload } from '../../../../core/shared/operators';
-import {map, mapTo, take, tap} from 'rxjs/operators';
-import {interval, Observable, of, race} from 'rxjs';
+import { getFirstCompletedRemoteData, } from '../../../../core/shared/operators';
+import { map, shareReplay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { VocabularyService } from '../../../../core/submission/vocabularies/vocabulary.service';
 
 interface LinkData {
@@ -54,7 +54,7 @@ export class AdditionalMetadataComponent implements OnInit {
         (field: SearchResultAdditionalMetadataEntityTypeConfig) => field.entityType.toLocaleLowerCase() === this.DEFAULT_CONFIG_NAME
       );
 
-      let unfilteredAdditionalMetadataFields: AdditionalMetadataConfig[];
+      let unfilteredAdditionalMetadataFields: AdditionalMetadataConfig[] = [];
 
       if (entityTypeConfig.length > 0) {
         unfilteredAdditionalMetadataFields = entityTypeConfig[0].metadataConfiguration;
@@ -150,17 +150,12 @@ export class AdditionalMetadataComponent implements OnInit {
     const isControlledVocabulary = authority?.length > 1 && authority[0] === vocabularyName;
     const value = isControlledVocabulary ? authority[1] : metadataValue.value;
 
-    const entry$ = this.vocabularyService.getPublicVocabularyEntryByValue(vocabularyName, value).pipe(
-      getFirstSucceededRemoteDataPayload(),
-      getPaginatedListPayload(),
-      map((res) => res[0]?.display ?? metadataValue.value),
-    );
-
-    // fallback values to be shown if the display value cannot be retrieved
-    const initValue$ = interval(1000).pipe(mapTo(metadataValue.value));
-
-    return race([entry$, initValue$]).pipe(
-      take(1)
+    return this.vocabularyService.getPublicVocabularyEntryByValue(vocabularyName, value).pipe(
+      getFirstCompletedRemoteData(),
+      map((res) =>
+        res.hasSucceeded ? (res.payload?.page[0]?.display ?? metadataValue.value) : metadataValue.value
+      ),
+      shareReplay(),
     );
 
   }

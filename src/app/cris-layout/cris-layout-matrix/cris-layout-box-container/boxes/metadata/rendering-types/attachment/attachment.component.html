@@ -2,8 +2,12 @@
   <div *ngFor="let attachment of (bitstreams$ | async)" class="mb-2">
     <ds-truncatable [id]="attachment.id">
       <ng-container *ngVar="(getFormat(attachment) |async) as format">
-        <ds-file-download-link [bitstream]="attachment" [enableRequestACopy]="true" [item]="item"
-          [canPreview]="format == 'Adobe PDF'" (previewPdf)="previewPdf(attachment)">
+        <ds-file-download-link [bitstream]="attachment"
+                               [enableRequestACopy]="true"
+                               [item]="item"
+                               [showIcon]="true"
+                               [canPreview]="format == 'Adobe PDF'"
+                               (previewPdf)="previewPdf(attachment)">
           <span data-test="title" *ngIf="fileName(attachment)"><span data-test="type" *ngIf="getType(attachment)"
               class="font-weight-bold">{{getType(attachment)}}: </span>{{fileName(attachment)}} ({{getSize(attachment) |
             dsFileSize}})</span>

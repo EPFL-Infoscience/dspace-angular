@@ -117,6 +117,25 @@
   "admin.institution.explore.title": "Explore Institutions",
 
 
+  "admin.language-labels.title": "Language files",
+
+  "admin.language-labels.breadcrumbs": "Language files",
+
+  "admin.language-labels.upload-file": "Upload {{langName}} language file",
+
+  "admin.language-labels.rename-note": "Uploaded file will be renamed to {{langCode}}.json5",
+
+  "admin.language-labels.dropMsg": "Drop the {{langName}} language file here",
+
+  "admin.language-labels.notification.upload-success.title": "Upload completed",
+
+  "admin.language-labels.notification.upload-success.content": "The {{langName}} file has been successfully uploaded",
+
+  "admin.language-labels.notification.upload-error.title": "Upload failed",
+
+  "admin.language-labels.notification.upload-error.content": "The {{langName}} file has not been uploaded",
+
+
 
   "admin.registries.bitstream-formats.breadcrumbs": "Format registry",
 
@@ -1634,6 +1653,8 @@
 
   "curation-task.task.profileformats.label": "Profile Bitstream Formats",
 
+   "curation-task.task.registerdoi.label": "Mint DOI",
+
   "curation-task.task.requiredmetadata.label": "Check for Required Metadata",
 
   "curation-task.task.translate.label": "Microsoft Translator",
@@ -1653,7 +1674,6 @@
   "curation-task.task.restoresinglefromaip.label": "Restore Single Object from AIP",
 
   "curation-task.task.fetchaip.label": "Fetch AIP(s) from Storage",
-
 
   "curation.form.task-select.label": "Task:",
 
@@ -2231,6 +2251,8 @@
 
   "home.top-level-communities.help": "Search for a collection",
 
+  "home.top-section.view-results": "View all results",
+
 
 
   "info.end-user-agreement.accept": "I have read and I agree to the End User Agreement",
@@ -2740,8 +2762,6 @@
   "item.search.results.head": "Item Search Results",
 
   "item.search.title": "Item Search",
-
-
 
   "item.page.abstract": "Abstract",
 
@@ -3400,6 +3420,8 @@
   "menu.section.import_metadata": "Metadata",
 
 
+  "menu.section.language_files_upload": "Upload language files",
+
 
   "menu.section.new": "New",
 
@@ -3548,6 +3570,8 @@
 
   "statistics.login.page.no-data-found": "No data found",
 
+  "statistics.login.title statistics.workflow.title" : "Login Statistics",
+
   "manage.relations": "Manage Relations",
 
   "menu.section.toggle.access_control": "Toggle Access Control section",
@@ -3659,6 +3683,8 @@
   "mydspace.show.workflow": "Workflow tasks",
 
   "mydspace.show.workspace": "Your Submissions",
+
+  "mydspace.show.otherworkspace": "Other Workspace Submissions",
 
   "mydspace.status.archived": "Archived",
 
@@ -4291,6 +4317,36 @@
 
 
   "profile.breadcrumbs": "Update Profile",
+
+  "profile.card.access-token": "Personal access token",
+
+  "profile.card.access-token.copy": "Copy token",
+
+  "profile.card.access-token.copy-info": "Make sure to copy your personal access token now. You won’t be able to see it again!",
+
+  "profile.card.access-token.info": "Tokens you have generated that can be used to access the DSpace-CRIS API.",
+
+  "profile.card.access-token.create.error": "An error occurred while generating the token, please try again later.",
+
+  "profile.card.access-token.create-warning.title": "Generate a new personal access token",
+
+  "profile.card.access-token.create-warning.msg": "Are you sure you want to generate a new personal access token?\nThis will revoke access for the existing personal access token. This action cannot be undone.",
+
+  "profile.card.access-token.delete-warning.title": "Revoke the new personal access token",
+
+  "profile.card.access-token.delete-warning.msg": "Are you sure you want to revoke access for the personal access token? This action cannot be undone.",
+
+  "profile.card.access-token.confirm": "Confirm",
+
+  "profile.card.access-token.cancel": "Cancel",
+
+  "profile.card.access-token.create": "Generate new token",
+
+  "profile.card.access-token.delete": "Revoke token",
+
+  "profile.card.access-token.no-token-generated": "You don't have personal access token. Generate a personal access token for quick access to the DSpace-CRIS API.",
+
+  "profile.card.access-token.token-generated": "You have already generated a personal access token.",
 
   "profile.card.identify": "Identify",
 
@@ -5031,6 +5087,8 @@
   "researchoutputs.search.results.head": "Publications Search Results",
 
   "orgunit.search.results.head": "Organizations Search Results",
+
+  "homePageTopItems.search.results.head": "Home Page Items Results",
 
   "search.results.no-results": "Your search returned no results. Having trouble finding what you're looking for? Try putting",
 
@@ -6215,6 +6273,8 @@
   "virtual-metadata.delete-relationship.modal-head": "Select the items for which you want to save the virtual metadata as real metadata",
 
 
+
+  "otherworkspace.search.results.head": "Workspace submissions",
 
   "workspace.search.results.head": "Your submissions",
 

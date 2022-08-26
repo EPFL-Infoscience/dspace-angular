@@ -676,7 +676,20 @@ export class AdminSidebarComponent extends MenuComponent implements OnInit {
           } as LinkMenuItemModel,
           icon: 'edit',
           index: 14
-        }
+        },
+        /* Upload language menu entry */
+        {
+          id: 'language_labels_upload',
+          active: false,
+          visible: authorized,
+          model: {
+            type: MenuItemType.LINK,
+            text: 'menu.section.language_files_upload',
+            link: '/admin/language-files'
+          } as LinkMenuItemModel,
+          icon: 'language',
+          index: 15
+        },
       ];
 
       menuList.forEach((menuSection) => this.menuService.addSection(this.menuID, Object.assign(menuSection, {
