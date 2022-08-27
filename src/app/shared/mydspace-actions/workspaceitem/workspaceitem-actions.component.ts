@@ -1,4 +1,4 @@
-import { Component, Injector, Input, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, Output, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { BehaviorSubject } from 'rxjs';
@@ -32,6 +32,8 @@ export class WorkspaceitemActionsComponent extends MyDSpaceActionsComponent<Work
    * The workspaceitem object
    */
   @Input() object: WorkspaceItem;
+
+  @Output() customEvent = new EventEmitter<any>();
 
   /**
    * A boolean representing if a delete operation is pending
@@ -94,10 +96,12 @@ export class WorkspaceitemActionsComponent extends MyDSpaceActionsComponent<Work
     const options: NgbModalOptions = { size: 'xl' };
     const modal = this.modalService.open(template, options);
     modal.result.then((submitter: DSpaceObject) => {
+
       this.submissionService.changeSubmitter(this.object, submitter).subscribe((hasSucceeded) => {
         if (hasSucceeded) {
           this.notificationsService.success(this.translate.instant('submission.workflow.generic.change-submitter.notification.success.title'),
             this.translate.instant('submission.workflow.generic.change-submitter.notification.success.content'));
+          this.customEvent.emit('refresh');
         } else {
           this.notificationsService.error(this.translate.instant('submission.workflow.generic.change-submitter.notification.error.title'),
             this.translate.instant('submission.workflow.generic.change-submitter.notification.error.content'));

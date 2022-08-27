@@ -255,6 +255,11 @@ export class SearchComponent implements OnInit, OnDestroy {
   sub: Subscription;
 
   /**
+   * Search options
+   */
+  searchOptions: PaginatedSearchOptions;
+
+  /**
    * Emits an event with the current search result entries
    */
   @Output() resultFound: EventEmitter<SearchObjects<DSpaceObject>> = new EventEmitter<SearchObjects<DSpaceObject>>();
@@ -343,19 +348,19 @@ export class SearchComponent implements OnInit, OnDestroy {
           sort: sortOption || searchOptions.sort,
           forcedEmbeddedKeys: this.forcedEmbeddedKeys.get(searchOptionsConfiguration)
         });
-      const newSearchOptions = new PaginatedSearchOptions(combinedOptions);
+      this.searchOptions = new PaginatedSearchOptions(combinedOptions);
       // check if search options are changed
       // if so retrieve new related results otherwise skip it
-      if (JSON.stringify(newSearchOptions) !== JSON.stringify(this.searchOptions$.value)) {
+      if (JSON.stringify(this.searchOptions) !== JSON.stringify(this.searchOptions$.value)) {
         // Initialize variables
         this.currentConfiguration$.next(configuration);
-        this.currentSortOptions$.next(newSearchOptions.sort);
-        this.currentScope$.next(newSearchOptions.scope);
+        this.currentSortOptions$.next(this.searchOptions.sort);
+        this.currentScope$.next(this.searchOptions.scope);
         this.sortOptionsList$.next(searchSortOptions);
-        this.searchOptions$.next(newSearchOptions);
+        this.searchOptions$.next(this.searchOptions);
         this.initialized$.next(true);
         // retrieve results
-        this.retrieveSearchResults(newSearchOptions);
+        this.retrieveSearchResults(this.searchOptions);
       }
     });
   }
@@ -460,5 +465,16 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.sidebarService.toggle();
   }
 
+  /**
+   * Catch the custom event and emit it again
+   * @param $event
+   */
+
+  emitCustomEvent($event: any) {
+    if ($event === 'refresh') {
+      this.retrieveSearchResults(this.searchOptions);
+    }
+    this.customEvent.emit($event);
+  }
 
 }
