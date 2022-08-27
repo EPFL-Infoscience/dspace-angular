@@ -94,8 +94,15 @@ export class WorkspaceitemActionsComponent extends MyDSpaceActionsComponent<Work
     const options: NgbModalOptions = { size: 'xl' };
     const modal = this.modalService.open(template, options);
     modal.result.then((submitter: DSpaceObject) => {
-      this.submissionService.changeSubmitter(this.object, submitter).subscribe((hasSucceeded) =>
-      console.log('HAS SUCCEEDED = ' + hasSucceeded));
+      this.submissionService.changeSubmitter(this.object, submitter).subscribe((hasSucceeded) => {
+        if (hasSucceeded) {
+          this.notificationsService.success(this.translate.instant('submission.workflow.generic.change-submitter.notification.success.title'),
+            this.translate.instant('submission.workflow.generic.change-submitter.notification.success.content'));
+        } else {
+          this.notificationsService.error(this.translate.instant('submission.workflow.generic.change-submitter.notification.error.title'),
+            this.translate.instant('submission.workflow.generic.change-submitter.notification.error.content'));
+        }
+      });
     }).catch((err) => undefined);
 
   }

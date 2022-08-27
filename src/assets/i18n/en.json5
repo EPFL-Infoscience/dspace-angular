@@ -6087,6 +6087,14 @@
 
   "submission.workflow.generic.change-submitter.modal.info": "Select the new item's submitter",
 
+  "submission.workflow.generic.change-submitter.notification.success.title": "Submitter changed",
+
+  "submission.workflow.generic.change-submitter.notification.success.content": "The submitter of the workflow item has been successfully changed",
+
+  "submission.workflow.generic.change-submitter.notification.error.title": "Submitter not changed",
+
+  "submission.workflow.generic.change-submitter.notification.error.content": "An error occurred while changing the submitter of the workflow item",
+
   "submission.workflow.generic.delete": "Delete",
 
   "submission.workflow.generic.delete-help": "If you would to discard this item, select \"Delete\".  You will then be asked to confirm it.",
