@@ -1645,6 +1645,8 @@
 
   "cris-layout.attachment.viewMore": "View More",
 
+  "cris-layout.attachment.previewPdf": "Preview PDF",
+
   "curation-task.task.checklinks.label":  "Check Links in Metadata",
 
   "curation-task.task.noop.label": "NOOP",

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Bitstream } from '../../core/shared/bitstream.model';
 import { getBitstreamDownloadRoute, getBitstreamRequestACopyRoute } from '../../app-routing-paths';
 import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
@@ -39,7 +39,14 @@ export class FileDownloadLinkComponent implements OnInit {
 
   @Input() enableRequestACopy = true;
 
+  @Input() canPreview = false;
+
   @Input() showIcon = false;
+
+  /**
+   * When previewPdf button is clicked emit the event.
+   */
+  @Output() previewPdf: EventEmitter<Bitstream> = new EventEmitter();
 
   bitstreamPath$: Observable<{
     routerLink: string,
