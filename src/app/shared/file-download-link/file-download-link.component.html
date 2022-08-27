@@ -3,6 +3,10 @@
 <a [routerLink]="(bitstreamPath$| async)?.routerLink" class="dont-break-out mr-1" [queryParams]="(bitstreamPath$| async)?.queryParams" [target]="isBlank ? '_blank': '_self'" [ngClass]="cssClasses">
   <ng-container *ngTemplateOutlet="content"></ng-container>
 </a>
+<a href="javascript:void(0);" *ngIf="(canDownload$ |async) && canPreview" data-test="previewPdf"
+  (click)="previewPdf.emit(bitstream)">
+  {{ 'cris-layout.attachment.previewPdf' | translate }}
+</a>
 
 <ng-template #content>
   <ng-content></ng-content>

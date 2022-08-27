@@ -1,0 +1,20 @@
+<ngb-accordion #accordionRef class="m-2">
+    <ngb-panel id="pdf-viewer">
+        <ng-template ngbPanelTitle>
+            <span class="float-left" tabindex="0">{{ 'cris-layout.attachment.previewPdf' | translate }}</span>
+            <div class="d-inline-block float-right">
+                <a class="close" tabindex="0" role="button"
+                    [attr.aria-label]="(accordionRef.isExpanded('pdf-viewer') ? 'cris-layout.toggle.aria.close' : 'cris-layout.toggle.aria.open') | translate: {sectionHeader: 'pdfViewer'}"
+                    [title]="(accordionRef.isExpanded('pdf-viewer') ? 'cris-layout.toggle.close' : 'cris-layout.toggle.open') | translate">
+                    <span *ngIf="accordionRef.isExpanded('pdf-viewer')" class="fas fa-chevron-up fa-fw"></span>
+                    <span *ngIf="!accordionRef.isExpanded('pdf-viewer')" class="fas fa-chevron-down fa-fw"></span>
+                </a>
+            </div>
+        </ng-template>
+        <ng-template ngbPanelContent>
+            <div *ngIf="pdfSrc" class="pdf-viewer-container" style="width: 100%; height: 600px">
+                <ng2-pdfjs-viewer #pdfViewer [pdfSrc]="pdfSrc"></ng2-pdfjs-viewer>
+            </div>
+        </ng-template>
+    </ngb-panel>
+</ngb-accordion>

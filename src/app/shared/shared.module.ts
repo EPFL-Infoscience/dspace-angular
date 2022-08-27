@@ -7,6 +7,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { NouisliderModule } from 'ng2-nouislider';
 import {
+  NgbAccordionModule,
   NgbCollapseModule,
   NgbDatepickerModule,
   NgbDropdownModule,
@@ -217,6 +218,9 @@ import {
 import {
   GroupSearchBoxComponent
 } from './eperson-group-list/group-search-box/group-search-box.component';
+import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
+import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
+
 
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
@@ -233,6 +237,7 @@ const MODULES = [
   NgbPaginationModule,
   NgbDropdownModule,
   NgbTooltipModule,
+  NgbAccordionModule,
   ReactiveFormsModule,
   RouterModule,
   NouisliderModule,
@@ -241,6 +246,7 @@ const MODULES = [
   CdkTreeModule,
   MetricsModule,
   NgbModule,
+  PdfJsViewerModule
 ];
 
 const ROOT_MODULES = [
@@ -415,11 +421,10 @@ const COMPONENTS = [
   ExportExcelSelectorComponent,
   ThemedBrowseMostElementsComponent,
   SearchChartBarHorizontalComponent,
-
+  PdfViewerComponent,
   EpersonGroupListComponent,
   EpersonSearchBoxComponent,
   GroupSearchBoxComponent,
-
 ];
 
 const ENTRY_COMPONENTS = [
@@ -486,7 +491,8 @@ const ENTRY_COMPONENTS = [
   SearchChartLineComponent,
   ThemedBrowseMostElementsComponent,
   SearchChartBarHorizontalComponent,
-  RelationshipsListComponent
+  RelationshipsListComponent,
+  PdfViewerComponent,
 ];
 
 const SHARED_ITEM_PAGE_COMPONENTS = [
