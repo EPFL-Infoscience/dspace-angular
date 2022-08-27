@@ -1,3 +1,16 @@
 ds-claimed-task-actions-loader:empty {
-  margin: 0 !important;  // make sure actions that don't load don't cause margins to stack
+  margin: 0 !important; // make sure actions that don't load don't cause margins to stack
+}
+
+:host {
+  .edit-metadata-page-buttons {
+    margin-left: 5px;
+  }
+
+  @media only screen and (max-width : 1610px) {
+    .edit-metadata-page-buttons {
+      margin-top: 5px;
+    }
+  }
+
 }

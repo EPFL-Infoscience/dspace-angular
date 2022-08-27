@@ -1,8 +1,10 @@
+import { ObjectCacheService } from './../../../core/cache/object-cache.service';
+import { WorkflowAction } from './../../../core/tasks/models/workflow-action-object.model';
 import { Component, Injector, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
 import { ClaimedTaskDataService } from '../../../core/tasks/claimed-task-data.service';
@@ -14,10 +16,10 @@ import { MyDSpaceActionsComponent } from '../mydspace-actions';
 import { NotificationsService } from '../../notifications/notifications.service';
 import { RequestService } from '../../../core/data/request.service';
 import { SearchService } from '../../../core/shared/search/search.service';
-import { WorkflowAction } from '../../../core/tasks/models/workflow-action-object.model';
 import { WorkflowActionDataService } from '../../../core/data/workflow-action-data.service';
 import { WORKFLOW_TASK_OPTION_RETURN_TO_POOL } from './return-to-pool/claimed-task-actions-return-to-pool.component';
 import { getWorkflowItemViewRoute } from '../../../workflowitems-edit-page/workflowitems-edit-page-routing-paths';
+import { MYDSPACE_ROUTE } from 'src/app/my-dspace-page/my-dspace-page.component';
 
 /**
  * This component represents actions related to ClaimedTask object.
@@ -33,6 +35,16 @@ export class ClaimedTaskActionsComponent extends MyDSpaceActionsComponent<Claime
    * The ClaimedTask object
    */
   @Input() object: ClaimedTask;
+
+  /**
+   * The ClaimedTask object
+   */
+  @Input() workflowAction$: RemoteData<WorkflowAction>;
+
+  /**
+   * The ClaimedTask object
+   */
+  @Input() hasModifications: boolean;
 
   /**
    * The workflowitem object that belonging to the ClaimedTask object
@@ -51,6 +63,12 @@ export class ClaimedTaskActionsComponent extends MyDSpaceActionsComponent<Claime
   public returnToPoolOption = WORKFLOW_TASK_OPTION_RETURN_TO_POOL;
 
   /**
+   * The mydspace page route.
+   * @type {string}
+   */
+  public mydspaceRoute = MYDSPACE_ROUTE;
+
+  /**
    * Initialize instance variables
    *
    * @param {Injector} injector
@@ -62,12 +80,13 @@ export class ClaimedTaskActionsComponent extends MyDSpaceActionsComponent<Claime
    * @param workflowActionService
    */
   constructor(protected injector: Injector,
-              protected router: Router,
-              protected notificationsService: NotificationsService,
-              protected translate: TranslateService,
-              protected searchService: SearchService,
-              protected requestService: RequestService,
-              protected workflowActionService: WorkflowActionDataService) {
+    protected router: Router,
+    protected notificationsService: NotificationsService,
+    protected translate: TranslateService,
+    protected searchService: SearchService,
+    protected requestService: RequestService,
+    protected objectCache: ObjectCacheService,
+    protected workflowActionService: WorkflowActionDataService) {
     super(ClaimedTask.type, injector, router, notificationsService, translate, searchService, requestService);
   }
 
@@ -99,7 +118,14 @@ export class ClaimedTaskActionsComponent extends MyDSpaceActionsComponent<Claime
    * @param object
    */
   initAction(object: ClaimedTask) {
-    this.actionRD$ = object.action;
+    if (!!this.workflowAction$) {
+      this.actionRD$ = of(this.workflowAction$).pipe(map((rd: RemoteData<WorkflowAction>) => {
+        rd.payload.options = rd.payload.options.filter(option => option !== 'submit_edit_metadata');
+        return rd;
+      }));
+    } else {
+      this.actionRD$ = object.action;
+    }
   }
 
   /**
@@ -115,6 +141,18 @@ export class ClaimedTaskActionsComponent extends MyDSpaceActionsComponent<Claime
    */
   getWorkflowItemViewRoute(workflowitem: WorkflowItem): string {
     return getWorkflowItemViewRoute(workflowitem?.id);
+  }
+
+  /**
+   * When action process completed emit processCompleted and redirect if editing metadata of workflow item
+   */
+  processCompletedFunction(event) {
+    if (!!this.workflowAction$) {
+      this.processCompleted.emit(event);
+      this.router.navigate([this.mydspaceRoute], { queryParams: { configuration: 'workflow' } });
+    } else {
+      this.processCompleted.emit(event);
+    }
   }
 
 }

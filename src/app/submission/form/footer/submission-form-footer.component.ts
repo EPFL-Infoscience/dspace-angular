@@ -1,4 +1,9 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ClaimedTask } from './../../../core/tasks/models/claimed-task-object.model';
+import { getFirstSucceededRemoteDataPayload, getFirstSucceededRemoteData } from './../../../core/shared/operators';
+import { ClaimedTaskDataService } from './../../../core/tasks/claimed-task-data.service';
+import { LinkService } from './../../../core/cache/builders/link.service';
+import { followLink } from './../../../shared/utils/follow-link-config.model';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 import { Observable, of as observableOf } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -8,6 +13,8 @@ import { SubmissionRestService } from '../../../core/submission/submission-rest.
 import { SubmissionService } from '../../submission.service';
 import { SubmissionScopeType } from '../../../core/submission/submission-scope-type';
 import { isNotEmpty } from '../../../shared/empty.util';
+import { WorkflowAction } from '../../../core/tasks/models/workflow-action-object.model';
+import { RemoteData } from '../../../core/data/remote-data';
 
 /**
  * This component represents submission form footer bar.
@@ -17,13 +24,25 @@ import { isNotEmpty } from '../../../shared/empty.util';
   styleUrls: ['./submission-form-footer.component.scss'],
   templateUrl: './submission-form-footer.component.html'
 })
-export class SubmissionFormFooterComponent implements OnChanges {
+export class SubmissionFormFooterComponent implements OnInit, OnChanges {
 
   /**
    * The submission id
    * @type {string}
    */
   @Input() submissionId: string;
+
+  /**
+    * Submission type is workflow item submission
+    * @type {boolean}
+    */
+  @Input() isWorkFlow = false;
+
+  /**
+    * Submission type is workflow item submission
+    * @type {boolean}
+    */
+  @Input() item;
 
   /**
    * A boolean representing if a submission deposit operation is pending
@@ -55,6 +74,16 @@ export class SubmissionFormFooterComponent implements OnChanges {
   public hasUnsavedModification: Observable<boolean>;
 
   /**
+   * ClaimedTask of the item if submission is workflow
+   */
+  public claimedTask: ClaimedTask;
+
+  /**
+   * The possible workflow actions of the ClaimedTask
+   */
+  public action: RemoteData<WorkflowAction>;
+
+  /**
    * Initialize instance variables
    *
    * @param {NgbModal} modalService
@@ -62,14 +91,44 @@ export class SubmissionFormFooterComponent implements OnChanges {
    * @param {SubmissionService} submissionService
    */
   constructor(private modalService: NgbModal,
-              private restService: SubmissionRestService,
-              private submissionService: SubmissionService) {
+    private restService: SubmissionRestService,
+    protected linkService: LinkService,
+    private claimedTaskDataService: ClaimedTaskDataService,
+    private submissionService: SubmissionService) {
+  }
+
+  /**
+   * Get ClaimedTask from the item if its a workflow item
+   */
+  ngOnInit() {
+    if (this.isWorkFlow) {
+      this.claimedTaskDataService.findByItem(this.item.id).pipe(
+        getFirstSucceededRemoteDataPayload(),
+        map((claimedTask) => {
+          if (!!claimedTask) {
+            this.linkService.resolveLinks(claimedTask, followLink('workflowitem', {},
+              followLink('item'), followLink('submitter')
+            ), followLink('action'));
+            return claimedTask;
+          }
+          return null;
+        })
+      ).subscribe((result) => {
+        this.claimedTask = result;
+        this.claimedTask.action.pipe(
+          getFirstSucceededRemoteData(),
+        ).subscribe((action) => {
+          this.action = action;
+        });
+      });
+    }
   }
 
   /**
    * Initialize all instance variables
    */
   ngOnChanges(changes: SimpleChanges) {
+
     if (isNotEmpty(this.submissionId)) {
       this.submissionIsInvalid = this.submissionService.getSubmissionStatus(this.submissionId).pipe(
         map((isValid: boolean) => isValid === false)
@@ -115,6 +174,14 @@ export class SubmissionFormFooterComponent implements OnChanges {
       }
     );
   }
+
+  /**
+   * Dispatch a submission deposit action
+   */
+  public approve(ev) {
+    console.log(ev);
+  }
+
 
   /**
    * Compute the proper label for the save for later button
