@@ -1673,6 +1673,10 @@
 
   "curation-task.task.fetchaip.label": "Fetch AIP(s) from Storage",
 
+  "curation-task.task.replacewithaip.label": "Replace Existing Object(s) with AIP(s)",
+
+  "curation-task.task.replacesinglewithaip.label": "Replace Single Object with AIP",
+
   "curation.form.task-select.label": "Task:",
 
   "curation.form.submit": "Start",
