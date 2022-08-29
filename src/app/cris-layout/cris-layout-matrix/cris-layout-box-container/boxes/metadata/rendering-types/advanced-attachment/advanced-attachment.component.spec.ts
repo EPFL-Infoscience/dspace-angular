@@ -290,7 +290,7 @@ describe('AdvancedAttachmentComponent', () => {
         de = fixture.debugElement;
         mockAuthorizedService.isAuthorized.and.returnValues(of(true), of(true));
         component.envPagination.enabled = false;
-        component.envMetadata = [];
+        component.envAttributes = [];
         mockBitstreamDataService.findAllByItemAndBundleName.and.returnValues(createSuccessfulRemoteDataObject$(createPaginatedList([bitstream1])));
         let spy = spyOn(component, 'getBitstreams');
         spy.and.returnValue(of(createPaginatedList(attachmentsMock)));
@@ -336,7 +336,7 @@ describe('AdvancedAttachmentComponent', () => {
           TestBed.overrideProvider('fieldProvider', { useValue: mockFieldWithMetadata });
           fixture = TestBed.createComponent(AdvancedAttachmentComponent);
           component = fixture.componentInstance;
-          component.envMetadata = [];
+          component.envAttributes = [];
           de = fixture.debugElement;
           let spy = spyOn(component, 'getBitstreams');
           spy.and.returnValue(of(createPaginatedList(attachmentsMock)));
@@ -359,7 +359,7 @@ describe('AdvancedAttachmentComponent', () => {
           TestBed.overrideProvider('fieldProvider', { useValue: mockFieldWithRegexMetadata });
           fixture = TestBed.createComponent(AdvancedAttachmentComponent);
           component = fixture.componentInstance;
-          component.envMetadata = [];
+          component.envAttributes = [];
           de = fixture.debugElement;
           let spy = spyOn(component, 'getBitstreams');
           spy.and.returnValue(of(createPaginatedList(attachmentsMock)));
@@ -380,7 +380,7 @@ describe('AdvancedAttachmentComponent', () => {
         TestBed.configureTestingModule(getDefaultTestBedConf());
         fixture = TestBed.createComponent(AdvancedAttachmentComponent);
         component = fixture.componentInstance;
-        component.envMetadata = [];
+        component.envAttributes = [];
         de = fixture.debugElement;
         mockAuthorizedService.isAuthorized.and.returnValues(of(true), of(true));
         component.envPagination.enabled = true;
