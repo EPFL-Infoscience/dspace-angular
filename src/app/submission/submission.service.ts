@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { EMPTY, Observable, of as observableOf, Subscription, timer as observableTimer } from 'rxjs';
+import { Observable, of as observableOf, Subscription, timer as observableTimer } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -738,12 +738,7 @@ export class SubmissionService {
         const options: HttpOptions = Object.create({});
         options.params = params;
 
-        return this.restService.postToEndpointWithoutProjection(linkName, {}, secondLinkSegment, options, null).pipe(
-          tap(() => {
-            // TODO: check href
-            this.requestService.setStaleByHrefSubstring('discover/search/objects');
-          }),
-        );
+        return this.restService.postToEndpointWithoutProjection(linkName, {}, secondLinkSegment, options, null);
 
       })
     );
