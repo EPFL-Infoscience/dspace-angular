@@ -4,6 +4,7 @@ import { PostRequest } from '../data/request.models';
 import { HALEndpointService } from '../shared/hal-endpoint.service';
 import { RequestService } from '../data/request.service';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
+import { DspaceRestService } from '../dspace-rest/dspace-rest.service';
 
 /**
  * Client side version of the service to send authentication requests
@@ -14,9 +15,10 @@ export class BrowserAuthRequestService extends AuthRequestService {
   constructor(
     halService: HALEndpointService,
     requestService: RequestService,
-    rdbService: RemoteDataBuildService
+    rdbService: RemoteDataBuildService,
+    restService: DspaceRestService
   ) {
-    super(halService, requestService, rdbService);
+    super(halService, requestService, rdbService, restService);
   }
 
   /**

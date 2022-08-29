@@ -2,7 +2,7 @@ import { AuthRequestService } from './auth-request.service';
 import { RequestService } from '../data/request.service';
 import { ServerAuthRequestService } from './server-auth-request.service';
 
-describe(`ServerAuthRequestService`, () => {
+fdescribe(`ServerAuthRequestService`, () => {
   let href: string;
   let requestService: RequestService;
   let service: AuthRequestService;
@@ -12,7 +12,7 @@ describe(`ServerAuthRequestService`, () => {
     requestService = jasmine.createSpyObj('requestService', {
       'generateRequestId': '8bb0582d-5013-4337-af9c-763beb25aae2'
     });
-    service = new ServerAuthRequestService(null, requestService, null);
+    service = new ServerAuthRequestService(null, requestService, null, null);
   });
 
   describe(`createShortLivedTokenRequest`, () => {

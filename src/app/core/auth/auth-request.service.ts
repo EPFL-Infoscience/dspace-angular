@@ -4,7 +4,7 @@ import { HALEndpointService } from '../shared/hal-endpoint.service';
 import { RequestService } from '../data/request.service';
 import { isNotEmpty, isNotEmptyOperator } from '../../shared/empty.util';
 import { DeleteRequest, GetRequest, PostRequest, RestRequest, } from '../data/request.models';
-import { HttpOptions } from '../dspace-rest/dspace-rest.service';
+import { DspaceRestService, HttpOptions } from '../dspace-rest/dspace-rest.service';
 import { getFirstCompletedRemoteData, sendRequest } from '../shared/operators';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
 import { RemoteData } from '../data/remote-data';
@@ -13,6 +13,8 @@ import { ShortLivedToken } from './models/short-lived-token.model';
 import { URLCombiner } from '../url-combiner/url-combiner';
 import { MachineToken } from './models/machine-token.model';
 import { NoContent } from '../shared/NoContent.model';
+import { RestRequestMethod } from '../data/rest-request-method';
+import { RawRestResponse } from '../dspace-rest/raw-rest-response.model';
 
 /**
  * Abstract service to send authentication requests
@@ -25,7 +27,8 @@ export abstract class AuthRequestService {
 
   constructor(protected halService: HALEndpointService,
               protected requestService: RequestService,
-              private rdbService: RemoteDataBuildService
+              private rdbService: RemoteDataBuildService,
+              private restService: DspaceRestService
               ) {
   }
 
@@ -119,5 +122,9 @@ export abstract class AuthRequestService {
       sendRequest(this.requestService),
       switchMap((request: RestRequest) => this.rdbService.buildFromRequestUUID<MachineToken>(request.uuid)),
     );
+  }
+
+  public postToExternalEndpoint(endpointURL: string): Observable<RawRestResponse> {
+    return this.restService.request(RestRequestMethod.POST, endpointURL);
   }
 }

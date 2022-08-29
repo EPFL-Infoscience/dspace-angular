@@ -7,8 +7,9 @@ import { TestScheduler } from 'rxjs/testing';
 import { createSuccessfulRemoteDataObject } from '../../shared/remote-data.utils';
 import { ShortLivedToken } from './models/short-lived-token.model';
 import { RemoteData } from '../data/remote-data';
+import { DspaceRestService } from '../dspace-rest/dspace-rest.service';
 
-describe(`AuthRequestService`, () => {
+fdescribe(`AuthRequestService`, () => {
   let halService: HALEndpointService;
   let endpointURL: string;
   let shortLivedToken: ShortLivedToken;
@@ -16,15 +17,17 @@ describe(`AuthRequestService`, () => {
   let requestService: RequestService;
   let rdbService: RemoteDataBuildService;
   let service: AuthRequestService;
+  let restService: DspaceRestService;
   let testScheduler;
 
     class TestAuthRequestService extends AuthRequestService {
       constructor(
         hes: HALEndpointService,
         rs: RequestService,
-        rdbs: RemoteDataBuildService
+        rdbs: RemoteDataBuildService,
+        dspaceRest: DspaceRestService
       ) {
-        super(hes, rs, rdbs);
+        super(hes, rs, rdbs, dspaceRest);
       }
 
       protected createShortLivedTokenRequest(href: string): PostRequest {
@@ -49,7 +52,11 @@ describe(`AuthRequestService`, () => {
         'buildFromRequestUUID': cold('a', { a: shortLivedTokenRD })
       });
 
-      service = new TestAuthRequestService(halService, requestService, rdbService);
+      restService = jasmine.createSpyObj('DspaceRestService', {
+        'request': cold('a', { a: shortLivedTokenRD })
+      });
+
+      service = new TestAuthRequestService(halService, requestService, rdbService, restService);
     };
 
     beforeEach(() => {

@@ -45,6 +45,7 @@ import { NotificationsService } from '../../shared/notifications/notifications.s
 import { TranslateService } from '@ngx-translate/core';
 import { MachineToken } from './models/machine-token.model';
 import { NoContent } from '../shared/NoContent.model';
+import { RawRestResponse } from '../dspace-rest/raw-rest-response.model';
 
 export const LOGIN_ROUTE = '/login';
 export const LOGOUT_ROUTE = '/logout';
@@ -284,6 +285,16 @@ export class AuthService {
           throw (new Error('auth.errors.invalid-user'));
         }
       }));
+  }
+
+  /**
+   * End session
+   * @returns {Observable<boolean>}
+   */
+  public logoutFromIDP(): Observable<RawRestResponse> {
+    // Send a request that sign end the session
+    const url = 'https://tequila.epfl.ch/logout';
+    return this.authRequestService.postToExternalEndpoint(url);
   }
 
   /**

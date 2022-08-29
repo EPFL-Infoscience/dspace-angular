@@ -70,6 +70,10 @@ export class AuthServiceStub {
     return observableOf(true);
   }
 
+  public logoutFromIDP(): Observable<boolean> {
+    return observableOf(true);
+  }
+
   public isTokenExpired(token?: AuthTokenInfo): boolean {
     return this._tokenExpired;
   }
