@@ -1,4 +1,4 @@
-<ngb-accordion #accordionRef class="m-2">
+<ngb-accordion #accordionRef class="m-2" destroyOnHide="false" [activeIds]="'pdf-viewer'">
     <ngb-panel id="pdf-viewer">
         <ng-template ngbPanelTitle>
             <span class="float-left" tabindex="0">{{ 'cris-layout.attachment.previewPdf' | translate }}</span>
@@ -12,8 +12,8 @@
             </div>
         </ng-template>
         <ng-template ngbPanelContent>
-            <div *ngIf="pdfSrc" class="pdf-viewer-container" style="width: 100%; height: 600px">
-                <ng2-pdfjs-viewer #pdfViewer [pdfSrc]="pdfSrc"></ng2-pdfjs-viewer>
+            <div class="pdf-viewer-container w-100" [ngStyle]="{ 'height.px': pdfSrc ? 600: 0}">
+                <ng2-pdfjs-viewer #pdfViewer></ng2-pdfjs-viewer>
             </div>
         </ng-template>
     </ngb-panel>
