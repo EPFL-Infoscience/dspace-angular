@@ -227,11 +227,7 @@ export class AuthEffects {
       switchMap(() => {
         this.authService.stopImpersonating();
         return this.authService.logout().pipe(
-          switchMap((value) => {
-            return this.authService.logoutFromIDP().pipe(
-              map((res) => new LogOutSuccessAction())
-            );
-          }),
+          map((value) => new LogOutSuccessAction()),
           catchError((error) => observableOf(new LogOutErrorAction(error)))
         );
       })
