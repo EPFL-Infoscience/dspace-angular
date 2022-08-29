@@ -4,7 +4,7 @@
     [object]="object"
     [status]="status"></ds-themed-item-list-preview>
 
-  <ds-workspaceitem-actions [object]="dso" (processCompleted)="reloadedObject.emit($event.reloadedObject)"></ds-workspaceitem-actions>
+  <ds-workspaceitem-actions [object]="dso" (processCompleted)="reloadedObject.emit($event.reloadedObject)" (customEvent)="customEvent.emit($event)"></ds-workspaceitem-actions>
 </ng-container>
 <ds-loading
   *ngIf="!(item$ | async)"

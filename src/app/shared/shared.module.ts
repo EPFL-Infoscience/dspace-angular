@@ -211,8 +211,17 @@ import { MetricsModule } from './metric/metrics.module';
 import { SearchChartBarHorizontalComponent } from './search/search-charts/search-chart/search-chart-bar-horizontal/search-chart-bar-horizontal.component';
 import { ThumbnailService } from './thumbnail/thumbnail.service';
 import { AdditionalMetadataComponent } from './object-list/search-result-list-element/additional-metadata/additional-metadata.component';
+import { EpersonGroupListComponent } from './eperson-group-list/eperson-group-list.component';
+import {
+  EpersonSearchBoxComponent
+} from './eperson-group-list/eperson-search-box/eperson-search-box.component';
+import {
+  GroupSearchBoxComponent
+} from './eperson-group-list/group-search-box/group-search-box.component';
 import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
+import { ChangeSubmitterService } from '../submission/change-submitter.service';
+import { ChangeSubmitterRestService } from '../core/submission/change-submitter-rest.service';
 
 
 const MODULES = [
@@ -415,6 +424,9 @@ const COMPONENTS = [
   ThemedBrowseMostElementsComponent,
   SearchChartBarHorizontalComponent,
   PdfViewerComponent,
+  EpersonGroupListComponent,
+  EpersonSearchBoxComponent,
+  GroupSearchBoxComponent,
 ];
 
 const ENTRY_COMPONENTS = [
@@ -500,7 +512,9 @@ const PROVIDERS = [
   TruncatableService,
   MockAdminGuard,
   AbstractTrackableComponent,
-  ThumbnailService
+  ThumbnailService,
+  ChangeSubmitterService,
+  ChangeSubmitterRestService,
 ];
 
 const DIRECTIVES = [

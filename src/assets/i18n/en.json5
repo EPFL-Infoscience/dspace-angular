@@ -1999,6 +1999,12 @@
 
   "explore.index.type" : "Type",
 
+  "explore.index.original_bundle_oaire_licenseCondition": "License condition",
+
+  "explore.index.original_bundle_datacite_rights":  "File Accessibility",
+
+  "explore.index.original_bundle_datacite_available": "File Availability",
+
   "explore.search-section.infrastructure.title": "Infrastructure",
 
   "explore.search-section.fundings.title": "Search Projects",
@@ -6074,6 +6080,26 @@
   "submission.submit.title": "New submission",
 
 
+
+  "submission.workflow.generic.change-submitter": "Change submitter",
+
+  "submission.workflow.generic.change-submitter-help": "Select this option to change the item's submitter.",
+
+  "submission.workflow.generic.change-submitter.modal.dismiss": "Cancel",
+
+  "submission.workflow.generic.change-submitter.modal.submit": "Change",
+
+  "submission.workflow.generic.change-submitter.modal.title": "Change submitter",
+
+  "submission.workflow.generic.change-submitter.modal.info": "Select the new item's submitter",
+
+  "submission.workflow.generic.change-submitter.notification.success.title": "Submitter changed",
+
+  "submission.workflow.generic.change-submitter.notification.success.content": "The submitter of the workflow item has been changed to {{email}}",
+
+  "submission.workflow.generic.change-submitter.notification.error.title": "Submitter not changed",
+
+  "submission.workflow.generic.change-submitter.notification.error.content": "An error occurred while changing the submitter of the workflow item",
 
   "submission.workflow.generic.delete": "Delete",
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { find, map } from 'rxjs/operators';
@@ -27,7 +27,7 @@ import { DSONameService } from '../../../../core/breadcrumbs/dso-name.service';
 })
 
 @listableObjectComponent(WorkspaceItemSearchResult, ViewMode.ListElement)
-export class WorkspaceItemSearchResultListElementComponent extends SearchResultListElementComponent<WorkspaceItemSearchResult, WorkspaceItem> {
+export class WorkspaceItemSearchResultListElementComponent extends SearchResultListElementComponent<WorkspaceItemSearchResult, WorkspaceItem> implements OnInit {
 
   /**
    * The item object that belonging to the result object
@@ -38,6 +38,8 @@ export class WorkspaceItemSearchResultListElementComponent extends SearchResultL
    * Represent item's status
    */
   status = MyDspaceItemStatusType.WORKSPACE;
+
+  @Output() customEvent = new EventEmitter<any>();
 
   constructor(
     protected truncatableService: TruncatableService,
