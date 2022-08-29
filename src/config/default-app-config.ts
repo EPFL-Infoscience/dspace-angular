@@ -177,7 +177,7 @@ export class DefaultAppConfig implements AppConfig {
           },
           {
             value: 500,
-            style: 'text-info'
+            style: 'text-white'
           },
           {
             value: 400,
