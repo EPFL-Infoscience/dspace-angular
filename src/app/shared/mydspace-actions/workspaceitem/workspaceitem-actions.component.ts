@@ -17,6 +17,7 @@ import { NoContent } from '../../../core/shared/NoContent.model';
 import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap/modal/modal-config';
 import { SubmissionService } from '../../../submission/submission.service';
 import { DSpaceObject } from '../../../core/shared/dspace-object.model';
+import { EPerson } from '../../../core/eperson/models/eperson.model';
 
 /**
  * This component represents actions related to WorkspaceItem object.
@@ -99,8 +100,9 @@ export class WorkspaceitemActionsComponent extends MyDSpaceActionsComponent<Work
 
       this.submissionService.changeSubmitter(this.object, submitter).subscribe((hasSucceeded) => {
         if (hasSucceeded) {
+          const email = (submitter as EPerson).email;
           this.notificationsService.success(this.translate.instant('submission.workflow.generic.change-submitter.notification.success.title'),
-            this.translate.instant('submission.workflow.generic.change-submitter.notification.success.content'));
+            this.translate.instant('submission.workflow.generic.change-submitter.notification.success.content', { email }));
           this.customEvent.emit('refresh');
         } else {
           this.notificationsService.error(this.translate.instant('submission.workflow.generic.change-submitter.notification.error.title'),

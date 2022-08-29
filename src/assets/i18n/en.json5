@@ -6089,7 +6089,7 @@
 
   "submission.workflow.generic.change-submitter.notification.success.title": "Submitter changed",
 
-  "submission.workflow.generic.change-submitter.notification.success.content": "The submitter of the workflow item has been successfully changed",
+  "submission.workflow.generic.change-submitter.notification.success.content": "The submitter of the workflow item has been changed to {{email}}",
 
   "submission.workflow.generic.change-submitter.notification.error.title": "Submitter not changed",
 
