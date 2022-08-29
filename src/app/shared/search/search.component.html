@@ -46,7 +46,7 @@
                                [selectable]="selectable"
                                [selectionConfig]="selectionConfig"
                                [customData]="customData"
-                               (customEvent)="customEvent.emit($event)"
+                               (customEvent)="emitCustomEvent($event)"
                                (deselectObject)="deselectObject.emit($event)"
                                (selectObject)="selectObject.emit($event)"></ds-search-results>
         </div>

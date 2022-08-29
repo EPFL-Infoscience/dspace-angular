@@ -24,6 +24,7 @@ import { RequestService } from '../../../core/data/request.service';
 import { getMockRequestService } from '../../mocks/request.service.mock';
 import { getMockSearchService } from '../../mocks/search-service.mock';
 import { SearchService } from '../../../core/shared/search/search.service';
+import { ChangeSubmitterService } from '../../../submission/change-submitter.service';
 
 let component: WorkspaceitemActionsComponent;
 let fixture: ComponentFixture<WorkspaceitemActionsComponent>;
@@ -92,6 +93,7 @@ describe('WorkspaceitemActionsComponent', () => {
         { provide: WorkspaceitemDataService, useValue: mockDataService },
         { provide: SearchService, useValue: searchService },
         { provide: RequestService, useValue: requestServce },
+        { provide: ChangeSubmitterService, useValue: {} },
         NgbModal
       ],
       schemas: [NO_ERRORS_SCHEMA]
