@@ -20,16 +20,18 @@
     </div>
 
     <ng-container *ngIf="itemsToCompare && itemsToCompare.length > 0">
-      <div class="col-md-12 text-center">
-        <h5>{{ "deduplication.merge.label.info" | translate }}</h5>
+      <div class="col-md-12 text-center my-3">
+        <h5 class="font-weight-bold">{{ "deduplication.merge.label.info" | translate }}</h5>
       </div>
 
       <!-- Item Data Tabel -->
-      <ng-container *ngIf="itemsToCompare">
-        <div class="col-md-12 p-0">
-          <ds-items-table [itemsToCompare]="itemsToCompare"></ds-items-table>
-        </div>
-      </ng-container>
+      <div class="col-md-12 p-0">
+        <ds-items-table [itemsToCompare]="itemsToCompare"></ds-items-table>
+      </div>
+
+      <div class="col-md-12 text-center my-3">
+        <h5 class="font-weight-bold">{{ "Bitstream data (for bundle 'ORIGINAL')" | translate }}</h5>
+      </div>
 
       <!-- Bitstream Data Tabel -->
       <ds-bitstream-table [itemsToCompare]="itemsToCompare" [bitstreamList]="bitstreamList"> </ds-bitstream-table>

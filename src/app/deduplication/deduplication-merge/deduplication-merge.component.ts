@@ -2,9 +2,7 @@ import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/mod
 import { isEqual } from 'lodash';
 import { GetBitstreamsPipe } from './pipes/ds-get-bitstreams.pipe';
 import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
-import {
-  getFirstSucceededRemoteDataPayload
-} from './../../core/shared/operators';
+import { getFirstSucceededRemoteDataPayload } from './../../core/shared/operators';
 import { ConfigurationDataService } from './../../core/data/configuration-data.service';
 import { ShowDifferencesComponent } from './../show-differences/show-differences.component';
 import {
@@ -165,7 +163,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     );
     this.storedItemIds = itemIds ?? [];
     this.rule = this.route.snapshot.queryParams.rule;
-
   }
 
   ngOnInit(): void {
@@ -264,6 +261,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     }
   }
 
+  test() { }
+
   /**
    * Based on excluded metadata keys,
    * calculate the metadata fields to be rendered in the template.
@@ -273,6 +272,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   calculateNewMetadataValues(item: Item, key: string) {
     // get the object from metadata map that are going to be rendered in the template
     let mapObject: MetadataMapObject[] = this.compareMetadataValues.get(key);
+    // console.log('key', key);
+    // console.log('item', item);
     item.metadata[key].forEach((value: MetadataValue) => {
       if (this.compareMetadataValues.has(key)) {
         // if the key is already in the map, check if this value already exists in the map
@@ -405,7 +406,10 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
           .mergeData(mergedItems, this.targetItemId)
           .subscribe((res) => {
             if (hasValue(res)) {
-              this.router.navigate(['admin/deduplication/set', this.signatureId]);
+              this.router.navigate([
+                'admin/deduplication/set',
+                this.signatureId,
+              ]);
             }
           });
       }
@@ -480,7 +484,11 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * @param items The selected item's data
    * @param selectType The type of the selection (single or multiple)
    */
-  uncheckValue(field: string, items: ItemContainer[], selectType: 'single' | 'multiple') {
+  uncheckValue(
+    field: string,
+    items: ItemContainer[],
+    selectType: 'single' | 'multiple'
+  ) {
     if (this.isValueChecked(field, items) && isEqual(selectType, 'single')) {
       const metadataSourceIdx = this.mergedMetadataFields
         .find((x) => isEqual(x.metadataField, field))
@@ -589,17 +597,19 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         this.getBitstreamsPipe
           .transform(item.object)
           .pipe(
-            concatMap((res$: Observable<Bitstream[]>) => {
-              return res$.pipe(map((bitstreams: Bitstream[]) => bitstreams));
-            })
+            concatMap((res$: Observable<Bitstream[]>) =>
+              res$.pipe(map((bitstreams: Bitstream[]) => bitstreams))
+            )
           )
           .subscribe((bitstreams: Bitstream[]) => {
-            const linksPerItem = bitstreams.map((b) => b._links.self.href);
+            const linksPerItem = bitstreams.map((b) =>
+              b._links.self.href
+            )
             linksPerItem.forEach((link) => {
               if (!this.bitstreamList.includes(link)) {
                 this.bitstreamList.push(link);
               }
-            })
+            });
           });
       });
     }
@@ -693,7 +703,11 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    this.router.navigate(['admin/deduplication/set', this.signatureId, this.rule]);
+    this.router.navigate([
+      'admin/deduplication/set',
+      this.signatureId,
+      this.rule,
+    ]);
   }
 
   /**

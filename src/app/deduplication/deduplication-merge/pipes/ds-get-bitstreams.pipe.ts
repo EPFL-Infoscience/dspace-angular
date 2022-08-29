@@ -45,6 +45,7 @@ export class GetBitstreamsPipe implements PipeTransform {
               );
             });
           }
+          return [];
         })
       );
     }

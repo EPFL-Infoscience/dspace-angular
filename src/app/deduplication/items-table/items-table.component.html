@@ -34,13 +34,13 @@
         <span> {{ getOwningCollectionTitle(itemObj.object) | async }}</span>
       </td>
       <td>
-        {{ itemObj.object?.handle }}
+        <span *ngIf="itemObj.object && itemObj.object.handle; else emptyCell">
+          {{ itemObj.object?.handle }}
+        </span>
+        <ng-template #emptyCell> <div class="row justify-content-center text-muted">No data</div> </ng-template>
       </td>
       <td>
-        <a
-          [routerLink]="getItemPage(itemObj.object)"
-          role="button"
-        >
+        <a [routerLink]="getItemPage(itemObj.object)" role="button">
           <span [ngStyle]="{ color: itemObj.color }">
             {{ itemObj.object?.uuid }}
           </span>

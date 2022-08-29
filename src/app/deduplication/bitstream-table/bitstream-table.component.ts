@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { isEqual } from 'lodash';
-import { Bitstream } from 'src/app/core/shared/bitstream.model';
-import { ResponsiveColumnSizes } from 'src/app/shared/responsive-table-sizes/responsive-column-sizes';
-import { ResponsiveTableSizes } from 'src/app/shared/responsive-table-sizes/responsive-table-sizes';
+import { Bitstream } from '../../core/shared/bitstream.model';
+import { hasValue } from '../../shared/empty.util';
 import { ItemData } from '../interfaces/deduplication-differences.models';
 
 @Component({
@@ -19,6 +18,7 @@ export class BitstreamTableComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.bitstreamList, 'bitstreamList');
   }
 
   /**
