@@ -15,11 +15,9 @@ export class BitstreamTableComponent implements OnInit {
 
   @Input() bitstreamList: string[] = [];
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-    console.log(this.bitstreamList, 'bitstreamList');
-  }
+  ngOnInit(): void {}
 
   /**
  * Add/remove the bitstream from @var bitstreamList based on the selection

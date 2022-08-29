@@ -158,7 +158,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   ) {
     this.signatureId = this.route.snapshot.params.signatureId;
     this.setChecksum = this.route.snapshot.params.setChecksum;
-    const itemIds = this.cookieService.get(
+    const itemIds: string[] = this.cookieService.get(
       `items-to-compare-${this.setChecksum}`
     );
     this.storedItemIds = itemIds ?? [];
@@ -272,8 +272,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   calculateNewMetadataValues(item: Item, key: string) {
     // get the object from metadata map that are going to be rendered in the template
     let mapObject: MetadataMapObject[] = this.compareMetadataValues.get(key);
-    // console.log('key', key);
-    // console.log('item', item);
     item.metadata[key].forEach((value: MetadataValue) => {
       if (this.compareMetadataValues.has(key)) {
         // if the key is already in the map, check if this value already exists in the map
@@ -392,14 +390,20 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   }
 
   onMerge(content) {
+    let mergedItems: MergeItems = {
+      setId: `${this.signatureId}:${this.setChecksum}`, //setId: signature-id:set-checksum
+      bitstreams: [...this.bitstreamList],
+      metadata: [...this.mergedMetadataFields],
+      mergedItems: [...this.mergedItems],
+    };
     this.modalService.open(content).dismissed.subscribe((result) => {
       if (isEqual(result, 'ok')) {
-        let mergedItems: MergeItems = {
-          setId: `${this.signatureId}:${this.setChecksum}`, //setId: signature-id:set-checksum
-          bitstreams: [...this.bitstreamList],
-          metadata: [...this.mergedMetadataFields],
-          mergedItems: [...this.mergedItems],
-        };
+        // let mergedItems: MergeItems = {
+        //   setId: `${this.signatureId}:${this.setChecksum}`, //setId: signature-id:set-checksum
+        //   bitstreams: [...this.bitstreamList],
+        //   metadata: [...this.mergedMetadataFields],
+        //   mergedItems: [...this.mergedItems],
+        // };
         console.log(mergedItems);
 
         this.deduplicationItemsService
@@ -427,24 +431,25 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     selectType: 'single' | 'multiple'
   ) {
     let metadataSourceIdx = -1;
-    if (items.length > 0) {
-      metadataSourceIdx = this.mergedMetadataFields
-        .find((x) => isEqual(x.metadataField, field))
-        .sources.findIndex((x) =>
-          items.find(
-            (y) => isEqual(y._link, x.item) && isEqual(y.metadataPlace, x.place)
-          )
-        );
+    const selectedMetadataField: ItemsMetadataField =
+      this.mergedMetadataFields.find((x) => isEqual(x.metadataField, field));
+
+    if (items.length > 0 && hasValue(selectedMetadataField?.sources)) {
+      // find the index of the selected element for this metadata field
+      metadataSourceIdx = selectedMetadataField.sources.findIndex((x) =>
+        items.find(
+          (y) => isEqual(y._link, x.item) && isEqual(y.metadataPlace, x.place)
+        )
+      );
     }
+
     // 1.if the selection mode is 'single', remove the previous selection
     // 2.if the item is in the list, remove it.
     if (
       isEqual(selectType, 'single') ||
       (isEqual(selectType, 'multiple') && metadataSourceIdx > -1)
     ) {
-      this.mergedMetadataFields
-        .find((x) => isEqual(x.metadataField, field))
-        .sources.splice(metadataSourceIdx, 1);
+      selectedMetadataField?.sources.splice(metadataSourceIdx, 1);
     }
 
     // if the item is not in the list, add it
@@ -456,25 +461,35 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         _link = items[0]._link;
         place = items[0].metadataPlace;
       } else {
-        let itemValue = items.find((x) => isEqual(x.itemId, this.targetItemId));
-        _link = itemValue
-          ? itemValue._link
+        let targetItem = items.find((x) => isEqual(x.itemId, this.targetItemId));
+        _link = targetItem
+          ? targetItem._link
           : this.itemsToCompare.find((x) =>
             isEqual(x.object.id, this.targetItemId)
           ).object._links.self.href;
-        place = itemValue
-          ? itemValue.metadataPlace
+        place = targetItem
+          ? targetItem.metadataPlace
           : this.itemsToCompare.find((x) =>
             isEqual(x.object.id, this.targetItemId)
           ).object.metadata[field][0].place;
       }
 
-      this.mergedMetadataFields
-        .find((x) => isEqual(x.metadataField, field))
-        .sources.push({
+      if (hasValue(selectedMetadataField)) {
+        selectedMetadataField.sources.push({
           item: _link,
           place: place,
         });
+      } else {
+        this.mergedMetadataFields.push({
+          metadataField: field,
+          sources: [
+            {
+              item: _link,
+              place: place,
+            },
+          ],
+        });
+      }
     }
   }
 
@@ -602,9 +617,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
             )
           )
           .subscribe((bitstreams: Bitstream[]) => {
-            const linksPerItem = bitstreams.map((b) =>
-              b._links.self.href
-            )
+            const linksPerItem = bitstreams.map((b) => b._links.self.href);
             linksPerItem.forEach((link) => {
               if (!this.bitstreamList.includes(link)) {
                 this.bitstreamList.push(link);
@@ -667,6 +680,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       }
     );
     this.modalRef.componentInstance.compareMetadataValues = newMap;
+    this.modalRef.componentInstance.itemsToCompare = this.itemsToCompare;
+    this.modalRef.componentInstance.bitstreamList = this.bitstreamList;
   }
 
   /**

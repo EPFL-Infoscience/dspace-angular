@@ -28,16 +28,16 @@
   </thead>
   <tbody>
     <ng-container *ngFor="let itemObj of itemsToCompare">
-      <ng-container
-        *ngIf="itemObj.object && itemObj.object | dsGetBitstreams | async"
-      >
+      <!-- LOADER -->
+      <tr *ngIf="itemObj.object && itemObj.object | dsGetBitstreams | async">
         <ds-loading
           [showMessage]="false"
           *ngIf="!(itemObj.object | dsGetBitstreams | async | async)"
         >
         </ds-loading>
-      </ng-container>
-      <ng-container
+      </tr>
+      <!-- NO DATA -->
+      <tr
         *ngIf="
           (itemObj.object &&
             (itemObj.object | dsGetBitstreams | async)?.length == 0 &&
@@ -46,17 +46,16 @@
           else data
         "
       >
-        <tr>
-          <td colspan="12">
-            <div class="row justify-content-center">
-              No Bitstreams for item with identifier: &nbsp;
-              <span [ngStyle]="{ color: itemObj.color }">
-                {{ itemObj.object?.uuid }}
-              </span>
-            </div>
-          </td>
-        </tr>
-      </ng-container>
+        <td colspan="12">
+          <div class="row justify-content-center">
+            No Bitstreams for item with identifier: &nbsp;
+            <span [ngStyle]="{ color: itemObj.color }">
+              {{ itemObj.object?.uuid }}
+            </span>
+          </div>
+        </td>
+      </tr>
+      <!--ROW DATA -->
       <ng-template #data>
         <tr
           *ngFor="
@@ -69,9 +68,7 @@
                 type="checkbox"
                 class="custom-control-input"
                 [id]="bitstream.uuid"
-                [checked]="
-                  bitstreamList.includes(bitstream._links.self.href)
-                "
+                [checked]="bitstreamList.includes(bitstream._links.self.href)"
                 (change)="onBitstreamChecked($event, bitstream)"
               />
               <label

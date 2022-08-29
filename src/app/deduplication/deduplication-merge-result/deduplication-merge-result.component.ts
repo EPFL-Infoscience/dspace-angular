@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { MetadataMapObject } from '../interfaces/deduplication-merge.models';
+import { ItemData, MetadataMapObject } from '../interfaces/deduplication-merge.models';
 
 @Component({
   selector: 'ds-deduplication-merge-result',
@@ -10,6 +10,10 @@ import { MetadataMapObject } from '../interfaces/deduplication-merge.models';
 export class DeduplicationMergeResultComponent implements OnInit {
 
   @Input() compareMetadataValues: Map<string, MetadataMapObject[]> = new Map();
+
+  @Input() itemsToCompare: ItemData[];
+
+  @Input() bitstreamList: string[] = [];
 
   constructor(public activeModal: NgbActiveModal) {}
 

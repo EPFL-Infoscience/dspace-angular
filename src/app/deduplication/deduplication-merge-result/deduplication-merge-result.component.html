@@ -4,6 +4,15 @@
   </h4>
 </div>
 <div class="modal-body">
+        <!-- BITSTREAM DATA TABLE -->
+        <div class="col-md-12 p-0">
+          <ds-bitstream-table
+            [itemsToCompare]="itemsToCompare"
+            [bitstreamList]="bitstreamList"
+          >
+          </ds-bitstream-table>
+        </div>
+
   <ng-container *ngIf="compareMetadataValues.size > 0">
     <ng-container
       *ngFor="
