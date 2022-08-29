@@ -192,7 +192,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   /**
    * Defines whether to show the toggle button to Show/Hide chart
    */
-   @Input() showChartsToggle = false;
+  @Input() showChartsToggle = false;
 
   /**
    * The current configuration used during the search

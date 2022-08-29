@@ -1,4 +1,4 @@
-import { Component, Injector, OnDestroy } from '@angular/core';
+import { Component, Injector, Input, OnDestroy } from '@angular/core';
 import { ClaimedTask } from '../../../../core/tasks/models/claimed-task-object.model';
 import { ClaimedTaskDataService } from '../../../../core/tasks/claimed-task-data.service';
 import { DSpaceObject } from '../../../../core/shared/dspace-object.model';
@@ -37,6 +37,12 @@ export abstract class ClaimedTaskActionsAbstractComponent extends MyDSpaceReload
   object: ClaimedTask;
 
   /**
+   * Input to disable the actions
+   */
+  @Input() disabled = false;
+
+
+  /**
    * Anchor used to reload the pool task.
    */
   itemUuid: string;
@@ -44,11 +50,11 @@ export abstract class ClaimedTaskActionsAbstractComponent extends MyDSpaceReload
   subs = [];
 
   protected constructor(protected injector: Injector,
-                        protected router: Router,
-                        protected notificationsService: NotificationsService,
-                        protected translate: TranslateService,
-                        protected searchService: SearchService,
-                        protected requestService: RequestService) {
+    protected router: Router,
+    protected notificationsService: NotificationsService,
+    protected translate: TranslateService,
+    protected searchService: SearchService,
+    protected requestService: RequestService) {
     super(CLAIMED_TASK, injector, router, notificationsService, translate, searchService, requestService);
   }
 

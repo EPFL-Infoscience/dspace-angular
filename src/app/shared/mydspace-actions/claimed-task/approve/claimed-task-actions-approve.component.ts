@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { Component, Injector, Input } from '@angular/core';
 import { ClaimedTaskActionsAbstractComponent } from '../abstract/claimed-task-actions-abstract.component';
 import { rendersWorkflowTaskOption } from '../switcher/claimed-task-actions-decorator';
 import { Observable, of } from 'rxjs';
@@ -29,11 +29,11 @@ export class ClaimedTaskActionsApproveComponent extends ClaimedTaskActionsAbstra
   option = WORKFLOW_TASK_OPTION_APPROVE;
 
   constructor(protected injector: Injector,
-              protected router: Router,
-              protected notificationsService: NotificationsService,
-              protected translate: TranslateService,
-              protected searchService: SearchService,
-              protected requestService: RequestService) {
+    protected router: Router,
+    protected notificationsService: NotificationsService,
+    protected translate: TranslateService,
+    protected searchService: SearchService,
+    protected requestService: RequestService) {
     super(injector, router, notificationsService, translate, searchService, requestService);
   }
 
