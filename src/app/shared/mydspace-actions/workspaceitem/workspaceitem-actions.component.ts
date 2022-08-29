@@ -15,7 +15,6 @@ import { getFirstCompletedRemoteData } from '../../../core/shared/operators';
 import { RemoteData } from '../../../core/data/remote-data';
 import { NoContent } from '../../../core/shared/NoContent.model';
 import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap/modal/modal-config';
-import { SubmissionService } from '../../../submission/submission.service';
 import { ChangeSubmitterService } from '../../../submission/change-submitter.service';
 import { DSpaceObject } from '../../../core/shared/dspace-object.model';
 import { EPerson } from '../../../core/eperson/models/eperson.model';
@@ -52,7 +51,6 @@ export class WorkspaceitemActionsComponent extends MyDSpaceActionsComponent<Work
    * @param {NotificationsService} notificationsService
    * @param {TranslateService} translate
    * @param {SearchService} searchService
-   * @param {SubmissionService} submissionService
    * @param {ChangeSubmitterService} changeSubmitterService
    * @param {RequestService} requestService
    */
@@ -62,7 +60,6 @@ export class WorkspaceitemActionsComponent extends MyDSpaceActionsComponent<Work
               protected notificationsService: NotificationsService,
               protected translate: TranslateService,
               protected searchService: SearchService,
-              protected submissionService: SubmissionService,
               protected changeSubmitterService: ChangeSubmitterService,
               protected requestService: RequestService) {
     super(WorkspaceItem.type, injector, router, notificationsService, translate, searchService, requestService);
