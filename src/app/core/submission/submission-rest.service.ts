@@ -58,14 +58,6 @@ export class SubmissionRestService {
     );
   }
 
-  protected fetchRequestWithoutResponse(requestId: string): Observable<boolean> {
-    return this.rdbService.buildFromRequestUUID<SubmissionResponse>(requestId).pipe(
-      getFirstCompletedRemoteData(),
-      map((response: RemoteData<SubmissionResponse>) => response.hasSucceeded),
-      distinctUntilChanged()
-    );
-  }
-
   /**
    * Create the HREF for a specific submission object based on its identifier
    *
@@ -88,10 +80,6 @@ export class SubmissionRestService {
       url = new URLCombiner(url, `&owningCollection=${collectionId}`).toString();
     }
     return url;
-  }
-
-  protected getEndpointByIDHrefWithoutProjection(endpoint, resourceID): string {
-    return isNotEmpty(resourceID) ? `${endpoint}/${resourceID}` : `${endpoint}`;
   }
 
   /**
@@ -166,21 +154,6 @@ export class SubmissionRestService {
       tap((request: PostRequest) => this.requestService.send(request)),
       mergeMap(() => this.fetchRequest(requestId)),
       distinctUntilChanged());
-  }
-
-  public postToEndpointWithoutProjection(linkName: string, body: any, scopeId?: string, options?: HttpOptions, collectionId?: string): Observable<boolean> {
-    const requestId = this.requestService.generateRequestId();
-    const templateRegex = /{\?[^(?{})]*}$/;
-    return this.halService.getEndpoint(linkName).pipe(
-      map((templatedLink) => templatedLink.replace(templateRegex,'')),
-      filter((href: string) => isNotEmpty(href)),
-      map((endpointURL: string) => this.getEndpointByIDHrefWithoutProjection(endpointURL, scopeId)),
-      distinctUntilChanged(),
-      map((endpointURL: string) => new SubmissionPostRequest(requestId, endpointURL, body, options)),
-      tap((request: PostRequest) => this.requestService.send(request)),
-      mergeMap(() => this.fetchRequestWithoutResponse(requestId)),
-      distinctUntilChanged(),
-    );
   }
 
   /**

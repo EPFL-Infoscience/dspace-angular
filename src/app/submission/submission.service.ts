@@ -3,18 +3,7 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { Observable, of as observableOf, Subscription, timer as observableTimer } from 'rxjs';
-import {
-  catchError,
-  concatMap,
-  distinctUntilChanged,
-  filter,
-  find,
-  map,
-  startWith,
-  switchMap,
-  take,
-  tap
-} from 'rxjs/operators';
+import { catchError, concatMap, distinctUntilChanged, filter, find, map, startWith, take, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -61,8 +50,6 @@ import { NotificationOptions } from '../shared/notifications/models/notification
 import { ScrollToConfigOptions, ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
 import { SubmissionVisibility } from './utils/visibility.util';
 import { MetadataSecurityConfiguration } from '../core/submission/models/metadata-security-configuration';
-import { WorkspaceItem } from '../core/submission/models/workspaceitem.model';
-import { getFirstSucceededRemoteDataPayload } from '../core/shared/operators';
 
 /**
  * A service that provides methods used in submission process.
@@ -714,35 +701,6 @@ export class SubmissionService {
         return createFailedRemoteDataObject$<SubmissionObject>(errorResponse.errorMessage, errorResponse.statusCode || 404);
       })
     );
-  }
-
-  changeSubmitter(workspaceItem: WorkspaceItem, submitter: any): Observable<any> {
-
-    const linkName = 'changesubmitter';
-
-    // const workspaceItemId = workspaceItem.id;
-
-    const submitterId = encodeURI(submitter.email);
-
-    // TODO: this value is improperly passed to postToEndpoint parameter scopeId
-    const secondLinkSegment = 'changesubmitter';
-
-    return workspaceItem.item.pipe(
-      getFirstSucceededRemoteDataPayload<Item>(),
-      switchMap((item: Item) => {
-        const paramsObj = Object.create({});
-        paramsObj.submitterIdentifier = submitterId;
-        paramsObj.itemId = item.uuid;
-
-        const params = new HttpParams({ fromObject: paramsObj });
-        const options: HttpOptions = Object.create({});
-        options.params = params;
-
-        return this.restService.postToEndpointWithoutProjection(linkName, {}, secondLinkSegment, options, null);
-
-      })
-    );
-
   }
 
   /**

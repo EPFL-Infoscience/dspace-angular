@@ -220,6 +220,8 @@ import {
 } from './eperson-group-list/group-search-box/group-search-box.component';
 import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
+import { ChangeSubmitterService } from '../submission/change-submitter.service';
+import { ChangeSubmitterRestService } from '../core/submission/change-submitter-rest.service';
 
 
 const MODULES = [
@@ -510,7 +512,9 @@ const PROVIDERS = [
   TruncatableService,
   MockAdminGuard,
   AbstractTrackableComponent,
-  ThumbnailService
+  ThumbnailService,
+  ChangeSubmitterService,
+  ChangeSubmitterRestService,
 ];
 
 const DIRECTIVES = [
