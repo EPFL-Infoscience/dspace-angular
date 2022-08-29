@@ -416,7 +416,7 @@ export class SearchComponent implements OnInit, OnDestroy {
    * @param searchOptions
    * @private
    */
-  private retrieveSearchResults(searchOptions: PaginatedSearchOptions) {
+  private retrieveSearchResults(searchOptions: PaginatedSearchOptions, useCachedVersionIfAvailable?: boolean) {
     this.resultsRD$.next(null);
 
     if (this.projection) {
@@ -428,7 +428,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.searchManager.search(
       searchOptions,
       undefined,
-      this.useCachedVersionIfAvailable,
+      useCachedVersionIfAvailable ?? this.useCachedVersionIfAvailable,
       true,
       followLink<Item>('thumbnail', { isOptional: true })
     ).pipe(getFirstCompletedRemoteData())
@@ -466,13 +466,19 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Refresh the search results using the current search options
+   */
+  refresh() {
+    this.retrieveSearchResults(this.searchOptions, false);
+  }
+
+  /**
    * Catch the custom event and emit it again
    * @param $event
    */
-
   emitCustomEvent($event: any) {
     if ($event === 'refresh') {
-      this.retrieveSearchResults(this.searchOptions);
+      this.refresh();
     }
     this.customEvent.emit($event);
   }
