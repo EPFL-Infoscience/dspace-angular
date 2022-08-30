@@ -1450,6 +1450,12 @@
 
   "context-menu.actions.edit-item.btn.FULL": "Edit all the details",
 
+  "context-menu.actions.edit-item.btn.FULLADMIN": "Edit all details (as Curator/Admin)",
+
+  "context-menu.actions.edit-item.btn.FULLSUB": "Edit all details (as Submitter)",
+
+  "context-menu.actions.edit-item.btn.FULLAUTH": "Edit all details (as Author)",
+
   "context-menu.actions.edit-item.btn.OWNER": "Edit",
 
   "context-menu.actions.edit-item.btn.DIRECTOR": "Edit",
