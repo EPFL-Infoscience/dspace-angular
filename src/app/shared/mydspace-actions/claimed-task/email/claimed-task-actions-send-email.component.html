@@ -1,0 +1,30 @@
+<button class="btn btn-primary" (click)="openEmailModal(sendEmail)">
+  <i class="fas fa-envelope"></i> {{'submission.workflow.tasks.email.button' | translate}}
+</button>
+
+
+<ng-template #sendEmail let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-info">{{'submission.workflow.tasks.email.modal.title' | translate}}</h4>
+    <button type="button" id="email_modal_close" class="close" aria-label="Close" (click)="d('cancel')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <!--<select id="email_modal_template_name" formControlName="template_name" class="form-control">
+      <option [value]="''"></option>
+      <option *ngFor="let templateName of (templateList$ | async)" [value]="templateName">{{templateName}}</option>
+    </select>-->
+
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" id="email_modal_cancel" class="btn btn-secondary" (click)="d('cancel')">
+      {{'submission.workflow.tasks.email.modal.btn.dismiss' | translate}}
+    </button>
+    <button type="button" id="email_modal_send" class="btn btn-success" (click)="c('send')">
+      <i class="fas fa-envelope"></i> {{'submission.workflow.tasks.email.modal.btn.send' | translate}}
+    </button>
+  </div>
+</ng-template>
