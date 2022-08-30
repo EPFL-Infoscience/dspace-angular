@@ -16,6 +16,7 @@ import { NgbAccordion } from '@ng-bootstrap/ng-bootstrap';
 import { hasValue, isEmpty, isNotEmpty } from '../empty.util';
 import { debounceTime, filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { FileService } from '../../core/shared/file.service';
 
 @Component({
   selector: 'ds-pdf-viewer',
@@ -44,7 +45,7 @@ export class PdfViewerComponent implements OnChanges, OnDestroy {
   @ViewChild('pdfViewer') pdfViewer;
   @ViewChildren('pdfViewer', { read: ElementRef }) pdfViewerList: QueryList<ElementRef>;
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(private cdr: ChangeDetectorRef, private fileService: FileService) {
   }
 
   ngAfterViewInit() {
@@ -73,9 +74,11 @@ export class PdfViewerComponent implements OnChanges, OnDestroy {
 
   private refreshPdfViewer(src: string) {
     if (this.pdfViewer && isNotEmpty(src)) {
-      this.pdfViewer.pdfSrc = src;
-      this.pdfViewer.refresh();
-      this.cdr.detectChanges();
+      this.fileService.downloadFile(src).subscribe((file: Blob) => {
+        this.pdfViewer.pdfSrc = file;
+        this.pdfViewer.refresh();
+        this.cdr.detectChanges();
+      });
     }
   }
 
