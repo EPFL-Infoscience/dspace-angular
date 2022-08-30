@@ -389,36 +389,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     //   });
   }
 
-  onMerge(content) {
-    let mergedItems: MergeItems = {
-      setId: `${this.signatureId}:${this.setChecksum}`, //setId: signature-id:set-checksum
-      bitstreams: [...this.bitstreamList],
-      metadata: [...this.mergedMetadataFields],
-      mergedItems: [...this.mergedItems],
-    };
-    this.modalService.open(content).dismissed.subscribe((result) => {
-      if (isEqual(result, 'ok')) {
-        // let mergedItems: MergeItems = {
-        //   setId: `${this.signatureId}:${this.setChecksum}`, //setId: signature-id:set-checksum
-        //   bitstreams: [...this.bitstreamList],
-        //   metadata: [...this.mergedMetadataFields],
-        //   mergedItems: [...this.mergedItems],
-        // };
-        console.log(mergedItems);
 
-        this.deduplicationItemsService
-          .mergeData(mergedItems, this.targetItemId)
-          .subscribe((res) => {
-            if (hasValue(res)) {
-              this.router.navigate([
-                'admin/deduplication/set',
-                this.signatureId,
-              ]);
-            }
-          });
-      }
-    });
-  }
   /**
    * Calculates the @var mergedMetadataFields on value selection
    * @param field The metadata field to be merged
@@ -679,9 +650,18 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         newMap.set(key, selectedValues);
       }
     );
+    let mergedItems: MergeItems = {
+      setId: `${this.signatureId}:${this.setChecksum}`, //setId: signature-id:set-checksum
+      bitstreams: [...this.bitstreamList],
+      metadata: [...this.mergedMetadataFields],
+      mergedItems: [...this.mergedItems],
+    };
+
     this.modalRef.componentInstance.compareMetadataValues = newMap;
     this.modalRef.componentInstance.itemsToCompare = this.itemsToCompare;
     this.modalRef.componentInstance.bitstreamList = this.bitstreamList;
+    this.modalRef.componentInstance.itemsToMerge = mergedItems;
+    this.modalRef.componentInstance.targetItemId = this.targetItemId;
   }
 
   /**

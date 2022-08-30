@@ -276,16 +276,3 @@
   </div>
 </div>
 
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title text-info">{{ "Confirm Merge" | translate }}</h4>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="d('cancel')">
-      {{ "deduplication.sets.modal.confirm.cancel" | translate }}
-    </button>
-    <button type="button" class="btn btn-info" (click)="d('ok')">
-      {{ "Confirm" | translate }}
-    </button>
-  </div>
-</ng-template>

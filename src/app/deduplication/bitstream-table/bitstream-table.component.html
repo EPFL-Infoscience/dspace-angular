@@ -21,7 +21,7 @@
       <th scope="col">
         {{ "CheckSum" | translate }}
       </th>
-      <th scope="col">
+      <th scope="col" *ngIf="!previewMode">
         {{ "Actions" | translate }}
       </th>
     </tr>
@@ -95,7 +95,7 @@
               {{ bitstream.checkSum.value }}
             </span>
           </td>
-          <td>
+          <td  *ngIf="!previewMode">
             <div class="row justify-content-center">
               <a
                 [href]="bitstream?._links?.content?.href"

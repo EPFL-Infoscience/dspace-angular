@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { isEqual } from 'lodash';
 import { Bitstream } from '../../core/shared/bitstream.model';
-import { hasValue } from '../../shared/empty.util';
 import { ItemData } from '../interfaces/deduplication-differences.models';
 
 @Component({
@@ -15,9 +14,11 @@ export class BitstreamTableComponent implements OnInit {
 
   @Input() bitstreamList: string[] = [];
 
+  @Input() previewMode: boolean = false;
+
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   /**
  * Add/remove the bitstream from @var bitstreamList based on the selection
