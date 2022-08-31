@@ -1,3 +1,4 @@
+import { isEqual } from 'lodash';
 import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/models/submission-repeatable-fields.model';
 import { SubmissionRepeatableFieldsRestService } from './../../core/deduplication/services/submission-repeatable-fields-rest.service';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
@@ -54,12 +55,14 @@ export class DeduplicationItemsService {
           );
           return response.payload;
         }
-        if (response.hasFailed) {
-          // TODO: add error message
-          // if (isEqual(response.statusCode, 422)) {
-          //   // Unprocessable Entity
-          //   this.notificationsService.error(null, 'Merge failed. Please check the selected values');
-          // } else
+           // TODO: add error message
+        if (isEqual(response.statusCode, 422)) {
+          // Unprocessable Entity
+          this.notificationsService.error(null, 'Merge failed. Please check the selected values');
+          return;
+        }
+
+        if (response.hasFailed && isEqual(response.statusCode,500)) {
           this.notificationsService.error(
             null,
             this.translate.get('deduplication.merge.notification.message-error')

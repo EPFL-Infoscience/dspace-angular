@@ -1647,7 +1647,7 @@
 
   "deduplication.merge.notification.message-success": "Merge finished successfully",
 
-  "deduplication.merge.notification.message-error": "Merge failed",
+  "deduplication.merge.notification.message-error": "Merge failed, server error",
 
   "deduplication.merge.tooltip.delete-info": "Remove values for this metadata field",
 

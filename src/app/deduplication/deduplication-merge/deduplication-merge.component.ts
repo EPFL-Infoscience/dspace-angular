@@ -662,6 +662,9 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     this.modalRef.componentInstance.bitstreamList = this.bitstreamList;
     this.modalRef.componentInstance.itemsToMerge = mergedItems;
     this.modalRef.componentInstance.targetItemId = this.targetItemId;
+    this.modalRef.closed.subscribe((res) => {
+      this.goBack();
+    })
   }
 
   /**

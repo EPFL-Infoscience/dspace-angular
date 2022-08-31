@@ -107,6 +107,9 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   ) {
     this.signatureId = this.route.snapshot.params.id;
     this.rule = this.route.snapshot.params.rule;
+  }
+
+  ngOnInit(): void {
     this.sets$ = this.deduplicationStateService
       .getDeduplicationSetsPerSignature()
       .pipe(
@@ -269,12 +272,21 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     this.deduplicationSetsService
       .deleteSet(this.signatureId, setChecksum)
       .subscribe((res: RemoteData<NoContent>) => {
-        if (res.hasSucceeded) {
+        console.log(res, 'set');
+        if (res.hasSucceeded && isEqual(res.statusCode, 200)) {
           this.deduplicationStateService.dispatchDeleteSet(
             this.signatureId,
             setId
           );
-        } else {
+        } else if (isEqual(res.statusCode, 204)) {
+          this.notificationsService.error(
+            null,
+            this.translate.get(
+              'Not found'
+            )
+          );
+        }
+        else {
           this.notificationsService.error(
             null,
             this.translate.get(
@@ -505,6 +517,13 @@ export class DeduplicationSetsComponent implements AfterViewInit {
                         }
                       );
                   }
+                } else {
+                  this.notificationsService.error(
+                    null,
+                    this.translate.get(
+                      'Item doesn\'t exist'
+                    )
+                  );
                 }
               });
             return;
@@ -690,7 +709,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     }
   }
 
-  goBack(){
+  goBack() {
     this.router.navigate(['admin/deduplication']);
   }
 
