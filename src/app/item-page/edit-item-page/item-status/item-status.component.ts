@@ -12,13 +12,13 @@ import { FeatureID } from '../../../core/data/feature-authorization/feature-id';
 import { hasValue } from '../../../shared/empty.util';
 import { getAllSucceededRemoteDataPayload } from '../../../core/shared/operators';
 import { ResearcherProfileService } from '../../../core/profile/researcher-profile.service';
-import {NgbModalOptions} from "@ng-bootstrap/ng-bootstrap/modal/modal-config";
-import {EPerson} from "../../../core/eperson/models/eperson.model";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ChangeSubmitterService} from "../../../submission/change-submitter.service";
-import {RequestService} from "../../../core/data/request.service";
-import {NotificationsService} from "../../../shared/notifications/notifications.service";
-import {TranslateService} from "@ngx-translate/core";
+import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap/modal/modal-config';
+import { EPerson } from '../../../core/eperson/models/eperson.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ChangeSubmitterService } from '../../../submission/change-submitter.service';
+import { RequestService } from '../../../core/data/request.service';
+import { NotificationsService } from '../../../shared/notifications/notifications.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ds-item-status',
