@@ -21,7 +21,7 @@
       </span>
     </div>
     <div class="col-9 float-left action-button">
-      <span class="mr-3">{{(itemRD$ | async).payload.submitterEmail}}</span>
+      <span class="mr-3">{{(itemSubmitterEmail$ | async)}}</span>
       <button type="button"
               id="change_submitter"
               class="btn btn-outline-primary"

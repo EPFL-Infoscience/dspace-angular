@@ -3,7 +3,7 @@ import { fadeIn, fadeInOut } from '../../../shared/animations/fade';
 import { Item } from '../../../core/shared/item.model';
 import { ActivatedRoute } from '@angular/router';
 import { ItemOperation } from '../item-operation/itemOperation.model';
-import {distinctUntilChanged, first, map, mergeMap, switchMap, take, toArray} from 'rxjs/operators';
+import { distinctUntilChanged, first, map, mergeMap, switchMap, take, tap, toArray } from 'rxjs/operators';
 import { BehaviorSubject, combineLatest, from as observableFrom, Observable, of as observableOf } from 'rxjs';
 import { RemoteData } from '../../../core/data/remote-data';
 import { getItemEditRoute, getItemPageRoute } from '../../item-page-routing-paths';
@@ -38,6 +38,8 @@ export class ItemStatusComponent implements OnInit {
    * The item to display the status for
    */
   itemRD$: Observable<RemoteData<Item>>;
+
+  itemSubmitterEmail$ = new BehaviorSubject<string>('');
 
   /**
    * The data to show in the status
@@ -80,7 +82,8 @@ export class ItemStatusComponent implements OnInit {
     this.itemRD$ = this.route.parent.data.pipe(map((data) => data.dso));
     this.itemRD$.pipe(
       first(),
-      map((data: RemoteData<Item>) => data.payload)
+      map((data: RemoteData<Item>) => data.payload),
+      tap((item: Item) => { this.itemSubmitterEmail$.next(item.submitterEmail); }),
     ).pipe(
       switchMap((item: Item) => {
         this.item$.next(item);
@@ -166,6 +169,7 @@ export class ItemStatusComponent implements OnInit {
       ).subscribe(({hasSucceeded, submitter}) => {
         if (hasSucceeded) {
           const email = (submitter as EPerson).email;
+          this.itemSubmitterEmail$.next(email);
           this.notificationsService.success(this.translate.instant('submission.workflow.generic.change-submitter.notification.success.title'),
             this.translate.instant('submission.workflow.generic.change-submitter.notification.success.content', {email}));
         } else {
