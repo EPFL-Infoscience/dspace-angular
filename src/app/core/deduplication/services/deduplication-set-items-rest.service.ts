@@ -18,10 +18,10 @@ import { mergeMap, take } from 'rxjs/operators';
 import { DataService } from '../../data/data.service';
 import { dataService } from '../../cache/builders/build-decorators';
 import { RemoteData } from '../../data/remote-data';
-import { SetItemsObject } from '../models/set-items.model';
 import { DEDUPLICATION_SET_ITEMS } from '../models/deduplication-set-items.resource-type';
 import { NoContent } from '../../shared/NoContent.model';
 import { getFirstCompletedRemoteData } from '../../shared/operators';
+import { Item } from '../../shared/item.model';
 
 /* tslint:disable:max-classes-per-file */
 
@@ -29,7 +29,7 @@ import { getFirstCompletedRemoteData } from '../../shared/operators';
 /**
  * A private DataService implementation to delegate specific methods to.
  */
-class DataServiceImpl extends DataService<SetItemsObject> {
+class DataServiceImpl extends DataService<Item> {
   /**
    * The REST endpoint.
    */
@@ -43,7 +43,7 @@ class DataServiceImpl extends DataService<SetItemsObject> {
     protected halService: HALEndpointService,
     protected notificationsService: NotificationsService,
     protected http: HttpClient,
-    protected comparator: ChangeAnalyzer<SetItemsObject>
+    protected comparator: ChangeAnalyzer<Item>
   ) {
     super();
   }
@@ -68,7 +68,7 @@ export class DeduplicationSetItemsRestService {
    * @param {HALEndpointService} halService
    * @param {NotificationsService} notificationsService
    * @param {HttpClient} http
-   * @param {DefaultChangeAnalyzer<SetItemsObject>} comparator
+   * @param {DefaultChangeAnalyzer<Item>} comparator
    */
   constructor(
     protected requestService: RequestService,
@@ -77,7 +77,7 @@ export class DeduplicationSetItemsRestService {
     protected halService: HALEndpointService,
     protected notificationsService: NotificationsService,
     protected http: HttpClient,
-    protected comparator: DefaultChangeAnalyzer<SetItemsObject>
+    protected comparator: DefaultChangeAnalyzer<Item>
   ) {
     this.dataService = new DataServiceImpl(requestService, rdbService, null, objectCache, halService, notificationsService, http, comparator);
   }
@@ -89,7 +89,7 @@ export class DeduplicationSetItemsRestService {
    * @param linksToFollow  List of {@link FollowLinkConfig} that indicate which {@link HALLink}s should be automatically resolved.
    * @returns The list of set items.
    */
-  public getItemsPerSet(options: FindListOptions = {}, setId: string, ...linksToFollow: FollowLinkConfig<SetItemsObject>[]): Observable<RemoteData<PaginatedList<SetItemsObject>>> {
+  public getItemsPerSet(options: FindListOptions = {}, setId: string, ...linksToFollow: FollowLinkConfig<Item>[]): Observable<RemoteData<PaginatedList<Item>>> {
     return this.dataService.getBrowseEndpoint(options).pipe(
       take(1),
       mergeMap((href: string) => {

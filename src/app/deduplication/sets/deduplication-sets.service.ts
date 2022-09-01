@@ -8,7 +8,6 @@ import { Collection } from './../../core/shared/collection.model';
 import { ItemDataService } from './../../core/data/item-data.service';
 import { NoContent } from './../../core/shared/NoContent.model';
 import { DeduplicationSetItemsRestService } from '../../core/deduplication/services/deduplication-set-items-rest.service';
-import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
 import { RemoteData } from './../../core/data/remote-data';
 import { PaginatedList } from './../../core/data/paginated-list.model';
 import { FindListOptions } from './../../core/data/request.models';
@@ -20,6 +19,7 @@ import { catchError, map, take } from 'rxjs/operators';
 import { DeduplicationSetsRestService } from '../../core/deduplication/services/deduplication-sets-rest.service';
 import { WorkflowItemDataService } from './../../core/submission/workflowitem-data.service';
 import { hasValue } from 'src/app/shared/empty.util';
+import { Item } from '../../core/shared/item.model';
 
 @Injectable()
 export class DeduplicationSetsService {
@@ -78,15 +78,20 @@ export class DeduplicationSetsService {
   /**
    * Returns the set items with the given set id
    * @param {string} setId - the set id
-   * @return {*}  {Observable<PaginatedList<SetItemsObject>>}
+   * @return {*}  {Observable<PaginatedList<Item>>}
    */
-  public getSetItems(setId: string): Observable<PaginatedList<SetItemsObject>> {
+  public getSetItems(setId: string): Observable<PaginatedList<Item>> {
     const findListOptions: FindListOptions = {};
     return this.deduplicationSetItemsRestService
-      .getItemsPerSet(findListOptions, setId, followLink('owningCollection'))
+      .getItemsPerSet(
+        findListOptions,
+        setId,
+        followLink('bundles', {}, followLink('bitstreams')),
+        followLink('owningCollection')
+      )
       .pipe(
         getFirstCompletedRemoteData(),
-        map((rd: RemoteData<PaginatedList<SetItemsObject>>) => {
+        map((rd: RemoteData<PaginatedList<Item>>) => {
           if (rd.hasSucceeded) {
             return rd.payload;
           } else {

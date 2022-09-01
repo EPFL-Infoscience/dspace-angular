@@ -4,7 +4,7 @@ import { Item } from './../../core/shared/item.model';
  * The interface used for the model of the items data
  * and identifier color for the template
  */
- export interface ItemData {
+export interface ItemData {
   object: Item;
   color: string;
 }
@@ -51,4 +51,9 @@ export interface ItemsMetadataField {
 export interface ItemMetadataSource {
   item: string;
   place: number;
+}
+
+export interface SetIdentifiers {
+  setId: string;
+  signatureId: string;
 }

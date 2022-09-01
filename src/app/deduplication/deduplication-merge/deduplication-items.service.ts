@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 import { DeduplicationMergeRestService } from './../../core/deduplication/services/deduplication-merge-rest.service';
 import {
   getFirstCompletedRemoteData,
-  getFirstSucceededRemoteDataPayload
+  getFirstSucceededRemoteDataPayload,
 } from './../../core/shared/operators';
 import { followLink } from './../../shared/utils/follow-link-config.model';
 import { Item } from './../../core/shared/item.model';
@@ -25,7 +25,7 @@ export class DeduplicationItemsService {
     private submissionRepeatableFieldsService: SubmissionRepeatableFieldsRestService,
     private notificationsService: NotificationsService,
     private translate: TranslateService
-  ) { }
+  ) {}
 
   public getItemData(itemId: string): Observable<Item> {
     return this.itemDataService
@@ -55,24 +55,26 @@ export class DeduplicationItemsService {
           );
           return response.payload;
         }
-           // TODO: add error message
+
         if (isEqual(response.statusCode, 422)) {
           // Unprocessable Entity
-          this.notificationsService.error(null, 'Merge failed. Please check the selected values');
-          return;
+          this.notificationsService.error(
+            null,
+            'Merge failed. Please check the selected values'
+          );
+          throw new Error('Merge Failed with status 422');
         }
 
-        if (response.hasFailed && isEqual(response.statusCode,500)) {
+        if (response.hasFailed && isEqual(response.statusCode, 500)) {
           this.notificationsService.error(
             null,
             this.translate.get('deduplication.merge.notification.message-error')
           );
+          throw new Error('Merge Failed with status 500');
         }
       })
     );
   }
-
-
 
   /**
    * GET the repeatable fields for the given item id
@@ -84,17 +86,15 @@ export class DeduplicationItemsService {
       .getSubmissionRepeatableFields(itemId)
       .pipe(
         getFirstCompletedRemoteData(),
-        map(
-          (rd: RemoteData<SubmissionRepeatableFieldsObject>) => {
-            if (rd.hasSucceeded) {
-              return rd.payload;
-            } else {
-              throw new Error(
-                "Can't retrieve SubmissionRepeatableFieldsObject from REST service"
-              );
-            }
+        map((rd: RemoteData<SubmissionRepeatableFieldsObject>) => {
+          if (rd.hasSucceeded) {
+            return rd.payload;
+          } else {
+            throw new Error(
+              "Can't retrieve Repeatable Fields from REST service"
+            );
           }
-        )
+        })
       );
   }
 }

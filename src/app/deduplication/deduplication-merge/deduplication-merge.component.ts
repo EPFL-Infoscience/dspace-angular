@@ -35,6 +35,7 @@ import {
   ItemsMetadataField,
   MergeItems,
   MetadataMapObject,
+  SetIdentifiers,
 } from '../interfaces/deduplication-merge.models';
 import { ItemsMetadataValues } from '../interfaces/deduplication-differences.models';
 import { DeduplicationMergeResultComponent } from '../deduplication-merge-result/deduplication-merge-result.component';
@@ -657,11 +658,17 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       mergedItems: [...this.mergedItems],
     };
 
+    const setIdentifiers: SetIdentifiers ={
+      setId : `${this.signatureId}:${this.setChecksum}`,
+      signatureId: this.signatureId
+    }
+
     this.modalRef.componentInstance.compareMetadataValues = newMap;
     this.modalRef.componentInstance.itemsToCompare = this.itemsToCompare;
     this.modalRef.componentInstance.bitstreamList = this.bitstreamList;
     this.modalRef.componentInstance.itemsToMerge = mergedItems;
     this.modalRef.componentInstance.targetItemId = this.targetItemId;
+    this.modalRef.componentInstance.identifiers = setIdentifiers;
     this.modalRef.closed.subscribe((res) => {
       this.goBack();
     })

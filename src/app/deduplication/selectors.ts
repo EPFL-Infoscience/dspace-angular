@@ -1,4 +1,4 @@
-import { SetItemsObject } from './../core/deduplication/models/set-items.model';
+import { Item } from './../core/shared/item.model';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { arraySubStateSelector, subStateSelector } from '../shared/selector.util';
 import { DeduplicationState, deduplicationSelector } from './deduplication.reducer';
@@ -145,8 +145,8 @@ export function setItemsObjectSelector(): MemoizedSelector<DeduplicationState, D
 /*
  * Returns the items list.
  */
-export function setItemsObjectsSelector(setId): MemoizedSelector<DeduplicationState, SetItemsObject[]> {
-  return arraySubStateSelector<DeduplicationState, SetItemsObject[]>(setItemsObjectSelector(), setId, 'objects', 'setId');
+export function setItemsObjectsSelector(setId): MemoizedSelector<DeduplicationState, Item[]> {
+  return arraySubStateSelector<DeduplicationState, Item[]>(setItemsObjectSelector(), setId, 'objects', 'setId');
 }
 
 

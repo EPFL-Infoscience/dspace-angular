@@ -1,8 +1,8 @@
-import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
 import { Action } from '@ngrx/store';
 import { SetObject } from './../../core/deduplication/models/set.model';
 
 import { type } from '../../shared/ngrx/type';
+import { Item } from '../../core/shared/item.model';
 
 /* tslint:disable:max-classes-per-file */
 
@@ -123,7 +123,7 @@ export class RetrieveSetItemsAction implements Action {
 export class AddSetItemsAction implements Action {
   type = DeduplicationSetsActionTypes.ADD_SET_ITEMS;
   payload: {
-    objects: SetItemsObject[];
+    objects: Item[];
     setId: string;
   };
 
@@ -132,7 +132,7 @@ export class AddSetItemsAction implements Action {
    * @param objects - the list of set items
    * @param setId - the id of the set items
    */
-  constructor(objects: SetItemsObject[], setId: string) {
+  constructor(objects: Item[], setId: string) {
     this.payload = {
       objects,
       setId,
@@ -195,7 +195,7 @@ export class RetrieveItemsToCompareAction implements Action {
   type = DeduplicationSetsActionTypes.RETRIEVE_ITEMS_TO_COMPARE;
 
   payload: {
-    objects: SetItemsObject[];
+    objects: Item[];
   };
 
   /**
@@ -203,7 +203,7 @@ export class RetrieveItemsToCompareAction implements Action {
    * @param {string} setId
    * @memberof RetrieveSetItemsAction
    */
-  constructor(objects: SetItemsObject[]) {
+  constructor(objects: Item[]) {
     this.payload = { objects };
   }
 }

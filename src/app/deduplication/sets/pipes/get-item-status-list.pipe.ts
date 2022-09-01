@@ -1,4 +1,4 @@
-import { SetItemsObject } from '../../../core/deduplication/models/set-items.model';
+import { Item } from './../../../core/shared/item.model';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
@@ -11,7 +11,7 @@ export class GetItemStatusListPipe implements PipeTransform {
    * @param item Item Object
    * @returns {string[]} the list of statuses per item
    */
-  transform(item: SetItemsObject): string[] {
+  transform(item: Item): string[] {
     if (item) {
       const statusList = [];
       if (item.isDiscoverable) {

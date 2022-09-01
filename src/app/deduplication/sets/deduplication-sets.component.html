@@ -81,7 +81,7 @@
                 <div class="col-md-4">
                   <button
                     *ngIf="!this.checkedItemsList.has(set.id) || checkedItemsList.get(set.id)?.length < (getItemsPerSet(set.id) | async)?.length"
-                    class="btn btn-outline-secondary btn-sm mt-1" (click)="selectAllItems(set.id)">
+                    class="btn btn-outline-secondary btn-sm mt-1" (click)="selectAllItems(set.id, i)">
                     <i class="fa fa-check-square"></i>
                     {{'deduplication.sets.button.select-all' | translate}}
                   </button>
@@ -235,7 +235,7 @@
                                     ">
                                   <i class="fa fa-trash-alt"></i>
                                 </button>
-                                <button class="btn btn-warning" title="Keep this">
+                                <button class="btn btn-warning" title="Keep this" (click)="keepItem(set.id, item, content)">
                                   <i class="fa fa-check-square" aria-hidden="true"></i>
                                 </button>
                               </div>
@@ -257,7 +257,7 @@
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title text-danger">{{ 'deduplication.sets.modal.title' | translate }}</h4>
+    <h5 class="modal-title text-info">{{ confirmModalText.title | translate }}</h5>
   </div>
   <div class="modal-body">
     <p>{{ 'deduplication.sets.modal.confirm.info' | translate }}</p>
@@ -266,8 +266,8 @@
     <button type="button" class="btn btn-secondary" (click)="d('cancel')">
       {{ 'deduplication.sets.modal.confirm.cancel' | translate }}
     </button>
-    <button type="button" class="btn btn-danger" (click)="d('ok')">
-      {{ 'deduplication.sets.modal.delete.submit' | translate }}
+    <button type="button" class="btn btn-outline-info" (click)="d('ok')">
+      {{ confirmModalText.btnText| translate }}
     </button>
   </div>
 </ng-template>

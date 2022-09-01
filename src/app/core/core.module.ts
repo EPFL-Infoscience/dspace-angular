@@ -205,7 +205,6 @@ import { LoginStatisticsService } from './statistics/login-statistics.service';
 import { LoginStatistics } from './statistics/models/login-statistics.model';
 import { SignatureObject } from './deduplication/models/signature.model';
 import { SetObject } from './deduplication/models/set.model';
-import { SetItemsObject } from './deduplication/models/set-items.model';
 import { SubmissionRepeatableFieldsObject } from './deduplication/models/submission-repeatable-fields.model';
 
 /**
@@ -433,7 +432,6 @@ export const models =
     LoginStatistics,
     SignatureObject,
     SetObject,
-    SetItemsObject,
     MergeObject,
     SubmissionRepeatableFieldsObject
   ];

@@ -1,12 +1,12 @@
-import { DeduplicationSetsActions, DeduplicationSetsActionTypes, DeleteItemsToCompareAction } from './../sets/deduplication-sets.actions';
-import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
+import { DeduplicationSetsActions, DeduplicationSetsActionTypes } from './../sets/deduplication-sets.actions';
+import { Item } from '../../core/shared/item.model';
 
 /**
  * The interface representing the set items state.
  * @interface DeduplicationSetState
  */
 export interface DeduplicationItemsToCompareState {
-  objects: SetItemsObject[];
+  objects: Item[];
   processing: boolean;
   loaded: boolean;
 }

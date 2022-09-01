@@ -1,4 +1,4 @@
-import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
+import { Item } from './../../core/shared/item.model';
 import { SetObject } from './../../core/deduplication/models/set.model';
 import { PaginatedList } from './../../core/data/paginated-list.model';
 import { NotificationsService } from './../../shared/notifications/notifications.service';
@@ -68,7 +68,7 @@ export class DeduplicationSetsEffects {
     mergeMap(([action, currentState]: [RetrieveSetItemsAction, any]) => {
       return this.deduplicationSetsService.getSetItems(action.payload.setId)
         .pipe(
-          map((items: PaginatedList<SetItemsObject>) =>
+          map((items: PaginatedList<Item>) =>
             new AddSetItemsAction(items.page, action.payload.setId)
           ),
           catchError((error: Error) => {

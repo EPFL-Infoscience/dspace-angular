@@ -1,4 +1,4 @@
-import { SetItemsObject } from './../core/deduplication/models/set-items.model';
+import { Item } from './../core/shared/item.model';
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -216,7 +216,7 @@ export class DeduplicationStateService {
   /**
    * @returns {Observable<ItemObject[]>} The list of items from the state.
    */
-  public getDeduplicationSetItems(setId: string): Observable<SetItemsObject[]> {
+  public getDeduplicationSetItems(setId: string): Observable<Item[]> {
     return this.store.pipe(select(setItemsObjectsSelector(setId)));
   }
 

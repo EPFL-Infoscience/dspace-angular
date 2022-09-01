@@ -1,5 +1,5 @@
+import { Item } from './../../core/shared/item.model';
 import { isEqual } from 'lodash';
-import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
 import { hasValue } from './../../shared/empty.util';
 import {
   DeduplicationSetsActionTypes,
@@ -11,7 +11,7 @@ import {
  * The interface representing the set items state.
  */
 export interface DeduplicationSetItemsState {
-  objects: SetItemsObject[];
+  objects: Item[];
   processing: boolean;
   loaded: boolean;
   setId: string;
@@ -86,7 +86,7 @@ function deleteItem(state: DeduplicationSetItemsState[], action: DeleteItemActio
     const itemIdx = itemsData.findIndex(x => isEqual(x.id, action.payload.itemId));
     if (itemIdx > -1) {
       itemsData.splice(itemIdx, 1);
-      return [...state.map(item => {return isEqual(item.setId, action.payload.setId) ? {...item, objects: itemsData} : item; })];
+      return [...state.map(item => { return isEqual(item.setId, action.payload.setId) ? { ...item, objects: itemsData } : item; })];
     }
   }
   return state;

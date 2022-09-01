@@ -1,3 +1,10 @@
+import { MergeObject } from './../../core/deduplication/models/merge-object.model';
+import { GetBitstreamsPipe } from './../deduplication-merge/pipes/ds-get-bitstreams.pipe';
+import { Item } from './../../core/shared/item.model';
+import {
+  ItemsMetadataField,
+  MergeItems,
+} from './../interfaces/deduplication-merge.models';
 import { WorkflowItem } from './../../core/submission/models/workflowitem.model';
 import { SubmitDataResponseDefinitionObject } from './../../core/shared/submit-data-response-definition.model';
 import { Collection } from './../../core/shared/collection.model';
@@ -7,13 +14,17 @@ import { hasValue } from './../../shared/empty.util';
 import { MetadataMap } from './../../core/shared/metadata.models';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationsService } from './../../shared/notifications/notifications.service';
-import { SetItemsObject } from './../../core/deduplication/models/set-items.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  ViewChildren,
+  QueryList,
+} from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { SetObject } from '../../core/deduplication/models/set.model';
 import { DeduplicationStateService } from '../deduplication-state.service';
-import { map, take, concatMap } from 'rxjs/operators';
+import { map, take, concatMap, switchMap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeduplicationSetsService } from './deduplication-sets.service';
 import { NoContent } from './../../core/shared/NoContent.model';
@@ -26,16 +37,17 @@ import {
 import { ConfigObject } from './../../core/config/models/config.model';
 import { CookieService } from 'src/app/core/services/cookie.service';
 import { SelectedItemData } from '../interfaces/deduplication-sets.models';
+import { DeduplicationItemsService } from '../deduplication-merge/deduplication-items.service';
+import { Bitstream } from 'src/app/core/shared/bitstream.model';
 
 @Component({
   selector: 'ds-deduplication-sets',
   templateUrl: './deduplication-sets.component.html',
   styleUrls: ['./deduplication-sets.component.scss'],
-  providers: [],
+  providers: [GetBitstreamsPipe],
 })
 export class DeduplicationSetsComponent implements AfterViewInit {
-
-  @ViewChild('compareBtnSelector') compareBtnSelector: any;
+  @ViewChildren('compareBtnSelector') compareBtnSelector: QueryList<any>;
 
   /**
    * The deduplication signatures' sets list.
@@ -45,9 +57,9 @@ export class DeduplicationSetsComponent implements AfterViewInit {
 
   /**
    * Stores all items per set.
-   * @type {Map<string, Observable<SetItemsObject[]>>}
+   * @type {Map<string, Observable<Item[]>>}
    */
-  public itemsMap: Map<string, Observable<SetItemsObject[]>> = new Map();
+  public itemsMap: Map<string, Observable<Item[]>> = new Map();
 
   /**
    * The id of the signature to which the sets belong to.
@@ -94,6 +106,15 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    */
   public checkedItemsList: Map<string, SelectedItemData[]> = new Map();
 
+  confirmModalText = {
+    title: '',
+    btnText: '',
+  };
+
+  removeElementText = 'deduplication.sets.modal.title';
+
+  delteBtnText = 'deduplication.sets.modal.delete.submit';
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -103,7 +124,9 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     private deduplicationSetsService: DeduplicationSetsService,
     private notificationsService: NotificationsService,
     private translate: TranslateService,
-    private authorizationService: AuthorizationDataService
+    private authorizationService: AuthorizationDataService,
+    private deduplicationItemsService: DeduplicationItemsService,
+    private getBitstreamsPipe: GetBitstreamsPipe
   ) {
     this.signatureId = this.route.snapshot.params.id;
     this.rule = this.route.snapshot.params.rule;
@@ -169,7 +192,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
         this.deduplicationStateService.dispatchRetrieveDeduplicationSetItems(
           set.id
         );
-        const items$: Observable<SetItemsObject[]> =
+        const items$: Observable<Item[]> =
           this.deduplicationStateService.getDeduplicationSetItems(set.id);
         this.itemsMap.set(set.id, items$);
       });
@@ -179,9 +202,9 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   /**
    * Retrieves the items per set from the Map
    * @param setId The id of the set to which the items belong to.
-   * @returns {Observable<SetItemsObject[]>}
+   * @returns {Observable<Item[]>}
    */
-  getItemsPerSet(setId: string): Observable<SetItemsObject[]> {
+  getItemsPerSet(setId: string): Observable<Item[]> {
     return this.itemsMap.has(setId) ? this.itemsMap.get(setId) : of([]);
   }
 
@@ -257,7 +280,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   getItemIds(setId: string): Observable<string[]> {
     if (this.itemsMap.has(setId)) {
       return this.itemsMap.get(setId).pipe(
-        map((item: SetItemsObject[]) => {
+        map((item: Item[]) => {
           return item?.map((x) => x.id);
         })
       );
@@ -272,7 +295,6 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     this.deduplicationSetsService
       .deleteSet(this.signatureId, setChecksum)
       .subscribe((res: RemoteData<NoContent>) => {
-        console.log(res, 'set');
         if (res.hasSucceeded && isEqual(res.statusCode, 200)) {
           this.deduplicationStateService.dispatchDeleteSet(
             this.signatureId,
@@ -281,12 +303,9 @@ export class DeduplicationSetsComponent implements AfterViewInit {
         } else if (isEqual(res.statusCode, 204)) {
           this.notificationsService.error(
             null,
-            this.translate.get(
-              'Not found'
-            )
+            this.translate.get('This set cannot be deleted')
           );
-        }
-        else {
+        } else {
           this.notificationsService.error(
             null,
             this.translate.get(
@@ -335,6 +354,11 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     setChecksum: string,
     setId?: string
   ) {
+    this.confirmModalText = {
+      title: this.removeElementText,
+      btnText: this.delteBtnText,
+    };
+
     this.modalService.open(content).dismissed.subscribe((result) => {
       if (isEqual(result, 'ok')) {
         if (isEqual(element, 'set')) {
@@ -408,7 +432,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * @param item The item for which the collection name is to be retrieved
    * @returns {Observable<string> } The name of the collection
    */
-  getItemOwningCollectionName(item: SetItemsObject): Observable<string> {
+  getItemOwningCollectionName(item: Item): Observable<string> {
     if (hasValue(item._links?.owningCollection.href)) {
       return this.deduplicationSetsService
         .getItemOwningCollection(item._links.owningCollection.href)
@@ -432,12 +456,8 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   protected deleteItem(itemId: string, setId): void {
     if (this.itemsMap.has(setId)) {
       this.getItemsPerSet(setId)
-        .pipe(
-          map((items: SetItemsObject[]) =>
-            items?.find((x) => isEqual(x.id, itemId))
-          )
-        )
-        .subscribe((item: SetItemsObject) => {
+        .pipe(map((items: Item[]) => items?.find((x) => isEqual(x.id, itemId))))
+        .subscribe((item: Item) => {
           if (item && item.isArchived) {
             // delete item from set if item status is Archived
             this.deduplicationSetsService
@@ -518,11 +538,9 @@ export class DeduplicationSetsComponent implements AfterViewInit {
                       );
                   }
                 } else {
-                  this.notificationsService.error(
+                  this.notificationsService.warning(
                     null,
-                    this.translate.get(
-                      'Item doesn\'t exist'
-                    )
+                    this.translate.get("Item cannot be deleted")
                   );
                 }
               });
@@ -535,11 +553,11 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   /**
    * Selects all items in a set.
    */
-  selectAllItems(setId: string) {
+  selectAllItems(setId: string, idx: string) {
     if (this.checkedItemsList.has(setId)) {
       this.checkedItemsList.delete(setId);
     }
-    this.compareBtnSelector.nativeElement.focus();
+    this.compareBtnSelector.toArray()[idx].nativeElement.focus();
     const selectedItems: SelectedItemData[] = [];
     this.getItemIds(setId).subscribe((itemIds: string[]) => {
       if (itemIds) {
@@ -610,6 +628,67 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     }
   }
 
+  keepItem(setId: string, item: Item, content) {
+    this.confirmModalText = {
+      title: `Are you sure you want to keep item with identifier ${item.uuid}`,
+      btnText: 'Confirm & Merge',
+    };
+
+    this.modalService.open(content).dismissed.subscribe((result) => {
+      if (isEqual(result, 'ok')) {
+        let bitstreamLinks: string[] = [];
+        let metadataValues: ItemsMetadataField[] = [];
+        let mergeItems: MergeItems;
+
+        item.metadataAsList.forEach((el, index) => {
+          metadataValues.push({
+            metadataField: el.key,
+            sources: [
+              {
+                place: el.place,
+                item: item._links?.self?.href,
+              },
+            ],
+          });
+        });
+
+        this.getBitstreamsPipe
+          .transform(item)
+          .pipe(
+            concatMap((res$: Observable<Bitstream[]>) =>
+              res$.pipe(map((bitstreams: Bitstream[]) => bitstreams))
+            )
+          )
+          .pipe(
+            switchMap((bitstreams: Bitstream[], index: number) => {
+              const linksPerItem = bitstreams.map((b) => b._links.self.href);
+              console.log(bitstreams, linksPerItem);
+              bitstreamLinks = linksPerItem;
+              mergeItems = {
+                setId: setId,
+                bitstreams: bitstreamLinks,
+                mergedItems: [item._links?.self?.href],
+                metadata: metadataValues,
+              };
+
+              return this.deduplicationItemsService.mergeData(
+                mergeItems,
+                item.uuid
+              );
+            })
+          )
+          .subscribe((res: MergeObject) => {
+            if (hasValue(res)) {
+              this.deduplicationStateService.dispatchDeleteSet(
+                this.signatureId,
+                setId
+              );
+            }
+          });
+      }
+    });
+  }
+
   /**
    * Request to change the status of the sets' items.
    * @param itemId The id of the item to be removed
@@ -622,7 +701,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       setId
     );
     if (this.itemsMap.has(setId)) {
-      this.itemsMap.get(setId).subscribe((items: SetItemsObject[]) => {
+      this.itemsMap.get(setId).subscribe((items: Item[]) => {
         if (items && isEqual(items.length, 1)) {
           this.itemsMap.delete(setId);
         }

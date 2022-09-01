@@ -1,3 +1,4 @@
+import { DeduplicationStateService } from './../deduplication-state.service';
 import { DeduplicationItemsService } from './../deduplication-merge/deduplication-items.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -5,6 +6,7 @@ import {
   ItemData,
   MergeItems,
   MetadataMapObject,
+  SetIdentifiers,
 } from '../interfaces/deduplication-merge.models';
 import { isEqual } from 'lodash';
 import { hasValue } from 'src/app/shared/empty.util';
@@ -26,11 +28,14 @@ export class DeduplicationMergeResultComponent implements OnInit {
 
   @Input() targetItemId: string;
 
-  isPending = false;
+  @Input() identifiers: SetIdentifiers;
+
+  public isPending = false;
 
   constructor(
     public activeModal: NgbActiveModal,
     private deduplicationItemsService: DeduplicationItemsService,
+    private deduplicationStateService: DeduplicationStateService,
     private modalService: NgbModal,
   ) {}
 
@@ -45,10 +50,16 @@ export class DeduplicationMergeResultComponent implements OnInit {
           .mergeData(this.itemsToMerge, this.targetItemId)
           .subscribe((res) => {
             if (hasValue(res)) {
-              console.log(res, 'merge');
               this.activeModal.close();
-              this.isPending = false;
+            // remove the set from store
+              this.deduplicationStateService.dispatchDeleteSet(
+                this.identifiers.signatureId,
+                this.identifiers.setId
+              );
             }
+            this.isPending = false;
+          },(err)=> {
+            this.isPending = false;
           });
       }
     });
