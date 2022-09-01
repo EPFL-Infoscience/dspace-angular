@@ -39,6 +39,18 @@ export class Item extends DSpaceObject implements ChildHALResource {
   handle: string;
 
   /**
+   * The email of the submitter of this Item
+   */
+  @autoserialize
+  submitterEmail: string;
+
+  /**
+   * The name of the submitter of this Item
+   */
+  @autoserialize
+  submitterName: string;
+
+  /**
    * The Date of the last modification of this Item
    */
   @deserializeAs(Date)

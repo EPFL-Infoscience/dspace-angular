@@ -17,17 +17,17 @@
   <div class="w-100 pt-3">
     <div class="col-3 float-left d-flex h-100 action-label">
       <span class="justify-content-center align-self-center">
-        {{'submission.workflow.generic.change-submitter' | translate}}
+        {{'item.edit.tabs.status.labels.itemSubmitter' | translate}}
       </span>
     </div>
     <div class="col-9 float-left action-button">
+      <span class="mr-3">{{(itemRD$ | async).payload.submitterEmail}}</span>
       <button type="button"
               id="change_submitter"
               class="btn btn-outline-primary"
               ngbTooltip="{{'submission.workflow.generic.change-submitter-help' | translate}}"
-              (click)="openChangeSubmitterModal(changeSubmitter)"
-      >
-        <i class="fa fa-user-edit"></i> {{'submission.workflow.generic.change-submitter' | translate}}
+              (click)="openChangeSubmitterModal(changeSubmitter)">
+        {{'submission.workflow.generic.change-submitter' | translate}}
       </button>
     </div>
   </div>
@@ -35,6 +35,7 @@
     <ds-item-operation *ngIf="operation" [operation]="operation"></ds-item-operation>
   </div>
 </div>
+
 <ng-template #changeSubmitter let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title text-info">{{'submission.workflow.generic.change-submitter.modal.title' | translate}}</h4>
