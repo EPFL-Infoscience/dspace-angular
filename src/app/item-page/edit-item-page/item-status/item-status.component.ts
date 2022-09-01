@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, TemplateRef} from '@angular/core';
 import { fadeIn, fadeInOut } from '../../../shared/animations/fade';
 import { Item } from '../../../core/shared/item.model';
 import { ActivatedRoute } from '@angular/router';
 import { ItemOperation } from '../item-operation/itemOperation.model';
-import { distinctUntilChanged, first, map, mergeMap, switchMap, toArray } from 'rxjs/operators';
+import {distinctUntilChanged, first, map, mergeMap, switchMap, take, toArray} from 'rxjs/operators';
 import { BehaviorSubject, combineLatest, from as observableFrom, Observable, of as observableOf } from 'rxjs';
 import { RemoteData } from '../../../core/data/remote-data';
 import { getItemEditRoute, getItemPageRoute } from '../../item-page-routing-paths';
@@ -12,6 +12,13 @@ import { FeatureID } from '../../../core/data/feature-authorization/feature-id';
 import { hasValue } from '../../../shared/empty.util';
 import { getAllSucceededRemoteDataPayload } from '../../../core/shared/operators';
 import { ResearcherProfileService } from '../../../core/profile/researcher-profile.service';
+import {NgbModalOptions} from "@ng-bootstrap/ng-bootstrap/modal/modal-config";
+import {EPerson} from "../../../core/eperson/models/eperson.model";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ChangeSubmitterService} from "../../../submission/change-submitter.service";
+import {RequestService} from "../../../core/data/request.service";
+import {NotificationsService} from "../../../shared/notifications/notifications.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'ds-item-status',
@@ -57,9 +64,16 @@ export class ItemStatusComponent implements OnInit {
    */
   itemPageRoute$: Observable<string>;
 
+  private item$: BehaviorSubject<Item> = new BehaviorSubject<Item>(null);
+
   constructor(private route: ActivatedRoute,
               private authorizationService: AuthorizationDataService,
-              private researcherProfileService: ResearcherProfileService) {
+              private researcherProfileService: ResearcherProfileService,
+              protected modalService: NgbModal,
+              protected changeSubmitterService: ChangeSubmitterService,
+              protected requestService: RequestService,
+              protected notificationsService: NotificationsService,
+              protected translate: TranslateService) {
   }
 
   ngOnInit(): void {
@@ -69,6 +83,7 @@ export class ItemStatusComponent implements OnInit {
       map((data: RemoteData<Item>) => data.payload)
     ).pipe(
       switchMap((item: Item) => {
+        this.item$.next(item);
         this.statusData = Object.assign({
           id: item.id,
           handle: item.handle,
@@ -134,6 +149,30 @@ export class ItemStatusComponent implements OnInit {
       getAllSucceededRemoteDataPayload(),
       map((item) => getItemPageRoute(item))
     );
+  }
+
+  openChangeSubmitterModal(template: TemplateRef<any>) {
+    const options: NgbModalOptions = {size: 'xl'};
+    const modal = this.modalService.open(template, options);
+    modal.closed
+      .pipe(
+        switchMap(submitter =>
+          this.changeSubmitterService.changeSubmitterItem(this.item$.getValue(), submitter)
+            .pipe(
+              map(hasSucceeded => ({ hasSucceeded, submitter})),
+              take(1)
+            )
+        )
+      ).subscribe(({hasSucceeded, submitter}) => {
+        if (hasSucceeded) {
+          const email = (submitter as EPerson).email;
+          this.notificationsService.success(this.translate.instant('submission.workflow.generic.change-submitter.notification.success.title'),
+            this.translate.instant('submission.workflow.generic.change-submitter.notification.success.content', {email}));
+        } else {
+          this.notificationsService.error(this.translate.instant('submission.workflow.generic.change-submitter.notification.error.title'),
+            this.translate.instant('submission.workflow.generic.change-submitter.notification.error.content'));
+        }
+      });
   }
 
   /**
