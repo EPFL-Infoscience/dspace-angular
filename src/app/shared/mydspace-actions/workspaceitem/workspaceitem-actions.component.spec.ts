@@ -25,6 +25,8 @@ import { getMockRequestService } from '../../mocks/request.service.mock';
 import { getMockSearchService } from '../../mocks/search-service.mock';
 import { SearchService } from '../../../core/shared/search/search.service';
 import { ChangeSubmitterService } from '../../../submission/change-submitter.service';
+import { AuthorizationDataService } from '../../../core/data/feature-authorization/authorization-data.service';
+import { CollectionDataService } from '../../../core/data/collection-data.service';
 
 let component: WorkspaceitemActionsComponent;
 let fixture: ComponentFixture<WorkspaceitemActionsComponent>;
@@ -93,6 +95,8 @@ describe('WorkspaceitemActionsComponent', () => {
         { provide: WorkspaceitemDataService, useValue: mockDataService },
         { provide: SearchService, useValue: searchService },
         { provide: RequestService, useValue: requestServce },
+        { provide: AuthorizationDataService, useValue: {} },
+        { provide: CollectionDataService, useValue: {} },
         { provide: ChangeSubmitterService, useValue: {} },
         NgbModal
       ],
@@ -107,6 +111,7 @@ describe('WorkspaceitemActionsComponent', () => {
     component = fixture.componentInstance;
     component.object = mockObject;
     notificationsServiceStub = TestBed.inject(NotificationsService as any);
+    spyOn(component, 'isCollectionAdmin').and.returnValues();
     fixture.detectChanges();
   });
 
