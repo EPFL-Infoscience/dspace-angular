@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Injector, Input, Output, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -11,13 +11,18 @@ import { WorkspaceitemDataService } from '../../../core/submission/workspaceitem
 import { NotificationsService } from '../../notifications/notifications.service';
 import { RequestService } from '../../../core/data/request.service';
 import { SearchService } from '../../../core/shared/search/search.service';
-import { getFirstCompletedRemoteData } from '../../../core/shared/operators';
+import { getFirstCompletedRemoteData, getFirstSucceededRemoteDataPayload } from '../../../core/shared/operators';
 import { RemoteData } from '../../../core/data/remote-data';
 import { NoContent } from '../../../core/shared/NoContent.model';
 import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap/modal/modal-config';
 import { ChangeSubmitterService } from '../../../submission/change-submitter.service';
 import { DSpaceObject } from '../../../core/shared/dspace-object.model';
 import { EPerson } from '../../../core/eperson/models/eperson.model';
+import { FeatureID } from '../../../core/data/feature-authorization/feature-id';
+import { AuthorizationDataService } from '../../../core/data/feature-authorization/authorization-data.service';
+import { map, switchMap, take } from 'rxjs/operators';
+import { CollectionDataService } from '../../../core/data/collection-data.service';
+import { Collection } from '../../../core/shared/collection.model';
 
 /**
  * This component represents actions related to WorkspaceItem object.
@@ -52,6 +57,8 @@ export class WorkspaceitemActionsComponent extends MyDSpaceActionsComponent<Work
    * @param {TranslateService} translate
    * @param {SearchService} searchService
    * @param {ChangeSubmitterService} changeSubmitterService
+   * @param {AuthorizationDataService} authorizationService
+   * @param {CollectionDataService} collectionService
    * @param {RequestService} requestService
    */
   constructor(protected injector: Injector,
@@ -61,6 +68,8 @@ export class WorkspaceitemActionsComponent extends MyDSpaceActionsComponent<Work
               protected translate: TranslateService,
               protected searchService: SearchService,
               protected changeSubmitterService: ChangeSubmitterService,
+              protected authorizationService: AuthorizationDataService,
+              protected collectionService: CollectionDataService,
               protected requestService: RequestService) {
     super(WorkspaceItem.type, injector, router, notificationsService, translate, searchService, requestService);
   }
@@ -111,5 +120,16 @@ export class WorkspaceitemActionsComponent extends MyDSpaceActionsComponent<Work
       });
     }).catch((err) => undefined);
 
+  }
+
+  isCollectionAdmin(): Observable<boolean> {
+    const collectionHref$ = this.collectionService.findByHref(this.object._links.collection.href).pipe(
+      getFirstSucceededRemoteDataPayload(),
+      map((collection: Collection) => collection._links.self.href),
+    );
+    return collectionHref$.pipe(
+      switchMap((collectionHref) => this.authorizationService.isAuthorized(FeatureID.AdministratorOf, collectionHref)),
+      take(1),
+    );
   }
 }
