@@ -40,6 +40,7 @@ export class ItemStatusComponent implements OnInit {
   itemRD$: Observable<RemoteData<Item>>;
 
   itemSubmitterEmail$ = new BehaviorSubject<string>('');
+  itemSubmitterName$ = new BehaviorSubject<string>('');
 
   /**
    * The data to show in the status
@@ -84,6 +85,7 @@ export class ItemStatusComponent implements OnInit {
       first(),
       map((data: RemoteData<Item>) => data.payload),
       tap((item: Item) => { this.itemSubmitterEmail$.next(item.submitterEmail); }),
+      tap((item: Item) => { this.itemSubmitterName$.next(item.submitterName); }),
     ).pipe(
       switchMap((item: Item) => {
         this.item$.next(item);
@@ -170,6 +172,7 @@ export class ItemStatusComponent implements OnInit {
         if (hasSucceeded) {
           const email = (submitter as EPerson).email;
           this.itemSubmitterEmail$.next(email);
+          this.itemSubmitterName$.next(submitter.name);
           this.notificationsService.success(this.translate.instant('submission.workflow.generic.change-submitter.notification.success.title'),
             this.translate.instant('submission.workflow.generic.change-submitter.notification.success.content', {email}));
         } else {

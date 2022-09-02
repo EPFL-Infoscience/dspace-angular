@@ -17,11 +17,16 @@
   <div class="w-100 pt-3">
     <div class="col-3 float-left d-flex h-100 action-label">
       <span class="justify-content-center align-self-center">
-        {{'item.edit.tabs.status.labels.itemSubmitter' | translate}}
+        {{'item.edit.tabs.status.labels.itemSubmitter' | translate}}: {{itemSubmitterName$ | async}}
       </span>
     </div>
-    <div class="col-9 float-left action-button">
-      <span class="mr-3">{{(itemSubmitterEmail$ | async)}}</span>
+    <div class="col-9 float-left action-button" *ngVar="(itemSubmitterEmail$ | async) as submitterEmail">
+      <a class="mr-3"
+         target="_blank"
+         rel="noopener noreferrer"
+         [href]="'mailto:' + submitterEmail">
+        {{submitterEmail}}
+      </a>
       <button type="button"
               id="change_submitter"
               class="btn btn-outline-primary"
@@ -50,6 +55,7 @@
 
   </div>
   <div class="modal-footer">
-    <button type="button" id="change_submitter_cancel" class="btn btn-secondary" (click)="d('cancel')">{{'submission.workflow.generic.change-submitter.modal.dismiss' | translate}}</button>
+    <button type="button" id="change_submitter_cancel" class="btn btn-secondary"
+            (click)="d('cancel')">{{'submission.workflow.generic.change-submitter.modal.dismiss' | translate}}</button>
   </div>
 </ng-template>
