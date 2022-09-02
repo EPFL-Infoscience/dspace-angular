@@ -3,18 +3,20 @@ import { rendersWorkflowTaskOption } from '../switcher/claimed-task-actions-deco
 import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap/modal/modal-config';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsService } from '../../../notifications/notifications.service';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { ClaimedTaskActionsAbstractComponent } from '../abstract/claimed-task-actions-abstract.component';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchService } from '../../../../core/shared/search/search.service';
 import { RequestService } from '../../../../core/data/request.service';
-import { getFirstSucceededRemoteDataPayload } from '../../../../core/shared/operators';
-import { map, tap } from 'rxjs/operators';
-import { WorkflowItem } from '../../../../core/submission/models/workflowitem.model';
+import { map } from 'rxjs/operators';
 import { WorkflowItemDataService } from '../../../../core/submission/workflowitem-data.service';
+import { RestRequestMethod } from '../../../../core/data/rest-request-method';
+import { environment } from '../../../../../environments/environment';
+import { DspaceRestService } from '../../../../core/dspace-rest/dspace-rest.service';
+import { RawRestResponse } from '../../../../core/dspace-rest/raw-rest-response.model';
 
-export const WORKFLOW_TASK_OPTION_EMAIL = 'email';
+export const WORKFLOW_TASK_OPTION_EMAIL = 'submit_mail';
 
 interface Email {
   templateName: string;
@@ -37,6 +39,8 @@ export class ClaimedTaskActionsSendEmailComponent extends ClaimedTaskActionsAbst
 
   templateList$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
 
+  endpoint = `${environment.rest.baseUrl}/api/email/template`;
+
   constructor(
     protected injector: Injector,
     protected router: Router,
@@ -46,28 +50,16 @@ export class ClaimedTaskActionsSendEmailComponent extends ClaimedTaskActionsAbst
     protected requestService: RequestService,
     protected modalService: NgbModal,
     protected workflowItemService: WorkflowItemDataService,
+    protected restService: DspaceRestService,
   ) {
     super(injector, router, notificationsService, translate, searchService, requestService);
   }
 
   openEmailModal(template: TemplateRef<any>) {
 
-
-    // TODO initialize template list
-    this.templateList$.next(['TEMPLATE_1', 'TEMPLATE_2']);
-
-    const submitterHref$: Observable<string> = this.object.workflowitem.pipe(
-      getFirstSucceededRemoteDataPayload(),
-      map((workflowItem: WorkflowItem) => workflowItem._links.submitter.href),
-      tap(console.log)
-    ).subscribe();
-
-    /*const submitter$ = submitterHref$.pipe(
-      mergeMap((res) => this.workflowItemService.findByHref(res)),
-      tap(console.log)
-    ).subscribe();*/
-
-    // TODO retrieve submitter: ok with admin, error with other users
+    this.restService.request(RestRequestMethod.GET, this.endpoint).subscribe((res: RawRestResponse) => {
+      this.templateList$.next(res.payload as string[]);
+    });
 
     const options: NgbModalOptions = {size: 'lg'};
     const modal = this.modalService.open(template, options);
@@ -77,10 +69,15 @@ export class ClaimedTaskActionsSendEmailComponent extends ClaimedTaskActionsAbst
   }
 
   onTemplateChosen() {
-    console.log(this.email.templateName);
-    of(undefined).subscribe((res) => {
-      this.email.subject = 'TEST SUBJECT';
-      this.email.body = 'lorem ipsum\ndolor sit amet';
+    const templateEndpoint = `${this.endpoint}/${this.email.templateName}/claimedtask/${this.object.id}`;
+
+    console.log(templateEndpoint);
+
+    this.restService.request(RestRequestMethod.GET, templateEndpoint).pipe(
+      map((res) => res?.payload),
+    ).subscribe((res) => {
+      this.email.body = res.content;
+      console.log(res);
     });
 
   }
