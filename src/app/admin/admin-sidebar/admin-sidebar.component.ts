@@ -206,7 +206,7 @@ export class AdminSidebarComponent extends MenuComponent implements OnInit {
           id: 'new_process',
           parentID: 'new',
           active: false,
-          visible: isCollectionAdmin,
+          visible: isCollectionAdmin || isCommunityAdmin,
           model: {
             type: MenuItemType.LINK,
             text: 'menu.section.new_process',
@@ -326,7 +326,7 @@ export class AdminSidebarComponent extends MenuComponent implements OnInit {
         {
           id: 'processes',
           active: false,
-          visible: isSiteAdmin,
+          visible: isCollectionAdmin || isCommunityAdmin || isSiteAdmin,
           model: {
             type: MenuItemType.LINK,
             text: 'menu.section.processes',
