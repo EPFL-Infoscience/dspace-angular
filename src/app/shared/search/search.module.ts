@@ -1,42 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  SearchSwitchConfigurationComponent
-} from './search-switch-configuration/search-switch-configuration.component';
+import { SearchSwitchConfigurationComponent } from './search-switch-configuration/search-switch-configuration.component';
 import { SearchFiltersComponent } from './search-filters/search-filters.component';
 import { SearchFilterComponent } from './search-filters/search-filter/search-filter.component';
-import {
-  SearchFacetFilterComponent
-} from './search-filters/search-filter/search-facet-filter/search-facet-filter.component';
+import { SearchFacetFilterComponent } from './search-filters/search-filter/search-facet-filter/search-facet-filter.component';
 import { SearchLabelsComponent } from './search-labels/search-labels.component';
 import { SearchLabelComponent } from './search-labels/search-label/search-label.component';
-import {
-  SearchFacetFilterWrapperComponent
-} from './search-filters/search-filter/search-facet-filter-wrapper/search-facet-filter-wrapper.component';
-import {
-  SearchRangeFilterComponent
-} from './search-filters/search-filter/search-range-filter/search-range-filter.component';
-import {
-  SearchTextFilterComponent
-} from './search-filters/search-filter/search-text-filter/search-text-filter.component';
-import {
-  SearchHierarchyFilterComponent
-} from './search-filters/search-filter/search-hierarchy-filter/search-hierarchy-filter.component';
-import {
-  SearchBooleanFilterComponent
-} from './search-filters/search-filter/search-boolean-filter/search-boolean-filter.component';
-import {
-  SearchFacetOptionComponent
-} from './search-filters/search-filter/search-facet-filter-options/search-facet-option/search-facet-option.component';
-import {
-  SearchFacetSelectedOptionComponent
-} from './search-filters/search-filter/search-facet-filter-options/search-facet-selected-option/search-facet-selected-option.component';
-import {
-  SearchFacetRangeOptionComponent
-} from './search-filters/search-filter/search-facet-filter-options/search-facet-range-option/search-facet-range-option.component';
-import {
-  SearchAuthorityFilterComponent
-} from './search-filters/search-filter/search-authority-filter/search-authority-filter.component';
+import { SearchFacetFilterWrapperComponent } from './search-filters/search-filter/search-facet-filter-wrapper/search-facet-filter-wrapper.component';
+import { SearchRangeFilterComponent } from './search-filters/search-filter/search-range-filter/search-range-filter.component';
+import { SearchTextFilterComponent } from './search-filters/search-filter/search-text-filter/search-text-filter.component';
+import { SearchHierarchyFilterComponent } from './search-filters/search-filter/search-hierarchy-filter/search-hierarchy-filter.component';
+import { SearchBooleanFilterComponent } from './search-filters/search-filter/search-boolean-filter/search-boolean-filter.component';
+import { SearchFacetOptionComponent } from './search-filters/search-filter/search-facet-filter-options/search-facet-option/search-facet-option.component';
+import { SearchFacetSelectedOptionComponent } from './search-filters/search-filter/search-facet-filter-options/search-facet-selected-option/search-facet-selected-option.component';
+import { SearchFacetRangeOptionComponent } from './search-filters/search-filter/search-facet-filter-options/search-facet-range-option/search-facet-range-option.component';
+import { SearchAuthorityFilterComponent } from './search-filters/search-filter/search-authority-filter/search-authority-filter.component';
 import { SearchSidebarComponent } from './search-sidebar/search-sidebar.component';
 import { SearchSettingsComponent } from './search-settings/search-settings.component';
 import { ConfigurationSearchPageComponent } from '../../search-page/configuration-search-page.component';

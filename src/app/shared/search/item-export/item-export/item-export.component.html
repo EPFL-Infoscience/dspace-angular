@@ -5,7 +5,7 @@
 
   <ng-container *ngIf="!selectCollection; else selectCollectionForm">
 
-    <ds-item-export-alert [item]="item"></ds-item-export-alert>
+          <ds-item-export-alert [item]="item" [bulkExportLimit]="bulkExportLimit"></ds-item-export-alert>
 
     <form *ngIf="exportForm; else loader" [formGroup]="exportForm">
 
@@ -29,7 +29,7 @@
             </option>
           </select>
         </div>
-        <div *ngIf="!isMyDspace" class="form-group">
+        <div *ngIf="showListSelection" class="form-group">
           <label>Export mode</label>
           <div class="custom-control custom-radio">
             <input type="radio" id="selectionMode-all" formControlName="selectionMode" value="all" class="custom-control-input">
