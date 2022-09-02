@@ -3,16 +3,16 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { take } from 'rxjs/operators';
-import { Item } from '../../../core/shared/item.model';
-import { ItemType } from '../../../core/shared/item-relationships/item-type.model';
-import { SearchOptions } from '../../search/models/search-options.model';
+import { Item } from '../../../../core/shared/item.model';
+import { ItemType } from '../../../../core/shared/item-relationships/item-type.model';
+import { SearchOptions } from '../../models/search-options.model';
 import { ItemExportFormConfiguration, ItemExportService } from '../item-export.service';
-import { ItemExportFormatMolteplicity } from '../../../core/itemexportformat/item-export-format.service';
-import { NotificationsService } from '../../notifications/notifications.service';
+import { ItemExportFormatMolteplicity } from '../../../../core/itemexportformat/item-export-format.service';
+import { NotificationsService } from '../../../notifications/notifications.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ItemExportFormat } from '../../../core/itemexportformat/model/item-export-format.model';
-import { DSpaceObjectType } from '../../../core/shared/dspace-object-type.model';
-import { isNotEmpty } from '../../empty.util';
+import { ItemExportFormat } from '../../../../core/itemexportformat/model/item-export-format.model';
+import { DSpaceObjectType } from '../../../../core/shared/dspace-object-type.model';
+import { isNotEmpty } from '../../../empty.util';
 
 @Component({
   selector: 'ds-item-export',

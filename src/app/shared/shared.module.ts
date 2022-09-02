@@ -170,7 +170,6 @@ import { RelatedItemsComponent } from '../item-page/simple/related-items/related
 import { LinkMenuItemComponent } from './menu/menu-item/link-menu-item.component';
 import { OnClickMenuItemComponent } from './menu/menu-item/onclick-menu-item.component';
 import { TextMenuItemComponent } from './menu/menu-item/text-menu-item.component';
-import { ItemExportComponent } from './item-export/item-export/item-export.component';
 import { SearchChartsComponent } from './search/search-charts/search-charts.component';
 import { SearchChartBarComponent } from './search/search-charts/search-chart/search-chart-bar/search-chart-bar.component';
 import { SearchChartBarToLeftComponent } from './search/search-charts/search-chart/search-chart-bar-to-left/search-chart-bar-to-left.component';
@@ -182,8 +181,6 @@ import { SearchChartComponent } from './search/search-charts/search-chart/search
 import { ChartsModule } from '../charts/charts.module';
 import { SearchChartFilterComponent } from './search/search-charts/search-chart/search-chart-filter/search-chart-filter.component';
 import { VocabularyExternalSourceComponent } from './vocabulary-external-source/vocabulary-external-source.component';
-import { ItemExportAlertComponent } from './item-export/item-export-alert/item-export-alert.component';
-import { ItemExportModalLauncherComponent } from './item-export/item-export-modal-launcher/item-export-modal-launcher.component';
 import { BulkImportSelectorComponent } from './dso-selector/modal-wrappers/bulk-import-collection-selector/bulk-import-collection-selector.component';
 import { AdministeredCollectionSelectorComponent } from './dso-selector/dso-selector/administered-collection-selector/administered-collection-selector.component';
 import { RelationshipsListComponent } from './object-list/relationships-list/relationships-list.component';
@@ -382,9 +379,6 @@ const COMPONENTS = [
   CommunitySidebarSearchListElementComponent,
   SearchNavbarComponent,
   ScopeSelectorModalComponent,
-  ItemExportComponent,
-  ItemExportAlertComponent,
-  ItemExportModalLauncherComponent,
   SearchChartsComponent,
   SearchChartBarComponent,
   SearchChartBarToLeftComponent,
@@ -525,7 +519,6 @@ const DIRECTIVES = [
     ...SHARED_ITEM_PAGE_COMPONENTS,
     ItemVersionsSummaryModalComponent,
     ItemVersionsDeleteModalComponent,
-    ItemExportAlertComponent,
   ],
   providers: [
     ...PROVIDERS

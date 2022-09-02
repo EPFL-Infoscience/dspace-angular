@@ -29,6 +29,11 @@ import { SharedModule } from '../shared.module';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { SearchComponent } from './search.component';
 import { ThemedSearchComponent } from './themed-search.component';
+import { ItemExportComponent } from './item-export/item-export/item-export.component';
+import { ItemExportAlertComponent } from './item-export/item-export-alert/item-export-alert.component';
+import {
+  ItemExportModalLauncherComponent
+} from './item-export/item-export-modal-launcher/item-export-modal-launcher.component';
 
 const COMPONENTS = [
   SearchComponent,
@@ -52,7 +57,10 @@ const COMPONENTS = [
   SearchAuthorityFilterComponent,
   SearchSwitchConfigurationComponent,
   ConfigurationSearchPageComponent,
-  ThemedConfigurationSearchPageComponent
+  ThemedConfigurationSearchPageComponent,
+  ItemExportComponent,
+  ItemExportAlertComponent,
+  ItemExportModalLauncherComponent
 ];
 
 const ENTRY_COMPONENTS = [
