@@ -2722,6 +2722,8 @@
 
   "item.edit.tabs.status.labels.lastModified": "Last Modified",
 
+  "item.edit.tabs.status.labels.itemSubmitter": "Submitter",
+
   "item.edit.tabs.status.title": "Item Edit -  Status",
 
   "item.edit.tabs.versionhistory.head": "Version History",

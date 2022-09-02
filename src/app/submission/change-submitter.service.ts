@@ -16,28 +16,31 @@ export class ChangeSubmitterService {
   ) {
   }
 
+  private readonly CHANGE_SUBMITTER_ACTION = 'changesubmitter';
+
   changeSubmitter(workspaceItem: WorkspaceItem, submitter: any): Observable<any> {
-
     const submitterId = encodeURI(submitter.email);
-
-    const action = 'changesubmitter';
-
     return workspaceItem.item.pipe(
       getFirstSucceededRemoteDataPayload<Item>(),
-      switchMap((item: Item) => {
-        const paramsObj = Object.create({});
-        paramsObj.submitterIdentifier = submitterId;
-        paramsObj.itemId = item.uuid;
-
-        const params = new HttpParams({ fromObject: paramsObj });
-        const options: HttpOptions = Object.create({});
-        options.params = params;
-
-        return this.changeSubmitterRestService.postToEndpoint({}, action, options);
-
-      })
+      switchMap((item: Item) => this.postToEndpoint(submitterId, item, this.CHANGE_SUBMITTER_ACTION))
     );
 
+  }
+
+  private postToEndpoint(submitterId: string, item: Item, action: string) {
+    const paramsObj = Object.create({});
+    paramsObj.submitterIdentifier = submitterId;
+    paramsObj.itemId = item.uuid;
+
+    const params = new HttpParams({fromObject: paramsObj});
+    const options: HttpOptions = Object.create({});
+    options.params = params;
+
+    return this.changeSubmitterRestService.postToEndpoint({}, action, options);
+  }
+
+  changeSubmitterItem(item: Item, submitter: any): Observable<any> {
+    return this.postToEndpoint(encodeURI(submitter.email), item, this.CHANGE_SUBMITTER_ACTION);
   }
 
 }
