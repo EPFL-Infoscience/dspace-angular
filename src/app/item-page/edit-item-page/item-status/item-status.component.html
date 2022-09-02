@@ -17,16 +17,18 @@
   <div class="w-100 pt-3">
     <div class="col-3 float-left d-flex h-100 action-label">
       <span class="justify-content-center align-self-center">
-        {{'item.edit.tabs.status.labels.itemSubmitter' | translate}}: {{itemSubmitterName$ | async}}
+        {{'item.edit.tabs.status.labels.itemSubmitter' | translate}}:
       </span>
     </div>
     <div class="col-9 float-left action-button" *ngVar="(itemSubmitterEmail$ | async) as submitterEmail">
-      <a class="mr-3"
-         target="_blank"
-         rel="noopener noreferrer"
-         [href]="'mailto:' + submitterEmail">
-        {{submitterEmail}}
-      </a>
+      <span class="mr-3">
+        {{itemSubmitterName$ | async}} (
+        <a target="_blank"
+           rel="noopener noreferrer"
+           [href]="'mailto:' + submitterEmail">
+          {{submitterEmail}}
+        </a>)
+      </span>
       <button type="button"
               id="change_submitter"
               class="btn btn-outline-primary"
