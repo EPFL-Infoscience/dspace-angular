@@ -55,6 +55,14 @@ export class ClaimedTaskActionsSendEmailComponent extends ClaimedTaskActionsAbst
     super(injector, router, notificationsService, translate, searchService, requestService);
   }
 
+  createbody(): any {
+    const payload = {
+      subject: this.email.subject,
+      content: this.email.body,
+    };
+    return Object.assign(super.createbody(), { ...payload });
+  }
+
   openEmailModal(template: TemplateRef<any>) {
 
     this.restService.request(RestRequestMethod.GET, this.endpoint).subscribe((res: RawRestResponse) => {
@@ -63,21 +71,19 @@ export class ClaimedTaskActionsSendEmailComponent extends ClaimedTaskActionsAbst
 
     const options: NgbModalOptions = {size: 'lg'};
     const modal = this.modalService.open(template, options);
-    modal.result.then(console.log).then(() => {
-      console.log('SEND EMAIL ' + JSON.stringify(this.email));
+    modal.result.then(() => {
+      this.createbody();
+      this.submitTask();
     }).catch((err) => undefined);
   }
 
   onTemplateChosen() {
     const templateEndpoint = `${this.endpoint}/${this.email.templateName}/claimedtask/${this.object.id}`;
 
-    console.log(templateEndpoint);
-
     this.restService.request(RestRequestMethod.GET, templateEndpoint).pipe(
       map((res) => res?.payload),
     ).subscribe((res) => {
       this.email.body = res.content;
-      console.log(res);
     });
 
   }
