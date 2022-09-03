@@ -1,0 +1,54 @@
+<button class="btn btn-primary" (click)="openEmailModal(sendEmail)">
+  <i class="fas fa-envelope"></i> {{'submission.workflow.tasks.email.button' | translate}}
+</button>
+
+
+<ng-template #sendEmail let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-info">{{'submission.workflow.tasks.email.modal.title' | translate}}</h4>
+    <button type="button" id="email_modal_close" class="close" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <form #emailForm="ngForm">
+
+      <div class="form-group">
+        <label for="email_form_template_name">{{ 'submission.workflow.tasks.email.modal.form.template' | translate }}</label>
+        <select id="email_form_template_name" class="form-control" [(ngModel)]="email.templateName" name="template_name"
+                (change)="onTemplateChosen();"><!--formControlName="template_name" -->
+          <option disabled selected [value]="null"></option>
+          <option *ngFor="let templateName of (templateList$ | async)" [value]="templateName">{{templateName}}</option>
+        </select>
+        <p class="small form-text text-muted">{{ 'submission.workflow.tasks.email.modal.form.template.hint' | translate }}</p>
+      </div>
+
+      <div class="form-group">
+        <label for="email_form_subject">{{ 'submission.workflow.tasks.email.modal.form.subject' | translate }} *</label>
+        <input type="text" class="form-control" required [placeholder]="'submission.workflow.tasks.email.modal.form.subject.placeholder' | translate"
+               id="email_form_subject" [(ngModel)]="email.subject" name="subject">
+      </div>
+
+      <div class="form-group">
+        <label for="email_form_body">{{ 'submission.workflow.tasks.email.modal.form.body' | translate }} *</label>
+        <textarea class="form-control" required
+                  id="email_form_body" [(ngModel)]="email.body" name="body" rows="6"></textarea>
+      </div>
+    </form>
+
+    <p class="small">* {{ 'submission.workflow.tasks.email.modal.form.mandatory' | translate }}</p>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" id="email_modal_cancel" class="btn btn-secondary" (click)="d()">
+      {{'submission.workflow.tasks.email.modal.btn.dismiss' | translate}}
+    </button>
+    <button type="button" id="email_modal_send" class="btn btn-success" (click)="c()"
+            [disabled]="emailForm.form.invalid">
+      <i class="fas fa-envelope"></i> {{'submission.workflow.tasks.email.modal.btn.send' | translate}}
+    </button>
+  </div>
+
+
+</ng-template>

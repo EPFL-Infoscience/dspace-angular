@@ -6156,6 +6156,26 @@
   "submission.workflow.tasks.claimed.return_help": "Return the task to the pool so that another user may perform the task.",
 
 
+  "submission.workflow.tasks.email.button": "Send email",
+
+  "submission.workflow.tasks.email.modal.title": "Send email",
+
+  "submission.workflow.tasks.email.modal.btn.send": "Send",
+
+  "submission.workflow.tasks.email.modal.btn.dismiss": "Cancel",
+
+  "submission.workflow.tasks.email.modal.form.body": "Body",
+
+  "submission.workflow.tasks.email.modal.form.subject": "Subject",
+
+  "submission.workflow.tasks.email.modal.form.subject.placeholder": "Insert email subject",
+
+  "submission.workflow.tasks.email.modal.form.template": "Template",
+
+  "submission.workflow.tasks.email.modal.form.template.hint": "Choose one of the provided email templates or write a custom email",
+
+  "submission.workflow.tasks.email.modal.form.mandatory": "mandatory field",
+
 
   "submission.workflow.tasks.generic.error": "Error occurred during operation...",
 

@@ -217,6 +217,7 @@ import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 import { ChangeSubmitterService } from '../submission/change-submitter.service';
 import { ChangeSubmitterRestService } from '../core/submission/change-submitter-rest.service';
+import { ClaimedTaskActionsSendEmailComponent } from './mydspace-actions/claimed-task/email/claimed-task-actions-send-email.component';
 
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
@@ -542,6 +543,7 @@ const DIRECTIVES = [
     ItemVersionsSummaryModalComponent,
     ItemVersionsDeleteModalComponent,
     AdditionalMetadataComponent,
+    ClaimedTaskActionsSendEmailComponent,
   ],
   providers: [
     ...PROVIDERS
