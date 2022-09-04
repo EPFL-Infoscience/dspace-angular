@@ -35,6 +35,10 @@
         <textarea class="form-control" required
                   id="email_form_body" [(ngModel)]="email.body" name="body" rows="6"></textarea>
       </div>
+      <div class="form-group">
+        <label for="submit_mail_reject">{{'submission.workflow.tasks.email.modal.btn.reject' | translate}}</label>
+        &nbsp;<input type="checkbox" id="submit_mail_reject" [(ngModel)]="email.reject" name="reject">
+      </div>
     </form>
 
     <p class="small">* {{ 'submission.workflow.tasks.email.modal.form.mandatory' | translate }}</p>

@@ -22,6 +22,7 @@ interface Email {
   templateName: string;
   subject: string;
   body: string;
+  reject: boolean;
 }
 
 @rendersWorkflowTaskOption(WORKFLOW_TASK_OPTION_EMAIL)
@@ -59,6 +60,7 @@ export class ClaimedTaskActionsSendEmailComponent extends ClaimedTaskActionsAbst
     const payload = {
       subject: this.email.subject,
       content: this.email.body,
+      reject: this.email.reject
     };
     return Object.assign(super.createbody(), { ...payload });
   }
@@ -83,6 +85,7 @@ export class ClaimedTaskActionsSendEmailComponent extends ClaimedTaskActionsAbst
     this.restService.request(RestRequestMethod.GET, templateEndpoint).pipe(
       map((res) => res?.payload),
     ).subscribe((res) => {
+      this.email.subject = res.subject;
       this.email.body = res.content;
     });
 

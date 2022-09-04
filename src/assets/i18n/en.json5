@@ -1394,19 +1394,21 @@
 
   "comcol-role.edit.editor.name": "Editors",
 
-  "comcol-role.edit.editor.description": "Editors are able to edit the metadata of incoming submissions, and then accept or reject them.",
+  "comcol-role.edit.editor.description": "Editors are able to edit the incoming submissions, and then accept or reject them.",
 
 
   "comcol-role.edit.finaleditor.name": "Final editors",
 
-  "comcol-role.edit.finaleditor.description": "Final editors are able to edit the metadata of incoming submissions, but will not be able to reject them.",
+  "comcol-role.edit.finaleditor.description": "Final editors are able to edit the incoming submissions, but will not be able to reject them.",
 
 
   "comcol-role.edit.reviewer.name": "Reviewers",
 
-  "comcol-role.edit.reviewer.description": "Reviewers are able to accept or reject incoming submissions. However, they are not able to edit the submission's metadata.",
+  "comcol-role.edit.reviewer.description": "Reviewers are able to accept or reject incoming submissions. However, they are not able to edit the submission.",
 
+  "comcol-role.edit.epflreviewer.name": "EPFL Reviewers",
 
+  "comcol-role.edit.epflreviewer.description": "EPFL Reviewers are able to edit the incoming submissions, and then accept or reject. Custom email messages can be sent to the submitter to ask for more details.",
 
   "community.form.abstract": "Short Description",
 
@@ -6160,7 +6162,9 @@
 
   "submission.workflow.tasks.email.modal.title": "Send email",
 
-  "submission.workflow.tasks.email.modal.btn.send": "Send",
+  "submission.workflow.tasks.email.modal.btn.send": "Send mail",
+
+  "submission.workflow.tasks.email.modal.btn.reject": "Return the item to the submitter?",
 
   "submission.workflow.tasks.email.modal.btn.dismiss": "Cancel",
 
