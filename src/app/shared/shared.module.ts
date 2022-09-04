@@ -312,6 +312,7 @@ const COMPONENTS = [
   ClaimedTaskActionsReturnToPoolComponent,
   ClaimedTaskActionsEditMetadataComponent,
   ClaimedTaskActionsLoaderComponent,
+  ClaimedTaskActionsSendEmailComponent,
   ItemActionsComponent,
   PoolTaskActionsComponent,
   WorkflowitemActionsComponent,
@@ -462,6 +463,7 @@ const ENTRY_COMPONENTS = [
   ClaimedTaskActionsRejectComponent,
   ClaimedTaskActionsReturnToPoolComponent,
   ClaimedTaskActionsEditMetadataComponent,
+  ClaimedTaskActionsSendEmailComponent,
   CollectionDropdownComponent,
   FileDownloadLinkComponent,
   BitstreamDownloadPageComponent,
@@ -542,8 +544,7 @@ const DIRECTIVES = [
     ...SHARED_ITEM_PAGE_COMPONENTS,
     ItemVersionsSummaryModalComponent,
     ItemVersionsDeleteModalComponent,
-    AdditionalMetadataComponent,
-    ClaimedTaskActionsSendEmailComponent,
+    AdditionalMetadataComponent
   ],
   providers: [
     ...PROVIDERS
