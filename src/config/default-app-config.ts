@@ -552,6 +552,10 @@ export class DefaultAppConfig implements AppConfig {
       {
         name: 'format',
         label: 'cris-layout.advanced-attachment.format'
+      },
+      {
+        name: 'checksum',
+        label: 'cris-layout.advanced-attachment.checksum'
       }
     ]
   };
