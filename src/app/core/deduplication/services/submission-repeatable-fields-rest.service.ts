@@ -51,8 +51,6 @@ export class SubmissionRepeatableFieldsRestService {
    */
   private dataService: DataServiceImpl;
 
-  protected searchFindByItem = 'search/findByItem';
-
   /**
    * Initialize service variables
    * @param {RequestService} requestService
@@ -80,11 +78,11 @@ export class SubmissionRepeatableFieldsRestService {
    * @param linksToFollow List of {@link FollowLinkConfig} that indicate which {@link HALLink}s should be automatically resolved.
    * @returns The object with the given uuid and a list of repeatable fields
    */
-  public getSubmissionRepeatableFields(itemUuid: string, ...linksToFollow: FollowLinkConfig<SubmissionRepeatableFieldsObject>[]):Observable<RemoteData<SubmissionRepeatableFieldsObject>> {
+  public getSubmissionRepeatableFields(itemUuid: string): Observable<RemoteData<SubmissionRepeatableFieldsObject>> {
+    const searchmethod = `search/findByItem`;
     return this.dataService.getBrowseEndpoint().pipe(
       switchMap((href: string) => {
-        let searchmethod = `${this.searchFindByItem}?uuid=${itemUuid}`;
-        return this.dataService.findByHref(`${href}/${searchmethod}`, false, true, ...linksToFollow);
+        return this.dataService.findByHref(`${href}/${searchmethod}?uuid=${itemUuid}`, false, true);
       })
     );
   }

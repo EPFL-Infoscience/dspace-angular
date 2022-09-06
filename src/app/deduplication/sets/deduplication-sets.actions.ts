@@ -228,7 +228,6 @@ export class AddItemsToCompareAction implements Action {
 
 export class DeleteItemsToCompareAction implements Action {
   type = DeduplicationSetsActionTypes.DELETE_ITEMS_TO_COMPARE;
-  constructor() { }
 }
 
 //  TODO: RetrieveItemsToCompareAction ERROR

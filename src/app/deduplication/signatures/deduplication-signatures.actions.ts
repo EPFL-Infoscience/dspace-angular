@@ -26,14 +26,6 @@ export class RetrieveAllSignaturesAction implements Action {
   payload: {
     elementsPerPage: number;
   };
-
-  /**
-   * Create a new RetrieveAllSignaturesAction.
-   *
-   * @param elementsPerPage
-   *    the number of signatures per page
-   */
-  constructor() {}
 }
 
 /**

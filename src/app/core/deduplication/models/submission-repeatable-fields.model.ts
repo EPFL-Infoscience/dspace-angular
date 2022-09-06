@@ -1,15 +1,17 @@
-import { autoserialize, deserialize } from 'cerialize';
+import { autoserialize, deserialize, inheritSerialization } from 'cerialize';
 import { CacheableObject } from '../../cache/object-cache.reducer';
 import { excludeFromEquals } from '../../utilities/equals.decorators';
 import { ResourceType } from '../../shared/resource-type';
 import { HALLink } from '../../shared/hal-link.model';
 import { typedObject } from '../../cache/builders/build-decorators';
 import { SUBMISSION_REPEATABLE_FIELDS } from './submission-repeatable-fields.resource-type';
+import { DSpaceObject } from '../../shared/dspace-object.model';
 
 /**
  * The interface representing the signature model
  */
 @typedObject
+@inheritSerialization(DSpaceObject)
 export class SubmissionRepeatableFieldsObject implements CacheableObject {
   /**
    * A string representing the kind of object, e.g. community, item, …
@@ -18,7 +20,7 @@ export class SubmissionRepeatableFieldsObject implements CacheableObject {
 
   @excludeFromEquals
   @autoserialize
-  type: ResourceType;
+  type: ResourceType = SUBMISSION_REPEATABLE_FIELDS;
 
   @autoserialize
   itemId: string;

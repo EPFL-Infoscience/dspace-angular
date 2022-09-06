@@ -68,8 +68,8 @@ export class Bitstream extends DSpaceObject implements HALResource {
   bundle?: Observable<RemoteData<Bundle>>;
 
   /**
- * The check sum for this Bitstream
- */
+   * The check sum for this Bitstream
+   */
   @deserialize
   checkSum: {
     checkSumAlgorithm: string;

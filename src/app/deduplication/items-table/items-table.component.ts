@@ -6,19 +6,16 @@ import { Observable } from 'rxjs';
 import { ItemData } from '../interfaces/deduplication-differences.models';
 import { map } from 'rxjs/operators';
 import { hasValue } from './../../shared/empty.util';
-import { getEntityPageRoute, getItemPageRoute } from './../../item-page/item-page-routing-paths';
+import { getEntityPageRoute } from './../../item-page/item-page-routing-paths';
 
 @Component({
   selector: 'ds-items-table',
   templateUrl: './items-table.component.html',
   styleUrls: ['./items-table.component.scss'],
 })
-export class ItemsTableComponent implements OnInit {
+export class ItemsTableComponent   {
+
   @Input() itemsToCompare: ItemData[] = [];
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   /**
    * Returns the item's owning collection title or empty answer otherwise
@@ -33,12 +30,15 @@ export class ItemsTableComponent implements OnInit {
             ? res.metadata['dc.title'][0].value
             : '-';
         }
-
         return '-';
       })
     );
   }
 
+  /**
+   * Returns the path to navigate to item's details page.
+   * @param item Dspace item
+   */
   getItemPage(item: Item): string {
     const type = item.firstMetadataValue('dspace.entity.type');
     return getEntityPageRoute(type, item.uuid);

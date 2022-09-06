@@ -17,6 +17,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { MergeItems } from '../interfaces/deduplication-merge.models';
+import { FindListOptions } from 'src/app/core/data/request.models';
+import { RequestParam } from 'src/app/core/cache/models/request-param.model';
 @Injectable()
 export class DeduplicationItemsService {
   constructor(
@@ -25,8 +27,13 @@ export class DeduplicationItemsService {
     private submissionRepeatableFieldsService: SubmissionRepeatableFieldsRestService,
     private notificationsService: NotificationsService,
     private translate: TranslateService
-  ) {}
+  ) { }
 
+  /**
+   * Get item by item identifier.
+   * @param itemId The item's UUID.
+   * @returns {Observable<Item>}
+   */
   public getItemData(itemId: string): Observable<Item> {
     return this.itemDataService
       .findById(
@@ -39,6 +46,12 @@ export class DeduplicationItemsService {
       .pipe(getFirstSucceededRemoteDataPayload());
   }
 
+  /**
+   * PUT call to merge the data
+   * @param data data to be merged
+   * @param targetItemId target item uuid
+   * @returns {Observable<MergeObject>}
+   */
   public mergeData(
     data: MergeItems,
     targetItemId: string
@@ -79,9 +92,13 @@ export class DeduplicationItemsService {
   /**
    * GET the repeatable fields for the given item id
    * @param itemId The target item's id
-   * @returns
+   * @returns {Observable<SubmissionRepeatableFieldsObject>}
    */
-  getRepeatableFields(itemId: string) {
+  getRepeatableFields(itemId: string): Observable<SubmissionRepeatableFieldsObject> {
+    const options = new FindListOptions();
+    options.searchParams = [
+      new RequestParam('uuid', itemId)
+    ];
     return this.submissionRepeatableFieldsService
       .getSubmissionRepeatableFields(itemId)
       .pipe(

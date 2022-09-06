@@ -103,6 +103,6 @@ export class DeduplicationMergeRestService {
         };
         return this.dataService.put(object);
       })
-    )
+    );
   }
 }

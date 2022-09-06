@@ -13,7 +13,6 @@ import { HALLink } from '../../shared/hal-link.model';
  */
 @typedObject
 export class MergeObject implements CacheableObject {
-
   /**
    * A string representing the kind of object, e.g. community, item, …
    */
@@ -45,14 +44,14 @@ export class MergeObject implements CacheableObject {
   mergedBitstreams: string[];
 
   /**
- * The embedded metadata values.
- */
+   * The embedded metadata values.
+   */
   @autoserialize
   _embedded: {
-    item: Item
+    item: Item;
   };
 
   uuid?: string;
   handle?: string;
-  _links: { self: HALLink; };
+  _links: { self: HALLink };
 }

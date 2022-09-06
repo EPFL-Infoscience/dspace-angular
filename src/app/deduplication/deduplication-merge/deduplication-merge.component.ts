@@ -8,6 +8,7 @@ import { ShowDifferencesComponent } from './../show-differences/show-differences
 import {
   NgbAccordion,
   NgbModal,
+  NgbModalOptions,
   NgbModalRef,
 } from '@ng-bootstrap/ng-bootstrap';
 import { Bitstream } from './../../core/shared/bitstream.model';
@@ -71,6 +72,9 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    */
   private setChecksum: string;
 
+  /**
+   * Rule of the authorized user (submitter/admin etc.)
+   */
   private rule: string;
 
   /**
@@ -137,15 +141,22 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   public isExpanded = true;
 
   /**
-   * Flag to control final result display
-   */
-  // public showFinalResults = false;
-
-  /**
    * Stores the list of metadata fields (keys) that can accept multiple values
    * @type {string[]}
    */
-  repeatableFields: string[] = [];
+  public repeatableFields: string[] = [];
+
+  /**
+   * Modal options configurations.
+   * @private
+   * @type {NgbModalOptions}
+   */
+  private modalConfigOptions: NgbModalOptions = {
+    backdrop: 'static',
+    centered: true,
+    scrollable: true,
+    size: 'lg',
+  };
 
   constructor(
     private cookieService: CookieService,
@@ -173,98 +184,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Get excluded metadata keys from the REST configurations
-   * and then get items with the corresponding metadata
-   */
-  private getExcludedMetadata() {
-    this.configurationDataService
-      .findByPropertyName('merge.excluded-metadata')
-      .pipe(getFirstSucceededRemoteDataPayload())
-      .subscribe((res: ConfigurationProperty) => {
-        if (hasValue(res)) {
-          this.excludedMetadataKeys = [...res.values];
-        }
-        this.getItemsData();
-      });
-  }
-
-  /**
-   * Get submission repeatable metadata fields from the REST configurations
-   * @param itemId Target item id
-   */
-  private getRepeatableFields(itemId: string) {
-    if (hasValue(itemId)) {
-      this.deduplicationItemsService
-        .getRepeatableFields(itemId)
-        .subscribe((res: SubmissionRepeatableFieldsObject) => {
-          if (hasValue(res)) {
-            this.repeatableFields = [...res.repeatableFields];
-          }
-        });
-    }
-  }
-
-  /**
-   * 1.Get item ids from the store.
-   * 2.Set the target item id.
-   * 3.Get the data for each item to compare, based on item id.
-   * 4.Prepares the merge items links @var mergedItems for the merge request.
-   * 5.Calculates the metadata fields to be merged, based on @var excludedMetadataKeys.
-   * 6.Prepares the @var itemsToCompare for the template.
-   * 7.Prepares the @var bitstreamList for the merge request.
-   */
-  private getItemsData() {
-    if (this.storedItemIds.length > 0) {
-      let itemCalls: Observable<Item>[] = [];
-      this.storedItemIds.forEach((itemId: string) => {
-        let call = this.deduplicationItemsService.getItemData(itemId).pipe(
-          map((item: Item) => {
-            if (hasValue(item)) {
-              // if item link is not in the list, add it
-              if (!this.mergedItems.includes(item._links.self.href)) {
-                this.mergedItems.push(item._links.self.href);
-              }
-              let keys: string[] = Object.keys(item.metadata);
-              // get only the metadata keys that are not excluded
-              let keysToInclude = keys.filter(
-                (k) => !this.excludedMetadataKeys.includes(k)
-              );
-              // calculate MetadataMap for each item based on the keys to be included
-              keysToInclude.map((key) => {
-                this.calculateNewMetadataValues(item, key);
-              });
-              return item;
-            }
-          })
-        );
-        itemCalls.push(call);
-      });
-
-      forkJoin(itemCalls).subscribe((items: Item[]) => {
-        this.itemsToCompare = new Array<ItemData>();
-        items.forEach((item: Item) => {
-          const color = this.generateIdColor(
-            this.itemsToCompare[this.itemsToCompare.length - 1]
-              ? this.itemsToCompare[this.itemsToCompare.length - 1].color
-              : 'ffffff'
-          );
-          this.itemsToCompare.push({
-            object: item,
-            color: color,
-          });
-          this.setColorPerItemInMetadataMap(item.id, color);
-        });
-        this.getItemBitstreams();
-      });
-      this.chd.detectChanges();
-    } else {
-      this.itemsToCompare = new Array<ItemData>();
-    }
-  }
-
-  test() { }
-
-  /**
    * Based on excluded metadata keys,
    * calculate the metadata fields to be rendered in the template.
    * @param item The item for which the metadata new structure is calculated
@@ -272,11 +191,11 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    */
   calculateNewMetadataValues(item: Item, key: string) {
     // get the object from metadata map that are going to be rendered in the template
-    let mapObject: MetadataMapObject[] = this.compareMetadataValues.get(key);
+    const mapObject: MetadataMapObject[] = this.compareMetadataValues.get(key);
     item.metadata[key].forEach((value: MetadataValue) => {
       if (this.compareMetadataValues.has(key)) {
         // if the key is already in the map, check if this value already exists in the map
-        let object: MetadataMapObject = mapObject?.find((x) =>
+        const object: MetadataMapObject = mapObject?.find((x) =>
           isEqual(x.value.toLowerCase(), value.value.toLowerCase())
         );
         if (hasValue(object)) {
@@ -290,7 +209,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
           });
         } else {
           // if the value is not in the map, add new object to the map
-          let newObject: MetadataMapObject = {
+          const newObject: MetadataMapObject = {
             value: value.value,
             items: [
               {
@@ -306,13 +225,13 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
           if (mapObject) {
             mapObject.push(newObject);
           } else {
-            let existingValues = this.compareMetadataValues.get(key);
+            const existingValues = this.compareMetadataValues.get(key);
             existingValues.push(newObject);
           }
         }
       } else {
         // if the key is not in the map, add the key and value to the map
-        let newObject: MetadataMapObject = {
+        const newObject: MetadataMapObject = {
           value: value.value,
           items: [
             {
@@ -372,25 +291,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  merge() {
-    let mergedItems: MergeItems = {
-      setId: `${this.signatureId}:${this.setChecksum}`, //setId: signature-id:set-checksum
-      bitstreams: [...this.bitstreamList],
-      metadata: [...this.mergedMetadataFields],
-      mergedItems: [...this.mergedItems],
-    };
-    console.log(mergedItems);
-
-    // this.deduplicationItemsService
-    //   .mergeData(mergedItems, this.targetItemId)
-    //   .subscribe((res) => {
-    //     if (hasValue(res)) {
-    //       this.router.navigate(['/deduplication/sets', this.signatureId, this.rule]);
-    //     }
-    //   });
-  }
-
-
   /**
    * Calculates the @var mergedMetadataFields on value selection
    * @param field The metadata field to be merged
@@ -433,7 +333,9 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         _link = items[0]._link;
         place = items[0].metadataPlace;
       } else {
-        let targetItem = items.find((x) => isEqual(x.itemId, this.targetItemId));
+        const targetItem = items.find((x) =>
+          isEqual(x.itemId, this.targetItemId)
+        );
         _link = targetItem
           ? targetItem._link
           : this.itemsToCompare.find((x) =>
@@ -507,6 +409,199 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Prepare the list of items show the difference between their values.
+   * Opens the modal and passes the data.
+   * @param keyvalue The keyvalue pair of the item's metadata
+   */
+  showDiff(key: string) {
+    const valuesToCompare: ItemsMetadataValues[] = [];
+    for (const itemToCompare of this.itemsToCompare) {
+      if (hasValue(itemToCompare.object)) {
+        itemToCompare.object.metadata[key]?.forEach((metadataValue: MetadataValue) => {
+          valuesToCompare.push({
+            itemId: itemToCompare.object.uuid,
+            value: metadataValue,
+            color: itemToCompare.color,
+          });
+        });
+      }
+    }
+
+    this.modalRef = this.modalService.open(
+      ShowDifferencesComponent,
+      this.modalConfigOptions
+    );
+    this.modalRef.componentInstance.itemList = valuesToCompare;
+    this.modalRef.componentInstance.metadataKey = key;
+  }
+
+  /**
+   * Opens the modal with the result of the merge actions.
+   * @var newMap stores all the selected values to be presented on the final version.
+   */
+  openFinalResultsModal(): void {
+    this.modalRef = this.modalService.open(
+      DeduplicationMergeResultComponent,
+      this.modalConfigOptions
+    );
+    const newMap: Map<string, MetadataMapObject[]> = new Map();
+    this.compareMetadataValues.forEach(
+      (values: MetadataMapObject[], key: string) => {
+        const selectedValues = values
+          .map((value) => {
+            if (this.isValueChecked(key, value.items)) {
+              return value;
+            }
+          })
+          .filter((x) => hasValue(x));
+        newMap.set(key, selectedValues);
+      }
+    );
+    // merge object
+    const mergedItems: MergeItems = {
+      setId: `${this.signatureId}:${this.setChecksum}`, // setId: signature-id:set-checksum
+      bitstreams: [...this.bitstreamList],
+      metadata: [...this.mergedMetadataFields],
+      mergedItems: [...this.mergedItems],
+    };
+
+    const setIdentifiers: SetIdentifiers = {
+      setId: `${this.signatureId}:${this.setChecksum}`,
+      signatureId: this.signatureId,
+    };
+    // data to pass to modal instance
+    this.modalRef.componentInstance.compareMetadataValues = newMap;
+    this.modalRef.componentInstance.itemsToCompare = this.itemsToCompare;
+    this.modalRef.componentInstance.bitstreamList = this.bitstreamList;
+    this.modalRef.componentInstance.itemsToMerge = mergedItems;
+    this.modalRef.componentInstance.targetItemId = this.targetItemId;
+    this.modalRef.componentInstance.identifiers = setIdentifiers;
+
+    // on modal close redirect to previous page
+    this.modalRef.closed.subscribe((res) => {
+      this.goBack();
+    });
+  }
+
+  /**
+   * Removes values from the list of items to be merged.
+   * @param key The key of the metadata field
+   */
+  onDeleteAction(key: string) {
+    if (
+      this.mergedMetadataFields.findIndex((x) =>
+        isEqual(x.metadataField, key)
+      ) > -1
+    ) {
+      this.mergedMetadataFields.find((x) =>
+        isEqual(x.metadataField, key)
+      ).sources = [];
+    }
+  }
+
+  /**
+   * Navigates to set list page @type {DeduplicationSetsComponent}
+   */
+  goBack() {
+    this.router.navigate([
+      'admin/deduplication/set',
+      this.signatureId,
+      this.rule,
+    ]);
+  }
+
+  //#region Privates
+  /**
+   * Get excluded metadata keys from the REST configurations
+   * and then get items with the corresponding metadata
+   */
+  private getExcludedMetadata() {
+    this.configurationDataService
+      .findByPropertyName('merge.excluded-metadata')
+      .pipe(getFirstSucceededRemoteDataPayload())
+      .subscribe((res: ConfigurationProperty) => {
+        if (hasValue(res)) {
+          this.excludedMetadataKeys = [...res.values];
+        }
+        this.getItemsData();
+      });
+  }
+
+  /**
+   * Get submission repeatable metadata fields from the REST configurations
+   * @param itemId Target item id
+   */
+  private getRepeatableFields(itemId: string) {
+    if (hasValue(itemId)) {
+      this.deduplicationItemsService
+        .getRepeatableFields(itemId)
+        .subscribe((res: SubmissionRepeatableFieldsObject) => {
+          if (hasValue(res)) {
+            this.repeatableFields = [...res.repeatableFields];
+          }
+        });
+    }
+  }
+
+  /**
+   * 1.Get item ids from the store.
+   * 2.Set the target item id.
+   * 3.Get the data for each item to compare, based on item id.
+   * 4.Prepares the merge items links @var mergedItems for the merge request.
+   * 5.Calculates the metadata fields to be merged, based on @var excludedMetadataKeys.
+   * 6.Prepares the @var itemsToCompare for the template.
+   * 7.Prepares the @var bitstreamList for the merge request.
+   */
+  private getItemsData() {
+    if (this.storedItemIds.length > 0) {
+      const itemCalls: Observable<Item>[] = [];
+      this.storedItemIds.forEach((itemId: string) => {
+        const call = this.deduplicationItemsService.getItemData(itemId).pipe(
+          map((item: Item) => {
+            if (hasValue(item)) {
+              // if item link is not in the list, add it
+              if (!this.mergedItems.includes(item._links.self.href)) {
+                this.mergedItems.push(item._links.self.href);
+              }
+              const keys: string[] = Object.keys(item.metadata);
+              // get only the metadata keys that are not excluded
+              const keysToInclude = keys.filter(
+                (k) => !this.excludedMetadataKeys.includes(k)
+              );
+              // calculate MetadataMap for each item based on the keys to be included
+              keysToInclude.map((key) => {
+                this.calculateNewMetadataValues(item, key);
+              });
+              return item;
+            }
+          })
+        );
+        itemCalls.push(call);
+      });
+
+      forkJoin(itemCalls).subscribe((items: Item[]) => {
+        this.itemsToCompare = new Array<ItemData>();
+        items.forEach((item: Item) => {
+          const color = this.generateIdColor(
+            this.itemsToCompare[this.itemsToCompare.length - 1]
+              ? this.itemsToCompare[this.itemsToCompare.length - 1].color
+              : 'ffffff'
+          );
+          this.itemsToCompare.push({
+            object: item,
+            color: color,
+          });
+          this.setColorPerItemInMetadataMap(item.id, color);
+        });
+        this.getItemBitstreams();
+      });
+      this.chd.detectChanges();
+    } else {
+      this.itemsToCompare = new Array<ItemData>();
+    }
+  }
+
+  /**
    * Builts the initial structure of @var mergedMetadataFields
    * with all metadata fields of the first item
    * and with source arrays.
@@ -564,7 +659,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    */
   private setColorPerItemInMetadataMap(itemId: string, color: string) {
     this.compareMetadataValues.forEach((value) => {
-      let metadataObject: MetadataMapObject[] = value.filter((x) =>
+      const metadataObject: MetadataMapObject[] = value.filter((x) =>
         x.items.find((y) => isEqual(y.itemId, itemId))
       );
       if (metadataObject.length > 0) {
@@ -601,96 +696,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Prepare the list of items show the difference between their values.
-   * Opens the modal and passes the data.
-   * @param keyvalue The keyvalue pair of the item's metadata
-   */
-  showDiff(key: string) {
-    let valuesToCompare: ItemsMetadataValues[] = [];
-    for (let index = 0; index < this.itemsToCompare.length; index++) {
-      const item = this.itemsToCompare[index].object;
-      const color = this.itemsToCompare[index].color;
-      if (hasValue(item)) {
-        item.metadata[key]?.forEach((metadataValue: MetadataValue) => {
-          valuesToCompare.push({
-            itemId: item.uuid,
-            value: metadataValue,
-            color: color,
-          });
-        });
-      }
-    }
-
-    this.modalRef = this.modalService.open(ShowDifferencesComponent, {
-      backdrop: 'static',
-      centered: true,
-      scrollable: true,
-      size: 'lg',
-    });
-    this.modalRef.componentInstance.itemList = valuesToCompare;
-    this.modalRef.componentInstance.metadataKey = key;
-  }
-
-  openFinalResultsModal() {
-    this.modalRef = this.modalService.open(DeduplicationMergeResultComponent, {
-      backdrop: 'static',
-      centered: true,
-      scrollable: true,
-      size: 'xl',
-    });
-    let newMap: Map<string, MetadataMapObject[]> = new Map();
-    this.compareMetadataValues.forEach(
-      (values: MetadataMapObject[], key: string) => {
-        let selectedValues = values
-          .map((value) => {
-            if (this.isValueChecked(key, value.items)) {
-              return value;
-            }
-          })
-          .filter((x) => hasValue(x));
-        newMap.set(key, selectedValues);
-      }
-    );
-    let mergedItems: MergeItems = {
-      setId: `${this.signatureId}:${this.setChecksum}`, //setId: signature-id:set-checksum
-      bitstreams: [...this.bitstreamList],
-      metadata: [...this.mergedMetadataFields],
-      mergedItems: [...this.mergedItems],
-    };
-
-    const setIdentifiers: SetIdentifiers ={
-      setId : `${this.signatureId}:${this.setChecksum}`,
-      signatureId: this.signatureId
-    }
-
-    this.modalRef.componentInstance.compareMetadataValues = newMap;
-    this.modalRef.componentInstance.itemsToCompare = this.itemsToCompare;
-    this.modalRef.componentInstance.bitstreamList = this.bitstreamList;
-    this.modalRef.componentInstance.itemsToMerge = mergedItems;
-    this.modalRef.componentInstance.targetItemId = this.targetItemId;
-    this.modalRef.componentInstance.identifiers = setIdentifiers;
-    this.modalRef.closed.subscribe((res) => {
-      this.goBack();
-    })
-  }
-
-  /**
-   * Removes values from the list of items to be merged.
-   * @param key The key of the metadata field
-   */
-  onDeleteAction(key: string) {
-    if (
-      this.mergedMetadataFields.findIndex((x) =>
-        isEqual(x.metadataField, key)
-      ) > -1
-    ) {
-      this.mergedMetadataFields.find((x) =>
-        isEqual(x.metadataField, key)
-      ).sources = [];
-    }
-  }
-
-  /**
    * Generates randomly the same colors for each item,
    * starting from a given color and adding a random number to it,
    * based on previous used color @param color.
@@ -700,20 +705,15 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    */
   private generateIdColor(color: string) {
     let hash = 0;
-    for (var i = 0; i < color.length; i++) {
+    for (let i = 0; i < color.length; i++) {
+      // tslint:disable-next-line:no-bitwise
       hash = color.charCodeAt(i) + ((hash << 5) - hash);
     }
+    // tslint:disable-next-line:no-bitwise
     const c = (hash & 0x00f4f0af).toString(16).toUpperCase();
     return `#${'ff8080'.substring(0, 6 - c.length) + c}`;
   }
-
-  goBack() {
-    this.router.navigate([
-      'admin/deduplication/set',
-      this.signatureId,
-      this.rule,
-    ]);
-  }
+  //#endregion
 
   /**
    * 1.Remove the items from cookies

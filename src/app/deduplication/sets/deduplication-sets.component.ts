@@ -47,6 +47,11 @@ import { Bitstream } from 'src/app/core/shared/bitstream.model';
   providers: [GetBitstreamsPipe],
 })
 export class DeduplicationSetsComponent implements AfterViewInit {
+  /**
+   * List of compare buttons,
+   * in order to focus the one inside a set on select all action.
+   * @type {QueryList<any>}
+   */
   @ViewChildren('compareBtnSelector') compareBtnSelector: QueryList<any>;
 
   /**
@@ -106,13 +111,22 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    */
   public checkedItemsList: Map<string, SelectedItemData[]> = new Map();
 
+  /**
+   * Initial configurations of confirmation modal's title and button text.
+   */
   confirmModalText = {
     title: '',
     btnText: '',
   };
 
+  /**
+   * Remove element modal's title text.
+   */
   removeElementText = 'deduplication.sets.modal.title';
 
+  /**
+   * Remove element modal's submit button text.
+   */
   delteBtnText = 'deduplication.sets.modal.delete.submit';
 
   constructor(
@@ -133,10 +147,12 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   }
 
   ngOnInit(): void {
+    // GET Sets
     this.sets$ = this.deduplicationStateService
       .getDeduplicationSetsPerSignature()
       .pipe(
         map((sets: SetObject[]) => {
+          // TODO: remove filter after rest changes
           return sets.filter((set) =>
             isEqual(set.signatureId, this.signatureId)
           );
@@ -164,39 +180,11 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   }
 
   /**
-   * Retrieves the deduplication sets.
-   */
-  protected retrieveDeduplicationSets() {
-    this.deduplicationStateService.dispatchRetrieveDeduplicationSetsBySignature(
-      this.signatureId,
-      this.rule,
-      null
-    );
-    this.getAllItems();
-  }
-
-  /**
    *  Returns the information about the loading status of the sets (if it's running or not).
    * @returns {Observable<boolean>}
    */
   public isSetsLoading(): Observable<boolean> {
     return this.deduplicationStateService.isDeduplicationSetsLoading();
-  }
-
-  /**
-   * Retrieves the items per set.
-   */
-  protected getAllItems() {
-    this.sets$.subscribe((sets: SetObject[]) => {
-      sets.forEach((set) => {
-        this.deduplicationStateService.dispatchRetrieveDeduplicationSetItems(
-          set.id
-        );
-        const items$: Observable<Item[]> =
-          this.deduplicationStateService.getDeduplicationSetItems(set.id);
-        this.itemsMap.set(set.id, items$);
-      });
-    });
   }
 
   /**
@@ -285,60 +273,6 @@ export class DeduplicationSetsComponent implements AfterViewInit {
         })
       );
     }
-  }
-
-  /**
-   * Deletes the set.
-   * @param setId The id of the set to which the items belong to.
-   */
-  protected deleteSet(setId: string, setChecksum: string) {
-    this.deduplicationSetsService
-      .deleteSet(this.signatureId, setChecksum)
-      .subscribe((res: RemoteData<NoContent>) => {
-        if (res.hasSucceeded && isEqual(res.statusCode, 200)) {
-          this.deduplicationStateService.dispatchDeleteSet(
-            this.signatureId,
-            setId
-          );
-        } else if (isEqual(res.statusCode, 204)) {
-          this.notificationsService.error(
-            null,
-            this.translate.get('This set cannot be deleted')
-          );
-        } else {
-          this.notificationsService.error(
-            null,
-            this.translate.get(
-              'deduplication.sets.notification.cannot-remove-set'
-            )
-          );
-        }
-      });
-  }
-
-  /**
-   * Removes items (case of no deduplicaton).
-   * @param itemId The id of the item to be deleted
-   */
-  protected removeItem(itemId: string, setChecksum: string, setId: string) {
-    this.deduplicationSetsService
-      .removeItem(this.signatureId, itemId, setChecksum)
-      .subscribe((res: RemoteData<NoContent>) => {
-        if (res.hasSucceeded || isEqual(res.statusCode, 204)) {
-          this.dispatchRemoveItem(itemId, setId);
-          this.notificationsService.success(
-            null,
-            this.translate.get('deduplication.sets.notification.item-removed')
-          );
-        } else {
-          this.notificationsService.error(
-            null,
-            this.translate.get(
-              'deduplication.sets.notification.cannot-remove-item'
-            )
-          );
-        }
-      });
   }
 
   /**
@@ -449,11 +383,234 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   }
 
   /**
+   * Selects all items in a set.
+   */
+  selectAllItems(setId: string, idx: string) {
+    if (this.checkedItemsList.has(setId)) {
+      this.checkedItemsList.delete(setId);
+    }
+    this.compareBtnSelector.toArray()[idx].nativeElement.focus();
+    const selectedItems: SelectedItemData[] = [];
+    this.getItemIds(setId).subscribe((itemIds: string[]) => {
+      if (itemIds) {
+        itemIds.forEach((itemId) => {
+          selectedItems.push({
+            itemId: itemId,
+            checked: true,
+          });
+        });
+      }
+    });
+    this.checkedItemsList.set(setId, selectedItems);
+  }
+
+  /**
+   * Checks if the item is checked or not.
+   */
+  isItemChecked(itemId: string, setId: string) {
+    if (this.checkedItemsList.has(setId)) {
+      return this.checkedItemsList
+        .get(setId)
+        .find((x) => isEqual(x.itemId, itemId))?.checked;
+    }
+    return false;
+  }
+
+  /**
+   * Unselects all items in the set.
+   */
+  unselectAllItems(setId: string) {
+    if (this.checkedItemsList.has(setId)) {
+      this.checkedItemsList.delete(setId);
+    }
+  }
+
+  /**
+   * 1. Checks if there are at least 2 items selected in the set, in order to compare them among them.
+   * 2. Set the selected items data in the store, in order to be used in the merge page.
+   * 3. Redirects to the merge page by @var setId: signature-id:set-checksum.
+   * 4. If there are no items selected, show a warning message.
+   * @param setChecksum The checksum of the set.
+   * @param setId The id of the set.
+   */
+  onCompare(setChecksum: string, setId: string) {
+    if (
+      this.checkedItemsList.has(setId) &&
+      this.checkedItemsList.get(setId).length >= 2
+    ) {
+      const selectedItemsMap = this.checkedItemsList.get(setId);
+      if (hasValue(selectedItemsMap)) {
+        const itemsPerSet: string[] = selectedItemsMap.map(
+          (element) => element.itemId
+        );
+        this.cookieService.set(
+          `items-to-compare-${setChecksum}`,
+          JSON.stringify(itemsPerSet)
+        );
+        this.router.navigate(
+          [`/admin/deduplication/compare`, this.signatureId, setChecksum],
+          { queryParams: { rule: this.rule } }
+        );
+      }
+    } else {
+      this.notificationsService.info(
+        null,
+        this.translate.get('deduplication.sets.notification.select-items')
+      );
+    }
+  }
+
+  /**
+   * Performs the merge action over the selected item
+   * @param setId The identifier of the set
+   * @param item Item participating on the merge
+   * @param content Confirmation modal
+   */
+  keepItem(setId: string, item: Item, content) {
+    this.confirmModalText = {
+      title: `Are you sure you want to keep item with identifier ${item.uuid}`,
+      btnText: 'Confirm & Merge',
+    };
+
+    this.modalService.open(content).dismissed.subscribe((result) => {
+      if (isEqual(result, 'ok')) {
+        let bitstreamLinks: string[] = [];
+        const metadataValues: ItemsMetadataField[] = [];
+        let mergeItems: MergeItems;
+        // construct merge object
+        item.metadataAsList.forEach((el, index) => {
+          metadataValues.push({
+            metadataField: el.key,
+            sources: [
+              {
+                place: el.place,
+                item: item._links?.self?.href,
+              },
+            ],
+          });
+        });
+        // GET bitstream for the item
+        this.getBitstreamsPipe
+          .transform(item)
+          .pipe(
+            concatMap((res$: Observable<Bitstream[]>) =>
+              res$.pipe(map((bitstreams: Bitstream[]) => bitstreams))
+            )
+          )
+          .pipe(
+            switchMap((bitstreams: Bitstream[], index: number) => {
+              const linksPerItem = bitstreams.map((b) => b._links.self.href);
+              bitstreamLinks = linksPerItem;
+              mergeItems = {
+                setId: setId,
+                bitstreams: bitstreamLinks,
+                mergedItems: [item._links?.self?.href],
+                metadata: metadataValues,
+              };
+
+              return this.deduplicationItemsService.mergeData(
+                mergeItems,
+                item.uuid
+              );
+            })
+          )
+          .subscribe((res: MergeObject) => {
+            if (hasValue(res)) {
+              // remove set from store
+              this.deduplicationStateService.dispatchDeleteSet(
+                this.signatureId,
+                setId
+              );
+            }
+          });
+      }
+    });
+  }
+
+  /**
+   * Navigates back to deduplication panel
+   */
+  goBack() {
+    this.router.navigate(['admin/deduplication']);
+  }
+
+  //#region Privates
+  /**
+   * Retrieves the items per set.
+   */
+  private getAllItems() {
+    this.sets$.subscribe((sets: SetObject[]) => {
+      sets.forEach((set) => {
+        this.deduplicationStateService.dispatchRetrieveDeduplicationSetItems(
+          set.id
+        );
+        const items$: Observable<Item[]> =
+          this.deduplicationStateService.getDeduplicationSetItems(set.id);
+        this.itemsMap.set(set.id, items$);
+      });
+    });
+  }
+
+  /**
+   * Deletes the set.
+   * @param setId The id of the set to which the items belong to.
+   */
+  private deleteSet(setId: string, setChecksum: string) {
+    this.deduplicationSetsService
+      .deleteSet(this.signatureId, setChecksum)
+      .subscribe((res: RemoteData<NoContent>) => {
+        if (res.hasSucceeded && isEqual(res.statusCode, 200)) {
+          this.deduplicationStateService.dispatchDeleteSet(
+            this.signatureId,
+            setId
+          );
+        } else if (isEqual(res.statusCode, 204)) {
+          this.notificationsService.error(
+            null,
+            this.translate.get('This set cannot be deleted')
+          );
+        } else {
+          this.notificationsService.error(
+            null,
+            this.translate.get(
+              'deduplication.sets.notification.cannot-remove-set'
+            )
+          );
+        }
+      });
+  }
+
+  /**
+   * Removes items (case of no deduplicaton).
+   * @param itemId The id of the item to be deleted
+   */
+  private removeItem(itemId: string, setChecksum: string, setId: string) {
+    this.deduplicationSetsService
+      .removeItem(this.signatureId, itemId, setChecksum)
+      .subscribe((res: RemoteData<NoContent>) => {
+        if (res.hasSucceeded || isEqual(res.statusCode, 204)) {
+          this.dispatchRemoveItem(itemId, setId);
+          this.notificationsService.success(
+            null,
+            this.translate.get('deduplication.sets.notification.item-removed')
+          );
+        } else {
+          this.notificationsService.error(
+            null,
+            this.translate.get(
+              'deduplication.sets.notification.cannot-remove-item'
+            )
+          );
+        }
+      });
+  }
+
+  /**
    * Deletes an item based on the item status.
    * @param itemId The id of the item to be deleted
    * @param setId The id of the set to which the item belongs to
    */
-  protected deleteItem(itemId: string, setId): void {
+  private deleteItem(itemId: string, setId): void {
     if (this.itemsMap.has(setId)) {
       this.getItemsPerSet(setId)
         .pipe(map((items: Item[]) => items?.find((x) => isEqual(x.id, itemId))))
@@ -540,7 +697,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
                 } else {
                   this.notificationsService.warning(
                     null,
-                    this.translate.get("Item cannot be deleted")
+                    this.translate.get('Item cannot be deleted')
                   );
                 }
               });
@@ -549,146 +706,6 @@ export class DeduplicationSetsComponent implements AfterViewInit {
         });
     }
   }
-
-  /**
-   * Selects all items in a set.
-   */
-  selectAllItems(setId: string, idx: string) {
-    if (this.checkedItemsList.has(setId)) {
-      this.checkedItemsList.delete(setId);
-    }
-    this.compareBtnSelector.toArray()[idx].nativeElement.focus();
-    const selectedItems: SelectedItemData[] = [];
-    this.getItemIds(setId).subscribe((itemIds: string[]) => {
-      if (itemIds) {
-        itemIds.forEach((itemId) => {
-          selectedItems.push({
-            itemId: itemId,
-            checked: true,
-          });
-        });
-      }
-    });
-    this.checkedItemsList.set(setId, selectedItems);
-  }
-
-  /**
-   * Checks if the item is checked or not.
-   */
-  isItemChecked(itemId: string, setId: string) {
-    if (this.checkedItemsList.has(setId)) {
-      return this.checkedItemsList
-        .get(setId)
-        .find((x) => isEqual(x.itemId, itemId))?.checked;
-    }
-    return false;
-  }
-
-  /**
-   * Unselects all items in the set.
-   */
-  unselectAllItems(setId: string) {
-    if (this.checkedItemsList.has(setId)) {
-      this.checkedItemsList.delete(setId);
-    }
-  }
-
-  /**
-   * 1. Checks if there are at least 2 items selected in the set, in order to compare them among them.
-   * 2. Set the selected items data in the store, in order to be used in the merge page.
-   * 3. Redirects to the merge page by @var setId: signature-id:set-checksum.
-   * 4. If there are no items selected, show a warning message.
-   * @param setChecksum The checksum of the set.
-   * @param set_id The id of the set.
-   */
-  onCompare(setChecksum: string, set_id: string) {
-    if (
-      this.checkedItemsList.has(set_id) &&
-      this.checkedItemsList.get(set_id).length >= 2
-    ) {
-      const selectedItemsMap = this.checkedItemsList.get(set_id);
-      if (hasValue(selectedItemsMap)) {
-        const itemsPerSet: string[] = selectedItemsMap.map(
-          (element) => element.itemId
-        );
-        this.cookieService.set(
-          `items-to-compare-${setChecksum}`,
-          JSON.stringify(itemsPerSet)
-        );
-        this.router.navigate(
-          [`/admin/deduplication/compare`, this.signatureId, setChecksum],
-          { queryParams: { rule: this.rule } }
-        );
-      }
-    } else {
-      this.notificationsService.info(
-        null,
-        this.translate.get('deduplication.sets.notification.select-items')
-      );
-    }
-  }
-
-  keepItem(setId: string, item: Item, content) {
-    this.confirmModalText = {
-      title: `Are you sure you want to keep item with identifier ${item.uuid}`,
-      btnText: 'Confirm & Merge',
-    };
-
-    this.modalService.open(content).dismissed.subscribe((result) => {
-      if (isEqual(result, 'ok')) {
-        let bitstreamLinks: string[] = [];
-        let metadataValues: ItemsMetadataField[] = [];
-        let mergeItems: MergeItems;
-
-        item.metadataAsList.forEach((el, index) => {
-          metadataValues.push({
-            metadataField: el.key,
-            sources: [
-              {
-                place: el.place,
-                item: item._links?.self?.href,
-              },
-            ],
-          });
-        });
-
-        this.getBitstreamsPipe
-          .transform(item)
-          .pipe(
-            concatMap((res$: Observable<Bitstream[]>) =>
-              res$.pipe(map((bitstreams: Bitstream[]) => bitstreams))
-            )
-          )
-          .pipe(
-            switchMap((bitstreams: Bitstream[], index: number) => {
-              const linksPerItem = bitstreams.map((b) => b._links.self.href);
-              console.log(bitstreams, linksPerItem);
-              bitstreamLinks = linksPerItem;
-              mergeItems = {
-                setId: setId,
-                bitstreams: bitstreamLinks,
-                mergedItems: [item._links?.self?.href],
-                metadata: metadataValues,
-              };
-
-              return this.deduplicationItemsService.mergeData(
-                mergeItems,
-                item.uuid
-              );
-            })
-          )
-          .subscribe((res: MergeObject) => {
-            if (hasValue(res)) {
-              this.deduplicationStateService.dispatchDeleteSet(
-                this.signatureId,
-                setId
-              );
-            }
-          });
-      }
-    });
-  }
-
   /**
    * Request to change the status of the sets' items.
    * @param itemId The id of the item to be removed
@@ -788,8 +805,16 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     }
   }
 
-  goBack() {
-    this.router.navigate(['admin/deduplication']);
+  /**
+   * Retrieves the deduplication sets.
+   */
+  private retrieveDeduplicationSets() {
+    this.deduplicationStateService.dispatchRetrieveDeduplicationSetsBySignature(
+      this.signatureId,
+      this.rule,
+      null
+    );
+    this.getAllItems();
   }
 
   /**
@@ -801,4 +826,5 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       .isAuthorized(FeatureID.AdministratorOf, undefined, undefined)
       .pipe(take(1));
   }
+  //#endregion
 }

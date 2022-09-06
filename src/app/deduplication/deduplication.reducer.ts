@@ -19,7 +19,7 @@ export interface DeduplicationState {
   'sets': DeduplicationSetState;
   'signatures': DeduplicationSignatureState;
   'items': DeduplicationSetItemsState[];
-  'compare': DeduplicationItemsToCompareState
+  'compare': DeduplicationItemsToCompareState;
 }
 
 export const deduplicationReducers: ActionReducerMap<DeduplicationState> = {

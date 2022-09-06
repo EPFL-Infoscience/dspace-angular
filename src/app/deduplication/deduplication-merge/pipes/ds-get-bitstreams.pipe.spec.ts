@@ -5,7 +5,7 @@ describe('GetBitstreamsPipe', () => {
 
   let dsoDataService: DSONameService;
 
-  beforeEach(() => { (1)
+  beforeEach(() => {
     dsoDataService = new DSONameService({ instant: (a) => a } as any);
   });
 

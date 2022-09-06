@@ -21,7 +21,6 @@ import { DataService } from '../../data/data.service';
 import { dataService } from '../../cache/builders/build-decorators';
 import { DEDUPLICATION_SET } from '../models/deduplication-set.resource-type';
 import { RemoteData } from '../../data/remote-data';
-import { isNil } from 'lodash';
 import { NoContent } from '../../shared/NoContent.model';
 
 /* tslint:disable:max-classes-per-file */
@@ -43,7 +42,8 @@ class DataServiceImpl extends DataService<SetObject> {
     protected halService: HALEndpointService,
     protected notificationsService: NotificationsService,
     protected http: HttpClient,
-    protected comparator: ChangeAnalyzer<SetObject>) {
+    protected comparator: ChangeAnalyzer<SetObject>
+  ) {
     super();
   }
 }
@@ -76,26 +76,72 @@ export class DeduplicationSetsRestService {
     protected halService: HALEndpointService,
     protected notificationsService: NotificationsService,
     protected http: HttpClient,
-    protected comparator: DefaultChangeAnalyzer<SetObject>) {
-    this.dataService = new DataServiceImpl(requestService, rdbService, null, objectCache, halService, notificationsService, http, comparator);
+    protected comparator: DefaultChangeAnalyzer<SetObject>
+  ) {
+    this.dataService = new DataServiceImpl(
+      requestService,
+      rdbService,
+      null,
+      objectCache,
+      halService,
+      notificationsService,
+      http,
+      comparator
+    );
   }
 
   /**
    * Return the list of all deduplication sets for the given signature.
    * @param options Find list options object.
-   * @param signatureId The id of the signature to retrieve the sets for.
-   * @param rule The rule to filter the sets by.
    * @param linksToFollow List of {@link FollowLinkConfig} that indicate which {@link HALLink}s should be automatically resolved.
    * @returns List of sets for the given signature.
    */
-  public getSetsPerSignature(options: FindListOptions = {}, ...linksToFollow: FollowLinkConfig<SetObject>[]): Observable<RemoteData<PaginatedList<SetObject>>> {
-    return this.dataService.getBrowseEndpoint(options).pipe(
-      take(1),
-      mergeMap((href: string) => {
-        const searchmethod = `sets/search/findBySignature`;
-        return this.dataService.findAllByHref(`${href}?${searchmethod}`, options, false, true, ...linksToFollow);
-      })
-    );
+  public getSetsfindBySignature(
+    options: FindListOptions = {},
+    ...linksToFollow: FollowLinkConfig<SetObject>[]
+  ): Observable<RemoteData<PaginatedList<SetObject>>> {
+    const searchmethod = `findBySignature`;
+    return this.dataService
+      .getSearchByHref(`${searchmethod}`, options, ...linksToFollow)
+      .pipe(
+        take(1),
+        mergeMap((href: string) => {
+          return this.dataService.findAllByHref(
+            href,
+            options,
+            false,
+            true,
+            ...linksToFollow
+          );
+        })
+      );
+  }
+
+  /**
+   * Return the list of all deduplication sets for the given signature and rule.
+   * @param options Find list options object.
+   * @param linksToFollow List of {@link FollowLinkConfig} that indicate which {@link HALLink}s should be automatically resolved.
+   * @returns List of sets for the given signature.
+   */
+  public getSetsPerSignature(
+    options: FindListOptions = {},
+    ...linksToFollow: FollowLinkConfig<SetObject>[]
+  ): Observable<RemoteData<PaginatedList<SetObject>>> {
+    const searchmethod = `findBySignatureAndRule`;
+    return this.dataService
+      .getSearchByHref(`${searchmethod}`, options, ...linksToFollow)
+      .pipe(
+        take(1),
+        mergeMap((href: string) => {
+          return this.dataService.findAllByHref(
+            href,
+            options,
+            false,
+            true,
+            ...linksToFollow
+          );
+        })
+      );
   }
 
   /**
@@ -103,10 +149,12 @@ export class DeduplicationSetsRestService {
    * @param signatureId The id of the signature to which the set belongs.
    * @param checksum
    */
-  public deleteSet(signatureId: string, checksum: string): Observable<RemoteData<NoContent>> {
-    return this.dataService.delete(`${signatureId}:${checksum}`).pipe(
-      getFirstCompletedRemoteData(),
-      take(1)
-    );
+  public deleteSet(
+    signatureId: string,
+    checksum: string
+  ): Observable<RemoteData<NoContent>> {
+    return this.dataService
+      .delete(`${signatureId}:${checksum}`)
+      .pipe(getFirstCompletedRemoteData(), take(1));
   }
 }
