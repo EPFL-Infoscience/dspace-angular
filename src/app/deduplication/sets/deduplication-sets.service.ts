@@ -18,7 +18,7 @@ import { getFirstCompletedRemoteData } from './../../core/shared/operators';
 import { catchError, map, take } from 'rxjs/operators';
 import { DeduplicationSetsRestService } from '../../core/deduplication/services/deduplication-sets-rest.service';
 import { WorkflowItemDataService } from './../../core/submission/workflowitem-data.service';
-import { hasValue } from 'src/app/shared/empty.util';
+import { hasValue } from '../../shared/empty.util';
 import { Item } from '../../core/shared/item.model';
 
 @Injectable()

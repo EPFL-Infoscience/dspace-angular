@@ -11,15 +11,12 @@
         <div class="row">
           <div class="col text-center">
             <div class="card-header border-bottom-0 mb-2">
-              Compare values under
-              <span class="font-weight-bold">place {{ object.key }}</span> for
-              items:
-              <span [ngStyle]="{ color: object.value[i].color }"
-                >{{ object.value[i].id }}
+              <span
+                [innerHtml]="'deduplication.merge.show-diff.modal.description' | translate: {param:object.key }"></span>
+              <span [ngStyle]="{ color: object.value[i].color }">{{ object.value[i].id }}
               </span>
               &
-              <span [ngStyle]="{ color: object.value[i + 1]?.color }"
-                >{{ object.value[i + 1]?.id }}
+              <span [ngStyle]="{ color: object.value[i + 1]?.color }">{{ object.value[i + 1]?.id }}
               </span>
             </div>
           </div>
@@ -27,12 +24,14 @@
         <!-- FIRST VALUE -->
         <div class="card mb-2">
           <div class="card-header">
-            Value for
-            <span [ngStyle]="{ color: object.value[i].color }"
-              >{{ object.value[i].id }}
-            </span>
-            in
+            <!-- Value in
             <span class="font-weight-bold">place {{ object.key }}</span>
+            for -->
+            <span
+              [innerHtml]="'deduplication.merge.show-diff.modal.card-header' | translate: {param:object.key }"></span>
+            <span [ngStyle]="{ color: object.value[i].color }">{{ object.value[i].id }}
+            </span>
+
           </div>
           <div class="card-body">
             <p #value1>
@@ -43,12 +42,10 @@
         <!-- SECOND VALUE -->
         <div class="card mb-2">
           <div class="card-header">
-            Value for
-            <span [ngStyle]="{ color: object.value[i + 1]?.color }"
-              >{{ object.value[i + 1]?.id }}
+            <span
+              [innerHtml]="'deduplication.merge.show-diff.modal.card-header' | translate: {param:object.key }"></span>
+            <span [ngStyle]="{ color: object.value[i + 1]?.color }">{{ object.value[i + 1]?.id }}
             </span>
-            in
-            <span class="font-weight-bold">place {{ object.key }}</span>
           </div>
           <div class="card-body">
             <p #value2>
@@ -60,27 +57,17 @@
         <!-- DIFFERENCES -->
         <div class="card">
           <div class="card-header">
-            <span class="font-weight-bold">
-              {{
-                "deduplication.merge.show-diff.modal.label.differences"
-                  | translate
-              }}
-            </span>
-            for items:
-            <span [ngStyle]="{ color: object.value[i].color }"
-              >{{ object.value[i].id }}
+            <span [innerHTML]="'deduplication.merge.show-diff.modal.label.differences' | translate"></span>
+            <span [ngStyle]="{ color: object.value[i].color }">{{ object.value[i].id }}
             </span>
             &
-            <span [ngStyle]="{ color: object.value[i + 1]?.color }"
-              >{{ object.value[i + 1]?.id }}
+            <span [ngStyle]="{ color: object.value[i + 1]?.color }">{{ object.value[i + 1]?.id }}
             </span>
-            values under
-            <span class="font-weight-bold">place {{ object.key }}</span>
+            <span
+              [innerHTML]="'deduplication.merge.show-diff.modal.label.differences-continue' | translate: {param: object.key}"></span>
           </div>
           <div class="card-body">
-            <div
-              [innerHTML]="value1.innerHTML | dsTextDiff: value2.innerHTML"
-            ></div>
+            <div [innerHTML]="value1.innerHTML | dsTextDiff: value2.innerHTML"></div>
           </div>
         </div>
         <hr />
@@ -89,11 +76,7 @@
   </ng-container>
 </div>
 <div class="modal-footer">
-  <button
-    type="button"
-    class="btn btn-outline-dark"
-    (click)="activeModal.close()"
-  >
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">
     {{ "deduplication.merge.show-diff.modal.button.close" | translate }}
   </button>
 </div>

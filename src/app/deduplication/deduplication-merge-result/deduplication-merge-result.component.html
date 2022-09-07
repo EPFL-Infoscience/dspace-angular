@@ -1,6 +1,6 @@
 <div class="modal-header bg-light text-info">
   <h4 class="modal-title">
-    {{ "Preview of final merge" | translate }}
+    {{ "deduplication.merge.preview-modal.title" | translate }}
   </h4>
   <button
     type="button"
@@ -79,7 +79,7 @@
     </ng-container>
   </ng-container>
   <ng-container *ngIf="compareMetadataValues.size == 0">
-    No Data to show
+    {{'deduplication.merge.preview-modal.no-data' | translate}}
   </ng-container>
 </div>
 <div class="modal-footer">
@@ -87,20 +87,20 @@
     <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" [style.width]="'100%'" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Merging...</div>
   </div>
   <button class="btn btn-info" (click)="onMerge(content)">
-    {{ "Finish Merge" | translate }}
+    {{ "deduplication.merge.preview-modal.confirm-btn" | translate }}
   </button>
 </div>
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header justify-content-center">
-    <h4 class="modal-title text-info">{{ "Confirm Merge" | translate }}</h4>
+    <h4 class="modal-title text-info">{{ "deduplication.merge.preview-modal.confirm-title" | translate }}</h4>
   </div>
   <div class="modal-footer justify-content-between">
     <button type="button" class="btn btn-secondary" (click)="d('cancel')">
       {{ "deduplication.sets.modal.confirm.cancel" | translate }}
     </button>
     <button type="button" class="btn btn-info" (click)="d('ok')">
-      {{ "Confirm & Close" | translate }}
+      {{ "deduplication.merge.preview-modal.confirm-btn.submit" | translate }}
     </button>
   </div>
 </ng-template>

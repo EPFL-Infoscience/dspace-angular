@@ -1567,11 +1567,15 @@
 
   "deduplication.sets.button.compare": "Compare",
 
+  "deduplication.sets.button.go-back": "Go back",
+
   "deduplication.sets.button.no-duplicates": "No duplicates",
 
   "deduplication.sets.button.delete-set": "Delete set",
 
   "deduplication.sets.label.collection": "Collection",
+
+  "deduplication.sets.label.description": "Based on <b> {{param}} </b> rule you can identify deduplication based on <b> {{otherParam}} </b>",
 
   "deduplication.sets.label.identifier": "Internal identifier",
 
@@ -1595,13 +1599,21 @@
 
   "deduplication.sets.modal.delete.submit": "Delete",
 
+  "deduplication.sets.modal.confirm.merge": "Are you sure you want to keep item with identifier {{param}}?",
+
+  "deduplication.sets.modal.merge.submit": "Confirm & Merge",
+
   "deduplication.sets.notification.cannot-remove-set": "An error occurred while removing the set",
+
+  "deduplication.sets.notification.cannot-delete-set": "This set cannot be deleted",
 
   "deduplication.sets.notification.cannot-remove-item": "An error occurred while removing the item",
 
   "deduplication.sets.notification.cannot-get-set": "An error occurred while loading the sets",
 
   "deduplication.sets.notification.cannot-get-item": "An error occurred while loading the items",
+
+  "deduplication.sets.notification.cannot-delete-item": "Item cannot be deleted",
 
   "deduplication.sets.notification.select-items": "Please select at least two items",
 
@@ -1615,7 +1627,7 @@
 
   "deduplication.merge.label.info": "Records to compare",
 
-  "deduplication.merge.label.bitstreams": "Bitstreams for",
+  "deduplication.merge.label.bitstreams": "Bitstream data (for bundle 'ORIGINAL')",
 
   "deduplication.merge.label.merge-metadata": "Metadata to be merged",
 
@@ -1631,7 +1643,7 @@
 
   "deduplication.merge.table.bitstream.header.item-identifier": "Item Identifier",
 
-  "deduplication.merge.button.label.merge": "Merge",
+  "deduplication.merge.button.label.merge": "Preview & Merge",
 
   "deduplication.merge.button.label.collapse-all": "Collapse All",
 
@@ -1641,7 +1653,13 @@
 
   "deduplication.merge.show-diff.modal.header": "Differences for values under",
 
-  "deduplication.merge.show-diff.modal.label.differences": "Differences",
+  "deduplication.merge.show-diff.modal.description": "Compare values under <b> place {{param}} </b> for items:",
+
+  "deduplication.merge.show-diff.modal.card-header": " Value under <b> place {{param}} </b> for",
+
+  "deduplication.merge.show-diff.modal.label.differences": "<b> Differences </b> for items:",
+
+  "deduplication.merge.show-diff.modal.label.differences-continue": "values under <b> place {{param}} </b>",
 
   "deduplication.merge.show-diff.modal.button.close": "Close",
 
@@ -1649,7 +1667,19 @@
 
   "deduplication.merge.notification.message-error": "Merge failed, server error",
 
+  "deduplication.merge.notification.message-error-422": "Merge failed. Please check multiple selected values",
+
   "deduplication.merge.tooltip.delete-info": "Remove values for this metadata field",
+
+  "deduplication.merge.preview-modal.title": "Preview of final merge",
+
+  "deduplication.merge.preview-modal.no-data": "No Data to show",
+
+  "deduplication.merge.preview-modal.confirm-btn": "Finish Merge",
+
+  "deduplication.merge.preview-modal.confirm-title": "Confirm Merge",
+
+  "deduplication.merge.preview-modal.confirm-btn.submit": "Confirm & Close",
 
   "datafile.listelement.badge": "Data File",
 

@@ -35,10 +35,10 @@ import {
   getFirstSucceededRemoteDataPayload,
 } from './../../core/shared/operators';
 import { ConfigObject } from './../../core/config/models/config.model';
-import { CookieService } from 'src/app/core/services/cookie.service';
+import { CookieService } from '../../core/services/cookie.service';
 import { SelectedItemData } from '../interfaces/deduplication-sets.models';
 import { DeduplicationItemsService } from '../deduplication-merge/deduplication-items.service';
-import { Bitstream } from 'src/app/core/shared/bitstream.model';
+import { Bitstream } from '../../core/shared/bitstream.model';
 
 @Component({
   selector: 'ds-deduplication-sets',
@@ -117,6 +117,8 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   confirmModalText = {
     title: '',
     btnText: '',
+    titleClass:'',
+    btnClass:'',
   };
 
   /**
@@ -291,6 +293,8 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     this.confirmModalText = {
       title: this.removeElementText,
       btnText: this.delteBtnText,
+      titleClass: 'text-danger',
+      btnClass:'btn-danger'
     };
 
     this.modalService.open(content).dismissed.subscribe((result) => {
@@ -468,8 +472,10 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    */
   keepItem(setId: string, item: Item, content) {
     this.confirmModalText = {
-      title: `Are you sure you want to keep item with identifier ${item.uuid}`,
-      btnText: 'Confirm & Merge',
+      title: this.translate.instant('deduplication.sets.modal.confirm.merge', { param: item.uuid }),
+      btnText: this.translate.instant('deduplication.sets.modal.merge.submit'),
+      titleClass: 'text-info',
+      btnClass:'btn-info'
     };
 
     this.modalService.open(content).dismissed.subscribe((result) => {
@@ -567,7 +573,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
         } else if (isEqual(res.statusCode, 204)) {
           this.notificationsService.error(
             null,
-            this.translate.get('This set cannot be deleted')
+            this.translate.get('deduplication.sets.notification.cannot-delete-set')
           );
         } else {
           this.notificationsService.error(
@@ -697,7 +703,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
                 } else {
                   this.notificationsService.warning(
                     null,
-                    this.translate.get('Item cannot be deleted')
+                    this.translate.get('deduplication.sets.notification.cannot-delete-item')
                   );
                 }
               });

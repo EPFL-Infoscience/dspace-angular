@@ -17,8 +17,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { MergeItems } from '../interfaces/deduplication-merge.models';
-import { FindListOptions } from 'src/app/core/data/request.models';
-import { RequestParam } from 'src/app/core/cache/models/request-param.model';
+import { FindListOptions } from '../../core/data/request.models';
+import { RequestParam } from '../../core/cache/models/request-param.model';
 @Injectable()
 export class DeduplicationItemsService {
   constructor(
@@ -72,8 +72,10 @@ export class DeduplicationItemsService {
         if (isEqual(response.statusCode, 422)) {
           // Unprocessable Entity
           this.notificationsService.error(
-            null,
-            'Merge failed. Please check the selected values'
+            null, 
+            this.translate.get(
+              'deduplication.merge.notification.message-error-422'
+            ) 
           );
           throw new Error('Merge Failed with status 422');
         }

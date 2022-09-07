@@ -6,17 +6,18 @@
 
     <button class="btn btn-outline-secondary btn-sm" (click)="goBack()">
       <i class="fa fa-arrow-left pr-1" aria-hidden="true"></i>
-      Go back
+      {{'deduplication.sets.button.go-back' | translate }}
     </button>
   </div>
   <div class="row">
-    <h5>
-      Based on <span class="font-weight-bold"> {{rule | titlecase}} </span> rule you can identify deduplication based
-      on <span class="font-weight-bold"> {{signatureId | titlecase}} </span>
-    </h5>
+    <p class="text-info"
+      innerHTML="{{ 'deduplication.sets.label.description' | translate: { param: rule | titlecase, otherParam: signatureId | titlecase } }}">
+    </p>
+
     <p>
       {{'deduplication.sets.subtitle' | translate}}
     </p>
+
     <div *ngIf="
         (!sets$ || (sets$ | async)?.length == 0) && !(isSetsLoading() | async)
       " class="col-md-12 text-center">
@@ -25,6 +26,7 @@
       </h4>
     </div>
   </div>
+
   <div class="row">
     <div class="col-md-12 p-0">
       <ds-loading class="container" *ngIf="isSetsLoading() | async"
@@ -93,7 +95,8 @@
                   </button>
                 </div>
                 <div class="col-md-8 text-right">
-                  <button #compareBtnSelector class="btn btn-primary btn-sm mt-1" (click)="onCompare(set.setChecksum,set.id)">
+                  <button #compareBtnSelector class="btn btn-primary btn-sm mt-1"
+                    (click)="onCompare(set.setChecksum,set.id)">
                     <i class="fa fa-clone"></i> {{'deduplication.sets.button.compare' | translate}}
                   </button>
                   <button class="btn btn-outline-secondary btn-sm mt-1"
@@ -235,7 +238,8 @@
                                     ">
                                   <i class="fa fa-trash-alt"></i>
                                 </button>
-                                <button class="btn btn-warning" title="Keep this" (click)="keepItem(set.id, item, content)">
+                                <button class="btn btn-warning" title="Keep this"
+                                  (click)="keepItem(set.id, item, content)">
                                   <i class="fa fa-check-square" aria-hidden="true"></i>
                                 </button>
                               </div>
@@ -257,16 +261,16 @@
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h5 class="modal-title text-info">{{ confirmModalText.title | translate }}</h5>
+    <h5 class="modal-title" [ngClass]="confirmModalText.titleClass">{{ confirmModalText.title | translate }}</h5>
   </div>
   <div class="modal-body">
     <p>{{ 'deduplication.sets.modal.confirm.info' | translate }}</p>
   </div>
-  <div class="modal-footer">
+  <div class="modal-footer justify-content-between">
     <button type="button" class="btn btn-secondary" (click)="d('cancel')">
       {{ 'deduplication.sets.modal.confirm.cancel' | translate }}
     </button>
-    <button type="button" class="btn btn-outline-info" (click)="d('ok')">
+    <button type="button" class="btn" [ngClass]="confirmModalText.btnClass" (click)="d('ok')">
       {{ confirmModalText.btnText| translate }}
     </button>
   </div>

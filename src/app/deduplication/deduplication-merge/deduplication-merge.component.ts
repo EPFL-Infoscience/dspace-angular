@@ -178,6 +178,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // TODO: The logic of target item to be changed
     this.targetItemId = this.storedItemIds[0] ?? null;
     this.getExcludedMetadata();
     this.getRepeatableFields(this.targetItemId);
