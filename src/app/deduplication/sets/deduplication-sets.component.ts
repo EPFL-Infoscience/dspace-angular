@@ -117,8 +117,8 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   confirmModalText = {
     title: '',
     btnText: '',
-    titleClass:'',
-    btnClass:'',
+    titleClass: '',
+    btnClass: '',
   };
 
   /**
@@ -294,7 +294,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       title: this.removeElementText,
       btnText: this.delteBtnText,
       titleClass: 'text-danger',
-      btnClass:'btn-danger'
+      btnClass: 'btn-danger'
     };
 
     this.modalService.open(content).dismissed.subscribe((result) => {
@@ -475,7 +475,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       title: this.translate.instant('deduplication.sets.modal.confirm.merge', { param: item.uuid }),
       btnText: this.translate.instant('deduplication.sets.modal.merge.submit'),
       titleClass: 'text-info',
-      btnClass:'btn-info'
+      btnClass: 'btn-info'
     };
 
     this.modalService.open(content).dismissed.subscribe((result) => {
@@ -650,7 +650,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
           if (item) {
             // In other case get item submission status
             // If status is workspaceItem or workflowItem
-            this.getItemSubmissionStatus(itemId)
+            this.deduplicationSetsService.getItemSubmissionStatus(itemId)
               .pipe(take(1))
               .subscribe((x) => {
                 const object = x;
@@ -733,60 +733,6 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   }
 
   /**
-   * Get workflow/workspace item if it exists
-   * @param itemId The id of the item
-   * @returns {Observable<WorkflowItem | null | SubmitDataResponseDefinitionObject>}
-   * The WorkflowItem (if it exists) or WorkspaceItem or null if it doesn't exist
-   */
-  private getItemSubmissionStatus(
-    itemId: string
-  ): Observable<WorkflowItem | null | SubmitDataResponseDefinitionObject> {
-    return this.getWorkflowItemStatus(itemId).pipe(
-      concatMap((res: WorkflowItem | null) => {
-        if (isNull(res)) {
-          return this.getWorkspaceItemStatus(itemId);
-        } else {
-          return of(res);
-        }
-      })
-    );
-  }
-
-  /**
-   * Get WorkspaceItem if it exists.
-   * @param itemId The id of the item to get the status for
-   * @returns {Observable<SubmitDataResponseDefinitionObject>}
-   */
-  private getWorkspaceItemStatus(
-    itemId: string
-  ): Observable<SubmitDataResponseDefinitionObject> {
-    return this.deduplicationSetsService.getSubmissionWorkspaceitem(itemId);
-  }
-
-  /**
-   * Get WorkflowItem submission status.
-   * If the response status is 200, the item is a WorkflowItem.
-   * If the response status is 204, the item is not found as WorkflowItem.
-   * @param itemId The id of the item to get the status for
-   * @returns {Observable<WorkflowItem | null>} The WorkflowItem or null
-   */
-  private getWorkflowItemStatus(
-    itemId: string
-  ): Observable<WorkflowItem | null> {
-    return this.deduplicationSetsService
-      .getSubmissionWorkflowItems(itemId)
-      .pipe(
-        map((res) => {
-          if (isEqual(res.statusCode, 200)) {
-            return res.payload;
-          } else {
-            return null;
-          }
-        })
-      );
-  }
-
-  /**
    * Deletes WorkflowItem. (The item is converted into a WorkspaceItem),
    * Gets the WorkspaceItem and deletes it.
    * @param itemId The id of the item to be deleted
@@ -796,7 +742,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       return this.deduplicationSetsService.deleteWorkflowItem(itemId).pipe(
         concatMap((res: RemoteData<NoContent>) => {
           if (res.hasSucceeded || isEqual(res.statusCode, 204)) {
-            return this.getWorkspaceItemStatus(itemId).pipe(
+            return this.deduplicationSetsService.getWorkspaceItemStatus(itemId).pipe(
               concatMap((item: SubmitDataResponseDefinitionObject) => {
                 if (hasValue(item)) {
                   return this.deduplicationSetsService.deleteWorkspaceItemById(

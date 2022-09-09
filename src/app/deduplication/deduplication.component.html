@@ -9,19 +9,12 @@
         <li [ngbNavItem]="'all-signatures'">
           <a ngbNavLink>{{
             "deduplication.home.tab.all-signatures" | translate
-          }}</a>
+            }}</a>
           <ng-template ngbNavContent>
-            <ds-loading
-              class="container"
-              *ngIf="isSignaturesLoading() | async"
-              [message]="'deduplication.signature.loading' | translate"
-            ></ds-loading>
-            <ds-deduplication-signatures
-              class="container p-0 m-0"
-              *ngIf="!(isSignaturesLoading() | async)"
-              [signatures]="signatures$"
-              [elementsPerRow]="elementsPerPage"
-            >
+            <ds-loading class="container" *ngIf="isSignaturesLoading() | async"
+              [message]="'deduplication.signature.loading' | translate"></ds-loading>
+            <ds-deduplication-signatures class="container p-0 m-0" *ngIf="!(isSignaturesLoading() | async)"
+              [signatures]="signatures$" [elementsPerRow]="elementsPerPage">
             </ds-deduplication-signatures>
           </ng-template>
         </li>
@@ -35,18 +28,14 @@
                 </p>
               </div>
               <div class="col-md-8">
-                <textarea
-                  id="itemid-list"
-                  name="itemid-list"
-                  rows="10"
-                  class="form-control"
-                ></textarea>
+                <textarea [(ngModel)]="itemUuidsToCompare" id="itemid-list" name="itemid-list" rows="10"
+                  class="form-control"></textarea>
               </div>
             </div>
             <div class="row tab-pane-deduplication">
               <div class="col-md-12 text-right">
                 <p class="mt-3">
-                  <button type="button" class="btn btn-primary">
+                  <button type="button" class="btn btn-primary" (click)="validateItems(content)">
                     {{ "deduplication.home.tab.compare" | translate }}
                   </button>
                 </p>
@@ -59,3 +48,17 @@
     </div>
   </div>
 </div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header justify-content-center">
+    <h4 class="modal-title text-info">{{ "deduplication.compare.confirm-modal.title" | translate }}</h4>
+  </div>
+  <div class="modal-footer justify-content-between">
+    <button type="button" class="btn btn-secondary" (click)="c('cancel')">
+      {{ "deduplication.sets.modal.confirm.cancel" | translate }}
+    </button>
+    <button type="button" class="btn btn-info" (click)="c('ok')">
+      {{ "deduplication.compare.confirm-modal.btn-text" | translate }}
+    </button>
+  </div>
+</ng-template>
