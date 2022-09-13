@@ -1511,6 +1511,8 @@
 
   "deduplication.breadcrumbs": "Deduplication",
 
+  "deduplication.title": "Deduplication",
+
   "deduplication.home.tab.all-signatures": "All",
 
   "deduplication.home.tab.show-more": "Show more",
@@ -1523,17 +1525,25 @@
 
   "deduplication.compare.notification.required-condition": "Please set 2 identifiers separated by comma",
 
-  "deduplication.compare.notification.change-order.title": "Change the order of the identifiers",
+  "deduplication.compare.notification.valid-id": "Identifier is valid",
 
-  "deduplication.compare.notification.id-workflow-item": "The first uuid should not be workflow item.",
+  "deduplication.compare.notification.id-workflow-item": "Workflow item exists. Change the order. The first identifier should not be a workflow item",
 
-  "deduplication.compare.notification.id-workspace-item": "The first uuid should not be workspace item.",
+  "deduplication.compare.notification.id-workspace-item": "Workspace item exists.Change the order. The first identifier should not be a workspace item",
 
   "deduplication.compare.confirm-modal.title": "Continue with merge",
 
   "deduplication.compare.confirm-modal.btn-text": "Next",
 
   "deduplication.compare.notification.error": "Unable to get data from the server",
+
+  "deduplication.compare.notification.item-does-not-exists": "Item does not exists",
+
+  "deduplication.compare.required-condition": "Enter at least 2 different identifiers separated by comma",
+
+  "deduplication.compare.workflow-404": "Workflow item does not exist",
+
+  "deduplication.compare.workspace-404": "Workspace item does not exist",
 
   "deduplication.signature.loading": "Loading signatures ...",
 

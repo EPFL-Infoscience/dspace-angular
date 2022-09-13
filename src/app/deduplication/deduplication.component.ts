@@ -1,7 +1,7 @@
 import { getFirstCompletedRemoteData } from './../core/shared/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationsService } from 'src/app/shared/notifications/notifications.service';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { take, switchMap, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { DeduplicationStateService } from './deduplication-state.service';
@@ -14,6 +14,8 @@ import { WorkspaceItem } from '../core/submission/models/workspaceitem.model';
 import { isNil, isEqual } from 'lodash';
 import { RemoteData } from '../core/data/remote-data';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ItemDataService } from '../core/data/item-data.service';
+import { Item } from '../core/shared/item.model';
 
 /**
  * Component to display the deduplication signatures page.
@@ -41,13 +43,19 @@ export class DeduplicationComponent implements OnInit {
 
   public itemUuidsToCompare: string = '';
 
+  errorMessageList: Map<string, ItemErrorMessages[]> = new Map();
+
+  identifiersLinkList: string[] = [];
+
   constructor(
     private deduplicationStateService: DeduplicationStateService,
     private notificationsService: NotificationsService,
     private translate: TranslateService,
     private modalService: NgbModal,
     private workspaceitemDataService: WorkspaceitemDataService,
-    private workflowItemDataService: WorkflowItemDataService
+    private workflowItemDataService: WorkflowItemDataService,
+    private itemDataService: ItemDataService,
+    private chd: ChangeDetectorRef
   ) { }
 
   /**
@@ -104,38 +112,48 @@ export class DeduplicationComponent implements OnInit {
    * if it represents a workflow/workspace cannot be selected as a target item
    */
   validateItems(content) {
+    this.errorMessageList = new Map();
     const uuidsList: string[] = this.itemUuidsToCompare
       .trim()
       .split(',')
+      .map((id) => id.trim())
+      .filter(
+        (value, index, categoryArray) => categoryArray.indexOf(value) === index
+      )
       .filter((el) => el.length > 0);
     if (uuidsList.length > 1) {
       // first we check if the identifier represents a workflow item,
       // then if is not we check if the identifier represents a workspace item.
       // If it does not represents one of them, it might be selected as target item
-      this.getWorkflowItemStatus(uuidsList[0].trim())
-        .pipe(
-          switchMap((item: WorkflowItem) => {
-            if (!hasValue(item)) {
-              return this.getWorkspaceItemStatus(uuidsList[0].trim());
-            } else {
-              return of(item);
-            }
-          })
-        )
-        .subscribe((res: WorkflowItem | WorkspaceItem) => {
-          if (isNil(res)) {
+
+      uuidsList.forEach((element: string, index: number) => {
+        this.checkIdValidity(element, index).subscribe((el) => {
+          this.chd.detectChanges();
+          console.log(el, uuidsList);
+          // if length of 2 lists is equal
+          console.log(this.identifiersLinkList);
+          // check errors
+          if (this.identifiersLinkList.length == uuidsList.length) {
             this.modalService.open(content).closed.subscribe((result) => {
               if (isEqual(result, 'ok')) {
                 this.notificationsService.info(
                   null,
-                  this.translate.get(
-                    'Continue with the merge ...'
-                  )
+                  this.translate.get('Continue with the merge ...')
                 );
               }
-            })
+            });
           }
+
+          //       this.modalService.open(content).closed.subscribe((result) => {
+          //         if (isEqual(result, 'ok')) {
+          //           this.notificationsService.info(
+          //             null,
+          //             this.translate.get('Continue with the merge ...')
+          //           );
+          //         }
+          //        });
         });
+      });
     } else {
       // We should make sure we have set at least 2 identifiers to compare
       this.notificationsService.info(
@@ -143,6 +161,91 @@ export class DeduplicationComponent implements OnInit {
         this.translate.get('deduplication.compare.required-condition')
       );
     }
+  }
+
+  checkIdValidity(itemUuid: string, index: number) {
+    if (!this.errorMessageList.has(itemUuid)) {
+      this.errorMessageList.set(itemUuid, []);
+    }
+    // GET WORKFLOW ITEM STATUS
+    return this.getWorkflowItemStatus(itemUuid).pipe(
+      map((workflowItem: WorkflowItem) => {
+        if (hasValue(workflowItem)) {
+          if (isEqual(index, 0)) {
+            this.errorMessageList.delete(itemUuid);
+            this.errorMessageList.set(itemUuid, [
+              {
+                message: 'deduplication.compare.notification.id-workflow-item',
+                status: 0,
+              },
+            ]);
+
+            return null;
+          } else {
+            this.errorMessageList.delete(itemUuid);
+            this.errorMessageList.set(itemUuid, [
+              {
+                message: 'deduplication.compare.notification.valid-id',
+                status: 200,
+              },
+            ]);
+
+            return workflowItem;
+          }
+        }
+      }),
+      switchMap((workflowItem: WorkflowItem) => {
+        if (hasValue(workflowItem)) {
+          return of(workflowItem);
+        } else {
+          // GET ITEM STATUS
+          return this.getItem(itemUuid).pipe(
+            map((item: Item) => {
+              if (hasValue(item)) {
+                return item;
+              } else {
+                return null;
+              }
+            }),
+            switchMap((item: Item) => {
+              if (hasValue(item)) {
+                return of(item);
+              } else {
+                // GET WORKSPACE ITEM STATUS
+                return this.getWorkspaceItemStatus(itemUuid).pipe(
+                  map((workspaceItem: WorkspaceItem) => {
+                    if (hasValue(workspaceItem)) {
+                      if (isEqual(index, 0)) {
+                        this.errorMessageList.delete(itemUuid);
+                        this.errorMessageList.set(itemUuid, [
+                          {
+                            message:
+                              'deduplication.compare.notification.id-workspace-item',
+                            status: 0,
+                          },
+                        ]);
+
+                        return null;
+                      } else {
+                        this.errorMessageList.delete(itemUuid);
+                        this.errorMessageList.set(itemUuid, [
+                          {
+                            message:
+                              'deduplication.compare.notification.valid-id',
+                            status: 200,
+                          },
+                        ]);
+                        return workspaceItem;
+                      }
+                    }
+                  })
+                );
+              }
+            })
+          );
+        }
+      })
+    );
   }
 
   /**
@@ -154,17 +257,23 @@ export class DeduplicationComponent implements OnInit {
     return this.workflowItemDataService.findById(itemUuid).pipe(
       getFirstCompletedRemoteData(),
       map((rd: RemoteData<WorkflowItem>) => {
-        if (rd.hasSucceeded && rd.payload) {
-          this.notificationsService.error(
-            this.translate.get('deduplication.compare.notification.change-order.title'),
-            this.translate.get('deduplication.compare.notification.id-workflow-item')
-          );
+        if (rd.hasSucceeded && hasValue(rd.payload)) {
+          if (!this.identifiersLinkList.some(x => isEqual(x, rd.payload._links.item.href))) {
+            this.identifiersLinkList.push(rd.payload._links.item.href);
+          }
           return rd.payload;
-        } else if (rd.hasFailed && isEqual(rd.statusCode, 500)) {
-          this.notificationsService.error(
-            null,
-            this.translate.get('deduplication.compare.notification.error')
-          );
+        } else if (rd.hasFailed && isEqual(rd.statusCode, 404)) {
+          this.errorMessageList.get(itemUuid).push({
+            message: 'deduplication.compare.worklow-404',
+            status: 404,
+          });
+        } else {
+          this.errorMessageList.get(itemUuid).push({
+            message: 'deduplication.compare.notification.error',
+            status: 500,
+          });
+
+          return null;
         }
       })
     );
@@ -179,19 +288,59 @@ export class DeduplicationComponent implements OnInit {
     return this.workspaceitemDataService.findById(itemUuid).pipe(
       getFirstCompletedRemoteData(),
       map((rd: RemoteData<WorkspaceItem>) => {
-        if (rd.hasSucceeded && rd.payload) {
-          this.notificationsService.error(
-            this.translate.get('deduplication.compare.notification.change-order.title'),
-            this.translate.get('deduplication.compare.notification.id-workspace-item')
-          );
+        if (rd.hasSucceeded && hasValue(rd.payload)) {
+          if (!this.identifiersLinkList.some(x => isEqual(x, rd.payload._links.item.href))) {
+            this.identifiersLinkList.push(rd.payload._links.item.href);
+          }
           return rd.payload;
-        } else if (rd.hasFailed && isEqual(rd.statusCode, 500)) {
-          this.notificationsService.error(
-            null,
-            this.translate.get('deduplication.compare.notification.error')
-          );
+        } else if (rd.hasFailed && isEqual(rd.statusCode, 404)) {
+          this.errorMessageList.get(itemUuid).push({
+            message: 'deduplication.compare.workspace-404',
+            status: 404,
+          });
+
+          return null;
+        } else {
+          this.errorMessageList.get(itemUuid).push({
+            message: 'deduplication.compare.notification.error',
+            status: 500,
+          });
+          return null;
         }
       })
     );
   }
+
+  getItem(itemUuid: string): Observable<Item> {
+    return this.itemDataService.findById(itemUuid).pipe(
+      getFirstCompletedRemoteData(),
+      map((rd: RemoteData<Item>) => {
+        if (rd.hasSucceeded && hasValue(rd.payload)) {
+          if (!this.identifiersLinkList.some(x => isEqual(x, rd.payload._links.self.href))) {
+            this.identifiersLinkList.push(rd.payload._links.self.href);
+          }
+          return rd.payload;
+        }
+
+        if (rd.hasFailed && isEqual(rd.statusCode, 404)) {
+          this.errorMessageList.get(itemUuid).push({
+            message: 'deduplication.compare.notification.item-does-not-exists',
+            status: 404,
+          });
+          return null;
+        } else {
+          this.errorMessageList.get(itemUuid).push({
+            message: 'deduplication.compare.notification.error',
+            status: 500,
+          });
+          return null;
+        }
+      })
+    );
+  }
+}
+
+export interface ItemErrorMessages {
+  message: string;
+  status: number;
 }

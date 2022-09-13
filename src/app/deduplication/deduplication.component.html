@@ -41,6 +41,25 @@
                 </p>
               </div>
             </div>
+
+            <div class="jumbotron p-3" *ngIf="errorMessageList.size > 0">
+              <div class="row justify-content-center">
+                <h5 class="text-info">Informing messages for each identifier</h5>
+              </div>
+
+              <ng-container *ngFor="let error of errorMessageList | keyvalue">
+                <span> Identifier: {{error.key }}</span>
+                <br />
+                <ng-container *ngFor="let item of error.value">
+                  <span class="pl-1"
+                    [ngClass]="{'text-warning': item.status == 0, 'text-danger': item.status == 404 || item.status == 500,'text-success': item.status == 200 }">
+                    {{item.message | translate }}
+                  </span>
+                  <br>
+                </ng-container>
+                <hr>
+              </ng-container>
+            </div>
           </ng-template>
         </li>
       </ul>
