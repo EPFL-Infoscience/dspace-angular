@@ -46,6 +46,16 @@ export class DeduplicationItemsService {
       .pipe(getFirstSucceededRemoteDataPayload());
   }
 
+  getItemByHref(href: string) {
+    return this.itemDataService.findByHref(href,
+      true,
+      true,
+      followLink('bundles', {}, followLink('bitstreams')),
+      followLink('owningCollection')).pipe(
+        getFirstSucceededRemoteDataPayload()
+      )
+  }
+
   /**
    * PUT call to merge the data
    * @param data data to be merged
@@ -72,10 +82,10 @@ export class DeduplicationItemsService {
         if (isEqual(response.statusCode, 422)) {
           // Unprocessable Entity
           this.notificationsService.error(
-            null, 
+            null,
             this.translate.get(
               'deduplication.merge.notification.message-error-422'
-            ) 
+            )
           );
           throw new Error('Merge Failed with status 422');
         }

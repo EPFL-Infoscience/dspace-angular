@@ -36,6 +36,17 @@ import { DeduplicationMergeComponent } from './../../deduplication/deduplication
       },
       {
         canActivate: [AuthenticatedGuard],
+        path: 'compare',
+        component: DeduplicationMergeComponent,
+        resolve: { breadcrumb: I18nBreadcrumbResolver },
+        data: {
+          title: 'Compare Items',
+          breadcrumbKey: 'compare',
+          showBreadcrumbsFluid: false
+        }
+      },
+      {
+        canActivate: [AuthenticatedGuard],
         path: 'compare/:signatureId/:setChecksum',
         component: DeduplicationMergeComponent,
         resolve: { breadcrumb: I18nBreadcrumbResolver },
@@ -43,7 +54,7 @@ import { DeduplicationMergeComponent } from './../../deduplication/deduplication
           title: 'Compare Deduplications',
           breadcrumbKey: 'compare',
           showBreadcrumbsFluid: false
-        },
+        }
       }
     ])
   ],

@@ -40,6 +40,7 @@ import {
 } from '../interfaces/deduplication-merge.models';
 import { ItemsMetadataValues } from '../interfaces/deduplication-differences.models';
 import { DeduplicationMergeResultComponent } from '../deduplication-merge-result/deduplication-merge-result.component';
+import { Location } from '@angular/common'
 
 @Component({
   selector: 'ds-deduplication-merge',
@@ -58,7 +59,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * Item ids from the cookie, selected from previous page to me compared
    * @type {string[]}
    */
-  private storedItemIds: string[] = [];
+  private storedItemList: string[] = [];
 
   /**
    * The signature id of the items to compare
@@ -165,23 +166,31 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private configurationDataService: ConfigurationDataService,
     private route: ActivatedRoute,
-    private router: Router,
+    private location: Location,
     private chd: ChangeDetectorRef
   ) {
     this.signatureId = this.route.snapshot.params.signatureId;
     this.setChecksum = this.route.snapshot.params.setChecksum;
-    const itemIds: string[] = this.cookieService.get(
-      `items-to-compare-${this.setChecksum}`
-    );
-    this.storedItemIds = itemIds ?? [];
+
+    if (hasValue(this.setChecksum)) {
+      this.storedItemList = this.cookieService.get(
+        `items-to-compare-${this.setChecksum}`
+      );
+    } else {
+      this.storedItemList = this.cookieService.get(
+        `items-to-compare-identifiersLinkList`
+      );
+    }
+
     this.rule = this.route.snapshot.queryParams.rule;
+
   }
 
   ngOnInit(): void {
     // TODO: The logic of target item to be changed
-    this.targetItemId = this.storedItemIds[0] ?? null;
+    // this.targetItemId = this.storedItemList[0] ?? null;
     this.getExcludedMetadata();
-    this.getRepeatableFields(this.targetItemId);
+    // this.getRepeatableFields(this.targetItemId);
   }
 
   /**
@@ -504,11 +513,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * Navigates to set list page @type {DeduplicationSetsComponent}
    */
   goBack() {
-    this.router.navigate([
-      'admin/deduplication/set',
-      this.signatureId,
-      this.rule,
-    ]);
+    this.location.back()
   }
 
   //#region Privates
@@ -554,12 +559,16 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * 7.Prepares the @var bitstreamList for the merge request.
    */
   private getItemsData() {
-    if (this.storedItemIds.length > 0) {
+    if (this.storedItemList.length > 0) {
       const itemCalls: Observable<Item>[] = [];
-      this.storedItemIds.forEach((itemId: string) => {
-        const call = this.deduplicationItemsService.getItemData(itemId).pipe(
-          map((item: Item) => {
+      this.storedItemList.forEach((element: string) => {
+        const call = this.getData(element).pipe(
+          map((item: Item, index: number) => {
             if (hasValue(item)) {
+              if (isEqual(index, 0)) {
+                this.targetItemId = item.uuid;
+                this.getRepeatableFields(this.targetItemId);
+              }
               // if item link is not in the list, add it
               if (!this.mergedItems.includes(item._links.self.href)) {
                 this.mergedItems.push(item._links.self.href);
@@ -602,6 +611,15 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  getData(element: string): Observable<Item> {
+    if (hasValue(this.setChecksum) && hasValue(this.signatureId)) {
+      return this.deduplicationItemsService.getItemData(element);
+    }
+    else {
+      return this.deduplicationItemsService.getItemByHref(element);
+    }
+  }
   /**
    * Builts the initial structure of @var mergedMetadataFields
    * with all metadata fields of the first item
@@ -723,6 +741,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // Remove the items from cookies
     this.cookieService.remove(`items-to-compare-${this.setChecksum}`);
+    this.cookieService.remove(`items-to-compare-identifiersLinkList`);
     this.modalRef?.close();
   }
 }
