@@ -27,7 +27,7 @@
           <span [ngClass]="model.layout.element?.label" [innerHTML]="item.label"></span>
         </label>
       </div>
-      <div id="otherListOption" class="d-flex align-items-center pr-3" *ngIf="model.openType && ind === (items.length - 1)">
+      <div data-test="otherListOptionRepeatable" class="d-flex align-items-center pr-3" *ngIf="model.openType && ind === (items.length - 1)">
         <label class="m-0">{{'form.other-option' | translate}}</label>
         <input type="text" class="form-control form-control-sm mx-2"
                [ngModelOptions]="{standalone: true}" [(ngModel)]="otherListEntry" />
@@ -66,7 +66,7 @@
           <span [ngClass]="model.layout.element?.label" [innerHTML]="item.label"></span>
         </label>
       </div>
-      <div id="otherListOption" class="d-flex align-items-center pr-3" *ngIf="model.openType && ind === (items.length - 1)">
+      <div data-test="otherListOptionNonRepeatable" class="d-flex align-items-center pr-3" *ngIf="model.openType && ind === (items.length - 1)">
         <label class="m-0">{{'form.other-option' | translate}}</label>
         <input type="text" class="form-control form-control-sm mx-2"
                [ngModelOptions]="{standalone: true}" [(ngModel)]="otherListEntry" />

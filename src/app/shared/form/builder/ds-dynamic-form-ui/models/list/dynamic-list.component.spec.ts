@@ -160,14 +160,14 @@ describe('DsDynamicListComponent test suite', () => {
       it('should display other checkbox list menu option', () => {
         listComp.model.openType = true;
         listFixture.detectChanges();
-        const deMenu = listFixture.debugElement.query(By.css('#otherListOption'));
+        const deMenu = listFixture.debugElement.query(By.css('[data-test="otherListOptionRepeatable"]'));
         expect(deMenu).toBeTruthy();
       });
 
       it('should not display other checkbox list menu option', () => {
         listComp.model.openType = false;
         listFixture.detectChanges();
-        const deMenu = listFixture.debugElement.query(By.css('#otherListOption'));
+        const deMenu = listFixture.debugElement.query(By.css('[data-test="otherListOptionRepeatable"]'));
         expect(deMenu).toBeFalsy();
       });
 
@@ -276,14 +276,14 @@ describe('DsDynamicListComponent test suite', () => {
       it('should display other radio list menu option', () => {
         listComp.model.openType = true;
         listFixture.detectChanges();
-        const deMenu = listFixture.debugElement.query(By.css('#otherListOption'));
+        const deMenu = listFixture.debugElement.query(By.css('[data-test="otherListOptionNonRepeatable"]'));
         expect(deMenu).toBeTruthy();
       });
 
       it('should not display other radio list menu option', () => {
         listComp.model.openType = false;
         listFixture.detectChanges();
-        const deMenu = listFixture.debugElement.query(By.css('#otherListOption'));
+        const deMenu = listFixture.debugElement.query(By.css('[data-test="otherListOptionNonRepeatable"]'));
         expect(deMenu).toBeFalsy();
       });
 
