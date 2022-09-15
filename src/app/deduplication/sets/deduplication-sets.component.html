@@ -75,7 +75,7 @@
             </ng-container>
             <ng-container *ngIf="(getItemsPerSet(set.id) | async)?.length > 0">
               <div class="row">
-                <div class="col-12">
+                <div class="col-md-12">
                   <p class="small">{{'deduplication.sets.label.select-to-compare' | translate}}</p>
                 </div>
               </div>
@@ -139,9 +139,10 @@
                                   <tr>
                                     <th>{{'deduplication.sets.label.identifier' | translate}}:</th>
                                     <td>
-                                      <button class="btn btn-outline-info btn-sm">
+                                      <a class="btn btn-outline-info btn-sm" [routerLink]="getItemPage(item)"
+                                        role="button">
                                         {{ item.uuid }}
-                                      </button>
+                                      </a>
                                     </td>
                                   </tr>
                                   <tr>

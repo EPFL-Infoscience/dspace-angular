@@ -39,6 +39,7 @@ import { CookieService } from '../../core/services/cookie.service';
 import { SelectedItemData } from '../interfaces/deduplication-sets.models';
 import { DeduplicationItemsService } from '../deduplication-merge/deduplication-items.service';
 import { Bitstream } from '../../core/shared/bitstream.model';
+import { getEntityPageRoute } from 'src/app/item-page/item-page-routing-paths';
 
 @Component({
   selector: 'ds-deduplication-sets',
@@ -378,7 +379,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
           getFirstSucceededRemoteDataPayload(),
           map(
             (collection: Collection) =>
-              collection?.metadata['dc.title'][0].value
+              collection?.metadata['dc.title'][0].value ?? '-'
           )
         );
     } else {
@@ -540,6 +541,15 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     this.router.navigate(['admin/deduplication']);
   }
 
+  /**
+   * Returns the path to navigate to item's details page.
+   * @param item Dspace item
+   */
+   getItemPage(item: Item): string {
+    const type = item.firstMetadataValue('dspace.entity.type');
+    return getEntityPageRoute(type, item.uuid);
+  }
+
   //#region Privates
   /**
    * Retrieves the items per set.
@@ -565,17 +575,19 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     this.deduplicationSetsService
       .deleteSet(this.signatureId, setChecksum)
       .subscribe((res: RemoteData<NoContent>) => {
-        if (res.hasSucceeded && isEqual(res.statusCode, 200)) {
+        if (res.hasSucceeded) {
           this.deduplicationStateService.dispatchDeleteSet(
             this.signatureId,
             setId
           );
-        } else if (isEqual(res.statusCode, 204)) {
-          this.notificationsService.error(
-            null,
-            this.translate.get('deduplication.sets.notification.cannot-delete-set')
-          );
-        } else {
+        }
+        // else if (isEqual(res.statusCode, 204)) {
+        //   this.notificationsService.error(
+        //     null,
+        //     this.translate.get('deduplication.sets.notification.cannot-delete-set')
+        //   );
+        // }
+         else {
           this.notificationsService.error(
             null,
             this.translate.get(

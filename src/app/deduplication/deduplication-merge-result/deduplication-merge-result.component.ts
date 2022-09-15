@@ -63,7 +63,7 @@ export class DeduplicationMergeResultComponent {
     private deduplicationItemsService: DeduplicationItemsService,
     private deduplicationStateService: DeduplicationStateService,
     private modalService: NgbModal
-  ) {}
+  ) { }
 
   /**
    * On merge confirmation action perform merge
@@ -82,10 +82,12 @@ export class DeduplicationMergeResultComponent {
               if (hasValue(res)) {
                 this.activeModal.close();
                 // remove the set from store
-                this.deduplicationStateService.dispatchDeleteSet(
-                  this.identifiers.signatureId,
-                  this.identifiers.setId
-                );
+                if (hasValue(this.identifiers.signatureId) && hasValue(this.identifiers.setId)) {
+                  this.deduplicationStateService.dispatchDeleteSet(
+                    this.identifiers.signatureId,
+                    this.identifiers.setId
+                  );
+                }
               }
               this.isPending = false;
             },

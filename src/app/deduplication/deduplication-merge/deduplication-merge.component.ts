@@ -208,6 +208,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         const object: MetadataMapObject = mapObject?.find((x) =>
           isEqual(x.value.toLowerCase(), value.value.toLowerCase())
         );
+
         if (hasValue(object)) {
           // if the value is already in the map, add the item data to the object,
           // for the same value (item) add the item id and link
@@ -235,8 +236,13 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
           if (mapObject) {
             mapObject.push(newObject);
           } else {
-            const existingValues = this.compareMetadataValues.get(key);
-            existingValues.push(newObject);
+            const existingValues: MetadataMapObject[] = this.compareMetadataValues.get(key);
+            if (existingValues.find(v => isEqual(v.value, newObject.value))) {
+              // in cases when there is the same value for the same item
+              existingValues.find(v => isEqual(v.value, newObject.value))?.items.concat(...newObject.items);
+            } else {
+              existingValues.push(newObject);
+            }
           }
         }
       } else {
@@ -469,7 +475,9 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     );
     // merge object
     const mergedItems: MergeItems = {
-      setId: `${this.signatureId}:${this.setChecksum}`, // setId: signature-id:set-checksum
+      setId: hasValue(this.signatureId) && hasValue(this.setChecksum) ?
+        `${this.signatureId}:${this.setChecksum}` :
+        null, // setId: signature-id:set-checksum
       bitstreams: [...this.bitstreamList],
       metadata: [...this.mergedMetadataFields],
       mergedItems: [...this.mergedItems],
@@ -561,11 +569,12 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   private getItemsData() {
     if (this.storedItemList.length > 0) {
       const itemCalls: Observable<Item>[] = [];
-      this.storedItemList.forEach((element: string) => {
+      this.storedItemList.forEach((element: string, index: number) => {
         const call = this.getData(element).pipe(
-          map((item: Item, index: number) => {
+          map((item: Item) => {
             if (hasValue(item)) {
               if (isEqual(index, 0)) {
+                // TARGET ITEM - FIRST ITEM
                 this.targetItemId = item.uuid;
                 this.getRepeatableFields(this.targetItemId);
               }

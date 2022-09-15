@@ -1,7 +1,7 @@
 import { Collection } from './../../core/shared/collection.model';
 import { getFirstSucceededRemoteDataPayload } from './../../core/shared/operators';
 import { Item } from './../../core/shared/item.model';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ItemData } from '../interfaces/deduplication-differences.models';
 import { map } from 'rxjs/operators';

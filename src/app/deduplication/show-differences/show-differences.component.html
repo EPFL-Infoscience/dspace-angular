@@ -6,8 +6,26 @@
 </div>
 <div class="modal-body">
   <ng-container *ngFor="let object of objectMap | keyvalue">
+
     <ng-container *ngFor="let value of object.value; let i = index">
-      <ng-container *ngIf="i < object.value.length - 1">
+
+      <ng-container *ngIf="object.value | showDiffBtn">
+        <div class="row justify-content-center">
+          <div class="col text-center">
+            <div class="card-header border-bottom-0 mb-2">
+              <span
+                [innerHtml]="'deduplication.merge.show-diff.modal.description' | translate: {param:object.key }"></span>
+              <p>
+                Cannot compare values under the same identifier
+                <span [ngStyle]="{ color: object.value[i].color }">{{ object.value[i].id }}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </ng-container>
+      <ng-container *ngIf="i < object.value.length - 1;">
         <div class="row">
           <div class="col text-center">
             <div class="card-header border-bottom-0 mb-2">
@@ -24,9 +42,6 @@
         <!-- FIRST VALUE -->
         <div class="card mb-2">
           <div class="card-header">
-            <!-- Value in
-            <span class="font-weight-bold">place {{ object.key }}</span>
-            for -->
             <span
               [innerHtml]="'deduplication.merge.show-diff.modal.card-header' | translate: {param:object.key }"></span>
             <span [ngStyle]="{ color: object.value[i].color }">{{ object.value[i].id }}
@@ -74,6 +89,7 @@
       </ng-container>
     </ng-container>
   </ng-container>
+
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">

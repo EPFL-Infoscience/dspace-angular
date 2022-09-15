@@ -25,6 +25,7 @@ import { SubmissionRepeatableFieldsRestService } from '../core/deduplication/ser
 import { BitstreamTableComponent } from './bitstream-table/bitstream-table.component';
 import { GetBitstreamsPipe } from './deduplication-merge/pipes/ds-get-bitstreams.pipe';
 import { ItemsTableComponent } from './items-table/items-table.component';
+import { ShowDiffBtnPipe } from './show-differences/pipes/show-diff-btn.pipe';
 
 const MODULES = [
   CommonModule,
@@ -45,7 +46,8 @@ const COMPONENTS = [
 
 const PIPES = [
   TextDiffPipe,
-  GetBitstreamsPipe
+  GetBitstreamsPipe,
+  ShowDiffBtnPipe,
 ];
 
 const DIRECTIVES = [];
