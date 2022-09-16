@@ -1,4 +1,4 @@
-import {  mergeMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 import { DefaultChangeAnalyzer } from './../../data/default-change-analyzer.service';
 import { MERGE_OBJECT } from './../models/merge-object.resource-type';
 import { RemoteDataBuildService } from './../../cache/builders/remote-data-build.service';
@@ -14,6 +14,8 @@ import { ChangeAnalyzer } from '../../data/change-analyzer';
 import { HALEndpointService } from '../../shared/hal-endpoint.service';
 import { MergeObject } from '../models/merge-object.model';
 import { dataService } from '../../cache/builders/build-decorators';
+import { Observable } from 'rxjs';
+import { RemoteData } from '../../data/remote-data';
 
 /* tslint:disable:max-classes-per-file */
 
@@ -90,7 +92,7 @@ export class DeduplicationMergeRestService {
     );
   }
 
-  public mergeItemsData(data: any, targetItemId: string) {
+  public mergeItemsData(data: any, targetItemId: string): Observable<RemoteData<MergeObject>> {
     return this.halService.getEndpoint(this.dataService.getLinkPath()).pipe(
       mergeMap(endpoint => {
         const object = {

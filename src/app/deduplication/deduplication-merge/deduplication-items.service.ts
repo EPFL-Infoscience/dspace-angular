@@ -1,3 +1,4 @@
+import { MergeItemsFromCompare } from './../interfaces/deduplication-merge.models';
 import { isEqual } from 'lodash';
 import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/models/submission-repeatable-fields.model';
 import { SubmissionRepeatableFieldsRestService } from './../../core/deduplication/services/submission-repeatable-fields-rest.service';
@@ -16,7 +17,7 @@ import { ItemDataService } from './../../core/data/item-data.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { MergeItems } from '../interfaces/deduplication-merge.models';
+import { MergeSetItems } from '../interfaces/deduplication-merge.models';
 import { FindListOptions } from '../../core/data/request.models';
 import { RequestParam } from '../../core/cache/models/request-param.model';
 @Injectable()
@@ -63,7 +64,7 @@ export class DeduplicationItemsService {
    * @returns {Observable<MergeObject>}
    */
   public mergeData(
-    data: MergeItems,
+    data: MergeSetItems | MergeItemsFromCompare,
     targetItemId: string
   ): Observable<MergeObject> {
     return this.mergeService.mergeItemsData(data, targetItemId).pipe(

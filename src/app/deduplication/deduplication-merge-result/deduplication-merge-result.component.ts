@@ -1,10 +1,11 @@
+import { MergeItemsFromCompare } from './../interfaces/deduplication-merge.models';
 import { DeduplicationStateService } from './../deduplication-state.service';
 import { DeduplicationItemsService } from './../deduplication-merge/deduplication-items.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   ItemData,
-  MergeItems,
+  MergeSetItems,
   MetadataMapObject,
   SetIdentifiers,
 } from '../interfaces/deduplication-merge.models';
@@ -37,9 +38,9 @@ export class DeduplicationMergeResultComponent {
 
   /**
    * The final object with all neccessary data to perform merge.
-   * @type {MergeItems}
+   * @type {MergeSetItems}
    */
-  @Input() itemsToMerge: MergeItems;
+  @Input() itemsToMerge: MergeSetItems | MergeItemsFromCompare;
 
   /**
    * The target item's UUID
@@ -51,7 +52,7 @@ export class DeduplicationMergeResultComponent {
    * Set identifiers, in order to remove the merged set from store
    * @type {SetIdentifiers}
    */
-  @Input() identifiers: SetIdentifiers;
+  @Input() identifiers: SetIdentifiers | null;
 
   /**
    * Flag to show a progress while merge action is performed.
@@ -82,7 +83,7 @@ export class DeduplicationMergeResultComponent {
               if (hasValue(res)) {
                 this.activeModal.close();
                 // remove the set from store
-                if (hasValue(this.identifiers.signatureId) && hasValue(this.identifiers.setId)) {
+                if (hasValue(this.identifiers)) {
                   this.deduplicationStateService.dispatchDeleteSet(
                     this.identifiers.signatureId,
                     this.identifiers.setId

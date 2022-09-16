@@ -1,3 +1,4 @@
+import { MergeItemsFromCompare } from './../interfaces/deduplication-merge.models';
 import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/models/submission-repeatable-fields.model';
 import { isEqual } from 'lodash';
 import { GetBitstreamsPipe } from './pipes/ds-get-bitstreams.pipe';
@@ -34,7 +35,7 @@ import {
   ItemData,
   ItemMetadataSource,
   ItemsMetadataField,
-  MergeItems,
+  MergeSetItems,
   MetadataMapObject,
   SetIdentifiers,
 } from '../interfaces/deduplication-merge.models';
@@ -474,19 +475,28 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       }
     );
     // merge object
-    const mergedItems: MergeItems = {
-      setId: hasValue(this.signatureId) && hasValue(this.setChecksum) ?
-        `${this.signatureId}:${this.setChecksum}` :
-        null, // setId: signature-id:set-checksum
-      bitstreams: [...this.bitstreamList],
-      metadata: [...this.mergedMetadataFields],
-      mergedItems: [...this.mergedItems],
-    };
+    let mergedItems;
+    let setIdentifiers: SetIdentifiers = null;
+    if (hasValue(this.signatureId) && hasValue(this.setChecksum)) {
+      mergedItems = {
+        setId: `${this.signatureId}:${this.setChecksum}`, // setId: signature-id:set-checksum
+        bitstreams: [...this.bitstreamList],
+        metadata: [...this.mergedMetadataFields],
+        mergedItems: [...this.mergedItems],
+      } as MergeSetItems;
 
-    const setIdentifiers: SetIdentifiers = {
-      setId: `${this.signatureId}:${this.setChecksum}`,
-      signatureId: this.signatureId,
-    };
+      setIdentifiers = {
+        setId: `${this.signatureId}:${this.setChecksum}`,
+        signatureId: this.signatureId,
+      };
+    } else {
+      mergedItems = {
+        bitstreams: [...this.bitstreamList],
+        metadata: [...this.mergedMetadataFields],
+        mergedItems: [...this.mergedItems],
+      } as MergeItemsFromCompare;
+    }
+
     // data to pass to modal instance
     this.modalRef.componentInstance.compareMetadataValues = newMap;
     this.modalRef.componentInstance.itemsToCompare = this.itemsToCompare;

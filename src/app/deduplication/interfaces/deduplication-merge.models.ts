@@ -30,8 +30,11 @@ export interface ItemContainer {
 /**
  * The interface used for the model of the merged metadata fields
  */
-export interface MergeItems {
+export interface MergeSetItems extends MergeItemsFromCompare {
   setId: string;
+}
+
+export interface MergeItemsFromCompare {
   bitstreams: string[];
   mergedItems: string[];
   metadata: ItemsMetadataField[];

@@ -3,7 +3,7 @@ import { GetBitstreamsPipe } from './../deduplication-merge/pipes/ds-get-bitstre
 import { Item } from './../../core/shared/item.model';
 import {
   ItemsMetadataField,
-  MergeItems,
+  MergeSetItems,
 } from './../interfaces/deduplication-merge.models';
 import { WorkflowItem } from './../../core/submission/models/workflowitem.model';
 import { SubmitDataResponseDefinitionObject } from './../../core/shared/submit-data-response-definition.model';
@@ -483,7 +483,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       if (isEqual(result, 'ok')) {
         let bitstreamLinks: string[] = [];
         const metadataValues: ItemsMetadataField[] = [];
-        let mergeItems: MergeItems;
+        let mergeItems: MergeSetItems;
         // construct merge object
         item.metadataAsList.forEach((el, index) => {
           metadataValues.push({
