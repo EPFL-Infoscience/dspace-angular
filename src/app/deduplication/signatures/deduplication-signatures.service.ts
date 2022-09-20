@@ -28,8 +28,8 @@ export class DeduplicationSignaturesService {
    * @return Observable<PaginatedList<SignatureObject>>
    *    The list of deduplication signatures.
    */
-  public getSignatures(): Observable<PaginatedList<SignatureObject>> {
-    return this.deduplicationRestService.getSignatures().pipe(
+  public getSignatures(findListOptions: FindListOptions = {}): Observable<PaginatedList<SignatureObject>> {
+    return this.deduplicationRestService.getSignatures(findListOptions).pipe(
       getFirstCompletedRemoteData(),
       map((rd: RemoteData<PaginatedList<SignatureObject>>) => {
         if (rd.hasSucceeded) {

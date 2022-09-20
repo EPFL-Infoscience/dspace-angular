@@ -483,7 +483,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       if (isEqual(result, 'ok')) {
         let bitstreamLinks: string[] = [];
         const metadataValues: ItemsMetadataField[] = [];
-        let mergeItems: MergeSetItems;
+        let itemToKeep: MergeSetItems;
         // construct merge object
         item.metadataAsList.forEach((el, index) => {
           metadataValues.push({
@@ -508,15 +508,15 @@ export class DeduplicationSetsComponent implements AfterViewInit {
             switchMap((bitstreams: Bitstream[], index: number) => {
               const linksPerItem = bitstreams.map((b) => b._links.self.href);
               bitstreamLinks = linksPerItem;
-              mergeItems = {
+              itemToKeep = {
                 setId: setId,
                 bitstreams: bitstreamLinks,
-                mergedItems: [item._links?.self?.href],
+                mergedItems: [],
                 metadata: metadataValues,
               };
 
               return this.deduplicationItemsService.mergeData(
-                mergeItems,
+                itemToKeep,
                 item.uuid
               );
             })
@@ -576,7 +576,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       .deleteSet(this.signatureId, setChecksum)
       .subscribe((res: RemoteData<NoContent>) => {
         if (res.hasSucceeded) {
-          this.notificationsService.error(
+          this.notificationsService.success(
             null,
             this.translate.get('Set deleted')
           );
