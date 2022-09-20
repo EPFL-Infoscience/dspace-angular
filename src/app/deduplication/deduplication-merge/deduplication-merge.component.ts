@@ -157,7 +157,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     backdrop: 'static',
     centered: true,
     scrollable: true,
-    size: 'lg',
+    size: 'xl',
   };
 
   constructor(
@@ -589,7 +589,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
                 this.getRepeatableFields(this.targetItemId);
               }
               // if item link is not in the list, add it
-              if (!this.mergedItems.includes(item._links.self.href)) {
+              if (!this.mergedItems.includes(item._links.self.href) && !isEqual(item.uuid, this.targetItemId)) {
                 this.mergedItems.push(item._links.self.href);
               }
               const keys: string[] = Object.keys(item.metadata);

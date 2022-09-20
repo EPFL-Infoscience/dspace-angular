@@ -545,7 +545,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * Returns the path to navigate to item's details page.
    * @param item Dspace item
    */
-   getItemPage(item: Item): string {
+  getItemPage(item: Item): string {
     const type = item.firstMetadataValue('dspace.entity.type');
     return getEntityPageRoute(type, item.uuid);
   }
@@ -576,6 +576,10 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       .deleteSet(this.signatureId, setChecksum)
       .subscribe((res: RemoteData<NoContent>) => {
         if (res.hasSucceeded) {
+          this.notificationsService.error(
+            null,
+            this.translate.get('Set deleted')
+          );
           this.deduplicationStateService.dispatchDeleteSet(
             this.signatureId,
             setId
@@ -587,7 +591,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
         //     this.translate.get('deduplication.sets.notification.cannot-delete-set')
         //   );
         // }
-         else {
+        else {
           this.notificationsService.error(
             null,
             this.translate.get(
