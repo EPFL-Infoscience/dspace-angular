@@ -1,3 +1,5 @@
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ItemsTableComponent } from './items-table.component';
@@ -8,7 +10,11 @@ describe('ItemsTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ItemsTableComponent ]
+      declarations: [ ItemsTableComponent ],
+      imports: [
+        TranslateModule.forRoot(),
+        CommonModule
+      ]
     })
     .compileComponents();
   });

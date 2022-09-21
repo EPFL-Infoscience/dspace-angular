@@ -45,14 +45,14 @@ describe('DeduplicationSignaturesService', () => {
   });
 
   describe('getSignatures', () => {
+    const sortOptions = new SortOptions('signatureType', SortDirection.ASC);
+    const findListOptions: FindListOptions = {
+      elementsPerPage: elementsPerPage,
+      currentPage: currentPage,
+      sort: sortOptions
+    };
     it('Should proxy the call to deduplicationRestService.getSignatures', () => {
-      const sortOptions = new SortOptions('signatureType', SortDirection.ASC);
-      const findListOptions: FindListOptions = {
-        elementsPerPage: elementsPerPage,
-        currentPage: currentPage,
-        sort: sortOptions
-      };
-      const result = service.getSignatures(elementsPerPage, currentPage);
+      const result = service.getSignatures(findListOptions);
       expect((service as any).deduplicationRestService.getSignatures).toHaveBeenCalledWith(findListOptions);
     });
 
@@ -60,7 +60,7 @@ describe('DeduplicationSignaturesService', () => {
       const expected = cold('(a|)', {
         a: paginatedList
       });
-      const result = service.getSignatures(elementsPerPage, currentPage);
+      const result = service.getSignatures(findListOptions);
       expect(result).toBeObservable(expected);
     });
   });

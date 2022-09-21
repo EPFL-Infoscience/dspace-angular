@@ -27,7 +27,7 @@ import {
 import { DeduplicationItemsService } from './deduplication-items.service';
 import { map, concatMap } from 'rxjs/operators';
 import { hasValue } from '../../shared/empty.util';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { CookieService } from '../../core/services/cookie.service';
 import { forkJoin } from 'rxjs';
 import {
@@ -60,7 +60,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * Item ids from the cookie, selected from previous page to me compared
    * @type {string[]}
    */
-  private storedItemList: string[] = [];
+  private  storedItemList: string[] = [];
 
   /**
    * The signature id of the items to compare
@@ -629,7 +629,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       this.itemsToCompare = new Array<ItemData>();
     }
   }
-
 
   getData(element: string): Observable<Item> {
     if (hasValue(this.setChecksum) && hasValue(this.signatureId)) {

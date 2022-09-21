@@ -21,45 +21,9 @@
         <li [ngbNavItem]="'compare'">
           <a ngbNavLink>{{ "deduplication.home.tab.compare" | translate }}</a>
           <ng-template ngbNavContent>
-            <div class="row tab-pane-deduplication mt-3">
-              <div class="col-md-4">
-                <p>
-                  {{ "deduplication.home.description.compare" | translate }}
-                </p>
-              </div>
-              <div class="col-md-8">
-                <textarea [(ngModel)]="itemUuidsToCompare" id="itemid-list" name="itemid-list" rows="10"
-                  class="form-control"></textarea>
-              </div>
-            </div>
-            <div class="row tab-pane-deduplication">
-              <div class="col-md-12 text-right">
-                <p class="mt-3">
-                  <button type="button" class="btn btn-primary" (click)="validateItems(content)">
-                    {{ "deduplication.home.tab.compare" | translate }}
-                  </button>
-                </p>
-              </div>
-            </div>
 
-            <div class="jumbotron p-3" *ngIf="errorMessageList.size > 0">
-              <div class="row justify-content-center">
-                <h5 class="text-info">Informing messages for each identifier</h5>
-              </div>
+             <ds-compare-item-identifiers></ds-compare-item-identifiers>
 
-              <ng-container *ngFor="let error of errorMessageList | keyvalue">
-                <span> Identifier: {{error.key }}</span>
-                <br />
-                <ng-container *ngFor="let item of error.value">
-                  <span class="pl-1"
-                    [ngClass]="{'text-warning': item.status == 0, 'text-danger': item.status == 404 || item.status == 500,'text-success': item.status == 200 }">
-                    {{item.message | translate }}
-                  </span>
-                  <br>
-                </ng-container>
-                <hr>
-              </ng-container>
-            </div>
           </ng-template>
         </li>
       </ul>
@@ -67,17 +31,3 @@
     </div>
   </div>
 </div>
-
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header justify-content-center">
-    <h4 class="modal-title text-info">{{ "deduplication.compare.confirm-modal.title" | translate }}</h4>
-  </div>
-  <div class="modal-footer justify-content-between">
-    <button type="button" class="btn btn-secondary" (click)="c('cancel')">
-      {{ "deduplication.sets.modal.confirm.cancel" | translate }}
-    </button>
-    <button type="button" class="btn btn-info" (click)="c('ok')">
-      {{ "deduplication.compare.confirm-modal.btn-text" | translate }}
-    </button>
-  </div>
-</ng-template>

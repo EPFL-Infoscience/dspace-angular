@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BitstreamTableComponent } from './bitstream-table.component';
@@ -8,7 +9,10 @@ describe('BitstreamTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BitstreamTableComponent ]
+      declarations: [ BitstreamTableComponent ],
+      imports:[
+        TranslateModule.forRoot(),
+      ]
     })
     .compileComponents();
   });

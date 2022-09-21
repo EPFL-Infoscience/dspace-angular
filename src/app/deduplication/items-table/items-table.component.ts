@@ -13,7 +13,7 @@ import { getEntityPageRoute } from './../../item-page/item-page-routing-paths';
   templateUrl: './items-table.component.html',
   styleUrls: ['./items-table.component.scss'],
 })
-export class ItemsTableComponent   {
+export class ItemsTableComponent {
 
   @Input() itemsToCompare: ItemData[] = [];
 

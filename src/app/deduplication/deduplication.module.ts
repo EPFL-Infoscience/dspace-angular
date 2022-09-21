@@ -26,6 +26,7 @@ import { BitstreamTableComponent } from './bitstream-table/bitstream-table.compo
 import { GetBitstreamsPipe } from './deduplication-merge/pipes/ds-get-bitstreams.pipe';
 import { ItemsTableComponent } from './items-table/items-table.component';
 import { ShowDiffBtnPipe } from './show-differences/pipes/show-diff-btn.pipe';
+import { CompareItemIdentifiersComponent } from './compare-item-identifiers/compare-item-identifiers.component';
 
 const MODULES = [
   CommonModule,
@@ -75,6 +76,7 @@ const PROVIDERS = [
     ...DIRECTIVES,
     ...ENTRY_COMPONENTS,
     ...PIPES,
+    CompareItemIdentifiersComponent,
   ],
   providers: [
     ...PROVIDERS
