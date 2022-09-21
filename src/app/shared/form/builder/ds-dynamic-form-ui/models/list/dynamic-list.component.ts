@@ -249,12 +249,12 @@ export class DsDynamicListComponent extends DynamicFormControlComponent implemen
    * Create a vocabulary object.
    */
   createVocabularyObject(display, value, otherInformation) {
-    const object: VocabularyEntry = {
+    const object = Object.assign(new VocabularyEntry(),this.model.value, {
       display: display,
       value: value,
       otherInformation: otherInformation,
       type: 'vocabularyEntry'
-    } as VocabularyEntry;
+    });
     return object;
   }
 

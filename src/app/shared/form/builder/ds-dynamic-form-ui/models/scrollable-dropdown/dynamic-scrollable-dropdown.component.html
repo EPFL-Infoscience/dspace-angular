@@ -57,7 +57,7 @@
       <div class="d-flex align-items-center pl-4 pr-3 py-2" id="otherOption"
            *ngIf="model.openType && (pageInfo.currentPage >= pageInfo.totalPages)">
         <label class="m-0">{{'form.other-option' | translate}}</label>
-        <input id="otherOptionInput" type="text" class="form-control form-control-sm mx-2" [(ngModel)]="otherListEntry" />
+        <input id="otherOptionInput" type="text" class="form-control form-control-sm mx-2" [(ngModel)]="otherListEntry" (keyup.enter)="addListItem(sdRef)" />
         <button id="otherOptionBtn" class="btn btn-primary btn-sm" type="button"
                 (click)="addListItem(sdRef)" [disabled]="addButoonDisabled">
           {{'form.other-option.add-button' | translate}}

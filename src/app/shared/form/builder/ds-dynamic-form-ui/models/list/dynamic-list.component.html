@@ -30,7 +30,7 @@
       <div data-test="otherListOptionRepeatable" class="d-flex align-items-center pr-3" *ngIf="model.openType && ind === (items.length - 1)">
         <label class="m-0">{{'form.other-option' | translate}}</label>
         <input type="text" class="form-control form-control-sm mx-2"
-               [ngModelOptions]="{standalone: true}" [(ngModel)]="otherListEntry" />
+               [ngModelOptions]="{standalone: true}" [(ngModel)]="otherListEntry" (keyup.enter)="addListItem()" />
         <button type="button" class="btn btn-primary btn-sm" (click)="addListItem()"
                 id="otherOptionBtn" [disabled]="addButoonDisabled">
           {{'form.other-option.add-button' | translate}}
@@ -69,7 +69,7 @@
       <div data-test="otherListOptionNonRepeatable" class="d-flex align-items-center pr-3" *ngIf="model.openType && ind === (items.length - 1)">
         <label class="m-0">{{'form.other-option' | translate}}</label>
         <input type="text" class="form-control form-control-sm mx-2"
-               [ngModelOptions]="{standalone: true}" [(ngModel)]="otherListEntry" />
+               [ngModelOptions]="{standalone: true}" [(ngModel)]="otherListEntry" (keyup.enter)="addListItem()" />
         <button class="btn btn-primary btn-sm" type="button" id="otherOptionBtn"
                 (click)="addListItem()" [disabled]="addButoonDisabled">
           {{'form.other-option.add-button' | translate}}

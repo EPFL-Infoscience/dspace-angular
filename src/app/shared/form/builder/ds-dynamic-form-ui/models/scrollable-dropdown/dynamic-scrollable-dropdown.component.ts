@@ -239,16 +239,15 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
         });
       }
       if (entryCount === 0) {
-        const object: VocabularyEntry = {
-          display: this.otherListEntry,
+        const object = Object.assign(new VocabularyEntry(),this.model.value, {
           value: this.otherListEntry,
+          display: this.otherListEntry,
           otherInformation: undefined,
           type: 'vocabularyEntry'
-        } as VocabularyEntry;
+        });
         this.optionsList.push(object);
-        this.onSelect(this.optionsList[this.optionsList.length - 1]);
+        this.onSelect(object);
         sdRef.close();
-        console.log(this.model);
         this.addButoonDisabled = false;
       } else {
         this.addButoonDisabled = false;
