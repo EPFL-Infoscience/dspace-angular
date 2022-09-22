@@ -577,7 +577,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * 7.Prepares the @var bitstreamList for the merge request.
    */
   private getItemsData() {
-    if (this.storedItemList.length > 0) {
+    if (this.storedItemList?.length > 0) {
       const itemCalls: Observable<Item>[] = [];
       this.storedItemList.forEach((element: string, index: number) => {
         const call = this.getData(element).pipe(

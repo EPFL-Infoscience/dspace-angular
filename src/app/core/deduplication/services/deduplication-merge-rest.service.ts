@@ -95,6 +95,7 @@ export class DeduplicationMergeRestService {
   public mergeItemsData(data: any, targetItemId: string): Observable<RemoteData<MergeObject>> {
     return this.halService.getEndpoint(this.dataService.getLinkPath()).pipe(
       mergeMap(endpoint => {
+        // TODO: Change the request object after REST changes
         const object = {
           ...data,
           _links: {

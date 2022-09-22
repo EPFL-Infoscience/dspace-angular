@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 
 import { TestScheduler } from 'rxjs/testing';
-import { of as observableOf } from 'rxjs';
+import { of as observableOf, pipe } from 'rxjs';
 import { getTestScheduler, cold } from 'jasmine-marbles';
 
 import { RequestService } from '../../data/request.service';
@@ -9,13 +9,13 @@ import { RequestEntry } from '../../data/request.reducer';
 import { RemoteDataBuildService } from '../../cache/builders/remote-data-build.service';
 import { ObjectCacheService } from '../../cache/object-cache.service';
 import { RestResponse } from '../../cache/response.models';
-import { PageInfo } from '../../shared/page-info.model';
 import { HALEndpointService } from '../../shared/hal-endpoint.service';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { createSuccessfulRemoteDataObject } from '../../../shared/remote-data.utils';
 import { DeduplicationRestService } from './deduplication-rest.service';
 import { mockSignatureObjectTitle, mockSignatureObjectIdentifier } from '../../../shared/mocks/deduplication.mock';
 import { PaginatedList } from '../../data/paginated-list.model';
+import { PageInfo } from '../../shared/page-info.model';
 
 describe('DeduplicationRestService', () => {
   let scheduler: TestScheduler;
@@ -32,9 +32,9 @@ describe('DeduplicationRestService', () => {
   const endpointURL = 'https://rest.api/rest/api/deduplications/signatures';
   const requestUUID = '8b3c613a-5a4b-438b-9686-be1d5b4a1c5a';
 
+
   const pageInfo = new PageInfo();
-  const array = [mockSignatureObjectTitle, mockSignatureObjectIdentifier];
-  const paginatedList = new PaginatedList();
+  const array = [mockSignatureObjectTitle, mockSignatureObjectIdentifier];  const paginatedList = new PaginatedList();
   const signatureObjectRD = createSuccessfulRemoteDataObject(mockSignatureObjectTitle);
   const paginatedListRD = createSuccessfulRemoteDataObject(paginatedList);
 
@@ -80,34 +80,16 @@ describe('DeduplicationRestService', () => {
     );
 
     spyOn((service as any).dataService, 'findAllByHref').and.callThrough();
-    spyOn((service as any).dataService, 'findByHref').and.callThrough();
   });
 
   describe('getSignatures', () => {
-    it('should proxy the call to dataservice.findAllByHref', () => {
+    it('should proxy the call to dataservice.findAllByHref', (done) => {
       service.getSignatures().subscribe(
         (res) => {
-          expect((service as any).dataService.findAllByHref).toHaveBeenCalledWith(endpointURL, {});
+          expect((service as any).dataService.findAllByHref).toHaveBeenCalledWith(endpointURL, {}, true, true);
         }
       );
-    });
-
-    // it('should return a RemoteData<PaginatedList<SignatureObject>> for the object with the given URL', () => {
-    //   const result = service.getSignatures();
-    //   const expected = cold('(a)', {
-    //     a: result
-    //   });
-    //   expect(result).toBeObservable(expected);
-    // });
-  });
-
-  describe('getSignature', () => {
-    it('should proxy the call to dataservice.findByHref', () => {
-      service.getSignature(mockSignatureObjectTitle.id).subscribe(
-        (res) => {
-          expect((service as any).dataService.findByHref).toHaveBeenCalledWith(endpointURL + '/' + mockSignatureObjectTitle.id);
-        }
-      );
+      done();
     });
   });
 });

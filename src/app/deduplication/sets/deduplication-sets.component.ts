@@ -39,7 +39,7 @@ import { CookieService } from '../../core/services/cookie.service';
 import { SelectedItemData } from '../interfaces/deduplication-sets.models';
 import { DeduplicationItemsService } from '../deduplication-merge/deduplication-items.service';
 import { Bitstream } from '../../core/shared/bitstream.model';
-import { getEntityPageRoute } from 'src/app/item-page/item-page-routing-paths';
+import { getEntityPageRoute } from '../../item-page/item-page-routing-paths';
 
 @Component({
   selector: 'ds-deduplication-sets',

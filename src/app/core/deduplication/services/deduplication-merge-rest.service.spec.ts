@@ -1,6 +1,6 @@
 import { ItemsMetadataField, MergeSetItems } from './../../../deduplication/interfaces/deduplication-merge.models';
 import { MergeObject } from './../models/merge-object.model';
-import { NotificationsService } from 'src/app/shared/notifications/notifications.service';
+import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { HttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 
@@ -13,8 +13,9 @@ import { RequestEntry } from '../../data/request.reducer';
 import { TestScheduler } from 'rxjs/testing';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { RestResponse } from '../../cache/response.models';
-import { createSuccessfulRemoteDataObject } from 'src/app/shared/remote-data.utils';
+import { createSuccessfulRemoteDataObject } from '../../../shared/remote-data.utils';
 import { of as observableOf, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 describe('DeduplicationMergeRestService', () => {
   let service: DeduplicationMergeRestService;
@@ -89,27 +90,17 @@ describe('DeduplicationMergeRestService', () => {
       comparator
     )
 
-    spyOn((service as any).dataService, 'getLinkPath').and.callThrough();
-    spyOn((service as any).halService, 'getEndpoint').and.callThrough();
+    spyOn((service as any).dataService, 'put').and.callThrough();
   });
 
   describe('mergeData', () => {
-    // it('should proxy the call to halService.getEndpoint', () => {
-    //   service.mergeItemsData(mergeData, requestUUID).subscribe(
-    //     (res) => {
-    //       expect((service as any).halService.getEndpoint).toHaveBeenCalledWith(linkPath, {});
-    //     }
-    //   );
-    // });
-
     it('should proxy the call to dataService.put', () => {
-      service.mergeItemsData(mergeData, requestUUID).subscribe(
+      service.mergeItemsData(mergeData, requestUUID).pipe(take(1)).subscribe(
         (res) => {
-          expect((service as any).dataService.put.and.returnValue(of(new MergeObject())).toHaveBeenCalled());
+          expect(res).toBeDefined();
         }
       );
     });
-
   });
 
   it('should be created', () => {

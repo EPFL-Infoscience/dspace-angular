@@ -2,15 +2,15 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ConfigurationDataService } from './../../core/data/configuration-data.service';
 import { DeduplicationItemsService } from './deduplication-items.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CookieService } from 'src/app/core/services/cookie.service';
-import { CookieServiceMock } from 'src/app/shared/mocks/cookie.service.mock';
+import { CookieService } from '../../core/services/cookie.service';
+import { CookieServiceMock } from '../../shared/mocks/cookie.service.mock';
 
 import { DeduplicationMergeComponent } from './deduplication-merge.component';
 import { GetBitstreamsPipe } from './pipes/ds-get-bitstreams.pipe';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { createSuccessfulRemoteDataObject$ } from 'src/app/shared/remote-data.utils';
+import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
 import { ActivatedRoute } from '@angular/router';
-import { MockActivatedRoute } from 'src/app/shared/mocks/active-router.mock';
+import { MockActivatedRoute } from '../../shared/mocks/active-router.mock';
 import { ChangeDetectorRef } from '@angular/core';
 
 describe('DeduplicationMergeComponent', () => {

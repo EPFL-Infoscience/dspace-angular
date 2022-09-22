@@ -1,7 +1,8 @@
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NO_ERRORS_SCHEMA, Component } from '@angular/core';
 import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { of as observableOf } from 'rxjs';
+import { async, of as observableOf } from 'rxjs';
 import { createTestComponent } from '../shared/testing/utils.test';
 import { DeduplicationComponent } from './deduplication.component';
 import { DeduplicationStateService } from './deduplication-state.service';
@@ -13,19 +14,21 @@ import {
 } from '../shared/mocks/deduplication.mock';
 import { cold } from 'jasmine-marbles';
 
-
-import { SharedModule } from '../shared/shared.module';
+import { take } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
 
 
 describe('DeduplicationComponent test suite', () => {
   let comp: DeduplicationComponent;
   let compAsAny: any;
   let fixture: ComponentFixture<DeduplicationComponent>;
+  let isLoading;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
+        CommonModule,
+        NgbModule,
         TranslateModule.forRoot(),
       ],
       declarations: [
@@ -37,7 +40,7 @@ describe('DeduplicationComponent test suite', () => {
         DeduplicationComponent
       ],
       schemas: [NO_ERRORS_SCHEMA]
-    }).compileComponents().then();
+    }).compileComponents();
   }));
 
   // First test to check the correct component creation
@@ -71,8 +74,6 @@ describe('DeduplicationComponent test suite', () => {
         mockSignatureObjectTitle,
         mockSignatureObjectIdentifier
       ]));
-      // compAsAny.deduplicationStateService.getDeduplicationSignaturesTotalPages.and.returnValue(observableOf(1));
-      // compAsAny.deduplicationStateService.getDeduplicationSignaturesCurrentPage.and.returnValue(observableOf(0));
       compAsAny.deduplicationStateService.getDeduplicationSignaturesTotals.and.returnValue(observableOf(3));
       compAsAny.deduplicationStateService.isDeduplicationSignaturesLoaded.and.returnValue(observableOf(true));
       compAsAny.deduplicationStateService.isDeduplicationSignaturesLoading.and.returnValue(observableOf(false));
@@ -95,9 +96,6 @@ describe('DeduplicationComponent test suite', () => {
           mockSignatureObjectIdentifier
         ]
       }));
-      expect(comp.totalPages$).toBeObservable(cold('(a|)', {
-        a: 1
-      }));
     });
 
     it(('Should configure data properly after the view init'), () => {
@@ -105,15 +103,12 @@ describe('DeduplicationComponent test suite', () => {
 
       comp.ngAfterViewInit();
       fixture.detectChanges();
+      expect(compAsAny.deduplicationStateService.isDeduplicationSignaturesLoaded).toHaveBeenCalled();
 
-      expect(comp.addMoreDeduplicationSignatures).toHaveBeenCalled();
-      // expect(compAsAny.deduplicationStateService.isDeduplicationSignaturesLoaded).toHaveBeenCalled();
-    });
-
-    it(('isSignaturesLoading should return FALSE'), () => {
-      expect(comp.isSignaturesLoading()).toBeObservable(cold('(a|)', {
-        a: false
-      }));
+      compAsAny.deduplicationStateService.isDeduplicationSignaturesLoaded().pipe(take(1))
+        .subscribe(() => {
+          expect(comp.addMoreDeduplicationSignatures).toHaveBeenCalled();
+        });
     });
 
     it(('addMoreDeduplicationSignatures should call the service to dispatch a STATE change'), () => {

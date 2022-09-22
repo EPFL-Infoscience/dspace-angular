@@ -29,8 +29,6 @@ export class DeduplicationComponent implements OnInit {
    */
   public totalPages$: Observable<number>;
 
-
-
   constructor(
     private deduplicationStateService: DeduplicationStateService,
   ) { }

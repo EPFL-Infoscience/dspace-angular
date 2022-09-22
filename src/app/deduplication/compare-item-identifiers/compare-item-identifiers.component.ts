@@ -10,12 +10,12 @@ import { isEqual } from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 import { WorkflowItemDataService } from '../../core/submission/workflowitem-data.service';
 import { combineLatest, Observable, of } from 'rxjs';
-import { getFirstCompletedRemoteData } from 'src/app/core/shared/operators';
+import { getFirstCompletedRemoteData } from '../../core/shared/operators';
 import { map, switchMap } from 'rxjs/operators';
-import { hasValue } from 'src/app/shared/empty.util';
+import { hasValue } from  '../../shared/empty.util';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { CookieService } from 'src/app/core/services/cookie.service';
+import { CookieService } from '../../core/services/cookie.service';
 
 @Component({
   selector: 'ds-compare-item-identifiers',

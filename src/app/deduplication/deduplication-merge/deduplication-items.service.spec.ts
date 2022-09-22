@@ -1,6 +1,6 @@
 import { SubmissionRepeatableFieldsRestService } from './../../core/deduplication/services/submission-repeatable-fields-rest.service';
-import { NotificationsServiceStub } from 'src/app/shared/testing/notifications-service.stub';
-import { NotificationsService } from 'src/app/shared/notifications/notifications.service';
+import { NotificationsServiceStub } from '../../shared/testing/notifications-service.stub';
+import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ItemDataService } from './../../core/data/item-data.service';
 import { Collection } from './../../core/shared/collection.model';
@@ -9,8 +9,8 @@ import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.util
 
 import { DeduplicationItemsService } from './deduplication-items.service';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { getMockTranslateService } from 'src/app/shared/mocks/translate.service.mock';
-import { DeduplicationMergeRestService } from 'src/app/core/deduplication/services/deduplication-merge-rest.service';
+import { getMockTranslateService } from '../../shared/mocks/translate.service.mock';
+import { DeduplicationMergeRestService } from '../../core/deduplication/services/deduplication-merge-rest.service';
 
 describe('DeduplicationItemsService', () => {
   let service: DeduplicationItemsService;

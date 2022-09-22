@@ -5,7 +5,7 @@ import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap'
 
 import { DeduplicationMergeResultComponent } from './deduplication-merge-result.component';
 import { DeduplicationStateService } from '../deduplication-state.service';
-import { getMockDeduplicationStateService } from 'src/app/shared/mocks/deduplication.mock';
+import { getMockDeduplicationStateService } from '../../shared/mocks/deduplication.mock';
 
 describe('DeduplicationMergeResultComponent', () => {
   let component: DeduplicationMergeResultComponent;
