@@ -29,12 +29,16 @@ export class ShowDifferencesComponent implements OnInit {
    */
   public objectMap: Map<number, ItemData[]> = new Map<number, ItemData[]>();
 
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(public activeModal: NgbActiveModal) { }
 
   /**
    * Initialize the object map
    */
   ngOnInit(): void {
+    this.prepareItems();
+  }
+
+  prepareItems() {
     if (hasValue(this.itemList)) {
       this.itemList.map((item: ItemsMetadataValues) => {
         if (this.objectMap.has(item.value.place)) {

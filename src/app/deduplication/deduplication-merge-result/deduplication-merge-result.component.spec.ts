@@ -10,7 +10,8 @@ import { getMockDeduplicationStateService } from '../../shared/mocks/deduplicati
 describe('DeduplicationMergeResultComponent', () => {
   let component: DeduplicationMergeResultComponent;
   let fixture: ComponentFixture<DeduplicationMergeResultComponent>;
-  const modalStub = jasmine.createSpyObj('modal', ['close', 'dismiss']);
+
+  const modalStub = jasmine.createSpyObj('activeModal', ['close', 'dismiss']);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
