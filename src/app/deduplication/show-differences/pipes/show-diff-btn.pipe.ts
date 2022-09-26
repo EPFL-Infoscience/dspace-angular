@@ -13,7 +13,7 @@ export class ShowDiffBtnPipe implements PipeTransform {
       return false;
     }
 
-    // if all the itemm ids in the list are different or not
+    // if all the item ids in the list are different or not
     return values.every(v => isEqual(v.id, values[0].id))
   }
 }

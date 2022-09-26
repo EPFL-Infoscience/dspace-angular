@@ -27,6 +27,7 @@ import { GetBitstreamsPipe } from './deduplication-merge/pipes/ds-get-bitstreams
 import { ItemsTableComponent } from './items-table/items-table.component';
 import { ShowDiffBtnPipe } from './show-differences/pipes/show-diff-btn.pipe';
 import { CompareItemIdentifiersComponent } from './compare-item-identifiers/compare-item-identifiers.component';
+import { GetOwningCollectionTitlePipe } from './items-table/get-owning-collection-title.pipe';
 
 const MODULES = [
   CommonModule,
@@ -43,11 +44,13 @@ const COMPONENTS = [
   DeduplicationMergeResultComponent,
   BitstreamTableComponent,
   ItemsTableComponent,
+  CompareItemIdentifiersComponent,
 ];
 
 const PIPES = [
   TextDiffPipe,
   GetBitstreamsPipe,
+  GetOwningCollectionTitlePipe,
   ShowDiffBtnPipe,
 ];
 
@@ -76,7 +79,6 @@ const PROVIDERS = [
     ...DIRECTIVES,
     ...ENTRY_COMPONENTS,
     ...PIPES,
-    CompareItemIdentifiersComponent,
   ],
   providers: [
     ...PROVIDERS

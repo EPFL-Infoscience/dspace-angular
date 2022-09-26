@@ -15,29 +15,27 @@
       <td>
         <span>
           <strong>
-            {{ "deduplication.merge.table.header.title" | translate }}:</strong
-          >
-          {{ itemObj.object?.name }}</span
-        >
+            {{ "deduplication.merge.table.header.title" | translate }}:</strong>
+          {{ itemObj.object?.name }}</span>
         <br />
         <span *ngIf="itemObj.object?.metadata['dc.type']">
           <strong>Type:</strong>
-          {{ itemObj.object?.metadata["dc.type"][0].value }}</span
-        >
+          {{ itemObj.object?.metadata["dc.type"][0].value }}</span>
         <br />
         <span>
           <strong>Entity type:</strong>
-          {{ itemObj.object?.type }}</span
-        >
+          {{ itemObj.object?.type }}</span>
         <br />
         <strong>Collection:</strong>
-        <span> {{ getOwningCollectionTitle(itemObj.object) | async }}</span>
+        <span id=""> {{ (itemObj.object | getOwningCollectionTitle) | async }}</span>
       </td>
       <td>
         <span *ngIf="itemObj.object && itemObj.object.handle; else emptyCell">
           {{ itemObj.object?.handle }}
         </span>
-        <ng-template #emptyCell> <div class="row justify-content-center text-muted">No data</div> </ng-template>
+        <ng-template #emptyCell>
+          <div class="row justify-content-center text-muted">No data</div>
+        </ng-template>
       </td>
       <td>
         <a [routerLink]="getItemPage(itemObj.object)" role="button">

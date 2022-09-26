@@ -1,8 +1,22 @@
 import { TextDiffPipe } from './text-diff.pipe';
 
 describe('TextDiffPipe', () => {
+  const pipe = new TextDiffPipe();
+  const value1 = `test Content`;
+  const value2 = `Item's content`;
+
   it('create an instance', () => {
-    const pipe = new TextDiffPipe();
     expect(pipe).toBeTruthy();
+  });
+
+  it('should return text differences', () => {
+    const diff = pipe.transform(value1, value2);
+    console.log(diff, 'text differences')
+    expect(diff).toContain('</del><ins>');
+  });
+
+  it('should return no text differences', () => {
+    const diff = pipe.transform('test', 'test');
+    expect(diff).toEqual('test');
   });
 });

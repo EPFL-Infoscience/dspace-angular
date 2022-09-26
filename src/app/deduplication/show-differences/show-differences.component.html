@@ -7,6 +7,7 @@
 <div class="modal-body">
   <ng-container *ngFor="let object of objectMap | keyvalue">
     <ng-container *ngFor="let value of object.value; let i = index">
+
       <ng-container *ngIf="object.value | showDiffBtn">
         <div class="row justify-content-center">
           <div class="col text-center">
@@ -21,8 +22,8 @@
             </div>
           </div>
         </div>
-
       </ng-container>
+
       <ng-container *ngIf="i < object.value.length - 1;">
         <div class="row">
           <div class="col text-center">
