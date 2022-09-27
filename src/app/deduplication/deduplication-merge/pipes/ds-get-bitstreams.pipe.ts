@@ -22,7 +22,7 @@ export class GetBitstreamsPipe implements PipeTransform {
   /**
    * Get the item object and returns the bitstreams
    * for the 'ORIGINAL' bundle
-   * @param object$ Observable of Item object
+   * @param item Item object
    */
   transform(item: Item): Observable<Observable<Bitstream[]>> {
     if (item && item.bundles) {

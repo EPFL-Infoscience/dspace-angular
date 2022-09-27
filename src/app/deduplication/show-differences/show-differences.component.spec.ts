@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { MetadataValue } from 'src/app/core/shared/metadata.models';
+import { MetadataValue } from '../../core/shared/metadata.models';
 import { ItemsMetadataValues } from '../interfaces/deduplication-differences.models';
 
 import { ShowDifferencesComponent } from './show-differences.component';

@@ -27,7 +27,7 @@
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let itemObj of itemsToCompare">
+    <ng-container *ngFor="let itemObj of itemsToCompare; let idx = index">
       <!-- LOADER -->
       <tr *ngIf="itemObj.object && itemObj.object | dsGetBitstreams | async">
         <ds-loading
@@ -66,7 +66,7 @@
             <div class="custom-control custom-checkbox">
               <input
                 type="checkbox"
-                class="custom-control-input"
+                class="custom-control-input checkbox-{{ idx }}"
                 [id]="bitstream.uuid"
                 [checked]="bitstreamList.includes(bitstream._links.self.href)"
                 (change)="onBitstreamChecked($event, bitstream)"
@@ -95,19 +95,22 @@
               {{ bitstream.checkSum.value }}
             </span>
           </td>
-          <td  *ngIf="!previewMode">
-            <div class="row justify-content-center">
-              <a
-                [href]="bitstream?._links?.content?.href"
-                class="btn btn-outline-primary btn-sm"
-                ngbTooltip="{{
-                  'item.edit.bitstreams.edit.buttons.download' | translate
-                }}"
-              >
-                <i class="fas fa-download fa-fw"></i>
-              </a>
-            </div>
-          </td>
+          <ng-container *ngIf="!previewMode">
+            <td class="download-action">
+              <div class="row justify-content-center">
+                <a
+                  id="redirect-{{ idx }}"
+                  [href]="bitstream?._links?.content?.href"
+                  class="btn btn-outline-primary btn-sm"
+                  ngbTooltip="{{
+                    'item.edit.bitstreams.edit.buttons.download' | translate
+                  }}"
+                >
+                  <i class="fas fa-download fa-fw"></i>
+                </a>
+              </div>
+            </td>
+          </ng-container>
         </tr>
       </ng-template>
     </ng-container>

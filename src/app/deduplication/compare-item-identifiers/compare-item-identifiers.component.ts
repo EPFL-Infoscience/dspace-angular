@@ -12,7 +12,7 @@ import { WorkflowItemDataService } from '../../core/submission/workflowitem-data
 import { combineLatest, Observable, of } from 'rxjs';
 import { getFirstCompletedRemoteData } from '../../core/shared/operators';
 import { map, switchMap } from 'rxjs/operators';
-import { hasValue } from  '../../shared/empty.util';
+import { hasValue } from '../../shared/empty.util';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { CookieService } from '../../core/services/cookie.service';
@@ -23,11 +23,25 @@ import { CookieService } from '../../core/services/cookie.service';
   styleUrls: ['./compare-item-identifiers.component.scss'],
 })
 export class CompareItemIdentifiersComponent {
+  /**
+   * Inserted identifiers separated by comma
+   * @type {string}
+   */
   public itemUuidsToCompare: string = '';
 
-  errorMessageList: Map<string, ItemErrorMessages[]> = new Map();
+  /**
+   * To store all the error messages for each inserted identifier
+   *
+   * @type {Map<string, ItemErrorMessages[]>}
+   */
+  public errorMessageList: Map<string, ItemErrorMessages[]> = new Map();
 
-  identifiersLinkList: string[] = [];
+  /**
+   * List of links for existing items
+   * (existing items from the inserted identifiers)
+   * @type {string[]}
+   */
+  private identifiersLinkList: string[] = [];
 
   constructor(
     private notificationsService: NotificationsService,
@@ -41,7 +55,12 @@ export class CompareItemIdentifiersComponent {
     private chd: ChangeDetectorRef
   ) { }
 
-  getItem(itemUuid: string): Observable<Item> {
+  /**
+   * Get item for the given item uuid
+   * @param itemUuid the item's identifier
+   * @returns {Observable<Item>} the Item weather exists
+   */
+  private getItem(itemUuid: string): Observable<Item> {
     return this.itemDataService.findById(itemUuid).pipe(
       getFirstCompletedRemoteData(),
       map((rd: RemoteData<Item>) => {
@@ -113,7 +132,7 @@ export class CompareItemIdentifiersComponent {
    * Checks if the first entered id is a workflow/workspace item,
    * if it represents a workflow/workspace cannot be selected as a target item
    */
-  validateItems(content) {
+  public validateItems(content) {
     this.errorMessageList = new Map();
     this.identifiersLinkList = [];
     const uuidsList: string[] = this.itemUuidsToCompare
@@ -170,7 +189,19 @@ export class CompareItemIdentifiersComponent {
     }
   }
 
-  checkIdValidity(itemUuid: string, index: number) {
+  /**
+   * Gets the item status based on the given uuid,
+   * weather the item is a Item | WorkspaceItem | WorkflowItem.
+   * Also stores all the returned message errors, so they can be shown,
+   * in order to inform the user for each item status (is valid or not).
+   * @param itemUuid item's identifier
+   * @param index position on which is situated
+   * @returns { Observable<Item | WorkspaceItem | WorkflowItem> }
+   */
+  checkIdValidity(
+    itemUuid: string,
+    index: number
+  ): Observable<Item | WorkspaceItem | WorkflowItem> {
     if (!this.errorMessageList.has(itemUuid)) {
       this.errorMessageList.set(itemUuid, []);
     }

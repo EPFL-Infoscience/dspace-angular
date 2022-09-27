@@ -11,7 +11,6 @@ describe('TextDiffPipe', () => {
 
   it('should return text differences', () => {
     const diff = pipe.transform(value1, value2);
-    console.log(diff, 'text differences')
     expect(diff).toContain('</del><ins>');
   });
 

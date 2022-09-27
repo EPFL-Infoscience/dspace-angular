@@ -8,19 +8,22 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CompareItemIdentifiersComponent } from './compare-item-identifiers.component';
 import { NotificationsServiceStub } from '../../shared/testing/notifications-service.stub';
-import { getMockTranslateService } from '../../shared/mocks/translate.service.mock';
 import { WorkspaceitemDataService } from '../../core/submission/workspaceitem-data.service';
 import { WorkflowItemDataService } from '../../core/submission/workflowitem-data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { CookieService } from '../../core/services/cookie.service';
 import { CookieServiceMock } from '../../shared/mocks/cookie.service.mock';
-import { ChangeDetectorRef, EventEmitter } from '@angular/core';
+import { ChangeDetectorRef, DebugElement, EventEmitter } from '@angular/core';
 import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
 
 describe('CompareItemIdentifiersComponent', () => {
   let component: CompareItemIdentifiersComponent;
   let fixture: ComponentFixture<CompareItemIdentifiersComponent>;
+  let de: DebugElement;
+
+  const itemUuidsToCompare: string = '123, 31, 0db938b1-586e-465b-942c-40145da3452c';
 
   const itemDataService = jasmine.createSpyObj('ItemDataService', {
     findById: jasmine.createSpy('findById')
@@ -72,10 +75,23 @@ describe('CompareItemIdentifiersComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CompareItemIdentifiersComponent);
     component = fixture.componentInstance;
+    de = fixture.debugElement;
+    spyOn(component, 'validateItems');
+    spyOn(component, 'checkIdValidity');
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call validateItems on compare', () => {
+    const button = de.query(By.css('.compare-btn'));
+    button.nativeElement.click();
+    expect(component.validateItems).toHaveBeenCalled();
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 });

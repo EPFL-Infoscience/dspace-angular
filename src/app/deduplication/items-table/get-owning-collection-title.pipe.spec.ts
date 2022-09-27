@@ -1,9 +1,8 @@
 import { Collection } from './../../core/shared/collection.model';
-import { Item } from 'src/app/core/shared/item.model';
+import { Item } from './../../core/shared/item.model';
 import { GetOwningCollectionTitlePipe } from './get-owning-collection-title.pipe';
 import { of } from 'rxjs';
-import { createSuccessfulRemoteDataObject } from 'src/app/shared/remote-data.utils';
-import { cold, hot } from 'jasmine-marbles';
+import { createSuccessfulRemoteDataObject } from './../../shared/remote-data.utils';
 
 describe('GetOwningCollectionTitlePipe', () => {
   const pipe = new GetOwningCollectionTitlePipe();
@@ -26,12 +25,10 @@ describe('GetOwningCollectionTitlePipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('create return title', (done) => {
+  it('create return title', () => {
     const expectedResult = pipe.transform(item);
-    console.log(expectedResult, 'GetOwningCollectionTitlePipe');
-    const expectedValue = cold('Owning Collection Title' );
-    // const expected$ = hot('(a|)', { a: expected });
-    expect(expectedResult).toBe(expectedValue);
-    done();
+    expectedResult.subscribe((res: string) => {
+      expect(res).toEqual('Owning Collection Title');
+    });
   });
 });
