@@ -218,6 +218,14 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
           list.pageInfo.totalElements,
           list.pageInfo.totalPages
         );
+        const currentValue: any = this.model.value;
+        if (currentValue?.display?.length > 0 && this.pageInfo.currentPage === this.pageInfo.totalPages) {
+          const presentObject = this.optionsList.filter(element => element.display === currentValue.display);
+          if (presentObject.length === 0) {
+            const object = this.createVocabularyObject(currentValue.display, currentValue.value, undefined);
+            this.optionsList.push(object);
+          }
+        }
         this.cdr.detectChanges();
       });
   }
@@ -239,12 +247,7 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
         });
       }
       if (entryCount === 0) {
-        const object = Object.assign(new VocabularyEntry(),this.model.value, {
-          value: this.otherListEntry,
-          display: this.otherListEntry,
-          otherInformation: undefined,
-          type: 'vocabularyEntry'
-        });
+        const object = this.createVocabularyObject(this.otherListEntry, this.otherListEntry, undefined);
         this.optionsList.push(object);
         this.onSelect(object);
         sdRef.close();
@@ -255,6 +258,19 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
     } else {
       this.addButoonDisabled = false;
     }
+  }
+
+  /**
+   * Create a vocabulary object.
+   */
+  createVocabularyObject(display, value, otherInformation) {
+    const object = Object.assign(new VocabularyEntry(),this.model.value, {
+      value: value,
+      display: display,
+      otherInformation: otherInformation,
+      type: 'vocabularyEntry'
+    });
+    return object;
   }
 
   ngOnDestroy() {

@@ -152,7 +152,7 @@ export class DsDynamicListComponent extends DynamicFormControlComponent implemen
   /**
    * Listing Available Options in List.
    */
-   listingAvailableOptions(listGroup, entries) {
+  listingAvailableOptions(listGroup, entries) {
     let groupCounter = 0;
     let itemsPerGroup = 0;
     let tempList: ListItem[] = [];
