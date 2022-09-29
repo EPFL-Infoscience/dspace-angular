@@ -188,10 +188,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // TODO: The logic of target item to be changed
-    // this.targetItemId = this.storedItemList[0] ?? null;
     this.getExcludedMetadata();
-    // this.getRepeatableFields(this.targetItemId);
   }
 
   /**
@@ -562,6 +559,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         .subscribe((res: SubmissionRepeatableFieldsObject) => {
           if (hasValue(res)) {
             this.repeatableFields = [...res.repeatableFields];
+            // this.repeatableFields = ['dc.contributor.author',];
           }
         });
     }

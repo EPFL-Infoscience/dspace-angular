@@ -60,7 +60,7 @@ export class CompareItemIdentifiersComponent {
    * @param itemUuid the item's identifier
    * @returns {Observable<Item>} the Item weather exists
    */
-  private getItem(itemUuid: string): Observable<Item> {
+  public getItem(itemUuid: string): Observable<Item> {
     return this.itemDataService.findById(itemUuid).pipe(
       getFirstCompletedRemoteData(),
       map((rd: RemoteData<Item>) => {
@@ -70,7 +70,7 @@ export class CompareItemIdentifiersComponent {
               isEqual(x, rd.payload._links.self.href)
             )
           ) {
-            this.identifiersLinkList.push(rd.payload._links.self.href);
+            this.identifiersLinkList.push(rd.payload._links?.self.href);
           }
           return rd.payload;
         }
@@ -97,7 +97,7 @@ export class CompareItemIdentifiersComponent {
    * @param itemUuid The item's uuid
    * @returns {Observable<WorkspaceItem>}
    */
-  private getWorkspaceItemStatus(itemUuid: string): Observable<WorkspaceItem> {
+  public getWorkspaceItemStatus(itemUuid: string): Observable<WorkspaceItem> {
     return this.workspaceitemDataService.findById(itemUuid).pipe(
       getFirstCompletedRemoteData(),
       map((rd: RemoteData<WorkspaceItem>) => {
@@ -128,14 +128,8 @@ export class CompareItemIdentifiersComponent {
     );
   }
 
-  /**
-   * Checks if the first entered id is a workflow/workspace item,
-   * if it represents a workflow/workspace cannot be selected as a target item
-   */
-  public validateItems(content) {
-    this.errorMessageList = new Map();
-    this.identifiersLinkList = [];
-    const uuidsList: string[] = this.itemUuidsToCompare
+  get arrayOfIdentifiers(): string[] {
+    return this.itemUuidsToCompare
       .trim()
       .split(',')
       .map((id) => id.trim())
@@ -143,6 +137,16 @@ export class CompareItemIdentifiersComponent {
         (value, index, categoryArray) => categoryArray.indexOf(value) === index
       )
       .filter((el) => el.length > 0);
+  }
+
+  /**
+   * Checks if the first entered id is a workflow/workspace item,
+   * if it represents a workflow/workspace cannot be selected as a target item
+   */
+  public validateItems(content) {
+    this.errorMessageList = new Map();
+    this.identifiersLinkList = [];
+    const uuidsList: string[] = this.arrayOfIdentifiers;
     if (uuidsList.length > 1) {
       // first we check if the identifier represents a workflow item,
       // then if is not we check if the identifier represents a workspace item.
@@ -297,7 +301,7 @@ export class CompareItemIdentifiersComponent {
    * @param itemUuid The item's uuid
    * @returns {Observable<WorkflowItem>}
    */
-  private getWorkflowItemStatus(itemUuid: string): Observable<WorkflowItem> {
+  public getWorkflowItemStatus(itemUuid: string): Observable<WorkflowItem> {
     return this.workflowItemDataService.findById(itemUuid).pipe(
       getFirstCompletedRemoteData(),
       map((rd: RemoteData<WorkflowItem>) => {
