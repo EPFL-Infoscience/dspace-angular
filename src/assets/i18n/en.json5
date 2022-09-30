@@ -4832,6 +4832,8 @@
 
   "search.filters.applied.f.organization": "Organisation",
 
+  "search.filters.applied.f.dspace_file_type": "File Type",
+
   "search.filters.applied.charts.defaultConfiguration.title": "Search Output",
 
   "search.filters.applied.charts.chart.bar.dateIssued.year.tab" : "Date Issued",
@@ -4944,6 +4946,12 @@
   "search.filters.filter.eqorgunit.head": "Organization",
 
   "search.filters.filter.eqorgunit.placeholder": "Organization",
+
+  "search.filters.filter.dspace_file_type.head": "File Type",
+
+  "search.filters.filter.dspace_file_type.label": "Search file type",
+
+  "search.filters.filter.dspace_file_type.placeholder": "File Type",
 
   "search.filters.filter.funding.head": "Funding",
 
