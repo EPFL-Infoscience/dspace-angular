@@ -240,7 +240,7 @@
                           *ngFor="let item of itemsData.items; let idx = index"
                         >
                           <span [ngStyle]="{ color: item.color }">
-                            {{ item.itemId }}
+                            {{ item.itemHandle }}
                           </span>
                           <span *ngIf="idx !== itemsData.items.length - 1">
                             ,</span
@@ -256,7 +256,7 @@
                         class="col-5"
                         [ngStyle]="{ color: itemsData.items[0].color }"
                       >
-                        {{ itemsData.items[0].itemId }}
+                        {{ itemsData.items[0].itemHandle }}
                       </span>
                     </ng-template>
                   </div>

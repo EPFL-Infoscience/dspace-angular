@@ -60,7 +60,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * Item ids from the cookie, selected from previous page to me compared
    * @type {string[]}
    */
-  private  storedItemList: string[] = [];
+  private storedItemList: string[] = [];
 
   /**
    * The signature id of the items to compare
@@ -212,6 +212,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
           // for the same value (item) add the item id and link
           object.items.push({
             itemId: item.id,
+            itemHandle: item.handle,
             metadataPlace: value.place,
             color: '',
             _link: item._links.self.href,
@@ -223,6 +224,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
             items: [
               {
                 itemId: item.id,
+                itemHandle: item.handle,
                 metadataPlace: value.place,
                 color: '',
                 _link: item._links.self.href,
@@ -250,6 +252,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
           items: [
             {
               itemId: item.id,
+              itemHandle: item.handle,
               metadataPlace: value.place,
               color: '',
               _link: item._links.self.href,
@@ -434,6 +437,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         itemToCompare.object.metadata[key]?.forEach((metadataValue: MetadataValue) => {
           valuesToCompare.push({
             itemId: itemToCompare.object.uuid,
+            itemHandle: itemToCompare.object.handle,
             value: metadataValue,
             color: itemToCompare.color,
           });
@@ -544,6 +548,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         if (hasValue(res)) {
           this.excludedMetadataKeys = [...res.values];
         }
+        // , 'dc.description.provenance'
         this.getItemsData();
       });
   }

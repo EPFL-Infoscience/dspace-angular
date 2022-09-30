@@ -4,6 +4,7 @@ import { MetadataValue } from './../../core/shared/metadata.models';
  */
 export interface ItemData {
   id: string;    // item id
+  itemHandle: string; // item handle
   text: string;  // the text to compare
   color: string; // identifier color of the item
 }
@@ -13,6 +14,7 @@ export interface ItemData {
  */
 export interface ItemsMetadataValues {
   itemId: string;
+  itemHandle: string;
   value: MetadataValue;
   color: string;
 }

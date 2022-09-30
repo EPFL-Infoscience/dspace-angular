@@ -1565,7 +1565,7 @@
 
   "deduplication.signature.cardTitle.identifier": "Identifiers",
 
-  "sets.breadcrumbs": "Compare Items",
+  "sets.breadcrumbs": "Set Dashboard",
 
   "compare.breadcrumbs": "Merge Deduplications",
 
@@ -1677,9 +1677,7 @@
 
   "deduplication.merge.show-diff.modal.description": "Compare values under <b> place {{param}} </b> for items:",
 
-  "deduplication.merge.show-diff.modal.card-header": " Value under <b> place {{param}} </b> for",
-
-  "deduplication.merge.show-diff.modal.label.differences": "<b> Differences </b> for items:",
+  "deduplication.merge.show-diff.modal.card-header": " Value of",
 
   "deduplication.merge.show-diff.modal.label.differences-continue": "values under <b> place {{param}} </b>",
 

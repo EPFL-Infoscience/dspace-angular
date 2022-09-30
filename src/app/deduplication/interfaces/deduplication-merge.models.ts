@@ -22,6 +22,7 @@ export interface MetadataMapObject {
  */
 export interface ItemContainer {
   itemId: string;
+  itemHandle: string;
   metadataPlace: number;
   color: string;
   _link: string;

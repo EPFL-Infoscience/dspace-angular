@@ -40,7 +40,7 @@ import { DeduplicationMergeComponent } from './../../deduplication/deduplication
         component: DeduplicationMergeComponent,
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         data: {
-          title: 'Compare Items',
+          title: 'compare.breadcrumbs',
           breadcrumbKey: 'compare',
           showBreadcrumbsFluid: false
         }

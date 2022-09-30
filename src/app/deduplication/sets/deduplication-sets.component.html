@@ -1,28 +1,30 @@
 <div class="container">
   <div class="row justify-content-between border-bottom mb-2 pb-1">
     <h2 id="header">
-      {{'deduplication.sets.title' | translate}}
+      {{ "deduplication.sets.title" | translate }}
     </h2>
 
     <button class="btn btn-outline-secondary btn-sm" (click)="goBack()">
       <i class="fa fa-arrow-left pr-1" aria-hidden="true"></i>
-      {{'deduplication.sets.button.go-back' | translate }}
+      {{ "deduplication.sets.button.go-back" | translate }}
     </button>
   </div>
   <div class="row">
-    <p class="text-info"
-      innerHTML="{{ 'deduplication.sets.label.description' | translate: { param: rule | titlecase, otherParam: signatureId | titlecase } }}">
-    </p>
+    <p class="text-info" [innerHTML]="
+        'deduplication.sets.label.description'
+          | translate
+            : { param: rule | titlecase, otherParam: signatureId | titlecase }
+      "></p>
 
     <p>
-      {{'deduplication.sets.subtitle' | translate}}
+      {{ "deduplication.sets.subtitle" | translate }}
     </p>
 
     <div *ngIf="
         (!sets$ || (sets$ | async)?.length == 0) && !(isSetsLoading() | async)
       " class="col-md-12 text-center">
       <h4 class="p-3">
-        {{'deduplication.sets.message.no-data' | translate}}
+        {{ "deduplication.sets.message.no-data" | translate }}
       </h4>
     </div>
   </div>
@@ -35,79 +37,123 @@
         *ngFor="let set of sets$ | async; let i = index">
         <ngb-panel id="panel-{{ i }}">
           <ng-template ngbPanelHeader let-opened="opened">
-            <div class="row">
-              <div class="col-md-10 mt-1">
-                <h5 class="m-0 text-info">
-                  {{ set.id }}
-                  <span class="badge badge-info">
-                    {{ (getItemsPerSet(set.id) | async)?.length }}
+            <ng-container *ngIf="(getItemsPerSet(set.id) | async) && (getItemsPerSet(set.id) | async)[0]">
+              <div class="row">
+                <div class="col-md-10 mt-1">
+                  <h5 class="m-0 text-info">
+                    {{
+                    getItemTitle((getItemsPerSet(set.id) | async)[0]?.metadata)
+                    }}
+                    <span class="badge badge-info">
+                      {{ (getItemsPerSet(set.id) | async)?.length }}
+                    </span>
+                  </h5>
+                </div>
+                <div class="col-md-2 text-right mt-1">
+                  <button ngbPanelToggle class="btn btn-sm"
+                    [ngClass]="opened ? 'btn-secondary' : 'btn-outline-secondary'">
+                    <i *ngIf="!opened" class="fa fa-chevron-up"></i>
+                    <i *ngIf="opened" class="fa fa-chevron-down"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <hr />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <span class="pr-1">Author:
+                    <span class="badge badge-info">
+                      {{
+                      getAuthor((getItemsPerSet(set.id) | async)[0].metadata)[0]
+                      }}</span>
                   </span>
-                </h5>
+                  |
+                  <span class="pl-1">Date Issued:
+                    <span class="badge badge-info">
+                      {{
+                      getDateIssued(
+                      (getItemsPerSet(set.id) | async)[0].metadata
+                      )[0]
+                      }}</span>
+                  </span>
+                </div>
               </div>
-              <div class="col-md-2 text-right mt-1">
-                <button ngbPanelToggle class="btn btn-sm"
-                  [ngClass]="opened ? 'btn-secondary' : 'btn-outline-secondary'">
-                  <i *ngIf="!opened" class="fa fa-chevron-up"></i>
-                  <i *ngIf="opened" class="fa fa-chevron-down"></i>
-                </button>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <hr />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-4 col-md-3 col-lg-2">
-                <span class="badge badge-secondary small">{{'deduplication.sets.label.match-criteria' |
-                  translate}}</span>
-              </div>
-              <div class="col-sm-8 col-md-9 col-lg-10">
-                <ng-container *ngFor="let id of getItemIds(set.id) | async">
-                  <span class="badge badge-info small"> {{ id }}</span>
-                </ng-container>
-              </div>
-            </div>
+
+              <ng-container *ngIf="set.otherSetIds.length > 0">
+                <div class="row">
+                  <div class="col-12">
+                    <hr />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-4 col-md-3 col-lg-2">
+                    <span class="badge badge-secondary small">{{
+                      "deduplication.sets.label.match-criteria" | translate
+                      }}</span>
+                  </div>
+                  <div class="col-sm-8 col-md-9 col-lg-10">
+                    <ng-container *ngFor="let id of getItemIds(set.id) | async">
+                      <span class="badge badge-info small"> {{ id }}</span>
+                    </ng-container>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
           </ng-template>
           <ng-template ngbPanelContent>
             <ng-container *ngIf="(getItemsPerSet(set.id) | async)?.length == 0">
-              {{'deduplication.sets.message.no-items' | translate}}
+              {{ "deduplication.sets.message.no-items" | translate }}
             </ng-container>
             <ng-container *ngIf="(getItemsPerSet(set.id) | async)?.length > 0">
               <div class="row">
                 <div class="col-md-12">
-                  <p class="small">{{'deduplication.sets.label.select-to-compare' | translate}}</p>
+                  <p class="small">
+                    {{
+                    "deduplication.sets.label.select-to-compare" | translate
+                    }}
+                  </p>
                 </div>
               </div>
               <div class="row border-bottom pb-1">
                 <div class="col-md-4">
-                  <button
-                    *ngIf="!this.checkedItemsList.has(set.id) || checkedItemsList.get(set.id)?.length < (getItemsPerSet(set.id) | async)?.length"
-                    class="btn btn-outline-secondary btn-sm mt-1" (click)="selectAllItems(set.id, i)">
+                  <button *ngIf="
+                      !this.checkedItemsList.has(set.id) ||
+                      checkedItemsList.get(set.id)?.length <
+                        (getItemsPerSet(set.id) | async)?.length
+                    " class="btn btn-outline-secondary btn-sm mt-1" (click)="selectAllItems(set.id, i)">
                     <i class="fa fa-check-square"></i>
-                    {{'deduplication.sets.button.select-all' | translate}}
+                    {{ "deduplication.sets.button.select-all" | translate }}
                   </button>
-                  <button
-                    *ngIf="checkedItemsList.has(set.id) && checkedItemsList.get(set.id)?.length == (getItemsPerSet(set.id) | async)?.length"
-                    class="btn btn-outline-secondary btn-sm mt-1" (click)="unselectAllItems(set.id)">
+                  <button *ngIf="
+                      checkedItemsList.has(set.id) &&
+                      checkedItemsList.get(set.id)?.length ==
+                        (getItemsPerSet(set.id) | async)?.length
+                    " class="btn btn-outline-secondary btn-sm mt-1" (click)="unselectAllItems(set.id)">
                     <i class="fa fa-square"></i>
-                    {{'deduplication.sets.button.deselect-all' | translate}}
+                    {{ "deduplication.sets.button.deselect-all" | translate }}
                   </button>
                 </div>
                 <div class="col-md-8 text-right">
                   <button #compareBtnSelector class="btn btn-primary btn-sm mt-1"
-                    (click)="onCompare(set.setChecksum,set.id)">
-                    <i class="fa fa-clone"></i> {{'deduplication.sets.button.compare' | translate}}
+                    (click)="onCompare(set.setChecksum, set.id)">
+                    <i class="fa fa-clone"></i>
+                    {{ "deduplication.sets.button.compare" | translate }}
                   </button>
-                  <button class="btn btn-outline-secondary btn-sm mt-1"
-                    (click)="noDuplicatesAction(content, set.id, set.setChecksum)">
-                    <i class="fa fa-times"></i> {{'deduplication.sets.button.no-duplicates' | translate}}
+                  <button class="btn btn-outline-secondary btn-sm mt-1" (click)="
+                      noDuplicatesAction(content, set.id, set.setChecksum)
+                    ">
+                    <i class="fa fa-times"></i>
+                    {{ "deduplication.sets.button.no-duplicates" | translate }}
                   </button>
                   <button class="btn btn-outline-danger btn-sm mt-1" *ngIf="isAdmin$ | async" (click)="
-                        $event.preventDefault();
-                        confirmDelete(content, set.id, 'set', set.setChecksum)
-                      ">
-                    <i class="fa fa-trash-alt"></i> {{'deduplication.sets.button.delete-set' | translate}}
+                      $event.preventDefault();
+                      confirmDelete(content, set.id, 'set', set.setChecksum)
+                    ">
+                    <i class="fa fa-trash-alt"></i>
+                    {{ "deduplication.sets.button.delete-set" | translate }}
                   </button>
                 </div>
               </div>
@@ -116,14 +162,17 @@
                   <div class="table-responsive">
                     <table class="table table-borderless">
                       <tbody>
-                        <ng-container *ngFor="let item of getItemsPerSet(set.id) | async; let isLast=last">
-                          <tr [ngClass]="{'border-bottom border-info': !isLast}">
+                        <ng-container *ngFor="
+                            let item of getItemsPerSet(set.id) | async;
+                            let isLast = last
+                          ">
+                          <tr [ngClass]="{ 'border-bottom border-info': !isLast }">
                             <td>
                               <div class="custom-control custom-checkbox ml-0">
                                 <input type="checkbox" class="custom-control-input" [id]="item.uuid"
-                                  [checked]="isItemChecked(item.uuid,set.id)" (change)="
-                                      onItemCheck($event, item.uuid, set.id)
-                                    " />
+                                  [checked]="isItemChecked(item.uuid, set.id)" (change)="
+                                    onItemCheck($event, item.uuid, set.id)
+                                  " />
                                 <label class="custom-control-label" [for]="item.uuid"></label>
                               </div>
                             </td>
@@ -131,31 +180,54 @@
                               <table class="table table-borderless small">
                                 <tbody>
                                   <tr *ngIf="item._links?.owningCollection.href">
-                                    <th>{{'deduplication.sets.label.collection' | translate }}:</th>
+                                    <th>
+                                      {{
+                                      "deduplication.sets.label.collection"
+                                      | translate
+                                      }}:
+                                    </th>
                                     <td>
-                                      <span>{{getItemOwningCollectionName(item) | async }}</span>
+                                      <span>{{
+                                        getItemOwningCollectionName(item)
+                                        | async
+                                        }}</span>
                                     </td>
                                   </tr>
                                   <tr>
-                                    <th>{{'deduplication.sets.label.identifier' | translate}}:</th>
+                                    <th>
+                                      {{
+                                      "deduplication.sets.label.identifier"
+                                      | translate
+                                      }}:
+                                    </th>
                                     <td>
                                       <a class="btn btn-outline-info btn-sm" [routerLink]="getItemPage(item)"
                                         role="button">
-                                        {{ item.uuid }}
+                                        {{ item.handle }}
                                       </a>
                                     </td>
                                   </tr>
                                   <tr>
-                                    <th>{{'deduplication.sets.label.last-modified' | translate}}:</th>
+                                    <th>
+                                      {{
+                                      "deduplication.sets.label.last-modified"
+                                      | translate
+                                      }}:
+                                    </th>
                                     <td>{{ item.lastModified | date }}</td>
                                   </tr>
                                   <tr>
-                                    <th>{{'deduplication.sets.label.status' | translate}}:</th>
+                                    <th>
+                                      {{
+                                      "deduplication.sets.label.status"
+                                      | translate
+                                      }}:
+                                    </th>
                                     <td>
                                       <ng-container *ngFor="
-                                            let status of item
-                                              | dsSetItemStatusList
-                                          ">
+                                          let status of item
+                                            | dsSetItemStatusList
+                                        ">
                                         <span class="badge badge-info">{{
                                           status | titlecase
                                           }}</span>
@@ -169,54 +241,74 @@
                               <table class="table table-borderless small">
                                 <tbody>
                                   <tr>
-                                    <th>{{'deduplication.sets.label.title' | translate}}:</th>
+                                    <th>
+                                      {{
+                                      "deduplication.sets.label.title"
+                                      | translate
+                                      }}:
+                                    </th>
                                     <td>
                                       <ng-container *ngFor="
-                                            let title of getItemTitle(
-                                              item.metadata
-                                            );
-                                            let isLast = last
-                                          ">
+                                          let title of getItemTitle(
+                                            item.metadata
+                                          );
+                                          let isLast = last
+                                        ">
                                         <span>{{ title | titlecase }}</span>
                                         <span *ngIf="!isLast">,</span>
                                       </ng-container>
                                     </td>
                                   </tr>
                                   <tr>
-                                    <th>{{'deduplication.sets.label.author' | translate}}:</th>
+                                    <th>
+                                      {{
+                                      "deduplication.sets.label.author"
+                                      | translate
+                                      }}:
+                                    </th>
                                     <td>
                                       <ng-container *ngFor="
-                                            let author of getAuthor(
-                                              item.metadata
-                                            );
-                                            let isLast = last
-                                          ">
+                                          let author of getAuthor(
+                                            item.metadata
+                                          );
+                                          let isLast = last
+                                        ">
                                         <span>{{ author | titlecase }}</span>
                                         <span *ngIf="!isLast">,</span>
                                       </ng-container>
                                     </td>
                                   </tr>
                                   <tr>
-                                    <th>{{'deduplication.sets.label.date-issued' | translate}}:</th>
+                                    <th>
+                                      {{
+                                      "deduplication.sets.label.date-issued"
+                                      | translate
+                                      }}:
+                                    </th>
                                     <td>
                                       <ng-container *ngFor="
-                                            let date of getDateIssued(
-                                              item.metadata
-                                            );
-                                            let isLast = last
-                                          ">
+                                          let date of getDateIssued(
+                                            item.metadata
+                                          );
+                                          let isLast = last
+                                        ">
                                         <span>{{ date }}</span>
                                         <span *ngIf="!isLast">,</span>
                                       </ng-container>
                                     </td>
                                   </tr>
                                   <tr>
-                                    <th>{{'deduplication.sets.label.type' | translate}}:</th>
+                                    <th>
+                                      {{
+                                      "deduplication.sets.label.type"
+                                      | translate
+                                      }}:
+                                    </th>
                                     <td>
                                       <ng-container *ngFor="
-                                            let type of getType(item.metadata);
-                                            let isLast = last
-                                          ">
+                                          let type of getType(item.metadata);
+                                          let isLast = last
+                                        ">
                                         <span>{{ type }}</span>
                                         <span *ngIf="!isLast">,</span>
                                       </ng-container>
@@ -228,15 +320,15 @@
                             <td>
                               <div class="btn-group btn-group-sm" role="group" aria-label="btn-grp-01-01">
                                 <button class="btn btn-danger" title="Delete" (click)="
-                                      $event.preventDefault();
-                                      confirmDelete(
-                                        content,
-                                        item.uuid,
-                                        'item',
-                                        set.setChecksum,
-                                        set.id
-                                      )
-                                    ">
+                                    $event.preventDefault();
+                                    confirmDelete(
+                                      content,
+                                      item.uuid,
+                                      'item',
+                                      set.setChecksum,
+                                      set.id
+                                    )
+                                  ">
                                   <i class="fa fa-trash-alt"></i>
                                 </button>
                                 <button class="btn btn-warning" title="Keep this"
@@ -262,17 +354,19 @@
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h5 class="modal-title" [ngClass]="confirmModalText.titleClass">{{ confirmModalText.title | translate }}</h5>
+    <h5 class="modal-title" [ngClass]="confirmModalText.titleClass">
+      {{ confirmModalText.title | translate }}
+    </h5>
   </div>
   <div class="modal-body">
-    <p>{{ 'deduplication.sets.modal.confirm.info' | translate }}</p>
+    <p>{{ "deduplication.sets.modal.confirm.info" | translate }}</p>
   </div>
   <div class="modal-footer justify-content-between">
     <button type="button" class="btn btn-secondary" (click)="d('cancel')">
-      {{ 'deduplication.sets.modal.confirm.cancel' | translate }}
+      {{ "deduplication.sets.modal.confirm.cancel" | translate }}
     </button>
     <button type="button" class="btn" [ngClass]="confirmModalText.btnClass" (click)="d('ok')">
-      {{ confirmModalText.btnText| translate }}
+      {{ confirmModalText.btnText | translate }}
     </button>
   </div>
 </ng-template>

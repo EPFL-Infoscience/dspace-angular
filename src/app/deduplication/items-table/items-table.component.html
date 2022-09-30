@@ -30,7 +30,7 @@
         <span id=""> {{ (itemObj.object | getOwningCollectionTitle) | async }}</span>
       </td>
       <td>
-        <span *ngIf="itemObj.object && itemObj.object.handle; else emptyCell">
+        <span [ngStyle]="{ color: itemObj.color }" *ngIf="itemObj.object && itemObj.object.handle; else emptyCell">
           {{ itemObj.object?.handle }}
         </span>
         <ng-template #emptyCell>

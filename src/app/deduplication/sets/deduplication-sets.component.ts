@@ -196,7 +196,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * @returns {Observable<Item[]>}
    */
   getItemsPerSet(setId: string): Observable<Item[]> {
-    return this.itemsMap.has(setId) ? this.itemsMap.get(setId) : of([]);
+    return this.itemsMap.get(setId) ?? of([]);
   }
 
   /**
@@ -209,10 +209,9 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       const authorList = metadata['dc.contributor.author'];
       if (hasValue(authorList)) {
         return authorList.map((x) => x.value);
-      } else {
-        return ['-'];
       }
     }
+    return ['-'];
   }
 
   /**
@@ -225,10 +224,9 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       const dates = metadata['dc.date.issued'];
       if (hasValue(dates)) {
         return dates.map((x) => x.value);
-      } else {
-        return ['-'];
       }
     }
+    return ['-'];
   }
 
   /**
@@ -241,10 +239,8 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       const titles = metadata['dc.title'];
       if (hasValue(titles)) {
         return titles.map((x) => x.value);
-      } else {
-        return ['-'];
       }
-    }
+    } return ['-'];
   }
 
   /**
@@ -257,10 +253,9 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       const types = metadata['dc.type'];
       if (hasValue(types)) {
         return types.map((x) => x.value);
-      } else {
-        return ['-'];
       }
     }
+     return ['-'];
   }
 
   /**

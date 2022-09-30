@@ -6,34 +6,44 @@
 </div>
 <div class="modal-body">
   <ng-container *ngFor="let object of objectMap | keyvalue">
-    <ng-container *ngFor="let value of object.value; let i = index">
-
+    <ng-container *ngFor="let value of object.value; let i = index; let isLast = last">
       <ng-container *ngIf="object.value | showDiffBtn">
         <div class="row justify-content-center">
           <div class="col text-center">
             <div class="card-header border-bottom-0 mb-2">
               <span
                 [innerHtml]="'deduplication.merge.show-diff.modal.description' | translate: {param:object.key }"></span>
-              <p>
-                Cannot compare values under the same identifier
-                <span [ngStyle]="{ color: object.value[i].color }">{{ object.value[i].id }}
-                </span>
-              </p>
+              <span [ngStyle]="{ color: object.value[i].color }">{{ object.value[i].itemHandle }}
+              </span>
             </div>
           </div>
         </div>
+        <div class="card">
+          <div class="card-header border-bottom-0 mb-2">
+            <div class="row">
+              <div class="col"> Value under
+                <span [ngStyle]="{ color: object.value[i].color }">{{ object.value[i].itemHandle }}
+                </span>
+                does not have a corresponding value to be compared with
+              </div>
+              <div class="col-2 text-right">(place {{object.key}})</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div [innerHTML]="object.value[i].text"></div>
+          </div>
+        </div>
       </ng-container>
-
       <ng-container *ngIf="i < object.value.length - 1;">
         <div class="row">
           <div class="col text-center">
             <div class="card-header border-bottom-0 mb-2">
               <span
                 [innerHtml]="'deduplication.merge.show-diff.modal.description' | translate: {param:object.key }"></span>
-              <span [ngStyle]="{ color: object.value[i].color }">{{ object.value[i].id }}
+              <span [ngStyle]="{ color: object.value[i].color }">{{ object.value[i].itemHandle }}
               </span>
               &
-              <span [ngStyle]="{ color: object.value[i + 1]?.color }">{{ object.value[i + 1]?.id }}
+              <span [ngStyle]="{ color: object.value[i + 1]?.color }">{{ object.value[i + 1]?.itemHandle }}
               </span>
             </div>
           </div>
@@ -41,35 +51,38 @@
         <!-- FIRST VALUE -->
         <div class="card mb-2">
           <div class="card-header">
-            <span
-              [innerHtml]="'deduplication.merge.show-diff.modal.card-header' | translate: {param:object.key }"></span>
-            <span [ngStyle]="{ color: object.value[i].color }">{{ object.value[i].id }}
-            </span>
-
+            <div class="row">
+              <div class="col"> <span>{{'deduplication.merge.show-diff.modal.card-header' | translate}}</span>
+                <span [ngStyle]="{ color: object.value[i].color }">{{ object.value[i].itemHandle }} </span>
+                <span>compared to </span>
+                <span [ngStyle]="{ color: object.value[i + 1]?.color }">{{ object.value[i + 1]?.itemHandle }} </span>
+              </div>
+              <div class="col-2 text-right"><span>(place {{object.key}})</span></div>
+            </div>
           </div>
           <div class="card-body">
-            <p #value1>
-              {{ object.value[i].text }}
-            </p>
+            <div [innerHTML]="object.value[i].text | dsTextDiff: object.value[i + 1]?.text"></div>
           </div>
         </div>
         <!-- SECOND VALUE -->
         <div class="card mb-2">
           <div class="card-header">
-            <span
-              [innerHtml]="'deduplication.merge.show-diff.modal.card-header' | translate: {param:object.key }"></span>
-            <span [ngStyle]="{ color: object.value[i + 1]?.color }">{{ object.value[i + 1]?.id }}
-            </span>
+            <div class="row">
+              <div class="col"><span>{{'deduplication.merge.show-diff.modal.card-header' | translate}}</span>
+                <span [ngStyle]="{ color: object.value[i + 1]?.color }">{{ object.value[i + 1]?.itemHandle }} </span>
+                <span>compared to </span>
+                <span [ngStyle]="{ color: object.value[i]?.color }">{{ object.value[i]?.itemHandle }} </span>
+              </div>
+              <div class="col-2 text-right"><span>(place {{object.key}})</span></div>
+            </div>
           </div>
           <div class="card-body">
-            <p #value2>
-              {{ object.value[i + 1]?.text }}
-            </p>
+            <div [innerHTML]="object.value[i+1].text | dsTextDiff: object.value[i].text"></div>
           </div>
         </div>
 
         <!-- DIFFERENCES -->
-        <div class="card">
+        <!-- <div class="card">
           <div class="card-header">
             <span [innerHTML]="'deduplication.merge.show-diff.modal.label.differences' | translate"></span>
             <span [ngStyle]="{ color: object.value[i].color }">{{ object.value[i].id }}
@@ -83,8 +96,12 @@
           <div class="card-body">
             <div [innerHTML]="value1.innerHTML | dsTextDiff: value2.innerHTML"></div>
           </div>
-        </div>
-        <hr />
+
+          <div class="card-body">
+            <div [innerHTML]="value2.innerHTML | dsTextDiff: value1.innerHTML"></div>
+          </div>
+        </div> -->
+        <hr *ngIf="!isLast" />
       </ng-container>
     </ng-container>
   </ng-container>

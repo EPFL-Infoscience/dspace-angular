@@ -46,6 +46,7 @@ export class ShowDifferencesComponent implements OnInit {
             .get(item.value.place)
             .push({
               id: item.itemId,
+              itemHandle: item.itemHandle,
               text: item.value.value,
               color: item.color,
             });
@@ -53,6 +54,7 @@ export class ShowDifferencesComponent implements OnInit {
           this.objectMap.set(item.value.place, [
             {
               id: item.itemId,
+              itemHandle: item.itemHandle,
               text: item.value.value,
               color: item.color,
             },

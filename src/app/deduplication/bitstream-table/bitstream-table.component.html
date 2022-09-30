@@ -91,9 +91,14 @@
             </span>
           </td>
           <td>
-            <span>
+            <div class="row justify-content-center">
+               <div>
+              {{ bitstream.checkSum.checkSumAlgorithm }}
+            </div>
+            <div>
               {{ bitstream.checkSum.value }}
-            </span>
+            </div>
+            </div>
           </td>
           <ng-container *ngIf="!previewMode">
             <td class="download-action">
