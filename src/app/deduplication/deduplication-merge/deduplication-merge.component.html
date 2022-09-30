@@ -151,7 +151,7 @@
                   >
                     <!-- if more than one selection can occur-->
                     <div
-                      class="col-1"
+                      class="col-md-1"
                       *ngIf="
                         hasMultipleSelection(metadataKeyValues.key);
                         else singleSelection
@@ -232,10 +232,10 @@
                     <ng-container
                       *ngIf="itemsData.items.length > 1; else manyValues"
                     >
-                      <span class="col-6">
+                      <span class="col-md-7">
                         {{ itemsData.value }}
                       </span>
-                      <span class="col-5">
+                      <span class="col-md-4">
                         <ng-container
                           *ngFor="let item of itemsData.items; let idx = index"
                         >
@@ -249,11 +249,11 @@
                       </span>
                     </ng-container>
                     <ng-template #manyValues>
-                      <span class="col-6">
+                      <span class="col-md-7">
                         {{ itemsData.value }}
                       </span>
                       <span
-                        class="col-5"
+                        class="col-md-4"
                         [ngStyle]="{ color: itemsData.items[0].color }"
                       >
                         {{ itemsData.items[0].itemHandle }}

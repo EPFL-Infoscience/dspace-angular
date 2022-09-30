@@ -5,8 +5,8 @@
   </h4>
 </div>
 <div class="modal-body">
-  <ng-container *ngFor="let object of objectMap | keyvalue">
-    <ng-container *ngFor="let value of object.value; let i = index; let isLast = last">
+  <ng-container *ngFor="let object of objectMap | keyvalue; let isLast = last">
+    <ng-container *ngFor="let value of object.value; let i = index;">
       <ng-container *ngIf="object.value | showDiffBtn">
         <div class="row justify-content-center">
           <div class="col text-center">
@@ -80,30 +80,9 @@
             <div [innerHTML]="object.value[i+1].text | dsTextDiff: object.value[i].text"></div>
           </div>
         </div>
-
-        <!-- DIFFERENCES -->
-        <!-- <div class="card">
-          <div class="card-header">
-            <span [innerHTML]="'deduplication.merge.show-diff.modal.label.differences' | translate"></span>
-            <span [ngStyle]="{ color: object.value[i].color }">{{ object.value[i].id }}
-            </span>
-            &
-            <span [ngStyle]="{ color: object.value[i + 1]?.color }">{{ object.value[i + 1]?.id }}
-            </span>
-            <span
-              [innerHTML]="'deduplication.merge.show-diff.modal.label.differences-continue' | translate: {param: object.key}"></span>
-          </div>
-          <div class="card-body">
-            <div [innerHTML]="value1.innerHTML | dsTextDiff: value2.innerHTML"></div>
-          </div>
-
-          <div class="card-body">
-            <div [innerHTML]="value2.innerHTML | dsTextDiff: value1.innerHTML"></div>
-          </div>
-        </div> -->
-        <hr *ngIf="!isLast" />
       </ng-container>
     </ng-container>
+    <hr *ngIf="!isLast" />
   </ng-container>
 
 </div>
