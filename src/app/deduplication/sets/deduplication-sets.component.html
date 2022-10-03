@@ -31,7 +31,7 @@
 
   <div class="row">
     <div class="col-md-12 p-0">
-      <ds-loading class="container" *ngIf="isSetsLoading() | async"
+      <ds-loading class="container" *ngIf="(isSetsLoading() | async)"
         [message]="'deduplication.sets.message.loading' | translate"></ds-loading>
       <ngb-accordion class="set-acc" [destroyOnHide]="false" [closeOthers]="true" activeIds="panel-0"
         *ngFor="let set of sets$ | async; let i = index">
@@ -66,9 +66,7 @@
                 <div class="col">
                   <span class="pr-1">Author:
                     <span class="badge badge-info">
-                      {{
-                      getAuthor((getItemsPerSet(set.id) | async)[0].metadata)[0]
-                      }}</span>
+                      {{ getAuthor((getItemsPerSet(set.id) | async)[0].metadata)[0] }}</span>
                   </span>
                   |
                   <span class="pl-1">Date Issued:

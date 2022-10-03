@@ -1675,7 +1675,7 @@
 
   "deduplication.merge.show-diff.modal.header": "Differences for values under",
 
-  "deduplication.merge.show-diff.modal.description": "Compare values under <b> place {{param}} </b> for items:",
+  "deduplication.merge.show-diff.modal.description": "Compare values under <b> place {{param}} </b> for item(s):",
 
   "deduplication.merge.show-diff.modal.card-header": " Value of",
 

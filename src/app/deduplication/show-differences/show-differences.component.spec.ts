@@ -15,6 +15,7 @@ describe('ShowDifferencesComponent', () => {
   let de: DebugElement;
   let itemsMetadataValues: ItemsMetadataValues = {
     itemId: '1234-65487-12354-1235',
+    itemHandle:'10.1016/454',
     value: new MetadataValue(),
     color: 'blue',
   }

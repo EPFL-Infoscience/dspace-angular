@@ -548,6 +548,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         if (hasValue(res)) {
           this.excludedMetadataKeys = [...res.values];
         }
+        // TODO: (test purposes)
         // , 'dc.description.provenance'
         this.getItemsData();
       });
@@ -564,6 +565,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         .subscribe((res: SubmissionRepeatableFieldsObject) => {
           if (hasValue(res)) {
             this.repeatableFields = [...res.repeatableFields];
+             // TODO: (test purposes)
             // this.repeatableFields = ['dc.contributor.author',];
           }
         });

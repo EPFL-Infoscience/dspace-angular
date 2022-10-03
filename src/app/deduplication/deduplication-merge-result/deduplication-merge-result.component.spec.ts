@@ -1,4 +1,3 @@
-import { MergeObject } from './../../core/deduplication/models/merge-object.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { DeduplicationItemsService } from './../deduplication-merge/deduplication-items.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -14,14 +13,11 @@ import { getMockDeduplicationStateService } from '../../shared/mocks/deduplicati
 import { MetadataMapObject } from '../interfaces/deduplication-merge.models';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
 
 describe('DeduplicationMergeResultComponent', () => {
   let component: DeduplicationMergeResultComponent;
   let fixture: ComponentFixture<DeduplicationMergeResultComponent>;
   let de: DebugElement;
-  let compAsAny: any;
-  let comp: any;
 
   const modalStub = jasmine.createSpyObj('activeModal', ['close', 'dismiss']);
 
@@ -44,6 +40,7 @@ describe('DeduplicationMergeResultComponent', () => {
           items: [
             {
               color: '#D09000',
+              itemHandle: '23456746',
               itemId: 'c64c56a1-4585-4baa-8287-dc49c60ebf70',
               metadataPlace: 0,
               _link:
@@ -52,6 +49,7 @@ describe('DeduplicationMergeResultComponent', () => {
             {
               color: '#40A0A6',
               itemId: '44c28720-2a37-46f0-b7cd-f11f0207b3e6',
+              itemHandle: '23456745',
               metadataPlace: 0,
               _link:
                 'http://localhost:8080/server/api/core/items/44c28720-2a37-46f0-b7cd-f11f0207b3e6',
@@ -116,34 +114,16 @@ describe('DeduplicationMergeResultComponent', () => {
     expect(element.nativeElement.innerText).toBe('dc.title');
   });
 
-
   describe('onMerge', () => {
-    beforeEach(() => {
-      fixture = TestBed.createComponent(DeduplicationMergeResultComponent);
-      comp = fixture.componentInstance;
-      compAsAny = comp;
-      spyOn(component, 'onMerge');
-    });
-
-    afterEach(() => {
-      fixture.destroy();
-      comp = null;
-      compAsAny = null;
-    });
-
     it('should call onMerge method on click event', () => {
+      spyOn(component, 'onMerge');
       const button = de.query(By.css('button.merge-btn'));
       button.nativeElement.click();
       expect(component.onMerge).toHaveBeenCalled();
-      expect(compAsAny.modalService.open).toHaveBeenCalled();
     });
+  });
 
-    it('should open confirmation modal', () => {
-      // deduplicationItemsService.mergeData.and.callFake(() => {
-      //   return of(new MergeObject());
-      // });
-      // spyOn(compAsAny.modalService, 'open').and.returnValue({ result: new Promise((res, rej) => 'dismiss') });
-      // expect(deduplicationItemsService.mergeData).toHaveBeenCalled();
-    });
+  afterEach(() => {
+    fixture.destroy();
   });
 });

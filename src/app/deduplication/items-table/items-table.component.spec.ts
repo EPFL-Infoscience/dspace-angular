@@ -16,6 +16,7 @@ describe('ItemsTableComponent', () => {
     id: '1234-65487-12354-1235',
     text: 'Test Content',
     color: 'blue',
+    itemHandle:'12659735'
   }];
 
   beforeEach(async () => {

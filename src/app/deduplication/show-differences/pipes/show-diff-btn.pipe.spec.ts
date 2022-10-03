@@ -7,12 +7,14 @@ describe('ShowDiffBtnPipe', () => {
     {
       id: '8bb47238-2964-4d9f-be56-e912bf17ac58',
       text: 'Content',
-      color: 'red'
+      color: 'red',
+      itemHandle:'12324123'
     },
     {
       id: '5bb47238-5684-4d9f-be56-e912bf17ac23',
       text: 'Item Content',
-      color: 'blue'
+      color: 'blue',
+      itemHandle:'123241443'
     }
   ];
 
