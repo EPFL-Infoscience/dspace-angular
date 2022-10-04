@@ -11,16 +11,12 @@
             "deduplication.home.tab.all-signatures" | translate
             }}</a>
           <ng-template ngbNavContent>
-            <ng-container *ngIf="isSignaturesLoading() | async" ;else layout>
-              <ds-loading class="container" [message]="'deduplication.signature.loading' | translate"></ds-loading>
-            </ng-container>
-            <ng-template #layout>
-              <ds-deduplication-signatures class="container p-0 m-0" [signatures]="signatures$"
-                [elementsPerRow]="elementsPerPage">
-              </ds-deduplication-signatures>
-            </ng-template>
+            <ds-loading class="container" *ngIf="isSignaturesLoading() | async"
+              [message]="'deduplication.signature.loading' | translate"></ds-loading>
+            <ds-deduplication-signatures class="container p-0 m-0" *ngIf="!(isSignaturesLoading() | async)"
+              [signatures]="signatures$" [elementsPerRow]="elementsPerPage">
+            </ds-deduplication-signatures>
           </ng-template>
-
         </li>
         <li [ngbNavItem]="'compare'">
           <a ngbNavLink>{{ "deduplication.home.tab.compare" | translate }}</a>

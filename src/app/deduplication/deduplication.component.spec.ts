@@ -74,8 +74,6 @@ describe('DeduplicationComponent test suite', () => {
   });
 
   it('Should init component properly', () => {
-    console.log(comp, 'DeduplicationComponent');
-
     comp.ngOnInit();
     fixture.detectChanges();
 
@@ -84,6 +82,10 @@ describe('DeduplicationComponent test suite', () => {
         mockSignatureObjectTitle,
         mockSignatureObjectIdentifier
       ]
+    }));
+
+    expect(comp.totalPages$).toBeObservable(cold('(a|)', {
+      a: 1
     }));
   });
 

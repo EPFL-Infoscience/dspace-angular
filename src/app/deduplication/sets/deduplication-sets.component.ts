@@ -549,7 +549,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   /**
    * Retrieves the items per set.
    */
-  private getAllItems() {
+  public getAllItems() {
     this.sets$.subscribe((sets: SetObject[]) => {
       sets.forEach((set) => {
         this.deduplicationStateService.dispatchRetrieveDeduplicationSetItems(
@@ -771,7 +771,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   /**
    * Retrieves the deduplication sets.
    */
-  private retrieveDeduplicationSets() {
+  public retrieveDeduplicationSets() {
     this.deduplicationStateService.dispatchRetrieveDeduplicationSetsBySignature(
       this.signatureId,
       this.rule,
