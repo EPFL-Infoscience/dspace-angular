@@ -152,15 +152,15 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   ngOnInit(): void {
     // GET Sets
     this.sets$ = this.deduplicationStateService
-      .getDeduplicationSetsPerSignature()
-      .pipe(
-        map((sets: SetObject[]) => {
-          // TODO: remove filter after rest changes
-          return sets.filter((set) =>
-            isEqual(set.signatureId, this.signatureId)
-          );
-        })
-      );
+      .getDeduplicationSetsPerSignature();
+    // .pipe(
+    // map((sets: SetObject[]) => {
+    //   // TODO: remove filter after rest changes
+    //   return sets.filter((set) =>
+    //     isEqual(set.signatureId, this.signatureId)
+    //   );
+    // })
+    // );
     this.setsTotalPages$ =
       this.deduplicationStateService.getDeduplicationSetsTotalPages();
     this.setCurrentPage$ =
@@ -255,7 +255,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
         return types.map((x) => x.value);
       }
     }
-     return ['-'];
+    return ['-'];
   }
 
   /**
@@ -367,7 +367,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * @returns {Observable<string> } The name of the collection
    */
   getItemOwningCollectionName(item: Item): Observable<string> {
-    if (hasValue(item._links?.owningCollection.href)) {
+    if (hasValue(item?._links?.owningCollection.href)) {
       return this.deduplicationSetsService
         .getItemOwningCollection(item._links.owningCollection.href)
         .pipe(
@@ -550,7 +550,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * Retrieves the items per set.
    */
   public getAllItems() {
-    this.sets$.subscribe((sets: SetObject[]) => {
+    this.sets$?.subscribe((sets: SetObject[]) => {
       sets.forEach((set) => {
         this.deduplicationStateService.dispatchRetrieveDeduplicationSetItems(
           set.id
@@ -784,7 +784,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * Returns if the logged in user is an Admin.
    * @returns {Observable<boolean>}
    */
-  private isCurrentUserAdmin(): Observable<boolean> {
+  isCurrentUserAdmin(): Observable<boolean> {
     return this.authorizationService
       .isAuthorized(FeatureID.AdministratorOf, undefined, undefined)
       .pipe(take(1));

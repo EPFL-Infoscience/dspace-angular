@@ -22,7 +22,7 @@ export class SetObject implements CacheableObject {
    */
   @excludeFromEquals
   @autoserialize
-  type: ResourceType = DEDUPLICATION_SET;
+  type: ResourceType;
 
   @autoserialize
   id: string;

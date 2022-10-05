@@ -55,24 +55,6 @@ describe('DeduplicationComponent test suite', () => {
     spyOn(comp, 'addMoreDeduplicationSignatures').and.callThrough();
   });
 
-  describe('Should work properly with less than three signatures', () => {
-    beforeEach(() => {
-      fixture = TestBed.createComponent(DeduplicationComponent);
-      comp = fixture.componentInstance;
-      compAsAny = comp;
-      compAsAny.deduplicationStateService.getDeduplicationSignatures.and.returnValue(observableOf([
-        mockSignatureObjectTitle,
-        mockSignatureObjectIdentifier
-      ]));
-      compAsAny.deduplicationStateService.getDeduplicationSignaturesTotals.and.returnValue(observableOf(2));
-      compAsAny.deduplicationStateService.getDeduplicationSignaturesTotalPages.and.returnValue(observableOf(1));
-      compAsAny.deduplicationStateService.isDeduplicationSignaturesLoaded.and.returnValue(observableOf(true));
-      compAsAny.deduplicationStateService.isDeduplicationSignaturesLoading.and.returnValue(observableOf(false));
-      compAsAny.deduplicationStateService.isDeduplicationSignaturesProcessing.and.returnValue(observableOf(false));
-      spyOn(comp, 'addMoreDeduplicationSignatures').and.callThrough();
-    });
-  });
-
   it('Should init component properly', () => {
     comp.ngOnInit();
     fixture.detectChanges();
