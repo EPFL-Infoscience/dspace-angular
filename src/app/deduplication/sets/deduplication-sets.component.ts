@@ -1,3 +1,4 @@
+import { GetItemStatusListPipe } from './pipes/get-item-status-list.pipe';
 import { MergeObject } from './../../core/deduplication/models/merge-object.model';
 import { GetBitstreamsPipe } from './../deduplication-merge/pipes/ds-get-bitstreams.pipe';
 import { Item } from './../../core/shared/item.model';
@@ -24,8 +25,8 @@ import {
 import { Observable, of } from 'rxjs';
 import { SetObject } from '../../core/deduplication/models/set.model';
 import { DeduplicationStateService } from '../deduplication-state.service';
-import { map, take, concatMap, switchMap } from 'rxjs/operators';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { map, take, concatMap, switchMap, expand } from 'rxjs/operators';
+import { NgbAccordion, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeduplicationSetsService } from './deduplication-sets.service';
 import { NoContent } from './../../core/shared/NoContent.model';
 import { RemoteData } from './../../core/data/remote-data';
@@ -45,7 +46,7 @@ import { getEntityPageRoute } from '../../item-page/item-page-routing-paths';
   selector: 'ds-deduplication-sets',
   templateUrl: './deduplication-sets.component.html',
   styleUrls: ['./deduplication-sets.component.scss'],
-  providers: [GetBitstreamsPipe],
+  providers: [GetBitstreamsPipe, GetItemStatusListPipe],
 })
 export class DeduplicationSetsComponent implements AfterViewInit {
   /**
@@ -54,6 +55,12 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * @type {QueryList<any>}
    */
   @ViewChildren('compareBtnSelector') compareBtnSelector: QueryList<any>;
+
+  /**
+ * Accordions references in order to collapse/expand them on click
+ * @type {QueryList<NgbAccordion>}
+ */
+  @ViewChildren(NgbAccordion) accordions: QueryList<NgbAccordion>;
 
   /**
    * The deduplication signatures' sets list.
@@ -151,16 +158,8 @@ export class DeduplicationSetsComponent implements AfterViewInit {
 
   ngOnInit(): void {
     // GET Sets
-    this.sets$ = this.deduplicationStateService
-      .getDeduplicationSetsPerSignature();
-    // .pipe(
-    // map((sets: SetObject[]) => {
-    //   // TODO: remove filter after rest changes
-    //   return sets.filter((set) =>
-    //     isEqual(set.signatureId, this.signatureId)
-    //   );
-    // })
-    // );
+    this.sets$ =
+      this.deduplicationStateService.getDeduplicationSetsPerSignature();
     this.setsTotalPages$ =
       this.deduplicationStateService.getDeduplicationSetsTotalPages();
     this.setCurrentPage$ =
@@ -240,7 +239,8 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       if (hasValue(titles)) {
         return titles.map((x) => x.value);
       }
-    } return ['-'];
+    }
+    return ['-'];
   }
 
   /**
@@ -290,7 +290,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       title: this.removeElementText,
       btnText: this.delteBtnText,
       titleClass: 'text-danger',
-      btnClass: 'btn-danger'
+      btnClass: 'btn-danger',
     };
 
     this.modalService.open(content).dismissed.subscribe((result) => {
@@ -468,10 +468,12 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    */
   keepItem(setId: string, item: Item, content) {
     this.confirmModalText = {
-      title: this.translate.instant('deduplication.sets.modal.confirm.merge', { param: item.uuid }),
+      title: this.translate.instant('deduplication.sets.modal.confirm.merge', {
+        param: item.uuid,
+      }),
       btnText: this.translate.instant('deduplication.sets.modal.merge.submit'),
       titleClass: 'text-info',
-      btnClass: 'btn-info'
+      btnClass: 'btn-info',
     };
 
     this.modalService.open(content).dismissed.subscribe((result) => {
@@ -534,6 +536,24 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    */
   goBack() {
     this.router.navigate(['admin/deduplication']);
+  }
+
+  changeFragment(groupIdentifier, panelToCloseIdx) {
+    this.accordions.toArray()[panelToCloseIdx]?.collapse('panel-' + panelToCloseIdx);
+
+    this.router.navigate(
+      ['/admin/deduplication/set', this.signatureId, this.rule],
+      { fragment: groupIdentifier }
+    );
+
+    const row = document.getElementById(groupIdentifier);
+    if (hasValue(row)) {
+      const panelId = Array.from(row.classList).find(x => x.includes('panel'));
+      if (hasValue(panelId)) {
+        const idx = panelId.slice(-1)[0];
+        this.accordions.toArray()[idx].expand(panelId);
+      }
+    }
   }
 
   /**
@@ -661,7 +681,8 @@ export class DeduplicationSetsComponent implements AfterViewInit {
           if (item) {
             // In other case get item submission status
             // If status is workspaceItem or workflowItem
-            this.deduplicationSetsService.getItemSubmissionStatus(itemId)
+            this.deduplicationSetsService
+              .getItemSubmissionStatus(itemId)
               .pipe(take(1))
               .subscribe((x) => {
                 const object = x;
@@ -714,7 +735,9 @@ export class DeduplicationSetsComponent implements AfterViewInit {
                 } else {
                   this.notificationsService.warning(
                     null,
-                    this.translate.get('deduplication.sets.notification.cannot-delete-item')
+                    this.translate.get(
+                      'deduplication.sets.notification.cannot-delete-item'
+                    )
                   );
                 }
               });
@@ -728,7 +751,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * @param itemId The id of the item to be removed
    * @param setId The id of the set to which the item belongs to
    */
-  private dispatchRemoveItem(itemId: string, setId: string) {
+   dispatchRemoveItem(itemId: string, setId: string) {
     this.deduplicationStateService.dispatchRemoveItem(
       this.signatureId,
       itemId,
@@ -753,15 +776,17 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       return this.deduplicationSetsService.deleteWorkflowItem(itemId).pipe(
         concatMap((res: RemoteData<NoContent>) => {
           if (res.hasSucceeded || isEqual(res.statusCode, 204)) {
-            return this.deduplicationSetsService.getWorkspaceItemStatus(itemId).pipe(
-              concatMap((item: SubmitDataResponseDefinitionObject) => {
-                if (hasValue(item)) {
-                  return this.deduplicationSetsService.deleteWorkspaceItemById(
-                    (item[0] as ConfigObject).id
-                  );
-                }
-              })
-            );
+            return this.deduplicationSetsService
+              .getWorkspaceItemStatus(itemId)
+              .pipe(
+                concatMap((item: SubmitDataResponseDefinitionObject) => {
+                  if (hasValue(item)) {
+                    return this.deduplicationSetsService.deleteWorkspaceItemById(
+                      (item[0] as ConfigObject).id
+                    );
+                  }
+                })
+              );
           }
         })
       );

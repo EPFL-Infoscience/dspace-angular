@@ -1579,7 +1579,7 @@
 
   "deduplication.sets.message.loading": "Loading ...",
 
-  "deduplication.sets.label.match-criteria": "Match other criteria",
+  "deduplication.sets.label.match-criteria": "Found other matches for these items by",
 
   "deduplication.sets.label.select-to-compare": "Select the items to compare them.",
 

@@ -1,3 +1,6 @@
+import { RemoteData } from './../../core/data/remote-data';
+import { NoContent } from './../../core/shared/NoContent.model';
+import { GetItemStatusListPipe } from './pipes/get-item-status-list.pipe';
 import { MetadataValue } from './../../core/shared/metadata.models';
 import { Item } from './../../core/shared/item.model';
 import { AuthorizationDataService } from './../../core/data/feature-authorization/authorization-data.service';
@@ -46,6 +49,9 @@ describe('DeduplicationSetsComponent test suite', () => {
   const rule = 'admin';
   const item = Object.assign(new Item(), {
     uuid: '11129a891bab61b1b1c04b60edc8344d',
+    isDiscoverable: true,
+    isWithdrawn: true,
+    iisArchived: false,
     metadata: {
       'dc.date.issued': [
         {
@@ -83,12 +89,14 @@ describe('DeduplicationSetsComponent test suite', () => {
     }
   );
 
-  const mockDeduplicationSetsService = jasmine.createSpyObj(
-    'DeduplicationSetsService',
+  const noContentRD$ = new Observable<RemoteData<NoContent>>();
+
+  const deduplicationSetsService = jasmine.createSpyObj(
+    'deduplicationSetsService',
     {
       getItemOwningCollection: jasmine.createSpy('getItemOwningCollection'),
-      deleteSet: jasmine.createSpy('deleteSet'),
-      removeItem: jasmine.createSpy('removeItem'),
+      deleteSet: noContentRD$,
+      removeItem: noContentRD$,
       deleteSetItem: jasmine.createSpy('deleteSetItem'),
       getItemSubmissionStatus: jasmine.createSpy('getItemSubmissionStatus'),
       deleteWorkspaceItemById: jasmine.createSpy('deleteWorkspaceItemById'),
@@ -105,6 +113,8 @@ describe('DeduplicationSetsComponent test suite', () => {
     onDefaultLangChange: new EventEmitter(),
   };
 
+  const notificationsServiceStub = new NotificationsServiceStub();
+
   beforeEach(fakeAsync(() => {
     router = new RouterStub();
     TestBed.configureTestingModule({
@@ -114,7 +124,11 @@ describe('DeduplicationSetsComponent test suite', () => {
         NgbAccordionModule,
         TranslateModule.forRoot(),
       ],
-      declarations: [DeduplicationSetsComponent, TestComponent],
+      declarations: [
+        DeduplicationSetsComponent,
+        TestComponent,
+        GetItemStatusListPipe,
+      ],
       providers: [
         {
           provide: DeduplicationStateService,
@@ -125,11 +139,11 @@ describe('DeduplicationSetsComponent test suite', () => {
         { provide: CookieService, useValue: new CookieServiceMock() },
         {
           provide: DeduplicationSetsService,
-          useValue: mockDeduplicationSetsService,
+          useValue: deduplicationSetsService,
         },
         {
           provide: NotificationsService,
-          useValue: new NotificationsServiceStub(),
+          useValue: notificationsServiceStub,
         },
         {
           provide: DeduplicationItemsService,
@@ -147,6 +161,7 @@ describe('DeduplicationSetsComponent test suite', () => {
         },
         GetBitstreamsPipe,
         DeduplicationSetsComponent,
+        GetItemStatusListPipe,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
@@ -216,7 +231,11 @@ describe('DeduplicationSetsComponent test suite', () => {
   describe('should get all items and prepare data to display', () => {
     beforeEach(() => {
       spyOn(comp, 'getAllItems').and.callThrough();
+      spyOn(comp, 'getItemsPerSet').and.callThrough();
       comp.sets$ = observableOf([mockSetObject]);
+      comp.itemsMap = mockItemsMap;
+      comp.isSetsLoading();
+      comp.getItemsPerSet(mockSetObject.id);
     });
 
     it('should getAllItems ', () => {
@@ -228,10 +247,20 @@ describe('DeduplicationSetsComponent test suite', () => {
       expect(comp.itemsMap.has(mockSetObject.id)).toBeTrue();
     });
 
-    it('should get items per set', () => {
-      spyOn(comp, 'getItemsPerSet').and.callThrough();
-      comp.getItemsPerSet(mockSetObject.id);
+    it('isDeduplicationSetsLoading should return FALSE', () => {
+      let res$ = comp.isSetsLoading();
+      expect(res$).toBeObservable(
+        cold('(a|)', {
+          a: false,
+        })
+      );
 
+      expect(
+        compAsAny.deduplicationStateService.isDeduplicationSetsLoading
+      ).toHaveBeenCalled();
+    });
+
+    it('should get items per set', () => {
       expect(comp.getItemsPerSet).toHaveBeenCalledWith(mockSetObject.id);
     });
 
@@ -259,18 +288,12 @@ describe('DeduplicationSetsComponent test suite', () => {
       expect(res).toEqual(['Article']);
     });
 
-    it("should select set's elements", () => {
-      comp.itemsMap = mockItemsMap;
-      comp.sets$ = observableOf([mockSetObject]);
-      const checkbox = fixture.debugElement.queryAll(By.css('input'));
-      const table = fixture.debugElement.queryAll(By.css('table'));
-
-      console.log(checkbox);
-      console.log(table);
-
-      // checkbox.nativeElement.click();
-      // expect(comp.onItemCheck).toHaveBeenCalledWith(event, item.uuid, mockSetObject.id);
-    });
+    // it('should render an accordion per set', () => {
+    //   // comp.itemsMap = mockItemsMap;
+    //   fixture.detectChanges();
+    //   const accordion = fixture.debugElement.queryAll(By.css('ngb-accordion'));
+    //   expect(accordion.length).toEqual(1);
+    // });
   });
 
   it('should go back', () => {
@@ -284,19 +307,33 @@ describe('DeduplicationSetsComponent test suite', () => {
     ]);
   });
 
-  it('should display a message there is no data', () => {
-    let res$ = comp.isSetsLoading();
-    expect(res$).toBeObservable(
-      cold('(a|)', {
-        a: false,
-      })
-    );
+  describe('delete elements', () => {
+    beforeEach(() => {
+      comp.signatureId = signatureId;
+      compAsAny.deduplicationStateService.dispatchDeleteSet(signatureId, mockSetObject.id).and.callThrough();
+      spyOn(comp, 'dispatchRemoveItem');
+    });
 
-    expect(
-      compAsAny.deduplicationStateService.isDeduplicationSetsLoading
-    ).toHaveBeenCalled();
+    it('should delete set and should call the service to dispatch a STATE change', () => {
 
-    // getItemsPerSet
+      compAsAny.deleteSet(mockSetObject.id, mockSetObject.setChecksum);
+      expect(deduplicationSetsService.deleteSet).toHaveBeenCalledWith(
+        signatureId,
+        mockSetObject.setChecksum
+      );
+      expect(compAsAny.deduplicationStateService.dispatchDeleteSet).toHaveBeenCalledWith(
+        signatureId, mockSetObject.id
+      );
+    });
+
+    it('should remove items on case of no deduplication', () => {
+      compAsAny.removeItem(item.id, mockSetObject.setChecksum, mockSetObject.id);
+      expect(deduplicationSetsService.removeItem).toHaveBeenCalledWith(
+        signatureId,
+        item.id,
+        mockSetObject.setChecksum
+      );
+    });
   });
 
   afterEach(() => {
