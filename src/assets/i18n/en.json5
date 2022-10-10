@@ -1994,6 +1994,8 @@
 
   "explore.index.original_bundle_filenames" : "Original bundle filenames",
 
+  "explore.index.original_bundle_mime_type" : "File type",
+
   "explore.index.ouname" : "Name",
 
   "explore.index.projectOrgUnits" : "Organizations",
