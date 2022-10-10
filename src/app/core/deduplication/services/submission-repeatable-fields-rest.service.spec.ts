@@ -11,15 +11,12 @@ import { ObjectCacheService } from '../../cache/object-cache.service';
 import { RestResponse } from '../../cache/response.models';
 import { HALEndpointService } from '../../shared/hal-endpoint.service';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
-import { createSuccessfulRemoteDataObject } from '../../../shared/remote-data.utils';
-import { DeduplicationRestService } from './deduplication-rest.service';
-import { mockSignatureObjectTitle, mockSignatureObjectIdentifier } from '../../../shared/mocks/deduplication.mock';
-import { PaginatedList } from '../../data/paginated-list.model';
-import { PageInfo } from '../../shared/page-info.model';
+import { mockSubmissionRepeatableFieldsObject } from '../../../shared/mocks/deduplication.mock';
+import { SubmissionRepeatableFieldsRestService } from './submission-repeatable-fields-rest.service';
 
-describe('DeduplicationRestService', () => {
+describe('SubmissionRepeatableFieldsRestService', () => {
   let scheduler: TestScheduler;
-  let service: DeduplicationRestService;
+  let service: SubmissionRepeatableFieldsRestService;
   let responseCacheEntry: RequestEntry;
   let requestService: RequestService;
   let rdbService: RemoteDataBuildService;
@@ -29,14 +26,9 @@ describe('DeduplicationRestService', () => {
   let http: HttpClient;
   let comparator: any;
 
-  const endpointURL = 'https://rest.api/rest/api/deduplications/signatures';
-  const requestUUID = '8b3c613a-5a4b-438b-9686-be1d5b4a1c5a';
-
-
-  const pageInfo = new PageInfo();
-  const array = [mockSignatureObjectTitle, mockSignatureObjectIdentifier];  const paginatedList = new PaginatedList();
-  const signatureObjectRD = createSuccessfulRemoteDataObject(mockSignatureObjectTitle);
-  const paginatedListRD = createSuccessfulRemoteDataObject(paginatedList);
+  const endpointURL = 'https://rest.api/server/api/config/submissionrepeatablefields/search/findByItem?231d6608-0847-4f4b-ac5f-c6058ce6a73d';
+  const requestUUID = '8b3c613a-5a4b-438b-9686-be1d5b4a2dp2';
+  const itemUUID = '231d6608-0847-4f4b-ac5f-c6058ce6a73d';
 
   beforeEach(() => {
     scheduler = getTestScheduler();
@@ -53,23 +45,20 @@ describe('DeduplicationRestService', () => {
 
     rdbService = jasmine.createSpyObj('rdbService', {
       buildSingle: cold('(a)', {
-        a: signatureObjectRD
-      }),
-      buildList: cold('(a)', {
-        a: paginatedListRD
+        a: mockSubmissionRepeatableFieldsObject,
       }),
     });
 
     objectCache = {} as ObjectCacheService;
     halService = jasmine.createSpyObj('halService', {
-      getEndpoint: cold('a|', { a: endpointURL })
+      getEndpoint: cold('a|', { a: endpointURL }),
     });
 
     notificationsService = {} as NotificationsService;
     http = {} as HttpClient;
     comparator = {} as any;
 
-    service = new DeduplicationRestService(
+    service = new SubmissionRepeatableFieldsRestService(
       requestService,
       rdbService,
       objectCache,
@@ -78,18 +67,16 @@ describe('DeduplicationRestService', () => {
       http,
       comparator
     );
-
-    spyOn((service as any).dataService, 'findAllByHref').and.callThrough();
   });
 
-  describe('getSignatures', () => {
-    it('should proxy the call to dataservice.findAllByHref', (done) => {
-      service.getSignatures().subscribe(
-        (res) => {
-          expect((service as any).dataService.findAllByHref).toHaveBeenCalledWith(endpointURL, {}, true, true);
-        }
+  describe('getSubmissionRepeatableFields', () => {
+    it('should return a RemoteData<SubmissionRepeatableFieldsObject>', () => {
+      const res$ = service.getSubmissionRepeatableFields(itemUUID);
+      expect(res$).toBeObservable(
+        cold('(a)', {
+          a: mockSubmissionRepeatableFieldsObject,
+        })
       );
-      done();
     });
   });
 });

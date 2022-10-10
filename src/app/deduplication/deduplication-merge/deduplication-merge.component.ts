@@ -75,11 +75,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   private setChecksum: string;
 
   /**
-   * Rule of the authorized user (submitter/admin etc.)
-   */
-  private rule: string;
-
-  /**
    * The id of the first item to compare
    * It can be used as target item id for the merge
    * and can be sent as a parameter for the merge request
@@ -182,9 +177,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         `items-to-compare-identifiersLinkList`
       );
     }
-
-    this.rule = this.route.snapshot.queryParams.rule;
-
   }
 
   ngOnInit(): void {
@@ -565,7 +557,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         .subscribe((res: SubmissionRepeatableFieldsObject) => {
           if (hasValue(res)) {
             this.repeatableFields = [...res.repeatableFields];
-             // TODO: (test purposes)
+            // TODO: (test purposes)
             // this.repeatableFields = ['dc.contributor.author',];
           }
         });

@@ -103,7 +103,7 @@ export class DeduplicationMergeRestService {
               href: `${endpoint}/${targetItemId}`
             },
           },
-        };
+        } as MergeObject;
         return this.dataService.put(object);
       })
     );
