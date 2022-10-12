@@ -41,6 +41,7 @@ describe('SubmissionRepeatableFieldsRestService', () => {
       removeByHrefSubstring: {},
       getByHref: observableOf(responseCacheEntry),
       getByUUID: observableOf(responseCacheEntry),
+      send: {}
     });
 
     rdbService = jasmine.createSpyObj('rdbService', {

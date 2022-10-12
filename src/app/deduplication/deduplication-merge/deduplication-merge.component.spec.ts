@@ -1,3 +1,6 @@
+import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/models/submission-repeatable-fields.model';
+import { itemsToCompare } from './../../shared/mocks/deduplication.mock';
+import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfigurationDataService } from './../../core/data/configuration-data.service';
 import { DeduplicationItemsService } from './deduplication-items.service';
@@ -9,40 +12,66 @@ import { DeduplicationMergeComponent } from './deduplication-merge.component';
 import { GetBitstreamsPipe } from './pipes/ds-get-bitstreams.pipe';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { MockActivatedRoute } from '../../shared/mocks/active-router.mock';
 import { ChangeDetectorRef } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { RemoteData } from 'src/app/core/data/remote-data';
+import { By } from '@angular/platform-browser';
 
 describe('DeduplicationMergeComponent', () => {
   let component: DeduplicationMergeComponent;
+  let compAsAny: any;
   let fixture: ComponentFixture<DeduplicationMergeComponent>;
+  let cookieService = new CookieServiceMock();
+  let modalService = {
+    open: () => ( {result: new Promise((res, rej) => 'ok')} ),
+    close: () => null,
+    dismiss: () => null
+  };
 
-  const configurationDataService = jasmine.createSpyObj('configurationDataService', {
-    findByPropertyName: createSuccessfulRemoteDataObject$({ values: ['https://sandbox.orcid.org'] })
-  });
+  const configurationDataService = {
+    findByPropertyName(): Observable<RemoteData<ConfigurationProperty>> {
+      const collectionProperty = new ConfigurationProperty();
+      collectionProperty.name = 'merge.excluded-metadata';
+      collectionProperty.values = [];
+      return createSuccessfulRemoteDataObject$(collectionProperty);
+    }
+  }
 
   const mockCdRef = Object.assign({
     detectChanges: () => fixture.detectChanges()
   });
+
+  const deduplicationItemsService = jasmine.createSpyObj('deduplicationItemsService', {
+    mergeData: jasmine.createSpy('mergeData'),
+    getRepeatableFields: jasmine.createSpy('getRepeatableFields'),
+    getItemData: jasmine.createSpy('getItemData'),
+    getItemByHref: jasmine.createSpy('getItemByHref'),
+  });
+
+  const params: Params = {
+    signatureId: 'title',
+    setChecksum: 'd4b9185f91391c0574f4c3dbdd6fa7d3'
+  };
+
+  const route = new MockActivatedRoute(params);
+
+  const itemsPerset: string[] = ['231d6608-0847-4f4b-ac5f-c6058ce6a73d', '2c6a5994-ffd5-44c3-941c-baca3afcc9b0'];
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DeduplicationMergeComponent],
       providers: [
-        { provide: CookieService, useValue: new CookieServiceMock() },
-        { provide: DeduplicationItemsService, useValue: {} },
+        { provide: CookieService, useValue: cookieService },
+        { provide: DeduplicationItemsService, useValue: deduplicationItemsService },
         { provide: ConfigurationDataService, useValue: configurationDataService },
-        { provide: ActivatedRoute, useValue: new MockActivatedRoute() },
+        { provide: ActivatedRoute, useValue: route },
         { provide: Location, useValue: location },
         { provide: ChangeDetectorRef, useValue: mockCdRef },
-        {
-          provide: NgbModal, useValue: {
-            open: () => {/*comment*/
-            }
-          }
-        },
+        { provide: NgbModal, useValue: modalService },
         GetBitstreamsPipe
       ],
-      imports:[
+      imports: [
         TranslateModule.forRoot(),
         NgbModule
       ]
@@ -53,10 +82,93 @@ describe('DeduplicationMergeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DeduplicationMergeComponent);
     component = fixture.componentInstance;
+    compAsAny = component;
     fixture.detectChanges();
   });
 
+  describe('initialize component', () => {
+    beforeEach(() => {
+      cookieService.set(`items-to-compare-${(route.snapshot.params as any).setChecksum}`, JSON.stringify(itemsPerset));
+      compAsAny.storedItemList = [...itemsPerset];
+      spyOn(compAsAny, 'getExcludedMetadata');
+      spyOn(compAsAny, 'getItemsData').and.callThrough();
+      spyOn(component, 'getData').and.callThrough();
+      compAsAny.deduplicationItemsService.getItemData.and.returnValue(of(itemsToCompare[0].object));
+      compAsAny.deduplicationItemsService.getRepeatableFields.and.returnValue(of(Object.assign(new SubmissionRepeatableFieldsObject(), {
+        repeatableFields: []
+      })));
+      fixture.detectChanges();
+    });
+
+    it('should get value from cookie service', () => {
+      expect((route.snapshot.params as any).setChecksum).not.toBeNull();
+      const storageValues = compAsAny.cookieService.get(
+        `items-to-compare-${(route.snapshot.params as any).setChecksum}`
+      );
+      expect(storageValues).not.toBeUndefined();
+    });
+
+    it('should init component properly', () => {
+      component.ngOnInit();
+      fixture.detectChanges();
+      console.log(compAsAny.storedItemList);
+      expect(compAsAny.getExcludedMetadata).toHaveBeenCalled();
+    });
+
+    it('should calculate metadata to display', () => {
+      component.getData(itemsPerset[0]);
+      expect(compAsAny.deduplicationItemsService.getItemData).toHaveBeenCalled();
+    });
+
+    it('should display a message when no data', () => {
+      const h4 = fixture.debugElement.query(By.css('h4'));
+      expect(h4.nativeElement.innerText).toEqual('deduplication.merge.message.no-data');
+    });
+
+    describe('should display data', () => {
+      beforeEach(() => {
+        spyOn(component, 'showDiff');
+        // spyOn(compAsAny.modalService, 'open').and.returnValue({ result: new Promise((res, rej) => 'ok' ) });
+        spyOn(modalService, 'open').and.callThrough();
+        component.itemsToCompare = [...itemsToCompare];
+        compAsAny.getItemsData();
+        fixture.detectChanges();
+      });
+
+      it('should display data tables', () => {
+        const itemTable = fixture.debugElement.query(By.css('ds-items-table'));
+        const bitstreamTable = fixture.debugElement.query(By.css('ds-bitstream-table'));
+
+        expect(itemTable).not.toBeNull();
+        expect(bitstreamTable).not.toBeNull();
+      });
+
+      it('should display all the metadata keys in accordions', () => {
+        const accordions = fixture.debugElement.queryAll(By.css('ngb-accordion'));
+        expect(accordions.length).toEqual(component.compareMetadataValues.size);
+      });
+
+      it('should display all the metadata keys in accordions', () => {
+        const button = fixture.debugElement.query(By.css('button.show-diff-btn'));
+        button.nativeElement.click();
+        debugger
+        expect(component.showDiff).toHaveBeenCalled();
+        expect(compAsAny.modalService.open).toHaveBeenCalled();
+      });
+
+      // it('should open modal to show diffs', () => {
+      //   component.showDiff('dc.title');
+      //   expect(compAsAny.modalService.open).toHaveBeenCalled();
+      //   expect(compAsAny.modalService.open).toHaveBeenCalled();
+      // });
+    });
+  })
+
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  afterAll(() => {
+    fixture.destroy();
   });
 });

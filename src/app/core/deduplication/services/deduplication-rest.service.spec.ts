@@ -44,6 +44,7 @@ describe('DeduplicationRestService', () => {
     responseCacheEntry = new RequestEntry();
     responseCacheEntry.response = new RestResponse(true, 200, 'Success');
     requestService = jasmine.createSpyObj('requestService', {
+      send:{},
       generateRequestId: requestUUID,
       configure: true,
       removeByHrefSubstring: {},

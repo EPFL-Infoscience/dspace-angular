@@ -54,17 +54,19 @@ describe('DeduplicationMergeRestService', () => {
     responseCacheEntry = new RequestEntry();
     responseCacheEntry.response = new RestResponse(true, 200, 'Success');
     requestService = jasmine.createSpyObj('requestService', {
+      send: {},
       generateRequestId: requestUUID,
       configure: true,
       removeByHrefSubstring: {},
       getByHref: observableOf(responseCacheEntry),
-      getByUUID: observableOf(responseCacheEntry),
+      getByUUID: observableOf(responseCacheEntry)
     });
 
     rdbService = jasmine.createSpyObj('rdbService', {
       buildSingle: cold('(a)', {
         a: mergeObjectRD
-      })
+      }),
+      buildFromRequestUUID: observableOf(responseCacheEntry),
     });
 
     objectCache = {} as ObjectCacheService;
@@ -89,11 +91,13 @@ describe('DeduplicationMergeRestService', () => {
       http,
       comparator
     )
-
-    spyOn((service as any).dataService, 'put').and.callThrough();
   });
 
   describe('mergeData', () => {
+    beforeEach(() => {
+       spyOn((service as any).dataService, 'put').and.callThrough();
+    });
+
     it('should proxy the call to dataService.put', () => {
       service.mergeItemsData(mergeData, requestUUID).pipe(take(1)).subscribe(
         (res) => {
