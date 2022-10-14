@@ -1,3 +1,4 @@
+import { ShowDifferencesComponent } from './../show-differences/show-differences.component';
 import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/models/submission-repeatable-fields.model';
 import { itemsToCompare } from './../../shared/mocks/deduplication.mock';
 import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
@@ -18,14 +19,16 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { RemoteData } from 'src/app/core/data/remote-data';
 import { By } from '@angular/platform-browser';
+import { isEqual } from 'lodash';
 
 describe('DeduplicationMergeComponent', () => {
   let component: DeduplicationMergeComponent;
   let compAsAny: any;
   let fixture: ComponentFixture<DeduplicationMergeComponent>;
   let cookieService = new CookieServiceMock();
-  let modalService = {
-    open: () => ( {result: new Promise((res, rej) => 'ok')} ),
+  // let modalService: any;
+  let modalStub = {
+    open: () => ({ result: new Promise((res, rej) => 'ok') }),
     close: () => null,
     dismiss: () => null
   };
@@ -68,7 +71,7 @@ describe('DeduplicationMergeComponent', () => {
         { provide: ActivatedRoute, useValue: route },
         { provide: Location, useValue: location },
         { provide: ChangeDetectorRef, useValue: mockCdRef },
-        { provide: NgbModal, useValue: modalService },
+        { provide: NgbModal, useValue: modalStub },
         GetBitstreamsPipe
       ],
       imports: [
@@ -84,6 +87,10 @@ describe('DeduplicationMergeComponent', () => {
     component = fixture.componentInstance;
     compAsAny = component;
     fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
   describe('initialize component', () => {
@@ -111,7 +118,6 @@ describe('DeduplicationMergeComponent', () => {
     it('should init component properly', () => {
       component.ngOnInit();
       fixture.detectChanges();
-      console.log(compAsAny.storedItemList);
       expect(compAsAny.getExcludedMetadata).toHaveBeenCalled();
     });
 
@@ -128,8 +134,9 @@ describe('DeduplicationMergeComponent', () => {
     describe('should display data', () => {
       beforeEach(() => {
         spyOn(component, 'showDiff');
-        // spyOn(compAsAny.modalService, 'open').and.returnValue({ result: new Promise((res, rej) => 'ok' ) });
-        spyOn(modalService, 'open').and.callThrough();
+        spyOn(component, 'onDeleteAction').and.callThrough();
+        spyOn(component, 'isValueChecked').and.callThrough();
+        spyOn(component, 'uncheckValue').and.callThrough();
         component.itemsToCompare = [...itemsToCompare];
         compAsAny.getItemsData();
         fixture.detectChanges();
@@ -148,24 +155,51 @@ describe('DeduplicationMergeComponent', () => {
         expect(accordions.length).toEqual(component.compareMetadataValues.size);
       });
 
-      it('should display all the metadata keys in accordions', () => {
+      it('should open modal to show diffs', () => {
+        spyOn(compAsAny.modalService, 'open').and.returnValue({ result: new Promise((res, rej) => 'ok') });
         const button = fixture.debugElement.query(By.css('button.show-diff-btn'));
         button.nativeElement.click();
-        debugger
         expect(component.showDiff).toHaveBeenCalled();
-        expect(compAsAny.modalService.open).toHaveBeenCalled();
+        // expect(compAsAny.modalService.open).toHaveBeenCalledWith(ShowDifferencesComponent, compAsAny.modalConfigOptions);
       });
 
-      // it('should open modal to show diffs', () => {
-      //   component.showDiff('dc.title');
-      //   expect(compAsAny.modalService.open).toHaveBeenCalled();
-      //   expect(compAsAny.modalService.open).toHaveBeenCalled();
-      // });
-    });
-  })
+      it('should check metadata value', () => {
+        let element = fixture.debugElement.query(By.css('.custom-radio > input.custom-control-input'));
+        element.nativeElement.value = '';
+        const key = element.nativeElement.name;
+        const items = component.compareMetadataValues.get(key);
+        expect(component.isValueChecked).toHaveBeenCalled();
+        expect(component.isValueChecked).toHaveBeenCalledWith(key, items.find(x => x.value).items);
+        const isChecked = component.isValueChecked(key, items.find(x => x.value).items);
+        expect(isChecked).toBeTrue();
+      });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+      it('should deselect metadata value', () => {
+        const element = fixture.debugElement.query(By.css('.custom-radio > input.custom-control-input'));
+        const key = element.nativeElement.name;
+        element.nativeElement.click();
+        const items = component.compareMetadataValues.get(key);
+        expect(component.uncheckValue).toHaveBeenCalled();
+        expect(component.uncheckValue).toHaveBeenCalledWith(key, items.find(x => x.value).items, 'single');
+
+        component.uncheckValue(key, items.find(x => x.value).items, 'single');
+        const metadata = compAsAny.mergedMetadataFields
+          .find((x) => isEqual(x.metadataField, key))
+
+        expect(metadata.sources).toEqual([]);
+      });
+
+      it('should delete all the selections', () => {
+        const element = fixture.debugElement.query(By.css('button.delete-btn'));
+        element.nativeElement.click();
+        const key = element.parent.parent.children[0].nativeElement.innerText;
+        const res = compAsAny.mergedMetadataFields.find((x) =>
+          isEqual(x.metadataField, key)
+        ).sources = [];
+        expect(component.onDeleteAction).toHaveBeenCalled();
+        expect(res).toEqual([]);
+      });
+    });
   });
 
   afterAll(() => {

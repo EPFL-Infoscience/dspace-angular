@@ -122,8 +122,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * Reference to the modal instance
    * @type {NgbModalRef}
    */
-  protected modalRef: NgbModalRef;
 
+  public modalRef: NgbModalRef;
   /**
    * Stores the data of the item's metadata,based on the metadata keys.
    * @interface MetadataMapObject defines the structure of the neccessary data to show for the metadata values.
@@ -711,8 +711,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     if (this.itemsToCompare && this.itemsToCompare.length > 0) {
       this.itemsToCompare.map((item) => {
         this.getBitstreamsPipe
-          .transform(item.object)
-          .pipe(
+          .transform(item.object)?.pipe(
             concatMap((res$: Observable<Bitstream[]>) =>
               res$.pipe(map((bitstreams: Bitstream[]) => bitstreams))
             )
