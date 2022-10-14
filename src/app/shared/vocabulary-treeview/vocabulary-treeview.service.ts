@@ -307,36 +307,6 @@ export class VocabularyTreeviewService {
   }
 
   /**
-   * Retrieve only the node hierarchy
-   * @param pageInfo The {@link PageInfo} object
-   * @param nodes The top level nodes already loaded, if any
-   */
-  private retrieveOnlyNodeHierarchy(entryId): void {
-    this.loading.next(true);
-    this.nodeMap = new Map<string, TreeviewNode>();
-    this.dataChange.next([]);
-
-    this.vocabularyService.getPublicVocabularyEntryByValue(this.vocabularyName, entryId).pipe(
-      getFirstSucceededRemoteListPayload(),
-      map((vocabularyArray: VocabularyEntryDetail[]) => {
-        return vocabularyArray[0];
-      }),
-      mergeMap((entry: VocabularyEntryDetail) => this.getNodeHierarchy(entry)),
-      scan((acc: TreeviewNode[], value: TreeviewNode) => {
-        if (isEmpty(value) || findIndex(acc, (node) => node.item.otherInformation.id === value.item.otherInformation.id) !== -1) {
-          return acc;
-        } else {
-          return [...acc, value];
-        }
-      }, []),
-      merge(this.hideSearchingWhenUnsubscribed$)
-    ).subscribe((nodes: TreeviewNode[]) => {
-      this.dataChange.next(nodes);
-      this.loading.next(false);
-    });
-  }
-
-  /**
    * Retrieve the top level vocabulary entries
    * @param pageInfo The {@link PageInfo} object
    * @param nodes The top level nodes already loaded, if any
