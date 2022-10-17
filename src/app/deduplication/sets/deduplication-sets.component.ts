@@ -25,7 +25,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { SetObject } from '../../core/deduplication/models/set.model';
 import { DeduplicationStateService } from '../deduplication-state.service';
-import { map, take, concatMap, switchMap, expand } from 'rxjs/operators';
+import { map, take, concatMap, switchMap } from 'rxjs/operators';
 import { NgbAccordion, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeduplicationSetsService } from './deduplication-sets.service';
 import { NoContent } from './../../core/shared/NoContent.model';
@@ -593,20 +593,13 @@ export class DeduplicationSetsComponent implements AfterViewInit {
         if (res.hasSucceeded) {
           this.notificationsService.success(
             null,
-            this.translate.get('Set deleted')
+            this.translate.get('deduplication.sets.button.set-deleted')
           );
           this.deduplicationStateService.dispatchDeleteSet(
             this.signatureId,
             setId
           );
-        }
-        // else if (isEqual(res.statusCode, 204)) {
-        //   this.notificationsService.error(
-        //     null,
-        //     this.translate.get('deduplication.sets.notification.cannot-delete-set')
-        //   );
-        // }
-        else {
+        } else {
           this.notificationsService.error(
             null,
             this.translate.get(

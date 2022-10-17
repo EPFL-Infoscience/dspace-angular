@@ -58,7 +58,7 @@ describe('GetBitstreamsPipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('return bitstream', () => {
+  it('should return bitstream', () => {
     const result: Observable<Observable<Bitstream[]>> = pipe.transform(item);
     result.subscribe((res: Observable<Bitstream[]>) => {
       expect(res).toBeObservable(

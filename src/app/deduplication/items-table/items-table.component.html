@@ -19,14 +19,14 @@
           {{ itemObj.object?.name }}</span>
         <br />
         <span *ngIf="itemObj.object?.metadata['dc.type']">
-          <strong>Type:</strong>
+          <strong>{{'deduplication.merge.items-table.th.type' | translate}}</strong>
           {{ itemObj.object?.metadata["dc.type"][0].value }}</span>
         <br />
         <span>
-          <strong>Entity type:</strong>
+          <strong>{{'deduplication.merge.items-table.th.entity-type' | translate}} </strong>
           {{ itemObj.object?.type }}</span>
         <br />
-        <strong>Collection:</strong>
+        <strong>{{'deduplication.merge.items-table.th.collection' | translate}}</strong>
         <span id=""> {{ (itemObj.object | getOwningCollectionTitle) | async }}</span>
       </td>
       <td>
@@ -34,7 +34,8 @@
           {{ itemObj.object?.handle }}
         </span>
         <ng-template #emptyCell>
-          <div class="row justify-content-center text-muted">No data</div>
+          <div class="row justify-content-center text-muted">{{'deduplication.merge.items-table.td.no-data' |
+            translate}}</div>
         </ng-template>
       </td>
       <td>

@@ -1,5 +1,4 @@
 import { MergeSetItems } from './../interfaces/deduplication-merge.models';
-import { FollowLinkConfig } from './../../shared/utils/follow-link-config.model';
 import { MergeObject } from './../../core/deduplication/models/merge-object.model';
 import { SubmissionRepeatableFieldsRestService } from './../../core/deduplication/services/submission-repeatable-fields-rest.service';
 import { NotificationsServiceStub } from '../../shared/testing/notifications-service.stub';
@@ -14,9 +13,8 @@ import { DeduplicationItemsService } from './deduplication-items.service';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { getMockTranslateService } from '../../shared/mocks/translate.service.mock';
 import { DeduplicationMergeRestService } from '../../core/deduplication/services/deduplication-merge-rest.service';
-import { SubmissionRepeatableFieldsObject } from 'src/app/core/deduplication/models/submission-repeatable-fields.model';
-import { followLink } from 'src/app/shared/utils/follow-link-config.model';
-import { of } from 'rxjs';
+import { SubmissionRepeatableFieldsObject } from '../../core/deduplication/models/submission-repeatable-fields.model';
+import { followLink } from '../../shared/utils/follow-link-config.model';
 import { cold } from 'jasmine-marbles';
 
 describe('DeduplicationItemsService', () => {

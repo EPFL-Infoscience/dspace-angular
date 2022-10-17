@@ -1527,6 +1527,10 @@
 
   "deduplication.compare.notification.valid-id": "Identifier is valid",
 
+  "deduplication.compare.notification.header": "Informing messages for each identifier",
+
+  "deduplication.compare.item-identifier": "Identifier:",
+
   "deduplication.compare.notification.id-workflow-item": "Workflow item exists. Change the order. The first identifier should not be a workflow item",
 
   "deduplication.compare.notification.id-workspace-item": "Workspace item exists.Change the order. The first identifier should not be a workspace item",
@@ -1595,6 +1599,8 @@
 
   "deduplication.sets.button.delete-set": "Delete set",
 
+  "deduplication.sets.button.set-deleted": "Set deleted",
+
   "deduplication.sets.label.collection": "Collection",
 
   "deduplication.sets.label.description": "Based on <b> {{param}} </b> rule you can identify deduplication based on <b> {{otherParam}} </b>",
@@ -1626,8 +1632,6 @@
   "deduplication.sets.modal.merge.submit": "Confirm & Merge",
 
   "deduplication.sets.notification.cannot-remove-set": "An error occurred while removing the set",
-
-  "deduplication.sets.notification.cannot-delete-set": "This set cannot be deleted",
 
   "deduplication.sets.notification.cannot-remove-item": "An error occurred while removing the item",
 
@@ -1677,7 +1681,15 @@
 
   "deduplication.merge.show-diff.modal.description": "Compare values under <b> place {{param}} </b> for item(s):",
 
-  "deduplication.merge.show-diff.modal.card-header": " Value of",
+  "deduplication.merge.show-diff.modal.card-header": "Value of",
+
+  "deduplication.merge.show-diff.modal.card-header-sc": "Value under",
+
+  "deduplication.merge.show-diff.modal.card-header-sc-part2": "does not have a corresponding value to be compared with",
+
+  "deduplication.merge.show-diff.modal.card-header-link": "compared to",
+
+  "deduplication.merge.show-diff.modal.card-header-place": "place",
 
   "deduplication.merge.show-diff.modal.button.close": "Close",
 
@@ -1698,6 +1710,14 @@
   "deduplication.merge.preview-modal.confirm-title": "Confirm Merge",
 
   "deduplication.merge.preview-modal.confirm-btn.submit": "Confirm & Close",
+
+  "deduplication.merge.items-table.th.type": "Type:",
+
+  "deduplication.merge.items-table.th.entity-type": "Entity type:",
+
+  "deduplication.merge.items-table.th.collection": "Collection:",
+
+  "deduplication.merge.items-table.td.no-data": "No data",
 
   "datafile.listelement.badge": "Data File",
 

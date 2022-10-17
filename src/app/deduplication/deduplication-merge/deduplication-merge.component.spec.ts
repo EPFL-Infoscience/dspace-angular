@@ -1,4 +1,3 @@
-import { ShowDifferencesComponent } from './../show-differences/show-differences.component';
 import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/models/submission-repeatable-fields.model';
 import { itemsToCompare } from './../../shared/mocks/deduplication.mock';
 import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
@@ -17,7 +16,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { MockActivatedRoute } from '../../shared/mocks/active-router.mock';
 import { ChangeDetectorRef } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { RemoteData } from 'src/app/core/data/remote-data';
+import { RemoteData } from '../../core/data/remote-data';
 import { By } from '@angular/platform-browser';
 import { isEqual } from 'lodash';
 
@@ -26,7 +25,6 @@ describe('DeduplicationMergeComponent', () => {
   let compAsAny: any;
   let fixture: ComponentFixture<DeduplicationMergeComponent>;
   let cookieService = new CookieServiceMock();
-  // let modalService: any;
   let modalStub = {
     open: () => ({ result: new Promise((res, rej) => 'ok') }),
     close: () => null,
