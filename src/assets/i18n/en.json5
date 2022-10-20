@@ -1531,9 +1531,9 @@
 
   "deduplication.compare.item-identifier": "Identifier:",
 
-  "deduplication.compare.notification.id-workflow-item": "Workflow item exists. Change the order. The first identifier should not be a workflow item",
+  "deduplication.compare.notification.id-workflow-item": "Workflow item exists. Change the order. The first identifier should not be a workflow item.",
 
-  "deduplication.compare.notification.id-workspace-item": "Workspace item exists.Change the order. The first identifier should not be a workspace item",
+  "deduplication.compare.notification.id-workspace-item": "Workspace item exists. Change the order. The first identifier should not be a workspace item.",
 
   "deduplication.compare.confirm-modal.title": "Continue with merge",
 
@@ -1541,13 +1541,13 @@
 
   "deduplication.compare.notification.error": "Unable to get data from the server",
 
-  "deduplication.compare.notification.item-does-not-exists": "Item does not exists",
+  "deduplication.compare.notification.item-does-not-exists": "Item does not exists!",
 
   "deduplication.compare.required-condition": "Enter at least 2 different identifiers separated by comma",
 
-  "deduplication.compare.workflow-404": "Workflow item does not exist",
+  "deduplication.compare.workflow-404": "Workflow item does not exist!",
 
-  "deduplication.compare.workspace-404": "Workspace item does not exist",
+  "deduplication.compare.workspace-404": "Workspace item does not exist!",
 
   "deduplication.signature.loading": "Loading signatures ...",
 
@@ -1645,6 +1645,10 @@
 
   "deduplication.sets.notification.item-removed": "Item Removed",
 
+  "deduplication.sets.sub-header.author": "Author:",
+
+  "deduplication.sets.sub-header.date-issued": "Date Issued",
+
   "deduplication.merge.label.title": "Merge Deduplications",
 
   "deduplication.merge.label.title": "Merge Deduplications",
@@ -1698,6 +1702,8 @@
   "deduplication.merge.notification.message-error": "Merge failed, server error",
 
   "deduplication.merge.notification.message-error-422": "Merge failed. Please check multiple selected values",
+
+  "deduplication.merge.notification.message-error-400": "Merge failed. Something went wrong, please check multiple selected values",
 
   "deduplication.merge.tooltip.delete-info": "Remove values for this metadata field",
 

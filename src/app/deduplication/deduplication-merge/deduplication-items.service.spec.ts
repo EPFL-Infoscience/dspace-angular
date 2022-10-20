@@ -27,17 +27,16 @@ describe('DeduplicationItemsService', () => {
   let itemRD$: any;
   let testItem: Item;
   let testCollection;
-  let mergeObj = new MergeObject();
-  let submissionObj = new SubmissionRepeatableFieldsObject();
-  let mergeObjRD$ = createSuccessfulRemoteDataObject$(mergeObj);
-  let submissionObjRD$ = createSuccessfulRemoteDataObject$(submissionObj);
+  const mergeObj = new MergeObject();
+  const submissionObj = new SubmissionRepeatableFieldsObject();
+  const mergeObjRD$ = createSuccessfulRemoteDataObject$(mergeObj);
+  const submissionObjRD$ = createSuccessfulRemoteDataObject$(submissionObj);
 
 
-  let itemUUID = '04dd18fc-03f9-4b9a-9304-ed7c313686d3';
-  let collectionUUID = '91dfa5b5-5440-4fb4-b869-02610342f886';
-
-  let collectionPath = '/collections/';
-  let itemPath = '/items/';
+  const itemUUID = '04dd18fc-03f9-4b9a-9304-ed7c313686d3';
+  const collectionUUID = '91dfa5b5-5440-4fb4-b869-02610342f886';
+  const collectionPath = '/collections/';
+  const itemPath = '/items/';
 
   const setItemObj: MergeSetItems = {
     setId: 'title:d4b9185f91391c0574f4c3dbdd6fa7d3',
@@ -84,7 +83,7 @@ describe('DeduplicationItemsService', () => {
     };
 
     mergeService = {
-      mergeItemsData: (setItemObj, itemUUID) => mergeObjRD$,
+      mergeItemsData: () => mergeObjRD$,
     };
 
     submissionRepeatableFieldsService = {
@@ -174,5 +173,5 @@ describe('DeduplicationItemsService', () => {
       });
       expect(result).toBeObservable(expected);
     });
-  })
+  });
 });

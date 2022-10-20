@@ -24,8 +24,8 @@ describe('DeduplicationMergeComponent', () => {
   let component: DeduplicationMergeComponent;
   let compAsAny: any;
   let fixture: ComponentFixture<DeduplicationMergeComponent>;
-  let cookieService = new CookieServiceMock();
-  let modalStub = {
+  const cookieService = new CookieServiceMock();
+  const modalStub = {
     open: () => ({ result: new Promise((res, rej) => 'ok') }),
     close: () => null,
     dismiss: () => null
@@ -38,7 +38,7 @@ describe('DeduplicationMergeComponent', () => {
       collectionProperty.values = [];
       return createSuccessfulRemoteDataObject$(collectionProperty);
     }
-  }
+  };
 
   const mockCdRef = Object.assign({
     detectChanges: () => fixture.detectChanges()
@@ -162,7 +162,7 @@ describe('DeduplicationMergeComponent', () => {
       });
 
       it('should check metadata value', () => {
-        let element = fixture.debugElement.query(By.css('.custom-radio > input.custom-control-input'));
+        const element = fixture.debugElement.query(By.css('.custom-radio > input.custom-control-input'));
         element.nativeElement.value = '';
         const key = element.nativeElement.name;
         const items = component.compareMetadataValues.get(key);
@@ -182,7 +182,7 @@ describe('DeduplicationMergeComponent', () => {
 
         component.uncheckValue(key, items.find(x => x.value).items, 'single');
         const metadata = compAsAny.mergedMetadataFields
-          .find((x) => isEqual(x.metadataField, key))
+          .find((x) => isEqual(x.metadataField, key));
 
         expect(metadata.sources).toEqual([]);
       });

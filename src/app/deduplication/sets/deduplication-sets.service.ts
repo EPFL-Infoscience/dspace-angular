@@ -31,7 +31,7 @@ export class DeduplicationSetsService {
     private collectionDataService: CollectionDataService,
     private submissionRestService: SubmissionRestService,
     private workflowItemDataService: WorkflowItemDataService
-  ) { }
+  ) {}
 
   /**
    * Returns the sets with the given signature id
@@ -200,13 +200,12 @@ export class DeduplicationSetsService {
       .pipe(getFirstCompletedRemoteData(), take(1));
   }
 
-
   /**
- * Get workflow/workspace item if it exists
- * @param itemId The id of the item
- * @returns {Observable<WorkflowItem | null | SubmitDataResponseDefinitionObject>}
- * The WorkflowItem (if it exists) or WorkspaceItem or null if it doesn't exist
- */
+   * Get workflow/workspace item if it exists
+   * @param itemId The id of the item
+   * @returns {Observable<WorkflowItem | null | SubmitDataResponseDefinitionObject>}
+   * The WorkflowItem (if it exists) or WorkspaceItem or null if it doesn't exist
+   */
   public getItemSubmissionStatus(
     itemId: string
   ): Observable<WorkflowItem | null | SubmitDataResponseDefinitionObject> {
@@ -222,26 +221,24 @@ export class DeduplicationSetsService {
   }
 
   /**
-* Get WorkflowItem submission status.
-* If the response status is 200, the item is a WorkflowItem.
-* If the response status is 204, the item is not found as WorkflowItem.
-* @param itemId The id of the item to get the status for
-* @returns {Observable<WorkflowItem | null>} The WorkflowItem or null
-*/
+   * Get WorkflowItem submission status.
+   * If the response status is 200, the item is a WorkflowItem.
+   * If the response status is 204, the item is not found as WorkflowItem.
+   * @param itemId The id of the item to get the status for
+   * @returns {Observable<WorkflowItem | null>} The WorkflowItem or null
+   */
   public getWorkflowItemStatus(
     itemId: string
   ): Observable<WorkflowItem | null> {
-    return this
-      .getSubmissionWorkflowItems(itemId)
-      .pipe(
-        map((res) => {
-          if (isEqual(res.statusCode, 200)) {
-            return res.payload;
-          } else {
-            return null;
-          }
-        })
-      );
+    return this.getSubmissionWorkflowItems(itemId).pipe(
+      map((res) => {
+        if (isEqual(res.statusCode, 200)) {
+          return res.payload;
+        } else {
+          return null;
+        }
+      })
+    );
   }
 
   /**

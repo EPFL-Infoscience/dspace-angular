@@ -54,7 +54,7 @@ export class DeduplicationItemsService {
       followLink('bundles', {}, followLink('bitstreams')),
       followLink('owningCollection')).pipe(
         getFirstSucceededRemoteDataPayload()
-      )
+      );
   }
 
   /**
@@ -97,6 +97,14 @@ export class DeduplicationItemsService {
             this.translate.get('deduplication.merge.notification.message-error')
           );
           throw new Error('Merge Failed with status 500');
+        }
+
+        if (response.hasFailed && isEqual(response.statusCode, 400)) {
+          this.notificationsService.error(
+            null,
+            this.translate.get('deduplication.merge.notification.message-error-400')
+          );
+          throw new Error('Merge Failed with status 400');
         }
       })
     );

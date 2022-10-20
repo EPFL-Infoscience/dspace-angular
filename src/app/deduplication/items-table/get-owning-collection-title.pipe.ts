@@ -7,7 +7,7 @@ import { Collection } from '../../core/shared/collection.model';
 import { map } from 'rxjs/operators';
 
 @Pipe({
-  name: 'getOwningCollectionTitle',
+  name: 'dsGetOwningCollectionTitle',
 })
 export class GetOwningCollectionTitlePipe implements PipeTransform {
   /**

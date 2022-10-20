@@ -66,14 +66,27 @@ export function deduplicationSetReducer(state = deduplicationObjectInitialState,
 
     case DeduplicationSetsActionTypes.ADD_SETS: {
       return Object.assign({}, state, {
-        objects: action.payload.objects,// state.objects.concat(action.payload.objects),
+        objects: state.objects.concat(action.payload.objects),
         processing: false,
         loaded: true,
         totalPages: action.payload.totalPages,
-        currentPage: state.currentPage, // state.currentPage + 1,
+        currentPage: state.currentPage + 1,
         totalElements: action.payload.totalElements,
         signatureId: action.payload.signatureId,
         rule: action.payload.rule,
+      });
+    }
+
+    case DeduplicationSetsActionTypes.REMOVE_SETS: {
+      return Object.assign({}, state, {
+        objects: [],
+        processing: false,
+        loaded: false,
+        totalPages: 0,
+        currentPage: 0,
+        totalElements: 0,
+        signatureId: null,
+        rule: null
       });
     }
 

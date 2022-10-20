@@ -27,7 +27,7 @@ export class CompareItemIdentifiersComponent {
    * Inserted identifiers separated by comma
    * @type {string}
    */
-  public itemUuidsToCompare: string = '';
+  public itemUuidsToCompare = '';
 
   /**
    * To store all the error messages for each inserted identifier
@@ -98,8 +98,7 @@ export class CompareItemIdentifiersComponent {
    * @returns {Observable<WorkspaceItem>}
    */
   public getWorkspaceItemStatus(itemUuid: string): Observable<WorkspaceItem> {
-    return this.workspaceitemDataService.findById(itemUuid).pipe(
-      getFirstCompletedRemoteData(),
+    return this.workspaceitemDataService.findById(itemUuid).pipe(getFirstCompletedRemoteData(),
       map((rd: RemoteData<WorkspaceItem>) => {
         if (rd.hasSucceeded && hasValue(rd.payload)) {
           if (
@@ -151,7 +150,7 @@ export class CompareItemIdentifiersComponent {
       // first we check if the identifier represents a workflow item,
       // then if is not we check if the identifier represents a workspace item.
       // If it does not represents one of them, it might be selected as target item
-      let calls = [];
+      const calls = [];
       uuidsList.forEach((element: string, index: number) => {
         const call = this.checkIdValidity(element, index);
         calls.push(call);

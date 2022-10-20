@@ -41,7 +41,7 @@ import {
 } from '../interfaces/deduplication-merge.models';
 import { ItemsMetadataValues } from '../interfaces/deduplication-differences.models';
 import { DeduplicationMergeResultComponent } from '../deduplication-merge-result/deduplication-merge-result.component';
-import { Location } from '@angular/common'
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'ds-deduplication-merge',
@@ -73,6 +73,12 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * @type {string}
    */
   private setChecksum: string;
+
+  /**
+   * The set-rule
+   * @type {string}
+   */
+  private setRule: string;
 
   /**
    * The id of the first item to compare
@@ -167,6 +173,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   ) {
     this.signatureId = this.route.snapshot.params.signatureId;
     this.setChecksum = this.route.snapshot.params.setChecksum;
+    this.setRule = this.route.snapshot.queryParams.rule;
+    console.log(this.setRule);
 
     if (hasValue(this.setChecksum)) {
       this.storedItemList = this.cookieService.get(
@@ -481,6 +489,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       setIdentifiers = {
         setId: `${this.signatureId}:${this.setChecksum}`,
         signatureId: this.signatureId,
+        rule: this.setRule
       };
     } else {
       mergedItems = {
@@ -524,7 +533,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * Navigates to set list page @type {DeduplicationSetsComponent}
    */
   goBack() {
-    this.location.back()
+    this.location.back();
   }
 
   //#region Privates
@@ -630,8 +639,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   getData(element: string): Observable<Item> {
     if (hasValue(this.setChecksum) && hasValue(this.signatureId)) {
       return this.deduplicationItemsService.getItemData(element);
-    }
-    else {
+    } else {
       return this.deduplicationItemsService.getItemByHref(element);
     }
   }

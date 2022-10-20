@@ -60,4 +60,5 @@ export interface ItemMetadataSource {
 export interface SetIdentifiers {
   setId: string;
   signatureId: string;
+  rule: string;
 }

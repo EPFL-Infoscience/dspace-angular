@@ -7,7 +7,7 @@
 <div class="modal-body">
   <ng-container *ngFor="let object of objectMap | keyvalue; let isLast = last">
     <ng-container *ngFor="let value of object.value; let i = index;">
-      <ng-container *ngIf="object.value | showDiffBtn">
+      <ng-container *ngIf="object.value | dsShowDiffBtn">
         <div class="row justify-content-center">
           <div class="col text-center">
             <div class="card-header border-bottom-0 mb-2">

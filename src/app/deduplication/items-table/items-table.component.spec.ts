@@ -12,7 +12,7 @@ describe('ItemsTableComponent', () => {
   let fixture: ComponentFixture<ItemsTableComponent>;
   let de: DebugElement;
 
-  let itemsData: ItemData[] = [{
+  const itemsData: ItemData[] = [{
     id: '1234-65487-12354-1235',
     text: 'Test Content',
     color: 'blue',

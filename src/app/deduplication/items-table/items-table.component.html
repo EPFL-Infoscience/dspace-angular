@@ -27,7 +27,7 @@
           {{ itemObj.object?.type }}</span>
         <br />
         <strong>{{'deduplication.merge.items-table.th.collection' | translate}}</strong>
-        <span id=""> {{ (itemObj.object | getOwningCollectionTitle) | async }}</span>
+        <span id=""> {{ (itemObj.object | dsGetOwningCollectionTitle) | async }}</span>
       </td>
       <td>
         <span [ngStyle]="{ color: itemObj.color }" *ngIf="itemObj.object && itemObj.object.handle; else emptyCell">

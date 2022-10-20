@@ -86,7 +86,8 @@ export class DeduplicationMergeResultComponent {
                 if (hasValue(this.identifiers)) {
                   this.deduplicationStateService.dispatchDeleteSet(
                     this.identifiers.signatureId,
-                    this.identifiers.setId
+                    this.identifiers.setId,
+                    this.identifiers.rule
                   );
                 }
               }

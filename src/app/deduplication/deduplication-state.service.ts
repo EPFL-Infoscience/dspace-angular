@@ -30,6 +30,8 @@ import {
   RetrieveSetsBySignatureAction,
   AddItemsToCompareAction,
   DeleteItemsToCompareAction,
+  RemoveSetsAction,
+  RemoveAllItemsAction,
 } from './sets/deduplication-sets.actions';
 
 /**
@@ -41,7 +43,7 @@ export class DeduplicationStateService {
    * Initialize the service variables.
    * @param {Store<DeduplicationState>} store
    */
-  constructor(private store: Store<DeduplicationState>) {}
+  constructor(private store: Store<DeduplicationState>) { }
 
   /**
    * Returns the list of deduplication signatures from the state.
@@ -206,8 +208,12 @@ export class DeduplicationStateService {
    * @param signatureId The signature id to retrieve the sets
    * @param setId The id of the set to be removed
    */
-  public dispatchDeleteSet(signatureId: string, setId: string) {
-    this.store.dispatch(new DeleteSetAction(signatureId, setId));
+  public dispatchDeleteSet(signatureId: string, setId: string, rule: string) {
+    this.store.dispatch(new DeleteSetAction(signatureId, setId, rule));
+  }
+
+  public dispatchRemoveSets(signatureId: string, rule: string) {
+    this.store.dispatch(new RemoveSetsAction(signatureId, rule));
   }
   //#endregion Sets
 
@@ -252,6 +258,10 @@ export class DeduplicationStateService {
 
   public dispatchRemoveItemsToCompare() {
     this.store.dispatch(new DeleteItemsToCompareAction());
+  }
+
+  public dispatchRemoveAllItems() {
+    this.store.dispatch(new RemoveAllItemsAction());
   }
   //#endregion Items
 }

@@ -41,13 +41,13 @@ describe('DeduplicationMergeRestService', () => {
         place: 0,
       }]
     }
-  ]
+  ];
   const mergeData: MergeSetItems = {
     setId: '2f4c613a-5a4b-438b-9686-be1d5b4a1g5d',
     bitstreams: [],
     mergedItems: [],
     metadata: metadataFields
-  }
+  };
 
   beforeEach(() => {
     scheduler = getTestScheduler();
@@ -90,7 +90,7 @@ describe('DeduplicationMergeRestService', () => {
       notificationsService,
       http,
       comparator
-    )
+    );
   });
 
   describe('mergeData', () => {

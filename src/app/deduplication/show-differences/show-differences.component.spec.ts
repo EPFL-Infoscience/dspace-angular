@@ -13,14 +13,14 @@ describe('ShowDifferencesComponent', () => {
   let component: ShowDifferencesComponent;
   let fixture: ComponentFixture<ShowDifferencesComponent>;
   let de: DebugElement;
-  let itemsMetadataValues: ItemsMetadataValues = {
+  const itemsMetadataValues: ItemsMetadataValues = {
     itemId: '1234-65487-12354-1235',
     itemHandle:'10.1016/454',
     value: new MetadataValue(),
     color: 'blue',
-  }
+  };
 
-  let metadataKey = 'dc.title';
+  const metadataKey = 'dc.title';
 
   const modalStub = jasmine.createSpyObj('activeModal', ['close', 'dismiss']);
 

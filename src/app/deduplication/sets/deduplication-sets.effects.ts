@@ -15,10 +15,13 @@ import {
   RetrieveSetItemsAction,
   RetrieveSetItemsErrorAction,
   AddSetItemsAction,
+  RemoveSetsAction,
+  RemoveAllItemsAction,
 } from './deduplication-sets.actions';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { DeduplicationSetsService } from './deduplication-sets.service';
+import { DeduplicationState } from '../deduplication.reducer';
 
 /**
  * Provides effect methods for jsonPatch Operations actions.
@@ -33,8 +36,8 @@ export class DeduplicationSetsEffects {
     ofType(DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE),
     withLatestFrom(this.store$),
     switchMap(([action, currentState]: [RetrieveSetsBySignatureAction, any]) => {
-      // const currentPage = (currentState.deduplication as DeduplicationState).sets.currentPage + 1;
-      return this.deduplicationSetsService.getSets(action.payload.elementsPerPage, null, action.payload.signatureId, action.payload.rule)
+      const currentPage = (currentState.deduplication as DeduplicationState).sets.currentPage + 1;
+      return this.deduplicationSetsService.getSets(action.payload.elementsPerPage, currentPage, action.payload.signatureId, action.payload.rule)
         .pipe(
           map((sets: PaginatedList<SetObject>) =>
             new AddSetsAction(sets.page, sets.totalPages, sets.currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule)
@@ -88,6 +91,22 @@ export class DeduplicationSetsEffects {
     ofType(DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS_ERROR),
     tap(() => {
       this.notificationsService.error(null, this.translate.get('deduplication.sets.notification.cannot-get-item'));
+    })
+  );
+
+  @Effect({ dispatch: false }) removeSetsAction$ = this.actions$.pipe(
+    ofType(DeduplicationSetsActionTypes.REMOVE_SETS),
+    withLatestFrom(this.store$),
+    tap((res: [RemoveSetsAction, any]) => {
+      new RemoveSetsAction(res[0].payload.signatureId, res[0].payload.rule);
+    })
+  );
+
+  @Effect({ dispatch: false }) removeAllItemsAction$ = this.actions$.pipe(
+    ofType(DeduplicationSetsActionTypes.REMOVE_ALL_ITEMS),
+    withLatestFrom(this.store$),
+    tap((res: [RemoveAllItemsAction, any]) => {
+      new RemoveAllItemsAction();
     })
   );
 

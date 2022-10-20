@@ -36,7 +36,7 @@ describe('CompareItemIdentifiersComponent', () => {
   let fixture: ComponentFixture<CompareItemIdentifiersComponent>;
   let de: DebugElement;
   let itemObject: Observable<Item | WorkflowItem | WorkspaceItem>;
-  const itemUuidsToCompare: string = '123,31,0db938b1-586e-465b-942c-456df';
+  const itemUuidsToCompare = '123,31,0db938b1-586e-465b-942c-456df';
   const ids: string[] = ['123', '31', '0db938b1-586e-465b-942c-456df'];
 
   const errorMessageList: Map<string, ItemErrorMessages[]> = new Map([
@@ -99,9 +99,9 @@ describe('CompareItemIdentifiersComponent', () => {
   };
 
   const modalStub = {
-    open: () => { },
-    close: () => { },
-    dismiss: () => { },
+    open: () => null,
+    close: () => null,
+    dismiss: () => null,
   };
 
   beforeEach(async () => {

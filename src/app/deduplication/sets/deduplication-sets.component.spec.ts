@@ -42,7 +42,6 @@ describe('DeduplicationSetsComponent test suite', () => {
   let comp: DeduplicationSetsComponent;
   let compAsAny: any;
   let fixture: ComponentFixture<DeduplicationSetsComponent>;
-  let deduplicationItemsService: DeduplicationItemsService;
   let router;
 
   const signatureId = 'title';
@@ -147,7 +146,7 @@ describe('DeduplicationSetsComponent test suite', () => {
         },
         {
           provide: DeduplicationItemsService,
-          useValue: deduplicationItemsService,
+          useValue: {},
         },
         { provide: TranslateService, useValue: translateServiceStub },
         { provide: AuthorizationDataService, useValue: authorizationService },
@@ -248,7 +247,7 @@ describe('DeduplicationSetsComponent test suite', () => {
     });
 
     it('isDeduplicationSetsLoading should return FALSE', () => {
-      let res$ = comp.isSetsLoading();
+      const res$ = comp.isSetsLoading();
       expect(res$).toBeObservable(
         cold('(a|)', {
           a: false,

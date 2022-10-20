@@ -132,17 +132,16 @@ export const mockSetObject: SetObject = {
   },
 };
 
-export const mockSubmissionRepeatableFieldsObject: SubmissionRepeatableFieldsObject =
-  {
-    type: new ResourceType('submissionrepeatablefield'),
-    itemId: '231d6608-0847-4f4b-ac5f-c6058ce6a73d',
-    repeatableFields: ['dc.date.available', 'dc.date.accessioned'],
-    _links: {
-      self: {
-        href: 'http://rest.api/config/submissionrepeatablefields/search/findByItem?uuid=231d6608-0847-4f4b-ac5f-c6058ce6a73d',
-      },
+export const mockSubmissionRepeatableFieldsObject: SubmissionRepeatableFieldsObject = {
+  type: new ResourceType('submissionrepeatablefield'),
+  itemId: '231d6608-0847-4f4b-ac5f-c6058ce6a73d',
+  repeatableFields: ['dc.date.available', 'dc.date.accessioned'],
+  _links: {
+    self: {
+      href: 'http://rest.api/config/submissionrepeatablefields/search/findByItem?uuid=231d6608-0847-4f4b-ac5f-c6058ce6a73d',
     },
-  };
+  },
+};
 
 export const itemsToCompare: ItemData[] = [
   {

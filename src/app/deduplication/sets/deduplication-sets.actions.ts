@@ -17,6 +17,7 @@ import { Item } from '../../core/shared/item.model';
 export const DeduplicationSetsActionTypes = {
   RETRIEVE_SETS_BY_SIGNATURE: type('dspace/core/deduplication/RETRIEVE_SETS_BY_SIGNATURE'),
   ADD_SETS: type('dspace/core/deduplication/ADD_SETS'),
+  REMOVE_SETS: type('dspace/core/deduplication/REMOVE_SETS'),
   RETRIEVE_SETS_BY_SIGNATURE_ERROR: type('dspace/core/deduplication/RETRIEVE_SETS_BY_SIGNATURE_ERROR'),
   RETRIEVE_ALL_SET_ITEMS: type('dspace/core/deduplication/RETRIEVE_ALL_SET_ITEMS'),
   ADD_SET_ITEMS: type('dspace/core/deduplication/ADD_SET_ITEMS'),
@@ -24,6 +25,7 @@ export const DeduplicationSetsActionTypes = {
   DELETE_SET: type('dspace/core/deduplication/DELETE_SET'),
   DELETE_SET_ERROR: type('dspace/core/deduplication/DELETE_SET_ERROR'),
   DELETE_ITEM: type('dspace/core/deduplication/DELETE_ITEM'),
+  REMOVE_ALL_ITEMS: type('dspace/core/deduplication/REMOVE_ALL_ITEMS'),
   ADD_ITEMS_TO_COMPARE: type('dspace/core/deduplication/ADD_ITEMS_TO_COMPARE'),
   RETRIEVE_ITEMS_TO_COMPARE: type('dspace/core/deduplication/RETRIEVE_ITEMS_TO_COMPARE'),
   DELETE_ITEMS_TO_COMPARE: type('dspace/core/deduplication/DELETE_ITEMS_TO_COMPARE'),
@@ -116,6 +118,28 @@ export class RetrieveSetItemsAction implements Action {
   }
 }
 
+export class RemoveSetsAction implements Action {
+  type = DeduplicationSetsActionTypes.REMOVE_SETS;
+
+  payload: {
+    signatureId: string;
+    rule: string;
+  };
+
+  /**
+   * Creates an instance of RetrieveSetItemsAction.
+   * @param {string} setId
+   * @memberof RetrieveSetItemsAction
+   */
+  constructor(signatureId: string,
+    rule: string) {
+    this.payload = {
+      signatureId,
+      rule
+    };
+  }
+}
+
 /**
  * An ngrx action to load the deduplication set items objects.
  * Called by the RetrieveAllSetItemsAction effect.
@@ -155,6 +179,7 @@ export class DeleteSetAction implements Action {
   payload: {
     signatureId: string;
     setId: string;
+    rule: string;
   };
 
   /**
@@ -162,8 +187,8 @@ export class DeleteSetAction implements Action {
    * @param signatureId - the signature id of the set
    * @param setId - the id of the set
    */
-  constructor(signatureId: string, setId: string) {
-    this.payload = { signatureId, setId };
+  constructor(signatureId: string, setId: string, rule: string) {
+    this.payload = { signatureId, setId, rule };
   }
 }
 
@@ -230,9 +255,10 @@ export class DeleteItemsToCompareAction implements Action {
   type = DeduplicationSetsActionTypes.DELETE_ITEMS_TO_COMPARE;
 }
 
-//  TODO: RetrieveItemsToCompareAction ERROR
-
-
+export class RemoveAllItemsAction implements Action {
+  type = DeduplicationSetsActionTypes.REMOVE_ALL_ITEMS;
+  constructor() { }
+}
 //#endregion Set Items
 
 /**
@@ -250,4 +276,6 @@ export type DeduplicationSetsActions
   | DeleteItemAction
   | RetrieveItemsToCompareAction
   | AddItemsToCompareAction
-  | DeleteItemsToCompareAction;
+  | DeleteItemsToCompareAction
+  | RemoveSetsAction
+  | RemoveAllItemsAction;
