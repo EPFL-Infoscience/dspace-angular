@@ -1,5 +1,7 @@
+import { createSuccessfulRemoteDataObject$ } from 'src/app/shared/remote-data.utils';
+import { ItemMock } from './item.mock';
 import { Item } from './../../core/shared/item.model';
-import { MetadataMap } from 'src/app/core/shared/metadata.models';
+import { MetadataMap } from '../../core/shared/metadata.models';
 
 import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/models/submission-repeatable-fields.model';
 import { SignatureObject } from '../../core/deduplication/models/signature.model';
@@ -7,7 +9,9 @@ import { ResourceType } from '../../core/shared/resource-type';
 import { DeduplicationStateService } from '../../deduplication/deduplication-state.service';
 import { DeduplicationRestService } from '../../core/deduplication/services/deduplication-rest.service';
 import { SetObject } from '../../core/deduplication/models/set.model';
-import { ItemData } from 'src/app/deduplication/interfaces/deduplication-merge.models';
+import { ItemData } from '../../deduplication/interfaces/deduplication-merge.models';
+import { of } from 'rxjs';
+import { createPaginatedList } from '../testing/utils.test';
 
 // REST Mock ---------------------------------------------------------------------
 // -------------------------------------------------------------------------------
@@ -125,8 +129,14 @@ export const mockSetObject: SetObject = {
   signatureId: 'title',
   setChecksum: 'd4b9185f91391c0574f4c3dbdd6fa7d3',
   otherSetIds: [],
+  items: createSuccessfulRemoteDataObject$(createPaginatedList([
+    ItemMock,
+  ])),
   _links: {
     self: {
+      href: 'http://localhost:8080/server/api/deduplications/sets/title:d4b9185f91391c0574f4c3dbdd6fa7d3/items'
+    },
+    items: {
       href: 'http://rest.api/rest/api/deduplications/sets/title:d4b9185f91391c0574f4c3dbdd6fa7d3',
     },
   },

@@ -1,22 +1,17 @@
-import { Item } from './../../core/shared/item.model';
 import { SetObject } from './../../core/deduplication/models/set.model';
 import { PaginatedList } from './../../core/data/paginated-list.model';
 import { NotificationsService } from './../../shared/notifications/notifications.service';
 import { Injectable } from '@angular/core';
 import { of as observableOf } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import {
   RetrieveSetsBySignatureAction,
   RetrieveSetsBySignatureErrorAction,
   DeduplicationSetsActionTypes,
   AddSetsAction,
-  RetrieveSetItemsAction,
-  RetrieveSetItemsErrorAction,
-  AddSetItemsAction,
   RemoveSetsAction,
-  RemoveAllItemsAction,
 } from './deduplication-sets.actions';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -40,7 +35,7 @@ export class DeduplicationSetsEffects {
       return this.deduplicationSetsService.getSets(action.payload.elementsPerPage, currentPage, action.payload.signatureId, action.payload.rule)
         .pipe(
           map((sets: PaginatedList<SetObject>) =>
-            new AddSetsAction(sets.page, sets.totalPages, sets.currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule)
+            new AddSetsAction(sets.page, sets.totalPages, sets.currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule, action.payload.skipToNextPage)
           ),
           catchError((error: Error) => {
             if (error) {
@@ -62,52 +57,12 @@ export class DeduplicationSetsEffects {
     })
   );
 
-  /**
-   * Retrieve all items per set.
-   */
-  @Effect() retrieveAllSetItems$ = this.actions$.pipe(
-    ofType(DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS),
-    withLatestFrom(this.store$),
-    mergeMap(([action, currentState]: [RetrieveSetItemsAction, any]) => {
-      return this.deduplicationSetsService.getSetItems(action.payload.setId)
-        .pipe(
-          map((items: PaginatedList<Item>) =>
-            new AddSetItemsAction(items.page, action.payload.setId)
-          ),
-          catchError((error: Error) => {
-            if (error) {
-              console.error(error.message);
-            }
-            return observableOf(new RetrieveSetItemsErrorAction());
-          })
-        );
-    })
-  );
-
-  /**
-   * Show a notification on error.
-   */
-  @Effect({ dispatch: false }) retrieveAllSetItemsErrorAction$ = this.actions$.pipe(
-    ofType(DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS_ERROR),
-    tap(() => {
-      this.notificationsService.error(null, this.translate.get('deduplication.sets.notification.cannot-get-item'));
-    })
-  );
-
   @Effect({ dispatch: false }) removeSetsAction$ = this.actions$.pipe(
     ofType(DeduplicationSetsActionTypes.REMOVE_SETS),
     withLatestFrom(this.store$),
-    tap((res: [RemoveSetsAction, any]) => {
-      new RemoveSetsAction(res[0].payload.signatureId, res[0].payload.rule);
-    })
-  );
-
-  @Effect({ dispatch: false }) removeAllItemsAction$ = this.actions$.pipe(
-    ofType(DeduplicationSetsActionTypes.REMOVE_ALL_ITEMS),
-    withLatestFrom(this.store$),
-    tap((res: [RemoveAllItemsAction, any]) => {
-      new RemoveAllItemsAction();
-    })
+    tap((res: [RemoveSetsAction, any]) =>
+      new RemoveSetsAction(res[0].payload.signatureId, res[0].payload.rule)
+    )
   );
 
   constructor(

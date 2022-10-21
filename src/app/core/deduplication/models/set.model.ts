@@ -5,7 +5,12 @@ import { DEDUPLICATION_SET } from './deduplication-set.resource-type';
 import { excludeFromEquals } from '../../utilities/equals.decorators';
 import { ResourceType } from '../../shared/resource-type';
 import { HALLink } from '../../shared/hal-link.model';
-import { typedObject } from '../../cache/builders/build-decorators';
+import { link, typedObject } from '../../cache/builders/build-decorators';
+import { Item } from '../../shared/item.model';
+import { ITEM } from '../../shared/item.resource-type';
+import { Observable } from 'rxjs';
+import { PaginatedList } from '../../data/paginated-list.model';
+import { RemoteData } from '../../data/remote-data';
 
 /**
  * The interface representing the deduplication set model
@@ -36,11 +41,15 @@ export class SetObject implements CacheableObject {
   @autoserialize
   otherSetIds: string[];
 
+  @link(ITEM, true)
+  items: Observable<RemoteData<PaginatedList<Item>>>;
+
   /**
    * The links to all related resources returned by the rest api.
    */
   @deserialize
   _links: {
     self: HALLink,
+    items?: HALLink,
   };
 }

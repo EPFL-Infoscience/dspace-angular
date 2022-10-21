@@ -35,7 +35,7 @@ import { DeduplicationSetsService } from './deduplication-sets.service';
 import { NotificationsServiceStub } from '../../shared/testing/notifications-service.stub';
 import { GetBitstreamsPipe } from '../deduplication-merge/pipes/ds-get-bitstreams.pipe';
 import { DeduplicationItemsService } from '../deduplication-merge/deduplication-items.service';
-import { MetadataMap } from 'src/app/core/shared/metadata.models';
+import { MetadataMap } from '../../core/shared/metadata.models';
 import { By } from '@angular/platform-browser';
 
 describe('DeduplicationSetsComponent test suite', () => {
@@ -229,17 +229,12 @@ describe('DeduplicationSetsComponent test suite', () => {
 
   describe('should get all items and prepare data to display', () => {
     beforeEach(() => {
-      spyOn(comp, 'getAllItems').and.callThrough();
-      spyOn(comp, 'getItemsPerSet').and.callThrough();
       comp.sets$ = observableOf([mockSetObject]);
       comp.itemsMap = mockItemsMap;
       comp.isSetsLoading();
-      comp.getItemsPerSet(mockSetObject.id);
     });
 
     it('should getAllItems ', () => {
-      comp.getAllItems();
-      expect(comp.getAllItems).toHaveBeenCalled();
       expect(
         compAsAny.deduplicationStateService.getDeduplicationSetItems
       ).toHaveBeenCalledWith(mockSetObject.id);
@@ -257,10 +252,6 @@ describe('DeduplicationSetsComponent test suite', () => {
       expect(
         compAsAny.deduplicationStateService.isDeduplicationSetsLoading
       ).toHaveBeenCalled();
-    });
-
-    it('should get items per set', () => {
-      expect(comp.getItemsPerSet).toHaveBeenCalledWith(mockSetObject.id);
     });
 
     it('should getItemTitle', () => {

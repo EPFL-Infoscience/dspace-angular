@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/internal/Observable';
-import { createSuccessfulRemoteDataObject$ } from 'src/app/shared/remote-data.utils';
+import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
 import { WorkspaceItem } from './../../core/submission/models/workspaceitem.model';
 import { WorkflowItem } from './../../core/submission/models/workflowitem.model';
 import { RouterMock } from './../../shared/mocks/router.mock';

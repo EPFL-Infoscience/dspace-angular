@@ -31,7 +31,7 @@ export class DeduplicationSetsService {
     private collectionDataService: CollectionDataService,
     private submissionRestService: SubmissionRestService,
     private workflowItemDataService: WorkflowItemDataService
-  ) {}
+  ) { }
 
   /**
    * Returns the sets with the given signature id
@@ -53,7 +53,7 @@ export class DeduplicationSetsService {
     findListOptions.currentPage = currentPage;
     findListOptions.searchParams = [
       new RequestParam('signature-id', signatureId),
-      new RequestParam('haveItems', true),
+      new RequestParam('haveItems', true)
     ];
 
     if (hasValue(rule)) {
@@ -61,7 +61,7 @@ export class DeduplicationSetsService {
     }
 
     return this.deduplicationRestService
-      .getSetsPerSignature(findListOptions)
+      .getSetsPerSignature(findListOptions, followLink('items'))
       .pipe(
         getFirstCompletedRemoteData(),
         map((rd: RemoteData<PaginatedList<SetObject>>) => {

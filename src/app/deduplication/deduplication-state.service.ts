@@ -24,14 +24,11 @@ import { DeduplicationState } from './deduplication.reducer';
 import { RetrieveAllSignaturesAction } from './signatures/deduplication-signatures.actions';
 import { SetObject } from '../core/deduplication/models/set.model';
 import {
-  DeleteItemAction,
   DeleteSetAction,
-  RetrieveSetItemsAction,
   RetrieveSetsBySignatureAction,
   AddItemsToCompareAction,
   DeleteItemsToCompareAction,
   RemoveSetsAction,
-  RemoveAllItemsAction,
 } from './sets/deduplication-sets.actions';
 
 /**
@@ -151,10 +148,11 @@ export class DeduplicationStateService {
   public dispatchRetrieveDeduplicationSetsBySignature(
     signatureId: string,
     rule: string,
-    elementsPerPage: number
+    elementsPerPage: number,
+    skipToNextPage: boolean
   ): void {
     this.store.dispatch(
-      new RetrieveSetsBySignatureAction(elementsPerPage, signatureId, rule)
+      new RetrieveSetsBySignatureAction(elementsPerPage, signatureId, rule, skipToNextPage)
     );
   }
 
@@ -226,28 +224,6 @@ export class DeduplicationStateService {
     return this.store.pipe(select(setItemsObjectsSelector(setId)));
   }
 
-  /**
-   * Dispatch a request to change the Items state, retrieving the items from the server.
-   * @param setId The id of the set to retrieve the items
-   */
-  public dispatchRetrieveDeduplicationSetItems(setId: string): void {
-    this.store.dispatch(new RetrieveSetItemsAction(setId));
-  }
-
-  /**
-   * Dispatch a request to change the Items state.
-   * @param signatureId The signature id to retrieve the sets
-   * @param itemId The id of the item to be removed
-   * @param setId The id of the to which the item belong
-   */
-  public dispatchRemoveItem(
-    signatureId: string,
-    itemId: string,
-    setId: string
-  ) {
-    this.store.dispatch(new DeleteItemAction(signatureId, itemId, setId));
-  }
-
   public getItemsToCompare(): Observable<string[]> {
     return this.store.pipe(select(itemsToCompareObjectSelector()));
   }
@@ -258,10 +234,6 @@ export class DeduplicationStateService {
 
   public dispatchRemoveItemsToCompare() {
     this.store.dispatch(new DeleteItemsToCompareAction());
-  }
-
-  public dispatchRemoveAllItems() {
-    this.store.dispatch(new RemoveAllItemsAction());
   }
   //#endregion Items
 }

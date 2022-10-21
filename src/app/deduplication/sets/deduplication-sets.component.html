@@ -31,25 +31,24 @@
     <div class="col-md-12 p-0">
       <ds-loading class="container" *ngIf="isSetsLoading() | async"
         [message]="'deduplication.sets.message.loading' | translate"></ds-loading>
-
       <ng-container *ngIf="!(isSetsLoading() | async)">
         <ngb-accordion class="set-acc" [destroyOnHide]="false" [closeOthers]="true" activeIds="panel-0"
           *ngFor="let set of sets$ | async; let setIdx = index">
           <ngb-panel id="panel-{{ setIdx }}">
             <ng-template ngbPanelHeader let-opened="opened" *ngIf="
-                (getItemsPerSet(set.id) | async) &&
-                (getItemsPerSet(set.id) | async).length > 0
-              ">
+              (set | dsGetItemsPerSet  | async) &&
+              (set | dsGetItemsPerSet  | async).length > 0
+            ">
               <div class="row panel-{{setIdx}}" [id]="set.id">
                 <div class="col-md-10 mt-1">
                   <h5 class="m-0 text-info">
                     {{
                     getItemTitle(
-                    (getItemsPerSet(set.id) | async)[0]?.metadata
+                    (set | dsGetItemsPerSet | async)[0]?.metadata
                     )
                     }}
                     <span class="badge badge-info">
-                      {{ (getItemsPerSet(set.id) | async)?.length }}
+                      {{ (set | dsGetItemsPerSet | async)?.length }}
                     </span>
                   </h5>
                 </div>
@@ -93,7 +92,7 @@
                     {{'deduplication.sets.sub-header.author' | translate}}
                   </span>
                   <span class="badge badge-info">
-                    {{ getAuthor((getItemsPerSet(set.id) | async)[0].metadata)[0] }}</span>
+                    {{ getAuthor((set | dsGetItemsPerSet | async)[0].metadata)[0] }}</span>
                   |
                   <span class="pl-1 badge badge-secondary small">
                     {{'deduplication.sets.sub-header.date-issued' | translate}}
@@ -101,19 +100,19 @@
                   <span class="badge badge-info">
                     {{
                     getDateIssued(
-                    (getItemsPerSet(set.id) | async)[0].metadata
+                    (set | dsGetItemsPerSet | async)[0].metadata
                     )[0]
                     }}</span>
                 </div>
               </div>
             </ng-template>
             <ng-template ngbPanelContent>
-              <ds-loading class="container" *ngIf="!(getItemsPerSet(set.id) | async)"></ds-loading>
+              <ds-loading class="container" *ngIf="!(set | dsGetItemsPerSet  | async)"></ds-loading>
 
-              <ng-container *ngIf="(getItemsPerSet(set.id) | async)?.length == 0">
+              <ng-container *ngIf="(set | dsGetItemsPerSet  | async)?.length == 0">
                 {{ "deduplication.sets.message.no-items" | translate }}
               </ng-container>
-              <ng-container *ngIf="(getItemsPerSet(set.id) | async)?.length > 0">
+              <ng-container *ngIf="(set | dsGetItemsPerSet  | async)?.length > 0">
                 <div class="row">
                   <div class="col-md-12">
                     <p class="small">
@@ -128,15 +127,15 @@
                     <button *ngIf="
                         !this.checkedItemsList.has(set.id) ||
                         checkedItemsList.get(set.id)?.length <
-                          (getItemsPerSet(set.id) | async)?.length
-                      " class="btn btn-outline-secondary btn-sm mt-1" (click)="selectAllItems(set.id, setIdx)">
+                          (set | dsGetItemsPerSet  | async)?.length
+                      " class="btn btn-outline-secondary btn-sm mt-1" (click)="selectAllItems(set, setIdx)">
                       <i class="fa fa-check-square"></i>
                       {{ "deduplication.sets.button.select-all" | translate }}
                     </button>
                     <button *ngIf="
                         checkedItemsList.has(set.id) &&
                         checkedItemsList.get(set.id)?.length ==
-                          (getItemsPerSet(set.id) | async)?.length
+                        (set | dsGetItemsPerSet  | async)?.length
                       " class="btn btn-outline-secondary btn-sm mt-1" (click)="unselectAllItems(set.id)">
                       <i class="fa fa-square"></i>
                       {{ "deduplication.sets.button.deselect-all" | translate }}
@@ -149,7 +148,7 @@
                       {{ "deduplication.sets.button.compare" | translate }}
                     </button>
                     <button class="btn btn-outline-secondary btn-sm mt-1" (click)="
-                        noDuplicatesAction(content, set.id, set.setChecksum)
+                        noDuplicatesAction(content, set, set.setChecksum)
                       ">
                       <i class="fa fa-times"></i>
                       {{
@@ -171,7 +170,7 @@
                       <table class="table table-borderless table-{{ setIdx }}">
                         <tbody>
                           <ng-container *ngFor="
-                              let item of getItemsPerSet(set.id) | async;
+                              let item of (set | dsGetItemsPerSet  | async);
                               let itemIdx = index;
                               let isLast = last
                             ">
@@ -335,7 +334,7 @@
                                         item.uuid,
                                         'item',
                                         set.setChecksum,
-                                        set.id
+                                        set
                                       )
                                     ">
                                     <i class="fa fa-trash-alt"></i>
@@ -358,18 +357,17 @@
           </ngb-panel>
         </ngb-accordion>
 
-        <!-- <div class="row mt-2">
+        <div class="row mt-2">
           <div class="col-md-12 text-center">
-            <button
-              type="button"
-              class="btn btn-primary"
-              (click)="retrieveDeduplicationSets()"
-            >
+            <button type="button" class="btn btn-primary" [disabled]="!(showMoreButton() | async)"
+              (click)="retrieveDeduplicationSets()">
               {{ "deduplication.home.tab.show-more" | translate }}
-              <i class="fa fa-angle-double-right"></i>
+              <span class="badge badge-light">
+                {{totalRemainingElements}}
+              </span>
             </button>
           </div>
-        </div> -->
+        </div>
       </ng-container>
     </div>
   </div>

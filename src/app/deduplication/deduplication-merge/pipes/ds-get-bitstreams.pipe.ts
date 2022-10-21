@@ -11,7 +11,7 @@ import { Item } from './../../../core/shared/item.model';
 
 import { Pipe, PipeTransform } from '@angular/core';
 import { map, mergeMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Pipe({
   name: 'dsGetBitstreams',
@@ -49,5 +49,7 @@ export class GetBitstreamsPipe implements PipeTransform {
         })
       );
     }
+
+    return of(of([]));
   }
 }

@@ -1,5 +1,3 @@
-import { NotificationsServiceStub } from './../../shared/testing/notifications-service.stub';
-import { NotificationsService } from './../../shared/notifications/notifications.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { DeduplicationItemsService } from './../deduplication-merge/deduplication-items.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';

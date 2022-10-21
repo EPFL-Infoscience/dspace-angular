@@ -19,13 +19,8 @@ export const DeduplicationSetsActionTypes = {
   ADD_SETS: type('dspace/core/deduplication/ADD_SETS'),
   REMOVE_SETS: type('dspace/core/deduplication/REMOVE_SETS'),
   RETRIEVE_SETS_BY_SIGNATURE_ERROR: type('dspace/core/deduplication/RETRIEVE_SETS_BY_SIGNATURE_ERROR'),
-  RETRIEVE_ALL_SET_ITEMS: type('dspace/core/deduplication/RETRIEVE_ALL_SET_ITEMS'),
-  ADD_SET_ITEMS: type('dspace/core/deduplication/ADD_SET_ITEMS'),
-  RETRIEVE_ALL_SET_ITEMS_ERROR: type('dspace/core/deduplication/RETRIEVE_ALL_SET_ITEMS_ERROR'),
   DELETE_SET: type('dspace/core/deduplication/DELETE_SET'),
   DELETE_SET_ERROR: type('dspace/core/deduplication/DELETE_SET_ERROR'),
-  DELETE_ITEM: type('dspace/core/deduplication/DELETE_ITEM'),
-  REMOVE_ALL_ITEMS: type('dspace/core/deduplication/REMOVE_ALL_ITEMS'),
   ADD_ITEMS_TO_COMPARE: type('dspace/core/deduplication/ADD_ITEMS_TO_COMPARE'),
   RETRIEVE_ITEMS_TO_COMPARE: type('dspace/core/deduplication/RETRIEVE_ITEMS_TO_COMPARE'),
   DELETE_ITEMS_TO_COMPARE: type('dspace/core/deduplication/DELETE_ITEMS_TO_COMPARE'),
@@ -43,6 +38,7 @@ export class RetrieveSetsBySignatureAction implements Action {
     elementsPerPage: number;
     signatureId: string;
     rule: string;
+    skipToNextPage: boolean
   };
 
   /**
@@ -51,8 +47,8 @@ export class RetrieveSetsBySignatureAction implements Action {
    * @param elementsPerPage
    *    the number of signatures per page
    */
-  constructor(elementsPerPage: number, signatureId: string, rule: string) {
-    this.payload = { elementsPerPage, signatureId, rule };
+  constructor(elementsPerPage: number, signatureId: string, rule: string, skipToNextPage: boolean) {
+    this.payload = { elementsPerPage, signatureId, rule, skipToNextPage };
   }
 }
 
@@ -76,6 +72,7 @@ export class AddSetsAction implements Action {
     totalElements: number;
     signatureId: string;
     rule: string;
+    skipToNextPage: boolean;
   };
 
   /**
@@ -87,36 +84,19 @@ export class AddSetsAction implements Action {
    * @param {string} signatureId - the signature id of the sets
    * @param {string} rule - the rule of the sets
    */
-  constructor(objects: SetObject[], totalPages: number, currentPage: number, totalElements: number, signatureId: string, rule: string) {
+  constructor(objects: SetObject[], totalPages: number, currentPage: number, totalElements: number, signatureId: string, rule: string, skipToNextPage: boolean) {
     this.payload = {
       objects,
       totalPages,
       currentPage,
       totalElements,
       signatureId,
-      rule
+      rule,
+      skipToNextPage
     };
   }
 }
-//#endregion Sets
 
-//#region Set Items
-export class RetrieveSetItemsAction implements Action {
-  type = DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS;
-
-  payload: {
-    setId: string;
-  };
-
-  /**
-   * Creates an instance of RetrieveSetItemsAction.
-   * @param {string} setId
-   * @memberof RetrieveSetItemsAction
-   */
-  constructor(setId: string) {
-    this.payload = { setId };
-  }
-}
 
 export class RemoveSetsAction implements Action {
   type = DeduplicationSetsActionTypes.REMOVE_SETS;
@@ -141,37 +121,6 @@ export class RemoveSetsAction implements Action {
 }
 
 /**
- * An ngrx action to load the deduplication set items objects.
- * Called by the RetrieveAllSetItemsAction effect.
- */
-export class AddSetItemsAction implements Action {
-  type = DeduplicationSetsActionTypes.ADD_SET_ITEMS;
-  payload: {
-    objects: Item[];
-    setId: string;
-  };
-
-  /**
-   * Creates an instance of AddSetItemsAction.
-   * @param objects - the list of set items
-   * @param setId - the id of the set items
-   */
-  constructor(objects: Item[], setId: string) {
-    this.payload = {
-      objects,
-      setId,
-    };
-  }
-}
-
-/**
- * An ngrx action for retrieving deduplication set items' error.
- */
-export class RetrieveSetItemsErrorAction implements Action {
-  type = DeduplicationSetsActionTypes.RETRIEVE_ALL_SET_ITEMS_ERROR;
-}
-
-/**
  * An ngrx action to delete a deduplication set.
  */
 export class DeleteSetAction implements Action {
@@ -191,30 +140,8 @@ export class DeleteSetAction implements Action {
     this.payload = { signatureId, setId, rule };
   }
 }
+//#endregion Sets
 
-/**
- * An ngrx action to delete a deduplication set error.
- * @export
- * @class DeleteItemAction
- * @implements {Action}
- */
-export class DeleteItemAction implements Action {
-  type = DeduplicationSetsActionTypes.DELETE_ITEM;
-  payload: {
-    signatureId: string;
-    itemId: string;
-    setId: string;
-  };
-
-  /**
-   * Creates an instance of DeleteItemAction.
-   * @param signatureId - the signature id of the set
-   * @param itemId - the id of the item
-   */
-  constructor(signatureId: string, itemId: string, setId: string) {
-    this.payload = { signatureId, itemId, setId };
-  }
-}
 
 export class RetrieveItemsToCompareAction implements Action {
   type = DeduplicationSetsActionTypes.RETRIEVE_ITEMS_TO_COMPARE;
@@ -255,10 +182,6 @@ export class DeleteItemsToCompareAction implements Action {
   type = DeduplicationSetsActionTypes.DELETE_ITEMS_TO_COMPARE;
 }
 
-export class RemoveAllItemsAction implements Action {
-  type = DeduplicationSetsActionTypes.REMOVE_ALL_ITEMS;
-  constructor() { }
-}
 //#endregion Set Items
 
 /**
@@ -269,13 +192,8 @@ export type DeduplicationSetsActions
   = RetrieveSetsBySignatureAction
   | AddSetsAction
   | RetrieveSetsBySignatureErrorAction
-  | RetrieveSetItemsAction
-  | AddSetItemsAction
-  | RetrieveSetItemsErrorAction
   | DeleteSetAction
-  | DeleteItemAction
   | RetrieveItemsToCompareAction
   | AddItemsToCompareAction
   | DeleteItemsToCompareAction
-  | RemoveSetsAction
-  | RemoveAllItemsAction;
+  | RemoveSetsAction;

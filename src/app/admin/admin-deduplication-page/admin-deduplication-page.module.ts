@@ -1,3 +1,4 @@
+import { GetItemsPerSetPipe } from './../../deduplication/sets/pipes/get-items-per-set.pipe';
 import { EditItemPageModule } from './../../item-page/edit-item-page/edit-item-page.module';
 import { GetItemStatusListPipe } from './../../deduplication/sets/pipes/get-item-status-list.pipe';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
@@ -19,7 +20,8 @@ const COMPONENTS = [
 ];
 
 const PIPES = [
-  GetItemStatusListPipe
+  GetItemStatusListPipe,
+  GetItemsPerSetPipe
 ];
 
 @NgModule({
