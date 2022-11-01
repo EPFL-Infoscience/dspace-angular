@@ -29,6 +29,7 @@ import {
   AddItemsToCompareAction,
   DeleteItemsToCompareAction,
   RemoveSetsAction,
+  RemoveItemPerSetAction,
 } from './sets/deduplication-sets.actions';
 
 /**
@@ -148,11 +149,10 @@ export class DeduplicationStateService {
   public dispatchRetrieveDeduplicationSetsBySignature(
     signatureId: string,
     rule: string,
-    elementsPerPage: number,
-    skipToNextPage: boolean
+    elementsPerPage: number
   ): void {
     this.store.dispatch(
-      new RetrieveSetsBySignatureAction(elementsPerPage, signatureId, rule, skipToNextPage)
+      new RetrieveSetsBySignatureAction(elementsPerPage, signatureId, rule)
     );
   }
 
@@ -212,6 +212,10 @@ export class DeduplicationStateService {
 
   public dispatchRemoveSets(signatureId: string, rule: string) {
     this.store.dispatch(new RemoveSetsAction(signatureId, rule));
+  }
+
+  public dispatchRemoveItemPerSets(signatureId: string, setId: string, rule: string, itemId: string) {
+    this.store.dispatch(new RemoveItemPerSetAction(signatureId, setId, rule, itemId));
   }
   //#endregion Sets
 

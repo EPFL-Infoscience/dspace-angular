@@ -19,7 +19,6 @@ import { catchError, concatMap, map, take } from 'rxjs/operators';
 import { DeduplicationSetsRestService } from '../../core/deduplication/services/deduplication-sets-rest.service';
 import { WorkflowItemDataService } from './../../core/submission/workflowitem-data.service';
 import { hasValue } from '../../shared/empty.util';
-import { Item } from '../../core/shared/item.model';
 import { isEqual, isNull } from 'lodash';
 
 @Injectable()
@@ -30,7 +29,7 @@ export class DeduplicationSetsService {
     private itemDataService: ItemDataService,
     private collectionDataService: CollectionDataService,
     private submissionRestService: SubmissionRestService,
-    private workflowItemDataService: WorkflowItemDataService
+    private workflowItemDataService: WorkflowItemDataService,
   ) { }
 
   /**
@@ -71,32 +70,6 @@ export class DeduplicationSetsService {
             throw new Error(
               "Can't retrieve sets per signature from REST service"
             );
-          }
-        })
-      );
-  }
-
-  /**
-   * Returns the set items with the given set id
-   * @param {string} setId - the set id
-   * @return {*}  {Observable<PaginatedList<Item>>}
-   */
-  public getSetItems(setId: string): Observable<PaginatedList<Item>> {
-    const findListOptions: FindListOptions = {};
-    return this.deduplicationSetItemsRestService
-      .getItemsPerSet(
-        findListOptions,
-        setId,
-        followLink('bundles', {}, followLink('bitstreams')),
-        followLink('owningCollection')
-      )
-      .pipe(
-        getFirstCompletedRemoteData(),
-        map((rd: RemoteData<PaginatedList<Item>>) => {
-          if (rd.hasSucceeded) {
-            return rd.payload;
-          } else {
-            throw new Error("Can't retrieve items per set from REST service");
           }
         })
       );

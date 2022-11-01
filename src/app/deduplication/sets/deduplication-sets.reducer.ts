@@ -1,11 +1,11 @@
 import { isEqual } from 'lodash';
-
 import { hasValue } from './../../shared/empty.util';
 import { SetObject } from '../../core/deduplication/models/set.model';
 import {
   DeduplicationSetsActionTypes,
   DeduplicationSetsActions,
   DeleteSetAction,
+  RemoveItemPerSetAction,
 } from './deduplication-sets.actions';
 
 /**
@@ -34,7 +34,7 @@ const deduplicationObjectInitialState: DeduplicationSetState = {
   currentPage: 0,
   totalElements: 0,
   signatureId: null,
-  rule: null
+  rule: null,
 };
 
 /**
@@ -47,12 +47,14 @@ const deduplicationObjectInitialState: DeduplicationSetState = {
  * @return DeduplicationSetState
  *    the new state
  */
-export function deduplicationSetReducer(state = deduplicationObjectInitialState, action: DeduplicationSetsActions): DeduplicationSetState {
+export function deduplicationSetReducer(
+  state = deduplicationObjectInitialState,
+  action: DeduplicationSetsActions
+): DeduplicationSetState {
   switch (action.type) {
-
     case DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE: {
       return Object.assign({}, state, {
-        processing: true
+        processing: true,
       });
     }
 
@@ -60,7 +62,7 @@ export function deduplicationSetReducer(state = deduplicationObjectInitialState,
       return Object.assign({}, state, {
         processing: false,
         loaded: true,
-        currentPage: 0
+        currentPage: 0,
       });
     }
 
@@ -70,7 +72,7 @@ export function deduplicationSetReducer(state = deduplicationObjectInitialState,
         processing: false,
         loaded: true,
         totalPages: action.payload.totalPages,
-        currentPage: action.payload.skipToNextPage ? state.currentPage + 1 : state.currentPage,
+        currentPage: state.currentPage + 1,
         totalElements: action.payload.totalElements,
         signatureId: action.payload.signatureId,
         rule: action.payload.rule,
@@ -86,12 +88,16 @@ export function deduplicationSetReducer(state = deduplicationObjectInitialState,
         currentPage: 0,
         totalElements: 0,
         signatureId: null,
-        rule: null
+        rule: null,
       });
     }
 
     case DeduplicationSetsActionTypes.DELETE_SET: {
       return deleteSet(state, action as DeleteSetAction);
+    }
+
+    case DeduplicationSetsActionTypes.DELETE_ITEM_PER_SET: {
+      return updateItemsPerSet(state, action as RemoveItemPerSetAction);
     }
 
     default: {
@@ -106,10 +112,15 @@ export function deduplicationSetReducer(state = deduplicationObjectInitialState,
  * @param action - the action to perform on the state
  * @returns - the new state
  */
-function deleteSet(state: DeduplicationSetState, action: DeleteSetAction): DeduplicationSetState {
+function deleteSet(
+  state: DeduplicationSetState,
+  action: DeleteSetAction
+): DeduplicationSetState {
   const setData = [...state.objects];
   if (hasValue(setData)) {
-    const setIdx = setData.findIndex(x => isEqual(x.id, action.payload.setId));
+    const setIdx = setData.findIndex((x) =>
+      isEqual(x.id, action.payload.setId)
+    );
     if (setIdx > -1) {
       setData.splice(setIdx, 1);
       return { ...state, objects: [...setData] };
@@ -118,3 +129,38 @@ function deleteSet(state: DeduplicationSetState, action: DeleteSetAction): Dedup
   return state;
 }
 
+/**
+ * Updates the list of the set items.
+ * In case one of the items is deleted, it will be removed from the list.
+ * If there are only two items left and one of them is deleted, the set will be removed from the store.
+ * @param state - the current state
+ * @param action - the action to perform on the state
+ * @returns - the new state
+ */
+function updateItemsPerSet(state: DeduplicationSetState,
+  action: RemoveItemPerSetAction) {
+  const setData = [...state.objects];
+  if (hasValue(setData)) {
+    const set = setData.find((x) => isEqual(x.id, action.payload.setId));
+    const setIdx = setData.findIndex((x) => isEqual(x.id, action.payload.setId));
+    if (hasValue(set) && setIdx > -1) {
+      if (set.itemsList.length <= 2) {
+        return deleteSet(state, new DeleteSetAction(action.payload.signatureId, action.payload.setId, action.payload.rule));
+      } else {
+        const itemIdx = set.itemsList.findIndex(i => isEqual(i.id, action.payload.itemId));
+        const itemsList = [...set.itemsList];
+        if (hasValue(itemIdx)) {
+          itemsList.splice(itemIdx, 1);
+        }
+        const updatedSet: SetObject = Object.assign(new SetObject(), {
+          ...set,
+          itemsList: itemsList
+        });
+        setData[setIdx] = updatedSet;
+      }
+      return { ...state, objects: [...setData] };
+    }
+  } else {
+    return state;
+  }
+}

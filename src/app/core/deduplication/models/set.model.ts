@@ -45,6 +45,12 @@ export class SetObject implements CacheableObject {
   items: Observable<RemoteData<PaginatedList<Item>>>;
 
   /**
+   * Materialized list of Items
+   */
+  @excludeFromEquals
+  itemsList: Item[];
+
+  /**
    * The links to all related resources returned by the rest api.
    */
   @deserialize

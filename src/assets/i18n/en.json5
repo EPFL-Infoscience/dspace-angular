@@ -1645,6 +1645,8 @@
 
   "deduplication.sets.notification.item-removed": "Item Removed",
 
+  "deduplication.sets.sub-header.set-id": "Set identifier:",
+
   "deduplication.sets.sub-header.author": "Author:",
 
   "deduplication.sets.sub-header.date-issued": "Date Issued",

@@ -32,10 +32,7 @@ import { DeduplicationSetsService } from './deduplication-sets.service';
 import { NoContent } from './../../core/shared/NoContent.model';
 import { RemoteData } from './../../core/data/remote-data';
 import { isEqual, isNull } from 'lodash';
-import {
-  getFirstCompletedRemoteData,
-  getFirstSucceededRemoteDataPayload,
-} from './../../core/shared/operators';
+import { getFirstCompletedRemoteData, getFirstSucceededRemoteDataPayload } from './../../core/shared/operators';
 import { ConfigObject } from './../../core/config/models/config.model';
 import { CookieService } from '../../core/services/cookie.service';
 import { SelectedItemData } from '../interfaces/deduplication-sets.models';
@@ -91,7 +88,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * The number of elements per page.
    * @protected
    */
-  protected elementsPerPage = 2;
+  protected elementsPerPage = 4;
 
   /**
    * The signatures' sets total pages.
@@ -152,8 +149,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     private translate: TranslateService,
     private authorizationService: AuthorizationDataService,
     private deduplicationItemsService: DeduplicationItemsService,
-    private getBitstreamsPipe: GetBitstreamsPipe,
-    private getItemsPerSetPipe: GetItemsPerSetPipe
+    private getBitstreamsPipe: GetBitstreamsPipe
   ) {
     this.signatureId = this.route.snapshot.params.id;
     this.rule = this.route.snapshot.params.rule;
@@ -257,12 +253,8 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * @param setId The id of the set to which the items belong to.
    * @returns { Observable<string[]>}
    */
-  getItemIds(set: SetObject): Observable<string[]> {
-    return this.getItemsPerSetPipe.transform(set).pipe(
-      map((item: Item[]) => {
-        return item?.map((x) => x.id);
-      })
-    );
+  getItemIds(set: SetObject): string[] {
+    return set.itemsList?.map((x) => x.id);
   }
 
   /**
@@ -384,16 +376,15 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     }
     this.compareBtnSelector.toArray()[idx].nativeElement.focus();
     const selectedItems: SelectedItemData[] = [];
-    this.getItemIds(set).subscribe((itemIds: string[]) => {
-      if (itemIds) {
-        itemIds.forEach((itemId) => {
-          selectedItems.push({
-            itemId: itemId,
-            checked: true,
-          });
+    const itemIds = this.getItemIds(set);
+    if (itemIds && itemIds.length > 0) {
+      itemIds.forEach((itemId) => {
+        selectedItems.push({
+          itemId: itemId,
+          checked: true,
         });
-      }
-    });
+      });
+    }
     this.checkedItemsList.set(set.id, selectedItems);
   }
 
@@ -462,7 +453,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   keepItem(setId: string, item: Item, content) {
     this.confirmModalText = {
       title: this.translate.instant('deduplication.sets.modal.confirm.merge', {
-        param: item.uuid,
+        param: item.handle,
       }),
       btnText: this.translate.instant('deduplication.sets.modal.merge.submit'),
       titleClass: 'text-info',
@@ -638,48 +629,72 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * @param setId The id of the set to which the item belongs to
    */
   private deleteItem(itemId: string, set: SetObject): void {
-    this.getItemsPerSetPipe.transform(set)
-      .pipe(map((items: Item[]) => items?.find((x) => isEqual(x.id, itemId))))
-      .subscribe((item: Item) => {
-        if (item && item.isArchived) {
-          // delete item from set if item status is Archived
-          this.deduplicationSetsService
-            .deleteSetItem(itemId)
-            .pipe(getFirstCompletedRemoteData(), take(1))
-            .subscribe((res: RemoteData<NoContent>) => {
-              if (res.hasSucceeded || isEqual(res.statusCode, 204)) {
-                this.dispatchRemoveItem(itemId, set);
-                this.notificationsService.success(
-                  null,
-                  this.translate.get(
-                    'deduplication.sets.notification.item-removed'
-                  )
+    const item = set.itemsList.find((x) => isEqual(x.id, itemId));
+    if (hasValue(item)) {
+      if (item && item.isArchived) {
+        // delete item from set if item status is Archived
+        this.deduplicationSetsService
+          .deleteSetItem(itemId)
+          .pipe(
+            getFirstCompletedRemoteData(),
+            take(1)
+          ).subscribe((res: RemoteData<NoContent>) => {
+            if (res.hasSucceeded || isEqual(res.statusCode, 204)) {
+              this.dispatchRemoveItem(itemId, set);
+              this.notificationsService.success(
+                null,
+                this.translate.get(
+                  'deduplication.sets.notification.item-removed'
+                )
+              );
+            } else {
+              this.notificationsService.error(
+                null,
+                this.translate.get(
+                  'deduplication.sets.notification.cannot-remove-item'
+                )
+              );
+            }
+          });
+        return;
+      }
+
+      if (item) {
+        // In other case get item submission status
+        // If status is workspaceItem or workflowItem
+        this.deduplicationSetsService
+          .getItemSubmissionStatus(itemId)
+          .pipe(take(1))
+          .subscribe((x) => {
+            const object = x;
+            if (!isNull(object)) {
+              if (object instanceof WorkflowItem) {
+                //  WorkflowItem
+                this.deleteWorkflowItem(object.id).subscribe(
+                  (res: SubmitDataResponseDefinitionObject) => {
+                    this.dispatchRemoveItem(itemId, set);
+                    this.notificationsService.success(
+                      null,
+                      this.translate.get(
+                        'deduplication.sets.notification.item-removed'
+                      )
+                    );
+                  },
+                  (err) => {
+                    this.notificationsService.error(
+                      null,
+                      this.translate.get(
+                        'deduplication.sets.notification.cannot-remove-item'
+                      )
+                    );
+                  }
                 );
               } else {
-                this.notificationsService.error(
-                  null,
-                  this.translate.get(
-                    'deduplication.sets.notification.cannot-remove-item'
-                  )
-                );
-              }
-            });
-          return;
-        }
-
-        if (item) {
-          // In other case get item submission status
-          // If status is workspaceItem or workflowItem
-          this.deduplicationSetsService
-            .getItemSubmissionStatus(itemId)
-            .pipe(take(1))
-            .subscribe((x) => {
-              const object = x;
-              if (!isNull(object)) {
-                if (object instanceof WorkflowItem) {
-                  //  WorkflowItem
-                  this.deleteWorkflowItem(object.id).subscribe(
-                    (res: SubmitDataResponseDefinitionObject) => {
+                //  WorkspaceItem
+                this.deduplicationSetsService
+                  .deleteWorkspaceItemById((object[0] as ConfigObject).id)
+                  .subscribe(
+                    (res) => {
                       this.dispatchRemoveItem(itemId, set);
                       this.notificationsService.success(
                         null,
@@ -697,57 +712,31 @@ export class DeduplicationSetsComponent implements AfterViewInit {
                       );
                     }
                   );
-                } else {
-                  //  WorkspaceItem
-                  this.deduplicationSetsService
-                    .deleteWorkspaceItemById((object[0] as ConfigObject).id)
-                    .subscribe(
-                      (res) => {
-                        this.dispatchRemoveItem(itemId, set);
-                        this.notificationsService.success(
-                          null,
-                          this.translate.get(
-                            'deduplication.sets.notification.item-removed'
-                          )
-                        );
-                      },
-                      (err) => {
-                        this.notificationsService.error(
-                          null,
-                          this.translate.get(
-                            'deduplication.sets.notification.cannot-remove-item'
-                          )
-                        );
-                      }
-                    );
-                }
-              } else {
-                this.notificationsService.warning(
-                  null,
-                  this.translate.get(
-                    'deduplication.sets.notification.cannot-delete-item'
-                  )
-                );
               }
-            });
-          return;
-        }
-      });
-
+            } else {
+              this.notificationsService.warning(
+                null,
+                this.translate.get(
+                  'deduplication.sets.notification.cannot-delete-item'
+                )
+              );
+            }
+          });
+        return;
+      }
+    }
   }
   /**
    * Request to change the status of the sets' items.
    * @param itemId The id of the item to be removed
-   * @param setId The id of the set to which the item belongs to
+   * @param selectedSet The set to which the item belongs to
    */
-  dispatchRemoveItem(itemId: string, set: SetObject) {
-    // TODO: Refactor
-
-    this.deduplicationStateService.dispatchRetrieveDeduplicationSetsBySignature(
+  dispatchRemoveItem(itemId: string, selectedSet: SetObject) {
+    this.deduplicationStateService.dispatchRemoveItemPerSets(
       this.signatureId,
+      selectedSet.id,
       this.rule,
-      this.elementsPerPage,
-      false
+      itemId
     );
   }
 
@@ -785,8 +774,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     this.deduplicationStateService.dispatchRetrieveDeduplicationSetsBySignature(
       this.signatureId,
       this.rule,
-      this.elementsPerPage,
-      true
+      this.elementsPerPage
     );
   }
 
@@ -800,11 +788,4 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       .pipe(take(1));
   }
   //#endregion
-
-  ngOnDestroy(): void {
-    this.deduplicationStateService.dispatchRemoveSets(
-      this.signatureId,
-      this.rule
-    );
-  }
 }

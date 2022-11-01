@@ -1,3 +1,5 @@
+import { Item } from './../../core/shared/item.model';
+import { getAllSucceededRemoteListPayload } from './../../core/shared/operators';
 import { SetObject } from './../../core/deduplication/models/set.model';
 import { PaginatedList } from './../../core/data/paginated-list.model';
 import { NotificationsService } from './../../shared/notifications/notifications.service';
@@ -12,6 +14,7 @@ import {
   DeduplicationSetsActionTypes,
   AddSetsAction,
   RemoveSetsAction,
+  RemoveItemPerSetAction,
 } from './deduplication-sets.actions';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,6 +29,7 @@ export class DeduplicationSetsEffects {
 
   /**
    * Retrieve all deduplication sets per signature managing pagination and errors.
+   * Retrieve all items per set.
    */
   @Effect() retrieveAllSets$ = this.actions$.pipe(
     ofType(DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE),
@@ -34,9 +38,21 @@ export class DeduplicationSetsEffects {
       const currentPage = (currentState.deduplication as DeduplicationState).sets.currentPage + 1;
       return this.deduplicationSetsService.getSets(action.payload.elementsPerPage, currentPage, action.payload.signatureId, action.payload.rule)
         .pipe(
-          map((sets: PaginatedList<SetObject>) =>
-            new AddSetsAction(sets.page, sets.totalPages, sets.currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule, action.payload.skipToNextPage)
-          ),
+          map((sets: PaginatedList<SetObject>) => {
+            const payload: SetObject[] = sets.page.map((set: SetObject) => {
+              set.items.pipe(
+                getAllSucceededRemoteListPayload(),
+              ).subscribe((items: Item[]) => {
+                set = Object.assign(new SetObject, {
+                  ...set,
+                  itemsList: items
+                });
+              });
+              return set;
+            });
+
+            return new AddSetsAction(payload, sets.totalPages, sets.currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule);
+          }),
           catchError((error: Error) => {
             if (error) {
               console.error(error.message);
@@ -62,6 +78,14 @@ export class DeduplicationSetsEffects {
     withLatestFrom(this.store$),
     tap((res: [RemoveSetsAction, any]) =>
       new RemoveSetsAction(res[0].payload.signatureId, res[0].payload.rule)
+    )
+  );
+
+  @Effect({ dispatch: false }) removeItemPerSetAction$ = this.actions$.pipe(
+    ofType(DeduplicationSetsActionTypes.DELETE_ITEM_PER_SET),
+    withLatestFrom(this.store$),
+    tap((res: [RemoveItemPerSetAction, any]) =>
+      new RemoveItemPerSetAction(res[0].payload.signatureId, res[0].payload.setId, res[0].payload.rule, res[0].payload.itemId)
     )
   );
 
