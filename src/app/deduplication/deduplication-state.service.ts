@@ -149,10 +149,11 @@ export class DeduplicationStateService {
   public dispatchRetrieveDeduplicationSetsBySignature(
     signatureId: string,
     rule: string,
-    elementsPerPage: number
+    elementsPerPage: number,
+    skipToNextPage: boolean
   ): void {
     this.store.dispatch(
-      new RetrieveSetsBySignatureAction(elementsPerPage, signatureId, rule)
+      new RetrieveSetsBySignatureAction(elementsPerPage, signatureId, rule, skipToNextPage)
     );
   }
 

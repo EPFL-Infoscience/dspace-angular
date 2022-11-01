@@ -35,7 +35,7 @@ export class DeduplicationSetsEffects {
     ofType(DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE),
     withLatestFrom(this.store$),
     switchMap(([action, currentState]: [RetrieveSetsBySignatureAction, any]) => {
-      const currentPage = (currentState.deduplication as DeduplicationState).sets.currentPage + 1;
+      const currentPage = action.payload.skipToNextPage ? (currentState.deduplication as DeduplicationState).sets.currentPage + 1 : (currentState.deduplication as DeduplicationState).sets.currentPage;
       return this.deduplicationSetsService.getSets(action.payload.elementsPerPage, currentPage, action.payload.signatureId, action.payload.rule)
         .pipe(
           map((sets: PaginatedList<SetObject>) => {
@@ -43,15 +43,14 @@ export class DeduplicationSetsEffects {
               set.items.pipe(
                 getAllSucceededRemoteListPayload(),
               ).subscribe((items: Item[]) => {
-                set = Object.assign(new SetObject, {
+                set = Object.assign(new SetObject(), {
                   ...set,
                   itemsList: items
                 });
               });
               return set;
             });
-
-            return new AddSetsAction(payload, sets.totalPages, sets.currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule);
+            return new AddSetsAction(payload, sets.totalPages, currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule, action.payload.skipToNextPage);
           }),
           catchError((error: Error) => {
             if (error) {

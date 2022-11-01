@@ -129,6 +129,7 @@ export const mockSetObject: SetObject = {
   signatureId: 'title',
   setChecksum: 'd4b9185f91391c0574f4c3dbdd6fa7d3',
   otherSetIds: [],
+  itemsList: [ItemMock],
   items: createSuccessfulRemoteDataObject$(createPaginatedList([
     ItemMock,
   ])),

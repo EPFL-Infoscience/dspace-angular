@@ -67,12 +67,6 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   public sets$: Observable<SetObject[]>;
 
   /**
-   * Stores all items per set.
-   * @type {Map<string, Observable<Item[]>>}
-   */
-  public itemsMap: Map<string, Observable<Item[]>> = new Map();
-
-  /**
    * The id of the signature to which the sets belong to.
    * @type {string}
    */
@@ -105,6 +99,9 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    */
   public totalElements$: Observable<number>;
 
+  /**
+   * Remaining number of elements to retrieve
+   */
   public totalRemainingElements = 0;
   /**
    * Role of the logged in user.
@@ -176,7 +173,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       .isDeduplicationSetsLoaded()
       .pipe(take(1))
       .subscribe(() => {
-        this.retrieveDeduplicationSets();
+        this.retrieveDeduplicationSets(false);
       });
   }
 
@@ -770,11 +767,12 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   /**
    * Retrieves the deduplication sets.
    */
-  public retrieveDeduplicationSets() {
+  public retrieveDeduplicationSets(skipToNextPage: boolean) {
     this.deduplicationStateService.dispatchRetrieveDeduplicationSetsBySignature(
       this.signatureId,
       this.rule,
-      this.elementsPerPage
+      this.elementsPerPage,
+      skipToNextPage
     );
   }
 

@@ -72,9 +72,9 @@ describe('DeduplicationSetsComponent test suite', () => {
     },
   });
 
-  const mockItemsMap: Map<string, Observable<Item[]>> = new Map([
-    ['title:d4b9185f91391c0574f4c3dbdd6fa7d3', observableOf([item])],
-  ]);
+  // const mockItemsMap: Map<string, Observable<Item[]>> = new Map([
+  //   ['title:d4b9185f91391c0574f4c3dbdd6fa7d3', observableOf([item])],
+  // ]);
 
   const activatedRouteStub = Object.assign(new ActivatedRouteStub(), {
     params: observableOf({}),
@@ -230,16 +230,15 @@ describe('DeduplicationSetsComponent test suite', () => {
   describe('should get all items and prepare data to display', () => {
     beforeEach(() => {
       comp.sets$ = observableOf([mockSetObject]);
-      comp.itemsMap = mockItemsMap;
       comp.isSetsLoading();
     });
 
-    it('should getAllItems ', () => {
-      expect(
-        compAsAny.deduplicationStateService.getDeduplicationSetItems
-      ).toHaveBeenCalledWith(mockSetObject.id);
-      expect(comp.itemsMap.has(mockSetObject.id)).toBeTrue();
-    });
+    // it('should getAllItems ', () => {
+    //   expect(
+    //     compAsAny.deduplicationStateService.getDeduplicationSetItems
+    //   ).toHaveBeenCalledWith(mockSetObject.id);
+    //   expect(comp.itemsMap.has(mockSetObject.id)).toBeTrue();
+    // });
 
     it('isDeduplicationSetsLoading should return FALSE', () => {
       const res$ = comp.isSetsLoading();
@@ -277,13 +276,6 @@ describe('DeduplicationSetsComponent test suite', () => {
       expect(Array.isArray(res)).toBeTruthy();
       expect(res).toEqual(['Article']);
     });
-
-    // it('should render an accordion per set', () => {
-    //   // comp.itemsMap = mockItemsMap;
-    //   fixture.detectChanges();
-    //   const accordion = fixture.debugElement.queryAll(By.css('ngb-accordion'));
-    //   expect(accordion.length).toEqual(1);
-    // });
   });
 
   it('should go back', () => {

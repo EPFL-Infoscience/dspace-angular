@@ -31,7 +31,7 @@ const deduplicationObjectInitialState: DeduplicationSetState = {
   processing: false,
   loaded: false,
   totalPages: 0,
-  currentPage: 0,
+  currentPage: 1,
   totalElements: 0,
   signatureId: null,
   rule: null,
@@ -68,11 +68,11 @@ export function deduplicationSetReducer(
 
     case DeduplicationSetsActionTypes.ADD_SETS: {
       return Object.assign({}, state, {
-        objects: state.objects.concat(action.payload.objects),
+        objects: (isEqual(state.objects.length, 0) || action.payload.skipToNextPage) ? state.objects.concat(action.payload.objects) : state.objects,
         processing: false,
         loaded: true,
         totalPages: action.payload.totalPages,
-        currentPage: state.currentPage + 1,
+        currentPage: action.payload.currentPage,
         totalElements: action.payload.totalElements,
         signatureId: action.payload.signatureId,
         rule: action.payload.rule,
