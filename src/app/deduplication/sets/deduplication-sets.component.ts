@@ -1,4 +1,3 @@
-import { GetItemsPerSetPipe } from './pipes/get-items-per-set.pipe';
 import { GetItemStatusListPipe } from './pipes/get-item-status-list.pipe';
 import { MergeObject } from './../../core/deduplication/models/merge-object.model';
 import { GetBitstreamsPipe } from './../deduplication-merge/pipes/ds-get-bitstreams.pipe';
@@ -44,7 +43,7 @@ import { getEntityPageRoute } from '../../item-page/item-page-routing-paths';
   selector: 'ds-deduplication-sets',
   templateUrl: './deduplication-sets.component.html',
   styleUrls: ['./deduplication-sets.component.scss'],
-  providers: [GetBitstreamsPipe, GetItemStatusListPipe, GetItemsPerSetPipe],
+  providers: [GetBitstreamsPipe, GetItemStatusListPipe],
 })
 export class DeduplicationSetsComponent implements AfterViewInit {
   /**
@@ -367,11 +366,11 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   /**
    * Selects all items in a set.
    */
-  selectAllItems(set: SetObject, idx: string) {
+  selectAllItems(set: SetObject, idx: number) {
     if (this.checkedItemsList.has(set.id)) {
       this.checkedItemsList.delete(set.id);
     }
-    this.compareBtnSelector.toArray()[idx].nativeElement.focus();
+    this.compareBtnSelector?.toArray()[idx]?.nativeElement.focus();
     const selectedItems: SelectedItemData[] = [];
     const itemIds = this.getItemIds(set);
     if (itemIds && itemIds.length > 0) {
@@ -530,6 +529,8 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       { fragment: groupIdentifier }
     );
 
+    // when the sets represent duplications based on identifiers (based on another set id)
+    // scroll to that set and expand the accordion
     const row = document.getElementById(groupIdentifier);
     if (hasValue(row)) {
       const panelId = Array.from(row.classList).find((x) =>

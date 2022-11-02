@@ -62,14 +62,10 @@
                 <div class="col-md-11 mt-1">
                   <div class="m-0 text-info">
                     <span class="font-22">
-                      {{
-                        getItemTitle(
-                          (set | dsGetItemsPerSet | async)[0]?.metadata
-                        )
-                      }}
+                      {{ getItemTitle(set.itemsList[0]?.metadata) }}
                     </span>
                     <span class="badge badge-info">
-                      {{ (set | dsGetItemsPerSet | async)?.length }}
+                      {{ set.itemsList?.length }}
                     </span>
                   </div>
                 </div>
@@ -127,9 +123,7 @@
                     {{ "deduplication.sets.sub-header.author" | translate }}
                   </span>
                   <span class="badge badge-info">
-                    {{
-                      getAuthor((set | dsGetItemsPerSet | async)[0].metadata)[0]
-                    }}</span
+                    {{ getAuthor(set.itemsList[0].metadata)[0] }}</span
                   >
                   |
                   <span class="pl-1 badge badge-secondary small">
@@ -138,11 +132,7 @@
                     }}
                   </span>
                   <span class="badge badge-info">
-                    {{
-                      getDateIssued(
-                        (set | dsGetItemsPerSet | async)[0].metadata
-                      )[0]
-                    }}</span
+                    {{ getDateIssued(set.itemsList[0].metadata)[0]}}</span
                   >
                 </div>
               </div>
@@ -171,7 +161,7 @@
                         checkedItemsList.get(set.id)?.length <
                           set.itemsList?.length
                       "
-                      class="btn btn-outline-secondary btn-sm mt-1"
+                      class="btn btn-outline-secondary btn-sm mt-1 check-btn"
                       (click)="selectAllItems(set, setIdx)"
                     >
                       <i class="fa fa-check-square"></i>
