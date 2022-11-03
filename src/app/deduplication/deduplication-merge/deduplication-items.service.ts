@@ -128,9 +128,10 @@ export class DeduplicationItemsService {
           if (rd.hasSucceeded) {
             return rd.payload;
           } else {
-            throw new Error(
-              "Can't retrieve Repeatable Fields from REST service"
-            );
+            // throw new Error(
+            //   "Can't retrieve Repeatable Fields from REST service"
+            // );
+            console.error("Can't retrieve Repeatable Fields from REST service");
           }
         })
       );

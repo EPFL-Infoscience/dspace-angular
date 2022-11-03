@@ -110,6 +110,7 @@ export function getMockDeduplicationStateService(): DeduplicationStateService {
       'dispatchRetrieveDeduplicationSetItems'
     ),
     getDeduplicationSetItems: jasmine.createSpy('getDeduplicationSetItems'),
+    dispatchRemoveSets: jasmine.createSpy('dispatchRemoveSets'),
   });
 }
 

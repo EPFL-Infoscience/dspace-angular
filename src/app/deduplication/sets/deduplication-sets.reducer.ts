@@ -67,8 +67,15 @@ export function deduplicationSetReducer(
     }
 
     case DeduplicationSetsActionTypes.ADD_SETS: {
+      let objects: SetObject[] = [];
+      if (isEqual(state.signatureId, action.payload.signatureId) && isEqual(state.rule, action.payload.rule)) {
+        objects = (isEqual(state.objects.length, 0) || action.payload.skipToNextPage)
+          ? state.objects.concat(action.payload.objects) : state.objects;
+      } else {
+        objects = [...action.payload.objects];
+      }
       return Object.assign({}, state, {
-        objects: (isEqual(state.objects.length, 0) || action.payload.skipToNextPage) ? state.objects.concat(action.payload.objects) : state.objects,
+        objects: objects,
         processing: false,
         loaded: true,
         totalPages: action.payload.totalPages,
@@ -83,7 +90,7 @@ export function deduplicationSetReducer(
       return Object.assign({}, state, {
         objects: [],
         processing: false,
-        loaded: false,
+        loaded: true,
         totalPages: 0,
         currentPage: 0,
         totalElements: 0,
@@ -140,7 +147,7 @@ function deleteSet(
 function updateItemsPerSet(state: DeduplicationSetState,
   action: RemoveItemPerSetAction) {
   const setData = [...state.objects];
-  if (hasValue(setData)) {
+  if (hasValue(setData) && setData.length > 0) {
     const set = setData.find((x) => isEqual(x.id, action.payload.setId));
     const setIdx = setData.findIndex((x) => isEqual(x.id, action.payload.setId));
     if (hasValue(set) && setIdx > -1) {

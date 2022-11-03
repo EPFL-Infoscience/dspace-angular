@@ -21,6 +21,8 @@ import {
   AfterViewInit,
   ViewChildren,
   QueryList,
+  ChangeDetectorRef,
+  OnDestroy,
 } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { SetObject } from '../../core/deduplication/models/set.model';
@@ -45,7 +47,7 @@ import { getEntityPageRoute } from '../../item-page/item-page-routing-paths';
   styleUrls: ['./deduplication-sets.component.scss'],
   providers: [GetBitstreamsPipe, GetItemStatusListPipe],
 })
-export class DeduplicationSetsComponent implements AfterViewInit {
+export class DeduplicationSetsComponent implements AfterViewInit, OnDestroy {
   /**
    * List of compare buttons,
    * in order to focus the one inside a set on select all action.
@@ -145,7 +147,8 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     private translate: TranslateService,
     private authorizationService: AuthorizationDataService,
     private deduplicationItemsService: DeduplicationItemsService,
-    private getBitstreamsPipe: GetBitstreamsPipe
+    private getBitstreamsPipe: GetBitstreamsPipe,
+    private chd: ChangeDetectorRef
   ) {
     this.signatureId = this.route.snapshot.params.id;
     this.rule = this.route.snapshot.params.rule;
@@ -162,6 +165,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     this.totalElements$ =
       this.deduplicationStateService.getDeduplicationSetsTotals();
     this.isAdmin$ = this.isCurrentUserAdmin();
+    this.chd.detectChanges();
   }
 
   /**
@@ -488,7 +492,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
               itemToKeep = {
                 setId: setId,
                 bitstreams: bitstreamLinks,
-                mergedItems: [],
+                mergedItems: [], // self-link of the target item should not be sent
                 metadata: metadataValues,
               };
 
@@ -724,6 +728,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       }
     }
   }
+
   /**
    * Request to change the status of the sets' items.
    * @param itemId The id of the item to be removed
@@ -787,4 +792,16 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       .pipe(take(1));
   }
   //#endregion
+
+  ngOnDestroy(): void {
+    this.deduplicationStateService.dispatchRemoveSets(
+      this.signatureId,
+      this.rule
+    );
+    this.sets$ = null;
+    this.setsTotalPages$ = null;
+    this.setCurrentPage$ = null;
+    this.totalElements$ = null;
+    this.chd.detectChanges();
+  }
 }

@@ -1,4 +1,7 @@
-import { ItemMock } from './../../shared/mocks/item.mock';
+import { Bitstream } from './../../core/shared/bitstream.model';
+import { DSONameService } from './../../core/breadcrumbs/dso-name.service';
+import { MergeObject } from './../../core/deduplication/models/merge-object.model';
+import { ItemMock, MockOriginalBundle } from './../../shared/mocks/item.mock';
 import { RemoteData } from './../../core/data/remote-data';
 import { NoContent } from './../../core/shared/NoContent.model';
 import { GetItemStatusListPipe } from './pipes/get-item-status-list.pipe';
@@ -13,12 +16,7 @@ import {
   NgbModal,
   NgbModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import {
-  NO_ERRORS_SCHEMA,
-  Component,
-  CUSTOM_ELEMENTS_SCHEMA,
-  EventEmitter,
-} from '@angular/core';
+import { NO_ERRORS_SCHEMA, Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Observable, of as observableOf } from 'rxjs';
@@ -38,14 +36,19 @@ import { GetBitstreamsPipe } from '../deduplication-merge/pipes/ds-get-bitstream
 import { DeduplicationItemsService } from '../deduplication-merge/deduplication-items.service';
 import { MetadataMap } from '../../core/shared/metadata.models';
 import { By } from '@angular/platform-browser';
-import { SetObject } from 'src/app/core/deduplication/models/set.model';
+import { SetObject } from '../../core/deduplication/models/set.model';
+import { map } from 'rxjs/operators';
 
 describe('DeduplicationSetsComponent test suite', () => {
   let comp: DeduplicationSetsComponent;
   let compAsAny: any;
   let fixture: ComponentFixture<DeduplicationSetsComponent>;
   let router;
+  let modalRef;
+  let getBitstreamsPipe: GetBitstreamsPipe;
+  let dsoDataService: DSONameService;
 
+  const modalService = jasmine.createSpyObj('modalService', ['open']);
   const signatureId = 'title';
   const rule = 'admin';
   const item = Object.assign(new Item(), {
@@ -83,6 +86,13 @@ describe('DeduplicationSetsComponent test suite', () => {
     'authorizationService',
     {
       isAuthorized: observableOf(true),
+    }
+  );
+
+  const deduplicationItemsService: DeduplicationItemsService = jasmine.createSpyObj(
+    'deduplicationItemsService',
+    {
+      mergeData: observableOf(new MergeObject()),
     }
   );
 
@@ -144,17 +154,13 @@ describe('DeduplicationSetsComponent test suite', () => {
         },
         {
           provide: DeduplicationItemsService,
-          useValue: {},
+          useValue: deduplicationItemsService,
         },
         { provide: TranslateService, useValue: translateServiceStub },
         { provide: AuthorizationDataService, useValue: authorizationService },
         {
           provide: NgbModal,
-          useValue: {
-            open: () => {
-              /*comment*/
-            },
-          },
+          useValue: modalService,
         },
         GetBitstreamsPipe,
         DeduplicationSetsComponent,
@@ -183,6 +189,10 @@ describe('DeduplicationSetsComponent test suite', () => {
     compAsAny.deduplicationStateService.isDeduplicationSetsLoaded.and.returnValue(
       observableOf(true)
     );
+    compAsAny.deduplicationStateService.isDeduplicationSetsLoading.and.returnValue(
+      observableOf(false)
+    );
+
     compAsAny.deduplicationStateService.isDeduplicationSetsLoading.and.returnValue(
       observableOf(false)
     );
@@ -311,6 +321,39 @@ describe('DeduplicationSetsComponent test suite', () => {
     ]);
   });
 
+  describe('should keep the selected Item and finish merge', () => {
+    beforeEach(() => {
+      modalRef = { dismissed: observableOf('ok') };
+      modalService.open.and.returnValue(modalRef);
+      comp.keepItem(mockSetObject.id, ItemMock, {});
+      dsoDataService = jasmine.createSpyObj('dsoNameService', {
+        getName: MockOriginalBundle.firstMetadataValue('dc.title'),
+      });
+
+      getBitstreamsPipe = new GetBitstreamsPipe(dsoDataService);
+    });
+
+    it('should open confirmation dialog', () => {
+      expect(comp.confirmModalText.titleClass).toEqual('text-info');
+      expect(modalService.open).toHaveBeenCalled();
+    });
+
+    it('should get item\'s bitstreams', () => {
+      const bitstreams: Observable<Observable<Bitstream[]>> = getBitstreamsPipe.transform(ItemMock);
+      bitstreams.pipe(
+        map((b: Observable<Bitstream[]>) => {
+          b.subscribe((res: Bitstream[]) => {
+            expect(res).not.toBeNull();
+          })
+        })
+      );
+    });
+
+    it('should merge data', () => {
+      expect(deduplicationItemsService.mergeData).toHaveBeenCalled();
+    });
+  });
+
   describe('delete elements', () => {
     beforeEach(() => {
       comp.signatureId = signatureId;
@@ -345,6 +388,26 @@ describe('DeduplicationSetsComponent test suite', () => {
       );
     });
   });
+
+  it('should call the service to dispatch a STATE change onDestroy', () => {
+    comp.ngOnDestroy();
+    comp.signatureId = signatureId;
+    comp.rule = rule;
+    compAsAny.deduplicationStateService
+      .dispatchRemoveSets(signatureId, rule)
+      .and.callThrough();
+
+    expect(comp.sets$).toBeNull();
+    expect(comp.setsTotalPages$).toBeNull();
+    expect(comp.setCurrentPage$).toBeNull();
+    expect(comp.totalElements$).toBeNull();
+
+    expect(
+      compAsAny.deduplicationStateService
+        .dispatchRemoveSets
+    ).toHaveBeenCalledWith(signatureId, rule);
+  });
+
 
   afterEach(() => {
     fixture.destroy();
