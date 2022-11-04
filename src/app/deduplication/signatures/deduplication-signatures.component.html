@@ -12,7 +12,7 @@
           <p>
             {{'deduplication.signature.groupReviewerCheck.text' | translate}}
           </p>
-          <a class="btn btn-primary btn-sm btn-block text-light" [routerLink]="['set', signature.id, 'reviewer']">
+          <a class="btn btn-primary btn-sm btn-block text-light redirect-link" [routerLink]="['set', signature.id, 'reviewer']" (click)="onRedirect(signature.id, 'reviewer')">
             {{'deduplication.signature.show-button' | translate}} <span class="badge badge-light">{{signature.groupReviewerCheck}}</span>
             <span class="sr-only">{{'deduplication.signature.show-button-ext' | translate}}</span>
           </a>
@@ -21,7 +21,7 @@
           <p>
             {{'deduplication.signature.groupSubmitterCheck.text' | translate}}
           </p>
-          <a class="btn btn-outline-secondary btn-sm btn-block text-secondary" [routerLink]="['./set', signature.id, 'submitter']">
+          <a class="btn btn-outline-secondary btn-sm btn-block text-secondary" [routerLink]="['./set', signature.id, 'submitter']"  (click)="onRedirect(signature.id, 'submitter')">
             {{'deduplication.signature.show-button' | translate}} <span class="badge badge-light">{{signature.groupSubmitterCheck}}</span>
             <span class="sr-only">{{'deduplication.signature.show-button-ext' | translate}}</span>
           </a>
@@ -30,7 +30,7 @@
           <p>
             {{'deduplication.signature.groupAdminstratorCheck.text' | translate}}
           </p>
-          <a class="btn btn-outline-secondary btn-sm btn-block text-secondary" [routerLink]="['./set', signature.id, 'admin']">
+          <a class="btn btn-outline-secondary btn-sm btn-block text-secondary" [routerLink]="['./set', signature.id, 'admin']"  (click)="onRedirect(signature.id, 'admin')">
             {{'deduplication.signature.show-button' | translate}} <span class="badge badge-light">{{signature.groupAdminstratorCheck}}</span>
             <span class="sr-only">{{'deduplication.signature.show-button-ext' | translate}}</span>
           </a>

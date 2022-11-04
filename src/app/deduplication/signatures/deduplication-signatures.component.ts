@@ -1,3 +1,4 @@
+import { DeduplicationStateService } from './../deduplication-state.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { floor } from 'lodash';
@@ -27,10 +28,24 @@ export class DeduplicationSignaturesComponent implements OnInit {
    */
   public bootstrapColNumber: number;
 
+  constructor(private deduplicationStateService: DeduplicationStateService) { }
+
   /**
    * Component intitialization.
    */
   public ngOnInit(): void {
     this.bootstrapColNumber = floor(12 / this.elementsPerRow);
+  }
+
+  /**
+   * Clear the store before entering the sets list+
+   * @param signatureId The id of the signature
+   * @param rule The rule of permissions
+   */
+  onRedirect(signatureId: string, rule: string) {
+    this.deduplicationStateService.dispatchRemoveSets(
+      signatureId,
+      rule
+    );
   }
 }

@@ -62,7 +62,7 @@ export function deduplicationSetReducer(
       return Object.assign({}, state, {
         processing: false,
         loaded: true,
-        currentPage: 0,
+        currentPage: 1,
       });
     }
 
@@ -92,7 +92,7 @@ export function deduplicationSetReducer(
         processing: false,
         loaded: true,
         totalPages: 0,
-        currentPage: 0,
+        currentPage: 1,
         totalElements: 0,
         signatureId: null,
         rule: null,

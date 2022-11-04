@@ -22,7 +22,6 @@ import {
   ViewChildren,
   QueryList,
   ChangeDetectorRef,
-  OnDestroy,
 } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { SetObject } from '../../core/deduplication/models/set.model';
@@ -47,7 +46,7 @@ import { getEntityPageRoute } from '../../item-page/item-page-routing-paths';
   styleUrls: ['./deduplication-sets.component.scss'],
   providers: [GetBitstreamsPipe, GetItemStatusListPipe],
 })
-export class DeduplicationSetsComponent implements AfterViewInit, OnDestroy {
+export class DeduplicationSetsComponent implements AfterViewInit {
   /**
    * List of compare buttons,
    * in order to focus the one inside a set on select all action.
@@ -780,6 +779,7 @@ export class DeduplicationSetsComponent implements AfterViewInit, OnDestroy {
       this.elementsPerPage,
       skipToNextPage
     );
+    this.chd.detectChanges();
   }
 
   /**
@@ -792,16 +792,4 @@ export class DeduplicationSetsComponent implements AfterViewInit, OnDestroy {
       .pipe(take(1));
   }
   //#endregion
-
-  ngOnDestroy(): void {
-    this.deduplicationStateService.dispatchRemoveSets(
-      this.signatureId,
-      this.rule
-    );
-    this.sets$ = null;
-    this.setsTotalPages$ = null;
-    this.setCurrentPage$ = null;
-    this.totalElements$ = null;
-    this.chd.detectChanges();
-  }
 }

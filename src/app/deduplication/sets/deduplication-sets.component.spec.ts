@@ -389,26 +389,6 @@ describe('DeduplicationSetsComponent test suite', () => {
     });
   });
 
-  it('should call the service to dispatch a STATE change onDestroy', () => {
-    comp.ngOnDestroy();
-    comp.signatureId = signatureId;
-    comp.rule = rule;
-    compAsAny.deduplicationStateService
-      .dispatchRemoveSets(signatureId, rule)
-      .and.callThrough();
-
-    expect(comp.sets$).toBeNull();
-    expect(comp.setsTotalPages$).toBeNull();
-    expect(comp.setCurrentPage$).toBeNull();
-    expect(comp.totalElements$).toBeNull();
-
-    expect(
-      compAsAny.deduplicationStateService
-        .dispatchRemoveSets
-    ).toHaveBeenCalledWith(signatureId, rule);
-  });
-
-
   afterEach(() => {
     fixture.destroy();
   });
