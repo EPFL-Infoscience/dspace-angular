@@ -12,7 +12,7 @@ import { Collection } from './../../core/shared/collection.model';
 import { FeatureID } from './../../core/data/feature-authorization/feature-id';
 import { AuthorizationDataService } from './../../core/data/feature-authorization/authorization-data.service';
 import { hasValue } from './../../shared/empty.util';
-import { MetadataMap } from './../../core/shared/metadata.models';
+import { MetadataMap, MetadataValue } from './../../core/shared/metadata.models';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationsService } from './../../shared/notifications/notifications.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,7 +27,7 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { SetObject } from '../../core/deduplication/models/set.model';
 import { DeduplicationStateService } from '../deduplication-state.service';
 import { map, take, concatMap, switchMap } from 'rxjs/operators';
-import { NgbAccordion, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordion, NgbModal, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { DeduplicationSetsService } from './deduplication-sets.service';
 import { NoContent } from './../../core/shared/NoContent.model';
 import { RemoteData } from './../../core/data/remote-data';
@@ -82,7 +82,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * The number of elements per page.
    * @protected
    */
-  protected elementsPerPage = 4;
+  protected elementsPerPage = 6;
 
   /**
    * The signatures' sets total pages.
@@ -135,6 +135,8 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    */
   delteBtnText = 'deduplication.sets.modal.delete.submit';
 
+  openedAccordions: string[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -154,7 +156,6 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   }
 
   ngOnInit(): void {
-    // GET Sets
     this.sets$ =
       this.deduplicationStateService.getDeduplicationSetsPerSignature();
     this.setsTotalPages$ =
@@ -171,6 +172,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * First deduplication sets loading after view initialization.
    */
   ngAfterViewInit(): void {
+    // this.chd.detectChanges();
     this.deduplicationStateService
       .isDeduplicationSetsLoaded()
       .pipe(take(1))
@@ -188,60 +190,35 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   }
 
   /**
-   * Returns the item's authors.
-   * @param metadata The metadata of the item
+   * Returns the first metadata value for the given metadata key.
+   * @param items The list of the items
+   * @param key The key to get its value
    * @returns {string}
    */
-  getAuthor(metadata: MetadataMap): string[] {
-    if (metadata) {
-      const authorList = metadata['dc.contributor.author'];
-      if (hasValue(authorList)) {
-        return authorList.map((x) => x.value);
+  getFirstMetadtaValue(items: Item[], key: string): string {
+    if (items.length > 0) {
+      const item = items[0];
+      if (hasValue(item) && hasValue(item.metadata)) {
+        const date = item.firstMetadataValue(key);
+        if (hasValue(date)) {
+          return date;
+        }
       }
     }
-    return ['-'];
+    return '-';
   }
 
   /**
-   * Returns the item's dates issued.
+   * Returns the metadata values for the given metadata key.
    * @param metadata The metadata of the item
-   * @returns  {string[]}
-   */
-  getDateIssued(metadata: MetadataMap): string[] {
-    if (hasValue(metadata)) {
-      const dates = metadata['dc.date.issued'];
-      if (hasValue(dates)) {
-        return dates.map((x) => x.value);
-      }
-    }
-    return ['-'];
-  }
-
-  /**
-   * Returns the item's titles.
-   * @param metadata The metadata of the item
+   * @param key The key to get its value
    * @returns {string[]}
    */
-  getItemTitle(metadata: MetadataMap): string[] {
+  getMetadataList(metadata: MetadataMap, key: string): string[] {
     if (hasValue(metadata)) {
-      const titles = metadata['dc.title'];
-      if (hasValue(titles)) {
-        return titles.map((x) => x.value);
-      }
-    }
-    return ['-'];
-  }
-
-  /**
-   * Returns the item's types.
-   * @param metadata The metadata of the item
-   * @returns  {string[]}
-   */
-  getType(metadata: MetadataMap): string[] {
-    if (metadata) {
-      const types = metadata['dc.type'];
-      if (hasValue(types)) {
-        return types.map((x) => x.value);
+      const elements: MetadataValue[] = metadata[key];
+      if (hasValue(elements)) {
+        return elements.map((x) => x.value);
       }
     }
     return ['-'];
@@ -557,16 +534,30 @@ export class DeduplicationSetsComponent implements AfterViewInit {
 
   public showMoreButton(): Observable<boolean> {
     return combineLatest([this.totalElements$, this.sets$]).pipe(
-      map(([totalElements, signatures]) => {
+      map(([totalElements, sets]) => {
+
         if (this.elementsPerPage > totalElements) {
           this.totalRemainingElements = 0;
         } else {
-          const remainingElements = totalElements - signatures.length;
+          const remainingElements = totalElements - sets.length;
           this.totalRemainingElements = remainingElements > 0 ? remainingElements : 0;
         }
         return this.totalRemainingElements > 0;
       })
     );
+  }
+
+  /**
+   * Keep opened accordions in case of working with them (ex. deleting only one item)
+   * @param event - event of changing panel state(open/ close)
+   */
+  onPanelChange(event: NgbPanelChangeEvent) {
+    const acticeIndex = this.openedAccordions.findIndex(x => isEqual(x, event.panelId));
+    if (event.nextState && acticeIndex < 0) {
+      this.openedAccordions.push(event.panelId);
+    } else if (!event.nextState && acticeIndex > -1) {
+      this.openedAccordions.splice(acticeIndex, 1);
+    }
   }
 
   //#region Privates

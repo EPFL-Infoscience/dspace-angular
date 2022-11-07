@@ -50,20 +50,21 @@
         class="set-acc"
         [destroyOnHide]="true"
         [closeOthers]="false"
+        [activeIds]="openedAccordions"
         [type]="'light'"
+        (panelChange)="onPanelChange($event)"
         *ngFor="let set of sets$ | async; let setIdx = index"
       >
         <ngb-panel id="panel-{{ setIdx }}">
           <ng-template
             ngbPanelHeader
             let-opened="opened"
-            *ngIf="set.itemsList && set.itemsList.length > 0"
           >
             <div class="row panel-{{ setIdx }}" [id]="set.id">
               <div class="col-md-11 mt-1">
                 <div class="m-0 text-info">
                   <span class="font-22">
-                    {{ getItemTitle(set.itemsList[0]?.metadata) }}
+                    {{ getFirstMetadtaValue(set.itemsList, 'dc.title') }}
                   </span>
                   <span class="badge badge-info">
                     {{ set.itemsList?.length }}
@@ -122,14 +123,14 @@
                   {{ "deduplication.sets.sub-header.author" | translate }}
                 </span>
                 <span class="badge badge-info">
-                  {{ getAuthor(set.itemsList[0].metadata)[0] }}</span
+                  {{ getFirstMetadtaValue(set.itemsList, 'dc.contributor.author') }}</span
                 >
                 |
                 <span class="pl-1 badge badge-secondary small">
                   {{ "deduplication.sets.sub-header.date-issued" | translate }}
                 </span>
                 <span class="badge badge-info">
-                  {{ getDateIssued(set.itemsList[0].metadata)[0] }}</span
+                  {{ getFirstMetadtaValue(set.itemsList, 'dc.date.issued') }}</span
                 >
               </div>
             </div>
@@ -323,8 +324,8 @@
                                     <td>
                                       <ng-container
                                         *ngFor="
-                                          let title of getItemTitle(
-                                            item.metadata
+                                          let title of getMetadataList(
+                                            item.metadata,'dc.title'
                                           );
                                           let isLast = last
                                         "
@@ -344,8 +345,8 @@
                                     <td>
                                       <ng-container
                                         *ngFor="
-                                          let author of getAuthor(
-                                            item.metadata
+                                          let author of getMetadataList(
+                                            item.metadata, 'dc.contributor.author'
                                           );
                                           let isLast = last
                                         "
@@ -365,8 +366,8 @@
                                     <td>
                                       <ng-container
                                         *ngFor="
-                                          let date of getDateIssued(
-                                            item.metadata
+                                          let date of getMetadataList(
+                                            item.metadata, 'dc.date.issued'
                                           );
                                           let isLast = last
                                         "
@@ -386,7 +387,7 @@
                                     <td>
                                       <ng-container
                                         *ngFor="
-                                          let type of getType(item.metadata);
+                                          let type of getMetadataList(item.metadata,'dc.type');
                                           let isLast = last
                                         "
                                       >

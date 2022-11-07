@@ -43,16 +43,17 @@ export class DeduplicationSetsEffects {
               set.items.pipe(
                 getAllSucceededRemoteListPayload(),
               ).subscribe((items: Item[]) => {
+                console.log(items ,'asdf');
+
                 set = Object.assign(new SetObject(), {
                   ...set,
                   itemsList: items ?? []
                 });
               });
               set.itemsList = set.itemsList ?? [];
-
+              console.log('set.itemsList' ,set.itemsList);
               return set;
             });
-
             return new AddSetsAction(payload, sets.totalPages, currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule, action.payload.skipToNextPage);
           }),
           catchError((error: Error) => {

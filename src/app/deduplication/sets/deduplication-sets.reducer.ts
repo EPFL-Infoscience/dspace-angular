@@ -130,7 +130,13 @@ function deleteSet(
     );
     if (setIdx > -1) {
       setData.splice(setIdx, 1);
-      return { ...state, objects: [...setData] };
+      const totalElements = state.totalElements - 1;
+      // TODO: currrent page ??
+      return {
+        ...state,
+        totalElements: totalElements,
+        objects: [...setData]
+      };
     }
   }
   return state;
@@ -147,6 +153,8 @@ function deleteSet(
 function updateItemsPerSet(state: DeduplicationSetState,
   action: RemoveItemPerSetAction) {
   const setData = [...state.objects];
+  console.log(setData, 'DeduplicationSetState');
+
   if (hasValue(setData) && setData.length > 0) {
     const set = setData.find((x) => isEqual(x.id, action.payload.setId));
     const setIdx = setData.findIndex((x) => isEqual(x.id, action.payload.setId));
