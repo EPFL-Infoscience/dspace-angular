@@ -4,9 +4,9 @@ import { SetObject } from './../../core/deduplication/models/set.model';
 import { PaginatedList } from './../../core/data/paginated-list.model';
 import { NotificationsService } from './../../shared/notifications/notifications.service';
 import { Injectable } from '@angular/core';
-import { of as observableOf } from 'rxjs';
+import { combineLatest, Observable, of as observableOf } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { catchError, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import {
   RetrieveSetsBySignatureAction,
@@ -38,20 +38,19 @@ export class DeduplicationSetsEffects {
       const currentPage = action.payload.skipToNextPage ? (currentState.deduplication as DeduplicationState).sets.currentPage + 1 : (currentState.deduplication as DeduplicationState).sets.currentPage;
       return this.deduplicationSetsService.getSets(action.payload.elementsPerPage, currentPage, action.payload.signatureId, action.payload.rule)
         .pipe(
-          map((sets: PaginatedList<SetObject>) => {
-            const payload: SetObject[] = sets.page.map((set: SetObject) => {
-              set.items.pipe(
+          mergeMap((sets: PaginatedList<SetObject>) => {
+            const setArray$: Observable<SetObject>[] = sets.page.map((set: SetObject) => {
+              const set$: Observable<SetObject> = set.items.pipe(
                 getAllSucceededRemoteListPayload(),
-              ).subscribe((items: Item[]) => {
-                set = Object.assign(new SetObject(), {
-                  ...set,
-                  itemsList: items ?? []
-                });
-              });
-              set.itemsList = set.itemsList ?? [];
-              return set;
+                map((items: Item[]) => Object.assign(new SetObject(), { ...set, itemsList: items ?? [] }) as SetObject),
+              );
+              return set$;
             });
-            return new AddSetsAction(payload, sets.totalPages, currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule, action.payload.skipToNextPage);
+            return combineLatest(setArray$).pipe(
+              map((payload: SetObject[]) => {
+                return new AddSetsAction(payload, sets.totalPages, currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule, action.payload.skipToNextPage);
+              }),
+            );
           }),
           catchError((error: Error) => {
             if (error) {
