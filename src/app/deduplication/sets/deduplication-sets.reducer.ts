@@ -131,7 +131,6 @@ function deleteSet(
     if (setIdx > -1) {
       setData.splice(setIdx, 1);
       const totalElements = state.totalElements - 1;
-      // TODO: currrent page ??
       return {
         ...state,
         totalElements: totalElements,
@@ -153,26 +152,25 @@ function deleteSet(
 function updateItemsPerSet(state: DeduplicationSetState,
   action: RemoveItemPerSetAction) {
   const setData = [...state.objects];
-  console.log(setData, 'DeduplicationSetState');
-
   if (hasValue(setData) && setData.length > 0) {
     const set = setData.find((x) => isEqual(x.id, action.payload.setId));
     const setIdx = setData.findIndex((x) => isEqual(x.id, action.payload.setId));
     if (hasValue(set) && setIdx > -1) {
-      if (set.itemsList.length <= 2) {
-        return deleteSet(state, new DeleteSetAction(action.payload.signatureId, action.payload.setId, action.payload.rule));
-      } else {
-        const itemIdx = set.itemsList.findIndex(i => isEqual(i.id, action.payload.itemId));
-        const itemsList = [...set.itemsList];
-        if (hasValue(itemIdx)) {
-          itemsList.splice(itemIdx, 1);
-        }
-        const updatedSet: SetObject = Object.assign(new SetObject(), {
-          ...set,
-          itemsList: itemsList
-        });
-        setData[setIdx] = updatedSet;
+      const itemIdx = set.itemsList.findIndex(i => isEqual(i.id, action.payload.itemId));
+      const itemsList = [...set.itemsList];
+      if (hasValue(itemIdx)) {
+        itemsList.splice(itemIdx, 1);
       }
+      const updatedSet: SetObject = Object.assign(new SetObject(), {
+        ...set,
+        itemsList: itemsList
+      });
+      setData[setIdx] = updatedSet;
+
+      if (itemsList.length <= 1) {
+        return deleteSet(state, new DeleteSetAction(action.payload.signatureId, action.payload.setId, action.payload.rule));
+      }
+
       return { ...state, objects: [...setData] };
     }
   } else {

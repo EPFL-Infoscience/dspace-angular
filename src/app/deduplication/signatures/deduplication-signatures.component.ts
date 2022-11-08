@@ -46,6 +46,6 @@ export class DeduplicationSignaturesComponent implements OnInit {
     this.deduplicationStateService.dispatchRemoveSets(
       signatureId,
       rule
-    );
+      );
   }
 }
