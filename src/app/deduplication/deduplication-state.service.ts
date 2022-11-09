@@ -215,8 +215,8 @@ export class DeduplicationStateService {
     this.store.dispatch(new RemoveSetsAction(signatureId, rule));
   }
 
-  public dispatchRemoveItemPerSets(signatureId: string, setId: string, rule: string, itemId: string) {
-    this.store.dispatch(new RemoveItemPerSetAction(signatureId, setId, rule, itemId));
+  public dispatchRemoveItemPerSets(signatureId: string, setId: string, rule: string, itemId: string, deleteMode: 'delete' | 'no-duplicate') {
+    this.store.dispatch(new RemoveItemPerSetAction(signatureId, setId, rule, itemId, deleteMode));
   }
   //#endregion Sets
 

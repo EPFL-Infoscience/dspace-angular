@@ -47,9 +47,9 @@ export class DeduplicationSetsEffects {
               return set$;
             });
             return combineLatest(setArray$).pipe(
-              map((payload: SetObject[]) => {
-                return new AddSetsAction(payload, sets.totalPages, currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule, action.payload.skipToNextPage);
-              }),
+              map((payload: SetObject[]) =>
+                new AddSetsAction(payload, sets.totalPages, currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule, action.payload.skipToNextPage)
+              ),
             );
           }),
           catchError((error: Error) => {
@@ -84,7 +84,7 @@ export class DeduplicationSetsEffects {
     ofType(DeduplicationSetsActionTypes.DELETE_ITEM_PER_SET),
     withLatestFrom(this.store$),
     tap((res: [RemoveItemPerSetAction, any]) =>
-      new RemoveItemPerSetAction(res[0].payload.signatureId, res[0].payload.setId, res[0].payload.rule, res[0].payload.itemId)
+      new RemoveItemPerSetAction(res[0].payload.signatureId, res[0].payload.setId, res[0].payload.rule, res[0].payload.itemId, res[0].payload.deleteMode)
     )
   );
 

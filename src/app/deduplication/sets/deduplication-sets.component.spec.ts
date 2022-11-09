@@ -257,34 +257,28 @@ describe('DeduplicationSetsComponent test suite', () => {
     });
 
     it('should getItemTitle', () => {
-      const res = comp.getItemTitle(item.metadata);
+      const res = comp.getMetadataList(item.metadata, 'dc.title');
       expect(Array.isArray(res)).toBeTruthy();
       expect(res).toEqual(['item']);
     });
 
     it('should getAuthor', () => {
-      const res = comp.getAuthor(new MetadataMap());
+      const res = comp.getMetadataList(item.metadata, 'dc.type');
       expect(Array.isArray(res)).toBeTruthy();
-      expect(res).toEqual(['-']);
+      expect(res).toEqual(['Article']);
     });
 
     it('should getDateIssued', () => {
-      const res = comp.getDateIssued(item.metadata);
+      const res = comp.getMetadataList(item.metadata, 'dc.date.issued');
       expect(Array.isArray(res)).toBeTruthy();
       expect(res).toEqual(['1950-01-01']);
-    });
-
-    it('should getType', () => {
-      const res = comp.getType(item.metadata);
-      expect(Array.isArray(res)).toBeTruthy();
-      expect(res).toEqual(['Article']);
     });
 
     it('should have list of items', () => {
       comp.sets$.subscribe((res: SetObject[]) => {
         res.forEach((set) => {
           expect(set.itemsList.length).toBeGreaterThan(0);
-        })
+        });
       });
     });
 
@@ -344,7 +338,7 @@ describe('DeduplicationSetsComponent test suite', () => {
         map((b: Observable<Bitstream[]>) => {
           b.subscribe((res: Bitstream[]) => {
             expect(res).not.toBeNull();
-          })
+          });
         })
       );
     });

@@ -599,7 +599,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
       .removeItem(this.signatureId, itemId, setChecksum)
       .subscribe((res: RemoteData<NoContent>) => {
         if (res.hasSucceeded || isEqual(res.statusCode, 204)) {
-          this.dispatchRemoveItem(itemId, set);
+          this.dispatchRemoveItem(itemId, set, 'no-duplicate');
           this.notificationsService.success(
             null,
             this.translate.get('deduplication.sets.notification.item-removed')
@@ -632,7 +632,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
             take(1)
           ).subscribe((res: RemoteData<NoContent>) => {
             if (res.hasSucceeded || isEqual(res.statusCode, 204)) {
-              this.dispatchRemoveItem(itemId, set);
+              this.dispatchRemoveItem(itemId, set, 'delete');
               this.notificationsService.success(
                 null,
                 this.translate.get(
@@ -664,7 +664,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
                 //  WorkflowItem
                 this.deleteWorkflowItem(object.id).subscribe(
                   (res: SubmitDataResponseDefinitionObject) => {
-                    this.dispatchRemoveItem(itemId, set);
+                    this.dispatchRemoveItem(itemId, set, 'delete');
                     this.notificationsService.success(
                       null,
                       this.translate.get(
@@ -687,7 +687,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
                   .deleteWorkspaceItemById((object[0] as ConfigObject).id)
                   .subscribe(
                     (res) => {
-                      this.dispatchRemoveItem(itemId, set);
+                      this.dispatchRemoveItem(itemId, set, 'delete');
                       this.notificationsService.success(
                         null,
                         this.translate.get(
@@ -724,12 +724,13 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * @param itemId The id of the item to be removed
    * @param selectedSet The set to which the item belongs to
    */
-  dispatchRemoveItem(itemId: string, selectedSet: SetObject) {
+  dispatchRemoveItem(itemId: string, selectedSet: SetObject, deleteMode: 'delete' | 'no-duplicate') {
     this.deduplicationStateService.dispatchRemoveItemPerSets(
       this.signatureId,
       selectedSet.id,
       this.rule,
-      itemId
+      itemId,
+      deleteMode
     );
   }
 
