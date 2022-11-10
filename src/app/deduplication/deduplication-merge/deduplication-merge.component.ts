@@ -27,7 +27,7 @@ import {
 import { DeduplicationItemsService } from './deduplication-items.service';
 import { map, concatMap } from 'rxjs/operators';
 import { hasValue } from '../../shared/empty.util';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from '../../core/services/cookie.service';
 import { forkJoin } from 'rxjs';
 import {
@@ -168,6 +168,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private configurationDataService: ConfigurationDataService,
     private route: ActivatedRoute,
+    private router: Router,
     private location: Location,
     private chd: ChangeDetectorRef
   ) {
@@ -508,7 +509,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
 
     // on modal close redirect to previous page
     this.modalRef.closed.subscribe((res) => {
-      this.goBack();
+      this.router.navigate(['/admin/deduplication/set', this.signatureId, this.setRule]);
     });
   }
 
@@ -548,8 +549,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         if (hasValue(res)) {
           this.excludedMetadataKeys = [...res.values];
         }
-        // TODO: (test purposes)
-        // , 'dc.description.provenance'
         this.getItemsData();
       });
   }
@@ -565,8 +564,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         .subscribe((res: SubmissionRepeatableFieldsObject) => {
           if (hasValue(res)) {
             this.repeatableFields = [...res.repeatableFields];
-            // TODO: (test purposes)
-            // this.repeatableFields = ['dc.contributor.author',];
           }
         });
     }

@@ -1,3 +1,4 @@
+import { RouterMock } from './../../shared/mocks/router.mock';
 import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/models/submission-repeatable-fields.model';
 import { itemsToCompare } from './../../shared/mocks/deduplication.mock';
 import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
@@ -12,7 +13,7 @@ import { DeduplicationMergeComponent } from './deduplication-merge.component';
 import { GetBitstreamsPipe } from './pipes/ds-get-bitstreams.pipe';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MockActivatedRoute } from '../../shared/mocks/active-router.mock';
 import { ChangeDetectorRef } from '@angular/core';
 import { Observable, of } from 'rxjs';
@@ -67,6 +68,8 @@ describe('DeduplicationMergeComponent', () => {
         { provide: DeduplicationItemsService, useValue: deduplicationItemsService },
         { provide: ConfigurationDataService, useValue: configurationDataService },
         { provide: ActivatedRoute, useValue: route },
+        { provide: ActivatedRoute, useValue: route },
+        { provide: Router, useValue: new RouterMock() },
         { provide: Location, useValue: location },
         { provide: ChangeDetectorRef, useValue: mockCdRef },
         { provide: NgbModal, useValue: modalStub },
