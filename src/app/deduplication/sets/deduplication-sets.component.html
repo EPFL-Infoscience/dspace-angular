@@ -12,7 +12,7 @@
       {{ "deduplication.sets.button.go-back" | translate }}
     </button>
   </div>
-  <div class="row">
+  <div class="row alert alert-info">
     <p
       class="text-info"
       [innerHTML]="
@@ -87,19 +87,21 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-4 col-lg-3">
+                  <div class="col-md-12">
                     <span class="badge badge-secondary small">{{
                       "deduplication.sets.label.match-criteria" | translate
                     }}</span>
-                  </div>
-                  <div class="col-md-8 col-lg-9">
                     <ng-container *ngFor="let id of set.otherSetIds">
-                      <a
-                        class="badge badge-info small text-light badge-hover"
+                      <button
+                        [ngbTooltip]="
+                          'deduplication.sets.label.check-set' | translate
+                        "
+                        type="button"
+                        class="btn btn-link btn-sm"
                         (click)="changeFragment(id, setIdx)"
                       >
-                        {{ id }}</a
-                      >
+                        {{ id }}
+                      </button>
                     </ng-container>
                   </div>
                 </div>

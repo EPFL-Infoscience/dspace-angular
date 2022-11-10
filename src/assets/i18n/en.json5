@@ -1583,7 +1583,9 @@
 
   "deduplication.sets.message.loading": "Loading ...",
 
-  "deduplication.sets.label.match-criteria": "Found other matches for these items by",
+  "deduplication.sets.label.match-criteria": "Found other matches for these items by:",
+
+  "deduplication.sets.label.check-set": "Check this set",
 
   "deduplication.sets.label.select-to-compare": "Select the items to compare them.",
 
@@ -1645,7 +1647,7 @@
 
   "deduplication.sets.notification.item-removed": "Item Removed",
 
-  "deduplication.sets.sub-header.set-id": "Set identifier:",
+  "deduplication.sets.sub-header.set-id": "Set id.",
 
   "deduplication.sets.sub-header.author": "Author:",
 

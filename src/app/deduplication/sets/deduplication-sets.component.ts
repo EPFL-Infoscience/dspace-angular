@@ -135,7 +135,11 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    */
   delteBtnText = 'deduplication.sets.modal.delete.submit';
 
-  openedAccordions: string[] = [];
+  /**
+   * List of opened accordion's indexes
+   * @type {string[]}
+   */
+  openedAccordions: string[] = ['panel-0'];
 
   constructor(
     private route: ActivatedRoute,
@@ -532,10 +536,14 @@ export class DeduplicationSetsComponent implements AfterViewInit {
     return getEntityPageRoute(type, item.uuid);
   }
 
+  /**
+   * Enables/Disables 'Show More' button,
+   * weather there are any left sets to get and show
+   * @returns {Observable<boolean>}
+   */
   public showMoreButton(): Observable<boolean> {
     return combineLatest([this.totalElements$, this.sets$]).pipe(
       map(([totalElements, sets]) => {
-
         if (this.elementsPerPage > totalElements) {
           this.totalRemainingElements = 0;
         } else {

@@ -39,7 +39,7 @@
         </ng-template>
       </td>
       <td>
-        <a [routerLink]="getItemPage(itemObj.object)" role="button">
+        <a class="underline" target="_blank" [routerLink]="getItemPage(itemObj.object)" role="button">
           <span [ngStyle]="{ color: itemObj.color }">
             {{ itemObj.object?.uuid }}
           </span>

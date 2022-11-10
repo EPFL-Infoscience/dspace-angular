@@ -1,5 +1,9 @@
 .bundle-row {
-    color: var(--bs-table-head-color);
-    background-color: var(--bs-table-head-bg);
-    border-color: var(--bs-table-border-color);
-  }
+  color: var(--bs-table-head-color);
+  background-color: var(--bs-table-head-bg);
+  border-color: var(--bs-table-border-color);
+}
+
+.underline {
+  text-decoration: underline;
+}
