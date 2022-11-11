@@ -28,6 +28,7 @@ import { FollowAuthorityMetadata } from './search-follow-metadata.interface';
 import { MetricVisualizationConfig } from './metric-visualization-config.interfaces';
 import {
   AdvancedAttachmentElementType,
+  AdvancedAttachmentPreviewButtonTypes,
   AdvancedAttachmentRenderingConfig
 } from './advanced-attachment-rendering.config';
 import { AttachmentRenderingConfig } from './attachment-rendering.config';
@@ -673,6 +674,33 @@ export class DefaultAppConfig implements AppConfig {
       {
         name: 'checksum',
         type: AdvancedAttachmentElementType.Attribute,
+      }
+    ],
+    buttons: [
+      {
+        type: AdvancedAttachmentPreviewButtonTypes.IIIF,
+        metadata: 'bitstream.viewer.provider',
+        metadataValueFilter : {
+          value: 'iiif',
+          substring: true
+        }
+      },
+      {
+        type: AdvancedAttachmentPreviewButtonTypes.PDF,
+        metadata: 'bitstream.viewer.provider',
+        metadataValueFilter : {
+          value: 'pdf',
+          substring: true
+        }
+      },
+      {
+        type: AdvancedAttachmentPreviewButtonTypes.Download,
+        metadata: 'bitstream.viewer.provider',
+        metadataValueFilter : {
+          value: 'nodownload',
+          substring: true
+        },
+        negation: true
       }
     ]
   };

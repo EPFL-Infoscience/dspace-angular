@@ -28,7 +28,7 @@ import { EditCollectionResolver } from './../core/shared/resolvers/edit-collecti
     EditItemPageModule,
     CollectionFormModule,
     ComcolModule,
-    ContextMenuModule.withEntryComponents(),
+    ContextMenuModule.withEntryComponents()
   ],
   declarations: [
     CollectionPageComponent,

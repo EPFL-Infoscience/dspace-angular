@@ -2,7 +2,10 @@
 import { BuildConfig } from 'src/config/build-config.interface';
 import { RestRequestMethod } from '../app/core/data/rest-request-method';
 import { NotificationAnimationsType } from '../app/shared/notifications/models/notification-animations-type';
-import { AdvancedAttachmentElementType } from '../config/advanced-attachment-rendering.config';
+import {
+  AdvancedAttachmentElementType,
+  AdvancedAttachmentPreviewButtonTypes
+} from '../config/advanced-attachment-rendering.config';
 
 export const environment: BuildConfig = {
   production: false,
@@ -500,6 +503,33 @@ export const environment: BuildConfig = {
       {
         name: 'checksum',
         type: AdvancedAttachmentElementType.Attribute,
+      }
+    ],
+    buttons: [
+      {
+        type: AdvancedAttachmentPreviewButtonTypes.IIIF,
+        metadata: 'bitstream.viewer.provider',
+        metadataValueFilter : {
+          value: 'iiif',
+          substring: true
+        }
+      },
+      {
+        type: AdvancedAttachmentPreviewButtonTypes.PDF,
+        metadata: 'bitstream.viewer.provider',
+        metadataValueFilter : {
+          value: 'pdf',
+          substring: true
+        }
+      },
+      {
+        type: AdvancedAttachmentPreviewButtonTypes.Download,
+        metadata: 'bitstream.viewer.provider',
+        metadataValueFilter : {
+          value: 'nodownload',
+          substring: true
+        },
+        negation: true
       }
     ]
   }
