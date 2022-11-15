@@ -188,6 +188,18 @@ export class EditBitstreamPageComponent implements OnInit, OnDestroy {
   });
 
   /**
+   * The Dynamic Input Model for select a file type
+   */
+  fileTypeModel = new DsDynamicInputModel({
+    repeatable: false,
+    metadataFields: [],
+    submissionId: '',
+    hasSelectableMetadata: false,
+    id: 'fileType',
+    name: 'fileType',
+  });
+
+  /**
    * The Dynamic Input Model for the iiif label
    */
   iiifLabelModel = new DsDynamicInputModel({
@@ -266,7 +278,7 @@ export class EditBitstreamPageComponent implements OnInit, OnDestroy {
   /**
    * All input models in a simple array for easier iterations
    */
-  inputModels = [this.fileNameModel, this.primaryBitstreamModel, this.descriptionModel, this.selectedFormatModel,
+  inputModels = [this.fileNameModel, this.primaryBitstreamModel, this.descriptionModel, this.fileTypeModel, this.selectedFormatModel,
     this.newFormatModel];
 
   /**
@@ -289,6 +301,12 @@ export class EditBitstreamPageComponent implements OnInit, OnDestroy {
       id: 'descriptionContainer',
       group: [
         this.descriptionModel
+      ]
+    }),
+    new DynamicFormGroupModel({
+      id: 'fileTypeContainer',
+      group: [
+        this.fileTypeModel
       ]
     }),
     new DynamicFormGroupModel({
@@ -320,6 +338,11 @@ export class EditBitstreamPageComponent implements OnInit, OnDestroy {
       }
     },
     description: {
+      grid: {
+        host: 'col-12 d-inline-block'
+      }
+    },
+    fileType: {
       grid: {
         host: 'col-12 d-inline-block'
       }
@@ -464,6 +487,9 @@ export class EditBitstreamPageComponent implements OnInit, OnDestroy {
       },
       descriptionContainer: {
         description: bitstream.firstMetadataValue('dc.description')
+      },
+      fileTypeContainer: {
+        fileType: bitstream.firstMetadataValue('dc.type')
       },
       formatContainer: {
         newFormat: hasValue(bitstream.firstMetadata('dc.format')) ? bitstream.firstMetadata('dc.format').value : undefined
@@ -619,6 +645,7 @@ export class EditBitstreamPageComponent implements OnInit, OnDestroy {
     const primary = rawForm.fileNamePrimaryContainer.primaryBitstream;
     Metadata.setFirstValue(newMetadata, 'dc.title', rawForm.fileNamePrimaryContainer.fileName);
     Metadata.setFirstValue(newMetadata, 'dc.description', rawForm.descriptionContainer.description);
+    Metadata.setFirstValue(newMetadata, 'dc.type', rawForm.fileTypeContainer.fileType);
     if (this.isIIIF) {
       // It's helpful to remove these metadata elements entirely when the form value is empty.
       // This avoids potential issues on the REST side and makes it possible to do things like

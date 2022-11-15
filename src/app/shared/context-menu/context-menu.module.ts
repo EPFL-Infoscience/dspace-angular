@@ -1,3 +1,4 @@
+import { SharedModule } from './../shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -18,6 +19,10 @@ import { ClaimItemMenuComponent } from './claim-item/claim-item-menu.component';
 import { StatisticsMenuComponent } from './statistics/statistics-menu.component';
 import { SubscriptionMenuComponent } from './subscription/subscription-menu.component';
 import { SubscriptionsModule } from '../subscriptions/subscriptions.module';
+import { ItemVersionMenuComponent } from './item-version/item-version-menu.component';
+import { ItemVersionContainerComponent } from './item-version/item-version-container/item-version-container.component';
+import { FullItemMenuComponent } from './full-item/full-item-menu.component';
+import { OrcidViewPageMenuComponent } from './orcid-view-page/orcid-view-page-menu.component';
 
 const COMPONENTS = [
   BulkImportMenuComponent,
@@ -31,7 +36,11 @@ const COMPONENTS = [
   RequestCorrectionMenuComponent,
   ClaimItemMenuComponent,
   StatisticsMenuComponent,
-  SubscriptionMenuComponent
+  SubscriptionMenuComponent,
+  ItemVersionMenuComponent,
+  ItemVersionContainerComponent,
+  FullItemMenuComponent,
+  OrcidViewPageMenuComponent
 ];
 
 const ENTRY_COMPONENTS = [
@@ -45,7 +54,10 @@ const ENTRY_COMPONENTS = [
   RequestCorrectionMenuComponent,
   ClaimItemMenuComponent,
   StatisticsMenuComponent,
-  SubscriptionMenuComponent
+  SubscriptionMenuComponent,
+  ItemVersionMenuComponent,
+  FullItemMenuComponent,
+  OrcidViewPageMenuComponent
 ];
 
 const MODULE = [
@@ -53,7 +65,8 @@ const MODULE = [
   NgbDropdownModule,
   RouterModule,
   TranslateModule,
-  SubscriptionsModule
+  SubscriptionsModule,
+  SharedModule
 ];
 @NgModule({
   imports: [
@@ -77,7 +90,7 @@ export class ContextMenuModule {
   static withEntryComponents() {
     return {
       ngModule: ContextMenuModule,
-      providers: ENTRY_COMPONENTS.map((component) => ({provide: component}))
+      providers: ENTRY_COMPONENTS.map((component) => ({ provide: component }))
     };
   }
 }

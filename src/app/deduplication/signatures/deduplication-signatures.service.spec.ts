@@ -1,14 +1,11 @@
+import { FindListOptions } from './../../core/data/find-list-options.model';
 import { TestBed } from '@angular/core/testing';
 import { of as observableOf } from 'rxjs';
 import { DeduplicationSignaturesService } from './deduplication-signatures.service';
 import { SortOptions, SortDirection } from '../../core/cache/models/sort-options.model';
 import { DeduplicationRestService } from '../../core/deduplication/services/deduplication-rest.service';
-import { PageInfo } from '../../core/shared/page-info.model';
-import { FindListOptions } from '../../core/data/request.models';
 import {
   getMockDeduplicationRestService,
-  mockSignatureObjectTitle,
-  mockSignatureObjectIdentifier
 } from '../../shared/mocks/deduplication.mock';
 import { createSuccessfulRemoteDataObject } from '../../shared/remote-data.utils';
 import { cold } from 'jasmine-marbles';
@@ -20,15 +17,13 @@ describe('DeduplicationSignaturesService', () => {
   let serviceAsAny: any;
   let restServiceAsAny: any;
 
-  const pageInfo = new PageInfo();
-  const array = [ mockSignatureObjectTitle, mockSignatureObjectIdentifier ];
   const paginatedList = new PaginatedList();
   const paginatedListRD = createSuccessfulRemoteDataObject(paginatedList);
   const elementsPerPage = 3;
   const currentPage = 0;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+   await TestBed.configureTestingModule({
       providers: [
         { provide: DeduplicationRestService, useClass: getMockDeduplicationRestService },
         { provide: DeduplicationSignaturesService, useValue: service }

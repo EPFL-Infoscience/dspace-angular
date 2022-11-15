@@ -1,5 +1,5 @@
 import { typedObject } from '../../cache/builders/build-decorators';
-import { CacheableObject } from '../../cache/object-cache.reducer';
+import { CacheableObject } from '../../cache/cacheable-object.model';
 import { SECTION } from './section.resource-type';
 import { autoserialize, deserialize } from 'cerialize';
 import { HALLink } from '../../shared/hal-link.model';
@@ -55,6 +55,7 @@ export interface TopSection extends SectionComponent {
   order: string;
   titleKey: string;
   componentType: 'top';
+  numberOfItems: number;
 }
 
 export interface SearchSection extends SectionComponent {

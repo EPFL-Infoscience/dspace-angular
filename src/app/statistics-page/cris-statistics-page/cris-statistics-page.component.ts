@@ -1,25 +1,31 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { UsageReportService } from '../../core/statistics/usage-report-data.service';
-import { map, switchMap, tap } from 'rxjs/operators';
-import { RemoteData } from '../../core/data/remote-data';
-import { getFirstSucceededRemoteData, getRemoteDataPayload, redirectOn4xx } from '../../core/shared/operators';
-import { DSpaceObject } from '../../core/shared/dspace-object.model';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import { combineLatest, Observable } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import { NgbDate, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+
+import { UsageReportService } from '../../core/statistics/usage-report-data.service';
+import { RemoteData } from '../../core/data/remote-data';
+import { getFirstSucceededRemoteData, getRemoteDataPayload } from '../../core/shared/operators';
+import { DSpaceObject } from '../../core/shared/dspace-object.model';
 import { DSONameService } from '../../core/breadcrumbs/dso-name.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { StatisticsCategory } from '../../core/statistics/models/statistics-category.model';
 import { StatisticsCategoriesService } from '../../core/statistics/statistics-categories.service';
 import { SiteDataService } from '../../core/data/site-data.service';
-
-import { NgbDate, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { getCategoryId, getReportId } from '../../core/statistics/statistics-selector';
+import { CleanCategoryReportAction, SetCategoryReportAction } from '../../core/statistics/statistics.action';
+import { AppState } from '../../app.reducer';
+import { redirectOn4xx } from '../../core/shared/authorized.operators';
 
 @Component({
   selector: 'ds-cris-statistics-page',
   templateUrl: './cris-statistics-page.component.html',
   styleUrls: ['./cris-statistics-page.component.scss']
 })
-export class CrisStatisticsPageComponent implements OnInit {
+export class CrisStatisticsPageComponent implements OnInit, OnDestroy {
 
   /**
    * The scope dso for this statistics page, as an Observable.
@@ -66,6 +72,11 @@ export class CrisStatisticsPageComponent implements OnInit {
    */
   dateTo: NgbDateStruct;
 
+  /**
+   * This property holds a selected report id
+   */
+   selectedReportId: string;
+
   constructor(
     protected route: ActivatedRoute,
     protected router: Router,
@@ -74,7 +85,8 @@ export class CrisStatisticsPageComponent implements OnInit {
     protected nameService: DSONameService,
     protected authService: AuthService,
     protected siteService: SiteDataService,
-    private ngbDateParserFormatter: NgbDateParserFormatter
+    private ngbDateParserFormatter: NgbDateParserFormatter,
+    private store: Store<AppState>
   ) {
   }
 
@@ -119,11 +131,18 @@ export class CrisStatisticsPageComponent implements OnInit {
       switchMap((scope) => {
         return this.statisticsCategoriesService.getCategoriesStatistics(scope._links.self.href,0,50,this.parseDate(this.dateFrom),this.parseDate(this.dateTo));
       }),
-      tap( (categories: StatisticsCategory[]) => {
+      tap((categories: StatisticsCategory[]) => {
         this.categorieList = categories;
-        this.selectedCategory = categories[0];
-        this.categoryType = this.selectedCategory.categoryType;
-        this.getUserReports(this.selectedCategory);
+        this.getCategoryId().subscribe((categoryId) => {
+          if (categoryId) {
+            this.selectedCategory =  this.categorieList.find((cat) => { return cat.id === categoryId; });
+            this.categoryType = this.selectedCategory.categoryType;
+          } else {
+            this.selectedCategory = categories[0];
+            this.categoryType = this.selectedCategory.categoryType;
+          }
+          this.getUserReports(this.selectedCategory);
+        });
       })
     );
   }
@@ -136,8 +155,6 @@ export class CrisStatisticsPageComponent implements OnInit {
     return this.nameService.getName(scope);
   }
 
-
-
   /**
    * When tab changed ,need to refresh information.
    * @param event the that is being selected
@@ -146,36 +163,57 @@ export class CrisStatisticsPageComponent implements OnInit {
     const category = this.categorieList.find((cat) => { return cat.id === event.nextId; });
     this.selectedCategory = category;
     this.categoryType = this.selectedCategory.categoryType;
-    this.getUserReports(category);
+    this.getReportId().subscribe((reportId) => {
+      this.setStatisticsState(reportId, category.id);
+      this.getUserReports(category);
+    });
   }
-
 
   /**
    * Get the user reports for the specific category.
    * @param category the that is being selected
    */
-   getUserReports(category) {
-     this.reports$ = this.getReports$(category.id);
-   }
+  getUserReports(category) {
+    this.reports$ = this.getReports$(category.id);
+    combineLatest(this.reports$, this.getReportId(), this.getCategoryId()).subscribe(([report, reportId, categoryId]) => {
+      if (!reportId && !categoryId) {
+          this.setStatisticsState(report[0].id, category.id);
+          this.selectedReportId = report[0].id;
+        } else {
+          this.setStatisticsState(reportId, categoryId);
+        }
+     });
+    }
 
   /**
    * Get the user reports for the specific category.
    * @param categoryId the that is being selected
    */
-   getReports$(categoryId) {
-     return this.scope$.pipe(
-       switchMap((scope) => {
-         return this.usageReportService.searchStatistics(scope._links.self.href,0,50,categoryId,this.parseDate(this.dateFrom),this.parseDate(this.dateTo));
-       }),
-     );
-   }
+  getReports$(categoryId) {
+    return this.scope$.pipe(
+      switchMap((scope) => {
+        return this.usageReportService.searchStatistics(scope._links.self.href,0,50,categoryId,this.parseDate(this.dateFrom),this.parseDate(this.dateTo));
+      }),
+    );
+  }
 
   /**
-   * Refresh categories when the date from or date to is changed.
+   * Refresh categories when the date from is changed.
    */
-    dateChanged() {
+  startDateChanged() {
+    if (typeof this.dateFrom === 'object' || this.dateFrom === null && this.dateFrom === undefined) {
       this.categories$ = this.getCategories$();
     }
+  }
+
+  /**
+   * Refresh categories when the date to is changed.
+   */
+  endDateChanged() {
+    if (typeof this.dateTo === 'object' || this.dateTo === null || this.dateTo === undefined) {
+      this.categories$ = this.getCategories$();
+    }
+  }
 
   /**
    * Parse date object type and return a string of year and day YY-MM.
@@ -189,4 +227,52 @@ export class CrisStatisticsPageComponent implements OnInit {
     return this.ngbDateParserFormatter.format(date);
   }
 
+  /**
+   * stores a report id and cetegory id into state
+   * @param reportId
+   * @param categoryId
+   */
+  setStatisticsState(reportId: string ,categoryId: string) {
+    this.store.dispatch(new SetCategoryReportAction(reportId, categoryId));
+  }
+
+  /**
+   * This function called when the report is changed
+   * @param reportId
+   */
+  changeReport(reportId: string) {
+    this.getCategoryId().subscribe((categoryId) => {
+      this.setStatisticsState(reportId, categoryId);
+      this.selectedReportId = reportId;
+    });
+  }
+
+  /**
+   * returns report id from state
+   * @returns { Observable<string> }
+   */
+  getReportId(): Observable<string> {
+    return this.store.pipe(
+      select(getReportId),
+      take(1)
+    );
+  }
+
+  /**
+   * returns category id from state
+   * @returns { Observable<string> }
+   */
+  getCategoryId(): Observable<string> {
+    return this.store.pipe(
+      select(getCategoryId),
+      take(1)
+    );
+  }
+
+  /**
+   * Clean the statistics state in component's destroy
+   */
+  ngOnDestroy(): void {
+    this.store.dispatch(new CleanCategoryReportAction());
+  }
 }

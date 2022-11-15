@@ -7,13 +7,13 @@ import { BITSTREAM_FORMAT } from './bitstream-format.resource-type';
 import { BITSTREAM } from './bitstream.resource-type';
 import { DSpaceObject } from './dspace-object.model';
 import { HALLink } from './hal-link.model';
-import { HALResource } from './hal-resource.model';
-import { BUNDLE } from './bundle.resource-type';
 import { Bundle } from './bundle.model';
+import { BUNDLE } from './bundle.resource-type';
+import { ChildHALResource } from './child-hal-resource.model';
 
 @typedObject
 @inheritSerialization(DSpaceObject)
-export class Bitstream extends DSpaceObject implements HALResource {
+export class Bitstream extends DSpaceObject implements ChildHALResource {
   static type = BITSTREAM;
 
   /**
@@ -75,4 +75,8 @@ export class Bitstream extends DSpaceObject implements HALResource {
     checkSumAlgorithm: string;
     value: string;
   };
+
+  getParentLinkKey(): keyof this['_links'] {
+    return 'format';
+  }
 }

@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { DeduplicationStateService } from './deduplication-state.service';
 import { SignatureObject } from '../core/deduplication/models/signature.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { take } from 'rxjs/operators';
 
 
@@ -13,7 +13,7 @@ import { take } from 'rxjs/operators';
   templateUrl: './deduplication.component.html',
   styleUrls: ['./deduplication.component.scss'],
 })
-export class DeduplicationComponent implements OnInit {
+export class DeduplicationComponent implements OnInit, AfterViewInit {
   /**
    * The number of deduplication signatures per page.
    */
@@ -27,7 +27,7 @@ export class DeduplicationComponent implements OnInit {
   /**
    * The deduplication signatures total pages.
    */
-  public totalPages$: Observable<number>;
+  // public totalPages$: Observable<number>;
 
   constructor(
     private deduplicationStateService: DeduplicationStateService,
@@ -39,8 +39,8 @@ export class DeduplicationComponent implements OnInit {
   ngOnInit(): void {
     this.signatures$ =
       this.deduplicationStateService.getDeduplicationSignatures();
-    this.totalPages$ =
-      this.deduplicationStateService.getDeduplicationSignaturesTotalPages();
+    // this.totalPages$ =
+    //   this.deduplicationStateService.getDeduplicationSignaturesTotalPages();
   }
 
   /**

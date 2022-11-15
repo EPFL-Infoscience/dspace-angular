@@ -1,4 +1,4 @@
-import { FindListOptions } from './../../core/data/request.models';
+import { FindListOptions } from './../../core/data/find-list-options.model';
 import { SortDirection, SortOptions } from './../../core/cache/models/sort-options.model';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';

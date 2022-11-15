@@ -1,13 +1,12 @@
+/* eslint-disable max-classes-per-file */
 import { getFirstCompletedRemoteData } from '../../shared/operators';
 import { PaginatedList } from '../../data/paginated-list.model';
 import { FollowLinkConfig } from '../../../shared/utils/follow-link-config.model';
-import { FindListOptions } from '../../data/request.models';
 import { DefaultChangeAnalyzer } from '../../data/default-change-analyzer.service';
 import { ChangeAnalyzer } from '../../data/change-analyzer';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { HALEndpointService } from '../../shared/hal-endpoint.service';
 import { ObjectCacheService } from '../../cache/object-cache.service';
-import { CoreState } from '../../core.reducers';
 import { RemoteDataBuildService } from '../../cache/builders/remote-data-build.service';
 import { RequestService } from '../../data/request.service';
 import { Injectable } from '@angular/core';
@@ -22,8 +21,9 @@ import { dataService } from '../../cache/builders/build-decorators';
 import { DEDUPLICATION_SET } from '../models/deduplication-set.resource-type';
 import { RemoteData } from '../../data/remote-data';
 import { NoContent } from '../../shared/NoContent.model';
+import { CoreState } from '../../core-state.model';
+import { FindListOptions } from '../../data/find-list-options.model';
 
-/* tslint:disable:max-classes-per-file */
 
 /**
  * A private DataService implementation to delegate specific methods to.

@@ -6,7 +6,7 @@ import { ItemDataService } from '../core/data/item-data.service';
 import { Item } from '../core/shared/item.model';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-import { hasValue } from '../shared/empty.util';
+import { hasValue, isNotEmpty } from '../shared/empty.util';
 import { getItemPageRoute } from './item-page-routing-paths';
 import { ItemResolver } from './item.resolver';
 
@@ -35,12 +35,26 @@ export class ItemPageResolver extends ItemResolver {
     return super.resolve(route, state).pipe(
       map((rd: RemoteData<Item>) => {
         if (rd.hasSucceeded && hasValue(rd.payload)) {
-          const itemRoute = getItemPageRoute(rd.payload);
-          const thisRoute = state.url;
-          if (!thisRoute.startsWith(itemRoute)) {
-            const itemId = rd.payload.uuid;
-            const subRoute = thisRoute.substring(thisRoute.indexOf(itemId) + itemId.length, thisRoute.length);
-            this.router.navigateByUrl(itemRoute + subRoute);
+          // Check if custom url not empty and if the current id parameter is different from the custom url redirect to custom url
+          if (hasValue(rd.payload.metadata) && isNotEmpty(rd.payload.metadata['cris.customurl'])) {
+            if (route.params.id !== rd.payload.metadata['cris.customurl'][0].value) {
+              const newUrl = state.url.replace(route.params.id, rd.payload.metadata['cris.customurl'][0].value);
+              this.router.navigateByUrl(newUrl);
+            }
+          } else {
+            const thisRoute = state.url;
+
+            // Angular uses a custom function for encodeURIComponent, (e.g. it doesn't encode commas
+            // or semicolons) and thisRoute has been encoded with that function. If we want to compare
+            // it with itemRoute, we have to run itemRoute through Angular's version as well to ensure
+            // the same characters are encoded the same way.
+            const itemRoute = this.router.parseUrl(getItemPageRoute(rd.payload)).toString();
+
+            if (!thisRoute.startsWith(itemRoute)) {
+              const itemId = rd.payload.uuid;
+              const subRoute = thisRoute.substring(thisRoute.indexOf(itemId) + itemId.length, thisRoute.length);
+              this.router.navigateByUrl(itemRoute + subRoute);
+            }
           }
         }
         return rd;

@@ -10,7 +10,6 @@ import { DeduplicationStateService } from '../../deduplication/deduplication-sta
 import { DeduplicationRestService } from '../../core/deduplication/services/deduplication-rest.service';
 import { SetObject } from '../../core/deduplication/models/set.model';
 import { ItemData } from '../../deduplication/interfaces/deduplication-merge.models';
-import { of } from 'rxjs';
 import { createPaginatedList } from '../testing/utils.test';
 
 // REST Mock ---------------------------------------------------------------------
@@ -109,7 +108,6 @@ export function getMockDeduplicationStateService(): DeduplicationStateService {
     dispatchRetrieveDeduplicationSetItems: jasmine.createSpy(
       'dispatchRetrieveDeduplicationSetItems'
     ),
-    getDeduplicationSetItems: jasmine.createSpy('getDeduplicationSetItems'),
     dispatchRemoveSets: jasmine.createSpy('dispatchRemoveSets'),
   });
 }

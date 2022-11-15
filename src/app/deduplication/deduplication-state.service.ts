@@ -1,4 +1,3 @@
-import { Item } from './../core/shared/item.model';
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -6,17 +5,12 @@ import { map } from 'rxjs/operators';
 import {
   signaturesObjectSelector,
   isDeduplicationSignaturesLoadedSelector,
-  isDeduplicationSignaturesProcessingSelector,
-  getDeduplicationSignaturesTotalPagesSelector,
-  getDeduplicationSignaturesCurrentPageSelector,
-  getDeduplicationSignaturesTotalsSelector,
   setsObjectsSelector,
   isDeduplicationSetsLoadedSelector,
   isDeduplicationSetsProcessingSelector,
   getDeduplicationSetsTotalPagesSelector,
   getDeduplicationSetsCurrentPageSelector,
   getDeduplicationSetsTotalsSelector,
-  setItemsObjectsSelector,
   itemsToCompareObjectSelector,
 } from './selectors';
 import { SignatureObject } from '../core/deduplication/models/signature.model';
@@ -74,50 +68,6 @@ export class DeduplicationStateService {
    */
   public isDeduplicationSignaturesLoaded(): Observable<boolean> {
     return this.store.pipe(select(isDeduplicationSignaturesLoadedSelector));
-  }
-
-  /**
-   * Returns the information about the processing status of the signatures (if it's running or not).
-   *
-   * @return Observable<boolean>
-   *    'true' if there are operations running on the signatures (ex.: a REST call), 'false' otherwise.
-   */
-  public isDeduplicationSignaturesProcessing(): Observable<boolean> {
-    return this.store.pipe(select(isDeduplicationSignaturesProcessingSelector));
-  }
-
-  /**
-   * Returns, from the state, the total available pages of the deduplication signatures.
-   *
-   * @return Observable<number>
-   *    The number of the deduplication signatures pages.
-   */
-  public getDeduplicationSignaturesTotalPages(): Observable<number> {
-    return this.store.pipe(
-      select(getDeduplicationSignaturesTotalPagesSelector)
-    );
-  }
-
-  /**
-   * Returns the current page of the deduplication signatures, from the state.
-   *
-   * @return Observable<number>
-   *    The number of the current deduplication signatures page.
-   */
-  public getDeduplicationSignaturesCurrentPage(): Observable<number> {
-    return this.store.pipe(
-      select(getDeduplicationSignaturesCurrentPageSelector)
-    );
-  }
-
-  /**
-   * Returns the total number of the deduplication signatures.
-   *
-   * @return Observable<number>
-   *    The number of the deduplication signatures.
-   */
-  public getDeduplicationSignaturesTotals(): Observable<number> {
-    return this.store.pipe(select(getDeduplicationSignaturesTotalsSelector));
   }
 
   /**
@@ -221,13 +171,6 @@ export class DeduplicationStateService {
   //#endregion Sets
 
   //#region Items
-
-  /**
-   * @returns {Observable<ItemObject[]>} The list of items from the state.
-   */
-  public getDeduplicationSetItems(setId: string): Observable<Item[]> {
-    return this.store.pipe(select(setItemsObjectsSelector(setId)));
-  }
 
   public getItemsToCompare(): Observable<string[]> {
     return this.store.pipe(select(itemsToCompareObjectSelector()));

@@ -1,3 +1,4 @@
+import { Item } from './../../../core/shared/item.model';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserModule, By } from '@angular/platform-browser';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -15,6 +16,7 @@ import { TranslateLoaderMock } from '../../mocks/translate-loader.mock';
 import { ItemExportFormatMolteplicity } from '../../../core/itemexportformat/item-export-format.service';
 import { NotificationsService } from '../../notifications/notifications.service';
 import { NotificationsServiceStub } from '../../testing/notifications-service.stub';
+import { ItemType } from '../../../core/shared/item-relationships/item-type.model';
 
 describe('ItemExportComponent', () => {
   let component: ItemExportComponent;
@@ -22,6 +24,7 @@ describe('ItemExportComponent', () => {
   let fixture: ComponentFixture<ItemExportComponent>;
   let configuration: ItemExportFormConfiguration;
   let exportForm: FormGroup;
+  let exportItemForm: FormGroup;
 
   const itemExportService: any = jasmine.createSpyObj('ItemExportFormatService', {
     initialItemExportFormConfiguration: jasmine.createSpy('initialItemExportFormConfiguration'),
@@ -30,16 +33,45 @@ describe('ItemExportComponent', () => {
   });
 
   const modal: any = jasmine.createSpyObj('NgbActiveModal', {
-    close: jasmine.createSpy('close').and.callFake(() => { /**/})
+    close: jasmine.createSpy('close').and.callFake(() => { /**/ })
+  });
+
+
+  const mockItem = Object.assign(new Item(), {
+    id: 'fake-id',
+    uuid: 'fake-id',
+    handle: 'fake/handle',
+    lastModified: '2018',
+    entityType: 'Person',
+    _links: {
+      self: {
+        href: 'https://localhost:8000/items/fake-id'
+      }
+    }
   });
 
   const router = new RouterMock();
+
+  const itemType = Object.assign(new ItemType(), {
+    'type': 'entitytype',
+    'id': 1,
+    'label': 'Person',
+    'uuid': 'entitytype-1',
+    '_links': {
+      'self': {
+        'href': 'https://dspacecris7.4science.cloud/server/api/core/entitytypes/1'
+      },
+      'relationshiptypes': {
+        'href': 'https://dspacecris7.4science.cloud/server/api/core/entitytypes/1/relationshiptypes'
+      }
+    }
+  });
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         BrowserModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader,  useClass: TranslateLoaderMock }}),
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateLoaderMock } }),
         FormsModule,
         ReactiveFormsModule
       ],
@@ -63,20 +95,26 @@ describe('ItemExportComponent', () => {
       // inputs
       component.searchOptions = 'searchOptions' as any;
       component.molteplicity = 'molteplicity' as any;
-      component.item = 'item' as any;
+      component.item = mockItem;
+      component.itemType = itemType;
 
       // data
-      configuration = { format: 'format', entityType: 'entityType'} as any;
+      configuration = { format: 'format', entityType: 'entityType' } as any;
       exportForm = new FormGroup({
         format: new FormControl(configuration.format, [Validators.required]),
         entityType: new FormControl(configuration.entityType, [Validators.required]),
       });
 
+      exportItemForm = new FormGroup({
+        format: new FormControl(configuration.format, [Validators.required]),
+        entityType: new FormControl(mockItem.entityType, [Validators.required]),
+      });
+
       // spies
       itemExportService.initialItemExportFormConfiguration.and.returnValue(observableOf(configuration));
-      spyOn(component, 'initForm').and.returnValue(exportForm);
+      spyOn(component, 'initFormItemType').and.returnValue(exportForm);
       spyOn(exportForm.controls.entityType.valueChanges, 'subscribe').and.callThrough();
-      spyOn(component, 'onEntityTypeChange').and.callFake(() => { /****/});
+      spyOn(component, 'onEntityTypeChange').and.callFake(() => { /****/ });
 
       fixture.detectChanges();
     });
@@ -86,18 +124,18 @@ describe('ItemExportComponent', () => {
     });
 
     it('should initialize the exportForm calling initialItemExportFormConfiguration', () => {
-      expect(itemExportService.initialItemExportFormConfiguration).toHaveBeenCalledWith( 'item');
+      expect(itemExportService.initialItemExportFormConfiguration).toHaveBeenCalledWith(mockItem);
       expect(component.configuration).toBe(configuration);
-      expect(component.initForm).toHaveBeenCalledWith(configuration);
-      expect(component.exportForm).toBe(exportForm);
     });
 
-    it('should listen for exportForm.entityType changes', () => {
-
-      exportForm.controls.entityType.patchValue('entityType2');
-
-      expect(component.onEntityTypeChange).toHaveBeenCalledWith('entityType2');
+    it('should initialize the exportForm calling initialItemExportFormConfiguration with null item', () => {
+      component.item = null;
+      component.ngOnInit();
+      fixture.detectChanges();
+      expect(itemExportService.initialItemExportFormConfiguration).toHaveBeenCalledWith(null);
+      expect(component.configuration).toBe(configuration);
     });
+
 
   });
 
@@ -105,8 +143,9 @@ describe('ItemExportComponent', () => {
     beforeEach(() => {
       fixture = TestBed.createComponent(ItemExportComponent);
       component = fixture.componentInstance;
+      component.itemType = itemType;
 
-      configuration = { format: 'format', entityType: 'entityType'} as any;
+      configuration = { format: 'format', entityType: 'Person' } as any;
     });
 
     it('should create the export form with configuration format and entityType', () => {
@@ -114,39 +153,12 @@ describe('ItemExportComponent', () => {
       const form = component.initForm(configuration);
 
       expect(Object.keys(form.controls).length).toEqual(2);
-      expect(form.controls.entityType.value).toBe('entityType');
+      expect(form.controls.entityType.value).toBe('Person');
       expect(form.controls.format.value).toBe('format');
     });
 
   });
 
-  describe('onEntityTypeChange method', () => {
-    beforeEach(() => {
-      fixture = TestBed.createComponent(ItemExportComponent);
-      component = fixture.componentInstance;
-      configuration = { format: 'format', entityType: 'entityType1', entityTypes: 'entityTypes'} as any;
-
-      // component status
-      component.exportForm = new FormGroup({
-        format: new FormControl(configuration.format, [Validators.required]),
-        entityType: new FormControl(configuration.entityType, [Validators.required]),
-      });
-      component.configuration = configuration;
-
-      // spies
-      itemExportService.onSelectEntityType.and.returnValue(of(configuration));
-      spyOn(component.exportForm.controls.format, 'patchValue').and.callThrough();
-    });
-
-    it('should updated configuration variable and patch the exportForm format value', () => {
-
-      component.onEntityTypeChange('entityType2');
-
-      expect(itemExportService.onSelectEntityType).toHaveBeenCalledWith('entityTypes', 'entityType2');
-      expect(component.exportForm.controls.format.patchValue).toHaveBeenCalledWith('format');
-    });
-
-  });
 
   describe('onSubmit method', () => {
     beforeEach(() => {
@@ -157,9 +169,10 @@ describe('ItemExportComponent', () => {
       component.item = 'item' as any;
       component.searchOptions = 'searchOptions' as any;
       component.molteplicity = 'molteplicity' as any;
+      component.itemType = itemType;
       component.exportForm = new FormGroup({
         format: new FormControl('format', [Validators.required]),
-        entityType: new FormControl('entityType', [Validators.required]),
+        entityType: new FormControl('Person', [Validators.required]),
       });
 
       // spies
@@ -169,79 +182,12 @@ describe('ItemExportComponent', () => {
     it('should call the submitForm and then route to process number and close modal', () => {
       component.onSubmit();
 
-      expect(itemExportService.submitForm).toHaveBeenCalledWith('molteplicity', 'item', 'searchOptions', 'entityType', 'format');
+      expect(itemExportService.submitForm).toHaveBeenCalledWith('molteplicity', 'item', 'searchOptions', 'Person', 'format');
       expect((component as any).notificationsService.process).toHaveBeenCalled();
       expect(component.activeModal.close).toHaveBeenCalled();
     });
 
   });
 
-  describe('when configuration.entityTypes are available', () => {
-    beforeEach(() => {
-      fixture = TestBed.createComponent(ItemExportComponent);
-      component = fixture.componentInstance;
-
-      // data
-      component.molteplicity = ItemExportFormatMolteplicity.MULTIPLE;
-      configuration = { format: 'format', entityType: 'entityType1', entityTypes: ['e1', 'e2']} as any;
-
-      // spies
-      itemExportService.initialItemExportFormConfiguration.and.returnValue(observableOf(configuration));
-    });
-
-    it('should add options', () => {
-
-      fixture.detectChanges();
-
-      const select = fixture.debugElement.query(By.css('#entityType'));
-      const options = select.queryAll(By.css('option'));
-
-      expect(select).toBeTruthy();
-      // first disabled option
-      expect(options[0].nativeElement.disabled).toBeTrue();
-      options.shift();
-
-      // entityTypes options
-      expect(options.length).toBe(configuration.entityTypes.length);
-      configuration.entityTypes.forEach((entityType, index) => {
-        expect(options[index].nativeElement.value).toContain(configuration.entityTypes[index]);
-      });
-    });
-
-  });
-
-  describe('when configuration.formats are available', () => {
-    beforeEach(() => {
-      fixture = TestBed.createComponent(ItemExportComponent);
-      component = fixture.componentInstance;
-
-      // data
-      component.molteplicity = ItemExportFormatMolteplicity.MULTIPLE;
-      configuration = { format: 'f1', entityType: 'entityType1', formats: ['f1', 'f2']} as any;
-
-      // spies
-      itemExportService.initialItemExportFormConfiguration.and.returnValue(observableOf(configuration));
-    });
-
-    it('should add options', () => {
-
-      fixture.detectChanges();
-
-      const select = fixture.debugElement.query(By.css('#format'));
-      const options = select.queryAll(By.css('option'));
-
-      expect(select).toBeTruthy();
-      // first disabled option
-      expect(options[0].nativeElement.disabled).toBeTrue();
-      options.shift();
-
-      // entityTypes options
-      expect(options.length).toBe(configuration.formats.length);
-      configuration.formats.forEach((entityType, index) => {
-        expect(options[index].nativeElement.value).toContain(configuration.formats[index]);
-      });
-    });
-
-  });
 
 });

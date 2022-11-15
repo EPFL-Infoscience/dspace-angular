@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../../shared/shared.module';
 import { EditItemPageRoutingModule } from './edit-item-page.routing.module';
@@ -37,6 +37,7 @@ import { ObjectValuesPipe } from '../../shared/utils/object-values-pipe';
 import { ResourcePoliciesModule } from '../../shared/resource-policies/resource-policies.module';
 import { ItemUnlinkOrcidComponent } from './item-unlink-orcid/item-unlink-orcid.component';
 import { EditMetadataSecurityComponent } from './edit-metadata-security/edit-metadata-security.component';
+import { EditItemResolver } from '../../core/shared/resolvers/edit-item.resolver';
 
 /**
  * Module that contains all components related to the Edit Item page administrator functionality
@@ -49,7 +50,8 @@ import { EditMetadataSecurityComponent } from './edit-metadata-security/edit-met
     EditItemPageRoutingModule,
     SearchPageModule,
     DragDropModule,
-    ResourcePoliciesModule
+    ResourcePoliciesModule,
+    NgbModule
   ],
   declarations: [
     EditItemPageComponent,
@@ -83,7 +85,8 @@ import { EditMetadataSecurityComponent } from './edit-metadata-security/edit-met
   ],
   providers: [
     BundleDataService,
-    ObjectValuesPipe
+    ObjectValuesPipe,
+    EditItemResolver
   ],
   exports: [
     ItemMetadataComponent,

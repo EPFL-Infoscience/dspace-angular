@@ -12,6 +12,7 @@ import {
   DepositSubmissionSuccessAction,
   DisableSectionAction,
   DisableSectionErrorAction,
+  DiscardSubmissionSuccessAction,
   EditFileDataAction,
   EnableSectionAction,
   InertSectionErrorsAction,
@@ -41,119 +42,10 @@ import {
   UpdateSectionDataAction,
   UpdateSectionErrorsAction
 } from './submission-objects.actions';
-import { WorkspaceitemSectionDataType } from '../../core/submission/models/workspaceitem-sections.model';
 import { WorkspaceitemSectionUploadObject } from '../../core/submission/models/workspaceitem-section-upload.model';
-import { SectionsType } from '../sections/sections-type';
 import { WorkspaceitemSectionDetectDuplicateObject } from '../../core/submission/models/workspaceitem-section-deduplication.model';
-import { SubmissionVisibilityType } from '../../core/config/models/config-submission-section.model';
+import { SubmissionSectionObject } from './submission-section-object.model';
 import { MetadataSecurityConfiguration } from '../../core/submission/models/metadata-security-configuration';
-
-/**
- * An interface to represent section object state
- */
-export interface SubmissionSectionObject {
-  /**
-   * The section header
-   */
-  header: string;
-
-  /**
-   * The section configuration url
-   */
-  config: string;
-
-  /**
-   * A boolean representing if this section is mandatory
-   */
-  mandatory: boolean;
-
-  /**
-   * A boolean representing if this section is opened or collapsed by default
-   */
-  opened: boolean;
-
-  /**
-   * The section type
-   */
-  sectionType: SectionsType;
-
-  /**
-   * The section visibility
-   */
-  visibility: SubmissionVisibilityType;
-
-  /**
-   * A boolean representing if this section is collapsed
-   */
-  collapsed: boolean;
-
-  /**
-   * A boolean representing if this section is enabled
-   */
-  enabled: boolean;
-
-  /**
-   * The list of the metadata ids of the section.
-   */
-  metadata: string[];
-
-  /**
-   * The section data object
-   */
-  data: WorkspaceitemSectionDataType;
-
-  /**
-   * The list of the section's errors to show. It contains the error list to display when section is not pristine
-   */
-  errorsToShow: SubmissionSectionError[];
-
-  /**
-   * The list of the section's errors detected by the server. They may not be shown yet if section is pristine
-   */
-  serverValidationErrors: SubmissionSectionError[];
-
-  /**
-   * A boolean representing if this section is loading
-   */
-  isLoading: boolean;
-
-  /**
-   * A boolean representing if this section removal is pending
-   */
-  removePending: boolean;
-
-  /**
-   * A boolean representing if this section is valid
-   */
-  isValid: boolean;
-
-  /**
-   * The formId related to this section
-   */
-  formId: string;
-}
-
-/**
- * An interface to represent section error
- */
-export interface SubmissionError {
-  [submissionId: string]: SubmissionSectionError[];
-}
-
-/**
- * An interface to represent section error
- */
-export interface SubmissionSectionError {
-  /**
-   * A string representing error path
-   */
-  path: string;
-
-  /**
-   * The error message
-   */
-  message: string;
-}
 
 /**
  * An interface to represent SubmissionSectionObject entry
@@ -214,6 +106,11 @@ export interface SubmissionObjectEntry {
    * Configurations of security levels for metadatas of an entity type
    */
   metadataSecurityConfiguration?: MetadataSecurityConfiguration;
+
+  /**
+   * A boolean representing if a submission is discarded or not
+   */
+   isDiscarding?: boolean;
 }
 
 /**
@@ -284,7 +181,7 @@ export function submissionObjectReducer(state = initialState, action: Submission
     }
 
     case SubmissionObjectActionTypes.DISCARD_SUBMISSION_SUCCESS: {
-      return initialState;
+      return discardSuccess(state, action as DiscardSubmissionSuccessAction);
     }
 
     case SubmissionObjectActionTypes.DISCARD_SUBMISSION_ERROR: {
@@ -483,7 +380,8 @@ function initSubmission(state: SubmissionObjectState, action: InitSubmissionForm
     savePending: false,
     saveDecisionPending: false,
     depositPending: false,
-    metadataSecurityConfiguration: action.payload.metadataSecurityConfiguration
+    metadataSecurityConfiguration: action.payload.metadataSecurityConfiguration,
+    isDiscarding: false
   };
   return newState;
 }
@@ -526,6 +424,28 @@ function completeInit(state: SubmissionObjectState, action: CompleteInitSubmissi
     return Object.assign({}, state, {
       [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
         isLoading: false
+      })
+    });
+  } else {
+    return state;
+  }
+}
+
+/**
+ * Set submission discard to true.
+ *
+ * @param state
+ *    the current state
+ * @param action
+ *    a DiscardSubmissionSuccessAction
+ * @return SubmissionObjectState
+ *    the new state, with the discard success.
+ */
+ function discardSuccess(state: SubmissionObjectState, action: DiscardSubmissionSuccessAction): SubmissionObjectState {
+  if (hasValue(state[ action.payload.submissionId ])) {
+    return Object.assign({}, state, {
+      [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
+        isDiscarding: true
       })
     });
   } else {

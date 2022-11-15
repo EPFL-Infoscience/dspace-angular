@@ -50,7 +50,7 @@ describe('DeduplicationStateService', () => {
   describe('Testing methods with empty signature objects', () => {
     beforeEach(async () => {
       init('empty');
-      TestBed.configureTestingModule({
+      await TestBed.configureTestingModule({
         imports: [
           StoreModule.forRoot({ deduplication: deduplicationReducers } as any),
         ],
@@ -78,36 +78,6 @@ describe('DeduplicationStateService', () => {
       });
     });
 
-    describe('getDeduplicationSignaturesTotalPages', () => {
-      it('Should return zero (0)', () => {
-        const result = service.getDeduplicationSignaturesTotalPages();
-        const expected = cold('(a)', {
-          a: 0
-        });
-        expect(result).toBeObservable(expected);
-      });
-    });
-
-    describe('getDeduplicationSignaturesCurrentPage', () => {
-      it('Should return minus one (-1)', () => {
-        const result = service.getDeduplicationSignaturesCurrentPage();
-        const expected = cold('(a)', {
-          a: -1
-        });
-        expect(result).toBeObservable(expected);
-      });
-    });
-
-    describe('getDeduplicationSignaturesTotals', () => {
-      it('Should return zero (0)', () => {
-        const result = service.getDeduplicationSignaturesTotals();
-        const expected = cold('(a)', {
-          a: 0
-        });
-        expect(result).toBeObservable(expected);
-      });
-    });
-
     describe('isDeduplicationSignaturesLoading', () => {
       it('Should return TRUE', () => {
         const result = service.isDeduplicationSignaturesLoading();
@@ -127,22 +97,12 @@ describe('DeduplicationStateService', () => {
         expect(result).toBeObservable(expected);
       });
     });
-
-    describe('isDeduplicationSignaturesProcessing', () => {
-      it('Should return FALSE', () => {
-        const result = service.isDeduplicationSignaturesProcessing();
-        const expected = cold('(a)', {
-          a: false
-        });
-        expect(result).toBeObservable(expected);
-      });
-    });
   });
 
   describe('Testing methods with signature objects', () => {
     beforeEach(async () => {
       init('full');
-      TestBed.configureTestingModule({
+      await TestBed.configureTestingModule({
         imports: [
           StoreModule.forRoot({ deduplication: deduplicationReducers } as any),
         ],
@@ -174,36 +134,6 @@ describe('DeduplicationStateService', () => {
       });
     });
 
-    describe('getDeduplicationSignaturesTotalPages', () => {
-      it('Should return one (1)', () => {
-        const result = service.getDeduplicationSignaturesTotalPages();
-        const expected = cold('(a)', {
-          a: 1
-        });
-        expect(result).toBeObservable(expected);
-      });
-    });
-
-    describe('getDeduplicationSignaturesCurrentPage', () => {
-      it('Should return minus zero (0)', () => {
-        const result = service.getDeduplicationSignaturesCurrentPage();
-        const expected = cold('(a)', {
-          a: 0
-        });
-        expect(result).toBeObservable(expected);
-      });
-    });
-
-    describe('getDeduplicationSignaturesTotals', () => {
-      it('Should return three (3)', () => {
-        const result = service.getDeduplicationSignaturesTotals();
-        const expected = cold('(a)', {
-          a: 3
-        });
-        expect(result).toBeObservable(expected);
-      });
-    });
-
     describe('isDeduplicationSignaturesLoading', () => {
       it('Should return FALSE', () => {
         const result = service.isDeduplicationSignaturesLoading();
@@ -223,22 +153,12 @@ describe('DeduplicationStateService', () => {
         expect(result).toBeObservable(expected);
       });
     });
-
-    describe('isDeduplicationSignaturesProcessing', () => {
-      it('Should return FALSE', () => {
-        const result = service.isDeduplicationSignaturesProcessing();
-        const expected = cold('(a)', {
-          a: false
-        });
-        expect(result).toBeObservable(expected);
-      });
-    });
   });
 
   describe('Testing the signatures dispatch methods', () => {
     beforeEach(async () => {
       init('full');
-      TestBed.configureTestingModule({
+      await TestBed.configureTestingModule({
         imports: [
           StoreModule.forRoot({ deduplication: deduplicationReducers } as any),
         ],

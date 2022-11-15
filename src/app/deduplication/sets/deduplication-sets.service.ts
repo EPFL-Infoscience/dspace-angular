@@ -10,7 +10,7 @@ import { NoContent } from './../../core/shared/NoContent.model';
 import { DeduplicationSetItemsRestService } from '../../core/deduplication/services/deduplication-set-items-rest.service';
 import { RemoteData } from './../../core/data/remote-data';
 import { PaginatedList } from './../../core/data/paginated-list.model';
-import { FindListOptions } from './../../core/data/request.models';
+import { FindListOptions } from './../../core/data/find-list-options.model';
 import { SetObject } from './../../core/deduplication/models/set.model';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';

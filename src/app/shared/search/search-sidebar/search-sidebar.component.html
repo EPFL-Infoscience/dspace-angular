@@ -15,10 +15,12 @@
             <ds-search-switch-configuration *ngIf="configurationList"
                                             [configurationList]="configurationList"
                                             [defaultConfiguration]="configuration"
+                                            [defaultScope]="currentScope"
                                             [inPlaceSearch]="inPlaceSearch"
                                             (changeConfiguration)="changeConfiguration.emit($event)"></ds-search-switch-configuration>
             <ds-search-filters [currentScope]="currentScope"
                                [currentConfiguration]="configuration"
+                               [filters]="filters"
                                [refreshFilters]="refreshFilters"
                                [inPlaceSearch]="inPlaceSearch"></ds-search-filters>
             <ds-search-settings [currentSortOption]="currentSortOption" [sortOptionsList]="sortOptionsList"></ds-search-settings>

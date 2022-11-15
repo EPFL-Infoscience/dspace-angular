@@ -1,10 +1,10 @@
+/* eslint-disable max-classes-per-file */
 import { Action } from '@ngrx/store';
 import { SetObject } from './../../core/deduplication/models/set.model';
 
 import { type } from '../../shared/ngrx/type';
 import { Item } from '../../core/shared/item.model';
 
-/* tslint:disable:max-classes-per-file */
 
 /**
  * For each action type in an action group, make a simple

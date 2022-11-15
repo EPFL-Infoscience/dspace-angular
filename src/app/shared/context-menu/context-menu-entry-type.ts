@@ -10,9 +10,8 @@ export enum ContextMenuEntryType {
   RequestCorrection = 'requestcorrection',
   Statistics = 'statistics',
   Subscriptions = 'subscriptions',
-  DeleteProject = 'deleteproject',
-  EasyOnlineImport = 'easyonlineimport',
   Report = 'report',
-  ProjectAdminInvitation = 'projectadmininvitation',
-  ProjectMemberInvitation = 'projectamembervitation',
+  ItemVersion = 'itemversion',
+  FullItem = 'fullitem',
+  OrcidView = 'orcidview',
 }

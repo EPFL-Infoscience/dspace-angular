@@ -1,19 +1,10 @@
-import { Item } from './../core/shared/item.model';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { arraySubStateSelector, subStateSelector } from '../shared/selector.util';
+import { subStateSelector } from '../shared/selector.util';
 import { DeduplicationState, deduplicationSelector } from './deduplication.reducer';
 import { SignatureObject } from '../core/deduplication/models/signature.model';
 import { DeduplicationSignatureState } from './signatures/deduplication-signatures.reducer';
 import { DeduplicationSetState } from './sets/deduplication-sets.reducer';
 import { SetObject } from '../core/deduplication/models/set.model';
-
-/**
- * Returns the deduplication state.
- * @function _getDeduplicationState
- * @param {AppState} state Top level state.
- * @return {DeduplicationState}
- */
-const _getDeduplicationState = (state: any) => state.deduplication;
 
 /**
  * Returns the signature State.
@@ -38,7 +29,7 @@ export function signaturesObjectSelector(): MemoizedSelector<DeduplicationState,
  * @function isDeduplicationSignaturesLoadedSelector
  * @return {boolean}
  */
-export const isDeduplicationSignaturesLoadedSelector = createSelector(_getDeduplicationState,
+export const isDeduplicationSignaturesLoadedSelector =  createSelector(deduplicationSelector,
   (state: DeduplicationState) => state.signatures.loaded
 );
 
@@ -47,7 +38,7 @@ export const isDeduplicationSignaturesLoadedSelector = createSelector(_getDedupl
  * @function isDeduplicationSignaturesProcessingSelector
  * @return {boolean}
  */
-export const isDeduplicationSignaturesProcessingSelector = createSelector(_getDeduplicationState,
+export const isDeduplicationSignaturesProcessingSelector = createSelector(deduplicationSelector,
   (state: DeduplicationState) => state.signatures.processing
 );
 
@@ -56,17 +47,8 @@ export const isDeduplicationSignaturesProcessingSelector = createSelector(_getDe
  * @function getDeduplicationSignaturesTotalPagesSelector
  * @return {number}
  */
-export const getDeduplicationSignaturesTotalPagesSelector = createSelector(_getDeduplicationState,
+export const getDeduplicationSignaturesTotalPagesSelector = createSelector(deduplicationSelector,
   (state: DeduplicationState) => state.signatures.totalPages
-);
-
-/**
- * Returns the current page of Deduplication signatures.
- * @function getDeduplicationSignaturesCurrentPageSelector
- * @return {number}
- */
-export const getDeduplicationSignaturesCurrentPageSelector = createSelector(_getDeduplicationState,
-  (state: DeduplicationState) => state.signatures.currentPage
 );
 
 /**
@@ -74,7 +56,7 @@ export const getDeduplicationSignaturesCurrentPageSelector = createSelector(_get
  * @function getDeduplicationSignaturesTotalsSelector
  * @return {number}
  */
-export const getDeduplicationSignaturesTotalsSelector = createSelector(_getDeduplicationState,
+export const getDeduplicationSignaturesTotalsSelector = createSelector(deduplicationSelector,
   (state: DeduplicationState) => state.signatures.totalElements
 );
 
@@ -95,7 +77,7 @@ export function setsObjectsSelector(): MemoizedSelector<DeduplicationState, SetO
 /**
  * Returns true if the deduplication sets are loaded.
  */
-export const isDeduplicationSetsLoadedSelector = createSelector(_getDeduplicationState,
+export const isDeduplicationSetsLoadedSelector = createSelector(deduplicationSelector,
   (state: DeduplicationState) => state.sets.loaded
 );
 
@@ -104,7 +86,7 @@ export const isDeduplicationSetsLoadedSelector = createSelector(_getDeduplicatio
  * @function isDeduplicationSignaturesProcessingSelector
  * @return {boolean}
  */
-export const isDeduplicationSetsProcessingSelector = createSelector(_getDeduplicationState,
+export const isDeduplicationSetsProcessingSelector = createSelector(deduplicationSelector,
   (state: DeduplicationState) => state.sets.processing
 );
 
@@ -113,44 +95,29 @@ export const isDeduplicationSetsProcessingSelector = createSelector(_getDeduplic
  * @function getDeduplicationSignaturesTotalPagesSelector
  * @return {number}
  */
-export const getDeduplicationSetsTotalPagesSelector = createSelector(_getDeduplicationState,
+export const getDeduplicationSetsTotalPagesSelector = createSelector(deduplicationSelector,
   (state: DeduplicationState) => state.sets.totalPages
 );
 
 /**
  * Returns the current page of Deduplication signatures.
- * @function getDeduplicationSignaturesCurrentPageSelector
+ * @function getDeduplicationSetsCurrentPageSelector
  * @return {number}
  */
-export const getDeduplicationSetsCurrentPageSelector = createSelector(_getDeduplicationState,
+export const getDeduplicationSetsCurrentPageSelector = createSelector(deduplicationSelector,
   (state: DeduplicationState) => state.sets.currentPage
 );
 
 /**
  * Returns the total number of Deduplication signatures.
- * @function getDeduplicationSignaturesTotalsSelector
+ * @function getDeduplicationSetsTotalsSelector
  * @return {number}
  */
-export const getDeduplicationSetsTotalsSelector = createSelector(_getDeduplicationState,
+export const getDeduplicationSetsTotalsSelector = createSelector(deduplicationSelector,
   (state: DeduplicationState) => state.sets.totalElements
 );
 
-/**
- * Returns the items State.
- */
-export function setItemsObjectSelector(): MemoizedSelector<DeduplicationState, DeduplicationSetState> {
-  return subStateSelector<DeduplicationState, DeduplicationSetState>(deduplicationSelector, 'items');
-}
-
-/*
- * Returns the items list.
- */
-export function setItemsObjectsSelector(setId): MemoizedSelector<DeduplicationState, Item[]> {
-  return arraySubStateSelector<DeduplicationState, Item[]>(setItemsObjectSelector(), setId, 'objects', 'setId');
-}
-
-
- export function itemsToCompareStateSelector(): MemoizedSelector<DeduplicationState, DeduplicationSetState> {
+export function itemsToCompareStateSelector(): MemoizedSelector<DeduplicationState, DeduplicationSetState> {
   return subStateSelector<DeduplicationState, DeduplicationSetState>(deduplicationSelector, 'compare');
 }
 

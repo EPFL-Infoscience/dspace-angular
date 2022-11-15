@@ -1,9 +1,10 @@
+/* eslint-disable max-classes-per-file */
 import { Injectable } from '@angular/core';
 import { DataService } from '../data/data.service';
 import { RequestService } from '../data/request.service';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
 import { Store } from '@ngrx/store';
-import { CoreState } from '../core.reducers';
+import { CoreState } from '../core-state.model';
 import { ObjectCacheService } from '../cache/object-cache.service';
 import { HALEndpointService } from '../shared/hal-endpoint.service';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
@@ -16,9 +17,8 @@ import { RemoteData } from '../data/remote-data';
 import { METRICSCOMPONENT } from './models/metrics-component.resource-type';
 import { MetricsComponent } from './models/metrics-component.model';
 import { Metric } from '../shared/metric.model';
-import { MetricRow } from '../../cris-layout/cris-layout-matrix/cris-layout-box-container/boxes/metrics/cris-layout-metrics-box.component';
+import { CrisLayoutMetricRow } from './models/tab.model';
 
-/* tslint:disable:max-classes-per-file */
 class DataServiceImpl extends DataService<MetricsComponent> {
   protected linkPath = 'boxmetricsconfigurations';
 
@@ -68,7 +68,7 @@ export class MetricsComponentsDataService {
   /**
    * Get matching metrics for item.
    */
-  getMatchingMetrics(metrics: Metric[], maxColumn: number, metricTypes: string[]): MetricRow[] {
+  getMatchingMetrics(metrics: Metric[], maxColumn: number, metricTypes: string[]): CrisLayoutMetricRow[] {
     if (maxColumn == null || maxColumn <= 0) {
       maxColumn = 3;
     }
@@ -77,7 +77,7 @@ export class MetricsComponentsDataService {
     return metricRows;
   }
 
-  computeMetricsRows(itemMetrics: Metric[], maxColumn, metricTypes: string[]): MetricRow[] {
+  computeMetricsRows(itemMetrics: Metric[], maxColumn, metricTypes: string[]): CrisLayoutMetricRow[] {
 
     // support
     const typeMap = {};

@@ -1,11 +1,11 @@
 import { autoserialize, deserialize, inheritSerialization } from 'cerialize';
-import { CacheableObject } from '../../cache/object-cache.reducer';
 import { excludeFromEquals } from '../../utilities/equals.decorators';
 import { ResourceType } from '../../shared/resource-type';
 import { HALLink } from '../../shared/hal-link.model';
 import { typedObject } from '../../cache/builders/build-decorators';
 import { SUBMISSION_REPEATABLE_FIELDS } from './submission-repeatable-fields.resource-type';
 import { DSpaceObject } from '../../shared/dspace-object.model';
+import { CacheableObject } from '../../cache/cacheable-object.model';
 
 /**
  * The interface representing the signature model

@@ -9,6 +9,7 @@ import { AdminCurationTasksComponent } from './admin-curation-tasks/admin-curati
 import { AdminEditUserAgreementComponent } from './admin-edit-user-agreement/admin-edit-user-agreement.component';
 import { DEDUPLICATION_PATH, NOTIFICATIONS_MODULE_PATH, REGISTRIES_MODULE_PATH } from './admin-routing-paths';
 import { EditCmsMetadataComponent } from './edit-cms-metadata/edit-cms-metadata.component';
+import { BatchImportPageComponent } from './admin-import-batch-page/batch-import-page.component';
 
 @NgModule({
   imports: [
@@ -63,6 +64,12 @@ import { EditCmsMetadataComponent } from './edit-cms-metadata/edit-cms-metadata.
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         component: EditCmsMetadataComponent,
         data: { title: 'admin.edit-cms-metadata.title', breadcrumbKey: 'admin.edit-cms-metadata' }
+      },
+      {
+        path: 'batch-import',
+        resolve: { breadcrumb: I18nBreadcrumbResolver },
+        component: BatchImportPageComponent,
+        data: { title: 'admin.batch-import.title', breadcrumbKey: 'admin.batch-import' }
       },
     ])
   ],

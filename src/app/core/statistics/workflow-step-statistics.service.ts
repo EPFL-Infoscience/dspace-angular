@@ -1,3 +1,5 @@
+/* eslint-disable max-classes-per-file */
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -8,7 +10,7 @@ import { dataService } from '../cache/builders/build-decorators';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
 import { RequestParam } from '../cache/models/request-param.model';
 import { ObjectCacheService } from '../cache/object-cache.service';
-import { CoreState } from '../core.reducers';
+import { CoreState } from '../core-state.model';
 import { ConfigurationDataService } from '../data/configuration-data.service';
 import { DataService } from '../data/data.service';
 import { DefaultChangeAnalyzer } from '../data/default-change-analyzer.service';
@@ -19,8 +21,6 @@ import { RequestService } from '../data/request.service';
 import { HALEndpointService } from '../shared/hal-endpoint.service';
 import { WorkflowStepStatistics } from './models/workflow-step-statistics.model';
 import { WORKFLOW_STEP_STATISTICS } from './models/workflow-step-statistics.resource-type';
-
-/* tslint:disable:max-classes-per-file */
 
 /**
  * A private DataService implementation to delegate specific methods to.

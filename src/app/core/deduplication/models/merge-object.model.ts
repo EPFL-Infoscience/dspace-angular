@@ -1,4 +1,3 @@
-import { CacheableObject } from './../../cache/object-cache.reducer';
 import { Item } from './../../shared/item.model';
 import { MERGE_OBJECT } from './merge-object.resource-type';
 import { autoserialize } from 'cerialize';
@@ -7,6 +6,7 @@ import { excludeFromEquals } from '../../utilities/equals.decorators';
 import { ResourceType } from '../../shared/resource-type';
 import { typedObject } from '../../cache/builders/build-decorators';
 import { HALLink } from '../../shared/hal-link.model';
+import { CacheableObject } from '../../cache/cacheable-object.model';
 
 /**
  * The interface representing the merge model

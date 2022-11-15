@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
@@ -5,14 +6,12 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
 
-import { CoreState } from '../../core.reducers';
 import { HALEndpointService } from '../../shared/hal-endpoint.service';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { RemoteDataBuildService } from '../../cache/builders/remote-data-build.service';
 import { ObjectCacheService } from '../../cache/object-cache.service';
 import { dataService } from '../../cache/builders/build-decorators';
 import { RequestService } from '../../data/request.service';
-import { FindListOptions } from '../../data/request.models';
 import { DataService } from '../../data/data.service';
 import { ChangeAnalyzer } from '../../data/change-analyzer';
 import { DefaultChangeAnalyzer } from '../../data/default-change-analyzer.service';
@@ -21,8 +20,9 @@ import { SignatureObject } from '../models/signature.model';
 import { SIGNATURE_OBJECT } from '../models/signature-object.resource-type';
 import { FollowLinkConfig } from '../../../shared/utils/follow-link-config.model';
 import { PaginatedList } from '../../data/paginated-list.model';
+import { CoreState } from '../../core-state.model';
+import { FindListOptions } from '../../data/find-list-options.model';
 
-/* tslint:disable:max-classes-per-file */
 
 /**
  * A private DataService implementation to delegate specific methods to.

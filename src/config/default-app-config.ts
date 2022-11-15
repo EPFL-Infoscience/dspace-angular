@@ -6,7 +6,7 @@ import { BrowseByConfig } from './browse-by-config.interface';
 import { CacheConfig } from './cache-config.interface';
 import { CollectionPageConfig } from './collection-page-config.interface';
 import { FormConfig } from './form-config.interfaces';
-import { ItemPageConfig } from './item-page-config.interface';
+import { ItemConfig } from './item-config.interface';
 import { LangConfig } from './lang-config.interface';
 import { MediaViewerConfig } from './media-viewer-config.interface';
 import { INotificationBoardOptions } from './notifications-config.interfaces';
@@ -14,22 +14,19 @@ import { ServerConfig } from './server-config.interface';
 import { SubmissionConfig } from './submission-config.interface';
 import { ThemeConfig } from './theme.model';
 import { UIServerConfig } from './ui-server-config.interface';
-import { UniversalConfig } from './universal-config.interface';
+import { BundleConfig } from './bundle-config.interface';
+import { ActuatorsConfig } from './actuators.config';
 import { AddThisPluginConfig } from './addThisPlugin-config';
 import { CmsMetadata } from './cms-metadata';
 import { CrisLayoutConfig, LayoutConfig, SuggestionConfig } from './layout-config.interfaces';
 import { MetadataSecurityConfig } from './metadata-security-config';
 import { FollowAuthorityMetadata } from './search-follow-metadata.interface';
+import { MetricVisualizationConfig } from './metric-visualization-config.interfaces';
+import { AdvancedAttachmentRenderingConfig, AdvancedAttachmentElementType } from './advanced-attachment-rendering.config';
+import { AttachmentRenderingConfig } from './attachment-rendering.config';
 
 export class DefaultAppConfig implements AppConfig {
   production = false;
-
-  // Angular Universal settings
-  universal: UniversalConfig = {
-    preboot: true,
-    async: true,
-    time: false
-  };
 
   // NOTE: will log all redux actions and transfers in console
   debug = false;
@@ -58,6 +55,10 @@ export class DefaultAppConfig implements AppConfig {
     port: 8080,
     // NOTE: Space is capitalized because 'namespace' is a reserved string in TypeScript
     nameSpace: '/',
+  };
+
+  actuators: ActuatorsConfig = {
+    endpointPath: '/actuator/health'
   };
 
   // Caching settings
@@ -122,6 +123,9 @@ export class DefaultAppConfig implements AppConfig {
        * eg. timer: 5 * (1000 * 60); // 5 minutes
        */
       timer: 5 * (1000 * 60)
+    },
+    typeBind: {
+      field: 'dc.type'
     },
     icons: {
       metadata: [
@@ -216,12 +220,15 @@ export class DefaultAppConfig implements AppConfig {
     { code: 'es', label: 'Español', active: true },
     { code: 'fr', label: 'Français', active: true },
     { code: 'gd', label: 'Gàidhlig', active: true },
+    { code: 'it', label: 'Italiano', active: true },
     { code: 'lv', label: 'Latviešu', active: true },
     { code: 'hu', label: 'Magyar', active: true },
     { code: 'nl', label: 'Nederlands', active: true },
     { code: 'pt-PT', label: 'Português', active: true },
     { code: 'pt-BR', label: 'Português do Brasil', active: true },
-    { code: 'fi', label: 'Suomi', active: true }
+    { code: 'fi', label: 'Suomi', active: true },
+    { code: 'tr', label: 'Türkçe', active: true },
+    { code: 'bn', label: 'বাংলা', active: true }
   ];
 
   // Browse-By Pages
@@ -234,11 +241,13 @@ export class DefaultAppConfig implements AppConfig {
     defaultLowerLimit: 1900
   };
 
-  // Item Page Config
-  item: ItemPageConfig = {
+  // Item Config
+  item: ItemConfig = {
     edit: {
       undoTimeout: 10000 // 10 seconds
-    }
+    },
+    // Show the item access status label in items lists
+    showAccessStatuses: false
   };
 
   // When the search results are retrieved, for each item type the metadata with a valid authority value are inspected.
@@ -360,6 +369,11 @@ export class DefaultAppConfig implements AppConfig {
       ]
     },
   ];
+  // The default bundles that should always be displayed when you edit or add a bundle even when no bundle has been
+  // added to the item yet.
+  bundle: BundleConfig = {
+    standardBundles: ['ORIGINAL', 'THUMBNAIL', 'LICENSE']
+  };
   // Whether to enable media viewer for image and/or video Bitstreams (i.e. Bitstreams whose MIME type starts with "image" or "video").
   // For images, this enables a gallery viewer where you can zoom or page through images.
   // For videos, this enables embedded video streaming
@@ -469,5 +483,87 @@ export class DefaultAppConfig implements AppConfig {
     siteId: '',
     scriptUrl: 'http://s7.addthis.com/js/300/addthis_widget.js#pubid=',
     socialNetworksEnabled: false
+  };
+
+  metricVisualizationConfig: MetricVisualizationConfig[] = [
+    {
+      type: 'altmetric',
+      icon: null,
+      class: 'alert-light',
+    },
+    {
+      type: 'plumX',
+      icon: null,
+      class: '',
+    },
+    {
+      type: 'dimensions',
+      icon: 'fa fa-cubes',
+      class: 'alert-light',
+    },
+    {
+      type: 'google-scholar',
+      icon: '/assets/images/google-scholar.svg',
+      class: 'alert-info',
+    },
+    {
+      type: 'embedded-view',
+      icon: 'fa fa-eye',
+      class: 'alert-success'
+    },
+    {
+      type: 'embedded-download',
+      icon: 'fa fa-cloud-download-alt',
+      class: 'alert-danger',
+    },
+    {
+      type: 'view',
+      icon: 'fa fa-eye',
+      class: 'alert-success',
+    },
+    {
+      type: 'download',
+      icon: 'fa fa-cloud-download-alt',
+      class: 'alert-danger',
+    },
+  ];
+
+  attachmentRendering: AttachmentRenderingConfig = {
+    pagination: {
+      enabled: true,
+      elementsPerPage: 2,
+    },
+  };
+
+  advancedAttachmentRendering: AdvancedAttachmentRenderingConfig = {
+    pagination: {
+      enabled: true,
+      elementsPerPage: 2,
+    },
+    metadata: [
+      {
+        name: 'dc.title',
+        type: AdvancedAttachmentElementType.Metadata,
+        truncatable: false
+      },
+      {
+        name: 'dc.type',
+        type: AdvancedAttachmentElementType.Metadata,
+        truncatable: false
+      },
+      {
+        name: 'dc.description',
+        type: AdvancedAttachmentElementType.Metadata,
+        truncatable: true
+      },
+      {
+        name: 'size',
+        type: AdvancedAttachmentElementType.Attribute,
+      },
+      {
+        name: 'format',
+        type: AdvancedAttachmentElementType.Attribute,
+      }
+    ]
   };
 }

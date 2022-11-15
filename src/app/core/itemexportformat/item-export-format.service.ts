@@ -1,3 +1,5 @@
+/* eslint-disable max-classes-per-file */
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -9,7 +11,7 @@ import { NotificationsService } from '../../shared/notifications/notifications.s
 import { dataService } from '../cache/builders/build-decorators';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
 import { ObjectCacheService } from '../cache/object-cache.service';
-import { CoreState } from '../core.reducers';
+import { CoreState } from '../core-state.model';
 import { DataService } from '../data/data.service';
 import { DefaultChangeAnalyzer } from '../data/default-change-analyzer.service';
 import { ItemDataService } from '../data/item-data.service';
@@ -31,8 +33,6 @@ import { SearchOptions } from '../../shared/search/models/search-options.model';
 import { PaginatedSearchOptions } from '../../shared/search/models/paginated-search-options.model';
 import { Process } from '../../process-page/processes/process.model';
 import { getFirstCompletedRemoteData } from '../shared/operators';
-
-/* tslint:disable:max-classes-per-file */
 
 /**
  * A private DataService implementation to delegate specific methods to.
@@ -209,9 +209,9 @@ export class ItemExportFormatService {
         return [...parameterValues, Object.assign(new ProcessParameter(), { name: '-s', value: fixedFilter[1] })];
       }
     }
-    // if (searchOptions.scope) {
-    //   return [...parameterValues, Object.assign(new ProcessParameter(), { name: '-s', value: searchOptions.scope })];
-    // }
+    if (searchOptions.scope) {
+      return [...parameterValues, Object.assign(new ProcessParameter(), { name: '-s', value: searchOptions.scope })];
+    }
     return parameterValues;
   }
 

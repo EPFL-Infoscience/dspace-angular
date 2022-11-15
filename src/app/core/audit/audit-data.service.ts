@@ -1,3 +1,5 @@
+/* eslint-disable max-classes-per-file */
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -10,14 +12,14 @@ import { dataService } from '../cache/builders/build-decorators';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
 import { RequestParam } from '../cache/models/request-param.model';
 import { ObjectCacheService } from '../cache/object-cache.service';
-import { CoreState } from '../core.reducers';
+import { CoreState } from '../core-state.model';
 import { EPerson } from '../eperson/models/eperson.model';
 import { HALEndpointService } from '../shared/hal-endpoint.service';
 import { DataService } from '../data/data.service';
 import { DefaultChangeAnalyzer } from '../data/default-change-analyzer.service';
 import { PaginatedList } from '../data/paginated-list.model';
 import { RemoteData } from '../data/remote-data';
-import { FindListOptions } from '../data/request.models';
+import { FindListOptions } from '../data/find-list-options.model';
 import { RequestService } from '../data/request.service';
 import {
   getFirstSucceededRemoteDataPayload,
@@ -26,8 +28,6 @@ import {
 
 import { DSONameService } from '../breadcrumbs/dso-name.service';
 import { followLink, FollowLinkConfig } from '../../shared/utils/follow-link-config.model';
-
-/* tslint:disable:max-classes-per-file */
 
 export const AUDIT_PERSON_NOT_AVAILABLE = 'n/a';
 

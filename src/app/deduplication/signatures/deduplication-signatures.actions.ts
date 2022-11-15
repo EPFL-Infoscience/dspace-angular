@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import { Action } from '@ngrx/store';
 import { type } from '../../shared/ngrx/type';
 import { SignatureObject } from '../../core/deduplication/models/signature.model';
@@ -16,7 +17,6 @@ export const DeduplicationSignaturesActionTypes = {
   RETRIEVE_ALL_SIGNATURES_ERROR: type('dspace/deduplication/RETRIEVE_ALL_SIGNATURES_ERROR'),
 };
 
-/* tslint:disable:max-classes-per-file */
 
 /**
  * An ngrx action to retrieve all deduplication signatures.

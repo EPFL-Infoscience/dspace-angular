@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { CollectionDataService } from '../../../../core/data/collection-data.service';
 import { buildPaginatedList, PaginatedList } from '../../../../core/data/paginated-list.model';
-import { FindListOptions } from '../../../../core/data/request.models';
+import { FindListOptions } from '../../../../core/data/find-list-options.model';
 import { DSpaceObject } from '../../../../core/shared/dspace-object.model';
 import { getFirstCompletedRemoteData } from '../../../../core/shared/operators';
 import { SearchService } from '../../../../core/shared/search/search.service';
@@ -17,6 +17,7 @@ import { RemoteData } from '../../../../core/data/remote-data';
 import { NotificationsService } from '../../../notifications/notifications.service';
 
 import { hasValue } from '../../../empty.util';
+import { DSONameService } from '../../../../core/breadcrumbs/dso-name.service';
 
 @Component({
   selector: 'ds-administered-collection-selector',
@@ -28,11 +29,12 @@ import { hasValue } from '../../../empty.util';
  */
 export class AdministeredCollectionSelectorComponent extends DSOSelectorComponent {
 
-  constructor(protected searchService: SearchService,
-              protected collectionDataService: CollectionDataService,
+  constructor(protected collectionDataService: CollectionDataService,
+              protected searchService: SearchService,
               protected notifcationsService: NotificationsService,
-              protected translate: TranslateService) {
-    super(searchService, notifcationsService, translate);
+              protected translate: TranslateService,
+              protected dsoNameService: DSONameService,) {
+    super(searchService, notifcationsService, translate, dsoNameService);
   }
 
   /**

@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import { switchMap } from 'rxjs/operators';
 import { FollowLinkConfig } from './../../../shared/utils/follow-link-config.model';
 import { DefaultChangeAnalyzer } from '../../data/default-change-analyzer.service';
@@ -5,7 +6,6 @@ import { ChangeAnalyzer } from '../../data/change-analyzer';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { HALEndpointService } from '../../shared/hal-endpoint.service';
 import { ObjectCacheService } from '../../cache/object-cache.service';
-import { CoreState } from '../../core.reducers';
 import { RemoteDataBuildService } from '../../cache/builders/remote-data-build.service';
 import { RequestService } from '../../data/request.service';
 import { Injectable } from '@angular/core';
@@ -18,8 +18,7 @@ import { SubmissionRepeatableFieldsObject } from '../models/submission-repeatabl
 import { SUBMISSION_REPEATABLE_FIELDS } from '../models/submission-repeatable-fields.resource-type';
 import { Observable } from 'rxjs';
 import { RemoteData } from '../../data/remote-data';
-
-/* tslint:disable:max-classes-per-file */
+import { CoreState } from '../../core-state.model';
 
 /**
  * A private DataService implementation to delegate specific methods to.

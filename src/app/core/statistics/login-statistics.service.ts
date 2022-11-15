@@ -1,14 +1,16 @@
+/* eslint-disable max-classes-per-file */
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { NotificationsService } from '../../../app/shared/notifications/notifications.service';
+import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { dataService } from '../cache/builders/build-decorators';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
 import { RequestParam } from '../cache/models/request-param.model';
 import { ObjectCacheService } from '../cache/object-cache.service';
-import { CoreState } from '../core.reducers';
+import { CoreState } from '../core-state.model';
 import { ConfigurationDataService } from '../data/configuration-data.service';
 import { DataService } from '../data/data.service';
 import { DefaultChangeAnalyzer } from '../data/default-change-analyzer.service';
@@ -19,8 +21,6 @@ import { RequestService } from '../data/request.service';
 import { HALEndpointService } from '../shared/hal-endpoint.service';
 import { LoginStatistics } from './models/login-statistics.model';
 import { LOGIN_STATISTICS } from './models/login-statistics.resource-type';
-
-/* tslint:disable:max-classes-per-file */
 
 /**
  * A private DataService implementation to delegate specific methods to.

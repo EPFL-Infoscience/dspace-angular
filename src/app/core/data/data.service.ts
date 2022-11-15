@@ -1,18 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { Operation } from 'fast-json-patch';
-import { Observable, of as observableOf } from 'rxjs';
+import { AsyncSubject, combineLatest, from as observableFrom, Observable, of as observableOf } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   find,
   map,
   mergeMap,
+  skipWhile,
+  switchMap,
   take,
   takeWhile,
-  switchMap,
   tap,
-  skipWhile,
+  toArray
 } from 'rxjs/operators';
 import { hasValue, isNotEmpty, isNotEmptyOperator } from '../../shared/empty.util';
 import { NotificationOptions } from '../../shared/notifications/models/notification-options.model';
@@ -21,30 +22,33 @@ import { FollowLinkConfig } from '../../shared/utils/follow-link-config.model';
 import { getClassForType } from '../cache/builders/build-decorators';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
 import { RequestParam } from '../cache/models/request-param.model';
-import { CacheableObject } from '../cache/object-cache.reducer';
+import { ObjectCacheEntry } from '../cache/object-cache.reducer';
 import { ObjectCacheService } from '../cache/object-cache.service';
-import { CoreState } from '../core.reducers';
 import { DSpaceSerializer } from '../dspace-rest/dspace.serializer';
 import { DSpaceObject } from '../shared/dspace-object.model';
 import { HALEndpointService } from '../shared/hal-endpoint.service';
-import { getRemoteDataPayload, getFirstSucceededRemoteData, } from '../shared/operators';
+import { getFirstCompletedRemoteData, getFirstSucceededRemoteData, getRemoteDataPayload } from '../shared/operators';
 import { URLCombiner } from '../url-combiner/url-combiner';
 import { ChangeAnalyzer } from './change-analyzer';
 import { PaginatedList } from './paginated-list.model';
 import { RemoteData } from './remote-data';
 import {
   CreateRequest,
+  DeleteByIDRequest,
+  DeleteRequest,
   GetRequest,
-  FindListOptions,
   PatchRequest,
-  PutRequest,
-  DeleteRequest, PostRequest, DeleteByIDRequest
+  PostRequest,
+  PutRequest
 } from './request.models';
 import { RequestService } from './request.service';
 import { RestRequestMethod } from './rest-request-method';
 import { UpdateDataService } from './update-data.service';
 import { GenericConstructor } from '../shared/generic-constructor';
 import { NoContent } from '../shared/NoContent.model';
+import { CacheableObject } from '../cache/cacheable-object.model';
+import { CoreState } from '../core-state.model';
+import { FindListOptions } from './find-list-options.model';
 
 export abstract class DataService<T extends CacheableObject> implements UpdateDataService<T> {
   protected abstract requestService: RequestService;
@@ -168,9 +172,9 @@ export abstract class DataService<T extends CacheableObject> implements UpdateDa
    * @return {Observable<string>}
    * Return an observable that emits created HREF
    */
-  protected buildHrefWithParams(href: string, params: RequestParam[], ...linksToFollow: FollowLinkConfig<T>[]): string {
+  buildHrefWithParams(href: string, params: RequestParam[], ...linksToFollow: FollowLinkConfig<T>[]): string {
 
-    let  args = [];
+    let args = [];
     if (hasValue(params)) {
       params.forEach((param: RequestParam) => {
         args = this.addHrefArg(href, args, `${param.fieldName}=${param.fieldValue}`);
@@ -491,7 +495,7 @@ export abstract class DataService<T extends CacheableObject> implements UpdateDa
   }
 
   createPatchFromCache(object: T): Observable<Operation[]> {
-    const oldVersion$ = this.findByHref(object._links.self.href, true,  false);
+    const oldVersion$ = this.findByHref(object._links.self.href, true, false);
     return oldVersion$.pipe(
       getFirstSucceededRemoteData(),
       getRemoteDataPayload(),
@@ -526,11 +530,11 @@ export abstract class DataService<T extends CacheableObject> implements UpdateDa
     return this.createPatchFromCache(object)
       .pipe(
         mergeMap((operations: Operation[]) => {
-            if (isNotEmpty(operations)) {
-              this.objectCache.addPatch(object._links.self.href, operations);
-            }
-            return this.findByHref(object._links.self.href, true, true);
+          if (isNotEmpty(operations)) {
+            this.objectCache.addPatch(object._links.self.href, operations);
           }
+          return this.findByHref(object._links.self.href, true, true);
+        }
         )
       );
   }
@@ -577,6 +581,38 @@ export abstract class DataService<T extends CacheableObject> implements UpdateDa
     });
 
     return result$;
+  }
+
+  /**
+   * Invalidate an existing DSpaceObject by marking all requests it is included in as stale
+   * @param   objectId The id of the object to be invalidated
+   * @return  An Observable that will emit `true` once all requests are stale
+   */
+  invalidate(objectId: string): Observable<boolean> {
+    return this.getIDHrefObs(objectId).pipe(
+      switchMap((href: string) => this.invalidateByHref(href))
+    );
+  }
+
+  /**
+   * Invalidate an existing DSpaceObject by marking all requests it is included in as stale
+   * @param   href The self link of the object to be invalidated
+   * @return  An Observable that will emit `true` once all requests are stale
+   */
+  invalidateByHref(href: string): Observable<boolean> {
+    const done$ = new AsyncSubject<boolean>();
+
+    this.objectCache.getByHref(href).pipe(
+      switchMap((oce: ObjectCacheEntry) => observableFrom(oce.requestUUIDs).pipe(
+        mergeMap((requestUUID: string) => this.requestService.setStaleByUUID(requestUUID)),
+        toArray(),
+      )),
+    ).subscribe(() => {
+      done$.next(true);
+      done$.complete();
+    });
+
+    return done$;
   }
 
   /**
@@ -647,6 +683,7 @@ export abstract class DataService<T extends CacheableObject> implements UpdateDa
    *                            metadata should be saved as real metadata
    * @return  A RemoteData observable with an empty payload, but still representing the state of the request: statusCode,
    *          errorMessage, timeCompleted, etc
+   *          Only emits once all request related to the DSO has been invalidated.
    */
   deleteByHref(href: string, copyVirtualMetadata?: string[]): Observable<RemoteData<NoContent>> {
     const requestId = this.requestService.generateRequestId();
@@ -654,8 +691,8 @@ export abstract class DataService<T extends CacheableObject> implements UpdateDa
     if (copyVirtualMetadata) {
       copyVirtualMetadata.forEach((id) =>
         href += (href.includes('?') ? '&' : '?')
-          + 'copyVirtualMetadata='
-          + id
+        + 'copyVirtualMetadata='
+        + id
       );
     }
 
@@ -665,8 +702,80 @@ export abstract class DataService<T extends CacheableObject> implements UpdateDa
     }
     this.requestService.send(request);
 
-    return this.rdbService.buildFromRequestUUID(requestId);
+    const response$ = this.rdbService.buildFromRequestUUID(requestId);
+
+    const invalidated$ = new AsyncSubject<boolean>();
+    response$.pipe(
+      getFirstCompletedRemoteData(),
+      switchMap((rd: RemoteData<NoContent>) => {
+        if (rd.hasSucceeded) {
+          return this.invalidateByHref(href);
+        } else {
+          return [true];
+        }
+      })
+    ).subscribe(() => {
+      invalidated$.next(true);
+      invalidated$.complete();
+    });
+
+    return combineLatest([response$, invalidated$]).pipe(
+      filter(([_, invalidated]) => invalidated),
+      map(([response, _]) => response),
+    );
   }
+
+
+  /**
+   * Returns an observable of {@link RemoteData} of an object, based on its ID, with a list of
+   * {@link FollowLinkConfig}, to automatically resolve {@link HALLink}s of the object
+   * @param id                          ID of object we want to retrieve
+   * @param projections                 Array of string of projections to be added to the parameters
+   * @param useCachedVersionIfAvailable If this is true, the request will only be sent if there's
+   *                                    no valid cached version. Defaults to true
+   * @param reRequestOnStale            Whether or not the request should automatically be re-
+   *                                    requested after the response becomes stale
+   * @param linksToFollow               List of {@link FollowLinkConfig} that indicate which
+   *                                    {@link HALLink}s should be automatically resolved
+   */
+  findByIdWithProjection(id: string, projections: string[], useCachedVersionIfAvailable = true, reRequestOnStale = true, ...linksToFollow: FollowLinkConfig<T>[]): Observable<RemoteData<T>> {
+    const options = new FindListOptions();
+    options.searchParams = [];
+
+    projections.forEach((projection) => {
+      options.searchParams.push(new RequestParam('projection', projection));
+    });
+
+    const href$ = this.getEndpoint().pipe(
+      map((endpoint: string) => this.buildHrefFromFindOptions(endpoint + '/' + encodeURIComponent(id), options, [], ...linksToFollow)));
+
+    return this.findByHref(href$, useCachedVersionIfAvailable, reRequestOnStale, ...linksToFollow);
+  }
+
+  /**
+   * Returns {@link RemoteData} of all object with a list of {@link FollowLinkConfig}, to indicate which embedded
+   * info should be added to the objects
+   *
+   * @param projections                 Array of string of projections to be added to the parameters
+   * @param options                     Find list options object
+   * @param useCachedVersionIfAvailable If this is true, the request will only be sent if there's
+   *                                    no valid cached version. Defaults to true
+   * @param reRequestOnStale            Whether or not the request should automatically be re-
+   *                                    requested after the response becomes stale
+   * @param linksToFollow               List of {@link FollowLinkConfig} that indicate which
+   *                                    {@link HALLink}s should be automatically resolved
+   * @return {Observable<RemoteData<PaginatedList<T>>>}
+   *    Return an observable that emits object list
+   */
+  findAllWithProjection(projections: string[], options: FindListOptions = {}, useCachedVersionIfAvailable = true, reRequestOnStale = true, ...linksToFollow: FollowLinkConfig<T>[]): Observable<RemoteData<PaginatedList<T>>> {
+
+    projections.forEach((projection) => {
+      options.searchParams.push(new RequestParam('projection', projection));
+    });
+
+    return this.findAllByHref(this.getFindAllHref(options), options, useCachedVersionIfAvailable, reRequestOnStale, ...linksToFollow);
+  }
+
 
   /**
    * Commit current object changes to the server

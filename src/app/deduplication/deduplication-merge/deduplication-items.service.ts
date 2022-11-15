@@ -1,3 +1,4 @@
+import { FindListOptions } from './../../core/data/find-list-options.model';
 import { MergeItemsFromCompare } from './../interfaces/deduplication-merge.models';
 import { isEqual } from 'lodash';
 import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/models/submission-repeatable-fields.model';
@@ -18,7 +19,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { MergeSetItems } from '../interfaces/deduplication-merge.models';
-import { FindListOptions } from '../../core/data/request.models';
 import { RequestParam } from '../../core/cache/models/request-param.model';
 @Injectable()
 export class DeduplicationItemsService {
@@ -128,9 +128,6 @@ export class DeduplicationItemsService {
           if (rd.hasSucceeded) {
             return rd.payload;
           } else {
-            // throw new Error(
-            //   "Can't retrieve Repeatable Fields from REST service"
-            // );
             console.error("Can't retrieve Repeatable Fields from REST service");
           }
         })
