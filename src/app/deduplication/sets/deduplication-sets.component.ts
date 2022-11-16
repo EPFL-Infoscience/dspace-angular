@@ -604,22 +604,33 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
   private removeItem(itemId: string, setChecksum: string, set: SetObject) {
     this.deduplicationSetsService
       .removeItem(this.signatureId, itemId, setChecksum)
-      .subscribe((res: RemoteData<NoContent>) => {
-        if (res.hasSucceeded || isEqual(res.statusCode, 204)) {
-          this.dispatchRemoveItem(itemId, set, 'no-duplicate');
-          this.notificationsService.success(
-            null,
-            this.translate.get('deduplication.sets.notification.item-removed')
-          );
-        } else {
-          this.notificationsService.error(
-            null,
-            this.translate.get(
-              'deduplication.sets.notification.cannot-remove-item'
-            )
-          );
-        }
-      });
+      .subscribe(
+        {
+          next: (res: RemoteData<NoContent>) => {
+            if (res.hasSucceeded || isEqual(res.statusCode, 204)) {
+              this.dispatchRemoveItem(itemId, set, 'no-duplicate');
+              this.notificationsService.success(
+                null,
+                this.translate.get('deduplication.sets.notification.item-removed')
+              );
+            } else {
+              this.notificationsService.error(
+                null,
+                this.translate.get(
+                  'deduplication.sets.notification.cannot-remove-item'
+                )
+              );
+            }
+          },
+          error: () => {
+            this.notificationsService.error(
+              null,
+              this.translate.get(
+                'deduplication.sets.notification.cannot-remove-item'
+              )
+            );
+          }
+        });
   }
 
   /**
