@@ -24,11 +24,6 @@ export class DeduplicationComponent implements OnInit, AfterViewInit {
    */
   public signatures$: Observable<SignatureObject[]>;
 
-  /**
-   * The deduplication signatures total pages.
-   */
-  // public totalPages$: Observable<number>;
-
   constructor(
     private deduplicationStateService: DeduplicationStateService,
   ) { }

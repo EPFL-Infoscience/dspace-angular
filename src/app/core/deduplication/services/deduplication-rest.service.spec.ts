@@ -5,7 +5,6 @@ import { of as observableOf } from 'rxjs';
 import { getTestScheduler, cold } from 'jasmine-marbles';
 
 import { RequestService } from '../../data/request.service';
-import { RequestEntry } from '../../data/request.reducer';
 import { RemoteDataBuildService } from '../../cache/builders/remote-data-build.service';
 import { ObjectCacheService } from '../../cache/object-cache.service';
 import { RestResponse } from '../../cache/response.models';
@@ -16,6 +15,7 @@ import { DeduplicationRestService } from './deduplication-rest.service';
 import { mockSignatureObjectTitle, mockSignatureObjectIdentifier } from '../../../shared/mocks/deduplication.mock';
 import { PaginatedList } from '../../data/paginated-list.model';
 import { PageInfo } from '../../shared/page-info.model';
+import { RequestEntry } from '../../data/request-entry.model';
 
 describe('DeduplicationRestService', () => {
   let scheduler: TestScheduler;

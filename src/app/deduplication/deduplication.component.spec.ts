@@ -20,8 +20,8 @@ describe('DeduplicationComponent test suite', () => {
   let compAsAny: any;
   let fixture: ComponentFixture<DeduplicationComponent>;
 
-  beforeEach(fakeAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(fakeAsync(async () => {
+    await TestBed.configureTestingModule({
       imports: [
         CommonModule,
         NgbModule,
@@ -48,7 +48,6 @@ describe('DeduplicationComponent test suite', () => {
       mockSignatureObjectIdentifier
     ]));
     compAsAny.deduplicationStateService.getDeduplicationSignaturesTotals.and.returnValue(observableOf(2));
-    compAsAny.deduplicationStateService.getDeduplicationSignaturesTotalPages.and.returnValue(observableOf(1));
     compAsAny.deduplicationStateService.isDeduplicationSignaturesLoaded.and.returnValue(observableOf(true));
     compAsAny.deduplicationStateService.isDeduplicationSignaturesLoading.and.returnValue(observableOf(false));
     compAsAny.deduplicationStateService.isDeduplicationSignaturesProcessing.and.returnValue(observableOf(false));
@@ -64,10 +63,6 @@ describe('DeduplicationComponent test suite', () => {
         mockSignatureObjectTitle,
         mockSignatureObjectIdentifier
       ]
-    }));
-
-    expect(comp.totalPages$).toBeObservable(cold('(a|)', {
-      a: 1
     }));
   });
 

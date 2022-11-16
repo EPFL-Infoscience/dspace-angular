@@ -509,6 +509,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
 
     // on modal close redirect to previous page
     this.modalRef.closed.subscribe((res) => {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.router.navigate(['/admin/deduplication/set', this.signatureId, this.setRule]);
     });
   }
@@ -743,10 +744,10 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   private generateIdColor(color: string) {
     let hash = 0;
     for (let i = 0; i < color.length; i++) {
-      // tslint:disable-next-line:no-bitwise
+      // eslint-disable-next-line no-bitwise
       hash = color.charCodeAt(i) + ((hash << 5) - hash);
     }
-    // tslint:disable-next-line:no-bitwise
+    // eslint-disable-next-line no-bitwise
     const c = (hash & 0x00f4f0af).toString(16).toUpperCase();
     return `#${'ff8080'.substring(0, 6 - c.length) + c}`;
   }

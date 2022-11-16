@@ -150,9 +150,9 @@ export class CompareItemIdentifiersComponent {
       // first we check if the identifier represents a workflow item,
       // then if is not we check if the identifier represents a workspace item.
       // If it does not represents one of them, it might be selected as target item
-      const calls = [];
+      const calls: Observable<Item | WorkflowItem | WorkspaceItem>[] = [];
       uuidsList.forEach((element: string, index: number) => {
-        const call = this.checkIdValidity(element, index);
+        const call: Observable<Item | WorkspaceItem | WorkflowItem> = this.checkIdValidity(element, index);
         calls.push(call);
       });
 
@@ -173,6 +173,7 @@ export class CompareItemIdentifiersComponent {
                 JSON.stringify(this.identifiersLinkList)
               );
 
+              // eslint-disable-next-line @typescript-eslint/no-floating-promises
               this.router.navigate(['admin/deduplication/compare']);
             }
           });

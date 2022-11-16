@@ -9,13 +9,13 @@ import { HALEndpointService } from '../../shared/hal-endpoint.service';
 import { ObjectCacheService } from '../../cache/object-cache.service';
 import { RemoteDataBuildService } from '../../cache/builders/remote-data-build.service';
 import { RequestService } from '../../data/request.service';
-import { RequestEntry } from '../../data/request.reducer';
 import { TestScheduler } from 'rxjs/testing';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { RestResponse } from '../../cache/response.models';
 import { createSuccessfulRemoteDataObject } from '../../../shared/remote-data.utils';
-import { of as observableOf, of } from 'rxjs';
+import { of as observableOf } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { RequestEntry } from '../../data/request-entry.model';
 
 describe('DeduplicationMergeRestService', () => {
   let service: DeduplicationMergeRestService;

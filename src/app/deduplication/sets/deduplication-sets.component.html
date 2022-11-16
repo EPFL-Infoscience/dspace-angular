@@ -51,6 +51,7 @@
           [destroyOnHide]="true"
           [closeOthers]="false"
           [activeIds]="openedAccordions"
+          [animation]="true"
           [type]="'light'"
           (panelChange)="onPanelChange($event)"
         >
@@ -113,13 +114,13 @@
               </div>
               <div class="row">
                 <div class="col-md-5">
-                  <span class="pr-1 badge badge-secondary small">
+                  <span class="mr-1 badge badge-secondary small">
                     {{ "deduplication.sets.sub-header.set-id" | translate }}
                   </span>
                   <span class="badge badge-info"> {{ set.id }}</span>
                 </div>
                 <div class="col-md-7 text-right">
-                  <span class="pr-1 badge badge-secondary small">
+                  <span class="mr-1 badge badge-secondary small">
                     {{ "deduplication.sets.sub-header.author" | translate }}
                   </span>
                   <span class="badge badge-info">
@@ -131,7 +132,7 @@
                     }}</span
                   >
                   |
-                  <span class="pl-1 badge badge-secondary small">
+                  <span class="mr-1 badge badge-secondary small">
                     {{
                       "deduplication.sets.sub-header.date-issued" | translate
                     }}
@@ -190,14 +191,14 @@
                   <div class="col-md-8 text-right">
                     <button
                       #compareBtnSelector
-                      class="btn btn-primary btn-sm mt-1"
+                      class="btn btn-primary btn-sm mt-1 mr-1"
                       (click)="onCompare(set.setChecksum, set.id)"
                     >
                       <i class="fa fa-clone"></i>
                       {{ "deduplication.sets.button.compare" | translate }}
                     </button>
                     <button
-                      class="btn btn-outline-secondary btn-sm mt-1"
+                      class="btn btn-outline-secondary btn-sm mt-1 mr-1"
                       (click)="
                         noDuplicatesAction(content, set, set.setChecksum)
                       "

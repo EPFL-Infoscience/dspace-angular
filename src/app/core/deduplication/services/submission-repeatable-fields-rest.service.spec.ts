@@ -5,7 +5,6 @@ import { of as observableOf } from 'rxjs';
 import { getTestScheduler, cold } from 'jasmine-marbles';
 
 import { RequestService } from '../../data/request.service';
-import { RequestEntry } from '../../data/request.reducer';
 import { RemoteDataBuildService } from '../../cache/builders/remote-data-build.service';
 import { ObjectCacheService } from '../../cache/object-cache.service';
 import { RestResponse } from '../../cache/response.models';
@@ -13,6 +12,7 @@ import { HALEndpointService } from '../../shared/hal-endpoint.service';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { mockSubmissionRepeatableFieldsObject } from '../../../shared/mocks/deduplication.mock';
 import { SubmissionRepeatableFieldsRestService } from './submission-repeatable-fields-rest.service';
+import { RequestEntry } from '../../data/request-entry.model';
 
 describe('SubmissionRepeatableFieldsRestService', () => {
   let scheduler: TestScheduler;

@@ -22,6 +22,7 @@ import {
   ViewChildren,
   QueryList,
   ChangeDetectorRef,
+  OnInit,
 } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { SetObject } from '../../core/deduplication/models/set.model';
@@ -46,7 +47,7 @@ import { getEntityPageRoute } from '../../item-page/item-page-routing-paths';
   styleUrls: ['./deduplication-sets.component.scss'],
   providers: [GetBitstreamsPipe, GetItemStatusListPipe],
 })
-export class DeduplicationSetsComponent implements AfterViewInit {
+export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
   /**
    * List of compare buttons,
    * in order to focus the one inside a set on select all action.
@@ -397,7 +398,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
    * @param setChecksum The checksum of the set.
    * @param setId The id of the set.
    */
-  onCompare(setChecksum: string, setId: string) {
+  async onCompare(setChecksum: string, setId: string) {
     if (
       this.checkedItemsList.has(setId) &&
       this.checkedItemsList.get(setId).length >= 2
@@ -411,7 +412,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
           `items-to-compare-${setChecksum}`,
           JSON.stringify(itemsPerSet)
         );
-        this.router.navigate(
+        await this.router.navigate(
           [`/admin/deduplication/compare`, this.signatureId, setChecksum],
           { queryParams: { rule: this.rule } }
         );
@@ -499,16 +500,14 @@ export class DeduplicationSetsComponent implements AfterViewInit {
   /**
    * Navigates back to deduplication panel
    */
-  goBack() {
-    this.router.navigate(['admin/deduplication']);
+  async goBack() {
+    await this.router.navigate(['admin/deduplication']);
   }
 
-  changeFragment(groupIdentifier, panelToCloseIdx) {
+  async changeFragment(groupIdentifier, panelToCloseIdx) {
     this.accordions
-      .toArray()
-    [panelToCloseIdx]?.collapse('panel-' + panelToCloseIdx);
-
-    this.router.navigate(
+      .toArray()[panelToCloseIdx]?.collapse(`panel-${panelToCloseIdx}`);
+    await this.router.navigate(
       ['/admin/deduplication/set', this.signatureId, this.rule],
       { fragment: groupIdentifier }
     );
@@ -670,8 +669,8 @@ export class DeduplicationSetsComponent implements AfterViewInit {
             if (!isNull(object)) {
               if (object instanceof WorkflowItem) {
                 //  WorkflowItem
-                this.deleteWorkflowItem(object.id).subscribe(
-                  (res: SubmitDataResponseDefinitionObject) => {
+                this.deleteWorkflowItem(object.id).subscribe({
+                  next: (res: SubmitDataResponseDefinitionObject) => {
                     this.dispatchRemoveItem(itemId, set, 'delete');
                     this.notificationsService.success(
                       null,
@@ -680,7 +679,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
                       )
                     );
                   },
-                  (err) => {
+                  error: (err) => {
                     this.notificationsService.error(
                       null,
                       this.translate.get(
@@ -688,13 +687,13 @@ export class DeduplicationSetsComponent implements AfterViewInit {
                       )
                     );
                   }
-                );
+                });
               } else {
                 //  WorkspaceItem
                 this.deduplicationSetsService
                   .deleteWorkspaceItemById((object[0] as ConfigObject).id)
-                  .subscribe(
-                    (res) => {
+                  .subscribe({
+                    next: (res) => {
                       this.dispatchRemoveItem(itemId, set, 'delete');
                       this.notificationsService.success(
                         null,
@@ -703,7 +702,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
                         )
                       );
                     },
-                    (err) => {
+                    error: (err) => {
                       this.notificationsService.error(
                         null,
                         this.translate.get(
@@ -711,7 +710,7 @@ export class DeduplicationSetsComponent implements AfterViewInit {
                         )
                       );
                     }
-                  );
+                  });
               }
             } else {
               this.notificationsService.warning(
