@@ -7,7 +7,6 @@ import { CollectionDataService } from './../../core/data/collection-data.service
 import { Collection } from './../../core/shared/collection.model';
 import { ItemDataService } from './../../core/data/item-data.service';
 import { NoContent } from './../../core/shared/NoContent.model';
-import { DeduplicationSetItemsRestService } from '../../core/deduplication/services/deduplication-set-items-rest.service';
 import { RemoteData } from './../../core/data/remote-data';
 import { PaginatedList } from './../../core/data/paginated-list.model';
 import { FindListOptions } from './../../core/data/find-list-options.model';
@@ -25,7 +24,6 @@ import { isEqual, isNull } from 'lodash';
 export class DeduplicationSetsService {
   constructor(
     private deduplicationRestService: DeduplicationSetsRestService,
-    private deduplicationSetItemsRestService: DeduplicationSetItemsRestService,
     private itemDataService: ItemDataService,
     private collectionDataService: CollectionDataService,
     private submissionRestService: SubmissionRestService,
@@ -100,10 +98,26 @@ export class DeduplicationSetsService {
     signatureId: string,
     itemId: string,
     seChecksum: string
-  ): Observable<RemoteData<NoContent>> {
-    return this.deduplicationSetItemsRestService
+  ) {
+    return this.deduplicationRestService
       .removeItem(signatureId, itemId, seChecksum)
       .pipe(
+        // getFirstCompletedRemoteData(),
+        // map((value: RemoteData<NoContent> | NoContent) => {
+
+        //   if (Object.keys(value).length === 0) {
+        //     console.log('no content ');
+
+        //   }
+        //   if (isEmpty(value)) {
+        //     console.log('no content ');
+
+        //     return {
+        //       hasSucceeded: true
+        //     };
+        //   }
+        //   return value;
+        // }),
         catchError((error) => {
           throw new Error("Can't remove the set from REST service");
         })

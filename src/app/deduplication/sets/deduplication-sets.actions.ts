@@ -154,7 +154,7 @@ export class RemoveItemPerSetAction implements Action {
     setId: string;
     rule: string;
     itemId: string;
-    deleteMode: 'delete' | 'no-duplicate'
+    deleteMode: 'delete' | 'no-duplication'
   };
 
   /**
@@ -164,7 +164,7 @@ export class RemoveItemPerSetAction implements Action {
    * @param rule - the rule of the set
    * @param itemId - the id of the item to be deleted
    */
-  constructor(signatureId: string, setId: string, rule: string, itemId: string, deleteMode: 'delete' | 'no-duplicate') {
+  constructor(signatureId: string, setId: string, rule: string, itemId: string, deleteMode: 'delete' | 'no-duplication') {
     this.payload = { signatureId, setId, rule, itemId, deleteMode };
   }
 }

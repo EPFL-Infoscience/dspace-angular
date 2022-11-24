@@ -55,6 +55,7 @@ export function deduplicationSetReducer(
     case DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE: {
       return Object.assign({}, state, {
         processing: true,
+        loaded: true,
       });
     }
 
@@ -168,7 +169,7 @@ function updateItemsPerSet(state: DeduplicationSetState,
       setData[setIdx] = updatedSet;
       if (
         (itemsList.length <= 1 && isEqual(action.payload.deleteMode, 'delete')
-          || (isEqual(itemsList.length, 0) && isEqual(action.payload.deleteMode, 'no-duplicate')))
+          || (isEqual(itemsList.length, 0) && isEqual(action.payload.deleteMode, 'no-duplication')))
       ) {
         return deleteSet(state, new DeleteSetAction(action.payload.signatureId, action.payload.setId, action.payload.rule));
       }

@@ -34,8 +34,6 @@ export class DeduplicationComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.signatures$ =
       this.deduplicationStateService.getDeduplicationSignatures();
-    // this.totalPages$ =
-    //   this.deduplicationStateService.getDeduplicationSignaturesTotalPages();
   }
 
   /**

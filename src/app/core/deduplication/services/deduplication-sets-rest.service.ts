@@ -14,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
-import { mergeMap, take } from 'rxjs/operators';
+import { mergeMap, switchMap, take } from 'rxjs/operators';
 import { SetObject } from '../models/set.model';
 import { DataService } from '../../data/data.service';
 import { dataService } from '../../cache/builders/build-decorators';
@@ -157,4 +157,20 @@ export class DeduplicationSetsRestService {
       .delete(`${signatureId}:${checksum}`)
       .pipe(getFirstCompletedRemoteData(), take(1));
   }
+
+    /**
+   * On 'No duplicate' remove the given set item.
+   * @param signatureId The id of the signature to which the set items belong.
+   * @param itemId The id of the item to delete.
+   */
+     public removeItem(signatureId: string, itemId: string, seChecksum: string) {
+      // return this.http.delete(`http://localhost:8080/server/api/deduplications/sets/${signatureId}:${seChecksum}/items/${itemId}`);
+      // return this.dataService.delete(`${signatureId}:${seChecksum}/items/${itemId}`);
+      return this.dataService.getBrowseEndpoint().pipe(
+        switchMap((href: string) => {
+          return this.http.delete(`${href}/${signatureId}:${seChecksum}/items/${itemId}`);
+          // return this.dataService.deleteByHref(`${href}/${signatureId}:${seChecksum}/items/${itemId}`);
+        })
+      );
+    }
 }

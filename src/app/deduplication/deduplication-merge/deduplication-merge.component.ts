@@ -509,8 +509,13 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
 
     // on modal close redirect to previous page
     this.modalRef.closed.subscribe((res) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.router.navigate(['/admin/deduplication/set', this.signatureId, this.setRule]);
+      if (hasValue(this.signatureId) && this.setRule) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        this.router.navigate(['/admin/deduplication/set', this.signatureId, this.setRule]);
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        this.router.navigate(['/admin/deduplication']);
+      }
     });
   }
 

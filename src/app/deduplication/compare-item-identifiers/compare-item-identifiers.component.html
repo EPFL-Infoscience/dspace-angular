@@ -27,6 +27,7 @@
   <ng-container *ngFor="let error of errorMessageList | keyvalue">
     <span> {{'deduplication.compare.item-identifier' | translate}} {{error.key }}</span>
     <br />
+    <ds-loading class="container" *ngIf="error.value.length == 0"></ds-loading>
     <ng-container *ngFor="let item of error.value">
       <span class="pl-1"
         [ngClass]="{'text-warning': item.status == 0, 'text-danger': item.status == 404 || item.status == 500,'text-success': item.status == 200 }">

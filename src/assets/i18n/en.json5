@@ -1711,7 +1711,7 @@
 
   "deduplication.sets.notification.cannot-remove-set": "An error occurred while removing the set",
 
-  "deduplication.sets.notification.cannot-remove-item": "An error occurred while removing the item",
+  "deduplication.sets.notification.cannot-remove-item": "An error occurred while removing the item with id {{param}}",
 
   "deduplication.sets.notification.cannot-get-set": "An error occurred while loading the sets",
 
@@ -1721,7 +1721,9 @@
 
   "deduplication.sets.notification.select-items": "Please select at least two items",
 
-  "deduplication.sets.notification.item-removed": "Item Removed",
+  "deduplication.sets.notification.item-removed": "Item with id {{param}} removed",
+
+  "deduplication.sets.notification.item-deleted": "Item with id {{param}} deleted",
 
   "deduplication.sets.sub-header.set-id": "Set id.",
 
