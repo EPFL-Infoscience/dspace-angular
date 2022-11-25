@@ -135,7 +135,7 @@ describe('DeduplicationMergeComponent', () => {
     describe('should display data', () => {
       beforeEach(() => {
         spyOn(component, 'showDiff');
-        spyOn(component, 'onDeleteAction').and.callThrough();
+        spyOn(component, 'removeAllSelections').and.callThrough();
         spyOn(component, 'isValueChecked').and.callThrough();
         spyOn(component, 'uncheckValue').and.callThrough();
         component.itemsToCompare = [...itemsToCompare];
@@ -197,7 +197,7 @@ describe('DeduplicationMergeComponent', () => {
         const res = compAsAny.mergedMetadataFields.find((x) =>
           isEqual(x.metadataField, key)
         ).sources = [];
-        expect(component.onDeleteAction).toHaveBeenCalled();
+        expect(component.removeAllSelections).toHaveBeenCalled();
         expect(res).toEqual([]);
       });
     });

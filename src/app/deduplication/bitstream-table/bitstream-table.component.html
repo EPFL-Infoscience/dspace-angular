@@ -50,7 +50,7 @@
           <div class="row justify-content-center">
             No Bitstreams for item with identifier: &nbsp;
             <span [ngStyle]="{ color: itemObj.color }">
-              {{ itemObj.object?.uuid }}
+              {{ itemObj.object?.handle }} ({{ itemObj.object?.uuid }})
             </span>
           </div>
         </td>
@@ -86,6 +86,11 @@
           </td>
           <td>{{ bitstream.uuid }}<br /></td>
           <td>
+            <span>{{'deduplication.merge.table.bitstream.header.item-identifier-handle' | translate }}</span>
+            <span [ngStyle]="{ color: itemObj.color }">
+              {{ itemObj.object?.handle }}
+            </span><br>
+            <span>{{'deduplication.merge.table.bitstream.header.item-identifier-uuid' | translate }}</span>
             <span [ngStyle]="{ color: itemObj.color }">
               {{ itemObj.object?.uuid }}
             </span>

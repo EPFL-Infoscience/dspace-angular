@@ -34,25 +34,23 @@
       <ds-loading class="container" *ngIf="isSetsLoading() | async"
         [message]="'deduplication.sets.message.loading' | translate"></ds-loading>
       <ng-container *ngFor="let set of sets$ | async; let setIdx = index">
-        <ngb-accordion class="set-acc" [destroyOnHide]="true" [closeOthers]="false" [activeIds]="openedAccordions"
-          [animation]="true" [type]="'light'" (panelChange)="onPanelChange($event)">
+        <ngb-accordion [type]="setIdx%2 ? 'light': 'info'" class="set-acc" [destroyOnHide]="true" [closeOthers]="false"
+          [activeIds]="openedAccordions" [animation]="true" (panelChange)="onPanelChange($event)">
           <ngb-panel id="panel-{{ setIdx }}">
             <ng-template ngbPanelHeader let-opened="opened">
               <div class="row panel-{{ setIdx }}" [id]="set.id">
                 <div class="col-md-11 mt-1">
-                  <div class="m-0 text-info">
-                    <span class="font-22">
+                  <div class="m-0">
+                    <span [ngClass]="[ setIdx%2 ? 'text-info': 'text-light']" class="font-22">
                       {{ getFirstMetadtaValue(set.itemsList, "dc.title") }}
                     </span>
-                    <span class="badge badge-info">
+                    <span class="badge badge-info" [ngClass]="[setIdx%2 ? 'badge-info': 'badge-light']">
                       {{ set.itemsList?.length }}
                     </span>
                   </div>
                 </div>
                 <div class="col-md-1 text-right mt-1">
-                  <button ngbPanelToggle class="btn btn-sm" [ngClass]="
-                      opened ? 'btn-secondary' : 'btn-outline-secondary'
-                    ">
+                  <button ngbPanelToggle class="btn btn-sm btn-primary">
                     <i *ngIf="!opened" class="fa fa-chevron-up"></i>
                     <i *ngIf="opened" class="fa fa-chevron-down"></i>
                   </button>
@@ -73,7 +71,9 @@
                       <button [ngbTooltip]="
                           'deduplication.sets.label.check-set' | translate
                         " type="button" class="btn btn-link btn-sm" (click)="changeFragment(id, setIdx)">
-                        {{ id }}
+                        <span [ngClass]="[ setIdx%2 ? 'text-info': 'text-light']">
+                          {{ id }}
+                        </span>
                       </button>
                     </ng-container>
                   </div>
@@ -89,13 +89,13 @@
                   <span class="mr-1 badge badge-secondary small">
                     {{ "deduplication.sets.sub-header.set-id" | translate }}
                   </span>
-                  <span class="badge badge-info"> {{ set.id }}</span>
+                  <span class="font-sm" [ngClass]="[ setIdx%2 ? 'text-dark': 'text-light']"> {{ set.id }}</span>
                 </div>
                 <div class="col-md-7 text-right">
                   <span class="mr-1 badge badge-secondary small">
                     {{ "deduplication.sets.sub-header.author" | translate }}
                   </span>
-                  <span class="badge badge-info">
+                  <span class="font-sm" [ngClass]="[ setIdx%2 ? 'text-dark': 'text-light']">
                     {{
                     getFirstMetadtaValue(
                     set.itemsList,
@@ -108,7 +108,7 @@
                     "deduplication.sets.sub-header.date-issued" | translate
                     }}
                   </span>
-                  <span class="badge badge-info">
+                  <span class="font-sm" [ngClass]="[ setIdx%2 ? 'text-dark': 'text-light']">
                     {{
                     getFirstMetadtaValue(set.itemsList, "dc.date.issued")
                     }}</span>
@@ -149,7 +149,6 @@
                         checkedItemsList.get(set.id)?.length ==
                           set.itemsList?.length
                       " class="btn btn-outline-secondary btn-sm mt-1" (click)="unselectAllItems(set.id)">
-                      <!-- <i class="fa fa-square"></i> -->
                       {{ "deduplication.sets.button.deselect-all" | translate }}
                       <i class="badge badge-info">
                         {{checkedItemsList.get(set.id)?.length}}
@@ -230,8 +229,8 @@
                                         }}:
                                       </th>
                                       <td>
-                                        <a class="btn btn-outline-info btn-sm" [routerLink]="getItemPage(item)"
-                                          role="button">
+                                        <a class="btn btn-outline-info btn-sm" target="blank"
+                                          [routerLink]="getItemPage(item)" role="button">
                                           <span *ngIf="item.handle"> {{ item.handle }}</span>
                                           <span *ngIf="!item.handle"> {{ item.uuid }}</span>
                                         </a>
@@ -385,7 +384,7 @@
           </ngb-panel>
         </ngb-accordion>
       </ng-container>
-      <div class="row mt-2" *ngIf="!(isSetsLoading() | async)">
+      <div class="row mt-2" *ngIf="!(isSetsLoading() | async) && (showMoreButton() | async)">
         <div class="col-md-12 text-center">
           <button type="button" class="btn btn-primary" [disabled]="!(showMoreButton() | async)"
             (click)="retrieveDeduplicationSets(true)">

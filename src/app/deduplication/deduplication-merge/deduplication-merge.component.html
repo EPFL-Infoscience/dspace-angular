@@ -3,18 +3,16 @@
     <h2 id="header">
       {{ "deduplication.merge.label.title" | translate }}
     </h2>
-    <button
-      class="btn btn-outline-secondary btn-sm"
-      (click)="goBack()"
-    >
+    <button class="btn btn-outline-secondary btn-sm" (click)="goBack()">
       <i class="fa fa-arrow-left pr-1" aria-hidden="true"></i>
-      {{'deduplication.sets.button.go-back' | translate }}
+      {{ "deduplication.sets.button.go-back" | translate }}
     </button>
   </div>
 
   <div class="row">
     <div class="col-md-12 text-center" *ngIf="!itemsToCompare">
-      <ds-loading> </ds-loading>
+      <ds-loading message="{{'loading.default' | translate}}">
+      </ds-loading>
     </div>
 
     <div class="col-md-12 text-center" *ngIf="itemsToCompare?.length == 0">
@@ -102,7 +100,7 @@
                   <div class="col-md-3 text-right mt-1">
                     <button
                       *ngIf="metadataKeyValues.value.length > 1"
-                      class="btn btn-sm btn-info mr-2 show-diff-btn"
+                      class="btn btn-sm btn-info mr-1 show-diff-btn"
                       (click)="showDiff(metadataKeyValues.key)"
                     >
                       {{
@@ -114,10 +112,10 @@
                         'deduplication.merge.tooltip.delete-info' | translate
                       "
                       placement="left"
-                      class="btn btn-sm btn-warning mr-2 delete-btn"
-                      (click)="onDeleteAction(metadataKeyValues.key)"
+                      class="btn btn-sm btn-warning mr-1 delete-btn"
+                      (click)="removeAllSelections(metadataKeyValues.key)"
                     >
-                      <i class="fa fa-trash"></i>
+                      <i class="fa fa-minus-square" aria-hidden="true"></i>
                     </button>
                     <button
                       ngbPanelToggle
@@ -270,4 +268,3 @@
     </ng-container>
   </div>
 </div>
-

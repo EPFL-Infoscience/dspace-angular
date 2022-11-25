@@ -523,7 +523,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * Removes values from the list of items to be merged.
    * @param key The key of the metadata field
    */
-  onDeleteAction(key: string) {
+  removeAllSelections(key: string) {
     if (
       this.mergedMetadataFields.findIndex((x) =>
         isEqual(x.metadataField, key)
@@ -631,8 +631,9 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
           this.setColorPerItemInMetadataMap(item.id, color);
         });
         this.getItemBitstreams();
+        this.chd.detectChanges();
       });
-      this.chd.detectChanges();
+      // this.chd.detectChanges();
     } else {
       this.itemsToCompare = new Array<ItemData>();
     }

@@ -1755,6 +1755,10 @@
 
   "deduplication.merge.table.bitstream.header.item-identifier": "Item Identifier",
 
+  "deduplication.merge.table.bitstream.header.item-identifier-uuid": "UUID:",
+
+  "deduplication.merge.table.bitstream.header.item-identifier-handle": "Handle:",
+
   "deduplication.merge.button.label.merge": "Preview & Merge",
 
   "deduplication.merge.button.label.collapse-all": "Collapse All",
@@ -1787,7 +1791,7 @@
 
   "deduplication.merge.notification.message-error-400": "Merge failed. Something went wrong, please check multiple selected values",
 
-  "deduplication.merge.tooltip.delete-info": "Remove values for this metadata field",
+  "deduplication.merge.tooltip.delete-info": "Remove all the selections",
 
   "deduplication.merge.preview-modal.title": "Preview of final merge",
 
