@@ -1615,7 +1615,7 @@
 
   "deduplication.compare.confirm-modal.btn-text": "Next",
 
-  "deduplication.compare.notification.error": "Unable to get data from the server",
+  "deduplication.compare.notification.error": "Unable to get data from the server!",
 
   "deduplication.compare.notification.item-does-not-exists": "Item does not exists!",
 
@@ -1681,7 +1681,7 @@
 
   "deduplication.sets.label.collection": "Collection",
 
-  "deduplication.sets.label.description": "Based on <b> {{param}} </b> rule you can identify deduplication based on <b> {{otherParam}} </b>",
+  "deduplication.sets.label.description": "Based on <b> {{param}} </b> rule you can identify deduplication based on the <b> {{otherParam}} </b>",
 
   "deduplication.sets.label.identifier": "Internal identifier",
 

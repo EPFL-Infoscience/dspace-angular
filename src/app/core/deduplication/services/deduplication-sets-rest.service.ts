@@ -155,7 +155,7 @@ export class DeduplicationSetsRestService {
   ): Observable<RemoteData<NoContent>> {
     return this.dataService
       .delete(`${signatureId}:${checksum}`)
-      .pipe(getFirstCompletedRemoteData(), take(1));
+      .pipe(getFirstCompletedRemoteData());
   }
 
     /**
