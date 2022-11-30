@@ -55,7 +55,7 @@ export function deduplicationSetReducer(
     case DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE: {
       return Object.assign({}, state, {
         processing: true,
-        loaded: true,
+        loaded: false,
       });
     }
 

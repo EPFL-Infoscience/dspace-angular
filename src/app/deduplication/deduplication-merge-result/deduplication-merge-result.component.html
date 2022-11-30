@@ -11,9 +11,40 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body">
+<div class="modal-body pt-0">
+  <div class="item-data-container">
+    <table class="table table-sm table-responsive">
+      <thead class="table-group-divider">
+        <tr>
+          <th scope="col">{{'deduplication.merge.preview-modal.table.item-title' | translate}}</th>
+          <th scope="col">{{'deduplication.merge.preview-modal.table.item-handle' | translate}}</th>
+          <th scope="col">{{'deduplication.merge.preview-modal.table.item-uuid' | translate}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let item of itemsToCompare">
+          <tr>
+            <td >
+              {{ getFirstMetadtaValue(item.object, "dc.title") }}
+            </td>
+            <td >
+              <span [ngStyle]="{ color: item.color }">
+                {{ item.object.handle }}
+              </span>
+            </td>
+            <td >
+              <span [ngStyle]="{ color: item.color }">
+                {{ item.object.uuid }}
+              </span>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+    <hr />
+  </div>
   <!-- BITSTREAM DATA TABLE -->
-  <div class="col-md-12 p-0">
+  <div class="col-md-12 p-0 mt-2">
     <ds-bitstream-table
       [itemsToCompare]="itemsToCompare"
       [bitstreamList]="bitstreamList"
@@ -29,7 +60,7 @@
       "
     >
       <div class="card">
-        <div class="card-header metadata-field-{{idx}}">
+        <div class="card-header metadata-field-{{ idx }}">
           {{ metadataKeyValues.key }}
         </div>
         <div class="card-body">
@@ -80,13 +111,22 @@
   </ng-container>
   <ng-container *ngIf="compareMetadataValues.size == 0">
     <span class="informing-message">
-       {{'deduplication.merge.preview-modal.no-data' | translate}}
+      {{ "deduplication.merge.preview-modal.no-data" | translate }}
     </span>
   </ng-container>
 </div>
 <div class="modal-footer">
   <div class="progress w-25" *ngIf="isPending">
-    <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" [style.width]="'100%'" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Merging...</div>
+    <div
+      class="progress-bar progress-bar-striped progress-bar-animated bg-info"
+      [style.width]="'100%'"
+      role="progressbar"
+      aria-valuenow="100"
+      aria-valuemin="0"
+      aria-valuemax="100"
+    >
+      Merging...
+    </div>
   </div>
   <button class="btn btn-info merge-btn" (click)="onMerge(content)">
     {{ "deduplication.merge.preview-modal.confirm-btn" | translate }}
@@ -95,7 +135,9 @@
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header justify-content-center">
-    <h4 class="modal-title text-info">{{ "deduplication.merge.preview-modal.confirm-title" | translate }}</h4>
+    <h4 class="modal-title text-info">
+      {{ "deduplication.merge.preview-modal.confirm-title" | translate }}
+    </h4>
   </div>
   <div class="modal-footer justify-content-between">
     <button type="button" class="btn btn-secondary" (click)="d('cancel')">

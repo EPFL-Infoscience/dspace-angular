@@ -177,7 +177,6 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
    * First deduplication sets loading after view initialization.
    */
   ngAfterViewInit(): void {
-    // this.chd.detectChanges();
     this.deduplicationStateService
       .isDeduplicationSetsLoaded()
       .pipe(take(1))
@@ -192,6 +191,10 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
    */
   public isSetsLoading(): Observable<boolean> {
     return this.deduplicationStateService.isDeduplicationSetsLoading();
+  }
+
+  public isSetsLoaded(): Observable<boolean> {
+    return this.deduplicationStateService.isDeduplicationSetsLoaded();
   }
 
   /**

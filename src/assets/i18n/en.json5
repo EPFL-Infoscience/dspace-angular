@@ -1791,11 +1791,35 @@
 
   "deduplication.merge.notification.message-error-400": "Merge failed. Something went wrong, please check multiple selected values",
 
-  "deduplication.merge.tooltip.delete-info": "Remove all the selections",
+  "deduplication.merge.tooltip.delete-info": "Clear all the selections",
+
+  "deduplication.merge.tooltip.show-diff": "Differences between values",
+
+  "deduplication.merge.tooltip.open-accordion": "Open",
+
+  "deduplication.merge.tooltip.close-accordion": "Close",
+
+  "deduplication.merge.tooltip.compare": "Compare selected items",
+
+  "deduplication.merge.tooltip.no-duplicate": "Mark selected items as no duplicates",
+
+  "deduplication.merge.tooltip.delete-set": "Delete this set",
+
+  "deduplication.merge.tooltip.delete-item": "Delete this item",
+
+  "deduplication.merge.tooltip.keep-item": "Keep this item",
+
+  "deduplication.merge.tooltip.item-link": "See item's details",
 
   "deduplication.merge.preview-modal.title": "Preview of final merge",
 
   "deduplication.merge.preview-modal.no-data": "No Data to show",
+
+  "deduplication.merge.preview-modal.table.item-title": "Item's title",
+
+  "deduplication.merge.preview-modal.table.item-handle": "Handle",
+
+  "deduplication.merge.preview-modal.table.item-uuid": "UUID",
 
   "deduplication.merge.preview-modal.confirm-btn": "Finish Merge",
 

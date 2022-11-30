@@ -1,3 +1,4 @@
+import { Item } from 'src/app/core/shared/item.model';
 import { MergeItemsFromCompare } from './../interfaces/deduplication-merge.models';
 import { DeduplicationStateService } from './../deduplication-state.service';
 import { DeduplicationItemsService } from './../deduplication-merge/deduplication-items.service';
@@ -78,8 +79,8 @@ export class DeduplicationMergeResultComponent {
         this.itemsToMerge.bitstreams = this.bitstreamList;
         this.deduplicationItemsService
           .mergeData(this.itemsToMerge, this.targetItemId)
-          .subscribe(
-            (res) => {
+          .subscribe({
+            next: (res) => {
               if (hasValue(res)) {
                 this.activeModal.close();
                 // remove the set from store
@@ -93,12 +94,28 @@ export class DeduplicationMergeResultComponent {
               }
               this.isPending = false;
             },
-            (err) => {
+            error: (err) => {
               // remove progress bar on fail
               this.isPending = false;
             }
-          );
+          });
       }
     });
   }
+
+    /**
+   * Returns the first metadata value for the given metadata key.
+   * @param item The item for which we are getting the value
+   * @param key The key to get its value
+   * @returns {string}
+   */
+     getFirstMetadtaValue(item: Item, key: string): string {
+        if (hasValue(item) && hasValue(item.metadata)) {
+          const date = item.firstMetadataValue(key);
+          if (hasValue(date)) {
+            return date;
+          }
+        }
+      return '-';
+    }
 }

@@ -11,8 +11,7 @@
 
   <div class="row">
     <div class="col-md-12 text-center" *ngIf="!itemsToCompare">
-      <ds-loading message="{{'loading.default' | translate}}">
-      </ds-loading>
+      <ds-loading message="{{ 'loading.default' | translate }}"> </ds-loading>
     </div>
 
     <div class="col-md-12 text-center" *ngIf="itemsToCompare?.length == 0">
@@ -99,6 +98,10 @@
 
                   <div class="col-md-3 text-right mt-1">
                     <button
+                      [ngbTooltip]="
+                        'deduplication.merge.tooltip.show-diff' | translate
+                      "
+                      placement="left"
                       *ngIf="metadataKeyValues.value.length > 1"
                       class="btn btn-sm btn-info mr-1 show-diff-btn"
                       (click)="showDiff(metadataKeyValues.key)"
@@ -119,6 +122,14 @@
                     </button>
                     <button
                       ngbPanelToggle
+                      [ngbTooltip]="
+                        opened
+                          ? ('deduplication.merge.tooltip.close-accordion'
+                            | translate)
+                          : ('deduplication.merge.tooltip.open-accordion'
+                            | translate)
+                      "
+                      placement="left"
                       class="btn btn-sm"
                       [ngClass]="
                         opened ? 'btn-secondary' : 'btn-outline-secondary'
