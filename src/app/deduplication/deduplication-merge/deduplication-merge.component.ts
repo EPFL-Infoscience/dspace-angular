@@ -1,4 +1,4 @@
-import { MergeItemsFromCompare } from './../interfaces/deduplication-merge.models';
+import { MergeItemsFromCompare, MetadataKeysWithNestedFields, NestedMetadataFields, NestedMetadataObject } from './../interfaces/deduplication-merge.models';
 import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/models/submission-repeatable-fields.model';
 import { isEqual } from 'lodash';
 import { GetBitstreamsPipe } from './pipes/ds-get-bitstreams.pipe';
@@ -161,6 +161,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     size: 'xl',
   };
 
+  protected metadataKeysWithNestedFields: Map<string, string> = MetadataKeysWithNestedFields;
+
   constructor(
     private cookieService: CookieService,
     private deduplicationItemsService: DeduplicationItemsService,
@@ -200,6 +202,11 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   calculateNewMetadataValues(item: Item, key: string) {
     // get the object from metadata map that are going to be rendered in the template
     const mapObject: MetadataMapObject[] = this.compareMetadataValues.get(key);
+
+    if (isEqual(key, NestedMetadataFields.AuthorAffiliation)) {
+      return;
+    }
+
     item.metadata[key].forEach((value: MetadataValue) => {
       if (this.compareMetadataValues.has(key)) {
         // if the key is already in the map, check if this value already exists in the map
@@ -219,7 +226,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
           });
         } else {
           // if the value is not in the map, add new object to the map
-          const newObject: MetadataMapObject = {
+          let newObject: MetadataMapObject = {
             value: value.value,
             items: [
               {
@@ -231,6 +238,11 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
               },
             ],
           };
+
+          if (isEqual(key, NestedMetadataFields.Author)) {
+            newObject.nestedMetadataValues = this.getNestedMetadataValueByKey(NestedMetadataFields.AuthorAffiliation, item, value.place);
+          }
+
           // if the key is already in the map, add the new object to existing values,
           // otherwise add the new value metadata values array
           if (mapObject) {
@@ -247,6 +259,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         }
       } else {
         // if the key is not in the map, add the key and value to the map
+
         const newObject: MetadataMapObject = {
           value: value.value,
           items: [
@@ -259,6 +272,11 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
             },
           ],
         };
+
+        if (isEqual(key, NestedMetadataFields.Author)) {
+          newObject.nestedMetadataValues = this.getNestedMetadataValueByKey(NestedMetadataFields.AuthorAffiliation, item, value.place);
+        }
+
         this.compareMetadataValues.set(key, [newObject]);
       }
       this.buildMergeObjectStructure(
@@ -268,6 +286,34 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         item.uuid
       );
     });
+  }
+
+  private getNestedMetadataValueByKey(key: string, item: Item, metadataPlace: number): NestedMetadataObject[] {
+    const affiliation: MetadataValue[] = item.metadata[key];
+    if (hasValue(affiliation)) {
+      const nestedMetadataValues: NestedMetadataObject[] = [];
+      affiliation.forEach((metadata: MetadataValue) => {
+        if (isEqual(metadata.place, metadataPlace)) {
+          const nestedMetadataValue = {
+            value: metadata.value,
+            nestedMetadataKey: key,
+            items: [
+              {
+                itemId: item.id,
+                itemHandle: item.handle,
+                metadataPlace: metadata.place,
+                color: '',
+                _link: item._links.self.href,
+              },
+            ],
+          };
+
+          nestedMetadataValues.push(nestedMetadataValue);
+        }
+      });
+
+      return nestedMetadataValues;
+    }
   }
 
   /**
@@ -475,6 +521,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         newMap.set(key, selectedValues);
       }
     );
+
     // merge object
     let mergedItems;
     let setIdentifiers: SetIdentifiers = null;
@@ -482,7 +529,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       mergedItems = {
         setId: `${this.signatureId}:${this.setChecksum}`, // setId: signature-id:set-checksum
         bitstreams: [...this.bitstreamList],
-        metadata: [...this.mergedMetadataFields],
+        metadata: this.getMergedMetadataFields(newMap),
         mergedItems: [...this.mergedItems],
       } as MergeSetItems;
 
@@ -494,7 +541,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     } else {
       mergedItems = {
         bitstreams: [...this.bitstreamList],
-        metadata: [...this.mergedMetadataFields],
+        metadata: this.getMergedMetadataFields(newMap),
         mergedItems: [...this.mergedItems],
       } as MergeItemsFromCompare;
     }
@@ -517,6 +564,48 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         this.router.navigate(['/admin/deduplication']);
       }
     });
+  }
+
+  private getMergedMetadataFields(compareMetadataValues: Map<string, MetadataMapObject[]>) {
+    compareMetadataValues.forEach((metadataMapObj: MetadataMapObject[], key: string) => {
+      if (!this.mergedMetadataFields.some(x => isEqual(x.metadataField, key)) && isEqual(metadataMapObj.length, 0)) {
+        this.mergedMetadataFields.push({
+          metadataField: key,
+          sources: [],
+        });
+      }
+
+      if (this.metadataKeysWithNestedFields.has(key)) {
+        const nestedMetadataKey: string = this.metadataKeysWithNestedFields.get(key);
+        if (isEqual(metadataMapObj.length, 0)) {
+          this.mergedMetadataFields.push({
+            metadataField: nestedMetadataKey,
+            sources: [],
+          });
+        } else {
+          const sources: ItemMetadataSource[] = [];
+          metadataMapObj.forEach((value: MetadataMapObject) => {
+            value.items.forEach((item: ItemContainer) => {
+              sources.push({
+                item: item._link,
+                place: item.metadataPlace
+              });
+            });
+          });
+
+          if (this.mergedMetadataFields.findIndex(x => isEqual(x.metadataField, nestedMetadataKey)) > -1) {
+            this.mergedMetadataFields.find(x => isEqual(x.metadataField, nestedMetadataKey)).sources = [...sources];
+          } else {
+            this.mergedMetadataFields.push({
+              metadataField: nestedMetadataKey,
+              sources: [...sources],
+            });
+          }
+        }
+      }
+    });
+
+    return this.mergedMetadataFields;
   }
 
   /**
@@ -669,7 +758,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       ) &&
       isEqual(this.targetItemId, itemId)
     ) {
-      // if the metadata field is not in the list, add it
+      // if the metadata field is not in the list,
+      // add it with a selected default source (target item's data)
       this.mergedMetadataFields.push({
         metadataField: metadataKey,
         sources: [

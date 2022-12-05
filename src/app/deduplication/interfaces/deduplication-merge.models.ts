@@ -14,7 +14,12 @@ export interface ItemData {
  */
 export interface MetadataMapObject {
   value: string;
+  nestedMetadataValues?: NestedMetadataObject[];
   items: ItemContainer[];
+}
+
+export interface NestedMetadataObject extends MetadataMapObject {
+  nestedMetadataKey: string;
 }
 
 /**
@@ -62,3 +67,12 @@ export interface SetIdentifiers {
   signatureId: string;
   rule: string;
 }
+
+export enum NestedMetadataFields {
+  AuthorAffiliation = 'oairecerif.author.affiliation',
+  Author = 'dc.contributor.author',
+}
+
+export const MetadataKeysWithNestedFields = new Map<string, string>([
+  [NestedMetadataFields.Author, NestedMetadataFields.AuthorAffiliation]
+]);
