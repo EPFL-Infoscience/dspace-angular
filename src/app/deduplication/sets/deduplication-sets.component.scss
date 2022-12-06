@@ -20,3 +20,10 @@
   font-size: small;
   text-decoration: underline;
 }
+
+::ng-deep .bg-info.card-header .btn-link {
+  .underline:hover {
+    color: white !important;
+    text-decoration: underline;
+  }
+}

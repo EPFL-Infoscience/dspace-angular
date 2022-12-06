@@ -13,7 +13,7 @@
 </div>
 <div class="modal-body pt-0">
   <div class="item-data-container">
-    <table class="table table-sm table-responsive">
+    <table class="table table-sm">
       <thead class="table-group-divider">
         <tr>
           <th scope="col">{{'deduplication.merge.preview-modal.table.item-title' | translate}}</th>
@@ -28,9 +28,14 @@
               {{ getFirstMetadtaValue(item.object, "dc.title") }}
             </td>
             <td >
-              <span [ngStyle]="{ color: item.color }">
+              <span *ngIf="item.object.handle;else noData" [ngStyle]="{ color: item.color }">
                 {{ item.object.handle }}
               </span>
+              <ng-template #noData>
+                <span class="text-muted" >
+                {{'deduplication.merge.items-table.td.no-data' | translate}}
+                </span>
+              </ng-template>
             </td>
             <td >
               <span [ngStyle]="{ color: item.color }">
@@ -60,6 +65,7 @@
       "
     >
       <div class="card">
+        <!-- HEADER SECTION -->
         <div class="card-header metadata-field-{{ idx }}">
           {{ metadataKeyValues.key }}
         </div>
@@ -73,34 +79,46 @@
           >
             <ng-container>
               <div class="row">
-                <ng-container
-                  *ngIf="itemsData.items.length > 1; else manyValues"
-                >
-                  <span class="col-6">
-                    {{ itemsData.value }}
-                  </span>
-                  <span class="col-6">
-                    <ng-container
-                      *ngFor="let item of itemsData.items; let idx = index"
-                    >
-                      <span [ngStyle]="{ color: item.color }">
+                <!-- VALUE SECTION -->
+                <span class="col-8">
+                  {{ itemsData.value }}
+                </span>
+                <!-- IDENTIFIERS SECTION -->
+                <span class="col-4">
+                  <ng-container
+                    *ngFor="let item of itemsData.items; let idx = index"
+                  >
+                    <span [ngStyle]="{ color: item.color }">
+                      <span *ngIf="item.itemHandle;else itemId">
                         {{ item.itemHandle }}
                       </span>
-                      <span *ngIf="idx !== itemsData.items.length - 1"> ,</span>
-                    </ng-container>
-                  </span>
+                      <ng-template #itemId>
+                        {{ item.itemId}}
+                      </ng-template>
+                    </span>
+                    <span *ngIf="idx !== itemsData.items.length - 1"> ,</span>
+                  </ng-container>
+                </span>
+                 <!-- NESTED METADATA VALUES SECTION -->
+                 <ng-container *ngIf="itemsData?.nestedMetadataValues?.length > 0">
+                  <ng-container *ngFor="
+                      let nestedValue of itemsData.nestedMetadataValues
+                    ">
+                    <div class="col-md-12 pt-2">
+                      <div class="card">
+                        <div class="card-header">
+                          {{ nestedValue.nestedMetadataKey }}
+                        </div>
+                        <div class="card-body">
+                          <!-- VALUE SECTION -->
+                          <span class="col-md-7">
+                            {{ nestedValue.value }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
                 </ng-container>
-                <ng-template #manyValues>
-                  <span class="col-6">
-                    {{ itemsData.value }}
-                  </span>
-                  <span
-                    class="col-6"
-                    [ngStyle]="{ color: itemsData.items[0].color }"
-                  >
-                    {{ itemsData.items[0].itemHandle }}
-                  </span>
-                </ng-template>
               </div>
               <hr *ngIf="metadataKeyValues.value.length > 1 && !last" />
             </ng-container>
@@ -115,6 +133,7 @@
     </span>
   </ng-container>
 </div>
+ <!-- MERGING DATA PROCESS INDICATOR -->
 <div class="modal-footer">
   <div class="progress w-25" *ngIf="isPending">
     <div
@@ -132,7 +151,7 @@
     {{ "deduplication.merge.preview-modal.confirm-btn" | translate }}
   </button>
 </div>
-
+<!-- CONFIRMATION MODAL -->
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header justify-content-center">
     <h4 class="modal-title text-info">

@@ -204,7 +204,12 @@
                       <span class="col-md-4">
                         <ng-container *ngFor="let item of itemsData.items; let idx = index">
                           <span [ngStyle]="{ color: item.color }">
-                            {{ item.itemHandle }}
+                            <span *ngIf="item.itemHandle;else itemId">
+                              {{ item.itemHandle }}
+                            </span>
+                            <ng-template #itemId>
+                              {{ item.itemId}}
+                            </ng-template>
                           </span>
                           <span *ngIf="idx !== itemsData.items.length - 1">
                             ,</span>

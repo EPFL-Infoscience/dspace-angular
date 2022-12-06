@@ -508,6 +508,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       DeduplicationMergeResultComponent,
       this.modalConfigOptions
     );
+    // keeping track of the selected values
     const newMap: Map<string, MetadataMapObject[]> = new Map();
     this.compareMetadataValues.forEach(
       (values: MetadataMapObject[], key: string) => {
@@ -523,27 +524,21 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     );
 
     // merge object
-    let mergedItems;
+    let mergedItems: MergeSetItems | MergeItemsFromCompare = {
+      bitstreams: [...this.bitstreamList],
+      metadata: this.getMergedMetadataFields(newMap),
+      mergedItems: [...this.mergedItems],
+    };
     let setIdentifiers: SetIdentifiers = null;
-    if (hasValue(this.signatureId) && hasValue(this.setChecksum)) {
-      mergedItems = {
-        setId: `${this.signatureId}:${this.setChecksum}`, // setId: signature-id:set-checksum
-        bitstreams: [...this.bitstreamList],
-        metadata: this.getMergedMetadataFields(newMap),
-        mergedItems: [...this.mergedItems],
-      } as MergeSetItems;
 
+    if (hasValue(this.signatureId) && hasValue(this.setChecksum)) {
+      // merge object coming from sets
+      (mergedItems as MergeSetItems).setId = `${this.signatureId}:${this.setChecksum}`;
       setIdentifiers = {
         setId: `${this.signatureId}:${this.setChecksum}`,
         signatureId: this.signatureId,
         rule: this.setRule
       };
-    } else {
-      mergedItems = {
-        bitstreams: [...this.bitstreamList],
-        metadata: this.getMergedMetadataFields(newMap),
-        mergedItems: [...this.mergedItems],
-      } as MergeItemsFromCompare;
     }
 
     // data to pass to modal instance
@@ -566,8 +561,15 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getMergedMetadataFields(compareMetadataValues: Map<string, MetadataMapObject[]>) {
+  /**
+   * Prepares the metadata structure for the merge object, after all the selections or changes that may
+   * have ocurred
+   * @param compareMetadataValues The map that stores the metadata key and the selected values for each key
+   * @returns {ItemsMetadataField[]} the list with keys and the calculated sources for each metadata key
+   */
+  private getMergedMetadataFields(compareMetadataValues: Map<string, MetadataMapObject[]>): ItemsMetadataField[] {
     compareMetadataValues.forEach((metadataMapObj: MetadataMapObject[], key: string) => {
+      // if the item's value is not (auto)selected, we add the metadata key for the merge object with empty sources
       if (!this.mergedMetadataFields.some(x => isEqual(x.metadataField, key)) && isEqual(metadataMapObj.length, 0)) {
         this.mergedMetadataFields.push({
           metadataField: key,
@@ -575,6 +577,12 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         });
       }
 
+      // If the key we are working with is part of "nested" metadata,
+      // we make sure to add this  "nested" metadata keys in the list,
+      // so they can be sent with the object that is going to be merged.
+      // If the key we are working with has selected values,
+      // then we select the right value for the "nested" metadata keys,
+      // based on their place, and prepare the source for the relevant key.
       if (this.metadataKeysWithNestedFields.has(key)) {
         const nestedMetadataKey: string = this.metadataKeysWithNestedFields.get(key);
         if (isEqual(metadataMapObj.length, 0)) {
@@ -854,7 +862,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * 2.Close the modal ref
    */
   ngOnDestroy(): void {
-    // Remove the items from cookies
+    // Remove the items from the cookies
     this.cookieService.remove(`items-to-compare-${this.setChecksum}`);
     this.cookieService.remove(`items-to-compare-identifiersLinkList`);
     this.modalRef?.close();

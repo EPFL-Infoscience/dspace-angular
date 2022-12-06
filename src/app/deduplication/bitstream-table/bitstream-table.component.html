@@ -87,9 +87,15 @@
           <td>{{ bitstream.uuid }}<br /></td>
           <td>
             <span>{{'deduplication.merge.table.bitstream.header.item-identifier-handle' | translate }}</span>
-            <span [ngStyle]="{ color: itemObj.color }">
-              {{ itemObj.object?.handle }}
-            </span><br>
+            <span *ngIf="itemObj.object?.handle;else noData" [ngStyle]="{ color: itemObj.color }">
+              {{ itemObj.object.handle }}
+            </span>
+             <ng-template #noData>
+              <span class="text-muted" >
+                {{'deduplication.merge.items-table.td.no-data' | translate}}
+              </span>
+              </ng-template>
+              <br>
             <span>{{'deduplication.merge.table.bitstream.header.item-identifier-uuid' | translate }}</span>
             <span [ngStyle]="{ color: itemObj.color }">
               {{ itemObj.object?.uuid }}
