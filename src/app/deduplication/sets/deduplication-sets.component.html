@@ -27,7 +27,7 @@
   </div>
   <div class="row">
     <div
-      *ngIf="(sets$ | async).length == 0 && !(isSetsLoading() | async)"
+      *ngIf="((sets$ | async).length == 0 && !(isSetsLoading() | async)) || !(sets$ | async)"
       class="col-md-12 text-center"
     >
       <h4 class="p-3">
@@ -36,7 +36,7 @@
     </div>
     <ds-loading
       class="container"
-      *ngIf="(isSetsLoading() | async) || !(sets$ | async)"
+      *ngIf="(isSetsLoading() | async)"
       [message]="'deduplication.sets.message.loading' | translate"
     ></ds-loading>
   </div>

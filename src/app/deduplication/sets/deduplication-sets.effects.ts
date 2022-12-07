@@ -1,3 +1,4 @@
+import { isEqual } from 'lodash';
 import { Item } from './../../core/shared/item.model';
 import { getAllSucceededRemoteListPayload } from './../../core/shared/operators';
 import { SetObject } from './../../core/deduplication/models/set.model';
@@ -46,10 +47,16 @@ export class DeduplicationSetsEffects {
               );
               return set$;
             });
+
+            if (isEqual(setArray$.length, 0)) {
+              let addAction = new AddSetsAction([], sets.totalPages, currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule, action.payload.skipToNextPage);
+              return observableOf(addAction);
+            }
+
             return combineLatest(setArray$).pipe(
-              map((payload: SetObject[]) =>
-                new AddSetsAction(payload, sets.totalPages, currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule, action.payload.skipToNextPage)
-              ),
+              map((payload: SetObject[]) => {
+                return new AddSetsAction(payload, sets.totalPages, currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule, action.payload.skipToNextPage);
+              }),
             );
           }),
           catchError((error: Error) => {
