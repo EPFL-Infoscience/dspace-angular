@@ -1,4 +1,4 @@
-import { MergeItemsFromCompare, MetadataKeysWithNestedFields, NestedMetadataFields, NestedMetadataObject } from './../interfaces/deduplication-merge.models';
+import { MergeItemsFromCompare, MetadataKeysWithNestedFields, NestedMetadataObject } from './../interfaces/deduplication-merge.models';
 import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/models/submission-repeatable-fields.model';
 import { isEqual } from 'lodash';
 import { GetBitstreamsPipe } from './pipes/ds-get-bitstreams.pipe';
@@ -162,6 +162,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   };
 
   protected metadataKeysWithNestedFields: Map<string, string> = MetadataKeysWithNestedFields;
+  protected nestedMetadataValues: string[] = [ ...MetadataKeysWithNestedFields.values()];
 
   constructor(
     private cookieService: CookieService,
@@ -203,7 +204,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     // get the object from metadata map that are going to be rendered in the template
     const mapObject: MetadataMapObject[] = this.compareMetadataValues.get(key);
 
-    if (isEqual(key, NestedMetadataFields.AuthorAffiliation)) {
+    if (this.nestedMetadataValues.includes(key)) {
       return;
     }
 
@@ -239,8 +240,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
             ],
           };
 
-          if (isEqual(key, NestedMetadataFields.Author)) {
-            newObject.nestedMetadataValues = this.getNestedMetadataValueByKey(NestedMetadataFields.AuthorAffiliation, item, value.place);
+          if (this.metadataKeysWithNestedFields.has(key)) {
+            newObject.nestedMetadataValues = this.getNestedMetadataValueByKey(this.metadataKeysWithNestedFields.get(key), item, value.place);
           }
 
           // if the key is already in the map, add the new object to existing values,
@@ -273,8 +274,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
           ],
         };
 
-        if (isEqual(key, NestedMetadataFields.Author)) {
-          newObject.nestedMetadataValues = this.getNestedMetadataValueByKey(NestedMetadataFields.AuthorAffiliation, item, value.place);
+        if (this.metadataKeysWithNestedFields.has(key)) {
+          newObject.nestedMetadataValues = this.getNestedMetadataValueByKey(this.metadataKeysWithNestedFields.get(key), item, value.place);
         }
 
         this.compareMetadataValues.set(key, [newObject]);
@@ -293,7 +294,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     if (hasValue(affiliation)) {
       const nestedMetadataValues: NestedMetadataObject[] = [];
       affiliation.forEach((metadata: MetadataValue) => {
-        if (isEqual(metadata.place, metadataPlace)) {
+        if (isEqual(metadata.place, metadataPlace) && !isEqual(metadata.value, '#PLACEHOLDER_PARENT_METADATA_VALUE#')) {
           const nestedMetadataValue = {
             value: metadata.value,
             nestedMetadataKey: key,
@@ -667,6 +668,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         .subscribe((res: SubmissionRepeatableFieldsObject) => {
           if (hasValue(res)) {
             this.repeatableFields = [...res.repeatableFields];
+            this.repeatableFields.push('dc.contributor.author');
+            // TODO: testing purposes
           }
         });
     }

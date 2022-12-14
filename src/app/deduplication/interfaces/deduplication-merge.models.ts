@@ -71,8 +71,12 @@ export interface SetIdentifiers {
 export enum NestedMetadataFields {
   AuthorAffiliation = 'oairecerif.author.affiliation',
   Author = 'dc.contributor.author',
+
+  Editor = 'dc.contributor.editor',
+  EditorAffiliation = 'oairecerif.editor.affiliation',
 }
 
 export const MetadataKeysWithNestedFields = new Map<string, string>([
-  [NestedMetadataFields.Author, NestedMetadataFields.AuthorAffiliation]
+  [NestedMetadataFields.Author, NestedMetadataFields.AuthorAffiliation],
+  [NestedMetadataFields.Editor, NestedMetadataFields.EditorAffiliation],
 ]);
