@@ -2,8 +2,8 @@ import { Item } from 'src/app/core/shared/item.model';
 import { MergeItemsFromCompare } from './../interfaces/deduplication-merge.models';
 import { DeduplicationStateService } from './../deduplication-state.service';
 import { DeduplicationItemsService } from './../deduplication-merge/deduplication-items.service';
-import { Component, Input } from '@angular/core';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import {
   ItemData,
   MergeSetItems,
@@ -55,6 +55,10 @@ export class DeduplicationMergeResultComponent {
    */
   @Input() identifiers: SetIdentifiers | null;
 
+  @ViewChild('content') confirmationModal: TemplateRef<any>;
+
+  public modalRef: NgbModalRef;
+
   /**
    * Flag to show a progress while merge action is performed.
    */
@@ -72,8 +76,9 @@ export class DeduplicationMergeResultComponent {
    * and remove the set from store if the returned status is successful
    * @param content confirmation modal
    */
-  onMerge(content) {
-    this.modalService.open(content).dismissed.subscribe((result) => {
+  onMerge() {
+  this.modalRef = this.modalService.open(this.confirmationModal);
+    this.modalRef.dismissed.subscribe((result) => {
       if (isEqual(result, 'ok')) {
         this.isPending = true;
         this.itemsToMerge.bitstreams = this.bitstreamList;
@@ -83,7 +88,7 @@ export class DeduplicationMergeResultComponent {
             next: (res) => {
               if (hasValue(res)) {
                 this.activeModal.close();
-                // remove the set from store
+                // remove the set from the store
                 if (hasValue(this.identifiers)) {
                   this.deduplicationStateService.dispatchDeleteSet(
                     this.identifiers.signatureId,

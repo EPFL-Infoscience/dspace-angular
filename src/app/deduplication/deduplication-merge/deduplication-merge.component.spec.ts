@@ -1,3 +1,4 @@
+import { ItemMock } from './../../shared/mocks/item.mock';
 import { RouterMock } from './../../shared/mocks/router.mock';
 import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/models/submission-repeatable-fields.model';
 import { itemsToCompare } from './../../shared/mocks/deduplication.mock';
@@ -20,6 +21,7 @@ import { Observable, of } from 'rxjs';
 import { RemoteData } from '../../core/data/remote-data';
 import { By } from '@angular/platform-browser';
 import { isEqual } from 'lodash';
+import { hasValue } from 'src/app/shared/empty.util';
 
 describe('DeduplicationMergeComponent', () => {
   let component: DeduplicationMergeComponent;
@@ -138,6 +140,7 @@ describe('DeduplicationMergeComponent', () => {
         spyOn(component, 'removeAllSelections').and.callThrough();
         spyOn(component, 'isValueChecked').and.callThrough();
         spyOn(component, 'uncheckValue').and.callThrough();
+        spyOn(compAsAny, 'getNestedMetadataValueByKey').and.callThrough();
         component.itemsToCompare = [...itemsToCompare];
         compAsAny.getItemsData();
         fixture.detectChanges();
@@ -161,10 +164,9 @@ describe('DeduplicationMergeComponent', () => {
         const button = fixture.debugElement.query(By.css('button.show-diff-btn'));
         button.nativeElement.click();
         expect(component.showDiff).toHaveBeenCalled();
-        // expect(compAsAny.modalService.open).toHaveBeenCalledWith(ShowDifferencesComponent, compAsAny.modalConfigOptions);
       });
 
-      it('should check metadata value', () => {
+      it('should select metadata values', () => {
         const element = fixture.debugElement.query(By.css('.custom-radio > input.custom-control-input'));
         element.nativeElement.value = '';
         const key = element.nativeElement.name;
@@ -199,6 +201,14 @@ describe('DeduplicationMergeComponent', () => {
         ).sources = [];
         expect(component.removeAllSelections).toHaveBeenCalled();
         expect(res).toEqual([]);
+      });
+
+      it('should calculate all metadata values and their nested metadata values', () => {
+        component.calculateNewMetadataValues(ItemMock, 'dc.type');
+        expect(component.compareMetadataValues.size).toBeGreaterThan(0);
+        expect(compAsAny.getNestedMetadataValueByKey).toHaveBeenCalled();
+        expect(component.compareMetadataValues.get('dc.type').every(x => !hasValue(x.nestedMetadataValues))).toBeTrue();
+        expect(component.compareMetadataValues.get('dc.contributor.author').every(x => hasValue(x.nestedMetadataValues))).toBeTrue();
       });
     });
   });

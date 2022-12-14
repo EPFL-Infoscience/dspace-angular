@@ -147,12 +147,12 @@
       Merging...
     </div>
   </div>
-  <button class="btn btn-info merge-btn" (click)="onMerge(content)">
+  <button class="btn btn-info merge-btn" (click)="onMerge()">
     {{ "deduplication.merge.preview-modal.confirm-btn" | translate }}
   </button>
 </div>
 <!-- CONFIRMATION MODAL -->
-<ng-template #content let-c="close" let-d="dismiss">
+<ng-template  #content let-c="close" let-d="dismiss">
   <div class="modal-header justify-content-center">
     <h4 class="modal-title text-info">
       {{ "deduplication.merge.preview-modal.confirm-title" | translate }}

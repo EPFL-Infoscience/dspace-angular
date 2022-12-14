@@ -161,8 +161,22 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     size: 'xl',
   };
 
-  protected metadataKeysWithNestedFields: Map<string, string> = MetadataKeysWithNestedFields;
-  protected nestedMetadataValues: string[] = [ ...MetadataKeysWithNestedFields.values()];
+  /**
+   * Map of stored nested keys, parent key and the key that depends on the parent key
+   * @type {Map<string, string>}
+   */
+  private metadataKeysWithNestedFields: Map<string, string> = MetadataKeysWithNestedFields;
+
+  /**
+   *  The keys that depend on a parent key (the nested metadata).
+   * @memberof DeduplicationMergeComponent
+   */
+  private nestedMetadataValues: string[] = [...MetadataKeysWithNestedFields.values()];
+
+  /**
+   * The default value when no value is selected for the nested metadata keys
+   */
+  public readonly noValuePlaceholder = '#PLACEHOLDER_PARENT_METADATA_VALUE#';
 
   constructor(
     private cookieService: CookieService,
@@ -289,12 +303,19 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Gets the nested metadata values for a certain item based on parent key
+   * @param key metadata key
+   * @param item the item we are working with
+   * @param metadataPlace place of metadata coming from rest
+   * @returns the nested metadata values
+   */
   private getNestedMetadataValueByKey(key: string, item: Item, metadataPlace: number): NestedMetadataObject[] {
     const affiliation: MetadataValue[] = item.metadata[key];
     if (hasValue(affiliation)) {
       const nestedMetadataValues: NestedMetadataObject[] = [];
       affiliation.forEach((metadata: MetadataValue) => {
-        if (isEqual(metadata.place, metadataPlace) && !isEqual(metadata.value, '#PLACEHOLDER_PARENT_METADATA_VALUE#')) {
+        if (isEqual(metadata.place, metadataPlace) && !isEqual(metadata.value, this.noValuePlaceholder)) {
           const nestedMetadataValue = {
             value: metadata.value,
             nestedMetadataKey: key,
@@ -739,6 +760,11 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Get item's data based on the element we have
+   * @param element itemm uuid | item self-link
+   * @returns {Observable<Item>} the item
+   */
   getData(element: string): Observable<Item> {
     if (hasValue(this.setChecksum) && hasValue(this.signatureId)) {
       return this.deduplicationItemsService.getItemData(element);
@@ -746,6 +772,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       return this.deduplicationItemsService.getItemByHref(element);
     }
   }
+
   /**
    * Builts the initial structure of @var mergedMetadataFields
    * with all metadata fields of the first item

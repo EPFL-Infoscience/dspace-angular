@@ -1,3 +1,4 @@
+import { MergeObject } from './../../core/deduplication/models/merge-object.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { DeduplicationItemsService } from './../deduplication-merge/deduplication-items.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -13,22 +14,28 @@ import { getMockDeduplicationStateService } from '../../shared/mocks/deduplicati
 import { MetadataMapObject } from '../interfaces/deduplication-merge.models';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { of } from 'rxjs';
 
 describe('DeduplicationMergeResultComponent', () => {
   let component: DeduplicationMergeResultComponent;
+  let compAsAny: any;
   let fixture: ComponentFixture<DeduplicationMergeResultComponent>;
   let de: DebugElement;
 
-  const modalStub = jasmine.createSpyObj('activeModal', ['close', 'dismiss']);
+  const activModalStub = jasmine.createSpyObj('activeModal', ['close', 'dismiss']);
 
   const modalService = {
-    open: () => ({ result: new Promise((res, rej) => 'dismiss') }),
+    open: () => ({ result: new Promise((res, rej) => 'ok') }),
     close: () => null,
-    dismiss: () => ({ result: new Promise((res, rej) => 'ok') })
+    dismiss: () => null
   };
 
-  const deduplicationItemsService = jasmine.createSpyObj('DeduplicationItemsService', {
-    mergeData: jasmine.createSpy('mergeData'),
+  // const deduplicationItemsService = jasmine.createSpyObj('deduplicationItemsService', {
+  //   mergeData: of(new MergeObject()),
+  // });
+
+  const deduplicationItemsService = jasmine.createSpyObj('deduplicationItemsService', {
+    mergeData: jasmine.createSpy('mergeData')
   });
 
   const compareMetadataValues: Map<string, MetadataMapObject[]> = new Map([
@@ -64,7 +71,7 @@ describe('DeduplicationMergeResultComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [DeduplicationMergeResultComponent],
       providers: [
-        { provide: NgbActiveModal, useValue: modalStub },
+        { provide: NgbActiveModal, useValue: activModalStub },
         {
           provide: NgbModal,
           useValue: modalService,
@@ -82,6 +89,7 @@ describe('DeduplicationMergeResultComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DeduplicationMergeResultComponent);
     component = fixture.componentInstance;
+    compAsAny = component;
     de = fixture.debugElement;
     fixture.detectChanges();
   });
@@ -115,11 +123,27 @@ describe('DeduplicationMergeResultComponent', () => {
   });
 
   describe('onMerge', () => {
-    it('should call onMerge method on click event', () => {
+    beforeEach(() => {
       spyOn(component, 'onMerge');
+      spyOn(compAsAny.modalService, 'open').and.returnValue({ result: new Promise((res, rej) => 'ok') });
+      compAsAny.deduplicationItemsService.mergeData.and.returnValue(of(new MergeObject()));
+      fixture.detectChanges();
+    });
+
+    it('should call onMerge method on click event', () => {
       const button = de.query(By.css('button.merge-btn'));
       button.nativeElement.click();
       expect(component.onMerge).toHaveBeenCalled();
+    });
+
+    it('should merge items on confiramation', () => {
+      component.onMerge();
+      setTimeout(() => {
+        component.modalRef.dismissed.subscribe((result) => {
+          expect(result).toEqual('ok');
+          expect(compAsAny.deduplicationItemsService.mergeData).toHaveBeenCalled();
+        });
+      }, 300);
     });
   });
 
