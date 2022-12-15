@@ -55,6 +55,9 @@ export class DeduplicationMergeResultComponent {
    */
   @Input() identifiers: SetIdentifiers | null;
 
+  /**
+   * Confirmation modal template ref
+   */
   @ViewChild('content') confirmationModal: TemplateRef<any>;
 
   public modalRef: NgbModalRef;

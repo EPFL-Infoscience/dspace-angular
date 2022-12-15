@@ -7,7 +7,7 @@ describe('GetItemStatusListPipe', () => {
     pipe = new GetItemStatusListPipe();
   });
 
-  it('create an instance', () => {
+  it('should create an instance', () => {
     expect(pipe).toBeTruthy();
   });
 

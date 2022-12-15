@@ -21,11 +21,11 @@ describe('GetOwningCollectionTitlePipe', () => {
     owningCollection: of(collectionRD),
   });
 
-  it('create an instance', () => {
+  it('should create an instance', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('create return title', () => {
+  it('should return title', () => {
     const expectedResult = pipe.transform(item);
     expectedResult.subscribe((res: string) => {
       expect(res).toEqual('Owning Collection Title');

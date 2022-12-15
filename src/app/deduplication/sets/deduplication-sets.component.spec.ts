@@ -34,7 +34,6 @@ import { DeduplicationSetsService } from './deduplication-sets.service';
 import { NotificationsServiceStub } from '../../shared/testing/notifications-service.stub';
 import { GetBitstreamsPipe } from '../deduplication-merge/pipes/ds-get-bitstreams.pipe';
 import { DeduplicationItemsService } from '../deduplication-merge/deduplication-items.service';
-import { MetadataMap } from '../../core/shared/metadata.models';
 import { By } from '@angular/platform-browser';
 import { SetObject } from '../../core/deduplication/models/set.model';
 import { map } from 'rxjs/operators';
@@ -298,7 +297,7 @@ describe('DeduplicationSetsComponent test suite', () => {
       expect(comp.checkedItemsList.size).toEqual(0);
     });
 
-    it('should uncheck all items on a set', () => {
+    it('should return state of the item\'s selection', () => {
       const isChecked = comp.isItemChecked(ItemMock.id, mockSetObject.id);
       expect(isChecked).toBeFalse();
     });

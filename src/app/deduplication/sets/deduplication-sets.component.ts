@@ -376,7 +376,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
   /**
    * Checks if the item is checked or not.
    */
-  isItemChecked(itemId: string, setId: string) {
+  isItemChecked(itemId: string, setId: string): boolean {
     if (this.checkedItemsList.has(setId)) {
       return this.checkedItemsList
         .get(setId)

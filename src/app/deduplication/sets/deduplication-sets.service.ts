@@ -184,7 +184,7 @@ export class DeduplicationSetsService {
   public deleteWorkflowItem(itemId: string): Observable<RemoteData<NoContent>> {
     return this.workflowItemDataService
       .delete(itemId)
-      .pipe(getFirstCompletedRemoteData(), take(1));
+      .pipe(getFirstCompletedRemoteData());
   }
 
   /**
