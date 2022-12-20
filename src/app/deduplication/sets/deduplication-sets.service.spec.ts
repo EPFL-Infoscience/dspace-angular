@@ -16,11 +16,11 @@ import { SubmissionRestServiceStub } from '../../shared/testing/submission-rest-
 import { Observable, of } from 'rxjs';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { DeduplicationSetsRestService } from '../../core/deduplication/services/deduplication-sets-rest.service';
-import { createSuccessfulRemoteDataObject, createSuccessfulRemoteDataObject$ } from 'src/app/shared/remote-data.utils';
-import { createPaginatedList } from 'src/app/shared/testing/utils.test';
-import { mockSetObject } from 'src/app/shared/mocks/deduplication.mock';
+import { createSuccessfulRemoteDataObject, createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
+import { createPaginatedList } from '../../shared/testing/utils.test';
+import { mockSetObject } from '../../shared/mocks/deduplication.mock';
 import { cold } from 'jasmine-marbles';
-import { PaginatedList } from 'src/app/core/data/paginated-list.model';
+import { PaginatedList } from '../../core/data/paginated-list.model';
 
 describe('DeduplicationSetsService', () => {
     let service: DeduplicationSetsService;

@@ -21,7 +21,7 @@ import { Observable, of } from 'rxjs';
 import { RemoteData } from '../../core/data/remote-data';
 import { By } from '@angular/platform-browser';
 import { isEqual } from 'lodash';
-import { hasValue } from 'src/app/shared/empty.util';
+import { hasValue } from '../../shared/empty.util';
 
 describe('DeduplicationMergeComponent', () => {
   let component: DeduplicationMergeComponent;

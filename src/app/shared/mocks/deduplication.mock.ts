@@ -1,4 +1,4 @@
-import { createSuccessfulRemoteDataObject$ } from 'src/app/shared/remote-data.utils';
+import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
 import { ItemMock } from './item.mock';
 import { Item } from './../../core/shared/item.model';
 import { MetadataMap } from '../../core/shared/metadata.models';
