@@ -1,17 +1,13 @@
 import { isEqual } from 'lodash';
-import { DSONameService } from './../../../core/breadcrumbs/dso-name.service';
-import { PaginatedList } from './../../../core/data/paginated-list.model';
-import { Bundle } from './../../../core/shared/bundle.model';
-import {
-  getPaginatedListPayload,
-  getAllSucceededRemoteDataPayload
-} from './../../../core/shared/operators';
-import { Bitstream } from './../../../core/shared/bitstream.model';
-import { Item } from './../../../core/shared/item.model';
-
 import { Pipe, PipeTransform } from '@angular/core';
 import { map, mergeMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import { DSONameService } from './../../core/breadcrumbs/dso-name.service';
+import { PaginatedList } from './../../core/data/paginated-list.model';
+import { Bitstream } from './../../core/shared/bitstream.model';
+import { Bundle } from './../../core/shared/bundle.model';
+import { Item } from './../../core/shared/item.model';
+import { getAllSucceededRemoteDataPayload, getPaginatedListPayload } from './../../core/shared/operators';
 
 @Pipe({
   name: 'dsGetBitstreams',

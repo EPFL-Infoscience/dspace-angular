@@ -12,21 +12,21 @@ import { DeduplicationSignaturesService } from './signatures/deduplication-signa
 import { DeduplicationState, deduplicationReducers } from './deduplication.reducer';
 import { DeduplicationRestService } from '../core/deduplication/services/deduplication-rest.service';
 import { deduplicationEffects } from './deduplication.effects';
-import { DeduplicationSignaturesComponent } from './signatures/deduplication-signatures.component';
 import { DeduplicationSetsService } from './sets/deduplication-sets.service';
 import { DeduplicationSetsRestService } from '../core/deduplication/services/deduplication-sets-rest.service';
 import { DeduplicationItemsService } from './deduplication-merge/deduplication-items.service';
 import { ShowDifferencesComponent } from './show-differences/show-differences.component';
-import { TextDiffPipe } from './show-differences/pipes/text-diff.pipe';
 import { DeduplicationMergeRestService } from '../core/deduplication/services/deduplication-merge-rest.service';
 import { DeduplicationMergeResultComponent } from './deduplication-merge-result/deduplication-merge-result.component';
 import { SubmissionRepeatableFieldsRestService } from '../core/deduplication/services/submission-repeatable-fields-rest.service';
 import { BitstreamTableComponent } from './bitstream-table/bitstream-table.component';
-import { GetBitstreamsPipe } from './deduplication-merge/pipes/ds-get-bitstreams.pipe';
 import { ItemsTableComponent } from './items-table/items-table.component';
-import { ShowDiffBtnPipe } from './show-differences/pipes/show-diff-btn.pipe';
 import { CompareItemIdentifiersComponent } from './compare-item-identifiers/compare-item-identifiers.component';
-import { GetOwningCollectionTitlePipe } from './items-table/get-owning-collection-title.pipe';
+import { DeduplicationSignaturesComponent } from './signatures/signature-component/deduplication-signatures.component';
+import { GetBitstreamsPipe } from './pipes/ds-get-bitstreams.pipe';
+import { GetOwningCollectionTitlePipe } from './pipes/get-owning-collection-title.pipe';
+import { TextDiffPipe } from './pipes/text-diff.pipe';
+import { ShowDiffBtnPipe } from './pipes/show-diff-btn.pipe';
 
 const MODULES = [
   CommonModule,

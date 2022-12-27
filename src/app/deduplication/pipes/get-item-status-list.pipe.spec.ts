@@ -1,4 +1,4 @@
-import { ItemMock } from './../../../shared/mocks/item.mock';
+import { ItemMock } from '../../shared/mocks/item.mock';
 import { GetItemStatusListPipe, ItemStatus } from './get-item-status-list.pipe';
 
 describe('GetItemStatusListPipe', () => {

@@ -1,4 +1,3 @@
-import { DeduplicationSetsComponent } from './../../deduplication/sets/deduplication-sets.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -7,6 +6,7 @@ import { AdminDeduplicationPageComponent } from './admin-deduplication-page.comp
 import { I18nBreadcrumbsService } from '../../core/breadcrumbs/i18n-breadcrumbs.service';
 import { I18nBreadcrumbResolver } from '../../core/breadcrumbs/i18n-breadcrumb.resolver';
 import { DeduplicationMergeComponent } from './../../deduplication/deduplication-merge/deduplication-merge.component';
+import { DeduplicationSetsComponent } from '../../deduplication/sets/sets-component/deduplication-sets.component';
 
 @NgModule({
   imports: [

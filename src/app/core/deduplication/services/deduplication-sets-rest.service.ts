@@ -49,7 +49,7 @@ class DataServiceImpl extends DataService<SetObject> {
 }
 
 /**
- * The service handling all deduplication REST requests.
+ * The service handling deduplication sets REST requests.
  */
 @Injectable()
 @dataService(DEDUPLICATION_SET)

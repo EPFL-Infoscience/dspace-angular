@@ -17,7 +17,7 @@ export class DeduplicationComponent implements OnInit, AfterViewInit {
   /**
    * The number of deduplication signatures per page.
    */
-  public elementsPerPage = 3;
+  public elementsPerRow = 3;
 
   /**
    * The deduplication signatures list.

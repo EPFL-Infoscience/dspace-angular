@@ -51,7 +51,10 @@ export class MergeObject implements CacheableObject {
     item: Item;
   };
 
+
   uuid?: string;
+
   handle?: string;
+
   _links: { self: HALLink };
 }

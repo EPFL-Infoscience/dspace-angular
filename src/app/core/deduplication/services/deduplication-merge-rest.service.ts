@@ -91,6 +91,12 @@ export class DeduplicationMergeRestService {
     );
   }
 
+  /**
+   * Updates the item with the new values from the merge
+   * @param data (of type MergeObject), the merged object
+   * @param targetItemId the id if the target item (the first item in the list)
+   * @returns {Observable<RemoteData<MergeObject>> } the merged object
+   */
   public mergeItemsData(data: any, targetItemId: string): Observable<RemoteData<MergeObject>> {
     return this.halService.getEndpoint(this.dataService.getLinkPath()).pipe(
       mergeMap(endpoint => {

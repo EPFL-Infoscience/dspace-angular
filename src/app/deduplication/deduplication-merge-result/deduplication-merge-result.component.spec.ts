@@ -30,10 +30,6 @@ describe('DeduplicationMergeResultComponent', () => {
     dismiss: () => null
   };
 
-  // const deduplicationItemsService = jasmine.createSpyObj('deduplicationItemsService', {
-  //   mergeData: of(new MergeObject()),
-  // });
-
   const deduplicationItemsService = jasmine.createSpyObj('deduplicationItemsService', {
     mergeData: jasmine.createSpy('mergeData')
   });

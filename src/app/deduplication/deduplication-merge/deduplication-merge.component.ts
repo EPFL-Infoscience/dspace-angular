@@ -1,7 +1,6 @@
 import { MergeItemsFromCompare, MetadataKeysWithNestedFields, NestedMetadataObject } from './../interfaces/deduplication-merge.models';
 import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/models/submission-repeatable-fields.model';
 import { isEqual } from 'lodash';
-import { GetBitstreamsPipe } from './pipes/ds-get-bitstreams.pipe';
 import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
 import { getFirstSucceededRemoteDataPayload } from './../../core/shared/operators';
 import { ConfigurationDataService } from './../../core/data/configuration-data.service';
@@ -42,6 +41,7 @@ import {
 import { ItemsMetadataValues } from '../interfaces/deduplication-differences.models';
 import { DeduplicationMergeResultComponent } from '../deduplication-merge-result/deduplication-merge-result.component';
 import { Location } from '@angular/common';
+import { GetBitstreamsPipe } from '../pipes/ds-get-bitstreams.pipe';
 
 @Component({
   selector: 'ds-deduplication-merge',
@@ -274,7 +274,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         }
       } else {
         // if the key is not in the map, add the key and value to the map
-
         const newObject: MetadataMapObject = {
           value: value.value,
           items: [
@@ -388,9 +387,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     selectType: 'single' | 'multiple'
   ) {
     let metadataSourceIdx = -1;
-    const selectedMetadataField: ItemsMetadataField =
-      this.mergedMetadataFields.find((x) => isEqual(x.metadataField, field));
-
+    const selectedMetadataField: ItemsMetadataField = this.mergedMetadataFields.find((x) => isEqual(x.metadataField, field));
     if (items.length > 0 && hasValue(selectedMetadataField?.sources)) {
       // find the index of the selected element for this metadata field
       metadataSourceIdx = selectedMetadataField.sources.findIndex((x) =>
@@ -399,7 +396,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         )
       );
     }
-
     // 1.if the selection mode is 'single', remove the previous selection
     // 2.if the item is in the list, remove it.
     if (
@@ -408,12 +404,10 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     ) {
       selectedMetadataField?.sources.splice(metadataSourceIdx, 1);
     }
-
     // if the item is not in the list, add it
     if (metadataSourceIdx < 0 || isEqual(selectType, 'single')) {
       let _link = '';
       let place = 0;
-
       if (isEqual(items.length, 1)) {
         _link = items[0]._link;
         place = items[0].metadataPlace;
@@ -432,7 +426,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
             isEqual(x.object.id, this.targetItemId)
           ).object.metadata[field][0].place;
       }
-
       if (hasValue(selectedMetadataField)) {
         selectedMetadataField.sources.push({
           item: _link,
@@ -544,7 +537,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         newMap.set(key, selectedValues);
       }
     );
-
     // merge object
     let mergedItems: MergeSetItems | MergeItemsFromCompare = {
       bitstreams: [...this.bitstreamList],
@@ -562,7 +554,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         rule: this.setRule
       };
     }
-
     // data to pass to modal instance
     this.modalRef.componentInstance.compareMetadataValues = newMap;
     this.modalRef.componentInstance.itemsToCompare = this.itemsToCompare;
@@ -598,7 +589,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
           sources: [],
         });
       }
-
       // If the key we are working with is part of "nested" metadata,
       // we make sure to add this  "nested" metadata keys in the list,
       // so they can be sent with the object that is going to be merged.
@@ -634,7 +624,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         }
       }
     });
-
     return this.mergedMetadataFields;
   }
 
@@ -670,11 +659,16 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     this.configurationDataService
       .findByPropertyName('merge.excluded-metadata')
       .pipe(getFirstSucceededRemoteDataPayload())
-      .subscribe((res: ConfigurationProperty) => {
-        if (hasValue(res)) {
-          this.excludedMetadataKeys = [...res.values];
+      .subscribe({
+        next: (res: ConfigurationProperty) => {
+          if (hasValue(res)) {
+            this.excludedMetadataKeys = [...res.values];
+          }
+          this.getItemsData();
+        },
+        error: () => {
+          this.getItemsData();
         }
-        this.getItemsData();
       });
   }
 
@@ -689,8 +683,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         .subscribe((res: SubmissionRepeatableFieldsObject) => {
           if (hasValue(res)) {
             this.repeatableFields = [...res.repeatableFields];
-            this.repeatableFields.push('dc.contributor.author');
-            // TODO: testing purposes
           }
         });
     }
@@ -704,6 +696,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * 5.Calculates the metadata fields to be merged, based on @var excludedMetadataKeys.
    * 6.Prepares the @var itemsToCompare for the template.
    * 7.Prepares the @var bitstreamList for the merge request.
+   * 8.Get repeatable fields, so items can be multiselected
+   * 9.Set the color for each item
    */
   private getItemsData() {
     if (this.storedItemList?.length > 0) {
@@ -754,7 +748,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         this.getItemBitstreams();
         this.chd.detectChanges();
       });
-      // this.chd.detectChanges();
     } else {
       this.itemsToCompare = new Array<ItemData>();
     }

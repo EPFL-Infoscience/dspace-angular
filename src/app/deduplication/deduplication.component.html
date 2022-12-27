@@ -14,7 +14,7 @@
             <ds-loading class="container" *ngIf="isSignaturesLoading() | async"
               [message]="'deduplication.signature.loading' | translate"></ds-loading>
             <ds-deduplication-signatures class="container p-0 m-0" *ngIf="!(isSignaturesLoading() | async)"
-              [signatures]="signatures$" [elementsPerRow]="elementsPerPage">
+              [signatures]="signatures$" [elementsPerRow]="elementsPerRow">
             </ds-deduplication-signatures>
           </ng-template>
         </li>

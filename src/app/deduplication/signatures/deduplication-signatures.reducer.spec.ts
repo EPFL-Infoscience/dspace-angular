@@ -1,7 +1,7 @@
 import { RetrieveAllSignaturesAction,
   RetrieveAllSignaturesErrorAction,
   AddSignaturesAction
-} from './deduplication-signatures.actions';
+} from './signature-component/deduplication-signatures.actions';
 import {
   deduplicationSignatureReducer,
   DeduplicationSignatureState
@@ -13,7 +13,6 @@ import {
 
 describe('deduplicationSignatureReducer test suite', () => {
   let deduplicationSignatureInitialState: DeduplicationSignatureState;
-  const elementPerPage = 3;
 
   beforeEach(() => {
     deduplicationSignatureInitialState = {

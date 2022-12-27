@@ -1,8 +1,9 @@
-import { DeduplicationStateService } from './../deduplication-state.service';
+import { DeduplicationStateService } from './../../deduplication-state.service';
+import { SignatureObject } from './../../../core/deduplication/models/signature.model';
+
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { floor } from 'lodash';
-import { SignatureObject } from '../../core/deduplication/models/signature.model';
 
 /**
  * Component to display the deduplication signatures cards.
@@ -38,7 +39,8 @@ export class DeduplicationSignaturesComponent implements OnInit {
   }
 
   /**
-   * Clear the store before entering the sets list+
+   * Clear the store before entering the sets list
+   * Redirects to sets panel
    * @param signatureId The id of the signature
    * @param rule The rule of permissions
    */

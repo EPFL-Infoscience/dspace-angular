@@ -1,8 +1,8 @@
-import { Collection } from './../../core/shared/collection.model';
-import { Item } from './../../core/shared/item.model';
+import { Collection } from '../../core/shared/collection.model';
+import { Item } from '../../core/shared/item.model';
 import { GetOwningCollectionTitlePipe } from './get-owning-collection-title.pipe';
 import { of } from 'rxjs';
-import { createSuccessfulRemoteDataObject } from './../../shared/remote-data.utils';
+import { createSuccessfulRemoteDataObject } from '../../shared/remote-data.utils';
 
 describe('GetOwningCollectionTitlePipe', () => {
   const pipe = new GetOwningCollectionTitlePipe();

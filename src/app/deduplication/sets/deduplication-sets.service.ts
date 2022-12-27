@@ -102,6 +102,7 @@ export class DeduplicationSetsService {
     return this.deduplicationRestService
       .removeItem(signatureId, itemId, seChecksum)
       .pipe(
+        // TODO: Fix after deduplicationRestService.removeItem is fixed
         // getFirstCompletedRemoteData(),
         // map((value: RemoteData<NoContent> | NoContent) => {
 

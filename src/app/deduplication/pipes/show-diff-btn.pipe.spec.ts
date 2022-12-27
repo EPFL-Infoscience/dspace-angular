@@ -1,4 +1,4 @@
-import { ItemData } from '../../interfaces/deduplication-differences.models';
+import { ItemData } from '../interfaces/deduplication-differences.models';
 import { ShowDiffBtnPipe } from './show-diff-btn.pipe';
 
 describe('ShowDiffBtnPipe', () => {

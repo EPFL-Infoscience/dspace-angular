@@ -15,7 +15,7 @@ import {
 } from './selectors';
 import { SignatureObject } from '../core/deduplication/models/signature.model';
 import { DeduplicationState } from './deduplication.reducer';
-import { RetrieveAllSignaturesAction } from './signatures/deduplication-signatures.actions';
+import { RetrieveAllSignaturesAction } from './signatures/signature-component/deduplication-signatures.actions';
 import { SetObject } from '../core/deduplication/models/set.model';
 import {
   DeleteSetAction,

@@ -5,7 +5,7 @@ import { cold } from 'jasmine-marbles';
 import { deduplicationReducers } from './deduplication.reducer';
 import { DeduplicationStateService } from './deduplication-state.service';
 import { mockSignatureObjectTitle, mockSignatureObjectIdentifier, mockSignatureObjectOther } from '../shared/mocks/deduplication.mock';
-import { RetrieveAllSignaturesAction } from './signatures/deduplication-signatures.actions';
+import { RetrieveAllSignaturesAction } from './signatures/signature-component/deduplication-signatures.actions';
 
 describe('DeduplicationStateService', () => {
   let service: DeduplicationStateService;

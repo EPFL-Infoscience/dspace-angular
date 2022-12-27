@@ -1,20 +1,18 @@
-import { GetItemStatusListPipe } from './pipes/get-item-status-list.pipe';
-import { MergeObject } from './../../core/deduplication/models/merge-object.model';
-import { GetBitstreamsPipe } from './../deduplication-merge/pipes/ds-get-bitstreams.pipe';
-import { Item } from './../../core/shared/item.model';
+import { MergeObject } from './../../../core/deduplication/models/merge-object.model';
+import { Item } from './../../../core/shared/item.model';
 import {
   ItemsMetadataField,
   MergeSetItems,
-} from './../interfaces/deduplication-merge.models';
-import { WorkflowItem } from './../../core/submission/models/workflowitem.model';
-import { SubmitDataResponseDefinitionObject } from './../../core/shared/submit-data-response-definition.model';
-import { Collection } from './../../core/shared/collection.model';
-import { FeatureID } from './../../core/data/feature-authorization/feature-id';
-import { AuthorizationDataService } from './../../core/data/feature-authorization/authorization-data.service';
-import { hasValue } from './../../shared/empty.util';
-import { MetadataMap, MetadataValue } from './../../core/shared/metadata.models';
+} from './../../interfaces/deduplication-merge.models';
+import { WorkflowItem } from './../../../core/submission/models/workflowitem.model';
+import { SubmitDataResponseDefinitionObject } from './../../../core/shared/submit-data-response-definition.model';
+import { Collection } from './../../../core/shared/collection.model';
+import { FeatureID } from './../../../core/data/feature-authorization/feature-id';
+import { AuthorizationDataService } from './../../../core/data/feature-authorization/authorization-data.service';
+import { hasValue } from './../../../shared/empty.util';
+import { MetadataMap, MetadataValue } from './../../../core/shared/metadata.models';
 import { TranslateService } from '@ngx-translate/core';
-import { NotificationsService } from './../../shared/notifications/notifications.service';
+import { NotificationsService } from './../../../shared/notifications/notifications.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   Component,
@@ -25,21 +23,23 @@ import {
   OnInit,
 } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { SetObject } from '../../core/deduplication/models/set.model';
-import { DeduplicationStateService } from '../deduplication-state.service';
+import { SetObject } from '../../../core/deduplication/models/set.model';
+import { DeduplicationStateService } from './../../deduplication-state.service';
 import { map, take, concatMap, switchMap } from 'rxjs/operators';
 import { NgbAccordion, NgbModal, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { DeduplicationSetsService } from './deduplication-sets.service';
-import { NoContent } from './../../core/shared/NoContent.model';
-import { RemoteData } from './../../core/data/remote-data';
+import { DeduplicationSetsService } from './../deduplication-sets.service';
+import { NoContent } from './../../../core/shared/NoContent.model';
+import { RemoteData } from './../../../core/data/remote-data';
 import { isEqual, isNull } from 'lodash';
-import { getFirstCompletedRemoteData, getFirstSucceededRemoteDataPayload } from './../../core/shared/operators';
-import { ConfigObject } from './../../core/config/models/config.model';
-import { CookieService } from '../../core/services/cookie.service';
-import { SelectedItemData } from '../interfaces/deduplication-sets.models';
-import { DeduplicationItemsService } from '../deduplication-merge/deduplication-items.service';
-import { Bitstream } from '../../core/shared/bitstream.model';
-import { getEntityPageRoute } from '../../item-page/item-page-routing-paths';
+import { getFirstCompletedRemoteData, getFirstSucceededRemoteDataPayload } from './../../../core/shared/operators';
+import { ConfigObject } from './../../../core/config/models/config.model';
+import { CookieService } from '../../../core/services/cookie.service';
+import { SelectedItemData } from './../../interfaces/deduplication-sets.models';
+import { DeduplicationItemsService } from '../../deduplication-merge/deduplication-items.service';
+import { Bitstream } from '../../../core/shared/bitstream.model';
+import { getEntityPageRoute } from '../../../item-page/item-page-routing-paths';
+import { GetBitstreamsPipe } from '../../pipes/ds-get-bitstreams.pipe';
+import { GetItemStatusListPipe } from '../../pipes/get-item-status-list.pipe';
 
 @Component({
   selector: 'ds-deduplication-sets',
@@ -48,13 +48,6 @@ import { getEntityPageRoute } from '../../item-page/item-page-routing-paths';
   providers: [GetBitstreamsPipe, GetItemStatusListPipe],
 })
 export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
-  /**
-   * List of compare buttons,
-   * in order to focus the one inside a set on select all action.
-   * @type {QueryList<any>}
-   */
-  // @ViewChildren('compareBtnSelector') compareBtnSelector: QueryList<any>;
-
   /**
    * Accordions references in order to collapse/expand them on click
    * @type {QueryList<NgbAccordion>}
@@ -104,6 +97,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
    * Remaining number of elements to retrieve
    */
   public totalRemainingElements = 0;
+
   /**
    * Role of the logged in user.
    * @type {Observable<boolean>}
@@ -193,6 +187,10 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
     return this.deduplicationStateService.isDeduplicationSetsLoading();
   }
 
+  /**
+   * Returns the information about the loaded status of the sets (if it's finished or not).
+   * @returns {Observable<boolean>}
+   */
   public isSetsLoaded(): Observable<boolean> {
     return this.deduplicationStateService.isDeduplicationSetsLoaded();
   }
@@ -359,7 +357,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
     if (this.checkedItemsList.has(set.id)) {
       this.checkedItemsList.delete(set.id);
     }
-    // this.compareBtnSelector?.toArray()[idx]?.nativeElement.focus();
+
     const selectedItems: SelectedItemData[] = [];
     const itemIds = this.getItemIds(set);
     if (itemIds && itemIds.length > 0) {
@@ -430,8 +428,8 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Performs the merge action over the selected item
    * @param setId The identifier of the set
+   * Performs the merge action over the selected item
    * @param item Item participating on the merge
    * @param content Confirmation modal
    */
@@ -573,7 +571,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
 
   //#region Privates
   /**
-   * Deletes the set.
+   * Deletes the set and removes the set from the store.
    * @param setId The id of the set to which the items belong to.
    */
   private deleteSet(setId: string, setChecksum: string) {

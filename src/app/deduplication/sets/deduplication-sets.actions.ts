@@ -42,12 +42,13 @@ export class RetrieveSetsBySignatureAction implements Action {
     skipToNextPage: boolean;
   };
 
-  /**
-   * Create a new RetrieveAllSignaturesAction.
-   *
-   * @param elementsPerPage
-   *    the number of signatures per page
-   */
+/**
+ * Create a new RetrieveAllSignaturesAction.
+ * @param elementsPerPage  the number of signatures per page
+ * @param signatureId the id of the signature to get sets for
+ * @param rule the user rule (access)
+ * @param skipToNextPage flag indicating to skip to next page or not depending on the action
+ */
   constructor(elementsPerPage: number, signatureId: string, rule: string, skipToNextPage: boolean) {
     this.payload = { elementsPerPage, signatureId, rule, skipToNextPage };
   }

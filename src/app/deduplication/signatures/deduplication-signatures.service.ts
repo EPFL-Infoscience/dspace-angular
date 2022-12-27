@@ -9,7 +9,7 @@ import { SignatureObject } from '../../core/deduplication/models/signature.model
 import { getFirstCompletedRemoteData } from '../../core/shared/operators';
 
 /**
- * The service handling all deduplication requests to the REST service.
+ * The service handling signatures requests to the REST service.
  */
 @Injectable()
 export class DeduplicationSignaturesService {

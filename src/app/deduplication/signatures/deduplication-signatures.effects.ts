@@ -11,7 +11,7 @@ import {
   DeduplicationSignaturesActionTypes,
   RetrieveAllSignaturesAction,
   RetrieveAllSignaturesErrorAction
-} from './deduplication-signatures.actions';
+} from './signature-component/deduplication-signatures.actions';
 
 import { SignatureObject } from '../../core/deduplication/models/signature.model';
 import { PaginatedList } from '../../core/data/paginated-list.model';

@@ -11,7 +11,7 @@ import { CookieService } from '../../core/services/cookie.service';
 import { CookieServiceMock } from '../../shared/mocks/cookie.service.mock';
 
 import { DeduplicationMergeComponent } from './deduplication-merge.component';
-import { GetBitstreamsPipe } from './pipes/ds-get-bitstreams.pipe';
+import { GetBitstreamsPipe } from './../pipes/ds-get-bitstreams.pipe';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
 import { ActivatedRoute, Params, Router } from '@angular/router';

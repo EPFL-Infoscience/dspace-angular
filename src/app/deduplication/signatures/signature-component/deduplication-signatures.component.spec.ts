@@ -1,13 +1,13 @@
-import { mockSignatureObjectTitle } from './../../shared/mocks/deduplication.mock';
-import { DeduplicationStateService } from './../deduplication-state.service';
+import { getMockDeduplicationStateService, mockSignatureObjectTitle } from './../../../shared/mocks/deduplication.mock';
+
 import { CommonModule } from '@angular/common';
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { DeduplicationSignaturesComponent } from './deduplication-signatures.component';
-import { getMockDeduplicationStateService } from '../../shared/mocks/deduplication.mock';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
+import { DeduplicationStateService } from '../../deduplication-state.service';
 
 describe('DeduplicationSignaturesComponent test suite', () => {
   let fixture: ComponentFixture<DeduplicationSignaturesComponent>;

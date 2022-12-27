@@ -5,7 +5,7 @@ import { Item } from './../../core/shared/item.model';
 import { ItemDataService } from './../../core/data/item-data.service';
 import { WorkspaceitemDataService } from './../../core/submission/workspaceitem-data.service';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, TemplateRef } from '@angular/core';
 import { isEqual } from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 import { WorkflowItemDataService } from '../../core/submission/workflowitem-data.service';
@@ -127,13 +127,19 @@ export class CompareItemIdentifiersComponent {
     );
   }
 
+  /**
+   * Get the list of separated inserted elements
+   * @readonly
+   * @type {string[]}
+   * @memberof CompareItemIdentifiersComponent
+   */
   get arrayOfIdentifiers(): string[] {
     return this.itemUuidsToCompare
       .trim()
       .split(',')
       .map((id) => id.trim())
       .filter(
-        (value, index, categoryArray) => categoryArray.indexOf(value) === index
+        (value, index, categoryArray) => isEqual(categoryArray.indexOf(value), index)
       )
       .filter((el) => el.length > 0);
   }
@@ -142,14 +148,14 @@ export class CompareItemIdentifiersComponent {
    * Checks if the first entered id is a workflow/workspace item,
    * if it represents a workflow/workspace cannot be selected as a target item
    */
-  public validateItems(content) {
+  public validateItems(content: TemplateRef<any>) {
     this.errorMessageList = new Map();
     this.identifiersLinkList = [];
     const uuidsList: string[] = this.arrayOfIdentifiers;
     if (uuidsList.length > 1) {
       // first we check if the identifier represents a workflow item,
       // then if is not we check if the identifier represents a workspace item.
-      // If it does not represents one of them, it might be selected as target item
+      // If it does not represent one of them, it might be selected as target item
       const calls: Observable<Item | WorkflowItem | WorkspaceItem>[] = [];
       uuidsList.forEach((element: string, index: number) => {
         const call: Observable<Item | WorkspaceItem | WorkflowItem> = this.checkIdValidity(element, index);
@@ -186,16 +192,14 @@ export class CompareItemIdentifiersComponent {
       });
     } else {
       // We should make sure we have set at least 2 identifiers to compare
-      this.notificationsService.info(
-        null,
-        this.translate.get('deduplication.compare.required-condition')
+      this.notificationsService.info( null, this.translate.get('deduplication.compare.required-condition')
       );
     }
   }
 
   /**
    * Gets the item status based on the given uuid,
-   * weather the item is a Item | WorkspaceItem | WorkflowItem.
+   * weather the item is an Item | WorkspaceItem | WorkflowItem.
    * Also stores all the returned message errors, so they can be shown,
    * in order to inform the user for each item status (is valid or not).
    * @param itemUuid item's identifier
@@ -296,6 +300,7 @@ export class CompareItemIdentifiersComponent {
       })
     );
   }
+
   /**
    * GET workflow item status based on the given uuid
    * @param itemUuid The item's uuid

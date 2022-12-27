@@ -1,14 +1,14 @@
 import { Observable } from 'rxjs';
-import { PaginatedList } from './../../../core/data/paginated-list.model';
-import { PageInfo } from './../../../core/shared/page-info.model';
-import { buildPaginatedList } from './../../../core/data/paginated-list.model';
-import { Bitstream } from './../../../core/shared/bitstream.model';
-import { Bundle } from './../../../core/shared/bundle.model';
-import { createSuccessfulRemoteDataObject$ } from './../../../shared/remote-data.utils';
-import { createPaginatedList } from './../../../shared/testing/utils.test';
-import { DSONameService } from '../../../core/breadcrumbs/dso-name.service';
+import { PaginatedList } from '../../core/data/paginated-list.model';
+import { PageInfo } from '../../core/shared/page-info.model';
+import { buildPaginatedList } from '../../core/data/paginated-list.model';
+import { Bitstream } from '../../core/shared/bitstream.model';
+import { Bundle } from '../../core/shared/bundle.model';
+import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
+import { createPaginatedList } from '../../shared/testing/utils.test';
+import { DSONameService } from '../../core/breadcrumbs/dso-name.service';
 import { GetBitstreamsPipe } from './ds-get-bitstreams.pipe';
-import { Item } from './../../../core/shared/item.model';
+import { Item } from '../../core/shared/item.model';
 import { cold } from 'jasmine-marbles';
 
 describe('GetBitstreamsPipe', () => {

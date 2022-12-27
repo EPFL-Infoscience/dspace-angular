@@ -12,7 +12,6 @@ import { ItemData } from '../interfaces/deduplication-merge.models';
 import { BitstreamTableComponent } from './bitstream-table.component';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { GetBitstreamsPipe } from '../deduplication-merge/pipes/ds-get-bitstreams.pipe';
 import { Bundle } from '../../core/shared/bundle.model';
 import {
   buildPaginatedList,
@@ -21,6 +20,7 @@ import {
 import { createPaginatedList } from '../../shared/testing/utils.test';
 import { Bitstream } from '../../core/shared/bitstream.model';
 import { PageInfo } from '../../core/shared/page-info.model';
+import { GetBitstreamsPipe } from '../pipes/ds-get-bitstreams.pipe';
 
 describe('BitstreamTableComponent', () => {
   let component: BitstreamTableComponent;

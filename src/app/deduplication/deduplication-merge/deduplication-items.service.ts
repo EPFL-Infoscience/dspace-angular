@@ -47,6 +47,11 @@ export class DeduplicationItemsService {
       .pipe(getFirstSucceededRemoteDataPayload());
   }
 
+  /**
+   * Get item by item href.
+   * @param href The item's href
+   * @returns {Observable<Item>} the Item
+   */
   getItemByHref(href: string): Observable<Item> {
     return this.itemDataService.findByHref(href,
       true,

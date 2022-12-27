@@ -2,7 +2,7 @@ import { SignatureObject } from '../../core/deduplication/models/signature.model
 import {
   DeduplicationSignaturesActions,
   DeduplicationSignaturesActionTypes
-} from './deduplication-signatures.actions';
+} from './signature-component/deduplication-signatures.actions';
 
 /**
  * The interface representing the signatures state.

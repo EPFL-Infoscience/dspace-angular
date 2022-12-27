@@ -167,6 +167,9 @@ function updateItemsPerSet(state: DeduplicationSetState,
         itemsList: itemsList
       });
       setData[setIdx] = updatedSet;
+      // in case of deleting a set from the store (in order not to show to the users while deleting it):
+      // 1- if we delete items of the set & there is only one item left, we can remove the item
+      // 2- if we mark items as no-duplicate and there are no items left, we can delete the set
       if (
         (itemsList.length <= 1 && isEqual(action.payload.deleteMode, 'delete')
           || (isEqual(itemsList.length, 0) && isEqual(action.payload.deleteMode, 'no-duplication')))

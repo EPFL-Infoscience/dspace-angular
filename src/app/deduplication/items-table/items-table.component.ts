@@ -2,7 +2,7 @@ import { Item } from './../../core/shared/item.model';
 import { Component, Input } from '@angular/core';
 import { ItemData } from '../interfaces/deduplication-differences.models';
 import { getEntityPageRoute } from './../../item-page/item-page-routing-paths';
-import { GetOwningCollectionTitlePipe } from './get-owning-collection-title.pipe';
+import { GetOwningCollectionTitlePipe } from '../pipes/get-owning-collection-title.pipe';
 
 @Component({
   selector: 'ds-items-table',

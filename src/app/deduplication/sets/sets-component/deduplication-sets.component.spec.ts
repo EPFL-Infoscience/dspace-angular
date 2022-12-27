@@ -1,16 +1,15 @@
-import { Bitstream } from './../../core/shared/bitstream.model';
-import { DSONameService } from './../../core/breadcrumbs/dso-name.service';
-import { MergeObject } from './../../core/deduplication/models/merge-object.model';
-import { ItemMock, MockOriginalBundle } from './../../shared/mocks/item.mock';
-import { RemoteData } from './../../core/data/remote-data';
-import { NoContent } from './../../core/shared/NoContent.model';
-import { GetItemStatusListPipe } from './pipes/get-item-status-list.pipe';
-import { MetadataValue } from './../../core/shared/metadata.models';
-import { Item } from './../../core/shared/item.model';
-import { AuthorizationDataService } from './../../core/data/feature-authorization/authorization-data.service';
-import { NotificationsService } from './../../shared/notifications/notifications.service';
-import { RouterStub } from './../../shared/testing/router.stub';
-import { mockSetObject } from './../../shared/mocks/deduplication.mock';
+import { Bitstream } from './../../../core/shared/bitstream.model';
+import { DSONameService } from './../../../core/breadcrumbs/dso-name.service';
+import { MergeObject } from './../../../core/deduplication/models/merge-object.model';
+import { ItemMock, MockOriginalBundle } from './../../../shared/mocks/item.mock';
+import { RemoteData } from './../../../core/data/remote-data';
+import { NoContent } from './../../../core/shared/NoContent.model';
+import { MetadataValue } from './../../../core/shared/metadata.models';
+import { Item } from './../../../core/shared/item.model';
+import { AuthorizationDataService } from './../../../core/data/feature-authorization/authorization-data.service';
+import { NotificationsService } from './../../../shared/notifications/notifications.service';
+import { RouterStub } from './../../../shared/testing/router.stub';
+import { mockSetObject } from './../../../shared/mocks/deduplication.mock';
 import {
   NgbAccordionModule,
   NgbModal,
@@ -24,19 +23,20 @@ import { Observable, of as observableOf } from 'rxjs';
 import { cold } from 'jasmine-marbles';
 import { CommonModule } from '@angular/common';
 import { DeduplicationSetsComponent } from './deduplication-sets.component';
-import { DeduplicationStateService } from '../deduplication-state.service';
-import { getMockDeduplicationStateService } from '../../shared/mocks/deduplication.mock';
+import { DeduplicationStateService } from '../../deduplication-state.service';
+import { getMockDeduplicationStateService } from '../../../shared/mocks/deduplication.mock';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ActivatedRouteStub } from '../../shared/testing/active-router.stub';
-import { CookieService } from '../../core/services/cookie.service';
-import { CookieServiceMock } from '../../shared/mocks/cookie.service.mock';
-import { DeduplicationSetsService } from './deduplication-sets.service';
-import { NotificationsServiceStub } from '../../shared/testing/notifications-service.stub';
-import { GetBitstreamsPipe } from '../deduplication-merge/pipes/ds-get-bitstreams.pipe';
-import { DeduplicationItemsService } from '../deduplication-merge/deduplication-items.service';
+import { ActivatedRouteStub } from '../../../shared/testing/active-router.stub';
+import { CookieService } from '../../../core/services/cookie.service';
+import { CookieServiceMock } from '../../../shared/mocks/cookie.service.mock';
+import { DeduplicationSetsService } from './../deduplication-sets.service';
+import { NotificationsServiceStub } from '../../../shared/testing/notifications-service.stub';
+import { DeduplicationItemsService } from '../../deduplication-merge/deduplication-items.service';
 import { By } from '@angular/platform-browser';
-import { SetObject } from '../../core/deduplication/models/set.model';
+import { SetObject } from '../../../core/deduplication/models/set.model';
 import { map } from 'rxjs/operators';
+import { GetBitstreamsPipe } from '../../pipes/ds-get-bitstreams.pipe';
+import { GetItemStatusListPipe } from '../../pipes/get-item-status-list.pipe';
 
 describe('DeduplicationSetsComponent test suite', () => {
   let comp: DeduplicationSetsComponent;

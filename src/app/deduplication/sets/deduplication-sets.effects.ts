@@ -36,11 +36,14 @@ export class DeduplicationSetsEffects {
     ofType(DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE),
     withLatestFrom(this.store$),
     switchMap(([action, currentState]: [RetrieveSetsBySignatureAction, any]) => {
-      const currentPage = action.payload.skipToNextPage ? (currentState.deduplication as DeduplicationState).sets.currentPage + 1 : (currentState.deduplication as DeduplicationState).sets.currentPage;
+      const currentPage = action.payload.skipToNextPage ? (currentState.deduplication as DeduplicationState).sets.currentPage + 1
+      : (currentState.deduplication as DeduplicationState).sets.currentPage;
       return this.deduplicationSetsService.getSets(action.payload.elementsPerPage, currentPage, action.payload.signatureId, action.payload.rule)
         .pipe(
           mergeMap((sets: PaginatedList<SetObject>) => {
             const setArray$: Observable<SetObject>[] = sets.page.map((set: SetObject) => {
+              // getting sets and items per set, since items are of the type RD paginated list we flat the nested observables
+              // and store the sets with the correspondent array of items
               const set$: Observable<SetObject> = set.items.pipe(
                 getAllSucceededRemoteListPayload(),
                 map((items: Item[]) => Object.assign(new SetObject(), { ...set, itemsList: items ?? [] }) as SetObject),
@@ -49,6 +52,7 @@ export class DeduplicationSetsEffects {
             });
 
             if (isEqual(setArray$.length, 0)) {
+              // in case there are no sets we add an empty array to the store
               let addAction = new AddSetsAction([], sets.totalPages, currentPage, sets.totalElements, action.payload.signatureId, action.payload.rule, action.payload.skipToNextPage);
               return observableOf(addAction);
             }
