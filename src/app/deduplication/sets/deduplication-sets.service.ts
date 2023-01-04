@@ -104,20 +104,7 @@ export class DeduplicationSetsService {
       .pipe(
         // TODO: Fix after deduplicationRestService.removeItem is fixed
         // getFirstCompletedRemoteData(),
-        // map((value: RemoteData<NoContent> | NoContent) => {
-
-        //   if (Object.keys(value).length === 0) {
-        //     console.log('no content ');
-
-        //   }
-        //   if (isEmpty(value)) {
-        //     console.log('no content ');
-
-        //     return {
-        //       hasSucceeded: true
-        //     };
-        //   }
-        //   return value;
+        // map((value: RemoteData<NoContent>) => {
         // }),
         catchError((error) => {
           throw new Error("Can't remove the set from REST service");

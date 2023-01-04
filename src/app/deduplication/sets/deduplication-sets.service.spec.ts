@@ -132,7 +132,6 @@ describe('DeduplicationSetsService', () => {
     beforeEach(() => {
       spyOn(serviceAsAny.itemDataService, 'delete').and.returnValue(createSuccessfulRemoteDataObject$(noContent));
       spyOn(serviceAsAny.collectionDataService, 'findByHref').and.returnValue(createSuccessfulRemoteDataObject$(new Collection()));
-      spyOn(serviceAsAny.submissionRestService, 'getDataById').and.returnValue(createSuccessfulRemoteDataObject$({}));
       spyOn(serviceAsAny.submissionRestService, 'deleteById').and.returnValue(createSuccessfulRemoteDataObject$({}));
       spyOn(serviceAsAny.workflowItemDataService, 'findByItem').and.returnValue(createSuccessfulRemoteDataObject$(new WorkflowItem()));
       spyOn(serviceAsAny.workflowItemDataService, 'delete').and.returnValue(createSuccessfulRemoteDataObject$(noContent));

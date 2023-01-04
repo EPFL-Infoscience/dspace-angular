@@ -11,12 +11,12 @@ import { RestResponse } from '../../cache/response.models';
 import { HALEndpointService } from '../../shared/hal-endpoint.service';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { mockSubmissionRepeatableFieldsObject } from '../../../shared/mocks/deduplication.mock';
-import { SubmissionRepeatableFieldsRestService } from './submission-repeatable-fields-rest.service';
+import { SubmissionFieldsRestService } from './submission-fields-rest.service';
 import { RequestEntry } from '../../data/request-entry.model';
 
-describe('SubmissionRepeatableFieldsRestService', () => {
+describe('SubmissionFieldsRestService', () => {
   let scheduler: TestScheduler;
-  let service: SubmissionRepeatableFieldsRestService;
+  let service: SubmissionFieldsRestService;
   let responseCacheEntry: RequestEntry;
   let requestService: RequestService;
   let rdbService: RemoteDataBuildService;
@@ -26,7 +26,7 @@ describe('SubmissionRepeatableFieldsRestService', () => {
   let http: HttpClient;
   let comparator: any;
 
-  const endpointURL = 'https://rest.api/server/api/config/submissionrepeatablefields/search/findByItem?231d6608-0847-4f4b-ac5f-c6058ce6a73d';
+  const endpointURL = 'https://rest.api/server/api/config/submissionfields/search/findByItem?231d6608-0847-4f4b-ac5f-c6058ce6a73d';
   const requestUUID = '8b3c613a-5a4b-438b-9686-be1d5b4a2dp2';
   const itemUUID = '231d6608-0847-4f4b-ac5f-c6058ce6a73d';
 
@@ -59,7 +59,7 @@ describe('SubmissionRepeatableFieldsRestService', () => {
     http = {} as HttpClient;
     comparator = {} as any;
 
-    service = new SubmissionRepeatableFieldsRestService(
+    service = new SubmissionFieldsRestService(
       requestService,
       rdbService,
       objectCache,
@@ -70,9 +70,9 @@ describe('SubmissionRepeatableFieldsRestService', () => {
     );
   });
 
-  describe('getSubmissionRepeatableFields', () => {
-    it('should return a RemoteData<SubmissionRepeatableFieldsObject>', () => {
-      const res$ = service.getSubmissionRepeatableFields(itemUUID);
+  describe('getSubmissionFields', () => {
+    it('should return a RemoteData<SubmissionFieldsObject>', () => {
+      const res$ = service.getSubmissionFields(itemUUID);
       expect(res$).toBeObservable(
         cold('(a)', {
           a: mockSubmissionRepeatableFieldsObject,

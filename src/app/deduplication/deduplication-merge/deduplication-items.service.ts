@@ -1,8 +1,8 @@
 import { FindListOptions } from './../../core/data/find-list-options.model';
 import { MergeItemsFromCompare } from './../interfaces/deduplication-merge.models';
 import { isEqual } from 'lodash';
-import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/models/submission-repeatable-fields.model';
-import { SubmissionRepeatableFieldsRestService } from './../../core/deduplication/services/submission-repeatable-fields-rest.service';
+import { SubmissionFieldsObject } from '../../core/deduplication/models/submission-fields.model';
+import { SubmissionFieldsRestService } from '../../core/deduplication/services/submission-fields-rest.service';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { RemoteData } from './../../core/data/remote-data';
 import { MergeObject } from './../../core/deduplication/models/merge-object.model';
@@ -25,7 +25,7 @@ export class DeduplicationItemsService {
   constructor(
     private itemDataService: ItemDataService,
     private mergeService: DeduplicationMergeRestService,
-    private submissionRepeatableFieldsService: SubmissionRepeatableFieldsRestService,
+    private submissionFieldsService: SubmissionFieldsRestService,
     private notificationsService: NotificationsService,
     private translate: TranslateService
   ) { }
@@ -116,20 +116,20 @@ export class DeduplicationItemsService {
   }
 
   /**
-   * GET the repeatable fields for the given item id
+   * GET the repeatable and nested fields for the given item id
    * @param itemId The target item's id
-   * @returns {Observable<SubmissionRepeatableFieldsObject>}
+   * @returns {Observable<SubmissionFieldsObject>}
    */
-  getRepeatableFields(itemId: string): Observable<SubmissionRepeatableFieldsObject> {
+  getSubmissionFields(itemId: string): Observable<SubmissionFieldsObject> {
     const options = new FindListOptions();
     options.searchParams = [
       new RequestParam('uuid', itemId)
     ];
-    return this.submissionRepeatableFieldsService
-      .getSubmissionRepeatableFields(itemId)
+    return this.submissionFieldsService
+      .getSubmissionFields(itemId)
       .pipe(
         getFirstCompletedRemoteData(),
-        map((rd: RemoteData<SubmissionRepeatableFieldsObject>) => {
+        map((rd: RemoteData<SubmissionFieldsObject>) => {
           if (rd.hasSucceeded) {
             return rd.payload;
           } else {

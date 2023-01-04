@@ -1,5 +1,5 @@
-import { MergeItemsFromCompare, MetadataKeysWithNestedFields, NestedMetadataObject } from './../interfaces/deduplication-merge.models';
-import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/models/submission-repeatable-fields.model';
+import { MergeItemsFromCompare, NestedMetadataObject } from './../interfaces/deduplication-merge.models';
+import { SubmissionFieldsObject } from '../../core/deduplication/models/submission-fields.model';
 import { isEqual } from 'lodash';
 import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
 import { getFirstSucceededRemoteDataPayload } from './../../core/shared/operators';
@@ -150,6 +150,12 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   public repeatableFields: string[] = [];
 
   /**
+   * Stores all the parent keys with their nested metadata fields
+   * @type {Map<string, string[]>}
+   */
+  metadataKeysWithNestedFields: Map<string, string[]> = new Map();
+
+  /**
    * Modal options configurations.
    * @private
    * @type {NgbModalOptions}
@@ -162,16 +168,10 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   };
 
   /**
-   * Map of stored nested keys, parent key and the key that depends on the parent key
-   * @type {Map<string, string>}
-   */
-  private metadataKeysWithNestedFields: Map<string, string> = MetadataKeysWithNestedFields;
-
-  /**
    *  The keys that depend on a parent key (the nested metadata).
    * @memberof DeduplicationMergeComponent
    */
-  private nestedMetadataValues: string[] = [...MetadataKeysWithNestedFields.values()];
+  private nestedMetadataValues: string[] = [];
 
   /**
    * The default value when no value is selected for the nested metadata keys
@@ -253,9 +253,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
               },
             ],
           };
-
           if (this.metadataKeysWithNestedFields.has(key)) {
-            newObject.nestedMetadataValues = this.getNestedMetadataValueByKey(this.metadataKeysWithNestedFields.get(key), item, value.place);
+            newObject.nestedMetadataValues = this.getNestedMetadataValuesByKey(this.metadataKeysWithNestedFields.get(key), item, value.place);
           }
 
           // if the key is already in the map, add the new object to existing values,
@@ -286,9 +285,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
             },
           ],
         };
-
         if (this.metadataKeysWithNestedFields.has(key)) {
-          newObject.nestedMetadataValues = this.getNestedMetadataValueByKey(this.metadataKeysWithNestedFields.get(key), item, value.place);
+          newObject.nestedMetadataValues = this.getNestedMetadataValuesByKey(this.metadataKeysWithNestedFields.get(key), item, value.place);
         }
 
         this.compareMetadataValues.set(key, [newObject]);
@@ -303,38 +301,40 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Gets the nested metadata values for a certain item based on parent key
-   * @param key metadata key
+   * Gets the nested metadata values for a certain item based on the parent key
+   * @param nestedKeys metadata key
    * @param item the item we are working with
    * @param metadataPlace place of metadata coming from rest
    * @returns the nested metadata values
    */
-  private getNestedMetadataValueByKey(key: string, item: Item, metadataPlace: number): NestedMetadataObject[] {
-    const affiliation: MetadataValue[] = item.metadata[key];
-    if (hasValue(affiliation)) {
-      const nestedMetadataValues: NestedMetadataObject[] = [];
-      affiliation.forEach((metadata: MetadataValue) => {
-        if (isEqual(metadata.place, metadataPlace) && !isEqual(metadata.value, this.noValuePlaceholder)) {
-          const nestedMetadataValue = {
-            value: metadata.value,
-            nestedMetadataKey: key,
-            items: [
-              {
-                itemId: item.id,
-                itemHandle: item.handle,
-                metadataPlace: metadata.place,
-                color: '',
-                _link: item._links.self.href,
-              },
-            ],
-          };
-
-          nestedMetadataValues.push(nestedMetadataValue);
-        }
-      });
-
-      return nestedMetadataValues;
-    }
+  private getNestedMetadataValuesByKey(nestedKeys: string[], item: Item, metadataPlace: number): NestedMetadataObject[] {
+    // const nestedFields: MetadataValue[] = item.metadata[nestedKeys];
+    const nestedMetadataValues: NestedMetadataObject[] = [];
+    nestedKeys.forEach(key => {
+      const nestedFields: MetadataValue[] = item.metadata[key];
+      if (hasValue(nestedFields)) {
+        // const nestedMetadataValues: NestedMetadataObject[] = [];
+        nestedFields.forEach((metadata: MetadataValue) => {
+          if (isEqual(metadata.place, metadataPlace) && !isEqual(metadata.value, this.noValuePlaceholder)) {
+            const nestedMetadataValue: NestedMetadataObject = {
+              value: metadata.value,
+              nestedMetadataKey: key,
+              items: [
+                {
+                  itemId: item.id,
+                  itemHandle: item.handle,
+                  metadataPlace: metadata.place,
+                  color: '',
+                  _link: item._links.self.href,
+                },
+              ],
+            };
+            nestedMetadataValues.push(nestedMetadataValue);
+          }
+        });
+      }
+    });
+    return nestedMetadataValues;
   }
 
   /**
@@ -596,11 +596,13 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       // then we select the right value for the "nested" metadata keys,
       // based on their place, and prepare the source for the relevant key.
       if (this.metadataKeysWithNestedFields.has(key)) {
-        const nestedMetadataKey: string = this.metadataKeysWithNestedFields.get(key);
+        const nestedMetadataKeys: string[] = this.metadataKeysWithNestedFields.get(key);
         if (isEqual(metadataMapObj.length, 0)) {
-          this.mergedMetadataFields.push({
-            metadataField: nestedMetadataKey,
-            sources: [],
+          nestedMetadataKeys.forEach((nestedKey: string) => {
+            this.mergedMetadataFields.push({
+              metadataField: nestedKey,
+              sources: [],
+            });
           });
         } else {
           const sources: ItemMetadataSource[] = [];
@@ -613,12 +615,14 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
             });
           });
 
-          if (this.mergedMetadataFields.findIndex(x => isEqual(x.metadataField, nestedMetadataKey)) > -1) {
-            this.mergedMetadataFields.find(x => isEqual(x.metadataField, nestedMetadataKey)).sources = [...sources];
+          if (this.mergedMetadataFields.findIndex(x => isEqual(x.metadataField, nestedMetadataKeys)) > -1) {
+            this.mergedMetadataFields.find(x => isEqual(x.metadataField, nestedMetadataKeys)).sources = [...sources];
           } else {
-            this.mergedMetadataFields.push({
-              metadataField: nestedMetadataKey,
-              sources: [...sources],
+            nestedMetadataKeys.forEach((nestedKey: string) => {
+              this.mergedMetadataFields.push({
+                metadataField: nestedKey,
+                sources: [],
+              });
             });
           }
         }
@@ -664,93 +668,112 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
           if (hasValue(res)) {
             this.excludedMetadataKeys = [...res.values];
           }
-          this.getItemsData();
+          this.getSubmissionFieldsPerTargetItem();
         },
         error: () => {
-          this.getItemsData();
+          this.getSubmissionFieldsPerTargetItem();
         }
       });
   }
 
   /**
-   * Get submission repeatable metadata fields from the REST configurations
+   * Get submission repeatable & nested metadata fields from the REST configurations
    * @param itemId Target item id
    */
-  private getRepeatableFields(itemId: string) {
-    if (hasValue(itemId)) {
-      this.deduplicationItemsService
-        .getRepeatableFields(itemId)
-        .subscribe((res: SubmissionRepeatableFieldsObject) => {
-          if (hasValue(res)) {
-            this.repeatableFields = [...res.repeatableFields];
+  private getSubmissionFields(itemId: string): Observable<SubmissionFieldsObject> {
+    return this.deduplicationItemsService
+      .getSubmissionFields(itemId).pipe(
+        map((value: SubmissionFieldsObject) => {
+          if (hasValue(value)) {
+            const nestedFields: Map<string, string[]> = new Map(Object.entries(value.nestedFields));
+            this.nestedMetadataValues = [].concat(nestedFields.values());
+            this.metadataKeysWithNestedFields = nestedFields;
+            this.repeatableFields = [...value.repeatableFields];
           }
-        });
-    }
+          return value;
+        })
+      );
   }
 
   /**
-   * 1.Get item ids from the store.
-   * 2.Set the target item id.
-   * 3.Get the data for each item to compare, based on item id.
-   * 4.Prepares the merge items links @var mergedItems for the merge request.
-   * 5.Calculates the metadata fields to be merged, based on @var excludedMetadataKeys.
-   * 6.Prepares the @var itemsToCompare for the template.
-   * 7.Prepares the @var bitstreamList for the merge request.
-   * 8.Get repeatable fields, so items can be multiselected
-   * 9.Set the color for each item
+   * Get submission fields(repeatable & nested fields) for target item
+   * in order to display data accurately in the template,
+   * with multi/single-selection or with nested metadata on it
    */
-  private getItemsData() {
+  private getSubmissionFieldsPerTargetItem() {
     if (this.storedItemList?.length > 0) {
-      const itemCalls: Observable<Item>[] = [];
-      this.storedItemList.forEach((element: string, index: number) => {
-        const call = this.getData(element).pipe(
-          map((item: Item) => {
-            if (hasValue(item)) {
-              if (isEqual(index, 0)) {
-                // TARGET ITEM - FIRST ITEM
-                this.targetItemId = item.uuid;
-                this.getRepeatableFields(this.targetItemId);
-              }
-              // if item link is not in the list, add it
-              if (!this.mergedItems.includes(item._links.self.href) && !isEqual(item.uuid, this.targetItemId)) {
-                this.mergedItems.push(item._links.self.href);
-              }
-              const keys: string[] = Object.keys(item.metadata);
-              // get only the metadata keys that are not excluded
-              const keysToInclude = keys.filter(
-                (k) => !this.excludedMetadataKeys.includes(k)
-              );
-              // calculate MetadataMap for each item based on the keys to be included
-              keysToInclude.map((key) => {
-                this.calculateNewMetadataValues(item, key);
-              });
-              return item;
-            }
-          })
-        );
-        itemCalls.push(call);
-      });
-
-      forkJoin(itemCalls).subscribe((items: Item[]) => {
-        this.itemsToCompare = new Array<ItemData>();
-        items.forEach((item: Item) => {
-          const color = this.generateIdColor(
-            this.itemsToCompare[this.itemsToCompare.length - 1]
-              ? this.itemsToCompare[this.itemsToCompare.length - 1].color
-              : 'ffffff'
-          );
-          this.itemsToCompare.push({
-            object: item,
-            color: color,
-          });
-          this.setColorPerItemInMetadataMap(item.id, color);
-        });
-        this.getItemBitstreams();
-        this.chd.detectChanges();
+      // TARGET ITEM - FIRST ITEM
+      this.targetItemId = this.storedItemList[0];
+      this.getSubmissionFields(this.targetItemId).subscribe({
+        next: () => {
+          this.getItemsData();
+        },
+        error: () => {
+          // get item's data even if anything goes wrong,
+          // items are not related directly with submission fields
+          this.getItemsData();
+        }
       });
     } else {
       this.itemsToCompare = new Array<ItemData>();
     }
+  }
+
+  /**
+  * 1.Get item ids from the store.
+  * 2.Set the target item id.
+  * 3.Get the data for each item to compare, based on item id.
+  * 4.Prepares the merge items links @var mergedItems for the merge request.
+  * 5.Calculates the metadata fields to be merged, based on @var excludedMetadataKeys.
+  * 6.Prepares the @var itemsToCompare for the template.
+  * 7.Prepares the @var bitstreamList for the merge request.
+  * 8.Get repeatable fields, so items can be multiselected
+  * 9.Set the color for each item
+  */
+  private getItemsData() {
+    const itemCalls: Observable<Item>[] = [];
+    this.storedItemList.forEach((element: string, index: number) => {
+      const call = this.getData(element).pipe(
+        map((item: Item) => {
+          if (hasValue(item)) {
+            // if item link is not in the list, add it
+            // DO NOT add the target item link
+            if (!this.mergedItems.includes(item._links.self.href) && !isEqual(item.uuid, this.targetItemId)) {
+              this.mergedItems.push(item._links.self.href);
+            }
+            const keys: string[] = Object.keys(item.metadata);
+            // get only the metadata keys that are not excluded
+            const keysToInclude = keys.filter(
+              (k) => !this.excludedMetadataKeys.includes(k)
+            );
+            // calculate MetadataMap for each item based on the keys to be included
+            keysToInclude.map((key) => {
+              this.calculateNewMetadataValues(item, key);
+            });
+            return item;
+          }
+        })
+      );
+      itemCalls.push(call);
+    });
+
+    forkJoin(itemCalls).subscribe((items: Item[]) => {
+      this.itemsToCompare = new Array<ItemData>();
+      items.forEach((item: Item) => {
+        const color = this.generateIdColor(
+          this.itemsToCompare[this.itemsToCompare.length - 1]
+            ? this.itemsToCompare[this.itemsToCompare.length - 1].color
+            : 'ffffff'
+        );
+        this.itemsToCompare.push({
+          object: item,
+          color: color,
+        });
+        this.setColorPerItemInMetadataMap(item.id, color);
+      });
+      this.getItemBitstreams();
+      this.chd.detectChanges();
+    });
   }
 
   /**

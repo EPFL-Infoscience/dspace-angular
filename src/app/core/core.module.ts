@@ -213,7 +213,7 @@ import { LoginStatisticsService } from './statistics/login-statistics.service';
 import { LoginStatistics } from './statistics/models/login-statistics.model';
 import { SignatureObject } from './deduplication/models/signature.model';
 import { SetObject } from './deduplication/models/set.model';
-import { SubmissionRepeatableFieldsObject } from './deduplication/models/submission-repeatable-fields.model';
+import { SubmissionFieldsObject } from './deduplication/models/submission-fields.model';
 import { MachineToken } from './auth/models/machine-token.model';
 import { SchemaJsonLDService } from './metadata/schema-json-ld/schema-json-ld.service';
 import {
@@ -482,7 +482,7 @@ export const models =
     SignatureObject,
     SetObject,
     MergeObject,
-    SubmissionRepeatableFieldsObject
+    SubmissionFieldsObject
   ];
 
 @NgModule({

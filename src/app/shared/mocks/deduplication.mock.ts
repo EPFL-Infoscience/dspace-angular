@@ -3,7 +3,7 @@ import { ItemMock } from './item.mock';
 import { Item } from './../../core/shared/item.model';
 import { MetadataMap } from '../../core/shared/metadata.models';
 
-import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/models/submission-repeatable-fields.model';
+import { SubmissionFieldsObject } from '../../core/deduplication/models/submission-fields.model';
 import { SignatureObject } from '../../core/deduplication/models/signature.model';
 import { ResourceType } from '../../core/shared/resource-type';
 import { DeduplicationStateService } from '../../deduplication/deduplication-state.service';
@@ -142,13 +142,17 @@ export const mockSetObject: SetObject = {
   },
 };
 
-export const mockSubmissionRepeatableFieldsObject: SubmissionRepeatableFieldsObject = {
+export const mockSubmissionRepeatableFieldsObject: SubmissionFieldsObject = {
   type: new ResourceType('submissionrepeatablefield'),
   itemId: '231d6608-0847-4f4b-ac5f-c6058ce6a73d',
   repeatableFields: ['dc.date.available', 'dc.date.accessioned'],
+  nestedFields: {
+    'dc.contributor.author': ['oairecerif.author.affiliation'],
+    'dc.contributor.editor': ['oairecerif.editor.affiliation']
+  },
   _links: {
     self: {
-      href: 'http://rest.api/config/submissionrepeatablefields/search/findByItem?uuid=231d6608-0847-4f4b-ac5f-c6058ce6a73d',
+      href: 'http://rest.api/config/submissionfields/search/findByItem?uuid=231d6608-0847-4f4b-ac5f-c6058ce6a73d',
     },
   },
 };

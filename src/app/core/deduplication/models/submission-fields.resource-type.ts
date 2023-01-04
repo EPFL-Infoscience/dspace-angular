@@ -6,4 +6,4 @@ import { ResourceType } from '../../shared/resource-type';
  * Needs to be in a separate file to prevent circular
  * dependencies in webpack.
  */
-export const SUBMISSION_REPEATABLE_FIELDS = new ResourceType('submissionrepeatablefield');
+export const SUBMISSION_FIELDS = new ResourceType('submissionfield');

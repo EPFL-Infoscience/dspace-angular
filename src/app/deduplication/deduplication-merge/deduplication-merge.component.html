@@ -202,7 +202,7 @@
                       </span>
                       <!-- IDENTIFIERS SECTION -->
                       <span class="col-md-4">
-                        <ng-container *ngFor="let item of itemsData.items; let idx = index">
+                        <ng-container *ngFor="let item of itemsData.items; let last = islast">
                           <span [ngStyle]="{ color: item.color }">
                             <span *ngIf="item.itemHandle;else itemId">
                               {{ item.itemHandle }}
@@ -211,7 +211,7 @@
                               {{ item.itemId}}
                             </ng-template>
                           </span>
-                          <span *ngIf="idx !== itemsData.items.length - 1">
+                          <span *ngIf="!last">
                             ,</span>
                         </ng-container>
                       </span>

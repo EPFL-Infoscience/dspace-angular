@@ -18,7 +18,7 @@ import { DeduplicationItemsService } from './deduplication-merge/deduplication-i
 import { ShowDifferencesComponent } from './show-differences/show-differences.component';
 import { DeduplicationMergeRestService } from '../core/deduplication/services/deduplication-merge-rest.service';
 import { DeduplicationMergeResultComponent } from './deduplication-merge-result/deduplication-merge-result.component';
-import { SubmissionRepeatableFieldsRestService } from '../core/deduplication/services/submission-repeatable-fields-rest.service';
+import { SubmissionFieldsRestService } from '../core/deduplication/services/submission-fields-rest.service';
 import { BitstreamTableComponent } from './bitstream-table/bitstream-table.component';
 import { ItemsTableComponent } from './items-table/items-table.component';
 import { CompareItemIdentifiersComponent } from './compare-item-identifiers/compare-item-identifiers.component';
@@ -65,7 +65,7 @@ const PROVIDERS = [
   DeduplicationSetsRestService,
   DeduplicationItemsService,
   DeduplicationMergeRestService,
-  SubmissionRepeatableFieldsRestService
+  SubmissionFieldsRestService
 ];
 
 @NgModule({

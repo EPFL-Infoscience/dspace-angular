@@ -1,7 +1,7 @@
 import { ItemMock } from './../../shared/mocks/item.mock';
 import { RouterMock } from './../../shared/mocks/router.mock';
-import { SubmissionRepeatableFieldsObject } from './../../core/deduplication/models/submission-repeatable-fields.model';
-import { itemsToCompare } from './../../shared/mocks/deduplication.mock';
+import { SubmissionFieldsObject } from '../../core/deduplication/models/submission-fields.model';
+import { itemsToCompare, mockSubmissionRepeatableFieldsObject } from './../../shared/mocks/deduplication.mock';
 import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfigurationDataService } from './../../core/data/configuration-data.service';
@@ -49,7 +49,7 @@ describe('DeduplicationMergeComponent', () => {
 
   const deduplicationItemsService = jasmine.createSpyObj('deduplicationItemsService', {
     mergeData: jasmine.createSpy('mergeData'),
-    getRepeatableFields: jasmine.createSpy('getRepeatableFields'),
+    getSubmissionFields: jasmine.createSpy('getSubmissionFields'),
     getItemData: jasmine.createSpy('getItemData'),
     getItemByHref: jasmine.createSpy('getItemByHref'),
   });
@@ -102,12 +102,10 @@ describe('DeduplicationMergeComponent', () => {
       cookieService.set(`items-to-compare-${(route.snapshot.params as any).setChecksum}`, JSON.stringify(itemsPerset));
       compAsAny.storedItemList = [...itemsPerset];
       spyOn(compAsAny, 'getExcludedMetadata');
-      spyOn(compAsAny, 'getItemsData').and.callThrough();
+      spyOn(compAsAny, 'getSubmissionFields').and.callThrough();
       spyOn(component, 'getData').and.callThrough();
       compAsAny.deduplicationItemsService.getItemData.and.returnValue(of(itemsToCompare[0].object));
-      compAsAny.deduplicationItemsService.getRepeatableFields.and.returnValue(of(Object.assign(new SubmissionRepeatableFieldsObject(), {
-        repeatableFields: []
-      })));
+      compAsAny.deduplicationItemsService.getSubmissionFields.and.returnValue(of(Object.assign(new SubmissionFieldsObject(), mockSubmissionRepeatableFieldsObject)));
       fixture.detectChanges();
     });
 
@@ -141,9 +139,10 @@ describe('DeduplicationMergeComponent', () => {
         spyOn(component, 'removeAllSelections').and.callThrough();
         spyOn(component, 'isValueChecked').and.callThrough();
         spyOn(component, 'uncheckValue').and.callThrough();
-        spyOn(compAsAny, 'getNestedMetadataValueByKey').and.callThrough();
         component.itemsToCompare = [...itemsToCompare];
         compAsAny.getItemsData();
+        compAsAny.buildMergeObjectStructure();
+        compAsAny.getSubmissionFieldsPerTargetItem();
         fixture.detectChanges();
       });
 
@@ -204,12 +203,10 @@ describe('DeduplicationMergeComponent', () => {
         expect(res).toEqual([]);
       });
 
-      it('should calculate all metadata values and their nested metadata values', () => {
-        component.calculateNewMetadataValues(ItemMock, 'dc.type');
-        expect(component.compareMetadataValues.size).toBeGreaterThan(0);
-        expect(compAsAny.getNestedMetadataValueByKey).toHaveBeenCalled();
-        expect(component.compareMetadataValues.get('dc.type').every(x => !hasValue(x.nestedMetadataValues))).toBeTrue();
-        expect(component.compareMetadataValues.get('dc.contributor.author').every(x => hasValue(x.nestedMetadataValues))).toBeTrue();
+      it('should calculate nested metadata values', () => {
+        expect(compAsAny.getSubmissionFields).toHaveBeenCalled();
+        expect(component.metadataKeysWithNestedFields.size).toBeGreaterThan(0);
+        expect(component.compareMetadataValues.get('dc.contributor.author').length > 0).toBeTrue();
       });
     });
   });

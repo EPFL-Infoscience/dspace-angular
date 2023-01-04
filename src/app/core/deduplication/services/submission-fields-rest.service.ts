@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import { switchMap } from 'rxjs/operators';
-import { FollowLinkConfig } from './../../../shared/utils/follow-link-config.model';
+import { FollowLinkConfig } from '../../../shared/utils/follow-link-config.model';
 import { DefaultChangeAnalyzer } from '../../data/default-change-analyzer.service';
 import { ChangeAnalyzer } from '../../data/change-analyzer';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
@@ -14,8 +14,8 @@ import { Store } from '@ngrx/store';
 
 import { DataService } from '../../data/data.service';
 import { dataService } from '../../cache/builders/build-decorators';
-import { SubmissionRepeatableFieldsObject } from '../models/submission-repeatable-fields.model';
-import { SUBMISSION_REPEATABLE_FIELDS } from '../models/submission-repeatable-fields.resource-type';
+import { SubmissionFieldsObject } from '../models/submission-fields.model';
+import { SUBMISSION_FIELDS } from '../models/submission-fields.resource-type';
 import { Observable } from 'rxjs';
 import { RemoteData } from '../../data/remote-data';
 import { CoreState } from '../../core-state.model';
@@ -23,11 +23,11 @@ import { CoreState } from '../../core-state.model';
 /**
  * A private DataService implementation to delegate specific methods to.
  */
-class DataServiceImpl extends DataService<SubmissionRepeatableFieldsObject> {
+class DataServiceImpl extends DataService<SubmissionFieldsObject> {
   /**
    * The REST endpoint.
    */
-  protected linkPath = 'submissionrepeatablefields';
+  protected linkPath = 'submissionfields';
 
   constructor(
     protected requestService: RequestService,
@@ -37,14 +37,14 @@ class DataServiceImpl extends DataService<SubmissionRepeatableFieldsObject> {
     protected halService: HALEndpointService,
     protected notificationsService: NotificationsService,
     protected http: HttpClient,
-    protected comparator: ChangeAnalyzer<SubmissionRepeatableFieldsObject>) {
+    protected comparator: ChangeAnalyzer<SubmissionFieldsObject>) {
     super();
   }
 }
 
 @Injectable()
-@dataService(SUBMISSION_REPEATABLE_FIELDS)
-export class SubmissionRepeatableFieldsRestService {
+@dataService(SUBMISSION_FIELDS)
+export class SubmissionFieldsRestService {
   /**
    * A private DataService implementation to delegate specific methods to.
    */
@@ -58,7 +58,7 @@ export class SubmissionRepeatableFieldsRestService {
    * @param {HALEndpointService} halService
    * @param {NotificationsService} notificationsService
    * @param {HttpClient} http
-   * @param {DefaultChangeAnalyzer<SubmissionRepeatableFieldsObject>} comparator
+   * @param {DefaultChangeAnalyzer<SubmissionFieldsObject>} comparator
    */
   constructor(
     protected requestService: RequestService,
@@ -67,17 +67,17 @@ export class SubmissionRepeatableFieldsRestService {
     protected halService: HALEndpointService,
     protected notificationsService: NotificationsService,
     protected http: HttpClient,
-    protected comparator: DefaultChangeAnalyzer<SubmissionRepeatableFieldsObject>) {
+    protected comparator: DefaultChangeAnalyzer<SubmissionFieldsObject>) {
     this.dataService = new DataServiceImpl(requestService, rdbService, null, objectCache, halService, notificationsService, http, comparator);
   }
 
   /**
-   * GET the submission repeatable fields for the given item UUID
+   * GET the submission repeatable & nested metadata fields for the given item UUID
    * @param itemUuid The item's uuid
    * @param linksToFollow List of {@link FollowLinkConfig} that indicate which {@link HALLink}s should be automatically resolved.
    * @returns The object with the given uuid and a list of repeatable fields
    */
-  public getSubmissionRepeatableFields(itemUuid: string): Observable<RemoteData<SubmissionRepeatableFieldsObject>> {
+  public getSubmissionFields(itemUuid: string): Observable<RemoteData<SubmissionFieldsObject>> {
     const searchmethod = `search/findByItem`;
     return this.dataService.getBrowseEndpoint().pipe(
       switchMap((href: string) => {

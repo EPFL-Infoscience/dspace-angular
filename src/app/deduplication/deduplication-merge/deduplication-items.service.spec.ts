@@ -1,6 +1,6 @@
 import { MergeSetItems } from './../interfaces/deduplication-merge.models';
 import { MergeObject } from './../../core/deduplication/models/merge-object.model';
-import { SubmissionRepeatableFieldsRestService } from './../../core/deduplication/services/submission-repeatable-fields-rest.service';
+import { SubmissionFieldsRestService } from '../../core/deduplication/services/submission-fields-rest.service';
 import { NotificationsServiceStub } from '../../shared/testing/notifications-service.stub';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,7 +13,7 @@ import { DeduplicationItemsService } from './deduplication-items.service';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { getMockTranslateService } from '../../shared/mocks/translate.service.mock';
 import { DeduplicationMergeRestService } from '../../core/deduplication/services/deduplication-merge-rest.service';
-import { SubmissionRepeatableFieldsObject } from '../../core/deduplication/models/submission-repeatable-fields.model';
+import { SubmissionFieldsObject } from '../../core/deduplication/models/submission-fields.model';
 import { followLink } from '../../shared/utils/follow-link-config.model';
 import { cold } from 'jasmine-marbles';
 
@@ -22,13 +22,13 @@ describe('DeduplicationItemsService', () => {
   let serviceAsAny: any;
   let itemDataService: any;
   let mergeService: any;
-  let submissionRepeatableFieldsService: any;
+  let submissionFieldsService: any;
   let notificationSerice: any;
   let itemRD$: any;
   let testItem: Item;
   let testCollection;
   const mergeObj = new MergeObject();
-  const submissionObj = new SubmissionRepeatableFieldsObject();
+  const submissionObj = new SubmissionFieldsObject();
   const mergeObjRD$ = createSuccessfulRemoteDataObject$(mergeObj);
   const submissionObjRD$ = createSuccessfulRemoteDataObject$(submissionObj);
 
@@ -86,8 +86,8 @@ describe('DeduplicationItemsService', () => {
       mergeItemsData: () => mergeObjRD$,
     };
 
-    submissionRepeatableFieldsService = {
-      getSubmissionRepeatableFields: createSuccessfulRemoteDataObject$(new SubmissionRepeatableFieldsObject()),
+    submissionFieldsService = {
+      getSubmissionFields: createSuccessfulRemoteDataObject$(new SubmissionFieldsObject()),
     };
 
     notificationSerice = new NotificationsServiceStub();
@@ -102,14 +102,14 @@ describe('DeduplicationItemsService', () => {
         { provide: ItemDataService, useValue: itemDataService },
         { provide: NotificationsService, useValue: new NotificationsServiceStub() },
         { provide: DeduplicationMergeRestService, useValue: mergeService },
-        { provide: SubmissionRepeatableFieldsRestService, useValue: submissionRepeatableFieldsService },
+        { provide: SubmissionFieldsRestService, useValue: submissionFieldsService },
       ]
     }).compileComponents();
 
     service = new DeduplicationItemsService(
       itemDataService,
       mergeService,
-      submissionRepeatableFieldsService,
+      submissionFieldsService,
       notificationSerice,
       getMockTranslateService()
     );
@@ -153,7 +153,7 @@ describe('DeduplicationItemsService', () => {
   describe('merge Data', () => {
     beforeEach(() => {
       spyOn(serviceAsAny.mergeService, 'mergeItemsData').and.returnValue(mergeObjRD$);
-      spyOn(serviceAsAny.submissionRepeatableFieldsService, 'getSubmissionRepeatableFields').and.returnValue(submissionObjRD$);
+      spyOn(serviceAsAny.submissionFieldsService, 'getSubmissionFields').and.returnValue(submissionObjRD$);
     });
 
     it('should proxy the call to mergeData', () => {
@@ -165,9 +165,9 @@ describe('DeduplicationItemsService', () => {
       expect(result).toBeObservable(expected);
     });
 
-    it('should proxy the call to getRepeatableFields', () => {
-      const result = service.getRepeatableFields(itemUUID);
-      expect((service as any).submissionRepeatableFieldsService.getSubmissionRepeatableFields).toHaveBeenCalledWith(itemUUID);
+    it('should proxy the call to getSubmissionFields', () => {
+      const result = service.getSubmissionFields(itemUUID);
+      expect((service as any).submissionFieldsService.getSubmissionFields).toHaveBeenCalledWith(itemUUID);
       const expected = cold('(a|)', {
         a: submissionObj
       });
