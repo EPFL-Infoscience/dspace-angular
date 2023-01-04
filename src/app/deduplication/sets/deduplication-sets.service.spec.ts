@@ -23,163 +23,169 @@ import { cold } from 'jasmine-marbles';
 import { PaginatedList } from '../../core/data/paginated-list.model';
 
 describe('DeduplicationSetsService', () => {
-    let service: DeduplicationSetsService;
-    let serviceAsAny: any;
+  let service: DeduplicationSetsService;
+  let serviceAsAny: any;
 
-    const elementsPerPage = 5;
-    const currentPage = 0;
-    const signatureId = mockSetObject.signatureId;
-    const rule = 'admin';
+  const elementsPerPage = 5;
+  const currentPage = 0;
+  const signatureId = mockSetObject.signatureId;
+  const rule = 'admin';
 
-    const collectionDataServiceStub: any = {
-        findByHref: () => createSuccessfulRemoteDataObject$(new Collection()),
-    };
+  const collectionDataServiceStub: any = {
+    findByHref: () => createSuccessfulRemoteDataObject$(new Collection()),
+  };
 
-    const submissionRestServiceStub: any = new SubmissionRestServiceStub();
+  const submissionRestServiceStub: any = new SubmissionRestServiceStub();
 
-    const setObjectPL: PaginatedList<SetObject> = createPaginatedList([mockSetObject]);
-    const setObjectRD$: Observable<RemoteData<PaginatedList<SetObject>>> = createSuccessfulRemoteDataObject$(setObjectPL);
-    const noContent: NoContent = {};
+  const setObjectPL: PaginatedList<SetObject> = createPaginatedList([mockSetObject]);
+  const setObjectRD$: Observable<RemoteData<PaginatedList<SetObject>>> = createSuccessfulRemoteDataObject$(setObjectPL);
+  const noContent: NoContent = {};
 
-    const deduplicationRestServiceStub: any = {
-        getSetsPerSignature: () => setObjectRD$,
-        deleteSet: () => createSuccessfulRemoteDataObject$(noContent),
-        removeItem: () => createSuccessfulRemoteDataObject$(noContent),
-    };
+  const deduplicationRestServiceStub: any = {
+    getSetsPerSignature: () => setObjectRD$,
+    deleteSet: () => createSuccessfulRemoteDataObject$(noContent),
+    removeItem: () => createSuccessfulRemoteDataObject$(noContent),
+  };
 
-    const itemDataServiceStub: any = {
-        delete: () => createSuccessfulRemoteDataObject$(noContent),
-    };
+  const itemDataServiceStub: any = {
+    delete: () => createSuccessfulRemoteDataObject$(noContent),
+  };
 
-    const workflowItemDataServiceStub: any = {
-        findByItem: ()=> createSuccessfulRemoteDataObject$(new WorkflowItem()),
-        delete: ()=> createSuccessfulRemoteDataObject$(noContent)
-    };
+  const workflowItemDataServiceStub: any = {
+    findByItem: () => createSuccessfulRemoteDataObject$(new WorkflowItem()),
+    delete: () => createSuccessfulRemoteDataObject$(noContent)
+  };
 
-    beforeEach(waitForAsync(async () => {
-        await TestBed.configureTestingModule({
-            providers: [
-                DeduplicationSetsService,
-                { provide: DeduplicationSetsRestService, useValue: deduplicationRestServiceStub },
-                { provide: ItemDataService, useValue: itemDataServiceStub },
-                { provide: CollectionDataService, useValue: collectionDataServiceStub },
-                { provide: SubmissionRestService, useValue: submissionRestServiceStub },
-                { provide: WorkflowItemDataService, useValue: workflowItemDataServiceStub },
-            ]
-        }).compileComponents();
-    }));
+  beforeEach(waitForAsync(async () => {
+    await TestBed.configureTestingModule({
+      providers: [
+        DeduplicationSetsService,
+        { provide: DeduplicationSetsRestService, useValue: deduplicationRestServiceStub },
+        { provide: ItemDataService, useValue: itemDataServiceStub },
+        { provide: CollectionDataService, useValue: collectionDataServiceStub },
+        { provide: SubmissionRestService, useValue: submissionRestServiceStub },
+        { provide: WorkflowItemDataService, useValue: workflowItemDataServiceStub },
+      ]
+    }).compileComponents();
+  }));
 
+  beforeEach(() => {
+    service = new DeduplicationSetsService(
+      deduplicationRestServiceStub,
+      itemDataServiceStub,
+      collectionDataServiceStub,
+      submissionRestServiceStub,
+      workflowItemDataServiceStub
+    );
+    serviceAsAny = service;
+  });
+
+  describe('working with sets', () => {
     beforeEach(() => {
-        service = new DeduplicationSetsService(deduplicationRestServiceStub, itemDataServiceStub, collectionDataServiceStub, submissionRestServiceStub, workflowItemDataServiceStub);
-        serviceAsAny = service;
+      spyOn(serviceAsAny.deduplicationRestService, 'getSetsPerSignature').and.returnValue(setObjectRD$);
+      spyOn(serviceAsAny.deduplicationRestService, 'deleteSet').and.returnValue(createSuccessfulRemoteDataObject$(noContent));
+      spyOn(serviceAsAny.deduplicationRestService, 'removeItem').and.returnValue(createSuccessfulRemoteDataObject$(noContent));
     });
 
-    describe('working with sets', () => {
-        beforeEach(() => {
-            spyOn(serviceAsAny.deduplicationRestService, 'getSetsPerSignature').and.returnValue(setObjectRD$);
-            spyOn(serviceAsAny.deduplicationRestService, 'deleteSet').and.returnValue(createSuccessfulRemoteDataObject$(noContent));
-            spyOn(serviceAsAny.deduplicationRestService, 'removeItem').and.returnValue(createSuccessfulRemoteDataObject$(noContent));
-        });
+    it('should proxy the call to getSetsPerSignature', () => {
+      const result = service.getSets(elementsPerPage, currentPage, signatureId, rule);
+      const findListOptions: FindListOptions = new FindListOptions();
+      findListOptions.elementsPerPage = elementsPerPage;
+      findListOptions.currentPage = currentPage;
+      findListOptions.searchParams = [
+        new RequestParam('signature-id', signatureId),
+        new RequestParam('haveItems', true)
+      ];
+      findListOptions.searchParams.push(new RequestParam('rule', rule));
 
-        it('should proxy the call to getSetsPerSignature', () => {
-            const result = service.getSets(elementsPerPage, currentPage, signatureId, rule);
-            const findListOptions: FindListOptions = new FindListOptions();
-            findListOptions.elementsPerPage = elementsPerPage;
-            findListOptions.currentPage = currentPage;
-            findListOptions.searchParams = [
-                new RequestParam('signature-id', signatureId),
-                new RequestParam('haveItems', true)
-            ];
-            findListOptions.searchParams.push(new RequestParam('rule', rule));
+      expect(serviceAsAny.deduplicationRestService.getSetsPerSignature).toHaveBeenCalledWith(findListOptions, followLink('items'));
 
-            expect(serviceAsAny.deduplicationRestService.getSetsPerSignature).toHaveBeenCalledWith(findListOptions, followLink('items'));
-
-            const expected = cold('(a|)', {
-                a: setObjectPL
-            });
-            expect(result).toBeObservable(expected);
-        });
-
-        it('should proxy the call to deleteSet', () => {
-            const result = service.deleteSet(mockSetObject.signatureId, mockSetObject.setChecksum);
-            expect(serviceAsAny.deduplicationRestService.deleteSet).toHaveBeenCalledWith(mockSetObject.signatureId, mockSetObject.setChecksum);
-
-            const expected = cold('(a|)', {
-                a: createSuccessfulRemoteDataObject(noContent)
-            });
-            expect(result).toBeObservable(expected);
-        });
-
-        it('should proxy the call to removeItem from set', () => {
-            const result = service.removeItem(signatureId, ItemMock.id, mockSetObject.setChecksum);
-            expect(serviceAsAny.deduplicationRestService.removeItem).toHaveBeenCalledWith(signatureId, ItemMock.id, mockSetObject.setChecksum);
-
-            // TODO: remove comment after method is refactored
-            // const expected = cold('(a|)', {
-            //     a: createSuccessfulRemoteDataObject(noContent)
-            // });
-            // expect(result).toBeObservable(expected);
-        });
+      const expected = cold('(a|)', {
+        a: setObjectPL
+      });
+      expect(result).toBeObservable(expected);
     });
 
-    describe('working with the items of the set', () => {
-        beforeEach(() => {
-            spyOn(serviceAsAny.itemDataService, 'delete').and.returnValue(createSuccessfulRemoteDataObject$(noContent));
-            spyOn(serviceAsAny.collectionDataService, 'findByHref').and.returnValue(createSuccessfulRemoteDataObject$(new Collection()));
-            spyOn(serviceAsAny.submissionRestService, 'getDataById').and.returnValue(createSuccessfulRemoteDataObject$({}));
-            spyOn(serviceAsAny.submissionRestService, 'deleteById').and.returnValue(createSuccessfulRemoteDataObject$({}));
-            spyOn(serviceAsAny.workflowItemDataService , 'findByItem').and.returnValue(createSuccessfulRemoteDataObject$(new WorkflowItem()));
-            spyOn(serviceAsAny.workflowItemDataService , 'delete').and.returnValue(createSuccessfulRemoteDataObject$(noContent));
-        });
+    it('should proxy the call to deleteSet', () => {
+      const result = service.deleteSet(mockSetObject.signatureId, mockSetObject.setChecksum);
+      expect(serviceAsAny.deduplicationRestService.deleteSet).toHaveBeenCalledWith(mockSetObject.signatureId, mockSetObject.setChecksum);
 
-        it('should delete an item', () => {
-            const result = service.deleteSetItem(ItemMock.id);
-            expect(serviceAsAny.itemDataService.delete).toHaveBeenCalledWith(ItemMock.id);
-
-            const expected = cold('(a|)', {
-                a: createSuccessfulRemoteDataObject(noContent)
-            });
-            expect(result).toBeObservable(expected);
-        });
-
-        it('should getItemOwningCollection of an item', () => {
-            const result = service.getItemOwningCollection(ItemMock._links.self.href);
-            expect(serviceAsAny.collectionDataService.findByHref).toHaveBeenCalledWith(ItemMock._links.self.href);
-
-            const expected = cold('(a|)', {
-                a: createSuccessfulRemoteDataObject(new Collection())
-            });
-            expect(result).toBeObservable(expected);
-        });
-
-        it('should proxy the call to getSubmissionWorkspaceitem', () => {
-            service.getSubmissionWorkspaceitem(ItemMock.id);
-            expect(serviceAsAny.submissionRestService.getDataById).toHaveBeenCalled();
-        });
-
-        it('should proxy the call to deleteById for a workspace item', () => {
-            service.deleteWorkspaceItemById(ItemMock.id);
-            expect(serviceAsAny.submissionRestService.deleteById).toHaveBeenCalled();
-        });
-
-        it('should proxy the call to getSubmissionWorkflowItems', () => {
-            const result = serviceAsAny.getSubmissionWorkflowItems(ItemMock.id);
-            expect(serviceAsAny.workflowItemDataService.findByItem).toHaveBeenCalledWith(ItemMock.id);
-
-            const expected = cold('(a|)', {
-                a: createSuccessfulRemoteDataObject(new WorkflowItem())
-            });
-            expect(result).toBeObservable(expected);
-        });
-
-        it('should proxy the call to deleteWorkflowItem', () => {
-            const result = service.deleteWorkflowItem(ItemMock.id);
-            expect(serviceAsAny.workflowItemDataService.delete).toHaveBeenCalledWith(ItemMock.id);
-
-            const expected = cold('(a|)', {
-                a: createSuccessfulRemoteDataObject(noContent)
-            });
-            expect(result).toBeObservable(expected);
-        });
+      const expected = cold('(a|)', {
+        a: createSuccessfulRemoteDataObject(noContent)
+      });
+      expect(result).toBeObservable(expected);
     });
+
+    it('should proxy the call to removeItem from set', () => {
+      const result = service.removeItem(signatureId, ItemMock.id, mockSetObject.setChecksum);
+      expect(serviceAsAny.deduplicationRestService.removeItem).toHaveBeenCalledWith(signatureId, ItemMock.id, mockSetObject.setChecksum);
+
+      // TODO: remove comment after method is refactored
+      // const expected = cold('(a|)', {
+      //     a: createSuccessfulRemoteDataObject(noContent)
+      // });
+      // expect(result).toBeObservable(expected);
+    });
+  });
+
+  describe('working with the items of the set', () => {
+    beforeEach(() => {
+      spyOn(serviceAsAny.itemDataService, 'delete').and.returnValue(createSuccessfulRemoteDataObject$(noContent));
+      spyOn(serviceAsAny.collectionDataService, 'findByHref').and.returnValue(createSuccessfulRemoteDataObject$(new Collection()));
+      spyOn(serviceAsAny.submissionRestService, 'getDataById').and.returnValue(createSuccessfulRemoteDataObject$({}));
+      spyOn(serviceAsAny.submissionRestService, 'deleteById').and.returnValue(createSuccessfulRemoteDataObject$({}));
+      spyOn(serviceAsAny.workflowItemDataService, 'findByItem').and.returnValue(createSuccessfulRemoteDataObject$(new WorkflowItem()));
+      spyOn(serviceAsAny.workflowItemDataService, 'delete').and.returnValue(createSuccessfulRemoteDataObject$(noContent));
+    });
+
+    it('should delete an item', () => {
+      const result = service.deleteSetItem(ItemMock.id);
+      expect(serviceAsAny.itemDataService.delete).toHaveBeenCalledWith(ItemMock.id);
+
+      const expected = cold('(a|)', {
+        a: createSuccessfulRemoteDataObject(noContent)
+      });
+      expect(result).toBeObservable(expected);
+    });
+
+    it('should getItemOwningCollection of an item', () => {
+      const result = service.getItemOwningCollection(ItemMock._links.self.href);
+      expect(serviceAsAny.collectionDataService.findByHref).toHaveBeenCalledWith(ItemMock._links.self.href);
+
+      const expected = cold('(a|)', {
+        a: createSuccessfulRemoteDataObject(new Collection())
+      });
+      expect(result).toBeObservable(expected);
+    });
+
+    it('should proxy the call to getSubmissionWorkspaceitem', () => {
+      service.getSubmissionWorkspaceitem(ItemMock.id);
+      expect(serviceAsAny.submissionRestService.getDataById).toHaveBeenCalled();
+    });
+
+    it('should proxy the call to deleteById for a workspace item', () => {
+      service.deleteWorkspaceItemById(ItemMock.id);
+      expect(serviceAsAny.submissionRestService.deleteById).toHaveBeenCalled();
+    });
+
+    it('should proxy the call to getSubmissionWorkflowItems', () => {
+      const result = serviceAsAny.getSubmissionWorkflowItems(ItemMock.id);
+      expect(serviceAsAny.workflowItemDataService.findByItem).toHaveBeenCalledWith(ItemMock.id);
+
+      const expected = cold('(a|)', {
+        a: createSuccessfulRemoteDataObject(new WorkflowItem())
+      });
+      expect(result).toBeObservable(expected);
+    });
+
+    it('should proxy the call to deleteWorkflowItem', () => {
+      const result = service.deleteWorkflowItem(ItemMock.id);
+      expect(serviceAsAny.workflowItemDataService.delete).toHaveBeenCalledWith(ItemMock.id);
+
+      const expected = cold('(a|)', {
+        a: createSuccessfulRemoteDataObject(noContent)
+      });
+      expect(result).toBeObservable(expected);
+    });
+  });
 });

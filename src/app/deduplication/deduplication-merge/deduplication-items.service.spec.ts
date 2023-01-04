@@ -93,9 +93,9 @@ describe('DeduplicationItemsService', () => {
     notificationSerice = new NotificationsServiceStub();
   }
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(waitForAsync(async () => {
     init();
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         DeduplicationItemsService,
         { provide: TranslateService, useValue: getMockTranslateService() },

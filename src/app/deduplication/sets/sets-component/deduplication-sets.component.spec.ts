@@ -121,9 +121,9 @@ describe('DeduplicationSetsComponent test suite', () => {
 
   const notificationsServiceStub = new NotificationsServiceStub();
 
-  beforeEach(fakeAsync(() => {
+  beforeEach(fakeAsync(async () => {
     router = new RouterStub();
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         CommonModule,
         NgbModule,

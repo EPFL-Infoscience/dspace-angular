@@ -62,6 +62,7 @@ describe('DeduplicationMergeComponent', () => {
   const route = new MockActivatedRoute(params);
 
   const itemsPerset: string[] = ['231d6608-0847-4f4b-ac5f-c6058ce6a73d', '2c6a5994-ffd5-44c3-941c-baca3afcc9b0'];
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DeduplicationMergeComponent],

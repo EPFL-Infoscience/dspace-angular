@@ -3,7 +3,7 @@ import { getMockDeduplicationStateService, mockSignatureObjectTitle } from './..
 import { CommonModule } from '@angular/common';
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
 import { DeduplicationSignaturesComponent } from './deduplication-signatures.component';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
@@ -14,8 +14,8 @@ describe('DeduplicationSignaturesComponent test suite', () => {
   let comp: DeduplicationSignaturesComponent;
   let compAsAny: any;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
+  beforeEach(waitForAsync(async () => {
+    await TestBed.configureTestingModule({
       imports: [CommonModule, TranslateModule.forRoot()],
       declarations: [DeduplicationSignaturesComponent, TestComponent],
       providers: [
