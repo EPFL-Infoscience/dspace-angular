@@ -1,6 +1,6 @@
 import { MergeItemsFromCompare, NestedMetadataObject } from './../interfaces/deduplication-merge.models';
 import { SubmissionFieldsObject } from '../../core/deduplication/models/submission-fields.model';
-import { isEqual } from 'lodash';
+import { has, isEqual } from 'lodash';
 import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
 import { getFirstSucceededRemoteDataPayload } from './../../core/shared/operators';
 import { ConfigurationDataService } from './../../core/data/configuration-data.service';
@@ -590,6 +590,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
           sources: [],
         });
       }
+
       // If the key we are working with is part of "nested" metadata,
       // we make sure to add this  "nested" metadata keys in the list,
       // so they can be sent with the object that is going to be merged.
@@ -598,6 +599,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       // based on their place, and prepare the source for the relevant key.
       if (this.metadataKeysWithNestedFields.has(key)) {
         const nestedMetadataKeys: string[] = this.metadataKeysWithNestedFields.get(key);
+
         if (isEqual(metadataMapObj.length, 0)) {
           nestedMetadataKeys.forEach((nestedKey: string) => {
             this.mergedMetadataFields.push({
@@ -606,6 +608,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
             });
           });
         } else {
+
           const sources: ItemMetadataSource[] = [];
           metadataMapObj.forEach((value: MetadataMapObject) => {
             value.items.forEach((item: ItemContainer) => {
@@ -615,9 +618,13 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
               });
             });
           });
+          let mergedMetadataField = this.mergedMetadataFields.find(x => nestedMetadataKeys.some(nestedKey => x.metadataField === nestedKey));
 
-          if (this.mergedMetadataFields.findIndex(x => isEqual(x.metadataField, nestedMetadataKeys)) > -1) {
-            this.mergedMetadataFields.find(x => isEqual(x.metadataField, nestedMetadataKeys)).sources = [...sources];
+          if (!hasValue(mergedMetadataField)) {
+            this.mergedMetadataFields.push({
+              metadataField: key,
+              sources: [...sources],
+            });
           } else {
             nestedMetadataKeys.forEach((nestedKey: string) => {
               this.mergedMetadataFields.push({
