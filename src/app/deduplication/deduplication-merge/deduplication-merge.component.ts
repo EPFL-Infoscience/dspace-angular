@@ -599,7 +599,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       // based on their place, and prepare the source for the relevant key.
       if (this.metadataKeysWithNestedFields.has(key)) {
         const nestedMetadataKeys: string[] = this.metadataKeysWithNestedFields.get(key);
-
         if (isEqual(metadataMapObj.length, 0)) {
           nestedMetadataKeys.forEach((nestedKey: string) => {
             this.mergedMetadataFields.push({
@@ -608,7 +607,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
             });
           });
         } else {
-
           const sources: ItemMetadataSource[] = [];
           metadataMapObj.forEach((value: MetadataMapObject) => {
             value.items.forEach((item: ItemContainer) => {
@@ -618,20 +616,17 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
               });
             });
           });
-          let mergedMetadataField = this.mergedMetadataFields.find(x => nestedMetadataKeys.some(nestedKey => x.metadataField === nestedKey));
 
-          if (!hasValue(mergedMetadataField)) {
-            this.mergedMetadataFields.push({
-              metadataField: key,
-              sources: [...sources],
-            });
-          } else {
+          const nestedObject: ItemsMetadataField = this.mergedMetadataFields.find(x => nestedMetadataKeys.some(nestedKey => isEqual(x.metadataField, nestedKey)));
+          if (!hasValue(nestedObject)) {
             nestedMetadataKeys.forEach((nestedKey: string) => {
               this.mergedMetadataFields.push({
                 metadataField: nestedKey,
-                sources: [],
+                sources: [...sources],
               });
             });
+          } else {
+            nestedObject.sources = [...sources];
           }
         }
       }
@@ -692,8 +687,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       // TARGET ITEM - FIRST ITEM
       this.targetItemId = this.storedItemList[0];
       this.deduplicationItemsService.getSubmissionFields(this.targetItemId).pipe(
-        finalize(() =>  this.getItemsData()),
-      ).subscribe((res: SubmissionFieldsObject)=>{
+        finalize(() => this.getItemsData()),
+      ).subscribe((res: SubmissionFieldsObject) => {
         if (hasValue(res)) {
           const nestedFields: Map<string, string[]> = new Map(Object.entries(res.nestedFields));
           this.nestedMetadataValues = [].concat(...nestedFields.values());
