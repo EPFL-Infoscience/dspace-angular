@@ -131,9 +131,9 @@ export class DeduplicationItemsService {
         getFirstCompletedRemoteData(),
         map((rd: RemoteData<SubmissionFieldsObject>) => {
           if (rd.hasSucceeded) {
-            return rd.payload;
+             return rd.payload;
           } else {
-            console.error("Can't retrieve Repeatable Fields from REST service");
+            console.error("Can't retrieve Submission Fields from REST service");
           }
         })
       );

@@ -1,4 +1,3 @@
-import { ItemMock } from './../../shared/mocks/item.mock';
 import { RouterMock } from './../../shared/mocks/router.mock';
 import { SubmissionFieldsObject } from '../../core/deduplication/models/submission-fields.model';
 import { itemsToCompare, mockSubmissionRepeatableFieldsObject } from './../../shared/mocks/deduplication.mock';
@@ -21,7 +20,6 @@ import { Observable, of } from 'rxjs';
 import { RemoteData } from '../../core/data/remote-data';
 import { By } from '@angular/platform-browser';
 import { isEqual } from 'lodash';
-import { hasValue } from '../../shared/empty.util';
 
 describe('DeduplicationMergeComponent', () => {
   let component: DeduplicationMergeComponent;
@@ -102,7 +100,6 @@ describe('DeduplicationMergeComponent', () => {
       cookieService.set(`items-to-compare-${(route.snapshot.params as any).setChecksum}`, JSON.stringify(itemsPerset));
       compAsAny.storedItemList = [...itemsPerset];
       spyOn(compAsAny, 'getExcludedMetadata');
-      spyOn(compAsAny, 'getSubmissionFields').and.callThrough();
       spyOn(component, 'getData').and.callThrough();
       compAsAny.deduplicationItemsService.getItemData.and.returnValue(of(itemsToCompare[0].object));
       compAsAny.deduplicationItemsService.getSubmissionFields.and.returnValue(of(Object.assign(new SubmissionFieldsObject(), mockSubmissionRepeatableFieldsObject)));
@@ -204,7 +201,6 @@ describe('DeduplicationMergeComponent', () => {
       });
 
       it('should calculate nested metadata values', () => {
-        expect(compAsAny.getSubmissionFields).toHaveBeenCalled();
         expect(component.metadataKeysWithNestedFields.size).toBeGreaterThan(0);
         expect(component.compareMetadataValues.get('dc.contributor.author').length > 0).toBeTrue();
       });

@@ -24,7 +24,7 @@ import {
   QueryList,
 } from '@angular/core';
 import { DeduplicationItemsService } from './deduplication-items.service';
-import { map, concatMap } from 'rxjs/operators';
+import { map, concatMap, finalize } from 'rxjs/operators';
 import { hasValue } from '../../shared/empty.util';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from '../../core/services/cookie.service';
@@ -219,6 +219,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     const mapObject: MetadataMapObject[] = this.compareMetadataValues.get(key);
 
     if (this.nestedMetadataValues.includes(key)) {
+      // if the key is the nested field of a parent key Do Not show it separately
       return;
     }
 
@@ -662,41 +663,20 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   private getExcludedMetadata() {
     this.configurationDataService
       .findByPropertyName('merge.excluded-metadata')
-      .pipe(getFirstSucceededRemoteDataPayload())
-      .subscribe({
+      .pipe(
+        getFirstSucceededRemoteDataPayload(),
+        finalize(() => this.getSubmissionFieldsPerTargetItem())
+      ).subscribe({
         next: (res: ConfigurationProperty) => {
           if (hasValue(res)) {
             this.excludedMetadataKeys = [...res.values];
           }
-          this.getSubmissionFieldsPerTargetItem();
-        },
-        error: () => {
-          this.getSubmissionFieldsPerTargetItem();
         }
       });
   }
 
   /**
-   * Get submission repeatable & nested metadata fields from the REST configurations
-   * @param itemId Target item id
-   */
-  private getSubmissionFields(itemId: string): Observable<SubmissionFieldsObject> {
-    return this.deduplicationItemsService
-      .getSubmissionFields(itemId).pipe(
-        map((value: SubmissionFieldsObject) => {
-          if (hasValue(value)) {
-            const nestedFields: Map<string, string[]> = new Map(Object.entries(value.nestedFields));
-            this.nestedMetadataValues = [].concat(nestedFields.values());
-            this.metadataKeysWithNestedFields = nestedFields;
-            this.repeatableFields = [...value.repeatableFields];
-          }
-          return value;
-        })
-      );
-  }
-
-  /**
-   * Get submission fields(repeatable & nested fields) for target item
+   * Get submission fields(repeatable & nested fields) for TARGET ITEM
    * in order to display data accurately in the template,
    * with multi/single-selection or with nested metadata on it
    */
@@ -704,14 +684,14 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     if (this.storedItemList?.length > 0) {
       // TARGET ITEM - FIRST ITEM
       this.targetItemId = this.storedItemList[0];
-      this.getSubmissionFields(this.targetItemId).subscribe({
-        next: () => {
-          this.getItemsData();
-        },
-        error: () => {
-          // get item's data even if anything goes wrong,
-          // items are not related directly with submission fields
-          this.getItemsData();
+      this.deduplicationItemsService.getSubmissionFields(this.targetItemId).pipe(
+        finalize(() =>  this.getItemsData()),
+      ).subscribe((res: SubmissionFieldsObject)=>{
+        if (hasValue(res)) {
+          const nestedFields: Map<string, string[]> = new Map(Object.entries(res.nestedFields));
+          this.nestedMetadataValues = [].concat(...nestedFields.values());
+          this.metadataKeysWithNestedFields = nestedFields;
+          this.repeatableFields = [...res.repeatableFields];
         }
       });
     } else {

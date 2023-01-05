@@ -135,7 +135,7 @@ describe('DeduplicationMergeResultComponent', () => {
     it('should merge items on confiramation', () => {
       component.onMerge();
       setTimeout(() => {
-        component.modalRef.dismissed.subscribe((result) => {
+        component.modalRef?.dismissed.subscribe((result) => {
           expect(result).toEqual('ok');
           expect(compAsAny.deduplicationItemsService.mergeData).toHaveBeenCalled();
         });
