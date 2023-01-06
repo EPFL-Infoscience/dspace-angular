@@ -29,15 +29,14 @@ export class DeduplicationSetsRestService extends IdentifiableDataService<SetObj
   protected linkPath = 'sets';
 
   private searchData: SearchDataImpl<SetObject>;
-
   private deleteData: DeleteDataImpl<SetObject>;
+
   constructor(
     protected requestService: RequestService,
     protected rdbService: RemoteDataBuildService,
     protected objectCache: ObjectCacheService,
     protected halService: HALEndpointService,
     protected notificationsService: NotificationsService) {
-
     super('sets', requestService, rdbService, objectCache, halService);
     this.searchData = new SearchDataImpl(this.linkPath, requestService, rdbService, objectCache, halService, this.responseMsToLive);
     this.deleteData = new DeleteDataImpl(this.linkPath, requestService, rdbService, objectCache, halService, notificationsService, this.responseMsToLive, this.constructIdEndpoint);

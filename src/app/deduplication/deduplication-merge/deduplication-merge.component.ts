@@ -23,11 +23,11 @@ import {
   QueryList,
 } from '@angular/core';
 import { DeduplicationItemsService } from './deduplication-items.service';
-import { map, concatMap, finalize } from 'rxjs/operators';
+import { map, concatMap, finalize, debounceTime } from 'rxjs/operators';
 import { hasValue } from '../../shared/empty.util';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from '../../core/services/cookie.service';
-import { forkJoin } from 'rxjs';
+import { forkJoin, fromEvent } from 'rxjs';
 import {
   ItemContainer,
   ItemData,
@@ -176,6 +176,11 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
    * The default value when no value is selected for the nested metadata keys
    */
   public readonly noValuePlaceholder = '#PLACEHOLDER_PARENT_METADATA_VALUE#';
+
+  showBtn$ = fromEvent(document, 'scroll').pipe(
+    debounceTime(50),
+    map(() => window.scrollY > 500)
+  );
 
   constructor(
     private cookieService: CookieService,
@@ -897,5 +902,13 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     this.cookieService.remove(`items-to-compare-${this.setChecksum}`);
     this.cookieService.remove(`items-to-compare-identifiersLinkList`);
     this.modalRef?.close();
+  }
+
+  goToTop() {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
   }
 }

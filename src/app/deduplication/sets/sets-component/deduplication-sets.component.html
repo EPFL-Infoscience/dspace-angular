@@ -68,7 +68,7 @@
                       class="badge badge-info"
                       [ngClass]="[setIdx % 2 ? 'badge-info' : 'badge-light']"
                     >
-                      {{ set.itemsList?.length }}
+                      {{ set.itemsList?.length <= 1 ? 0 : set.itemsList?.length }}
                     </span>
                   </div>
                 </div>

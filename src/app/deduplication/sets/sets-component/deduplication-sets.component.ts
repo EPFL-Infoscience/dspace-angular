@@ -264,13 +264,11 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
         if (isEqual(element, 'set')) {
           this.deleteSet(elementId, setChecksum);
         } else if (isEqual(element, 'no-duplication')) {
-          // this.removeOnNoDuplicate('c770d112-1eb6-4eba-8c25-7f5716edb970', setChecksum, set);
           this.checkedItemsList
             .get(set.id)
             .map((selectedElement: SelectedItemData) => {
               if (selectedElement.checked) {
                 this.removeOnNoDuplicate(selectedElement.itemId, setChecksum, set);
-                // this.deleteItem(selectedElement.itemId, set);
               }
             });
         } else if (isEqual(element, 'item')) {
@@ -620,21 +618,6 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
             null,
             this.translate.get('deduplication.sets.notification.item-removed', { param: itemId })
           );
-
-          // if (value.hasSucceeded || isEqual(value.statusCode, 204)) {
-          //   // remove item from store
-          //   this.deduplicationStateService.dispatchRemoveItemPerSets(
-          //     this.signatureId,
-          //     set.id,
-          //     this.rule,
-          //     itemId,
-          //     'no-duplication'
-          //   );
-          //   this.notificationsService.success(
-          //     null,
-          //     this.translate.get('deduplication.sets.notification.item-removed', { param: itemId })
-          // );
-          // }
         },
         error: () => {
           this.notificationsService.error(

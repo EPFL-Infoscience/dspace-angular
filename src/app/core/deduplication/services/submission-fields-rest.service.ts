@@ -6,13 +6,10 @@ import { RequestService } from '../../data/request.service';
 import { Injectable } from '@angular/core';
 import { SubmissionFieldsObject } from '../models/submission-fields.model';
 import { SUBMISSION_FIELDS } from '../models/submission-fields.resource-type';
-import { Observable, switchMap } from 'rxjs';
-import { RemoteData } from '../../data/remote-data';
+import { switchMap } from 'rxjs';
 import { dataService } from '../../data/base/data-service.decorator';
 import { IdentifiableDataService } from '../../data/base/identifiable-data.service';
 import { SearchDataImpl } from '../../data/base/search-data';
-import { PaginatedList } from '../../data/paginated-list.model';
-import { getFirstCompletedRemoteData } from '../../shared/operators';
 
 @Injectable()
 @dataService(SUBMISSION_FIELDS)
@@ -42,21 +39,10 @@ export class SubmissionFieldsRestService extends IdentifiableDataService<Submiss
    */
   public getSubmissionFields(itemUuid: string, options: FindListOptions) {
     const searchmethod = `search/findByItem`;
-
-    // this.searchData.searchBy('findByItem', options, false, true).pipe(
-    //   getFirstCompletedRemoteData()
-    // );
-
     return this.searchData.getBrowseEndpoint().pipe(
       switchMap((href: string) => {
         return this.searchData.findByHref(`${href}/${searchmethod}?uuid=${itemUuid}`, false, true);
       })
     );
-
-    // return this.dataService.getBrowseEndpoint().pipe(
-    //   switchMap((href: string) => {
-    //     return this.dataService.findByHref(`${href}/${searchmethod}?uuid=${itemUuid}`, false, true);
-    //   })
-    // );
   }
 }

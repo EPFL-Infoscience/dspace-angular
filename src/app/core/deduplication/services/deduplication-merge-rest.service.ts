@@ -33,7 +33,7 @@ export class DeduplicationMergeRestService extends IdentifiableDataService<Merge
     protected halService: HALEndpointService,
     protected notificationsService: NotificationsService,
   ) {
-    super('bitstreams', requestService, rdbService, objectCache, halService);
+    super('merge', requestService, rdbService, objectCache, halService);
     this.searchData = new SearchDataImpl(this.linkPath, requestService, rdbService, objectCache, halService, this.responseMsToLive);
     this.putData = new PutDataImpl<MergeObject>(this.linkPath, requestService, rdbService, objectCache, halService, this.responseMsToLive);
   }
