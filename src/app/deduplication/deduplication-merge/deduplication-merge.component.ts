@@ -1,6 +1,5 @@
-import { MergeItemsFromCompare, NestedMetadataObject } from './../interfaces/deduplication-merge.models';
-import { SubmissionFieldsObject } from '../../core/deduplication/models/submission-fields.model';
-import { has, isEqual } from 'lodash';
+import { MergeItemsFromCompare, NestedMetadataObject, StoreIdentifiersToMerge } from './../interfaces/deduplication-merge.models';
+import { isEqual } from 'lodash';
 import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
 import { getFirstSucceededRemoteDataPayload } from './../../core/shared/operators';
 import { ConfigurationDataService } from './../../core/data/configuration-data.service';
@@ -57,7 +56,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   @ViewChildren(NgbAccordion) accordions: QueryList<NgbAccordion>;
 
   /**
-   * Item ids from the cookie, selected from previous page to me compared
+   * Item ids/href-s from the cookies, selected from previous page to me compared
    * @type {string[]}
    */
   private storedItemList: string[] = [];
@@ -198,9 +197,12 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         `items-to-compare-${this.setChecksum}`
       );
     } else {
-      this.storedItemList = this.cookieService.get(
+
+      const storeObj: StoreIdentifiersToMerge = this.cookieService.get(
         `items-to-compare-identifiersLinkList`
       );
+      this.storedItemList = storeObj.identifiersLinkList;
+      this.targetItemId = storeObj.targetItemUUID;
     }
   }
 
@@ -685,10 +687,10 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   private getSubmissionFieldsPerTargetItem() {
     if (this.storedItemList?.length > 0) {
       // TARGET ITEM - FIRST ITEM
-      this.targetItemId = this.storedItemList[0];
+      this.targetItemId = this.targetItemId ?? this.storedItemList[0];
       this.deduplicationItemsService.getSubmissionFields(this.targetItemId).pipe(
         finalize(() => this.getItemsData()),
-      ).subscribe((res: SubmissionFieldsObject) => {
+      ).subscribe((res) => {
         if (hasValue(res)) {
           const nestedFields: Map<string, string[]> = new Map(Object.entries(res.nestedFields));
           this.nestedMetadataValues = [].concat(...nestedFields.values());
@@ -714,7 +716,8 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   */
   private getItemsData() {
     const itemCalls: Observable<Item>[] = [];
-    this.storedItemList.forEach((element: string, index: number) => {
+    this.storedItemList.forEach((element: string) => {
+          // element: uuid | href
       const call = this.getData(element).pipe(
         map((item: Item) => {
           if (hasValue(item)) {

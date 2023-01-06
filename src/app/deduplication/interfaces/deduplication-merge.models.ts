@@ -67,3 +67,8 @@ export interface SetIdentifiers {
   signatureId: string;
   rule: string;
 }
+
+export interface StoreIdentifiersToMerge{
+  targetItemUUID: string;
+  identifiersLinkList: string[];
+}

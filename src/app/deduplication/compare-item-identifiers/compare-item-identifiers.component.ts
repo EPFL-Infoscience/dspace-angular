@@ -16,6 +16,7 @@ import { hasValue } from '../../shared/empty.util';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { CookieService } from '../../core/services/cookie.service';
+import { StoreIdentifiersToMerge } from '../interfaces/deduplication-merge.models';
 
 @Component({
   selector: 'ds-compare-item-identifiers',
@@ -42,6 +43,8 @@ export class CompareItemIdentifiersComponent {
    * @type {string[]}
    */
   private identifiersLinkList: string[] = [];
+
+  private targetItemUUDI: string;
 
   constructor(
     private notificationsService: NotificationsService,
@@ -70,6 +73,7 @@ export class CompareItemIdentifiersComponent {
               isEqual(x, rd.payload._links.self.href)
             )
           ) {
+            this.targetItemUUDI = rd.payload.uuid;
             this.identifiersLinkList.push(rd.payload._links?.self.href);
           }
           return rd.payload;
@@ -174,9 +178,16 @@ export class CompareItemIdentifiersComponent {
         if (isEqual(counter, uuidsList.length)) {
           this.modalService.open(content).closed.subscribe((result) => {
             if (isEqual(result, 'ok')) {
+              // storing items' href in order to get the item data from href
+              // because of their different types (in order to make the same call for all of them)
+              const storeObj: StoreIdentifiersToMerge = {
+                targetItemUUID: this.targetItemUUDI,
+                identifiersLinkList: this.identifiersLinkList
+              };
+
               this.cookieService.set(
                 `items-to-compare-identifiersLinkList`,
-                JSON.stringify(this.identifiersLinkList)
+                JSON.stringify(storeObj)
               );
 
               // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -192,7 +203,7 @@ export class CompareItemIdentifiersComponent {
       });
     } else {
       // We should make sure we have set at least 2 identifiers to compare
-      this.notificationsService.info( null, this.translate.get('deduplication.compare.required-condition')
+      this.notificationsService.info(null, this.translate.get('deduplication.compare.required-condition')
       );
     }
   }

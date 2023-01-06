@@ -121,17 +121,17 @@ export class DeduplicationItemsService {
    * @returns {Observable<SubmissionFieldsObject>}
    */
   getSubmissionFields(itemId: string): Observable<SubmissionFieldsObject> {
-    const options = new FindListOptions();
-    options.searchParams = [
-      new RequestParam('uuid', itemId)
-    ];
+    const options: FindListOptions = Object.assign(new FindListOptions(), {
+      searchParams: [new RequestParam('uuid', itemId)]
+    });
+
     return this.submissionFieldsService
-      .getSubmissionFields(itemId)
+      .getSubmissionFields(itemId, options)
       .pipe(
         getFirstCompletedRemoteData(),
         map((rd: RemoteData<SubmissionFieldsObject>) => {
           if (rd.hasSucceeded) {
-             return rd.payload;
+            return rd.payload;
           } else {
             console.error("Can't retrieve Submission Fields from REST service");
           }

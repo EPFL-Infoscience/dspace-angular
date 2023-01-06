@@ -1,93 +1,46 @@
-/* eslint-disable max-classes-per-file */
 import { getFirstCompletedRemoteData } from '../../shared/operators';
-import { PaginatedList } from '../../data/paginated-list.model';
 import { FollowLinkConfig } from '../../../shared/utils/follow-link-config.model';
-import { DefaultChangeAnalyzer } from '../../data/default-change-analyzer.service';
-import { ChangeAnalyzer } from '../../data/change-analyzer';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { HALEndpointService } from '../../shared/hal-endpoint.service';
 import { ObjectCacheService } from '../../cache/object-cache.service';
 import { RemoteDataBuildService } from '../../cache/builders/remote-data-build.service';
 import { RequestService } from '../../data/request.service';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Store } from '@ngrx/store';
-
 import { Observable } from 'rxjs';
 import { mergeMap, switchMap, take } from 'rxjs/operators';
 import { SetObject } from '../models/set.model';
-import { DataService } from '../../data/data.service';
-import { dataService } from '../../cache/builders/build-decorators';
 import { DEDUPLICATION_SET } from '../models/deduplication-set.resource-type';
 import { RemoteData } from '../../data/remote-data';
 import { NoContent } from '../../shared/NoContent.model';
-import { CoreState } from '../../core-state.model';
 import { FindListOptions } from '../../data/find-list-options.model';
-
-
-/**
- * A private DataService implementation to delegate specific methods to.
- */
-class DataServiceImpl extends DataService<SetObject> {
-  /**
-   * The REST endpoint.
-   */
-  protected linkPath = 'sets';
-
-  constructor(
-    protected requestService: RequestService,
-    protected rdbService: RemoteDataBuildService,
-    protected store: Store<CoreState>,
-    protected objectCache: ObjectCacheService,
-    protected halService: HALEndpointService,
-    protected notificationsService: NotificationsService,
-    protected http: HttpClient,
-    protected comparator: ChangeAnalyzer<SetObject>
-  ) {
-    super();
-  }
-}
+import { IdentifiableDataService } from '../../data/base/identifiable-data.service';
+import { SearchDataImpl } from '../../data/base/search-data';
+import { DeleteDataImpl } from '../../data/base/delete-data';
+import { dataService } from '../../data/base/data-service.decorator';
+import { PaginatedList } from '../../data/paginated-list.model';
 
 /**
  * The service handling deduplication sets REST requests.
  */
 @Injectable()
 @dataService(DEDUPLICATION_SET)
-export class DeduplicationSetsRestService {
-  /**
-   * A private DataService implementation to delegate specific methods to.
-   */
-  private dataService: DataServiceImpl;
+export class DeduplicationSetsRestService extends IdentifiableDataService<SetObject>  {
 
-  /**
-   * Initialize service variables
-   * @param {RequestService} requestService
-   * @param {RemoteDataBuildService} rdbService
-   * @param {ObjectCacheService} objectCache
-   * @param {HALEndpointService} halService
-   * @param {NotificationsService} notificationsService
-   * @param {HttpClient} http
-   * @param {DefaultChangeAnalyzer<SetObject>} comparator
-   */
+  protected linkPath = 'sets';
+
+  private searchData: SearchDataImpl<SetObject>;
+
+  private deleteData: DeleteDataImpl<SetObject>;
   constructor(
     protected requestService: RequestService,
     protected rdbService: RemoteDataBuildService,
     protected objectCache: ObjectCacheService,
     protected halService: HALEndpointService,
-    protected notificationsService: NotificationsService,
-    protected http: HttpClient,
-    protected comparator: DefaultChangeAnalyzer<SetObject>
-  ) {
-    this.dataService = new DataServiceImpl(
-      requestService,
-      rdbService,
-      null,
-      objectCache,
-      halService,
-      notificationsService,
-      http,
-      comparator
-    );
+    protected notificationsService: NotificationsService) {
+
+    super('sets', requestService, rdbService, objectCache, halService);
+    this.searchData = new SearchDataImpl(this.linkPath, requestService, rdbService, objectCache, halService, this.responseMsToLive);
+    this.deleteData = new DeleteDataImpl(this.linkPath, requestService, rdbService, objectCache, halService, notificationsService, this.responseMsToLive, this.constructIdEndpoint);
   }
 
   /**
@@ -100,13 +53,12 @@ export class DeduplicationSetsRestService {
     options: FindListOptions = {},
     ...linksToFollow: FollowLinkConfig<SetObject>[]
   ): Observable<RemoteData<PaginatedList<SetObject>>> {
-    const searchmethod = `findBySignature`;
-    return this.dataService
-      .getSearchByHref(`${searchmethod}`, options, ...linksToFollow)
+    return this.searchData
+      .getSearchByHref(`findBySignature`, options, ...linksToFollow)
       .pipe(
         take(1),
         mergeMap((href: string) => {
-          return this.dataService.findAllByHref(
+          return this.searchData.findListByHref(
             href,
             options,
             false,
@@ -128,12 +80,12 @@ export class DeduplicationSetsRestService {
     ...linksToFollow: FollowLinkConfig<SetObject>[]
   ): Observable<RemoteData<PaginatedList<SetObject>>> {
     const searchmethod = `findBySignatureAndRule`;
-    return this.dataService
+    return this.searchData
       .getSearchByHref(`${searchmethod}`, options, ...linksToFollow)
       .pipe(
         take(1),
         mergeMap((href: string) => {
-          return this.dataService.findAllByHref(
+          return this.searchData.findListByHref(
             href,
             options,
             false,
@@ -153,24 +105,21 @@ export class DeduplicationSetsRestService {
     signatureId: string,
     checksum: string
   ): Observable<RemoteData<NoContent>> {
-    return this.dataService
+    return this.deleteData
       .delete(`${signatureId}:${checksum}`)
       .pipe(getFirstCompletedRemoteData());
   }
 
-    /**
-   * On 'No duplicate' remove the given set item.
-   * @param signatureId The id of the signature to which the set items belong.
-   * @param itemId The id of the item to delete.
-   */
-     public removeItem(signatureId: string, itemId: string, seChecksum: string) {
-      // return this.http.delete(`http://localhost:8080/server/api/deduplications/sets/${signatureId}:${seChecksum}/items/${itemId}`);
-      // return this.dataService.delete(`${signatureId}:${seChecksum}/items/${itemId}`);
-      return this.dataService.getBrowseEndpoint().pipe(
-        switchMap((href: string) => {
-          return this.http.delete(`${href}/${signatureId}:${seChecksum}/items/${itemId}`);
-          // return this.dataService.deleteByHref(`${href}/${signatureId}:${seChecksum}/items/${itemId}`);
-        })
-      );
-    }
+  /**
+ * On 'No duplicate' remove the given set item.
+ * @param signatureId The id of the signature to which the set items belong.
+ * @param itemId The id of the item to delete.
+ */
+  public removeItem(signatureId: string, itemId: string, seChecksum: string): Observable<RemoteData<NoContent>> {
+    return this.searchData.getBrowseEndpoint().pipe(
+      switchMap((href: string) => {
+        return this.deleteData.deleteByHref(`${href}/${signatureId}:${seChecksum}/items/${itemId}`);
+      })
+    );
+  }
 }
