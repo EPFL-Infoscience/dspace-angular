@@ -1,4 +1,3 @@
-import { PutData } from './../../data/base/put-data';
 import { mergeMap } from 'rxjs/operators';
 import { MERGE_OBJECT } from './../models/merge-object.resource-type';
 import { RemoteDataBuildService } from './../../cache/builders/remote-data-build.service';
@@ -17,7 +16,7 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 @dataService(MERGE_OBJECT)
-export class DeduplicationMergeRestService extends IdentifiableDataService<MergeObject> implements PutData<MergeObject>{
+export class DeduplicationMergeRestService extends IdentifiableDataService<MergeObject>{
 
   /**
    * A private DataService implementation to delegate specific methods to.
@@ -44,7 +43,7 @@ export class DeduplicationMergeRestService extends IdentifiableDataService<Merge
    * @param targetItemId the id if the target item (the first item in the list)
    * @returns {Observable<RemoteData<MergeObject>> } the merged object
    */
-  public mergeItemsData(data: any, targetItemId: string): Observable<RemoteData<MergeObject>> {
+  public mergeItemsData(data: MergeObject, targetItemId: string): Observable<RemoteData<MergeObject>> {
     return this.halService.getEndpoint(this.searchData.getLinkPath()).pipe(
       mergeMap(endpoint => {
         // TODO: Change the request object after REST changes
@@ -55,14 +54,9 @@ export class DeduplicationMergeRestService extends IdentifiableDataService<Merge
               href: `${endpoint}/${targetItemId}`
             },
           },
-        } as MergeObject;
-        return this.putData.put(object);
+        };
+         return this.putData.put(object);
       })
     );
-  }
-
-  // TODO: replace after the first method is refactor
-  put(data: MergeObject): Observable<RemoteData<MergeObject>> {
-    return this.putData.put(data);
   }
 }

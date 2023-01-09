@@ -1,3 +1,4 @@
+import { ItemsMetadataField } from './../../../deduplication/interfaces/deduplication-merge.models';
 import { Item } from './../../shared/item.model';
 import { MERGE_OBJECT } from './merge-object.resource-type';
 import { autoserialize } from 'cerialize';
@@ -29,7 +30,7 @@ export class MergeObject implements CacheableObject {
    * The target item link
    */
   @autoserialize
-  targetItem: string;
+  // targetItem: string;
 
   /**
    * The merged items self's links
@@ -41,7 +42,10 @@ export class MergeObject implements CacheableObject {
    * The merged items bitstreams self's links
    */
   @autoserialize
-  mergedBitstreams: string[];
+  bitstreams: string[];
+
+  @autoserialize
+  metadata: ItemsMetadataField[];
 
   /**
    * The embedded metadata values.
@@ -51,6 +55,8 @@ export class MergeObject implements CacheableObject {
     item: Item;
   };
 
+  @autoserialize
+  setId?: string;
 
   uuid?: string;
 

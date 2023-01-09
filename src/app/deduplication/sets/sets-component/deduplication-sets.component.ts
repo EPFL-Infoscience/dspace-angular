@@ -2,7 +2,6 @@ import { MergeObject } from './../../../core/deduplication/models/merge-object.m
 import { Item } from './../../../core/shared/item.model';
 import {
   ItemsMetadataField,
-  MergeSetItems,
 } from './../../interfaces/deduplication-merge.models';
 import { WorkflowItem } from './../../../core/submission/models/workflowitem.model';
 import { SubmitDataResponseDefinitionObject } from './../../../core/shared/submit-data-response-definition.model';
@@ -31,7 +30,7 @@ import { DeduplicationSetsService } from './../deduplication-sets.service';
 import { NoContent } from './../../../core/shared/NoContent.model';
 import { RemoteData } from './../../../core/data/remote-data';
 import { isEqual, isNull } from 'lodash';
-import { getFirstCompletedRemoteData, getFirstSucceededRemoteDataPayload } from './../../../core/shared/operators';
+import { getFirstCompletedRemoteData, getRemoteDataPayload } from './../../../core/shared/operators';
 import { ConfigObject } from './../../../core/config/models/config.model';
 import { CookieService } from '../../../core/services/cookie.service';
 import { SelectedItemData } from './../../interfaces/deduplication-sets.models';
@@ -332,17 +331,13 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
    * @param item The item for which the collection name is to be retrieved
    * @returns {Observable<string> } The name of the collection
    */
-  getItemOwningCollectionName(item: Item): Observable<string> {
-    if (hasValue(item?._links?.owningCollection.href)) {
-      return this.deduplicationSetsService
-        .getItemOwningCollection(item._links.owningCollection.href)
-        .pipe(
-          getFirstSucceededRemoteDataPayload(),
-          map(
-            (collection: Collection) =>
-              collection?.metadata['dc.title'][0].value ?? '-'
-          )
-        );
+  getItemOwningCollectionName(item: Item): Observable<string>{
+    if (hasValue(item?.owningCollection)) {
+      return item.owningCollection.pipe(
+        getRemoteDataPayload(),
+        map((collection: Collection) =>
+          collection?.metadata['dc.title'][0].value ?? '-')
+      );
     } else {
       return of('-');
     }
@@ -443,9 +438,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
 
     this.modalService.open(content).dismissed.subscribe((result) => {
       if (isEqual(result, 'ok')) {
-        let bitstreamLinks: string[] = [];
         const metadataValues: ItemsMetadataField[] = [];
-        let itemToKeep: MergeSetItems;
         // construct merge object
         item.metadataAsList.forEach((el, index) => {
           metadataValues.push({
@@ -469,13 +462,12 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
           .pipe(
             switchMap((bitstreams: Bitstream[], index: number) => {
               const linksPerItem = bitstreams.map((b) => b._links.self.href);
-              bitstreamLinks = linksPerItem;
-              itemToKeep = {
+              let itemToKeep: MergeObject = Object.assign(new MergeObject(), {
                 setId: setId,
-                bitstreams: bitstreamLinks,
-                mergedItems: [], // self-link of the target item should not be sent
-                metadata: metadataValues,
-              };
+                bitstreams: linksPerItem,
+                mergedItems: [],
+                metadata: metadataValues
+              });
 
               return this.deduplicationItemsService.mergeData(
                 itemToKeep,

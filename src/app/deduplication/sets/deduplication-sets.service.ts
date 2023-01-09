@@ -45,20 +45,20 @@ export class DeduplicationSetsService {
     signatureId: string,
     rule?: string
   ): Observable<PaginatedList<SetObject>> {
-    const findListOptions: FindListOptions = new FindListOptions();
-    findListOptions.elementsPerPage = elementsPerPage;
-    findListOptions.currentPage = currentPage;
-    findListOptions.searchParams = [
+    const setListOptions: FindListOptions = new FindListOptions();
+    setListOptions.elementsPerPage = elementsPerPage;
+    setListOptions.currentPage = currentPage;
+    setListOptions.searchParams = [
       new RequestParam('signature-id', signatureId),
       new RequestParam('haveItems', true)
     ];
 
     if (hasValue(rule)) {
-      findListOptions.searchParams.push(new RequestParam('rule', rule));
+      setListOptions.searchParams.push(new RequestParam('rule', rule));
     }
 
     return this.deduplicationRestService
-      .getSetsPerSignature(findListOptions, followLink('items'))
+      .getSetsPerSignature(setListOptions, followLink('items', {},  followLink('bundles', {}, followLink('bitstreams')), followLink('owningCollection')))
       .pipe(
         getFirstCompletedRemoteData(),
         map((rd: RemoteData<PaginatedList<SetObject>>) => {
@@ -102,10 +102,6 @@ export class DeduplicationSetsService {
     return this.deduplicationRestService
       .removeItem(signatureId, itemId, seChecksum)
       .pipe(
-        // TODO: Fix after deduplicationRestService.removeItem is fixed
-        // getFirstCompletedRemoteData(),
-        // map((value: RemoteData<NoContent>) => {
-        // }),
         catchError((error) => {
           throw new Error("Can't remove the set from REST service");
         })
@@ -119,17 +115,6 @@ export class DeduplicationSetsService {
    */
   public deleteSetItem(itemId: string): Observable<RemoteData<NoContent>> {
     return this.itemDataService.delete(itemId);
-  }
-
-  /**
-   * Get Owning Collection of the item
-   * @param href The _links of the item
-   * @returns the collection of the item
-   */
-  public getItemOwningCollection(
-    href: string
-  ): Observable<RemoteData<Collection>> {
-    return this.collectionDataService.findByHref(href);
   }
 
   /**

@@ -1,4 +1,5 @@
-import { MergeItemsFromCompare, NestedMetadataObject, StoreIdentifiersToMerge } from './../interfaces/deduplication-merge.models';
+import { MergeObject } from './../../core/deduplication/models/merge-object.model';
+import { NestedMetadataObject, StoreIdentifiersToMerge } from './../interfaces/deduplication-merge.models';
 import { isEqual } from 'lodash';
 import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
 import { getFirstSucceededRemoteDataPayload } from './../../core/shared/operators';
@@ -33,7 +34,6 @@ import {
   ItemData,
   ItemMetadataSource,
   ItemsMetadataField,
-  MergeSetItems,
   MetadataMapObject,
   SetIdentifiers,
 } from '../interfaces/deduplication-merge.models';
@@ -546,16 +546,17 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       }
     );
     // merge object
-    let mergedItems: MergeSetItems | MergeItemsFromCompare = {
+    let mergedItems: MergeObject = Object.assign(new MergeObject(),{
       bitstreams: [...this.bitstreamList],
       metadata: this.getMergedMetadataFields(newMap),
       mergedItems: [...this.mergedItems],
-    };
+    });
+
     let setIdentifiers: SetIdentifiers = null;
 
     if (hasValue(this.signatureId) && hasValue(this.setChecksum)) {
       // merge object coming from sets
-      (mergedItems as MergeSetItems).setId = `${this.signatureId}:${this.setChecksum}`;
+      mergedItems.setId = `${this.signatureId}:${this.setChecksum}`;
       setIdentifiers = {
         setId: `${this.signatureId}:${this.setChecksum}`,
         signatureId: this.signatureId,

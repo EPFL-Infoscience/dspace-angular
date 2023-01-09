@@ -1,12 +1,11 @@
+import { MergeObject } from './../../core/deduplication/models/merge-object.model';
 import { Item } from 'src/app/core/shared/item.model';
-import { MergeItemsFromCompare } from './../interfaces/deduplication-merge.models';
 import { DeduplicationStateService } from './../deduplication-state.service';
 import { DeduplicationItemsService } from './../deduplication-merge/deduplication-items.service';
 import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import {
   ItemData,
-  MergeSetItems,
   MetadataMapObject,
   SetIdentifiers,
 } from '../interfaces/deduplication-merge.models';
@@ -41,7 +40,7 @@ export class DeduplicationMergeResultComponent {
    * The final object with all neccessary data to perform merge.
    * @type {MergeSetItems}
    */
-  @Input() itemsToMerge: MergeSetItems | MergeItemsFromCompare;
+  @Input() itemsToMerge: MergeObject;
 
   /**
    * The target item's UUID
