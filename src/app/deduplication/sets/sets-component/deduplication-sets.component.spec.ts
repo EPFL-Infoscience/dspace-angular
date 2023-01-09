@@ -368,18 +368,17 @@ describe('DeduplicationSetsComponent test suite', () => {
     });
 
     it('should remove items on case of no deduplication', () => {
-      // TODO: Uncomment when the method will be uncommented
-      // compAsAny.removeItem(
-      //   item.id,
-      //   mockSetObject.setChecksum,
-      //   mockSetObject.id
-      // );
+      compAsAny.removeOnNoDuplicate(
+        item.id,
+        mockSetObject.setChecksum,
+        mockSetObject.id
+      );
 
-      // expect(deduplicationSetsService.removeItem).toHaveBeenCalledWith(
-      //   signatureId,
-      //   item.id,
-      //   mockSetObject.setChecksum
-      // );
+      expect(deduplicationSetsService.removeItem).toHaveBeenCalledWith(
+        signatureId,
+        item.id,
+        mockSetObject.setChecksum
+      );
     });
   });
 

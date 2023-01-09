@@ -1,8 +1,6 @@
-import { HttpClient } from '@angular/common/http';
-
+import { mockSetObject } from './../../../shared/mocks/deduplication.mock';
 import { TestScheduler } from 'rxjs/testing';
-import { of as observableOf } from 'rxjs';
-import { getTestScheduler, cold } from 'jasmine-marbles';
+import { getTestScheduler } from 'jasmine-marbles';
 
 import { RequestService } from '../../data/request.service';
 import { RemoteDataBuildService } from '../../cache/builders/remote-data-build.service';
@@ -10,11 +8,16 @@ import { ObjectCacheService } from '../../cache/object-cache.service';
 import { RestResponse } from '../../cache/response.models';
 import { HALEndpointService } from '../../shared/hal-endpoint.service';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
-import { createSuccessfulRemoteDataObject } from '../../../shared/remote-data.utils';
-import { mockSetObject } from '../../../shared/mocks/deduplication.mock';
 import { PaginatedList } from '../../data/paginated-list.model';
 import { RequestEntry } from '../../data/request-entry.model';
 import { DeduplicationSetsRestService } from './deduplication-sets-rest.service';
+import { getMockRequestService } from './../../../shared/mocks/request.service.mock';
+import { HALEndpointServiceStub } from './../../../shared/testing/hal-endpoint-service.stub';
+import { Observable } from 'rxjs';
+import { RemoteData } from '../../data/remote-data';
+import { SetObject } from '../models/set.model';
+import { NoContent } from '../../shared/NoContent.model';
+import { getMockRemoteDataBuildService } from './../../../shared/mocks/remote-data-build.service.mock';
 
 describe('DeduplicationSetsRestService', () => {
   let scheduler: TestScheduler;
@@ -25,49 +28,20 @@ describe('DeduplicationSetsRestService', () => {
   let objectCache: ObjectCacheService;
   let halService: HALEndpointService;
   let notificationsService: NotificationsService;
-  let http: HttpClient;
-  let comparator: any;
 
   const endpointURL = 'https://rest.api/rest/api/deduplications/sets/title:d5144968f1c7bbff30af48960f28ead6';
-  const requestUUID = 'd5144968f1c7bbff30af48960f28ead6';
   const setChecksum = 'd5144968f1c7bbff30af48960f28ead6';
   const signatureId = 'title';
 
-  const paginatedList = new PaginatedList();
-  const setObjectRD = createSuccessfulRemoteDataObject(mockSetObject);
-  const paginatedListRD = createSuccessfulRemoteDataObject(paginatedList);
-
   beforeEach(() => {
     scheduler = getTestScheduler();
-
     responseCacheEntry = new RequestEntry();
     responseCacheEntry.response = new RestResponse(true, 200, 'Success');
-    requestService = jasmine.createSpyObj('requestService', {
-      send: {},
-      generateRequestId: requestUUID,
-      configure: true,
-      removeByHrefSubstring: {},
-      getByHref: observableOf(responseCacheEntry),
-      getByUUID: observableOf(responseCacheEntry),
-    });
-
-    rdbService = jasmine.createSpyObj('rdbService', {
-      buildSingle: cold('(a)', {
-        a: setObjectRD
-      }),
-      buildList: cold('(a)', {
-        a: paginatedListRD
-      }),
-    });
-
+    requestService = getMockRequestService();
+    rdbService = getMockRemoteDataBuildService();
     objectCache = {} as ObjectCacheService;
-    halService = jasmine.createSpyObj('halService', {
-      getEndpoint: cold('a|', { a: endpointURL })
-    });
-
+    halService = Object.assign(new HALEndpointServiceStub('fake-url'));
     notificationsService = {} as NotificationsService;
-    http = {} as HttpClient;
-    comparator = {} as any;
 
     service = new DeduplicationSetsRestService(
       requestService,
@@ -75,40 +49,61 @@ describe('DeduplicationSetsRestService', () => {
       objectCache,
       halService,
       notificationsService,
-      http,
-      comparator
     );
-
-    spyOn((service as any).dataService, 'getSearchByHref').and.callThrough();
-    spyOn((service as any).dataService, 'delete').and.callThrough();
   });
 
+
   describe('getSignatures', () => {
-    it('should proxy the call to dataservice.getSearchByHref', (done) => {
-      service.getSetsPerSignature().subscribe(
-        (res) => {
-          expect((service as any).dataService.getSearchByHref).toHaveBeenCalledWith(endpointURL, {}, {});
-        }
-      );
-      done();
+    let res: Observable<RemoteData<PaginatedList<SetObject>>>;
+    beforeEach(() => {
+      res = service.getSetsPerSignature();
     });
-
-    it('should proxy the call to dataservice.getSearchByHref / findBySignature', (done) => {
-      service.getSetsfindBySignature().subscribe(
-        (res) => {
-          expect((service as any).dataService.getSearchByHref).toHaveBeenCalledWith(endpointURL, {}, {});
+    it('should proxy the call to getSearchByHref', () => {
+      res.subscribe(
+        () => {
+          expect((service as any).searchData.getSearchByHref).toHaveBeenCalledWith(endpointURL, {}, {});
         }
       );
-      done();
     });
+  });
 
-    it('should proxy the call to dataservice.delete / deleteSet', (done) => {
-      service.deleteSet(signatureId, setChecksum).subscribe(
-        (res) => {
-          expect((service as any).dataService.getSearchByHref).toHaveBeenCalledWith(`${signatureId}:${setChecksum}`);
+  describe('findBySignature', () => {
+    let res: Observable<RemoteData<PaginatedList<SetObject>>>;
+    beforeEach(() => {
+      res = service.getSetsFindBySignature();
+    });
+    it('should proxy the call to dataservice.getSearchByHref / findBySignature', () => {
+      res.subscribe(
+        () => {
+          expect((service as any).searchData.getSearchByHref).toHaveBeenCalledWith(endpointURL, {}, {});
         }
       );
-      done();
+    });
+  });
+
+  describe('deleteSet', () => {
+    let res: Observable<RemoteData<NoContent>>;
+    beforeEach(() => {
+      res = service.deleteSet(signatureId, setChecksum);
+    });
+    it('should proxy the call to dataservice.getSearchByHref / findBySignature', () => {
+      res.subscribe(
+        () => {
+          expect((service as any).deleteData.delete).toHaveBeenCalledWith(mockSetObject.id);
+        });
+    });
+  });
+
+  describe('remove items from set', () => {
+    let res: Observable<RemoteData<NoContent>>;
+    beforeEach(() => {
+      res = service.removeItem(signatureId, 'fake-item-id', setChecksum);
+    });
+    it('should proxy the call to dataservice.getSearchByHref / findBySignature', () => {
+      res.subscribe(
+        () => {
+          expect((service as any).deleteData.deleteByHref).toHaveBeenCalledWith(`${endpointURL}/items/fake-item-id`);
+        });
     });
   });
 });

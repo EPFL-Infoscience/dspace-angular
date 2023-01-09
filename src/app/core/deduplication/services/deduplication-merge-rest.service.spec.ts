@@ -1,7 +1,6 @@
-import { ItemsMetadataField, MergeSetItems } from './../../../deduplication/interfaces/deduplication-merge.models';
+import { ItemsMetadataField } from './../../../deduplication/interfaces/deduplication-merge.models';
 import { MergeObject } from './../models/merge-object.model';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
-import { HttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 
 import { DeduplicationMergeRestService } from './deduplication-merge-rest.service';
@@ -10,12 +9,14 @@ import { ObjectCacheService } from '../../cache/object-cache.service';
 import { RemoteDataBuildService } from '../../cache/builders/remote-data-build.service';
 import { RequestService } from '../../data/request.service';
 import { TestScheduler } from 'rxjs/testing';
-import { cold, getTestScheduler } from 'jasmine-marbles';
+import { getTestScheduler } from 'jasmine-marbles';
 import { RestResponse } from '../../cache/response.models';
-import { createSuccessfulRemoteDataObject } from '../../../shared/remote-data.utils';
-import { of as observableOf } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { RequestEntry } from '../../data/request-entry.model';
+import { getMockRequestService } from './../../../shared/mocks/request.service.mock';
+import { getMockRemoteDataBuildService } from './../../../shared/mocks/remote-data-build.service.mock';
+import { PutRequest } from '../../data/request.models';
+import { HALEndpointServiceStub } from './../../../shared/testing/hal-endpoint-service.stub';
 
 describe('DeduplicationMergeRestService', () => {
   let service: DeduplicationMergeRestService;
@@ -26,13 +27,9 @@ describe('DeduplicationMergeRestService', () => {
   let objectCache: ObjectCacheService;
   let halService: HALEndpointService;
   let notificationsService: NotificationsService;
-  let http: HttpClient;
-  let comparator: any;
 
-  const linkPath = 'merge';
   const endpointURL = 'https://rest.api/rest/api/deduplications/merge';
-  const requestUUID = '8b3c613a-5a4b-438b-9686-be1d5b4a1c5a';
-  const mergeObjectRD = createSuccessfulRemoteDataObject(new MergeObject());
+  const targetItemId = 'fake-id';
   const metadataFields: ItemsMetadataField[] = [
     {
       metadataField: 'dc.title',
@@ -42,40 +39,25 @@ describe('DeduplicationMergeRestService', () => {
       }]
     }
   ];
-  const mergeData: MergeSetItems = {
+  const mergeData: MergeObject = Object.assign(new MergeObject(), {
     setId: '2f4c613a-5a4b-438b-9686-be1d5b4a1g5d',
     bitstreams: [],
     mergedItems: [],
     metadata: metadataFields
-  };
+  });
 
   beforeEach(() => {
     scheduler = getTestScheduler();
     responseCacheEntry = new RequestEntry();
     responseCacheEntry.response = new RestResponse(true, 200, 'Success');
-    requestService = jasmine.createSpyObj('requestService', {
-      send: {},
-      generateRequestId: requestUUID,
-      configure: true,
-      removeByHrefSubstring: {},
-      getByHref: observableOf(responseCacheEntry),
-      getByUUID: observableOf(responseCacheEntry)
-    });
+    requestService = getMockRequestService();
 
-    rdbService = jasmine.createSpyObj('rdbService', {
-      buildSingle: cold('(a)', {
-        a: mergeObjectRD
-      }),
-      buildFromRequestUUID: observableOf(responseCacheEntry),
-    });
+    rdbService = getMockRemoteDataBuildService();
 
     objectCache = {} as ObjectCacheService;
-    halService = jasmine.createSpyObj('halService', {
-      getEndpoint: cold('a|', { a: endpointURL })
-    });
+    halService = Object.assign(new HALEndpointServiceStub(endpointURL));
     notificationsService = {} as NotificationsService;
-    http = {} as HttpClient;
-    comparator = {} as any;
+
     TestBed.configureTestingModule({
       providers: [
         DeduplicationMergeRestService,
@@ -88,19 +70,18 @@ describe('DeduplicationMergeRestService', () => {
       objectCache,
       halService,
       notificationsService,
-      http,
-      comparator
     );
   });
 
   describe('mergeData', () => {
     beforeEach(() => {
-       spyOn((service as any).dataService, 'put').and.callThrough();
+      service.mergeItemsData(mergeData,targetItemId);
     });
 
     it('should proxy the call to dataService.put', () => {
-      service.mergeItemsData(mergeData, requestUUID).pipe(take(1)).subscribe(
+      service.mergeItemsData(mergeData, targetItemId).pipe(take(1)).subscribe(
         (res) => {
+          expect(requestService.send).toHaveBeenCalledWith(jasmine.any(PutRequest));
           expect(res).toBeDefined();
         }
       );

@@ -3,8 +3,6 @@ import { followLink } from './../../shared/utils/follow-link-config.model';
 import { WorkflowItem } from './../../core/submission/models/workflowitem.model';
 import { SubmitDataResponseDefinitionObject } from './../../core/shared/submit-data-response-definition.model';
 import { SubmissionRestService } from './../../core/submission/submission-rest.service';
-import { CollectionDataService } from './../../core/data/collection-data.service';
-import { Collection } from './../../core/shared/collection.model';
 import { ItemDataService } from './../../core/data/item-data.service';
 import { NoContent } from './../../core/shared/NoContent.model';
 import { RemoteData } from './../../core/data/remote-data';
@@ -25,7 +23,6 @@ export class DeduplicationSetsService {
   constructor(
     private deduplicationRestService: DeduplicationSetsRestService,
     private itemDataService: ItemDataService,
-    private collectionDataService: CollectionDataService,
     private submissionRestService: SubmissionRestService,
     private workflowItemDataService: WorkflowItemDataService,
   ) { }

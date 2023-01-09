@@ -48,7 +48,7 @@ export class DeduplicationSetsRestService extends IdentifiableDataService<SetObj
    * @param linksToFollow List of {@link FollowLinkConfig} that indicate which {@link HALLink}s should be automatically resolved.
    * @returns List of sets for the given signature.
    */
-  public getSetsfindBySignature(
+  public getSetsFindBySignature(
     options: FindListOptions = {},
     ...linksToFollow: FollowLinkConfig<SetObject>[]
   ): Observable<RemoteData<PaginatedList<SetObject>>> {
@@ -114,10 +114,10 @@ export class DeduplicationSetsRestService extends IdentifiableDataService<SetObj
  * @param signatureId The id of the signature to which the set items belong.
  * @param itemId The id of the item to delete.
  */
-  public removeItem(signatureId: string, itemId: string, seChecksum: string): Observable<RemoteData<NoContent>> {
+  public removeItem(signatureId: string, itemId: string, setChecksum: string): Observable<RemoteData<NoContent>> {
     return this.searchData.getBrowseEndpoint().pipe(
       switchMap((href: string) => {
-        return this.deleteData.deleteByHref(`${href}/${signatureId}:${seChecksum}/items/${itemId}`);
+        return this.deleteData.deleteByHref(`${href}/${signatureId}:${setChecksum}/items/${itemId}`);
       })
     );
   }

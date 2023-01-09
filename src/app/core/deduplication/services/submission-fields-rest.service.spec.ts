@@ -1,5 +1,3 @@
-import { HttpClient } from '@angular/common/http';
-
 import { TestScheduler } from 'rxjs/testing';
 import { of as observableOf } from 'rxjs';
 import { getTestScheduler, cold } from 'jasmine-marbles';
@@ -23,8 +21,6 @@ describe('SubmissionFieldsRestService', () => {
   let objectCache: ObjectCacheService;
   let halService: HALEndpointService;
   let notificationsService: NotificationsService;
-  let http: HttpClient;
-  let comparator: any;
 
   const endpointURL = 'https://rest.api/server/api/config/submissionfields/search/findByItem?231d6608-0847-4f4b-ac5f-c6058ce6a73d';
   const requestUUID = '8b3c613a-5a4b-438b-9686-be1d5b4a2dp2';
@@ -56,23 +52,18 @@ describe('SubmissionFieldsRestService', () => {
     });
 
     notificationsService = {} as NotificationsService;
-    http = {} as HttpClient;
-    comparator = {} as any;
 
     service = new SubmissionFieldsRestService(
       requestService,
       rdbService,
       objectCache,
       halService,
-      notificationsService,
-      http,
-      comparator
     );
   });
 
   describe('getSubmissionFields', () => {
     it('should return a RemoteData<SubmissionFieldsObject>', () => {
-      const res$ = service.getSubmissionFields(itemUUID);
+      const res$ = service.getSubmissionFields(itemUUID, {});
       expect(res$).toBeObservable(
         cold('(a)', {
           a: mockSubmissionRepeatableFieldsObject,

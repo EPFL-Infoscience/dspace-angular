@@ -1,5 +1,3 @@
-import { HttpClient } from '@angular/common/http';
-
 import { TestScheduler } from 'rxjs/testing';
 import { of as observableOf } from 'rxjs';
 import { getTestScheduler, cold } from 'jasmine-marbles';
@@ -26,8 +24,6 @@ describe('DeduplicationRestService', () => {
   let objectCache: ObjectCacheService;
   let halService: HALEndpointService;
   let notificationsService: NotificationsService;
-  let http: HttpClient;
-  let comparator: any;
 
   const endpointURL = 'https://rest.api/rest/api/deduplications/signatures';
   const requestUUID = '8b3c613a-5a4b-438b-9686-be1d5b4a1c5a';
@@ -67,8 +63,6 @@ describe('DeduplicationRestService', () => {
     });
 
     notificationsService = {} as NotificationsService;
-    http = {} as HttpClient;
-    comparator = {} as any;
 
     service = new DeduplicationRestService(
       requestService,
@@ -76,18 +70,15 @@ describe('DeduplicationRestService', () => {
       objectCache,
       halService,
       notificationsService,
-      http,
-      comparator
     );
 
-    spyOn((service as any).dataService, 'findAllByHref').and.callThrough();
   });
 
   describe('getSignatures', () => {
     it('should proxy the call to dataservice.findAllByHref', (done) => {
       service.getSignatures().subscribe(
         (res) => {
-          expect((service as any).dataService.findAllByHref).toHaveBeenCalledWith(endpointURL, {}, true, true);
+          expect((service as any).searchData.findAllByHref).toHaveBeenCalledWith(endpointURL, {}, true, true);
         }
       );
       done();

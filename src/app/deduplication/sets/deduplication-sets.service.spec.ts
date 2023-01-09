@@ -31,9 +31,6 @@ describe('DeduplicationSetsService', () => {
   const signatureId = mockSetObject.signatureId;
   const rule = 'admin';
 
-  const collectionDataServiceStub: any = {
-    findByHref: () => createSuccessfulRemoteDataObject$(new Collection()),
-  };
 
   const submissionRestServiceStub: any = new SubmissionRestServiceStub();
 
@@ -62,7 +59,6 @@ describe('DeduplicationSetsService', () => {
         DeduplicationSetsService,
         { provide: DeduplicationSetsRestService, useValue: deduplicationRestServiceStub },
         { provide: ItemDataService, useValue: itemDataServiceStub },
-        { provide: CollectionDataService, useValue: collectionDataServiceStub },
         { provide: SubmissionRestService, useValue: submissionRestServiceStub },
         { provide: WorkflowItemDataService, useValue: workflowItemDataServiceStub },
       ]
@@ -73,7 +69,6 @@ describe('DeduplicationSetsService', () => {
     service = new DeduplicationSetsService(
       deduplicationRestServiceStub,
       itemDataServiceStub,
-      collectionDataServiceStub,
       submissionRestServiceStub,
       workflowItemDataServiceStub
     );
@@ -98,7 +93,7 @@ describe('DeduplicationSetsService', () => {
       ];
       findListOptions.searchParams.push(new RequestParam('rule', rule));
 
-      expect(serviceAsAny.deduplicationRestService.getSetsPerSignature).toHaveBeenCalledWith(findListOptions, followLink('items'));
+      expect(serviceAsAny.deduplicationRestService.getSetsPerSignature).toHaveBeenCalledWith(findListOptions, followLink('items', {}, followLink('bundles', {}, followLink('bitstreams')), followLink('owningCollection')));
 
       const expected = cold('(a|)', {
         a: setObjectPL
@@ -119,19 +114,12 @@ describe('DeduplicationSetsService', () => {
     it('should proxy the call to removeItem from set', () => {
       const result = service.removeItem(signatureId, ItemMock.id, mockSetObject.setChecksum);
       expect(serviceAsAny.deduplicationRestService.removeItem).toHaveBeenCalledWith(signatureId, ItemMock.id, mockSetObject.setChecksum);
-
-      // TODO: remove comment after method is refactored
-      // const expected = cold('(a|)', {
-      //     a: createSuccessfulRemoteDataObject(noContent)
-      // });
-      // expect(result).toBeObservable(expected);
     });
   });
 
   describe('working with the items of the set', () => {
     beforeEach(() => {
       spyOn(serviceAsAny.itemDataService, 'delete').and.returnValue(createSuccessfulRemoteDataObject$(noContent));
-      spyOn(serviceAsAny.collectionDataService, 'findByHref').and.returnValue(createSuccessfulRemoteDataObject$(new Collection()));
       spyOn(serviceAsAny.submissionRestService, 'deleteById').and.returnValue(createSuccessfulRemoteDataObject$({}));
       spyOn(serviceAsAny.workflowItemDataService, 'findByItem').and.returnValue(createSuccessfulRemoteDataObject$(new WorkflowItem()));
       spyOn(serviceAsAny.workflowItemDataService, 'delete').and.returnValue(createSuccessfulRemoteDataObject$(noContent));
@@ -143,16 +131,6 @@ describe('DeduplicationSetsService', () => {
 
       const expected = cold('(a|)', {
         a: createSuccessfulRemoteDataObject(noContent)
-      });
-      expect(result).toBeObservable(expected);
-    });
-
-    it('should getItemOwningCollection of an item', () => {
-      const result = service.getItemOwningCollection(ItemMock._links.self.href);
-      expect(serviceAsAny.collectionDataService.findByHref).toHaveBeenCalledWith(ItemMock._links.self.href);
-
-      const expected = cold('(a|)', {
-        a: createSuccessfulRemoteDataObject(new Collection())
       });
       expect(result).toBeObservable(expected);
     });

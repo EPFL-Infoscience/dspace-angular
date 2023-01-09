@@ -1,4 +1,5 @@
-import { MergeSetItems } from './../interfaces/deduplication-merge.models';
+import { RequestParam } from './../../core/cache/models/request-param.model';
+import { FindListOptions } from './../../core/data/find-list-options.model';
 import { MergeObject } from './../../core/deduplication/models/merge-object.model';
 import { SubmissionFieldsRestService } from '../../core/deduplication/services/submission-fields-rest.service';
 import { NotificationsServiceStub } from '../../shared/testing/notifications-service.stub';
@@ -38,12 +39,12 @@ describe('DeduplicationItemsService', () => {
   const collectionPath = '/collections/';
   const itemPath = '/items/';
 
-  const setItemObj: MergeSetItems = {
+  const setItemObj: MergeObject = Object.assign(new MergeObject(), {
     setId: 'title:d4b9185f91391c0574f4c3dbdd6fa7d3',
     bitstreams: [],
     mergedItems: [],
     metadata: []
-  };
+  });
 
   function init() {
     testCollection = Object.assign(new Collection(),
@@ -167,7 +168,10 @@ describe('DeduplicationItemsService', () => {
 
     it('should proxy the call to getSubmissionFields', () => {
       const result = service.getSubmissionFields(itemUUID);
-      expect((service as any).submissionFieldsService.getSubmissionFields).toHaveBeenCalledWith(itemUUID);
+      const options: FindListOptions = Object.assign(new FindListOptions(), {
+        searchParams: [new RequestParam('uuid', '04dd18fc-03f9-4b9a-9304-ed7c313686d3')]
+      });
+      expect((service as any).submissionFieldsService.getSubmissionFields).toHaveBeenCalledWith(itemUUID, options);
       const expected = cold('(a|)', {
         a: submissionObj
       });
