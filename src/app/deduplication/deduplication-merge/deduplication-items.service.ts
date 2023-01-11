@@ -97,7 +97,7 @@ export class DeduplicationItemsService {
         if (response.hasFailed && isEqual(response.statusCode, 500)) {
           this.notificationsService.error(
             null,
-            this.translate.get('deduplication.merge.notification.message-error')
+            this.translate.get('deduplication.merge.notification.message-error-500')
           );
           throw new Error('Merge Failed with status 500');
         }
@@ -108,6 +108,11 @@ export class DeduplicationItemsService {
             this.translate.get('deduplication.merge.notification.message-error-400')
           );
           throw new Error('Merge Failed with status 400');
+        } else {
+          this.notificationsService.error(
+            null,
+            this.translate.get('deduplication.merge.notification.message-error')
+          );
         }
       })
     );

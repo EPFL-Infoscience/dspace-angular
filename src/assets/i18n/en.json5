@@ -1786,11 +1786,13 @@
 
   "deduplication.merge.notification.message-success": "Merge finished successfully",
 
-  "deduplication.merge.notification.message-error": "Merge failed, server error",
+  "deduplication.merge.notification.message-error-500": "Merge failed, server error",
 
   "deduplication.merge.notification.message-error-422": "Merge failed. Please check multiple selected values",
 
   "deduplication.merge.notification.message-error-400": "Merge failed. Something went wrong, please check multiple selected values",
+
+  "deduplication.merge.notification.message-error": "Merge failed. Something went wrong, refresh and try again",
 
   "deduplication.merge.tooltip.delete-info": "Clear all the selections",
 

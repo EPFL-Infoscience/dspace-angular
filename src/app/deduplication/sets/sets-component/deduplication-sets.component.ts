@@ -77,7 +77,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
    * The number of elements per page.
    * @protected
    */
-  protected elementsPerPage = 6;
+  protected elementsPerPage = 10;
 
   /**
    * The signatures' sets total pages.
