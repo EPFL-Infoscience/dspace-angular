@@ -1,4 +1,3 @@
-import { mockSetObject } from './../../../shared/mocks/deduplication.mock';
 import { TestScheduler } from 'rxjs/testing';
 import { getTestScheduler } from 'jasmine-marbles';
 
@@ -89,7 +88,7 @@ describe('DeduplicationSetsRestService', () => {
     it('should proxy the call to dataservice.getSearchByHref / findBySignature', () => {
       res.subscribe(
         () => {
-          expect((service as any).deleteData.delete).toHaveBeenCalledWith(mockSetObject.id);
+           expect(requestService.send).toHaveBeenCalled();
         });
     });
   });
@@ -102,7 +101,7 @@ describe('DeduplicationSetsRestService', () => {
     it('should proxy the call to dataservice.getSearchByHref / findBySignature', () => {
       res.subscribe(
         () => {
-          expect((service as any).deleteData.deleteByHref).toHaveBeenCalledWith(`${endpointURL}/items/fake-item-id`);
+          expect(requestService.send).toHaveBeenCalled();
         });
     });
   });

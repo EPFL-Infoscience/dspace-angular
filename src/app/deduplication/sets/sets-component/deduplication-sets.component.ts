@@ -1,4 +1,4 @@
-import { Bitstream } from 'src/app/core/shared/bitstream.model';
+import { Bitstream } from './../../../core/shared/bitstream.model';
 import { MergeObject } from './../../../core/deduplication/models/merge-object.model';
 import { Item } from './../../../core/shared/item.model';
 import {
@@ -40,7 +40,6 @@ import { DeduplicationItemsService } from '../../deduplication-merge/deduplicati
 import { getEntityPageRoute } from '../../../item-page/item-page-routing-paths';
 import { GetBitstreamsPipe } from '../../pipes/ds-get-bitstreams.pipe';
 import { GetItemStatusListPipe } from '../../pipes/get-item-status-list.pipe';
-import { DSONameService } from 'src/app/core/breadcrumbs/dso-name.service';
 
 @Component({
   selector: 'ds-deduplication-sets',

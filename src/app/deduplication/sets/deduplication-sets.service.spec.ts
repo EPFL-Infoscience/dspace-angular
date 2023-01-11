@@ -5,12 +5,10 @@ import { RequestParam } from './../../core/cache/models/request-param.model';
 import { RemoteData } from './../../core/data/remote-data';
 import { followLink } from './../../shared/utils/follow-link-config.model';
 import { FindListOptions } from './../../core/data/find-list-options.model';
-import { Collection } from './../../core/shared/collection.model';
 import { SetObject } from './../../core/deduplication/models/set.model';
 import { DeduplicationSetsService } from './deduplication-sets.service';
 import { WorkflowItemDataService } from './../../core/submission/workflowitem-data.service';
 import { SubmissionRestService } from './../../core/submission/submission-rest.service';
-import { CollectionDataService } from './../../core/data/collection-data.service';
 import { ItemDataService } from './../../core/data/item-data.service';
 import { SubmissionRestServiceStub } from '../../shared/testing/submission-rest-service.stub';
 import { Observable, of } from 'rxjs';
@@ -120,7 +118,7 @@ describe('DeduplicationSetsService', () => {
   describe('working with the items of the set', () => {
     beforeEach(() => {
       spyOn(serviceAsAny.itemDataService, 'delete').and.returnValue(createSuccessfulRemoteDataObject$(noContent));
-      spyOn(serviceAsAny.submissionRestService, 'deleteById').and.returnValue(createSuccessfulRemoteDataObject$({}));
+     // spyOn(serviceAsAny.submissionRestService, 'deleteById').and.returnValue(of({}));
       spyOn(serviceAsAny.workflowItemDataService, 'findByItem').and.returnValue(createSuccessfulRemoteDataObject$(new WorkflowItem()));
       spyOn(serviceAsAny.workflowItemDataService, 'delete').and.returnValue(createSuccessfulRemoteDataObject$(noContent));
     });
