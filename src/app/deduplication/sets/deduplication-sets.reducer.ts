@@ -126,7 +126,7 @@ function deleteSet(
 ): DeduplicationSetState {
   const setData = [...state.objects];
   if (hasValue(setData)) {
-    const setIdx = setData.findIndex((x) =>
+    const setIdx: number = setData.findIndex((x) =>
       isEqual(x.id, action.payload.setId)
     );
     if (setIdx > -1) {

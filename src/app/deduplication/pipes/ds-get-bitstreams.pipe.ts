@@ -1,7 +1,7 @@
 import { isEqual } from 'lodash';
 import { Pipe, PipeTransform } from '@angular/core';
-import { map, mergeMap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Observable, of, switchMap } from 'rxjs';
 import { DSONameService } from './../../core/breadcrumbs/dso-name.service';
 import { PaginatedList } from './../../core/data/paginated-list.model';
 import { Bitstream } from './../../core/shared/bitstream.model';
@@ -30,7 +30,7 @@ export class GetBitstreamsPipe implements PipeTransform {
             isEqual(this.dsoNameService.getName(bundle), 'ORIGINAL')
           )
         ),
-        mergeMap((bundle: Bundle[]) => {
+        switchMap((bundle: Bundle[]) => {
           if (bundle.length > 0) {
             return bundle.map((b: Bundle) => {
               return b.bitstreams.pipe(

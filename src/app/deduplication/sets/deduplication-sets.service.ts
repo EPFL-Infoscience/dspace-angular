@@ -55,7 +55,7 @@ export class DeduplicationSetsService {
     }
 
     return this.deduplicationRestService
-      .getSetsPerSignature(setListOptions, followLink('items', {},  followLink('bundles', {}, followLink('bitstreams')), followLink('owningCollection')))
+      .getSetsPerSignature(setListOptions, followLink('items', {}, followLink('bundles', {}, followLink('bitstreams')), followLink('owningCollection')))
       .pipe(
         getFirstCompletedRemoteData(),
         map((rd: RemoteData<PaginatedList<SetObject>>) => {

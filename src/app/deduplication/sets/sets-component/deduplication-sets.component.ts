@@ -1,3 +1,4 @@
+import { Bitstream } from 'src/app/core/shared/bitstream.model';
 import { MergeObject } from './../../../core/deduplication/models/merge-object.model';
 import { Item } from './../../../core/shared/item.model';
 import {
@@ -20,8 +21,9 @@ import {
   QueryList,
   ChangeDetectorRef,
   OnInit,
+  OnDestroy,
 } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { SetObject } from '../../../core/deduplication/models/set.model';
 import { DeduplicationStateService } from './../../deduplication-state.service';
 import { map, take, concatMap, switchMap } from 'rxjs/operators';
@@ -35,10 +37,10 @@ import { ConfigObject } from './../../../core/config/models/config.model';
 import { CookieService } from '../../../core/services/cookie.service';
 import { SelectedItemData } from './../../interfaces/deduplication-sets.models';
 import { DeduplicationItemsService } from '../../deduplication-merge/deduplication-items.service';
-import { Bitstream } from '../../../core/shared/bitstream.model';
 import { getEntityPageRoute } from '../../../item-page/item-page-routing-paths';
 import { GetBitstreamsPipe } from '../../pipes/ds-get-bitstreams.pipe';
 import { GetItemStatusListPipe } from '../../pipes/get-item-status-list.pipe';
+import { DSONameService } from 'src/app/core/breadcrumbs/dso-name.service';
 
 @Component({
   selector: 'ds-deduplication-sets',
@@ -46,7 +48,7 @@ import { GetItemStatusListPipe } from '../../pipes/get-item-status-list.pipe';
   styleUrls: ['./deduplication-sets.component.scss'],
   providers: [GetBitstreamsPipe, GetItemStatusListPipe],
 })
-export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
+export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Accordions references in order to collapse/expand them on click
    * @type {QueryList<NgbAccordion>}
@@ -134,6 +136,8 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
    * @type {string[]}
    */
   openedAccordions: string[] = ['panel-0'];
+
+  private mergeSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -331,7 +335,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
    * @param item The item for which the collection name is to be retrieved
    * @returns {Observable<string> } The name of the collection
    */
-  getItemOwningCollectionName(item: Item): Observable<string>{
+  getItemOwningCollectionName(item: Item): Observable<string> {
     if (hasValue(item?.owningCollection)) {
       return item.owningCollection.pipe(
         getRemoteDataPayload(),
@@ -438,31 +442,27 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
 
     this.modalService.open(content).dismissed.subscribe((result) => {
       if (isEqual(result, 'ok')) {
-        const metadataValues: ItemsMetadataField[] = [];
-        // construct merge object
-        item.metadataAsList.forEach((el, index) => {
-          metadataValues.push({
-            metadataField: el.key,
-            sources: [
-              {
-                place: el.place,
-                item: item._links?.self?.href,
-              },
-            ],
-          });
-        });
-        // GET bitstream for the item
-        this.getBitstreamsPipe
-          .transform(item)
-          .pipe(
-            concatMap((res$: Observable<Bitstream[]>) =>
-              res$.pipe(map((bitstreams: Bitstream[]) => bitstreams))
-            )
-          )
-          .pipe(
-            switchMap((bitstreams: Bitstream[], index: number) => {
-              const linksPerItem = bitstreams.map((b) => b._links.self.href);
-              let itemToKeep: MergeObject = Object.assign(new MergeObject(), {
+        this.mergeSub = this.getBitstreamsPipe.transform(item).pipe(
+          concatMap((res$: Observable<Bitstream[]>) =>
+            res$.pipe(map((bitstreams: Bitstream[]) => bitstreams))
+          ),
+          switchMap(
+            (bs: Bitstream[]) => {
+              const metadataValues: ItemsMetadataField[] = [];
+              const linksPerItem = bs.map((b) => b._links.self.href);
+              // construct merge object
+              item.metadataAsList.forEach((el, index) => {
+                metadataValues.push({
+                  metadataField: el.key,
+                  sources: [
+                    {
+                      place: el.place,
+                      item: item._links?.self?.href,
+                    },
+                  ],
+                });
+              });
+              let itemToKeep = Object.assign(new MergeObject(), {
                 setId: setId,
                 bitstreams: linksPerItem,
                 mergedItems: [],
@@ -473,9 +473,10 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
                 itemToKeep,
                 item.uuid
               );
-            })
+            }
           )
-          .subscribe((res: MergeObject) => {
+        ).subscribe(
+          (res: MergeObject) => {
             if (hasValue(res)) {
               // remove set from store
               this.deduplicationStateService.dispatchDeleteSet(
@@ -484,7 +485,8 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
                 this.rule
               );
             }
-          });
+          }
+        );
       }
     });
   }
@@ -791,4 +793,8 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit {
       .pipe(take(1));
   }
   //#endregion
+
+  ngOnDestroy(): void {
+    this.mergeSub?.unsubscribe();
+  }
 }
