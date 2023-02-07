@@ -1935,6 +1935,8 @@
 
   "explore.counters-section.project_funding" : "Projects",
 
+  "explore.grid-section.seeAll" : "See all",
+
   "explore.facet-section.title" : "Discover",
 
   "explore.index.all" : "All",
@@ -2297,6 +2299,13 @@
   "grant-request-copy.intro": "This message will be sent to the applicant of the request. The requested document(s) will be attached.",
 
   "grant-request-copy.success": "Successfully granted item request",
+
+
+  "grid.component.badge": "Paths",
+  "grid.component.title": "Discovering...",
+  "grid.component.subtitle": "...new ways to explore our digital libraries.",
+  "grid.component.abstract": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  "grid.component.link": "/explore/paths",
 
 
   "health.breadcrumbs": "Health",
