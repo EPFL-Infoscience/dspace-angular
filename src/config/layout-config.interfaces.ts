@@ -30,7 +30,6 @@ export interface CrisLayoutTypeConfig {
 
 export interface NavbarConfig extends Config {
   showCommunityCollection: boolean;
-  search: SearchLayoutConfig;
 }
 
 export interface CrisItemPageConfig extends Config {
@@ -52,6 +51,7 @@ export interface CrisLayoutConfig extends Config {
 
 export interface LayoutConfig extends Config {
   navbar: NavbarConfig;
+  search: SearchLayoutConfig;
 }
 
 export interface SuggestionConfig extends Config {
@@ -60,9 +60,9 @@ export interface SuggestionConfig extends Config {
 }
 
 export interface SearchLayoutConfig {
-  filters: SearchDatePickerConfig;
+  filters: SearchFiltersConfig;
 }
 
-export interface SearchDatePickerConfig {
+export interface SearchFiltersConfig {
   datepicker: string[];
 }
