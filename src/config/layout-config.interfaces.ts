@@ -51,9 +51,18 @@ export interface CrisLayoutConfig extends Config {
 
 export interface LayoutConfig extends Config {
   navbar: NavbarConfig;
+  search: SearchLayoutConfig;
 }
 
 export interface SuggestionConfig extends Config {
   source: string;
   collectionId: string;
+}
+
+export interface SearchLayoutConfig {
+  filters: SearchFiltersConfig;
+}
+
+export interface SearchFiltersConfig {
+  datepicker: string[];
 }
