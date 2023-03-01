@@ -10,11 +10,11 @@ import { RequestService } from '../../../../core/data/request.service';
 import { Observable } from 'rxjs';
 import { RemoteData } from '../../../../core/data/remote-data';
 import { WorkflowItem } from '../../../../core/submission/models/workflowitem.model';
-import { switchMap, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { CLAIMED_TASK } from '../../../../core/tasks/models/claimed-task-object.resource-type';
-import { getFirstSucceededRemoteDataPayload } from '../../../../core/shared/operators';
 import { Item } from '../../../../core/shared/item.model';
 import { MyDSpaceReloadableActionsComponent } from '../../mydspace-reloadable-actions';
+import { isEmpty } from '../../../empty.util';
 
 /**
  * Abstract component for rendering a claimed task's action
@@ -37,6 +37,11 @@ export abstract class ClaimedTaskActionsAbstractComponent extends MyDSpaceReload
   object: ClaimedTask;
 
   /**
+   * The item object that belonging to the ClaimedTask object
+   */
+  item: Item;
+
+  /**
    * Input to disable the actions
    */
   @Input() disabled = false;
@@ -49,12 +54,17 @@ export abstract class ClaimedTaskActionsAbstractComponent extends MyDSpaceReload
 
   subs = [];
 
+  /**
+   * The workflowitem object that belonging to the ClaimedTask object
+   */
+  workflowitem: WorkflowItem;
+
   protected constructor(protected injector: Injector,
-    protected router: Router,
-    protected notificationsService: NotificationsService,
-    protected translate: TranslateService,
-    protected searchService: SearchService,
-    protected requestService: RequestService) {
+                        protected router: Router,
+                        protected notificationsService: NotificationsService,
+                        protected translate: TranslateService,
+                        protected searchService: SearchService,
+                        protected requestService: RequestService) {
     super(CLAIMED_TASK, injector, router, notificationsService, translate, searchService, requestService);
   }
 
@@ -91,16 +101,10 @@ export abstract class ClaimedTaskActionsAbstractComponent extends MyDSpaceReload
    * Retrieve the itemUuid.
    */
   initReloadAnchor() {
-    if (!(this.object as any).workflowitem) {
+    if (isEmpty(this.item)) {
       return;
     }
-    this.subs.push(this.object.workflowitem.pipe(
-      getFirstSucceededRemoteDataPayload(),
-      switchMap((workflowItem: WorkflowItem) => workflowItem.item.pipe(getFirstSucceededRemoteDataPayload())
-      ))
-      .subscribe((item: Item) => {
-        this.itemUuid = item.uuid;
-      }));
+    this.itemUuid = this.item.uuid;
   }
 
   ngOnDestroy() {

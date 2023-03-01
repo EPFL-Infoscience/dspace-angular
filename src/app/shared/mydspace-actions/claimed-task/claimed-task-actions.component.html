@@ -1,20 +1,28 @@
 <ng-container *ngVar="(actionRD$ | async)?.payload as workflowAction">
-  <div class="space-children-mr"
-    [ngClass]="{ 'mt-1 mb-3' : !workflowAction$, 'edit-metadata-page-buttons': !!workflowAction$ }">
-    <ds-claimed-task-actions-loader *ngFor="let option of workflowAction?.options" [option]="option" [object]="object"
-      [disabled]="hasModifications" (processCompleted)="processCompletedFunction($event)">
+  <div class="space-children-mr" [ngClass]="{ 'mt-1 mb-3' : !workflowAction$, 'edit-metadata-page-buttons': !!workflowAction$ }">
+    <ds-claimed-task-actions-loader *ngFor="let option of workflowAction?.options"
+                                    [disabled]="hasModifications"
+                                    [item]="item"
+                                    [option]="option"
+                                    [object]="object"
+                                    [workflowitem]="workflowitem"
+                                    (processCompleted)="processCompletedFunction($event)">
     </ds-claimed-task-actions-loader>
 
     <ng-container *ngIf="hasViewAction(workflowAction)">
-      <button [disabled]="hasModifications" class="btn btn-primary workflow-view"
-        ngbTooltip="{{'submission.workflow.generic.view-help' | translate}}"
-        [routerLink]="[getWorkflowItemViewRoute((workflowitem$ | async))]">
+      <button class="btn btn-primary workflow-view"
+              ngbTooltip="{{'submission.workflow.generic.view-help' | translate}}"
+              [disabled]="hasModifications"
+              [routerLink]="[getWorkflowItemViewRoute(workflowitem)]">
         <i class="fa fa-info-circle"></i> {{"submission.workflow.generic.view" | translate}}
       </button>
     </ng-container>
 
-    <ds-claimed-task-actions-loader [option]="returnToPoolOption" [object]="object" [disabled]="hasModifications"
-      (processCompleted)="processCompletedFunction($event)">
+    <ds-claimed-task-actions-loader [item]="item"
+                                    [option]="returnToPoolOption"
+                                    [object]="object"
+                                    [workflowitem]="workflowitem"
+                                    (processCompleted)="processCompletedFunction($event)">
     </ds-claimed-task-actions-loader>
   </div>
 </ng-container>

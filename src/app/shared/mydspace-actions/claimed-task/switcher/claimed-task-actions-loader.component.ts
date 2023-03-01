@@ -17,6 +17,8 @@ import { ClaimedTaskActionsAbstractComponent } from '../abstract/claimed-task-ac
 import { hasValue } from '../../../empty.util';
 import { Subscription } from 'rxjs';
 import { MyDSpaceActionsResult } from '../../mydspace-actions';
+import { Item } from '../../../../core/shared/item.model';
+import { WorkflowItem } from '../../../../core/submission/models/workflowitem.model';
 
 @Component({
   selector: 'ds-claimed-task-actions-loader',
@@ -27,6 +29,12 @@ import { MyDSpaceActionsResult } from '../../mydspace-actions';
  * Passes on the ClaimedTask to the component and subscribes to the processCompleted output
  */
 export class ClaimedTaskActionsLoaderComponent implements OnInit, OnDestroy, OnChanges {
+
+  /**
+   * The item object that belonging to the ClaimedTask object
+   */
+  @Input() item: Item;
+
   /**
    * The ClaimedTask object
    */
@@ -44,6 +52,11 @@ export class ClaimedTaskActionsLoaderComponent implements OnInit, OnDestroy, OnC
   @Input() disabled = false;
 
   /**
+   * The workflowitem object that belonging to the ClaimedTask object
+   */
+  @Input() workflowitem: WorkflowItem;
+
+  /**
    * Emits the success or failure of a processed action
    */
   @Output() processCompleted = new EventEmitter<MyDSpaceActionsResult>();
@@ -51,7 +64,7 @@ export class ClaimedTaskActionsLoaderComponent implements OnInit, OnDestroy, OnC
   /**
    * Directive to determine where the dynamic child component is located
    */
-  @ViewChild(ClaimedTaskActionsDirective, { static: true }) claimedTaskActionsDirective: ClaimedTaskActionsDirective;
+  @ViewChild(ClaimedTaskActionsDirective, {static: true}) claimedTaskActionsDirective: ClaimedTaskActionsDirective;
 
   /**
    * Reference to the component instance generated
@@ -71,6 +84,7 @@ export class ClaimedTaskActionsLoaderComponent implements OnInit, OnDestroy, OnC
    * Fetch, create and initialize the relevant component
    */
   ngOnInit(): void {
+
     const comp = this.getComponentByWorkflowTaskOption(this.option);
     if (hasValue(comp)) {
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(comp);
@@ -80,8 +94,10 @@ export class ClaimedTaskActionsLoaderComponent implements OnInit, OnDestroy, OnC
 
       const componentRef = viewContainerRef.createComponent(componentFactory);
       this.componentInstance = (componentRef.instance as ClaimedTaskActionsAbstractComponent);
+      this.componentInstance.item = this.item;
       this.componentInstance.object = this.object;
       this.componentInstance.disabled = this.disabled;
+      this.componentInstance.workflowitem = this.workflowitem;;
       if (hasValue(this.componentInstance.processCompleted)) {
         this.subs.push(this.componentInstance.processCompleted.subscribe((result) => this.processCompleted.emit(result)));
       }

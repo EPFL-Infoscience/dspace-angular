@@ -13,7 +13,10 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of as observableOf } from 'rxjs';
 import { createSuccessfulRemoteDataObject } from '../../../shared/remote-data.utils';
 import { AuthorizationDataService } from '../../../core/data/feature-authorization/authorization-data.service';
-import { ResearcherProfileService } from '../../../core/profile/researcher-profile.service';
+import { OrcidAuthService } from '../../../core/orcid/orcid-auth.service';
+import { NotificationsService } from '../../../shared/notifications/notifications.service';
+import { NotificationsServiceStub } from '../../../shared/testing/notifications-service.stub';
+import { ChangeSubmitterService } from '../../../submission/change-submitter.service';
 
 describe('ItemStatusComponent', () => {
   let comp: ItemStatusComponent;
@@ -38,16 +41,21 @@ describe('ItemStatusComponent', () => {
   };
 
   let authorizationService: AuthorizationDataService;
-  let researcherProfileService: any;
+  let orcidAuthService: any;
+  let changeSubmitterService: any;
 
   beforeEach(waitForAsync(() => {
     authorizationService = jasmine.createSpyObj('authorizationService', {
       isAuthorized: observableOf(true)
     });
 
-    researcherProfileService = jasmine.createSpyObj('researcherProfileService', {
-      adminCanDisconnectProfileFromOrcid: observableOf ( true ),
+    orcidAuthService = jasmine.createSpyObj('OrcidAuthService', {
+      onlyAdminCanDisconnectProfileFromOrcid: observableOf ( true ),
       isLinkedToOrcid: true
+    });
+
+    changeSubmitterService = jasmine.createSpyObj('ChangeSubmitterService', {
+      changeSubmitterItem: jasmine.createSpy('changeSubmitterItem')
     });
 
     TestBed.configureTestingModule({
@@ -57,7 +65,9 @@ describe('ItemStatusComponent', () => {
         { provide: ActivatedRoute, useValue: routeStub },
         { provide: HostWindowService, useValue: new HostWindowServiceStub(0) },
         { provide: AuthorizationDataService, useValue: authorizationService },
-        { provide: ResearcherProfileService, useValue: researcherProfileService },
+        { provide: OrcidAuthService, useValue: orcidAuthService },
+        { provide: NotificationsService, useValue: new NotificationsServiceStub() },
+        { provide: ChangeSubmitterService, useValue: changeSubmitterService },
       ], schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));

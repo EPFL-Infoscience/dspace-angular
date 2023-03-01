@@ -18,7 +18,7 @@ import { SearchFacetRangeOptionComponent } from './search-facet-range-option.com
 import {
   RANGE_FILTER_MAX_SUFFIX,
   RANGE_FILTER_MIN_SUFFIX
-} from '../../search-range-filter/search-range-filter.component';
+} from '../../search-range-filter-wrapper/search-range-filter/search-range-filter.component';
 import { PaginationComponentOptions } from '../../../../../pagination/pagination-component-options.model';
 import { PaginationService } from '../../../../../../core/pagination/pagination.service';
 import { PaginationServiceStub } from '../../../../../testing/pagination-service.stub';

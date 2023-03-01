@@ -10,9 +10,10 @@ import {
   isStale,
   isSuccess,
   isSuccessStale,
-  PathableObjectError,
   RequestEntryState
-} from './request.reducer';
+} from './request-entry-state.model';
+import { PathableObjectError } from './response-state.model';
+import { isNotEmpty } from '../../shared/empty.util';
 
 /**
  * A class to represent the state of a remote resource
@@ -111,6 +112,13 @@ export class RemoteData<T> {
    */
   get isStale(): boolean {
     return isStale(this.state);
+  }
+
+  /**
+   * If the request has succeeded and has content
+   */
+  get hasSucceededWithContent(): boolean {
+    return hasSucceeded(this.state) && this.statusCode === 200 && isNotEmpty(this.payload);
   }
 
   get hasNoContent(): boolean {

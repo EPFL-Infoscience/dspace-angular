@@ -2,7 +2,7 @@ import { AuthRequestService } from './auth-request.service';
 import { RequestService } from '../data/request.service';
 import { ServerAuthRequestService } from './server-auth-request.service';
 
-fdescribe(`ServerAuthRequestService`, () => {
+describe(`ServerAuthRequestService`, () => {
   let href: string;
   let requestService: RequestService;
   let service: AuthRequestService;

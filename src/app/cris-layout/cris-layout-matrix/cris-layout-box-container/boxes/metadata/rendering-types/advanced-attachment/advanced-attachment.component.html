@@ -9,7 +9,7 @@
       </div>
       <div class="col-5">
 
-        <ds-additional-metadata [object]="attachment" [objectType]="'attachment'"></ds-additional-metadata>
+        <ds-additional-metadata [object]="attachment" [objectType]="'attachment'" data-test="additional-metadata"></ds-additional-metadata>
 
         <div *ngFor="let attributeConf of envAttributes" [attr.data-test]="attributeConf.name">
           <ng-container [ngSwitch]="attributeConf.name">
