@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { NgbAccordionModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
+import { MetricsModule } from './../shared/metric/metrics.module';
+
 import { CrisLayoutLoaderDirective } from './directives/cris-layout-loader.directive';
 import { CrisLayoutComponent } from './cris-layout.component';
 import { CrisLayoutLeadingComponent } from './cris-layout-leading/cris-layout-leading.component';
@@ -127,7 +129,8 @@ const ENTRY_COMPONENTS = [
     NgbAccordionModule,
     ComcolModule,
     MiradorViewerModule,
-    MarkdownViewerModule
+    MarkdownViewerModule,
+    MetricsModule,
   ],
   exports: [
     CrisLayoutComponent,
