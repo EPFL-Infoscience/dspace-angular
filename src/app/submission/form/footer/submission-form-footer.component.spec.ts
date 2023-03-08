@@ -15,19 +15,33 @@ import { SubmissionRestServiceStub } from '../../../shared/testing/submission-re
 import { SubmissionFormFooterComponent } from './submission-form-footer.component';
 import { SubmissionRestService } from '../../../core/submission/submission-rest.service';
 import { createTestComponent } from '../../../shared/testing/utils.test';
+import { BrowserOnlyMockPipe } from '../../../shared/testing/browser-only-mock.pipe';
 import { SubmissionScopeType } from '../../../core/submission/submission-scope-type';
+import { LinkService } from '../../../core/cache/builders/link.service';
+import { getMockLinkService } from '../../../shared/mocks/link-service.mock';
+import { ClaimedTaskDataService } from '../../../core/tasks/claimed-task-data.service';
+import { ClaimedTask } from '../../../core/tasks/models/claimed-task-object.model';
+import { createSuccessfulRemoteDataObject, createSuccessfulRemoteDataObject$ } from '../../../shared/remote-data.utils';
+import { WorkflowItem } from '../../../core/submission/models/workflowitem.model';
+import { WorkflowAction } from '../../../core/tasks/models/workflow-action-object.model';
 
 const submissionServiceStub: SubmissionServiceStub = new SubmissionServiceStub();
 
 const submissionId = mockSubmissionId;
+const rdWorkflowitem = createSuccessfulRemoteDataObject(new WorkflowItem());
+const rdAction = createSuccessfulRemoteDataObject(new WorkflowAction());
+const claimedTaskMock = Object.assign(new ClaimedTask(), { workflowitem: observableOf(rdWorkflowitem), action: observableOf(rdAction) });
 
-describe('SubmissionFormFooterComponent Component', () => {
+describe('SubmissionFormFooterComponent', () => {
 
   let comp: SubmissionFormFooterComponent;
   let compAsAny: any;
   let fixture: ComponentFixture<SubmissionFormFooterComponent>;
   let submissionRestServiceStub: SubmissionRestServiceStub;
   let scheduler: TestScheduler;
+  const claimedTaskDataService = jasmine.createSpyObj('ClaimedTaskDataService', {
+    findByItem: jasmine.createSpy('findByItem')
+  });
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -37,11 +51,14 @@ describe('SubmissionFormFooterComponent Component', () => {
       ],
       declarations: [
         SubmissionFormFooterComponent,
-        TestComponent
+        TestComponent,
+        BrowserOnlyMockPipe,
       ],
       providers: [
         { provide: SubmissionService, useValue: submissionServiceStub },
         { provide: SubmissionRestService, useClass: SubmissionRestServiceStub },
+        { provide: LinkService, useValue: getMockLinkService() },
+        { provide: ClaimedTaskDataService, useValue: getMockLinkService() },
         ChangeDetectorRef,
         NgbModal,
         SubmissionFormFooterComponent
@@ -83,6 +100,7 @@ describe('SubmissionFormFooterComponent Component', () => {
       comp = fixture.componentInstance;
       compAsAny = comp;
       submissionRestServiceStub = TestBed.inject(SubmissionRestService as any);
+      claimedTaskDataService.findByItem.and.returnValue(createSuccessfulRemoteDataObject$(claimedTaskMock));
       comp.submissionId = submissionId;
 
     });
@@ -194,8 +212,6 @@ describe('SubmissionFormFooterComponent Component', () => {
         fixture.detectChanges();
 
         const confirmBtn: any = ((document as any).querySelector('.btn-danger:nth-child(2)'));
-
-        console.log(confirmBtn);
 
         confirmBtn.click();
 

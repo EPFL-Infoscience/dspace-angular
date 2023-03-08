@@ -42,7 +42,7 @@ import { Router } from '@angular/router';
 import { RouterStub } from '../../shared/testing/router.stub';
 import { take } from 'rxjs/operators';
 
-fdescribe('AuthEffects', () => {
+describe('AuthEffects', () => {
   let authEffects: AuthEffects;
   let actions: Observable<any>;
   let authServiceStub;

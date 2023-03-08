@@ -1,12 +1,7 @@
-import { ClaimedTask } from './../../../core/tasks/models/claimed-task-object.model';
-import { getFirstSucceededRemoteDataPayload, getFirstSucceededRemoteData } from './../../../core/shared/operators';
-import { ClaimedTaskDataService } from './../../../core/tasks/claimed-task-data.service';
-import { LinkService } from './../../../core/cache/builders/link.service';
-import { followLink } from './../../../shared/utils/follow-link-config.model';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 import { Observable, of as observableOf } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SubmissionRestService } from '../../../core/submission/submission-rest.service';
@@ -15,7 +10,17 @@ import { SubmissionScopeType } from '../../../core/submission/submission-scope-t
 import { isNotEmpty } from '../../../shared/empty.util';
 import { WorkflowAction } from '../../../core/tasks/models/workflow-action-object.model';
 import { RemoteData } from '../../../core/data/remote-data';
-
+import { ClaimedTask } from '../../../core/tasks/models/claimed-task-object.model';
+import {
+  getFirstSucceededRemoteDataPayload,
+  getFirstSucceededRemoteData,
+  getFirstCompletedRemoteData
+} from '../../../core/shared/operators';
+import { ClaimedTaskDataService } from '../../../core/tasks/claimed-task-data.service';
+import { LinkService } from '../../../core/cache/builders/link.service';
+import { followLink } from '../../../shared/utils/follow-link-config.model';
+import { createFailedRemoteDataObject } from '../../../shared/remote-data.utils';
+import { of } from 'rxjs/internal/observable/of';
 /**
  * This component represents submission form footer bar.
  */
@@ -89,12 +94,15 @@ export class SubmissionFormFooterComponent implements OnInit, OnChanges {
    * @param {NgbModal} modalService
    * @param {SubmissionRestService} restService
    * @param {SubmissionService} submissionService
+   * @param {LinkService} linkService
+   * @param {ClaimedTaskDataService} claimedTaskDataService
    */
-  constructor(private modalService: NgbModal,
+  constructor(
+    private modalService: NgbModal,
     private restService: SubmissionRestService,
+    private submissionService: SubmissionService,
     protected linkService: LinkService,
-    private claimedTaskDataService: ClaimedTaskDataService,
-    private submissionService: SubmissionService) {
+    private claimedTaskDataService: ClaimedTaskDataService) {
   }
 
   /**
@@ -102,24 +110,25 @@ export class SubmissionFormFooterComponent implements OnInit, OnChanges {
    */
   ngOnInit() {
     if (this.isWorkFlow) {
-      this.claimedTaskDataService.findByItem(this.item.id).pipe(
-        getFirstSucceededRemoteDataPayload(),
-        map((claimedTask) => {
-          if (!!claimedTask) {
-            this.linkService.resolveLinks(claimedTask, followLink('workflowitem', {},
-              followLink('item'), followLink('submitter')
-            ), followLink('action'));
-            return claimedTask;
+      this.claimedTaskDataService.findByItem(this.item.id, null,
+        followLink('workflowitem', {useCachedVersionIfAvailable: false}, followLink('item'), followLink('submitter')),
+        followLink('action', {useCachedVersionIfAvailable: false})
+      ).pipe(
+        getFirstCompletedRemoteData(),
+        switchMap((claimedTaskRD: RemoteData<ClaimedTask>) => {
+          if (claimedTaskRD.hasSucceededWithContent) {
+            this.claimedTask = claimedTaskRD.payload;
+            return this.claimedTask.action.pipe(
+              getFirstCompletedRemoteData()
+            );
+          } else {
+            return of(createFailedRemoteDataObject());
           }
-          return null;
         })
-      ).subscribe((result) => {
-        this.claimedTask = result;
-        this.claimedTask.action.pipe(
-          getFirstSucceededRemoteData(),
-        ).subscribe((action) => {
-          this.action = action;
-        });
+      ).subscribe((actionRD: RemoteData<WorkflowAction>) => {
+        if (actionRD.hasSucceededWithContent) {
+          this.action = actionRD;
+        }
       });
     }
   }

@@ -38,7 +38,7 @@ export class AdditionalMetadataComponent implements OnInit {
 
   constructor(
     protected resolver: ResolverStrategyService,
-    protected vocabularyService: VocabularyService,
+    protected vocabularyService: VocabularyService
   ) {
   }
 

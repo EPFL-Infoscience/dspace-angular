@@ -10,6 +10,7 @@ import { TranslateLoaderMock } from '../shared/mocks/translate-loader.mock';
 import { SearchNavbarComponent } from './search-navbar.component';
 import { PaginationServiceStub } from '../shared/testing/pagination-service.stub';
 import { RouterTestingModule } from '@angular/router/testing';
+import { BrowserOnlyMockPipe } from '../shared/testing/browser-only-mock.pipe';
 
 describe('SearchNavbarComponent', () => {
   let component: SearchNavbarComponent;
@@ -44,7 +45,10 @@ describe('SearchNavbarComponent', () => {
             useClass: TranslateLoaderMock
           }
         })],
-      declarations: [SearchNavbarComponent],
+      declarations: [
+        SearchNavbarComponent,
+        BrowserOnlyMockPipe,
+      ],
       providers: [
         { provide: SearchService, useValue: mockSearchService }
       ]
@@ -93,7 +97,7 @@ describe('SearchNavbarComponent', () => {
           fixture.detectChanges();
         }));
         it('to search page with empty query', () => {
-          const extras: NavigationExtras = {queryParams: { query: '' }, queryParamsHandling: 'merge'};
+          const extras: NavigationExtras = {queryParams: { query: '' }};
           expect(component.onSubmit).toHaveBeenCalledWith({ query: '' });
           expect(router.navigate).toHaveBeenCalledWith(['search'], extras);
         });
@@ -118,7 +122,7 @@ describe('SearchNavbarComponent', () => {
           fixture.detectChanges();
         }));
         it('to search page with query', async () => {
-          const extras: NavigationExtras = { queryParams: { query: 'test' }, queryParamsHandling: 'merge'};
+          const extras: NavigationExtras = { queryParams: { query: 'test' }};
           expect(component.onSubmit).toHaveBeenCalledWith({ query: 'test' });
 
           expect(router.navigate).toHaveBeenCalledWith(['search'], extras);

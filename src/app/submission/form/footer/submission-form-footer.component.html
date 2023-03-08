@@ -1,6 +1,10 @@
 <div class="row" *ngIf="!!submissionId">
   <div class="col">
-    <button *ngIf="(showDepositAndDiscard | async)" type="button" id="discard" class="btn btn-danger"
+    <button *ngIf="(showDepositAndDiscard | async)"
+            type="button"
+            id="discard"
+            [attr.data-test]="'discard' | dsBrowserOnly"
+            class="btn btn-danger"
       [disabled]="(processingSaveStatus | async) || (processingDepositStatus | async)"
       (click)="$event.preventDefault();confirmDiscard(content)">
       <i class="fas fa-trash"></i> {{'submission.general.discard.submit' | translate}}
@@ -29,18 +33,31 @@
 
 
     <div class="ml-2 space-children-mr">
-      <button type="button" class="btn btn-secondary" id="save"
-        [disabled]="(processingSaveStatus | async) || !(hasUnsavedModification | async)" (click)="save($event)">
+      <button type="button"
+              class="btn btn-secondary"
+              id="save"
+              [attr.data-test]="'save' | dsBrowserOnly"
+              [disabled]="(processingSaveStatus | async) || !(hasUnsavedModification | async)"
+              (click)="save($event)">
         <span><i class="fas fa-save"></i> {{'submission.general.save' | translate}}</span>
       </button>
-      <button type="button" [class.btn-primary]="!(showDepositAndDiscard | async)"
-        [class.btn-secondary]="(showDepositAndDiscard | async)" class="btn" id="saveForLater"
+      <button type="button"
+              [class.btn-primary]="!(showDepositAndDiscard | async)"
+              [class.btn-secondary]="(showDepositAndDiscard | async)"
+              class="btn"
+              id="saveForLater"
+              [attr.data-test]="'save-for-later' | dsBrowserOnly"
         [disabled]="(!(showDepositAndDiscard | async) && (submissionIsInvalid | async)) || (processingSaveStatus | async) || (processingDepositStatus | async)"
         (click)="saveLater($event)">
         <span><i class="fas fa-save"></i> {{saveForLaterLabel() | translate}}</span>
       </button>
-      <button *ngIf="(showDepositAndDiscard | async)" type="button" id="deposit" class="btn btn-success"
-        [disabled]="(processingSaveStatus | async) || (processingDepositStatus | async)" (click)="deposit($event)">
+      <button *ngIf="(showDepositAndDiscard | async)"
+              type="button"
+              id="deposit"
+              [attr.data-test]="'deposit' | dsBrowserOnly"
+              class="btn btn-success"
+              [disabled]="(processingSaveStatus | async) || (processingDepositStatus | async)"
+              (click)="deposit($event)">
         <span><i class="fas fa-plus"></i> {{'submission.general.deposit' | translate}}</span>
       </button>
     </div>

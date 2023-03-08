@@ -12,6 +12,7 @@ import { ExpandableAdminSidebarSectionComponent } from './admin-sidebar/expandab
 import { AdminEditUserAgreementComponent } from './admin-edit-user-agreement/admin-edit-user-agreement.component';
 import { EditCmsMetadataComponent } from './edit-cms-metadata/edit-cms-metadata.component';
 import { MarkdownEditorModule } from '../shared/markdown-editor/markdown-editor.module';
+import { BatchImportPageComponent } from './admin-import-batch-page/batch-import-page.component';
 import { AdminLanguageFilesComponent } from './admin-language-files/admin-language-files.component';
 
 const ENTRY_COMPONENTS = [
@@ -36,6 +37,7 @@ const ENTRY_COMPONENTS = [
     MetadataImportPageComponent,
     AdminEditUserAgreementComponent,
     EditCmsMetadataComponent,
+    BatchImportPageComponent,
     AdminLanguageFilesComponent
   ]
 })
