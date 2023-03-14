@@ -5,9 +5,17 @@ export interface UrnConfig extends Config {
   baseUrl: string;
 }
 
+export interface CrisRefEntityStyleConfig extends Config {
+  icon: string;
+  style: string;
+}
+
 export interface CrisRefConfig extends Config {
   entityType: string;
-  icon: string;
+  entityStyle: {
+    default: CrisRefEntityStyleConfig;
+    [entity: string]: CrisRefEntityStyleConfig;
+  };
 }
 
 export interface CrisLayoutMetadataBoxConfig extends Config {
@@ -36,15 +44,25 @@ export interface CrisLoadMoreConfig extends Config {
 export interface CrisLayoutConfig extends Config {
   urn: UrnConfig[];
   crisRef: CrisRefConfig[];
+  crisRefStyleMetadata: string;
   itemPage: CrisItemPageConfig;
   metadataBox: CrisLayoutMetadataBoxConfig;
 }
 
 export interface LayoutConfig extends Config {
   navbar: NavbarConfig;
+  search: SearchLayoutConfig;
 }
 
 export interface SuggestionConfig extends Config {
   source: string;
   collectionId: string;
+}
+
+export interface SearchLayoutConfig {
+  filters: SearchFiltersConfig;
+}
+
+export interface SearchFiltersConfig {
+  datepicker: string[];
 }
