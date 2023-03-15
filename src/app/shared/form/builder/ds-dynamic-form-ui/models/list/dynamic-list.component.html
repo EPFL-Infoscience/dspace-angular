@@ -27,15 +27,18 @@
           <span [ngClass]="model.layout.element?.label" [innerHTML]="item.label"></span>
         </label>
       </div>
-      <div data-test="otherListOptionRepeatable" class="d-flex align-items-center pr-3" *ngIf="model.openType && ind === (items.length - 1)">
-        <label class="m-0">{{'form.other-option' | translate}}</label>
-        <input type="text" class="form-control form-control-sm mx-2"
-               [ngModelOptions]="{standalone: true}" [(ngModel)]="otherListEntry" (keyup.enter)="addListItem()" />
-        <button type="button" class="btn btn-primary btn-sm" (click)="addListItem()"
-                id="otherOptionBtn" [disabled]="addButoonDisabled">
-          {{'form.other-option.add-button' | translate}}
-        </button>
-      </div>
+      <ng-container *ngIf="model.openType && ind === (items.length - 1)">
+        <div data-test="otherListOptionRepeatable" class="d-flex align-items-center pr-3">
+          <label class="m-0">{{'form.other-option' | translate}}</label>
+          <input type="text" class="form-control form-control-sm mx-2"
+                 [ngModelOptions]="{standalone: true}" [(ngModel)]="otherListEntry" (keyup.enter)="addListItem()" />
+          <button type="button" class="btn btn-primary btn-sm" (click)="addListItem()"
+                  id="otherOptionBtn" [disabled]="addButtonDisabled">
+            {{'form.other-option.add-button' | translate}}
+          </button>
+        </div>
+        <ng-container *ngTemplateOutlet="invalidEntryError"></ng-container>
+      </ng-container>
       <br>
     </div>
 
@@ -66,17 +69,24 @@
           <span [ngClass]="model.layout.element?.label" [innerHTML]="item.label"></span>
         </label>
       </div>
-      <div data-test="otherListOptionNonRepeatable" class="d-flex align-items-center pr-3" *ngIf="model.openType && ind === (items.length - 1)">
-        <label class="m-0">{{'form.other-option' | translate}}</label>
-        <input type="text" class="form-control form-control-sm mx-2"
-               [ngModelOptions]="{standalone: true}" [(ngModel)]="otherListEntry" (keyup.enter)="addListItem()" />
-        <button class="btn btn-primary btn-sm" type="button" id="otherOptionBtn"
-                (click)="addListItem()" [disabled]="addButoonDisabled">
-          {{'form.other-option.add-button' | translate}}
-        </button>
-      </div>
+      <ng-container *ngIf="model.openType && ind === (items.length - 1)">
+        <div data-test="otherListOptionNonRepeatable" class="d-flex align-items-center pr-3">
+          <label class="m-0">{{'form.other-option' | translate}}</label>
+          <input type="text" class="form-control form-control-sm mx-2"
+                 [ngModelOptions]="{standalone: true}" [(ngModel)]="otherListEntry" (keyup.enter)="addListItem()" />
+          <button class="btn btn-primary btn-sm" type="button" id="otherOptionBtn"
+                  (click)="addListItem()" [disabled]="addButtonDisabled">
+            {{'form.other-option.add-button' | translate}}
+          </button>
+        </div>
+        <ng-container *ngTemplateOutlet="invalidEntryError"></ng-container>
+      </ng-container>
       <br>
     </div>
 
   </div>
 </div>
+
+<ng-template #invalidEntryError>
+  <p class="small text-danger" *ngIf="isNewEntryDuplicate">{{'form.other-option.invalid' | translate: {entry: existingEntry} }}</p>
+</ng-template>

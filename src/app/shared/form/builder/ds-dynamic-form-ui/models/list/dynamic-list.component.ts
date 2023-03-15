@@ -7,7 +7,7 @@ import {
   DynamicCheckboxModel,
   DynamicFormControlComponent,
   DynamicFormLayoutService,
-  DynamicFormValidationService
+  DynamicFormValidationService,
 } from '@ng-dynamic-forms/core';
 import { findKey } from 'lodash';
 
@@ -59,8 +59,14 @@ export class DsDynamicListComponent extends DynamicFormControlComponent implemen
    * @protected
    */
   protected subscription: Subscription;
+
   public otherListEntry = '';
-  public addButoonDisabled = false;
+
+  public addButtonDisabled = false;
+
+  public isNewEntryDuplicate = false;
+
+  public existingEntry = '';
 
   constructor(private vocabularyService: VocabularyService,
               private cdr: ChangeDetectorRef,
@@ -174,7 +180,7 @@ export class DsDynamicListComponent extends DynamicFormControlComponent implemen
       }
     }
     entries.forEach((option, key) => {
-      const value = option.authority || option.value;
+      const value = option.authority ?? option.value;
       let checked: boolean;
       if (this.model.repeatable) {
         checked = isNotEmpty(findKey(
@@ -208,7 +214,6 @@ export class DsDynamicListComponent extends DynamicFormControlComponent implemen
       }
     });
     this.cdr.markForCheck();
-    this.addButoonDisabled = false;
     this.otherListEntry = '';
   }
 
@@ -216,32 +221,26 @@ export class DsDynamicListComponent extends DynamicFormControlComponent implemen
    * Add the Item to List.
    */
   addListItem() {
-    let entryCount = 0;
-    this.addButoonDisabled = true;
-    if (this.otherListEntry.toString() !== '') {
-      this.optionsList.forEach(element => {
-        if ((element.display.toLowerCase() === this.otherListEntry.toLowerCase()) ||
-            (element.value?.toLowerCase() === this.otherListEntry.toLowerCase()) ||
-            (this.otherListEntry.toLowerCase() === 'other')) {
-          entryCount++;
-        }
-      });
-      if (entryCount === 0) {
-        const object = this.createVocabularyObject(this.otherListEntry, this.otherListEntry, undefined);
-        this.optionsList.push(object);
-        if (this.model.repeatable) {
-          this.model.value.push(object);
-        } else {
-          this.model.value = object;
-        }
+    if (!!this.otherListEntry.toString()) {
+
+      const matchingEntry = this.optionsList.find((element) =>
+        (element.display.toLowerCase() === this.otherListEntry.toLowerCase()) ||
+        (element.value?.toLowerCase() === this.otherListEntry.toLowerCase()) ||
+        (this.otherListEntry.toLowerCase() === 'other')
+      );
+
+      this.isNewEntryDuplicate = !! matchingEntry;
+
+      if (this.isNewEntryDuplicate) {
+        const matchingEntryValue = matchingEntry.value ? ` [${matchingEntry.value}]` : '';
+        this.existingEntry = matchingEntry.display + matchingEntryValue;
+      } else {
+        const otherOption = this.createVocabularyObject(this.otherListEntry, this.otherListEntry, undefined);
+        this.optionsList.push(otherOption);
         const listGroup = this.group.controls[this.model.id] as FormGroup;
         // Make a list of available options (checkbox/radio) and split in groups of 'model.groupLength'
         this.listingAvailableOptions(listGroup, this.optionsList);
-      } else {
-        this.addButoonDisabled = false;
       }
-    } else {
-      this.addButoonDisabled = false;
     }
   }
 
@@ -249,13 +248,12 @@ export class DsDynamicListComponent extends DynamicFormControlComponent implemen
    * Create a vocabulary object.
    */
   createVocabularyObject(display, value, otherInformation) {
-    const object = Object.assign(new VocabularyEntry(),this.model.value, {
+    return Object.assign(new VocabularyEntry(), this.model.value, {
       display: display,
       value: value,
       otherInformation: otherInformation,
       type: 'vocabularyEntry'
     });
-    return object;
   }
 
   ngOnDestroy(): void {
