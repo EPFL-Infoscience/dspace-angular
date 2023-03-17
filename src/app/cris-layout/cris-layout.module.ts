@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { NgbAccordionModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
+import { MetricsModule } from './../shared/metric/metrics.module';
+
 import { CrisLayoutLoaderDirective } from './directives/cris-layout-loader.directive';
 import { CrisLayoutComponent } from './cris-layout.component';
 import { CrisLayoutLeadingComponent } from './cris-layout-leading/cris-layout-leading.component';
@@ -29,9 +31,6 @@ import { IdentifierComponent } from './cris-layout-matrix/cris-layout-box-contai
 import { CrisrefComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/crisref/crisref.component';
 import { ThumbnailComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/thumbnail/thumbnail.component';
 import { AttachmentComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/attachment/attachment.component';
-import { OrcidSyncQueueComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/orcid-sync-queue/orcid-sync-queue.component';
-import { OrcidAuthorizationsComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/orcid-authorizations/orcid-authorizations.component';
-import { OrcidSyncSettingsComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/orcid-sync-settings/orcid-sync-settings.component';
 import { CrisLayoutMetricsBoxComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metrics/cris-layout-metrics-box.component';
 import { CrisLayoutIIIFViewerBoxComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/iiif-viewer/cris-layout-iiif-viewer-box.component';
 import { CrisLayoutIIIFToolbarBoxComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/iiif-toolbar/cris-layout-iiif-toolbar-box.component';
@@ -58,6 +57,8 @@ import { MarkdownComponent } from './cris-layout-matrix/cris-layout-box-containe
 import { SearchComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/search/search.component';
 import { TagSearchComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/tag-search/tag-search.component';
 import { MarkdownViewerModule } from '../shared/markdown-viewer/markdown-viewer.module';
+import { AdvancedAttachmentComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/advanced-attachment.component';
+import { FileDownloadButtonComponent } from '../shared/file-download-button/file-download-button.component';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -78,9 +79,6 @@ const ENTRY_COMPONENTS = [
   ThumbnailComponent,
   AttachmentComponent,
   HierarchyComponent,
-  OrcidSyncQueueComponent,
-  OrcidAuthorizationsComponent,
-  OrcidSyncSettingsComponent,
   CrisLayoutMetricsBoxComponent,
   TableComponent,
   InlineComponent,
@@ -93,6 +91,7 @@ const ENTRY_COMPONENTS = [
   MarkdownComponent,
   SearchComponent,
   TagSearchComponent,
+  AdvancedAttachmentComponent,
 ];
 @NgModule({
   declarations: [
@@ -116,7 +115,8 @@ const ENTRY_COMPONENTS = [
     RowComponent,
     MetadataContainerComponent,
     MetadataRenderComponent,
-    MarkdownComponent
+    MarkdownComponent,
+    FileDownloadButtonComponent,
   ],
   providers:[ LoadMoreService, NgbActiveModal ],
   imports: [
@@ -129,7 +129,8 @@ const ENTRY_COMPONENTS = [
     NgbAccordionModule,
     ComcolModule,
     MiradorViewerModule,
-    MarkdownViewerModule
+    MarkdownViewerModule,
+    MetricsModule,
   ],
   exports: [
     CrisLayoutComponent,
