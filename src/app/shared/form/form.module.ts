@@ -75,8 +75,7 @@ const COMPONENTS = [
     MarkdownModule
   ],
   exports: [
-    ...COMPONENTS,
-    MarkdownModule
+    ...COMPONENTS
   ],
   providers: [
     {
