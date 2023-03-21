@@ -604,7 +604,10 @@ export class MenuResolver implements Resolve<boolean> {
    * Create menu sections dependent on whether or not the current user is a site administrator
    */
   createSiteAdministratorMenuSections() {
-    this.authorizationService.isAuthorized(FeatureID.AdministratorOf).subscribe((authorized) => {
+    observableCombineLatest([
+      this.authorizationService.isAuthorized(FeatureID.AdministratorOf),
+      this.authorizationService.isAuthorized(FeatureID.IsCollectionAdmin),
+    ]).subscribe(([authorized, isCollectionAdmin]) => {
       const menuList = [
         /* Notifications */
         {
@@ -644,7 +647,7 @@ export class MenuResolver implements Resolve<boolean> {
         {
           id: 'admin_search',
           active: false,
-          visible: authorized,
+          visible: authorized || isCollectionAdmin,
           model: {
             type: MenuItemType.LINK,
             text: 'menu.section.admin_search',

@@ -4,9 +4,6 @@ import { AuthBlockingGuard } from './core/auth/auth-blocking.guard';
 
 import { AuthenticatedGuard } from './core/auth/authenticated.guard';
 import {
-  SiteAdministratorGuard
-} from './core/data/feature-authorization/feature-authorization-guard/site-administrator.guard';
-import {
   ACCESS_CONTROL_MODULE_PATH,
   ADMIN_MODULE_PATH,
   BITSTREAM_MODULE_PATH,
@@ -43,7 +40,9 @@ import { ServerCheckGuard } from './core/server-check/server-check.guard';
 import { MenuResolver } from './menu.resolver';
 import { ThemedPageErrorComponent } from './page-error/themed-page-error.component';
 import { SUGGESTION_MODULE_PATH } from './suggestions-page/suggestions-page-routing-paths';
-import { StatisticsAdministratorGuard } from './core/data/feature-authorization/feature-authorization-guard/statistics-administrator.guard';
+import {
+  CollectionAdministratorGuard
+} from './core/data/feature-authorization/feature-authorization-guard/collection-administrator.guard';
 
 @NgModule({
   imports: [
@@ -163,7 +162,7 @@ import { StatisticsAdministratorGuard } from './core/data/feature-authorization/
             path: ADMIN_MODULE_PATH,
             loadChildren: () => import('./admin/admin.module')
               .then((m) => m.AdminModule),
-            canActivate: [SiteAdministratorGuard, EndUserAgreementCurrentUserGuard]
+            canActivate: [CollectionAdministratorGuard, EndUserAgreementCurrentUserGuard]
           },
           {
             path: 'login',
