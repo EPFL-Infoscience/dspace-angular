@@ -14,8 +14,11 @@ import { MyDSpaceConfigurationService } from './my-dspace-configuration.service'
 import { MyDSpaceConfigurationValueType } from './my-dspace-configuration-value-type';
 import { Context } from '../core/shared/context.model';
 import SpyObj = jasmine.SpyObj;
+import { AuthService } from '../core/auth/auth.service';
+import { EPerson } from '../core/eperson/models/eperson.model';
+import { By } from '@angular/platform-browser';
 
-describe('MyDSpacePageComponent', () => {
+fdescribe('MyDSpacePageComponent', () => {
   let comp: MyDSpacePageComponent;
   let fixture: ComponentFixture<MyDSpacePageComponent>;
 
@@ -25,6 +28,12 @@ describe('MyDSpacePageComponent', () => {
 
   const myDSpaceConfigurationServiceStub: SpyObj<MyDSpaceConfigurationService> = jasmine.createSpyObj('MyDSpaceConfigurationService', {
     getAvailableConfigurationOptions: jasmine.createSpy('getAvailableConfigurationOptions')
+  });
+
+  const userId = '123';
+  let authService = jasmine.createSpyObj('authService', {
+    isAuthenticated: observableOf(true),
+    getAuthenticatedUserFromStore: observableOf( Object.assign(new EPerson(), { uuid: userId }))
   });
 
   const configurationList = [
@@ -47,6 +56,7 @@ describe('MyDSpacePageComponent', () => {
       providers: [
         { provide: SearchService, useValue: searchServiceStub },
         { provide: MyDSpaceConfigurationService, useValue: myDSpaceConfigurationServiceStub },
+        { provide: AuthService, useValue: authService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(MyDSpacePageComponent, {
@@ -75,7 +85,6 @@ describe('MyDSpacePageComponent', () => {
   });
 
   it('should init properly context and configuration', fakeAsync(() => {
-
     expect(comp.configurationList$).toBeObservable(cold('(a|)', {
       a: configurationList
     }));
@@ -84,5 +93,17 @@ describe('MyDSpacePageComponent', () => {
     expect(comp.configuration).toBe(MyDSpaceConfigurationValueType.Workspace);
     expect(comp.context).toBe(Context.Workspace);
   }));
+
+  describe('RSS Feed button link', () => {
+    // TODO: add more test cases for different types of eperson (submitter, editor, author);
+
+    it('should have the uuid of the logged in user in the href', () => {
+      const testBaseUrl = 'https://rest.com/api';
+      const urlQuery = `/opensearch/search?query=(submitter_authority:${userId})`;
+
+      const rssFeedLink = fixture.debugElement.query(By.css('#rss-feed-button'));
+      expect(rssFeedLink.attributes.href).toBe(testBaseUrl + urlQuery);
+    });
+  });
 
 });
