@@ -112,8 +112,15 @@
                         [inPlaceSearch]="inPlaceSearch"
                         [searchPlaceholder]="searchFormPlaceholder | translate">
         </ds-search-form>
+
         <ng-content select="[additionalSearchFormOptions]"></ng-content>
-        <ds-item-export-modal-launcher [searchOptions$]="searchOptions$" *ngIf="showExport"></ds-item-export-modal-launcher>
+
+        <ds-item-export-modal-launcher
+          *ngIf="showExport"
+          [searchOptions$]="searchOptions$">
+        </ds-item-export-modal-launcher>
+
+        <ng-content select="[additionalOptionsEnd]"></ng-content>
     </div>
     <div class="row mb-3 mb-md-1">
         <div class="labels col-sm-9">

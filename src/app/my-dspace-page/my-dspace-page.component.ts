@@ -101,24 +101,11 @@ export class MyDSpacePageComponent implements OnInit {
     * Method to generate the RSS feed url based on the current user
    */
   private generateRssFeedUrl() {
-    let baseUrl = environment.rest.baseUrl;
-    let url = '/opensearch/search?query=';
-
-    return this.authService.getAuthenticatedUserFromStore().pipe(map(user => {
-      console.log('user', user);
-      // TODO: implement the other cases when the user is an submitter or an editor or an author
-      // if (user.type === RoleType.ADMIN) {
-      // /server/opensearch/search?query=(
-      // author_authority:<uuid of the author>
-      // OR
-      // submitter_authority:<uuid of the eperson>
-      // OR
-      // editor_authority:<uuid of the editor>
-
-      // url += '(author_authority:' + user.uuid + ' OR submitter_authority:' + user.uuid + ' OR editor_authority:' + user.uuid + ')';
-      return baseUrl + url + `(submitter_authority:${user.uuid})`;
+    const url = environment.rest.baseUrl + '/opensearch/search?query=';
+    return this.authService.getAuthenticatedUserFromStore().pipe(map(({ uuid }) => {
+      const query = `author_authority:${uuid} OR submitter_authority:${uuid} OR editor_authority:${uuid}`;
+      return url + `(${query})`;
     }));
-
   }
 
 }

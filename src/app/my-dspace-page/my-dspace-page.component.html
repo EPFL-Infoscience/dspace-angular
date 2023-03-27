@@ -3,15 +3,6 @@
   <ds-my-dspace-new-submission *dsShowOnlyForRole="[roleTypeEnum.Submitter]"></ds-my-dspace-new-submission>
 </div>
 
-<!-- TODO: move it where needed -->
-<a [href]="rssFeedUrl$ | async"
-   id="rss-feed-button"
-   class="btn btn-secondary"
-   [title]="'feed.description' | translate"
-   [attr.aria-label]="'feed.description' | translate">
-  <i class="fas fa-rss-square"></i>
-</a>
-
 <ds-search *ngIf="configuration && context"
            [configuration]="configuration"
            [configurationList]="(configurationList$ | async)"
@@ -19,7 +10,22 @@
            [viewModeList]="viewModeList"
            [projection]="projection"
            [useCachedVersionIfAvailable]="false">
-  <ds-my-dspace-new-bulk-import additionalSearchFormOptions></ds-my-dspace-new-bulk-import>
 
+  <ds-my-dspace-new-bulk-import
+    additionalSearchFormOptions>
+  </ds-my-dspace-new-bulk-import>
+
+  <div class="ml-2" additionalOptionsEnd>
+    <a
+      [href]="(rssFeedUrl$ | async)"
+      id="rss-feed-button"
+      class="btn btn-secondary"
+      target="_blank"
+      rel="noopener"
+      [title]="'feed.description' | translate"
+      [attr.aria-label]="'feed.description' | translate">
+      <i class="fas fa-rss-square"></i>
+    </a>
+  </div>
 
 </ds-search>

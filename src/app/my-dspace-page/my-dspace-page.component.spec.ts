@@ -95,12 +95,11 @@ fdescribe('MyDSpacePageComponent', () => {
   }));
 
   describe('RSS Feed button link', () => {
-    // TODO: add more test cases for different types of eperson (submitter, editor, author);
-
     it('should have the uuid of the logged in user in the href', () => {
       const testBaseUrl = 'https://rest.com/api';
-      const urlQuery = `/opensearch/search?query=(submitter_authority:${userId})`;
-
+      const urlQuery = `/opensearch/search?query=(author_authority:${userId} OR submitter_authority:${userId} OR editor_authority:${userId})`;
+      // We grab the href attribute from the rss-feed-button element and don't test just the comp.rssFeedLink$
+      // so, we can also test that the button is rendered with the correct href
       const rssFeedLink = fixture.debugElement.query(By.css('#rss-feed-button'));
       expect(rssFeedLink.attributes.href).toBe(testBaseUrl + urlQuery);
     });
