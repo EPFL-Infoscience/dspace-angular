@@ -18,7 +18,7 @@ import { AuthService } from '../core/auth/auth.service';
 import { EPerson } from '../core/eperson/models/eperson.model';
 import { By } from '@angular/platform-browser';
 
-fdescribe('MyDSpacePageComponent', () => {
+describe('MyDSpacePageComponent', () => {
   let comp: MyDSpacePageComponent;
   let fixture: ComponentFixture<MyDSpacePageComponent>;
 
