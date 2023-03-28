@@ -11,13 +11,10 @@
            [projection]="projection"
            [useCachedVersionIfAvailable]="false">
 
-  <ds-my-dspace-new-bulk-import
-    additionalSearchFormOptions>
-  </ds-my-dspace-new-bulk-import>
+  <ds-my-dspace-new-bulk-import additionalSearchFormOptions></ds-my-dspace-new-bulk-import>
 
   <div class="ml-2" additionalOptionsEnd>
-    <a
-      [href]="(rssFeedUrl$ | async)"
+    <a [href]="(rssFeedUrl$ | async)"
       id="rss-feed-button"
       class="btn btn-secondary"
       target="_blank"
