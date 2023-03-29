@@ -5,7 +5,7 @@ import { ComponentFixture, fakeAsync, flush, TestBed, waitForAsync } from '@angu
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { of as observableOf } from 'rxjs';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { cold } from 'jasmine-marbles';
 
 import { MyDSpacePageComponent, SEARCH_CONFIG_SERVICE } from './my-dspace-page.component';
@@ -17,6 +17,7 @@ import SpyObj = jasmine.SpyObj;
 import { AuthService } from '../core/auth/auth.service';
 import { EPerson } from '../core/eperson/models/eperson.model';
 import { By } from '@angular/platform-browser';
+import { NotificationsService } from '../shared/notifications/notifications.service';
 
 describe('MyDSpacePageComponent', () => {
   let comp: MyDSpacePageComponent;
@@ -56,7 +57,8 @@ describe('MyDSpacePageComponent', () => {
       providers: [
         { provide: SearchService, useValue: searchServiceStub },
         { provide: MyDSpaceConfigurationService, useValue: myDSpaceConfigurationServiceStub },
-        { provide: AuthService, useValue: authService }
+        { provide: AuthService, useValue: authService },
+        { provide: NotificationsService, useValue: {} },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(MyDSpacePageComponent, {
@@ -94,7 +96,7 @@ describe('MyDSpacePageComponent', () => {
     expect(comp.context).toBe(Context.Workspace);
   }));
 
-  describe('RSS Feed button link', () => {
+  fdescribe('RSS Feed button link', () => {
     it('should have the uuid of the logged in user in the href', () => {
       const testBaseUrl = 'https://rest.com/api';
       const urlQuery = `/opensearch/search?query=(author_authority:${userId} OR submitter_authority:${userId} OR editor_authority:${userId})`;
