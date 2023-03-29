@@ -96,7 +96,7 @@ describe('MyDSpacePageComponent', () => {
     expect(comp.context).toBe(Context.Workspace);
   }));
 
-  fdescribe('RSS Feed button link', () => {
+  describe('RSS Feed button link', () => {
     it('should have the uuid of the logged in user in the href', () => {
       const testBaseUrl = 'https://rest.com/api';
       const urlQuery = `/opensearch/search?query=(author_authority:${userId} OR submitter_authority:${userId} OR editor_authority:${userId})`;
