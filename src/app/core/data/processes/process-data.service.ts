@@ -24,7 +24,7 @@ import { SearchData, SearchDataImpl } from '../base/search-data';
 @Injectable()
 @dataService(PROCESS)
 export class ProcessDataService extends IdentifiableDataService<Process> implements FindAllData<Process>, DeleteData<Process> {
-  protected findOwnLink = 'own';
+  protected findOwnLink = 'search/own';
 
   private findAllData: FindAllData<Process>;
   private deleteData: DeleteData<Process>;
