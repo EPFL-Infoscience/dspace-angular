@@ -101,7 +101,7 @@ describe('MyDSpacePageComponent', () => {
       // We grab the href attribute from the rss-feed-button element and don't test just the comp.rssFeedLink$
       // so, we can also test that the button is rendered with the correct href
       const rssFeedLink = fixture.debugElement.query(By.css('#rss-feed-button'));
-      expect(rssFeedLink.attributes.href).toBe(testBaseUrl + urlQuery);
+      expect(rssFeedLink.attributes.href).toBe(encodeURI(testBaseUrl + urlQuery));
     });
   });
 
