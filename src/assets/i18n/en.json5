@@ -5136,6 +5136,12 @@
 
   "search.filters.filter.types.placeholder": "Type",
 
+  "search.filters.filter.unit.head": "Unit",
+
+  "search.filters.filter.unit.label": "Search Unit",
+
+  "search.filters.filter.unit.placeholder": "Unit",
+
 
   "search.filters.entityType.JournalIssue": "Journal Issue",
 
@@ -5267,9 +5273,9 @@
 
   "sorting.dc.type.DESC": "Type Descending",
 
-  "sorting.dc.description.sponsorship.ASC": "Unit Ascending",
+  "sorting.oairecerif.author.affiliation.ASC": "Unit Ascending",
 
-  "sorting.dc.description.sponsorship.DESC": "Unit Descending",
+  "sorting.oairecerif.author.affiliation.DESC": "Unit Descending",
 
   "sorting.dc.date.accessioned.ASC": "Accessioned Date Ascending",
 
