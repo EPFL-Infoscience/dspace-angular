@@ -3,10 +3,39 @@
   <div *ngSwitchCase="'text-key'">{{ ('explore.text-section.' + textRowSection.content) | translate }}</div>
   <div *ngSwitchCase="'text-raw'">{{ textRowSection.content }}</div>
   <ds-markdown-viewer *ngSwitchCase="'text-metadata'" data-test="ds-markdown-viewer"  [value]="metadataValue(textRowSection.content)"></ds-markdown-viewer>
-  <div *ngSwitchCase="'custom'">
-    <ng-container *ngTemplateOutlet="custom"></ng-container>
+  <div *ngSwitchCase="'submit-section'">
+    <ng-container *dsShowOnlyForRole="[roleTypeEnum.Submitter]">
+      <ng-container *ngTemplateOutlet="submitSection"></ng-container>
+    </ng-container>
+  </div>
+  <div *ngSwitchCase="'link-section'">
+    <ng-container *ngTemplateOutlet="linkSection"></ng-container>
   </div>
 </ng-container>
 
 <!-- Custom content type -->
-<ng-template #custom></ng-template>
+<ng-template #submitSection>
+  <a routerLink="mydspace" class="unstyled">
+    <div class="d-flex flex-column align-items-center">
+      <div><i class="fas fa-cloud-upload-alt fa-3x"></i></div>
+      <div>{{ 'explore.submit-section.new-submission' | translate }}</div>
+    </div>
+  </a>
+</ng-template>
+
+<ng-template #linkSection>
+  <div class="d-flex justify-content-around">
+    <a routerLink="explore/researcherprofiles" class="unstyled">
+      <div class="d-flex flex-column align-items-center">
+        <div><i class="fas fa-users fa-3x"></i></div>
+        <div>{{ 'explore.link-section.researchers' | translate }}</div>
+      </div>
+    </a>
+    <a routerLink="explore" class="unstyled">
+      <div class="d-flex flex-column align-items-center">
+        <div><i class="fas fa-building fa-3x"></i></div>
+        <div>{{ 'explore.link-section.orgunits' | translate }}</div>
+      </div>
+    </a>
+  </div>
+</ng-template>

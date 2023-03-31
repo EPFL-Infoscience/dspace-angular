@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { TextRowSection } from '../../../../core/layout/models/section.model';
 import { Site } from '../../../../core/shared/site.model';
 import { LocaleService } from '../../../../core/locale/locale.service';
+import { RoleType } from '../../../../core/roles/role-types';
 
 @Component({
   selector: 'ds-text-section',
@@ -19,6 +20,8 @@ export class TextSectionComponent {
 
   @Input()
   site: Site;
+
+  roleTypeEnum = RoleType;
 
   constructor(
     private locale: LocaleService,

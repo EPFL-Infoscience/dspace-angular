@@ -1986,6 +1986,8 @@
 
   "explore.counters-section.publications" : "Research outputs",
 
+  "explore.counters-section.publicationsoa" : "Research outputs (Open Access)",
+
   "explore.counters-section.project_funding" : "Projects",
 
   "explore.grid-section.seeAll" : "See all",
@@ -2137,6 +2139,8 @@
 
   "explore.search-section.researchoutputs.title": "Search Research Outputs",
 
+  "explore.search-section.researchoutputsoa.title": "Search Research Outputs (Open Access)",
+
   "explore.search-section.researcherprofiles.title": "Search People",
 
   "explore.search-section.search-button": "Search",
@@ -2155,10 +2159,17 @@
 
   "explore.researchoutputs.breadcrumbs": "Research Outputs",
 
+  "explore.researchoutputsoa.breadcrumbs": "Research Outputs (Open Access)",
+
   "explore.researcherprofiles.breadcrumbs": "People",
 
   "explore.title": "Explore section",
 
+  "explore.submit-section.new-submission": "New submission",
+
+  "explore.link-section.researchers": "Our researchers",
+
+  "explore.link-section.orgunits": "Our units",
 
   "feed.description": "Syndication feed",
 
@@ -3565,6 +3576,8 @@
   "menu.section.explore_publications": "Research Outputs",
 
   "menu.section.explore_researchoutputs": "Research Outputs",
+
+  "menu.section.explore_researchoutputsoa": "Research Outputs (Open Access)",
 
   "menu.section.explore_researcherprofiles": "People",
 
