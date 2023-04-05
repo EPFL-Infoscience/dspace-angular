@@ -2172,7 +2172,10 @@
   "explore.link-section.orgunits": "Our units",
 
   "feed.description": "Syndication feed",
-
+  "mydspace.feed.description": "RSS Feed of my records",
+  "feed.open-rss-feed": "Open RSS Feed",
+  "feed.copy-clipboard": "Copy to clipboard",
+  "feed.copy-clipboard-notification": "RSS Feed link has been copied to clipboard",
 
   "file-section.error.header": "Error obtaining files for this item",
 
