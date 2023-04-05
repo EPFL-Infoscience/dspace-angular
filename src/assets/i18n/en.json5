@@ -4932,6 +4932,8 @@
 
   "search.filters.applied.charts.RELATION.Person.researchoutputs.title": "Research Output",
 
+  "search.filters.applied.charts.RELATION.Person.editedresearchoutputs.title": "Research Output",
+
   "search.filters.applied.charts.RELATION.Project.fundings.title": "Fundings",
 
   "search.filters.applied.charts.RELATION.Project.researchoutputs.title": "Research Output",
