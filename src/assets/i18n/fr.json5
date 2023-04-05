@@ -2924,6 +2924,9 @@
   // "item.truncatable-part.show-more": "Show more",
   "item.truncatable-part.show-more": "Voir plus",
 
+  // "item.truncatable-part.show-more": "Show more",
+  "item.truncatable-part.show-more": "Voir plus",
+
   //"item.truncatable-part.show-less": "Collapse",
   "item.truncatable-part.show-less": "Réduire",
 
@@ -3590,6 +3593,9 @@
 
   // "menu.section.processes": "Processes",
   "menu.section.processes": "Processus",
+
+  // "menu.section.health": "Health",
+  "menu.section.health": "Santé du système",
 
   // "menu.section.health": "Health",
   "menu.section.health": "Santé du système",
@@ -4823,6 +4829,9 @@
 
   // "default.search.results.head": "Search Results",
   "default.search.results.head": "Résultats de recherche",
+
+  // "default-relationships.search.results.head": "Search Results",
+   "default-relationships.search.results.head": "Résultats de recherche",
 
   // "default-relationships.search.results.head": "Search Results",
    "default-relationships.search.results.head": "Résultats de recherche",

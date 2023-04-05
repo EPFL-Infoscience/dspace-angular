@@ -68,9 +68,7 @@ export class WorkspaceitemActionsComponent extends MyDSpaceActionsComponent<Work
     protected notificationsService: NotificationsService,
     protected translate: TranslateService,
     protected searchService: SearchService,
-              protected changeSubmitterService: ChangeSubmitterService,
-              protected authorizationService: AuthorizationDataService,
-              protected collectionService: CollectionDataService,
+    protected changeSubmitterService: ChangeSubmitterService, protected authorizationService: AuthorizationDataService, protected collectionService: CollectionDataService,
     protected requestService: RequestService) {
     super(WorkspaceItem.type, injector, router, notificationsService, translate, searchService, requestService);
   }

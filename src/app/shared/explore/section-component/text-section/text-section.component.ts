@@ -1,17 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { TextRowSection } from '../../../../core/layout/models/section.model';
 import { Site } from '../../../../core/shared/site.model';
 import { LocaleService } from '../../../../core/locale/locale.service';
+import { RoleType } from '../../../../core/roles/role-types';
 
 @Component({
   selector: 'ds-text-section',
   templateUrl: './text-section.component.html',
   styleUrls: ['./text-section.component.scss'],
 })
-export class TextSectionComponent implements OnInit {
+export class TextSectionComponent {
 
-  content: string;
   @Input()
   sectionId: string;
 
@@ -21,16 +21,14 @@ export class TextSectionComponent implements OnInit {
   @Input()
   site: Site;
 
+  roleTypeEnum = RoleType;
+
   constructor(
     private locale: LocaleService,
   ) {
   }
 
-  ngOnInit() {
-    if (this.site && this.site.metadata && this.textRowSection.content) {
-      const mdv = this.site.firstMetadataValue(this.textRowSection.content,
-        { language: this.locale.getCurrentLanguageCode() });
-      this.content = mdv ?? '';
-    }
+  metadataValue(content: string) {
+    return this.site?.firstMetadataValue(content, {language: this.locale.getCurrentLanguageCode()}) ?? '';
   }
 }

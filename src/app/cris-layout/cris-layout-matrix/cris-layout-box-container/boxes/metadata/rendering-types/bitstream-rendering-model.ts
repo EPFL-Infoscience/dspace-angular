@@ -170,4 +170,6 @@ export abstract class BitstreamRenderingModelComponent extends RenderingTypeStru
   previewPdf(attachment) {
     this.pdfSrc = attachment._links.content.href;
   }
+
+
 }

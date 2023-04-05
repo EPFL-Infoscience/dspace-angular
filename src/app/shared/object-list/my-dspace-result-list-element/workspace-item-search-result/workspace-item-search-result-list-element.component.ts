@@ -29,7 +29,7 @@ import { followLink } from '../../../utils/follow-link-config.model';
 })
 
 @listableObjectComponent(WorkspaceItemSearchResult, ViewMode.ListElement)
-export class  WorkspaceItemSearchResultListElementComponent extends SearchResultListElementComponent<WorkspaceItemSearchResult, WorkspaceItem> implements OnInit {
+export class WorkspaceItemSearchResultListElementComponent extends SearchResultListElementComponent<WorkspaceItemSearchResult, WorkspaceItem> implements OnInit {
 
   LinkTypes = CollectionElementLinkType;
 

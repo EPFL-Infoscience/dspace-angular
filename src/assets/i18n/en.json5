@@ -1986,6 +1986,8 @@
 
   "explore.counters-section.publications" : "Research outputs",
 
+  "explore.counters-section.publicationsoa" : "Research outputs (Open Access)",
+
   "explore.counters-section.project_funding" : "Projects",
 
   "explore.grid-section.seeAll" : "See all",
@@ -2137,6 +2139,8 @@
 
   "explore.search-section.researchoutputs.title": "Search Research Outputs",
 
+  "explore.search-section.researchoutputsoa.title": "Search Research Outputs (Open Access)",
+
   "explore.search-section.researcherprofiles.title": "Search People",
 
   "explore.search-section.search-button": "Search",
@@ -2155,13 +2159,23 @@
 
   "explore.researchoutputs.breadcrumbs": "Research Outputs",
 
+  "explore.researchoutputsoa.breadcrumbs": "Research Outputs (Open Access)",
+
   "explore.researcherprofiles.breadcrumbs": "People",
 
   "explore.title": "Explore section",
 
+  "explore.submit-section.new-submission": "New submission",
+
+  "explore.link-section.researchers": "Our researchers",
+
+  "explore.link-section.orgunits": "Our units",
 
   "feed.description": "Syndication feed",
-
+  "mydspace.feed.description": "RSS Feed of my records",
+  "feed.open-rss-feed": "Open RSS Feed",
+  "feed.copy-clipboard": "Copy to clipboard",
+  "feed.copy-clipboard-notification": "RSS Feed link has been copied to clipboard",
 
   "file-section.error.header": "Error obtaining files for this item",
 
@@ -3300,11 +3314,15 @@
 
   "item-export.modal-launcher.multiple.btn": "Export",
 
-  "item-export.alert.single": "Export item ",
+  "item-export.alert.single": "Export item <b>{{title}}</b>",
 
   "item-export.alert.multiple": "Export all items of a particular entity type belonging to the current search.",
 
+  "item-export.alert.multiple-with-type": "Export all items with type <b>{{type}}</b> belonging to the current search.",
+
   "item-export.alert.export.limit": "This export will be limited to a maximum of {{limit}} items.",
+
+  "item-export.cannot-msg": "There are no items to export with the selected configuration",
 
   "item-export.form.entityType": "Entity Type",
 
@@ -3317,6 +3335,14 @@
   "item-export.form.btn.submit": "Export",
 
   "item-export.form.btn.cancel": "Cancel",
+
+  "item-export.form.selection": "Export mode",
+
+  "item-export.form.selection.all": "Export all",
+
+  "item-export.form.selection.only-selected": "Export only selected",
+
+  "item-export.modal.title": "Item Export Process Launcher",
 
   "item-export.process.title": "Bulk export item",
 
@@ -3553,6 +3579,8 @@
   "menu.section.explore_publications": "Research Outputs",
 
   "menu.section.explore_researchoutputs": "Research Outputs",
+
+  "menu.section.explore_researchoutputsoa": "Research Outputs (Open Access)",
 
   "menu.section.explore_researcherprofiles": "People",
 
@@ -4454,6 +4482,8 @@
 
   "profile.special.groups.head": "Authorization special groups you belong to",
 
+  "profile.special.groups.role-link": "Group roles",
+
   "profile.head": "Update Profile",
 
   "profile.metadata.form.error.firstname.required": "First Name is required",
@@ -4504,6 +4534,9 @@
 
   "profile.card.researcher": "Researcher Profile",
 
+  "profile.group-roles.title": "Group Roles",
+
+  "profile.group-roles.breadcrumbs": "Group Roles",
 
   "project.listelement.badge": "Research Project",
 
@@ -4907,6 +4940,8 @@
 
   "search.filters.applied.charts.RELATION.Person.researchoutputs.title": "Research Output",
 
+  "search.filters.applied.charts.RELATION.Person.editedresearchoutputs.title": "Research Output",
+
   "search.filters.applied.charts.RELATION.Project.fundings.title": "Fundings",
 
   "search.filters.applied.charts.RELATION.Project.researchoutputs.title": "Research Output",
@@ -5136,6 +5171,12 @@
 
   "search.filters.filter.types.placeholder": "Type",
 
+  "search.filters.filter.unit.head": "Unit",
+
+  "search.filters.filter.unit.label": "Search Unit",
+
+  "search.filters.filter.unit.placeholder": "Unit",
+
 
   "search.filters.entityType.JournalIssue": "Journal Issue",
 
@@ -5267,9 +5308,9 @@
 
   "sorting.dc.type.DESC": "Type Descending",
 
-  "sorting.dc.description.sponsorship.ASC": "Unit Ascending",
+  "sorting.oairecerif.author.affiliation.ASC": "Unit Ascending",
 
-  "sorting.dc.description.sponsorship.DESC": "Unit Descending",
+  "sorting.oairecerif.author.affiliation.DESC": "Unit Descending",
 
   "sorting.dc.date.accessioned.ASC": "Accessioned Date Ascending",
 
@@ -6050,6 +6091,8 @@
 
   "submission.sections.submit.progressbar.sherpaPolicies": "Publisher open access policy information",
 
+  "submission.sections.submit.progressbar.sherpaPolicies": "Publisher open access policy information",
+
   "submission.sections.submit.progressbar.upload-publication": "Upload files",
 
   "submission.sections.submit.progressbar.upload-product": "Upload files",
@@ -6069,6 +6112,8 @@
   "submission.sections.submit.progressbar.upload-person": "Upload files",
 
   "submission.sections.submit.progressbar.correction": "Corrections",
+
+  "submission.sections.sherpa-policy.title-empty": "No publisher policy information available. If your work has an associated ISSN, please enter it above to see any related publisher open access policies.",
 
   "submission.sections.sherpa-policy.title-empty": "No publisher policy information available. If your work has an associated ISSN, please enter it above to see any related publisher open access policies.",
 
@@ -6859,6 +6904,8 @@
 
   "curation-task.task.pushocr.label": "Send OCR to the Annotation Server",
 
+  "curation-task.task.pushocr.force.label": "Clean OCR from the Annotation Server and send again",
+
   "curation-task.task.ocrclean.label": "Remove all metadata bundles and uploaded ocr created by a previous upload to the ocr server",
 
   "curation-task.task.iiifuploader.label": "Upload images to the IIIF Image Server (photo gallery)",
@@ -6869,5 +6916,22 @@
 
   "curation-task.task.iiifallowfiledownload.label": "Allow file download for files uploaded on image server",
 
-  "curation-task.task.iiifpdfmultipages.label": "Create multipages PDF from IIIF images"
+  "curation-task.task.rawtoaccess.label": "Create access image for RAW Types",
+
+  "curation-task.task.iiifpdfmultipages.label": "Create multipages PDF from IIIF images",
+
+  "curation-task.task.iiifclean.label": "Remove all metadata bundles created by a previous upload to the image server",
+
+  "curation-task.task.pdftoimagecmyk.label": "Extract images from PDF (CMYK)",
+
+  "curation-task.task.pdftoimagergb.label": "Extract images from PDF (RGB)",
+
+  "curation-task.task.scannedpdf.label": "Extract images from a Scanned PDF",
+
+  "curation-task.task.rawimagesinpdf.label": "Extract raw images inside the PDF (no OCR)",
+
+  "curation-task.task.undopdfiiif.label": "Undo PDF 2 IIIF Images",
+
+  "curation-task.task.rebuildpdftoc.label": "Rebuild the PDF ToC"
 }
+
