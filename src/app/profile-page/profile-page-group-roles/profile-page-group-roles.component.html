@@ -1,7 +1,7 @@
 <div class="container">
-  <button routerLink="/profile" class="btn btn-primary">Back to profile</button>
+  <button routerLink="/profile" class="btn btn-outline-primary">Back to profile</button>
 
-  <h3 class="mb-4">Group Roles</h3>
+  <h3 class="my-4">Group Roles</h3>
 
   <ng-container *ngIf="groupRole$ | async as groupRole">
     {{ groupRole | json }}
@@ -10,24 +10,29 @@
   <div class="table-responsive">
     <table id="group-roles" class="table table-striped table-hover table-bordered">
       <thead>
-        <tr>
-          <th scope="col" rowspan="2">function</th>
-          <th scope="col" colspan="2" class="text-center">general role</th>
-        </tr>
-        <tr class="text-center">
-          <th scope="col">anonymous</th>
-          <th scope="col">submitter</th>
-        </tr>
+      <tr>
+        <th scope="col" rowspan="2" style="min-width: 450px">function</th>
+        <th scope="col" colspan="5" class="text-center">general roles</th>
+        <th scope="col" colspan="4" class="text-center">context specific role</th>
+      </tr>
+      <tr>
+        <th scope="col">anonymous</th>
+        <th scope="col">authenticated user (all are assumed to be EPFL users)</th>
+        <th scope="col">submitter</th>
+        <th scope="col">curator</th>
+        <th scope="col">admin</th>
+        <!--          -->
+        <th scope="col">submitter of the record</th>
+        <th scope="col">author of the record</th>
+        <th scope="col">collection curator (e.g. thematic collection)</th>
+        <th scope="col">head of unit (approver of a unit collection)</th>
+      </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let x of roles">
-          <td>{{x.name}}</td>
-          <td [class]="x.anonymous === 'N' ? 'bg-red' : 'bg-green'" class="text-center">
-            {{x.anonymous}}
-          </td>
-          <td [class]="x.submitter === 'N' ? 'bg-red' : 'bg-green'" class="text-center">
-            {{x.submitter}}
-          </td>
+        <tr *ngFor="let x of groupRoles">
+          <ng-container *ngFor="let colKey of tableColumns">
+            <ng-container *ngTemplateOutlet="tableCell; context: { $implicit: x[colKey] }"></ng-container>
+          </ng-container>
         </tr>
       </tbody>
     </table>
@@ -35,3 +40,15 @@
 
 
 </div>
+
+
+<ng-template #tableCell let-value>
+  <td [ngClass]="{
+        'text-center': value === 'N' || value === 'Y' || value === '-',
+        'bg-red': value === 'N',
+        'bg-green': value === 'Y',
+        'bg-grey': value === '-'
+      }">
+    <span>{{ value }}</span>
+  </td>
+</ng-template>

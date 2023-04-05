@@ -7,6 +7,7 @@ import { hasValue } from '../../shared/empty.util';
 import { followLink } from '../../shared/utils/follow-link-config.model';
 import { getFirstCompletedRemoteData, getRemoteDataPayload } from '../../core/shared/operators';
 import { EPersonDataService } from '../../core/eperson/eperson-data.service';
+import { groupRoles } from './group-roles';
 
 @Component({
   selector: 'ds-profile-page-group-roles',
@@ -34,18 +35,8 @@ export class ProfilePageGroupRolesComponent {
     ))
   );
 
-  roles = [
-    {
-      name: 'browser repository structures',
-      anonymous: 'Y',
-      submitter: 'Y',
-    },
-    {
-      name: 'download reserved files',
-      anonymous: 'N',
-      submitter: 'N',
-    }
-  ];
+  groupRoles = groupRoles;
+  tableColumns = Object.keys(groupRoles[0]);
 
   constructor(
     private route: ActivatedRoute,
