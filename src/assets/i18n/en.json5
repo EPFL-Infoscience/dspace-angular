@@ -1986,6 +1986,8 @@
 
   "explore.counters-section.publications" : "Research outputs",
 
+  "explore.counters-section.publicationsoa" : "Research outputs (Open Access)",
+
   "explore.counters-section.project_funding" : "Projects",
 
   "explore.grid-section.seeAll" : "See all",
@@ -2137,6 +2139,8 @@
 
   "explore.search-section.researchoutputs.title": "Search Research Outputs",
 
+  "explore.search-section.researchoutputsoa.title": "Search Research Outputs (Open Access)",
+
   "explore.search-section.researcherprofiles.title": "Search People",
 
   "explore.search-section.search-button": "Search",
@@ -2155,13 +2159,23 @@
 
   "explore.researchoutputs.breadcrumbs": "Research Outputs",
 
+  "explore.researchoutputsoa.breadcrumbs": "Research Outputs (Open Access)",
+
   "explore.researcherprofiles.breadcrumbs": "People",
 
   "explore.title": "Explore section",
 
+  "explore.submit-section.new-submission": "New submission",
+
+  "explore.link-section.researchers": "Our researchers",
+
+  "explore.link-section.orgunits": "Our units",
 
   "feed.description": "Syndication feed",
-
+  "mydspace.feed.description": "RSS Feed of my records",
+  "feed.open-rss-feed": "Open RSS Feed",
+  "feed.copy-clipboard": "Copy to clipboard",
+  "feed.copy-clipboard-notification": "RSS Feed link has been copied to clipboard",
 
   "file-section.error.header": "Error obtaining files for this item",
 
@@ -3566,6 +3580,8 @@
 
   "menu.section.explore_researchoutputs": "Research Outputs",
 
+  "menu.section.explore_researchoutputsoa": "Research Outputs (Open Access)",
+
   "menu.section.explore_researcherprofiles": "People",
 
   "menu.section.explore_orgunits": "Organizations",
@@ -4923,6 +4939,8 @@
   "search.filters.applied.charts.default.title": "Search Output",
 
   "search.filters.applied.charts.RELATION.Person.researchoutputs.title": "Research Output",
+
+  "search.filters.applied.charts.RELATION.Person.editedresearchoutputs.title": "Research Output",
 
   "search.filters.applied.charts.RELATION.Project.fundings.title": "Fundings",
 

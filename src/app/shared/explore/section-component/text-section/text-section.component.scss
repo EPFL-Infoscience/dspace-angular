@@ -11,4 +11,9 @@
   }
 }
 
-
+:host {
+  a.unstyled {
+    color: inherit;
+    text-decoration: inherit;
+  }
+}
