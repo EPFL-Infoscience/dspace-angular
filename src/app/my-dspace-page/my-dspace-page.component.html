@@ -10,5 +10,39 @@
            [viewModeList]="viewModeList"
            [projection]="projection"
            [useCachedVersionIfAvailable]="false">
+
   <ds-my-dspace-new-bulk-import additionalSearchFormOptions></ds-my-dspace-new-bulk-import>
+
+  <div class="ml-2" additionalOptionsEnd>
+    <div *ngIf="rssFeedUrl$ | async as rssFeedUrl" class="btn-group">
+      <a [href]="rssFeedUrl"
+         id="rss-feed-button"
+         class="btn btn-outline-primary"
+         target="_blank"
+         rel="noopener"
+         [title]="'mydspace.feed.description' | translate"
+         [attr.aria-label]="'mydspace.feed.description' | translate">
+        <i class="fas fa-rss-square"></i>
+      </a>
+
+      <div class="btn-group" ngbDropdown>
+        <button class="btn btn-outline-primary dropdown-toggle-split" ngbDropdownToggle></button>
+        <div class="dropdown-menu" ngbDropdownMenu>
+          <a ngbDropdownItem
+             [href]="rssFeedUrl"
+             id="rss-feed-button-item"
+             target="_blank"
+             rel="noopener">
+            <i class="fa fa-external-link-alt" aria-hidden="true"></i>
+            {{ 'feed.open-rss-feed' | translate }}
+          </a>
+          <button ngbDropdownItem (click)="copyRssFeedUrlToClipboard(rssFeedUrl)">
+            <i class="fa fa-clipboard" aria-hidden="true"></i>
+            {{ 'feed.copy-clipboard' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </ds-search>
