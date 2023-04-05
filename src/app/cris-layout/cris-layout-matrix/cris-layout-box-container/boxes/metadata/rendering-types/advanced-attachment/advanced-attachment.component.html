@@ -48,7 +48,7 @@
 
       <div class="col-4 text-right">
         <ds-file-download-button [bitstream]="attachment" [enableRequestACopy]="true" [item]="item"
-          [format]="getFormat(attachment) |async" (previewPdf)="previewPdf(attachment)">
+                                 [format]="getFormat(attachment) |async" (previewPdf)="previewPdf(attachment)">
         </ds-file-download-button>
       </div>
     </div>

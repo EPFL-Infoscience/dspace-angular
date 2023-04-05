@@ -26,7 +26,9 @@ import { CrisLayoutConfig, LayoutConfig, SuggestionConfig } from './layout-confi
 import { MetadataSecurityConfig } from './metadata-security-config';
 import { FollowAuthorityMetadata } from './search-follow-metadata.interface';
 import { MetricVisualizationConfig } from './metric-visualization-config.interfaces';
-import { AdvancedAttachmentRenderingConfig } from './advanced-attachment-rendering.config';
+import {
+  AdvancedAttachmentRenderingConfig
+} from './advanced-attachment-rendering.config';
 import { AttachmentRenderingConfig } from './attachment-rendering.config';
 import { SearchResultConfig } from './search-result-config.interface';
 
@@ -193,11 +195,23 @@ export class DefaultAppConfig implements AppConfig {
           },
           {
             value: 500,
-            style: 'text-white'
+            style: 'text-warning'
           },
           {
             value: 400,
-            style: 'text-warning'
+            style: 'text-danger'
+          },
+          {
+            value: 300,
+            style: 'text-dark'
+          },
+          {
+            value: 200,
+            style: 'text-dark'
+          },
+          {
+            value: 100,
+            style: 'text-dark'
           },
           // default configuration
           {
@@ -563,11 +577,7 @@ export class DefaultAppConfig implements AppConfig {
       'cris.cms.home-header',
       'cris.cms.home-news',
       'cris.cms.footer',
-      'cris.cms.grid-component-badge',
-      'cris.cms.grid-component-title',
-      'cris.cms.grid-component-subtitle',
-      'cris.cms.grid-component-abstract',
-      'cris.cms.grid-component-link'
+      'cris.cms.epfl-news',
     ]
   };
 
