@@ -15,7 +15,7 @@ import { ProfilePageGroupRolesComponent } from './profile-page-group-roles/profi
         data: { breadcrumbKey: 'profile', title: 'profile.title' }
       },
       {
-        path: 'group-roles/:id',
+        path: 'group-roles',
         component: ProfilePageGroupRolesComponent,
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         data: { breadcrumbKey: 'profile.group-roles', title: 'profile.group-roles.title' }

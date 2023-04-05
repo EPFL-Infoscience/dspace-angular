@@ -11,7 +11,7 @@ export interface GroupRole {
   headOfUnit: string;
 }
 
-export const groupRoles: GroupRole[] = [
+export const GroupRoles: GroupRole[] = [
   {
     title: 'browse repository structures',
     anonymous: 'Y',
