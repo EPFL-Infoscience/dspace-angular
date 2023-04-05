@@ -44,16 +44,16 @@
 
     <ng-container *ngVar="(groupsRD$ | async)?.payload?.page as groups">
       <div *ngIf="groups?.length > 0">
-        <h3 class="mt-4">{{'profile.groups.head' | translate}}</h3>
-        <ul class="list-group list-group-flush">
-          <li *ngFor="let group of groups" class="list-group-item">{{group.name}}</li>
-        </ul>
+        <div class="d-flex justify-content-between mt-4">
+          <h3>{{'profile.groups.head' | translate}}</h3>
 
-        <div class="mt-3">
           <a routerLink="/profile/group-roles">
             {{'profile.special.groups.role-link' | translate}}
           </a>
         </div>
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let group of groups" class="list-group-item">{{group.name}}</li>
+        </ul>
       </div>
     </ng-container>
 

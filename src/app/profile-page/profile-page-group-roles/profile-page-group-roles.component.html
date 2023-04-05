@@ -7,11 +7,11 @@
     <table id="group-roles" class="table table-striped table-hover table-bordered">
       <thead>
       <tr>
-        <th scope="col" rowspan="2" style="min-width: 400px">function</th>
+        <th scope="col" rowspan="2" style="min-width: 300px">function</th>
         <th scope="col" colspan="5" class="text-center">general roles</th>
         <th scope="col" colspan="4" class="text-center">context specific role</th>
       </tr>
-      <tr>
+      <tr style="font-size: 14px">
         <th scope="col">anonymous</th>
         <th scope="col">authenticated user (all are assumed to be EPFL users)</th>
         <th scope="col">submitter</th>
@@ -27,7 +27,9 @@
       <tbody>
         <tr *ngFor="let x of groupRoles">
           <ng-container *ngFor="let colKey of tableColumns">
-            <ng-container *ngTemplateOutlet="tableCell; context: { $implicit: x[colKey] }"></ng-container>
+            <ng-container
+              *ngTemplateOutlet="tableCell; context: { $implicit: x[colKey] }">
+            </ng-container>
           </ng-container>
         </tr>
       </tbody>
@@ -42,6 +44,6 @@
         'bg-green': value === 'Y',
         'bg-grey': value === '-'
       }">
-    <span>{{ value }}</span>
+    <span [style.font-size]="value.length > 1 ? '13px': '14px'">{{ value }}</span>
   </td>
 </ng-template>
