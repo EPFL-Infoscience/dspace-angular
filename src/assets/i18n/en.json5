@@ -4482,6 +4482,8 @@
 
   "profile.special.groups.head": "Authorization special groups you belong to",
 
+  "profile.special.groups.role-link": "Group roles",
+
   "profile.head": "Update Profile",
 
   "profile.metadata.form.error.firstname.required": "First Name is required",
@@ -4532,6 +4534,9 @@
 
   "profile.card.researcher": "Researcher Profile",
 
+  "profile.group-roles.title": "Group Roles",
+
+  "profile.group-roles.breadcrumbs": "Group Roles",
 
   "project.listelement.badge": "Research Project",
 
