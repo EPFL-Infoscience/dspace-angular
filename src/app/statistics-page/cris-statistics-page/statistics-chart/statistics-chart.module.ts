@@ -1,5 +1,5 @@
 import { NgModule, NO_ERRORS_SCHEMA, Provider } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 import { StatisticsChartComponent } from './statistics-chart.component';
 import { StatisticsChartWrapperComponent } from './statistics-chart-wrapper/statistics-chart-wrapper.component';
@@ -11,8 +11,6 @@ import { DataReportService } from '../../../core/statistics/data-report.service'
 import { StatisticsPipesPageModule } from '../statistics-pipes/statistics-pipes.module';
 import { StatisticsTableComponent } from './statistics-table/statistics-table.component';
 import { StatisticsChartDataComponent } from './statistics-chart-data/statistics-chart-data.component';
-import { ExportService } from '../../../core/export-service/export.service';
-import { ServerExportService } from '../../../core/export-service/server-export.service';
 import { ChartsModule } from '../../../charts/charts.module';
 
 const ENTRY_COMPONENTS = [
@@ -41,14 +39,6 @@ const providers: Provider[] = [
   DataReportService
 ];
 
-// Due to a dependency of ExportAsModule which use window object, the module is imported dynamically only on CSR
-if (isPlatformBrowser) {
-  const ExportAsModule = require('ngx-export-as').ExportAsModule;
-  imports.push(ExportAsModule);
-  providers.push({ provide: ExportService, useClass: ExportService});
-} else {
-  providers.push({ provide: ExportService, useClass: ServerExportService});
-}
 @NgModule({
   declarations: components,
   imports: [

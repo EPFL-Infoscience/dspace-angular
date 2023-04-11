@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
@@ -8,6 +8,7 @@ import { ChartSeries } from '../../../../charts/models/chart-series';
 import { REPORT_DATA } from '../../../../core/statistics/data-report.service';
 import { Point, UsageReport } from '../../../../core/statistics/models/usage-report.model';
 import { ExportImageType, ExportService } from '../../../../core/export-service/export.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'ds-search-chart-filter',
@@ -43,11 +44,25 @@ export class StatisticsChartDataComponent implements OnInit {
    */
   @ViewChild('chartRef') chartRef: ElementRef;
 
+  protected exportService: ExportService;
+
   constructor(
     @Inject(REPORT_DATA) public report: UsageReport,
     @Inject('categoryType') public categoryType: string,
-    private exportService: ExportService
+    @Inject(PLATFORM_ID) protected platformId: Object
   ) {
+    /* IMPORTANT
+   Due to a problem occurring on SSR with the ExportAsService dependency, which use window object, the service can't be injected.
+   So we need to instantiate the class directly based on current the platform */
+    if (isPlatformBrowser(this.platformId)) {
+      import('../../../../core/export-service/browser-export.service').then((s) => {
+        this.exportService = new s.BrowserExportService();
+      });
+    } else {
+      import('../../../../core/export-service/server-export.service').then((s) => {
+        this.exportService = new s.ServerExportService();
+      });
+    }
   }
 
   ngOnInit() {
