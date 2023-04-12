@@ -134,6 +134,7 @@ import {
 } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/bitstream-attachment/bitstream-attachment.component';
 import { ItemSharedModule } from '../item-page/item-shared.module';
 import { ViewersSharedModule } from '../item-page/viewer-provider/viewers/viewers-shared.module';
+import { AttachmentRenderComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/bitstream-attachment/attachment-render/attachment-render.component';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -194,6 +195,7 @@ const ENTRY_COMPONENTS = [
     MarkdownComponent,
     FileDownloadButtonComponent,
     BitstreamAttachmentComponent,
+    AttachmentRenderComponent,
   ],
   providers:[ LoadMoreService, NgbActiveModal ],
   imports: [

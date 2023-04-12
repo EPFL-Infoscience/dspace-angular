@@ -5,12 +5,17 @@ import { Item } from '../../core/shared/item.model';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { TranslateService } from '@ngx-translate/core';
 import { getItemViewerPath } from '../item-page-routing-paths';
+import {
+  AttachmentRenderingType,
+  AttachmentTypeRendering
+} from '../../cris-layout/cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/bitstream-attachment/attachment-type.decorator';
 
 @Component({
   selector: 'ds-iiif-toolbar',
   templateUrl: './iiif-toolbar.component.html',
   styleUrls: ['./iiif-toolbar.component.scss']
 })
+@AttachmentTypeRendering(AttachmentRenderingType.IIIF, true)
 export class IIIFToolbarComponent implements OnInit {
 
   @Input()

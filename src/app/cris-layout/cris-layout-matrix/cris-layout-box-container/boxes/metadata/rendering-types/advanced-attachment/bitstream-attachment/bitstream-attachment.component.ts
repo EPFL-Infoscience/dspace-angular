@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Bitstream } from '../../../../../../../../core/shared/bitstream.model';
 import { environment } from '../../../../../../../../../environments/environment';
 import {
@@ -19,7 +19,7 @@ import { getBitstreamItemViewerPath } from '../../../../../../../../item-page/it
   templateUrl: './bitstream-attachment.component.html',
   styleUrls: ['./bitstream-attachment.component.scss']
 })
-export class BitstreamAttachmentComponent extends BitstreamRenderingModelComponent {
+export class BitstreamAttachmentComponent extends BitstreamRenderingModelComponent implements OnInit {
 
   /**
    * Environment variables configuring the fields to be viewed
@@ -27,19 +27,14 @@ export class BitstreamAttachmentComponent extends BitstreamRenderingModelCompone
   envMetadata = environment.advancedAttachmentRendering.metadata;
 
   /**
-   * Environment variables configuring the buttons and when to show them
-   */
-  envButtons = environment.advancedAttachmentRendering.buttons;
-
-  /**
    * Configuration type enum
    */
   AdvancedAttachmentElementType = AdvancedAttachmentElementType;
 
   /**
-   * Configuration type enum
+   * All item providers to show buttons of
    */
-  AdvancedAttachmentButtonTypes = AdvancedAttachmentPreviewButtonTypes;
+  allItemProviders: string[] = [];
 
   @Input()
   attachment: Bitstream;
@@ -56,12 +51,7 @@ export class BitstreamAttachmentComponent extends BitstreamRenderingModelCompone
     super(fieldProvider, itemProvider, renderingSubTypeProvider, bitstreamDataService, translateService);
   }
 
-  public isVisible(attachment: Bitstream, buttonConfig: AdvancedAttachmentPreviewButtonConfig): boolean {
-    const found = attachment.hasMetadata(buttonConfig.metadata, buttonConfig.metadataValueFilter);
-    return buttonConfig.negation ? !found : found;
-  }
-
-  public openPdfViewer() {
-    this.router.navigate([getBitstreamItemViewerPath(this.item, this.attachment, 'pdf')]);
+  ngOnInit() {
+    this.allItemProviders = this.item.allMetadataValues('bitstream.viewer.provider');
   }
 }
