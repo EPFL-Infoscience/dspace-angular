@@ -14,6 +14,7 @@ import { UiSwitchModule } from 'ngx-ui-switch';
 import { ProfileClaimItemModalComponent } from './profile-claim-item-modal/profile-claim-item-modal.component';
 import { OpenaireModule } from '../openaire/openaire.module';
 import { ProfilePageAccessTokenComponent } from './profile-page-access-token/profile-page-access-token.component';
+import { ProfilePageGroupRolesComponent } from './profile-page-group-roles/profile-page-group-roles.component';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { ProfilePageAccessTokenComponent } from './profile-page-access-token/pro
     ProfilePageMetadataFormComponent,
     ProfilePageSecurityFormComponent,
     ProfilePageResearcherFormComponent,
-    ProfilePageAccessTokenComponent
+    ProfilePageAccessTokenComponent,
+    ProfilePageGroupRolesComponent
   ]
 })
 export class ProfilePageModule {
