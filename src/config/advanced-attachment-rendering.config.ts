@@ -6,17 +6,6 @@ import { MetadataValueFilter } from '../app/core/shared/metadata.models';
 export interface AdvancedAttachmentRenderingConfig {
   metadata: AttachmentMetadataConfig[];
   pagination: AdvancedAttachmentRenderingPaginationConfig;
-  buttons: AdvancedAttachmentPreviewButtonConfig[];
-}
-
-/**
- * Interface configuration to define the advanced attachment buttons
- */
-export interface AdvancedAttachmentPreviewButtonConfig {
-  type: AdvancedAttachmentPreviewButtonTypes;
-  metadata: string;
-  metadataValueFilter: MetadataValueFilter;
-  negation?: boolean;
 }
 
 /**

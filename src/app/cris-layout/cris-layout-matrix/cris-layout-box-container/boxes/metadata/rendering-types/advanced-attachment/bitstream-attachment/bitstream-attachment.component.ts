@@ -1,18 +1,13 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Bitstream } from '../../../../../../../../core/shared/bitstream.model';
 import { environment } from '../../../../../../../../../environments/environment';
-import {
-  AdvancedAttachmentElementType,
-  AdvancedAttachmentPreviewButtonConfig,
-  AdvancedAttachmentPreviewButtonTypes
-} from '../../../../../../../../../config/advanced-attachment-rendering.config';
+import { AdvancedAttachmentElementType } from '../../../../../../../../../config/advanced-attachment-rendering.config';
 import { BitstreamRenderingModelComponent } from '../../bitstream-rendering-model';
 import { LayoutField } from '../../../../../../../../core/layout/models/box.model';
 import { Item } from '../../../../../../../../core/shared/item.model';
 import { BitstreamDataService } from '../../../../../../../../core/data/bitstream-data.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { getBitstreamItemViewerPath } from '../../../../../../../../item-page/item-page-routing-paths';
 
 @Component({
   selector: 'ds-bitstream-attachment',

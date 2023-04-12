@@ -676,32 +676,5 @@ export class DefaultAppConfig implements AppConfig {
         type: AdvancedAttachmentElementType.Attribute,
       }
     ],
-    buttons: [
-      {
-        type: AdvancedAttachmentPreviewButtonTypes.IIIF,
-        metadata: 'bitstream.viewer.provider',
-        metadataValueFilter : {
-          value: 'iiif',
-          substring: true
-        }
-      },
-      {
-        type: AdvancedAttachmentPreviewButtonTypes.PDF,
-        metadata: 'bitstream.viewer.provider',
-        metadataValueFilter : {
-          value: 'pdf',
-          substring: true
-        }
-      },
-      {
-        type: AdvancedAttachmentPreviewButtonTypes.Download,
-        metadata: 'bitstream.viewer.provider',
-        metadataValueFilter : {
-          value: 'nodownload',
-          substring: true
-        },
-        negation: true
-      }
-    ]
   };
 }
