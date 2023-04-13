@@ -128,13 +128,14 @@ import { MarkdownViewerModule } from '../shared/markdown-viewer/markdown-viewer.
 import {
   AdvancedAttachmentComponent
 } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/advanced-attachment.component';
-import { FileDownloadButtonComponent } from '../shared/file-download-button/file-download-button.component';
 import {
   BitstreamAttachmentComponent
 } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/bitstream-attachment/bitstream-attachment.component';
 import { ItemSharedModule } from '../item-page/item-shared.module';
 import { ViewersSharedModule } from '../item-page/viewer-provider/viewers/viewers-shared.module';
-import { AttachmentRenderComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/bitstream-attachment/attachment-render/attachment-render.component';
+import {
+  AttachmentRenderComponent
+} from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/bitstream-attachment/attachment-render/attachment-render.component';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -193,7 +194,6 @@ const ENTRY_COMPONENTS = [
     MetadataContainerComponent,
     MetadataRenderComponent,
     MarkdownComponent,
-    FileDownloadButtonComponent,
     BitstreamAttachmentComponent,
     AttachmentRenderComponent,
   ],
