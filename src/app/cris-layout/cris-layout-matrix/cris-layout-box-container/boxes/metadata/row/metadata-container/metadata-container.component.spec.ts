@@ -483,37 +483,38 @@ describe('MetadataContainerComponent', () => {
         done();
       });
     });
-  });
 
-  describe('and bitstream has metadata', () => {
-    beforeEach(() => {
-      component.field.bitstream.metadataField = 'metadataFieldTest';
-      component.field.bitstream.metadataValue = 'metadataValueTest';
-      fixture.detectChanges();
+    describe('and bitstream has metadata', () => {
+      beforeEach(() => {
+        component.field.bitstream.metadataField = 'metadataFieldTest';
+        component.field.bitstream.metadataValue = 'metadataValueTest';
+        fixture.detectChanges();
+      });
+
+      it('should use the metadata in filters', () => {
+        expect(mockBitstreamDataService.findShowableBitstreamsByItem).toHaveBeenCalledWith(
+          testItem.uuid,
+          bitstreamField.bitstream.bundle,
+          [ { metadataName: 'metadataFieldTest', metadataValue: 'metadataValueTest' } ]
+        );
+      });
     });
 
-    it('should use the metadata in filters', () => {
-      expect(mockBitstreamDataService.findShowableBitstreamsByItem).toHaveBeenCalledWith(
-        testItem.uuid,
-        bitstreamField.bitstream.bundle,
-        [ { metadataName: 'metadataFieldTest', metadataValue: 'metadataValueTest' } ]
-      );
-    });
-  });
+    describe('and bitstream doesnt have metadataValue', () => {
+      beforeEach(() => {
+        component.field.bitstream.metadataValue = undefined;
+        fixture.detectChanges();
+      });
 
-  describe('and bitstream doesnt have metadataValue', () => {
-    beforeEach(() => {
-      component.field.bitstream.metadataValue = undefined;
-      fixture.detectChanges();
+      it('should use empty array in filters', () => {
+        expect(mockBitstreamDataService.findShowableBitstreamsByItem).toHaveBeenCalledWith(
+          testItem.uuid,
+          bitstreamField.bitstream.bundle,
+          [] // <--- empty array of filters
+        );
+      });
     });
 
-    it('should use empty array in filters', () => {
-      expect(mockBitstreamDataService.findShowableBitstreamsByItem).toHaveBeenCalledWith(
-        testItem.uuid,
-        bitstreamField.bitstream.bundle,
-        [] // <--- empty array of filters
-      );
-    });
   });
 
   describe('Check LoadMoreService with more tag',() => {
@@ -544,8 +545,8 @@ describe('MetadataContainerComponent', () => {
     });
 
     it('should display more tag', () => {
-        const moreTag = fixture.debugElement.query(By.css('#a-more-label'));
-        expect(moreTag).toBeTruthy();
+      const moreTag = fixture.debugElement.query(By.css('#a-more-label'));
+      expect(moreTag).toBeTruthy();
     });
   });
 
@@ -580,6 +581,6 @@ describe('MetadataContainerComponent', () => {
     it('should not display more tag', () => {
       const moreTag = fixture.debugElement.query(By.css('#a-more-label'));
       expect(moreTag).not.toBeTruthy();
-   });
+    });
   });
 });
