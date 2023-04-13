@@ -28,7 +28,6 @@ import { FollowAuthorityMetadata } from './search-follow-metadata.interface';
 import { MetricVisualizationConfig } from './metric-visualization-config.interfaces';
 import {
   AdvancedAttachmentElementType,
-  AdvancedAttachmentPreviewButtonTypes,
   AdvancedAttachmentRenderingConfig
 } from './advanced-attachment-rendering.config';
 import { AttachmentRenderingConfig } from './attachment-rendering.config';

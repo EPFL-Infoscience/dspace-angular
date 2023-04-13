@@ -9,15 +9,6 @@ export interface AdvancedAttachmentRenderingConfig {
 }
 
 /**
- * Allowed button types for advanced attachment rendering
- */
-export enum AdvancedAttachmentPreviewButtonTypes {
-  Download = 'Download',
-  IIIF = 'IIIF',
-  PDF = 'PDF'
-}
-
-/**
  * Interface configuration to select which are the advanced attachment information to show
  */
 export interface AttachmentMetadataConfig {
