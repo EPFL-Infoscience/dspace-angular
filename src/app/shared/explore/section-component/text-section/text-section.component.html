@@ -2,7 +2,9 @@
   <div *ngSwitchCase="'image'"><img [src]="textRowSection.content" style="width: 100%"></div>
   <div *ngSwitchCase="'text-key'">{{ ('explore.text-section.' + textRowSection.content) | translate }}</div>
   <div *ngSwitchCase="'text-raw'">{{ textRowSection.content }}</div>
-  <ds-markdown-viewer *ngSwitchCase="'text-metadata'" data-test="ds-markdown-viewer"  [value]="metadataValue(textRowSection.content)"></ds-markdown-viewer>
+  <div *ngSwitchCase="'text-metadata'" class="p-2 border rounded">
+    <ds-markdown-viewer data-test="ds-markdown-viewer" [value]="metadataValue(textRowSection.content)"></ds-markdown-viewer>
+  </div>
   <div *ngSwitchCase="'submit-section'">
     <ng-container *dsShowOnlyForRole="[roleTypeEnum.Submitter]">
       <ng-container *ngTemplateOutlet="submitSection"></ng-container>

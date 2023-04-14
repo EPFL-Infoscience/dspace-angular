@@ -2259,6 +2259,12 @@
 
   "form.add": "Add more",
 
+  "form.other-option": "(Other): ",
+
+  "form.other-option.add-button": "Add",
+
+  "form.other-option.invalid": "Entry \"{{ entry }}\" already exists",
+
   "form.add-help": "Click here to add the current entry and to add another one",
 
   "form.cancel": "Cancel",
