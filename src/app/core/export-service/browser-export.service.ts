@@ -54,16 +54,16 @@ export class BrowserExportService implements ExportService {
 
     if (type === ExportImageType.png) {
       toPng(domNode, options)
-        .then((dataUrl) => {
-          saveAs(dataUrl, fileName + '.' + type);
-          isLoading.next(false);
-        });
+      .then((dataUrl) => {
+        saveAs(dataUrl, fileName + '.' + type);
+        isLoading.next(false);
+      });
     } else {
       toJpeg(domNode, options)
-        .then((dataUrl) => {
-          saveAs(dataUrl, fileName + '.' + type);
-          isLoading.next(false);
-        });
+      .then((dataUrl) => {
+        saveAs(dataUrl, fileName + '.' + type);
+        isLoading.next(false);
+      });
     }
 
   }

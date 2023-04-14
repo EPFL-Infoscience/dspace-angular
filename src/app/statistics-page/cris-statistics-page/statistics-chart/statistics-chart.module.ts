@@ -1,4 +1,4 @@
-import { NgModule, NO_ERRORS_SCHEMA, Provider } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { StatisticsChartComponent } from './statistics-chart.component';
@@ -7,10 +7,8 @@ import { StatisticsChartPieComponent } from './statistics-chart-pie/statistics-c
 import { StatisticsChartLineComponent } from './statistics-chart-line/statistics-chart-line.component';
 import { StatisticsChartBarComponent } from './statistics-chart-bar/statistics-chart-bar.component';
 import { SharedModule } from '../../../shared/shared.module';
-import { DataReportService } from '../../../core/statistics/data-report.service';
 import { StatisticsPipesPageModule } from '../statistics-pipes/statistics-pipes.module';
 import { StatisticsTableComponent } from './statistics-table/statistics-table.component';
-import { StatisticsChartDataComponent } from './statistics-chart-data/statistics-chart-data.component';
 import { ChartsModule } from '../../../charts/charts.module';
 
 const ENTRY_COMPONENTS = [
@@ -20,35 +18,25 @@ const ENTRY_COMPONENTS = [
   StatisticsTableComponent
 ];
 
-const imports = [
+const IMPORTS = [
   CommonModule,
   SharedModule.withEntryComponents(),
   StatisticsPipesPageModule,
   ChartsModule.withEntryComponents()
 ];
-const components = [
+const COMPONENTS = [
   StatisticsChartComponent,
-  StatisticsChartDataComponent,
   StatisticsChartWrapperComponent,
-  StatisticsChartPieComponent,
-  StatisticsChartLineComponent,
-  StatisticsChartBarComponent,
-  StatisticsTableComponent
-];
-const providers: Provider[] = [
-  DataReportService
+  ...ENTRY_COMPONENTS
 ];
 
 @NgModule({
-  declarations: components,
+  declarations: COMPONENTS,
   imports: [
-    ...imports
+    ...IMPORTS
   ],
-  exports : components,
-  schemas:[NO_ERRORS_SCHEMA],
-  providers: [
-    ...providers
-  ]
+  exports : COMPONENTS,
+  schemas: [ NO_ERRORS_SCHEMA ]
 })
 export class StatisticsChartModule {
   /**
@@ -58,7 +46,8 @@ export class StatisticsChartModule {
   static withEntryComponents() {
     return {
       ngModule: StatisticsChartModule,
-      providers: ENTRY_COMPONENTS.map((component) => ({provide: component}))
+      providers: ENTRY_COMPONENTS.map((component) => ({provide: component})),
     };
   }
+
 }
