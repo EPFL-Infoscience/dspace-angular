@@ -52,6 +52,7 @@ export interface CrisLayoutConfig extends Config {
 export interface LayoutConfig extends Config {
   navbar: NavbarConfig;
   search: SearchLayoutConfig;
+  disableResearcherProfileManagement: boolean;
 }
 
 export interface SuggestionConfig extends Config {

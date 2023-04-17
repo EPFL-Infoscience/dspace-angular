@@ -541,7 +541,8 @@ export class DefaultAppConfig implements AppConfig {
       filters: {
         datepicker: []
       }
-    }
+    },
+    disableResearcherProfileManagement: true,
   };
 
   security: MetadataSecurityConfig = {

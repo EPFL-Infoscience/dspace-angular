@@ -19,6 +19,7 @@ import { isNotEmpty } from '../../shared/empty.util';
 import { followLink } from '../../shared/utils/follow-link-config.model';
 import { ConfirmationModalComponent } from '../../shared/confirmation-modal/confirmation-modal.component';
 import { NoContent } from '../../core/shared/NoContent.model';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'ds-profile-page-researcher-form',
@@ -50,6 +51,8 @@ export class ProfilePageResearcherFormComponent implements OnInit {
    * @type {BehaviorSubject<boolean>}
    */
   processingCreate$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  disableResearcherProfileManagement = environment.layout.disableResearcherProfileManagement;
 
   /**
    * If exists The uuid of the item associated to the researcher profile
