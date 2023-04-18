@@ -2198,7 +2198,7 @@
 
   "footer.link.privacy-policy": "Privacy policy",
 
-  "footer.link.end-user-agreement":"End User Agreement & GDPR",
+  "footer.link.end-user-agreement":"End User Agreement",
 
   "footer.link.feedback":"Send Feedback",
 
@@ -6634,6 +6634,8 @@
   "researcher.profile.create.success": "Researcher profile created successfully",
 
   "researcher.profile.create.fail": "An error occurs during the researcher profile creation",
+
+  "researcher.profile.management.disabled": "Only administrators can manage the Researcher Profile",
 
   "researcher.profile.delete": "Delete",
 

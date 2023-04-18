@@ -383,7 +383,8 @@ export const environment: BuildConfig = {
       filters: {
         datepicker: ['filterName1']
       }
-    }
+    },
+    disableResearcherProfileManagement: false,
   },
   security: {
     levels: [
