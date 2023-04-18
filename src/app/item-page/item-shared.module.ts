@@ -13,16 +13,10 @@ import {
 import {
   TabbedRelatedEntitiesSearchComponent
 } from './simple/related-entities/tabbed-related-entities-search/tabbed-related-entities-search.component';
-import { IIIFToolbarComponent } from './iiif-toolbar/iiif-toolbar.component';
-import { PdfViewerButtonComponent } from './pdf-viewer-button/pdf-viewer-button.component';
-import { FileDownloadButtonComponent } from '../shared/file-download-button/file-download-button.component';
 
 const COMPONENTS = [
   RelatedEntitiesSearchComponent,
   TabbedRelatedEntitiesSearchComponent,
-  IIIFToolbarComponent,
-  PdfViewerButtonComponent,
-  FileDownloadButtonComponent
 ];
 
 @NgModule({
