@@ -504,5 +504,15 @@ export const environment: BuildConfig = {
         type: AdvancedAttachmentElementType.Attribute,
       }
     ]
+  },
+
+  searchResult: {
+    additionalMetadataFields: [
+      {
+        entityType: 'default',
+        metadataConfiguration: []
+      }
+    ]
   }
+
 };
