@@ -5067,6 +5067,12 @@
 
   "search.filters.filter.investigators.placeholder": "Researcher",
 
+  "search.filters.filter.journal.head" : "Journal",
+
+  "search.filters.filter.journal.label" : "Journal",
+
+  "search.filters.filter.journal.placeholder" : "Journal",
+
   "search.filters.filter.jobTitle.head": "Job Title",
 
   "search.filters.filter.jobTitle.placeholder": "Job Title",
