@@ -381,8 +381,11 @@ import { MarkdownPipe } from './utils/markdown.pipe';
 import { GoogleRecaptchaModule } from '../core/google-recaptcha/google-recaptcha.module';
 import { ItemCorrectionComponent } from './object-collection/shared/mydspace-item-correction/item-correction.component';
 import { MetricsModule } from './metric/metrics.module';
-import { SearchChartBarHorizontalComponent } from './search/search-charts/search-chart/search-chart-bar-horizontal/search-chart-bar-horizontal.component';
+import {
+  SearchChartBarHorizontalComponent
+} from './search/search-charts/search-chart/search-chart-bar-horizontal/search-chart-bar-horizontal.component';
 import { ThumbnailService } from './thumbnail/thumbnail.service';
+import { ItemExportAlertComponent } from './search/item-export/item-export-alert/item-export-alert.component';
 import { EpersonGroupListComponent } from './eperson-group-list/eperson-group-list.component';
 import {
   EpersonSearchBoxComponent
@@ -757,6 +760,7 @@ const DIRECTIVES = [
     ...SHARED_ITEM_PAGE_COMPONENTS,
     ItemVersionsSummaryModalComponent,
     ItemVersionsDeleteModalComponent,
+    AdditionalMetadataComponent,
   ],
   providers: [
     ...PROVIDERS
@@ -767,7 +771,8 @@ const DIRECTIVES = [
     ...COMPONENTS,
     ...SHARED_ITEM_PAGE_COMPONENTS,
     ...DIRECTIVES,
-    TranslateModule
+    TranslateModule,
+    AdditionalMetadataComponent
   ]
 })
 

@@ -8,9 +8,9 @@ import { MetadataValue } from '../../../../core/shared/metadata.models';
 import { ResolverStrategyService } from '../../../../cris-layout/services/resolver-strategy.service';
 import { DSpaceObject } from '../../../../core/shared/dspace-object.model';
 import { AdditionalMetadataConfig } from '../../../../../config/additional-metadata.config';
-import { getFirstCompletedRemoteData, } from '../../../../core/shared/operators';
-import { map, shareReplay } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { getFirstSucceededRemoteDataPayload, getPaginatedListPayload } from '../../../../core/shared/operators';
+import {map, mapTo, take, tap} from 'rxjs/operators';
+import {interval, Observable, of, race} from 'rxjs';
 import { VocabularyService } from '../../../../core/submission/vocabularies/vocabulary.service';
 
 interface LinkData {
@@ -26,51 +26,44 @@ interface LinkData {
 export class AdditionalMetadataComponent implements OnInit {
 
   DEFAULT_CONFIG_NAME = 'default';
+  dateFormat = 'yyyy-MM-dd';
 
   @Input() object: Item | DSpaceObject;
-
-  @Input() objectType = 'item';
 
   /**
    * A list of additional metadata fields to display
    */
-  public additionalMetadataFields: AdditionalMetadataConfig[];
+  public additionalMetadataFields: Array<AdditionalMetadataConfig>[];
 
   constructor(
     protected resolver: ResolverStrategyService,
-    protected vocabularyService: VocabularyService
+    protected vocabularyService: VocabularyService,
   ) {
   }
 
   ngOnInit(): void {
 
-    if (this.objectType === 'item') {
+    const entityTypeConfig = environment.searchResult.additionalMetadataFields.filter(
+      (field: SearchResultAdditionalMetadataEntityTypeConfig) => field.entityType.toLocaleLowerCase() === (this.object as Item).entityType.toLocaleLowerCase()
+    );
 
-      const entityTypeConfig = environment.searchResult.additionalMetadataFields.filter(
-        (field: SearchResultAdditionalMetadataEntityTypeConfig) => field.entityType.toLocaleLowerCase() === (this.object as Item).entityType.toLocaleLowerCase()
-      );
+    const defaultConfig = environment.searchResult.additionalMetadataFields.filter(
+      (field: SearchResultAdditionalMetadataEntityTypeConfig) => field.entityType.toLocaleLowerCase() === this.DEFAULT_CONFIG_NAME
+    );
 
-      const defaultConfig = environment.searchResult.additionalMetadataFields.filter(
-        (field: SearchResultAdditionalMetadataEntityTypeConfig) => field.entityType.toLocaleLowerCase() === this.DEFAULT_CONFIG_NAME
-      );
+    let unfilteredAdditionalMetadataFields: Array<AdditionalMetadataConfig>[] = [];
 
-      let unfilteredAdditionalMetadataFields: AdditionalMetadataConfig[] = [];
-
-      if (entityTypeConfig.length > 0) {
-        unfilteredAdditionalMetadataFields = entityTypeConfig[0].metadataConfiguration;
-      } else if (defaultConfig.length > 0) {
-        unfilteredAdditionalMetadataFields = defaultConfig[0].metadataConfiguration;
-      }
-
-      this.additionalMetadataFields = unfilteredAdditionalMetadataFields.filter(
-        (field) => this.object.hasMetadata(field.name)
-      );
-
-    } else if (this.objectType === 'attachment') {
-      this.additionalMetadataFields = environment.advancedAttachmentRendering.metadata.filter(
-        (field) => this.object.hasMetadata(field.name)
-      );
+    if (entityTypeConfig.length > 0) {
+      unfilteredAdditionalMetadataFields = entityTypeConfig[0].metadataConfiguration;
+    } else if (defaultConfig.length > 0) {
+      unfilteredAdditionalMetadataFields = defaultConfig[0].metadataConfiguration;
     }
+
+    this.additionalMetadataFields = unfilteredAdditionalMetadataFields.map(field => {
+      return field.filter(item =>
+        this.object.hasMetadata(item.name)
+      );
+    }).filter(field => !!field.length);
 
   }
 
@@ -150,15 +143,44 @@ export class AdditionalMetadataComponent implements OnInit {
     const isControlledVocabulary = authority?.length > 1 && authority[0] === vocabularyName;
     const value = isControlledVocabulary ? authority[1] : metadataValue.value;
 
-    return this.vocabularyService.getPublicVocabularyEntryByValue(vocabularyName, value).pipe(
-      getFirstCompletedRemoteData(),
-      map((res) =>
-        res.hasSucceeded ? (res.payload?.page[0]?.display ?? metadataValue.value) : metadataValue.value
-      ),
-      shareReplay(),
+    const entry$ = this.vocabularyService.getPublicVocabularyEntryByValue(vocabularyName, value).pipe(
+      getFirstSucceededRemoteDataPayload(),
+      getPaginatedListPayload(),
+      map((res) => res[0]?.display ?? metadataValue.value),
+    );
+
+    // fallback values to be shown if the display value cannot be retrieved
+    const initValue$ = interval(1000).pipe(mapTo(metadataValue.value));
+
+    return race([entry$, initValue$]).pipe(
+      take(1)
     );
 
   }
 
+  currentRoleData(object: Item | DSpaceObject) {
+    const currentAffiliation = object.firstMetadataValue('person.affiliation.name');
+    const allAffiliations = object.allMetadataValues('oairecerif.person.affiliation');
+    const allRoles = object.allMetadataValues('oairecerif.affiliation.role');
 
+    const lastIndexOfCurrentAffiliation = allAffiliations.lastIndexOf(currentAffiliation);
+
+    if (lastIndexOfCurrentAffiliation !== -1) {
+      return allRoles[lastIndexOfCurrentAffiliation];
+    }
+  }
+
+  lastRoleData(object: Item | DSpaceObject) {
+    const currentAffiliation = object.firstMetadataValue('person.affiliation.name');
+    const allAffiliations = object.allMetadataValues('oairecerif.person.affiliation');
+    const allRoles = object.allMetadataValues('oairecerif.affiliation.role');
+
+    const lastIndexOfCurrentAffiliation = allAffiliations.lastIndexOf(currentAffiliation);
+
+    if (lastIndexOfCurrentAffiliation !== -1) {
+      return allRoles[lastIndexOfCurrentAffiliation - 1];
+    } else {
+      return allRoles[allRoles.length - 1];
+    }
+  }
 }

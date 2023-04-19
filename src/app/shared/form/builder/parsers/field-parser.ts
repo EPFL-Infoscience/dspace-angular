@@ -108,6 +108,9 @@ export abstract class FieldParser {
               }
             }
             model = this.modelFactory(fieldValue, false);
+            if (!this.configData.repeatable) {
+              this.markAsNotRepeatable(model);
+            }
           }
           setLayout(model, 'element', 'host', 'col');
           if (model.hasLanguages || isNotEmpty(model.relationship) || model.hasSecurityToggle) {
@@ -413,6 +416,15 @@ export abstract class FieldParser {
       {},
       controlModel.errorMessages,
       { required: this.configData.mandatoryMessage });
+  }
+
+  protected markAsNotRepeatable(controlModel) {
+    controlModel.isModelOfNotRepeatableGroup = true;
+
+    controlModel.errorMessages = Object.assign(
+      {},
+      controlModel.errorMessages,
+      { notRepeatable: 'error.validation.notRepeatable' });
   }
 
   protected setLabel(controlModel, label = true, labelEmpty = false) {
