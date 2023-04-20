@@ -6,6 +6,7 @@ import { BitstreamDataService } from '../../../../../../../core/data/bitstream-d
 import { Item } from '../../../../../../../core/shared/item.model';
 import { LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { AttachmentComponent } from '../attachment/attachment.component';
+import { AdvancedAttachmentElementType } from '../../../../../../../../config/advanced-attachment-rendering.config';
 import { environment } from '../../../../../../../../environments/environment';
 
 @Component({
@@ -22,12 +23,17 @@ export class AdvancedAttachmentComponent extends AttachmentComponent implements 
   /**
    * Environment variables configuring the fields to be viewed
    */
-  envAttributes = environment.advancedAttachmentRendering.attributes;
+  envMetadata = environment.advancedAttachmentRendering.metadata;
 
   /**
    * Environment variables configuring pagination
    */
   envPagination = environment.advancedAttachmentRendering.pagination;
+
+  /**
+   * Configuration type enum
+   */
+  AdvancedAttachmentElementType = AdvancedAttachmentElementType;
 
   constructor(
     @Inject('fieldProvider') public fieldProvider: LayoutField,

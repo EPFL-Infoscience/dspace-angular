@@ -9,27 +9,47 @@
       </div>
       <div class="col-5">
 
-        <ds-additional-metadata [object]="attachment" [objectType]="'attachment'" data-test="additional-metadata"></ds-additional-metadata>
+        <ng-container *ngFor="let attachmentConf of envMetadata">
 
-        <div *ngFor="let attributeConf of envAttributes" [attr.data-test]="attributeConf.name">
-          <ng-container [ngSwitch]="attributeConf.name">
-            <ng-container *ngSwitchCase="'format'">
-              <ng-container *ngIf="(getFormat(attachment) | async)">
-                <span class="font-weight-bold mr-1 text-muted">{{attributeConf.label | translate}}:</span>
+          <div class="content" [attr.data-test]="attachmentConf.name"
+            *ngIf="attachment.firstMetadataValue(attachmentConf.name) || attachmentConf.type == AdvancedAttachmentElementType.Attribute">
+            <strong *ngIf="attachmentConf.type != AdvancedAttachmentElementType.Attribute">
+              {{ 'cris-layout.advanced-attachment.'+attachmentConf.name | translate }}
+            </strong>
+
+            <ng-container *ngIf="attachmentConf.type == AdvancedAttachmentElementType.Metadata">
+
+              <p class="text-break m-0" data-test="attachment-name" *ngIf="!attachmentConf.truncatable">
+                {{attachment.firstMetadataValue(attachmentConf.name)}}
+              </p>
+
+              <ds-truncatable *ngIf="attachmentConf.truncatable" [id]=" attachment.id">
+                <ds-truncatable-part [id]="attachment.id" [minLines]="1">
+                  {{attachment.firstMetadataValue(attachmentConf.name)}}
+                </ds-truncatable-part>
+              </ds-truncatable>
+
+            </ng-container>
+
+            <ng-container *ngIf="attachmentConf.type == AdvancedAttachmentElementType.Attribute">
+              <ng-container *ngIf="attachmentConf.name == 'format' && (getFormat(attachment) | async)">
+                <strong>
+                  {{ 'cris-layout.advanced-attachment.'+attachmentConf.name | translate }}
+                </strong>
                 <p class="word-break m-0">{{getFormat(attachment) | async}}</p>
               </ng-container>
-            </ng-container>
-            <ng-container *ngSwitchCase="'size'">
-              <ng-container *ngIf="getSize(attachment)">
-                <span class="font-weight-bold mr-1 text-muted">{{attributeConf.label | translate}}:</span>
-                <span>{{getSize(attachment) | dsFileSize}}</span>
+
+              <ng-container *ngIf="attachmentConf.name == 'size' && getSize(attachment)">
+                <strong>
+                  {{ 'cris-layout.advanced-attachment.'+attachmentConf.name | translate }}
+                </strong>
+                <p class="word-break m-0">{{getSize(attachment) | dsFileSize}}</p>
               </ng-container>
-            </ng-container>
-            <ng-container *ngSwitchCase="'checksum'">
-              <ng-container *ngIf="getChecksum(attachment)">
+
+              <ng-container *ngIf="attachmentConf.name == 'checksum' && getChecksum(attachment)">
                 <ng-container *ngVar="getChecksum(attachment) as checksum">
-                  <span class="font-weight-bold mr-1 text-muted">
-                    {{ attributeConf.label | translate }}
+                  <strong>
+                    {{ 'cris-layout.advanced-attachment.'+ attachmentConf.name | translate }}
                     ({{checksum.checkSumAlgorithm}}) <i class="far fa-question-circle text-info hint" #hint="ngbTooltip"
                                                         container="body"
                                                         placement="top"
@@ -37,18 +57,18 @@
                                                         triggers="manual"
                                                         [autoClose]="false"
                                                         (click)="hint.toggle();$event.preventDefault();"></i>
-                  </span>
+                  </strong>
                   <p class="word-break m-0">{{checksum.value}}</p>
                 </ng-container>
               </ng-container>
             </ng-container>
-          </ng-container>
-        </div>
-      </div>
 
+          </div>
+        </ng-container>
+
+      </div>
       <div class="col-4 text-right">
-        <ds-file-download-button [bitstream]="attachment" [enableRequestACopy]="true" [item]="item"
-                                 [format]="getFormat(attachment) |async" (previewPdf)="previewPdf(attachment)">
+        <ds-file-download-button [bitstream]="attachment" [enableRequestACopy]="true" [item]="item">
         </ds-file-download-button>
       </div>
     </div>
@@ -59,5 +79,6 @@
       {{'cris-layout.advanced-attachment.viewMore' | translate}}
     </button>
   </div>
-  <ds-pdf-viewer *ngIf="hasAnyPdf" [pdfSrc]="pdfSrc"></ds-pdf-viewer>
 </div>
+
+

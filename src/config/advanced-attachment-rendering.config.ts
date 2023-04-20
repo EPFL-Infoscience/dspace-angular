@@ -1,12 +1,26 @@
 /**
  * Interface configuration to define the advanced attachment rendering settings
  */
-import { AdditionalMetadataConfig } from './additional-metadata.config';
-
 export interface AdvancedAttachmentRenderingConfig {
+  metadata: AttachmentMetadataConfig[];
   pagination: AdvancedAttachmentRenderingPaginationConfig;
-  metadata: AdditionalMetadataConfig[];
-  attributes: AdvancedAttachmentRenderingAttributeConfig[];
+}
+
+/**
+ * Interface configuration to select which are the advanced attachment information to show
+ */
+export interface AttachmentMetadataConfig {
+  name: string;
+  type: AdvancedAttachmentElementType;
+  truncatable?: boolean;
+}
+
+/**
+ * Interface configuration to define the type for each element shown in the advanced attachment feature
+ */
+export enum AdvancedAttachmentElementType {
+  Metadata = 'metadata',
+  Attribute = 'attribute'
 }
 
 /**
@@ -15,12 +29,4 @@ export interface AdvancedAttachmentRenderingConfig {
 export interface AdvancedAttachmentRenderingPaginationConfig {
   enabled: boolean;
   elementsPerPage: number;
-}
-
-/**
- * Interface configuration to define the additional attributes
- */
-export interface AdvancedAttachmentRenderingAttributeConfig {
-  name: string,
-  label: string,
 }
