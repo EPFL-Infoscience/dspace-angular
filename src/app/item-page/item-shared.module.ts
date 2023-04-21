@@ -39,4 +39,5 @@ const COMPONENTS = [
     }
   ]
 })
-export class ItemSharedModule { }
+export class ItemSharedModule {
+}
