@@ -31,16 +31,6 @@ export abstract class BitstreamRenderingModelComponent extends RenderingTypeStru
   private TYPE_METADATA = 'dc.type';
   private DESCRIPTION_METADATA = 'dc.description';
 
-  /**
-   * Determine if there is any pdf in the list so we can display preview pdf section
-   */
-  hasAnyPdf = false;
-
-  /**
-   * The pdf link to be displayed in the preview pdf section
-   */
-  pdfSrc: string;
-
   constructor(
     @Inject('fieldProvider') public fieldProvider: LayoutField,
     @Inject('itemProvider') public itemProvider: Item,
@@ -58,7 +48,7 @@ export abstract class BitstreamRenderingModelComponent extends RenderingTypeStru
    */
   getBitstreams(options?: FindListOptions): Observable<PaginatedList<Bitstream>> {
     return this.bitstreamDataService
-      .findAllByItemAndBundleName(this.item, this.field.bitstream.bundle, options, false, false, followLink('thumbnail'), followLink( 'format'))
+      .findAllByItemAndBundleName(this.item, this.field.bitstream.bundle, options, false, false, followLink('thumbnail'))
       .pipe(
         getFirstCompletedRemoteData(),
         map((response: RemoteData<PaginatedList<Bitstream>>) => {
@@ -115,9 +105,6 @@ export abstract class BitstreamRenderingModelComponent extends RenderingTypeStru
   getFormat(bitstream: Bitstream): Observable<string> {
     return bitstream.format?.pipe(
       map((rd: RemoteData<BitstreamFormat>) => {
-        if (rd.payload?.mimetype === 'application/pdf') {
-          this.hasAnyPdf = true;
-        }
         return rd.payload?.shortDescription;
       })
     );
@@ -138,7 +125,15 @@ export abstract class BitstreamRenderingModelComponent extends RenderingTypeStru
    */
   getBitstreamsByItem(options?: FindListOptions): Observable<PaginatedList<Bitstream>> {
     return this.bitstreamDataService
-      .findByItem(this.item.uuid, this.field.bitstream.bundle, this.getMetadataFilters(), options, false, false, followLink('thumbnail'))
+      .findByItem(
+        this.item.uuid,
+        this.field.bitstream.bundle,
+        this.getMetadataFilters(),
+        options,
+        false,
+        false,
+        followLink('thumbnail')
+      )
       .pipe(
         getFirstCompletedRemoteData(),
         map((response: RemoteData<PaginatedList<Bitstream>>) => {
@@ -163,13 +158,5 @@ export abstract class BitstreamRenderingModelComponent extends RenderingTypeStru
     }
     return filters;
   }
-
-  /**
-   * When button is clicked set the current attachment url to be displayed in preview pdf section
-   */
-  previewPdf(attachment) {
-    this.pdfSrc = attachment._links.content.href;
-  }
-
 
 }
