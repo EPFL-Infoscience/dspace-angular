@@ -34,6 +34,8 @@ export class ViewerProviderComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription;
 
+  showBackButton: boolean;
+
   constructor(
     private readonly location: Location,
     private readonly route: ActivatedRoute,
@@ -45,6 +47,8 @@ export class ViewerProviderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.showBackButton = !this.location.path().includes('details');
+
     this.item$ = this.initItem$();
     this.bitstream$ = this.initBitstream$();
     this.viewer$ = this.initViewer$();
