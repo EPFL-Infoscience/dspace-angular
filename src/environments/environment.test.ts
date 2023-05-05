@@ -2,6 +2,7 @@
 import { BuildConfig } from 'src/config/build-config.interface';
 import { RestRequestMethod } from '../app/core/data/rest-request-method';
 import { NotificationAnimationsType } from '../app/shared/notifications/models/notification-animations-type';
+import { AdvancedAttachmentElementType } from '../config/advanced-attachment-rendering.config';
 
 export const environment: BuildConfig = {
   production: false,
@@ -383,7 +384,8 @@ export const environment: BuildConfig = {
       filters: {
         datepicker: ['filterName1']
       }
-    }
+    },
+    disableResearcherProfileManagement: false,
   },
   security: {
     levels: [
@@ -475,32 +477,30 @@ export const environment: BuildConfig = {
     metadata: [
       {
         name: 'dc.title',
-        rendering: 'text',
-        label: 'cris-layout.advanced-attachment.dc.title'
+        type: AdvancedAttachmentElementType.Metadata,
+        truncatable: false
       },
       {
         name: 'dc.type',
-        rendering: 'text',
-        label: 'cris-layout.advanced-attachment.dc.type'
+        type: AdvancedAttachmentElementType.Metadata,
+        truncatable: false
       },
       {
         name: 'dc.description',
-        rendering: 'text',
-        label: 'cris-layout.advanced-attachment.dc.description'
+        type: AdvancedAttachmentElementType.Metadata,
+        truncatable: true
       },
-    ],
-    attributes: [
       {
         name: 'size',
-        label: 'cris-layout.advanced-attachment.size'
+        type: AdvancedAttachmentElementType.Attribute,
       },
       {
         name: 'format',
-        label: 'cris-layout.advanced-attachment.format'
+        type: AdvancedAttachmentElementType.Attribute,
       },
       {
         name: 'checksum',
-        label: 'cris-layout.advanced-attachment.checksum'
+        type: AdvancedAttachmentElementType.Attribute,
       }
     ]
   },

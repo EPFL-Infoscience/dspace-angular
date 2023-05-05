@@ -1,19 +1,17 @@
-<ng-container *ngIf="(canDownload$ | async)">
+<ng-container *ngIf="!hasNoDownload">
+  <ng-container *ngIf="(canDownload$ | async)">
     <ng-container *ngVar="bitstreamPath$ | async as downloadLink">
-        <a [routerLink]="downloadLink?.routerLink" [queryParams]="downloadLink?.queryParams" class="btn btn-primary"
-            data-test="download">
-            <i class="fas fa-download"></i>
-            {{ 'cris-layout.advanced-attachment.download' | translate }}</a>
+      <a [routerLink]="downloadLink?.routerLink" [queryParams]="downloadLink?.queryParams" class="btn btn-outline-primary"
+         data-test="download">
+        <i class="fas fa-download"></i>
+        {{ 'cris-layout.advanced-attachment.download' | translate }}</a>
     </ng-container>
-</ng-container>
-<ng-container *ngIf="!(canDownload$ | async)">
+  </ng-container>
+  <ng-container *ngIf="!(canDownload$ | async)">
     <ng-container *ngVar="bitstreamPath$ | async as requestACopyLink">
-        <a [routerLink]="requestACopyLink?.routerLink" [queryParams]="requestACopyLink?.queryParams"
-            class="btn btn-primary" data-test="requestACopy">{{ 'cris-layout.advanced-attachment.requestACopy' |
-            translate }}</a>
+      <a [routerLink]="requestACopyLink?.routerLink" [queryParams]="requestACopyLink?.queryParams"
+         class="btn btn-outline-primary" data-test="requestACopy">{{ 'cris-layout.advanced-attachment.requestACopy' |
+        translate }}</a>
     </ng-container>
+  </ng-container>
 </ng-container>
-
-<a href="javascript:void(0);" class="btn btn-primary ml-1" *ngIf="(canDownload$ |async) && format == 'Adobe PDF'"
-    data-test="previewPdf" (click)="previewPdf.emit(bitstream)">
-    {{'cris-layout.attachment.previewPdf'|translate}}</a>

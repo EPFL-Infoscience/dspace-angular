@@ -1978,6 +1978,8 @@
 
   "error.validation.fundingInvestigatorOrLeadOrganizationRequired" : "At least one investigator or one lead organization is required",
 
+  "error.validation.notRepeatable": "This field is not repeatable, please choose only one value and discard the others.",
+
   "event.listelement.badge" : "Event",
 
   "explore.browse-section.title" : "Browse",
@@ -2198,7 +2200,7 @@
 
   "footer.link.privacy-policy": "Privacy policy",
 
-  "footer.link.end-user-agreement":"End User Agreement & GDPR",
+  "footer.link.end-user-agreement":"End User Agreement",
 
   "footer.link.feedback":"Send Feedback",
 
@@ -2258,6 +2260,12 @@
 
 
   "form.add": "Add more",
+
+  "form.other-option": "(Other): ",
+
+  "form.other-option.add-button": "Add",
+
+  "form.other-option.invalid": "Entry \"{{ entry }}\" already exists",
 
   "form.add-help": "Click here to add the current entry and to add another one",
 
@@ -5061,6 +5069,12 @@
 
   "search.filters.filter.investigators.placeholder": "Researcher",
 
+  "search.filters.filter.journal.head" : "Journal",
+
+  "search.filters.filter.journal.label" : "Journal",
+
+  "search.filters.filter.journal.placeholder" : "Journal",
+
   "search.filters.filter.jobTitle.head": "Job Title",
 
   "search.filters.filter.jobTitle.placeholder": "Job Title",
@@ -5377,6 +5391,8 @@
 
   "statistics.table.mainReports.title.TopCities": "Top city views",
 
+  "statistics.table.top20reports.title.TopItems": "Top 20 most downloaded deposits",
+
   "statistics.table.downloadReports.title.TotalVisits": "Most downloaded",
 
   "statistics.table.downloadReports.title.TopItems": "Most downloaded",
@@ -5395,6 +5411,8 @@
 
   "statistics.table.downloadReports.title.TopCities": "Top city downloads",
 
+  "statistics.table.top20reports.header.item": "Item",
+
   "statistics.table.mainReports.header.views": "Views",
 
   "statistics.table.mainReports.header.bitstream": "File Visits",
@@ -5408,6 +5426,8 @@
   "statistics.table.mainReports.header.item": "Item",
 
   "statistics.table.downloadReports.header.views": "Downloads",
+
+  "statistics.table.top20reports.header.views": "Downloads",
 
   "statistics.table.downloadReports.header.continent": "Continent",
 
@@ -5486,6 +5506,8 @@
   "statistics.categories.rppublicationsReports.tab": "Researchers publication reports",
 
   "statistics.categories.downloadReports.tab": "Downloads reports",
+
+  "statistics.categories.top20reports.tab": "Top 20",
 
   "statistics.reports.title": "Reports",
 
@@ -6629,6 +6651,8 @@
 
   "researcher.profile.create.fail": "An error occurs during the researcher profile creation",
 
+  "researcher.profile.management.disabled": "Only administrators can manage the Researcher Profile",
+
   "researcher.profile.delete": "Delete",
 
   "researcher.profile.expose": "Expose",
@@ -6904,9 +6928,9 @@
 
   "curation-task.task.pushocr.label": "Send OCR to the Annotation Server",
 
-  "curation-task.task.pushocr.force.label": "Clean OCR from the Annotation Server and send again",
-
   "curation-task.task.ocrclean.label": "Remove all metadata bundles and uploaded ocr created by a previous upload to the ocr server",
+
+  "curation-task.task.pushocr.force.label": "Clean OCR from the Annotation Server and send again",
 
   "curation-task.task.iiifuploader.label": "Upload images to the IIIF Image Server (photo gallery)",
 

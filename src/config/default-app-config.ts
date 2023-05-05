@@ -27,6 +27,7 @@ import { MetadataSecurityConfig } from './metadata-security-config';
 import { FollowAuthorityMetadata } from './search-follow-metadata.interface';
 import { MetricVisualizationConfig } from './metric-visualization-config.interfaces';
 import {
+  AdvancedAttachmentElementType,
   AdvancedAttachmentRenderingConfig
 } from './advanced-attachment-rendering.config';
 import { AttachmentRenderingConfig } from './attachment-rendering.config';
@@ -541,7 +542,8 @@ export class DefaultAppConfig implements AppConfig {
       filters: {
         datepicker: []
       }
-    }
+    },
+    disableResearcherProfileManagement: true,
   };
 
   security: MetadataSecurityConfig = {
@@ -645,43 +647,36 @@ export class DefaultAppConfig implements AppConfig {
     metadata: [
       {
         name: 'dc.title',
-        rendering: 'text',
-        label: 'cris-layout.advanced-attachment.dc.title'
+        type: AdvancedAttachmentElementType.Metadata,
+        truncatable: false
       },
       {
         name: 'dc.type',
-        rendering: 'text',
-        label: 'cris-layout.advanced-attachment.dc.type'
+        type: AdvancedAttachmentElementType.Metadata,
+        truncatable: false
       },
       {
         name: 'dc.description',
-        rendering: 'text',
-        label: 'cris-layout.advanced-attachment.dc.description'
+        type: AdvancedAttachmentElementType.Metadata,
+        truncatable: true
       },
-    ],
-    attributes: [
       {
         name: 'size',
-        label: 'cris-layout.advanced-attachment.size'
+        type: AdvancedAttachmentElementType.Attribute,
       },
       {
         name: 'format',
-        label: 'cris-layout.advanced-attachment.format'
+        type: AdvancedAttachmentElementType.Attribute,
       },
       {
         name: 'checksum',
-        label: 'cris-layout.advanced-attachment.checksum'
+        type: AdvancedAttachmentElementType.Attribute,
       }
     ]
   };
 
   searchResult: SearchResultConfig = {
-    additionalMetadataFields: [
-      {
-        entityType: 'default',
-        metadataConfiguration: []
-      }
-    ]
+    additionalMetadataFields: []
   };
 
 }

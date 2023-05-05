@@ -1,63 +1,10 @@
 <div class="{{valueStyle}}">
   <ng-container *ngFor="let attachment of (bitstreams$ | async); let last = last;">
-    <ng-template #tipContent>
-      <span [innerHTML]="('checksum-tooltip.info.' + attachment.checkSum.checkSumAlgorithm | translate)"></span>
-    </ng-template>
-    <div class="row mt-1 mb-2" data-test="attachment-info">
-      <div class="col-3">
-        <ds-thumbnail [thumbnail]="attachment.thumbnail | async"></ds-thumbnail>
-      </div>
-      <div class="col-5">
-
-        <ds-additional-metadata [object]="attachment" [objectType]="'attachment'" data-test="additional-metadata"></ds-additional-metadata>
-
-        <div *ngFor="let attributeConf of envAttributes" [attr.data-test]="attributeConf.name">
-          <ng-container [ngSwitch]="attributeConf.name">
-            <ng-container *ngSwitchCase="'format'">
-              <ng-container *ngIf="(getFormat(attachment) | async)">
-                <span class="font-weight-bold mr-1 text-muted">{{attributeConf.label | translate}}:</span>
-                <p class="word-break m-0">{{getFormat(attachment) | async}}</p>
-              </ng-container>
-            </ng-container>
-            <ng-container *ngSwitchCase="'size'">
-              <ng-container *ngIf="getSize(attachment)">
-                <span class="font-weight-bold mr-1 text-muted">{{attributeConf.label | translate}}:</span>
-                <span>{{getSize(attachment) | dsFileSize}}</span>
-              </ng-container>
-            </ng-container>
-            <ng-container *ngSwitchCase="'checksum'">
-              <ng-container *ngIf="getChecksum(attachment)">
-                <ng-container *ngVar="getChecksum(attachment) as checksum">
-                  <span class="font-weight-bold mr-1 text-muted">
-                    {{ attributeConf.label | translate }}
-                    ({{checksum.checkSumAlgorithm}}) <i class="far fa-question-circle text-info hint" #hint="ngbTooltip"
-                                                        container="body"
-                                                        placement="top"
-                                                        [ngbTooltip]="tipContent"
-                                                        triggers="manual"
-                                                        [autoClose]="false"
-                                                        (click)="hint.toggle();$event.preventDefault();"></i>
-                  </span>
-                  <p class="word-break m-0">{{checksum.value}}</p>
-                </ng-container>
-              </ng-container>
-            </ng-container>
-          </ng-container>
-        </div>
-      </div>
-
-      <div class="col-4 text-right">
-        <ds-file-download-button [bitstream]="attachment" [enableRequestACopy]="true" [item]="item"
-                                 [format]="getFormat(attachment) |async" (previewPdf)="previewPdf(attachment)">
-        </ds-file-download-button>
-      </div>
-    </div>
-    <hr *ngIf="!last">
+    <ds-bitstream-attachment data-test="attachment-info" [attachment]="attachment"></ds-bitstream-attachment>
   </ng-container>
   <div *ngIf="canViewMore" class="w-100 text-center my-3">
     <button class="btn btn-outline-primary" data-test="view-more" (click)="viewMore()">
       {{'cris-layout.advanced-attachment.viewMore' | translate}}
     </button>
   </div>
-  <ds-pdf-viewer *ngIf="hasAnyPdf" [pdfSrc]="pdfSrc"></ds-pdf-viewer>
 </div>

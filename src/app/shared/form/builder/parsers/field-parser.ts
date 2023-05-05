@@ -55,6 +55,7 @@ export abstract class FieldParser {
   public parse() {
      if (((this.getInitValueCount() > 1 && !this.configData.repeatable) || (this.configData.repeatable))
       && (this.configData.input.type !== ParserType.List)
+      && (this.configData.input.type !== ParserType.OpenList)
       && (this.configData.input.type !== ParserType.Tag)
       && (this.configData.input.type !== ParserType.RelationGroup)
       && (this.configData.input.type !== ParserType.InlineGroup)
@@ -72,6 +73,10 @@ export abstract class FieldParser {
       if (this.configData.input.type === ParserType.Onebox && this.configData?.selectableMetadata?.length > 1) {
         isDraggable = false;
       }
+      let openType = false;
+      if (this.configData.input.type === ParserType.OpenDropdown || this.configData.input.type === ParserType.OpenList) {
+        openType = true;
+      }
       const config = {
         id: uniqueId() + '_array',
         label: this.configData.label,
@@ -84,6 +89,7 @@ export abstract class FieldParser {
         metadataFields: this.getAllFieldIds(),
         hasSelectableMetadata: isNotEmpty(this.configData.selectableMetadata),
         isDraggable,
+        openType,
         typeBindRelations: isNotEmpty(this.configData.typeBind) ? this.getTypeBindRelations(this.configData.typeBind,
           this.parserOptions.typeField) : null,
         groupFactory: () => {
@@ -102,6 +108,9 @@ export abstract class FieldParser {
               }
             }
             model = this.modelFactory(fieldValue, false);
+            if (!this.configData.repeatable) {
+              this.markAsNotRepeatable(model);
+            }
           }
           setLayout(model, 'element', 'host', 'col');
           if (model.hasLanguages || isNotEmpty(model.relationship) || model.hasSecurityToggle) {
@@ -407,6 +416,15 @@ export abstract class FieldParser {
       {},
       controlModel.errorMessages,
       { required: this.configData.mandatoryMessage });
+  }
+
+  protected markAsNotRepeatable(controlModel) {
+    controlModel.isModelOfNotRepeatableGroup = true;
+
+    controlModel.errorMessages = Object.assign(
+      {},
+      controlModel.errorMessages,
+      { notRepeatable: 'error.validation.notRepeatable' });
   }
 
   protected setLabel(controlModel, label = true, labelEmpty = false) {

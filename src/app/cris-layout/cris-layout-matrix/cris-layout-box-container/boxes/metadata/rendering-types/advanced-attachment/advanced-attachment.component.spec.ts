@@ -21,7 +21,7 @@ import { LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { FieldRenderingType } from '../metadata-box.decorator';
 import { FileSizePipe } from '../../../../../../../shared/utils/file-size-pipe';
 
-xdescribe('AdvancedAttachmentComponent', () => {
+describe('AdvancedAttachmentComponent', () => {
   let component: AdvancedAttachmentComponent;
   let fixture: ComponentFixture<AdvancedAttachmentComponent>;
   let de: DebugElement;
@@ -197,38 +197,6 @@ xdescribe('AdvancedAttachmentComponent', () => {
         expect(valueFound.length).toBe(3);
       }));
 
-      it('should show information properly', () => {
-        const entries = de.queryAll(By.css('[data-test="attachment-info"]'));
-        expect(entries.length).toBe(3);
-        expect(entries[0].query(By.css('[data-test="additional-metadata"]'))).toBeTruthy();
-      });
-
-      it('should wrap the title', () => {
-        const titleElement = de.query(By.css('[data-test="attachment-name"]')).nativeElement;
-        expect(titleElement.classList).toContain('text-break');
-      });
-
-      describe('and the field has metadata key and value set as value', () => {
-        beforeEach(() => {
-          // NOTE: Cannot override providers once components have been compiled, so TestBed needs to be reset
-          TestBed.resetTestingModule();
-          TestBed.configureTestingModule(getDefaultTestBedConf());
-          TestBed.overrideProvider('fieldProvider', { useValue: mockFieldWithMetadata });
-          fixture = TestBed.createComponent(AdvancedAttachmentComponent);
-          component = fixture.componentInstance;
-          de = fixture.debugElement;
-          let spy = spyOn(component, 'getBitstreamsByItem');
-          spy.and.returnValue(of(createPaginatedList([attachmentsMock[1]])));
-          component.item = testItem;
-          fixture.detectChanges();
-        });
-
-        it('should show main article attachment', () => {
-          expect(de.query(By.css('[data-test="additional-metadata"]'))).toBeTruthy();
-        });
-
-      });
-
     });
 
     describe('when pagination is enabled', () => {
@@ -275,7 +243,7 @@ xdescribe('AdvancedAttachmentComponent', () => {
         de = fixture.debugElement;
         mockAuthorizedService.isAuthorized.and.returnValues(of(true), of(true));
         component.envPagination.enabled = false;
-        component.envAttributes = [];
+        component.envMetadata = [];
         mockBitstreamDataService.findAllByItemAndBundleName.and.returnValues(createSuccessfulRemoteDataObject$(createPaginatedList([bitstream1])));
         let spy = spyOn(component, 'getBitstreamsByItem');
         spy.and.returnValue(of(createPaginatedList(attachmentsMock)));
@@ -303,38 +271,6 @@ xdescribe('AdvancedAttachmentComponent', () => {
         expect(valueFound.length).toBe(3);
       }));
 
-      it('should show information properly', () => {
-        const entries = de.queryAll(By.css('[data-test="attachment-info"]'));
-        expect(entries.length).toBe(3);
-        expect(entries[0].query(By.css('[data-test="additional-metadata"]'))).toBeTruthy();
-        expect(entries[0].query(By.css('[data-test="format"]'))).toBeFalsy();
-        expect(entries[0].query(By.css('[data-test="size"]'))).toBeFalsy();
-        expect(entries[0].query(By.css('[data-test="checksum"]'))).toBeFalsy();
-      });
-
-      describe('and the field has metadata key and value set as value', () => {
-        beforeEach(() => {
-          // NOTE: Cannot override providers once components have been compiled, so TestBed needs to be reset
-          TestBed.resetTestingModule();
-          TestBed.configureTestingModule(getDefaultTestBedConf());
-          TestBed.overrideProvider('fieldProvider', { useValue: mockFieldWithMetadata });
-          fixture = TestBed.createComponent(AdvancedAttachmentComponent);
-          component = fixture.componentInstance;
-          component.envAttributes = [];
-          de = fixture.debugElement;
-          let spy = spyOn(component, 'getBitstreamsByItem');
-          spy.and.returnValue(of(createPaginatedList([attachmentsMock[1]])));
-          component.item = testItem;
-          fixture.detectChanges();
-        });
-
-        it('should show main article attachment', () => {
-          expect(de.queryAll(By.css('[data-test="attachment-info"]')).length).toBe(1);
-          expect(de.query(By.css('[data-test="additional-metadata"]'))).toBeFalsy();
-        });
-
-      });
-
     });
 
     describe('when pagination is enabled', () => {
@@ -342,7 +278,7 @@ xdescribe('AdvancedAttachmentComponent', () => {
         TestBed.configureTestingModule(getDefaultTestBedConf());
         fixture = TestBed.createComponent(AdvancedAttachmentComponent);
         component = fixture.componentInstance;
-        component.envAttributes = [];
+        component.envMetadata = [];
         de = fixture.debugElement;
         mockAuthorizedService.isAuthorized.and.returnValues(of(true), of(true));
         component.envPagination.enabled = true;
