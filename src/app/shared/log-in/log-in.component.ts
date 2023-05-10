@@ -1,6 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
+import { uniqBy } from 'lodash';
+
 import { AuthMethod } from '../../core/auth/models/auth.method';
 import {
   getAuthenticationError,
@@ -8,12 +11,12 @@ import {
   isAuthenticated,
   isAuthenticationLoading
 } from '../../core/auth/selectors';
-import { CoreState } from '../../core/core.reducers';
 import { getForgotPasswordRoute, getRegisterRoute } from '../../app-routing-paths';
 import { hasValue } from '../empty.util';
 import { AuthService } from '../../core/auth/auth.service';
 import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
 import { FeatureID } from '../../core/data/feature-authorization/feature-id';
+import { CoreState } from '../../core/core-state.model';
 
 /**
  * /users/sign-in
@@ -70,6 +73,9 @@ export class LogInComponent implements OnInit, OnDestroy {
 
     this.authMethods = this.store.pipe(
       select(getAuthenticationMethods),
+      map((authMethods: AuthMethod[]) => {
+        return uniqBy(authMethods, 'authMethodType');
+      })
     );
 
     // set loading

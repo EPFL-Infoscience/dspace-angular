@@ -19,8 +19,8 @@ import { Bitstream } from '../shared/bitstream.model';
 import { DSpaceObject } from '../shared/dspace-object.model';
 import { Item } from '../shared/item.model';
 import {
-  getDownloadableBitstream,
-  getFirstCompletedRemoteData,
+  debounceTimeWorkaround,
+  getFirstCompletedRemoteData, getFirstSucceededRemoteData,
   getFirstSucceededRemoteDataPayload
 } from '../shared/operators';
 import { RootDataService } from '../data/root-data.service';
@@ -35,11 +35,13 @@ import { MetaTagState } from './meta-tag.reducer';
 import { createSelector, select, Store } from '@ngrx/store';
 import { AddMetaTagAction, ClearMetaTagAction } from './meta-tag.actions';
 import { coreSelector } from '../core.selectors';
-import { CoreState } from '../core.reducers';
+import { CoreState } from '../core-state.model';
 import { AuthorizationDataService } from '../data/feature-authorization/authorization-data.service';
+import { getDownloadableBitstream } from '../shared/bitstream.operators';
 import { SchemaJsonLDService } from './schema-json-ld/schema-json-ld.service';
 import { ITEM } from '../shared/item.resource-type';
 import { isPlatformServer } from '@angular/common';
+import { Root } from '../data/root.model';
 
 /**
  * The base selector function to select the metaTag section in the store
@@ -114,13 +116,25 @@ export class MetadataService {
   private processRouteChange(routeInfo: any): void {
     this.clearMetaTags();
 
+    if (hasValue(routeInfo.data.value.dso) && hasValue(routeInfo.data.value.dso.payload)) {
+      this.currentObject.next(routeInfo.data.value.dso.payload);
+      this.setDSOMetaTags();
+    }
+
     if (routeInfo.data.value.title) {
-      const titlePrefix = this.translate.get('repository.title.prefix');
+      const pageName$ = this.rootService.findRoot(true).pipe(
+        getFirstCompletedRemoteData(),
+        map((rootRD: RemoteData<Root>) => rootRD.payload.dspaceName),
+      );
+
       const title = this.translate.get(routeInfo.data.value.title, routeInfo.data.value);
-      combineLatest([titlePrefix, title]).pipe(take(1)).subscribe(([translatedTitlePrefix, translatedTitle]: [string, string]) => {
-        this.addMetaTag('title', translatedTitlePrefix + translatedTitle);
-        this.title.setTitle(translatedTitlePrefix + translatedTitle);
-      });
+      combineLatest([ pageName$, title ])
+        .pipe(take(1))
+        .subscribe(([ translatedTitlePrefix, translatedTitle ]: [ string, string ]) => {
+          let finalTitle = translatedTitlePrefix + ' :: ' + translatedTitle;
+          this.addMetaTag('title', finalTitle);
+          this.title.setTitle(finalTitle);
+        });
     }
     if (routeInfo.data.value.description) {
       this.translate.get(routeInfo.data.value.description).pipe(take(1)).subscribe((translatedDescription: string) => {
@@ -471,7 +485,7 @@ export class MetadataService {
           return EMPTY;
         } else {
           // Otherwise retrieve the next page
-          return this.bitstreamDataService.findAllByHref(
+          return this.bitstreamDataService.findListByHref(
             paginatedList.next,
             undefined,
             true,
