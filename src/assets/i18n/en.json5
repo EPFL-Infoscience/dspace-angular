@@ -5391,6 +5391,8 @@
 
   "statistics.table.mainReports.title.TopCities": "Top city views",
 
+  "statistics.table.top20reports.title.TopItems": "Top 20 most downloaded deposits",
+
   "statistics.table.downloadReports.title.TotalVisits": "Most downloaded",
 
   "statistics.table.downloadReports.title.TopItems": "Most downloaded",
@@ -5409,6 +5411,8 @@
 
   "statistics.table.downloadReports.title.TopCities": "Top city downloads",
 
+  "statistics.table.top20reports.header.item": "Item",
+
   "statistics.table.mainReports.header.views": "Views",
 
   "statistics.table.mainReports.header.bitstream": "File Visits",
@@ -5422,6 +5426,8 @@
   "statistics.table.mainReports.header.item": "Item",
 
   "statistics.table.downloadReports.header.views": "Downloads",
+
+  "statistics.table.top20reports.header.views": "Downloads",
 
   "statistics.table.downloadReports.header.continent": "Continent",
 
@@ -5500,6 +5506,8 @@
   "statistics.categories.rppublicationsReports.tab": "Researchers publication reports",
 
   "statistics.categories.downloadReports.tab": "Downloads reports",
+
+  "statistics.categories.top20reports.tab": "Top 20",
 
   "statistics.reports.title": "Reports",
 
