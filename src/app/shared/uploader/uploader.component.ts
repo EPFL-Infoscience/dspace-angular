@@ -23,6 +23,7 @@ import { XSRF_COOKIE, XSRF_REQUEST_HEADER, XSRF_RESPONSE_HEADER } from '../../co
 import { CookieService } from '../../core/services/cookie.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { ON_BEHALF_OF_HEADER } from '../../core/auth/auth.interceptor';
+import { KeepConnectionAliveService } from '../../core/shared/keep-connection-alive.service';
 
 @Component({
   selector: 'ds-uploader',
@@ -102,7 +103,8 @@ export class UploaderComponent {
     private scrollToService: ScrollToService,
     private uploaderService: UploaderService,
     private tokenExtractor: HttpXsrfTokenExtractor,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private keepAliveService: KeepConnectionAliveService
   ) {
   }
 
@@ -157,6 +159,9 @@ export class UploaderComponent {
 
       this.onBeforeUpload();
       this.isOverDocumentDropZone = observableOf(false);
+
+      // Start the keep alive service now that the upload is starting
+      this.keepAliveService.start();
     };
     if (hasValue(this.uploadProperties)) {
       this.uploader.onBuildItemForm = (item, form) => {
@@ -164,6 +169,9 @@ export class UploaderComponent {
       };
     }
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      // Stop the keep alive service now that the upload is complete
+      this.keepAliveService.stop();
+
       // Check for a changed XSRF token in response & save new token if found (to both cookie & header for next request)
       // NOTE: this is only necessary because ng2-file-upload doesn't use an Http service and therefore never
       // triggers our xsrf.interceptor.ts. See this bug: https://github.com/valor-software/ng2-file-upload/issues/950
@@ -181,6 +189,9 @@ export class UploaderComponent {
       }
     };
     this.uploader.onErrorItem = (item: any, response: any, status: any, headers: any) => {
+      // Stop the keep alive service now that the upload has errored
+      this.keepAliveService.stop();
+
       // Check for a changed XSRF token in response & save new token if found (to both cookie & header for next request)
       // NOTE: this is only necessary because ng2-file-upload doesn't use an Http service and therefore never
       // triggers our xsrf.interceptor.ts. See this bug: https://github.com/valor-software/ng2-file-upload/issues/950
