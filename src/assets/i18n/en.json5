@@ -514,6 +514,8 @@
 
   "admin.access-control.groups.form.groupDescription": "Description",
 
+  "admin.access-control.groups.form.groupIsClosed": "Closed",
+
   "admin.access-control.groups.form.groupStatus": "Status",
 
   "admin.access-control.groups.form.groupStatus.enabled": "Enabled",
