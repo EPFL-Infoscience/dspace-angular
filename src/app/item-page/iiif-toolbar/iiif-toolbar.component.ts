@@ -37,7 +37,7 @@ export class IIIFToolbarComponent implements OnInit {
   }
 
   openMiradorViewer() {
-    this.router.navigate([getItemViewerPath(this.item, 'iiif')]);
+    window.open(getItemViewerPath(this.item, 'iiif'), '_blank');
   }
 
   iiif() {
