@@ -1613,6 +1613,258 @@
 
   "RELATION.OrgUnit.people.search.results.head" : "People",
 
+  "deduplication.breadcrumbs": "Deduplication",
+
+  "deduplication.title": "Deduplication",
+
+  "deduplication.home.tab.all-signatures": "All",
+
+  "deduplication.home.tab.show-more": "Show more",
+
+  "deduplication.home.tab.compare": "Compare",
+
+  "deduplication.home.button.compare": "Compare",
+
+  "deduplication.home.description.compare": "Compare item using internal identifier (each one MUST be separated by comma e.g 123,232,4343).",
+
+  "deduplication.compare.notification.required-condition": "Please set 2 identifiers separated by comma",
+
+  "deduplication.compare.notification.valid-id": "Identifier is valid",
+
+  "deduplication.compare.notification.header": "Informing messages for each identifier",
+
+  "deduplication.compare.item-identifier": "Identifier:",
+
+  "deduplication.compare.notification.id-workflow-item": "Workflow item exists. Change the order. The first identifier should not be a workflow item.",
+
+  "deduplication.compare.notification.id-workspace-item": "Workspace item exists. Change the order. The first identifier should not be a workspace item.",
+
+  "deduplication.compare.confirm-modal.title": "Continue with merge",
+
+  "deduplication.compare.confirm-modal.btn-text": "Next",
+
+  "deduplication.compare.notification.error": "Unable to get data from the server!",
+
+  "deduplication.compare.notification.item-does-not-exists": "Item does not exists!",
+
+  "deduplication.compare.required-condition": "Enter at least 2 different identifiers separated by comma",
+
+  "deduplication.compare.workflow-404": "Workflow item does not exist!",
+
+  "deduplication.compare.workspace-404": "Workspace item does not exist!",
+
+  "deduplication.signature.loading": "Loading signatures ...",
+
+  "deduplication.signature.no-data": "No signatures found.",
+
+  "deduplication.signature.groupAdminstratorCheck.text": "Total potential match (Admin check):",
+
+  "deduplication.signature.groupReviewerCheck.text": "Remaining to check by librarian (quality check):",
+
+  "deduplication.signature.groupSubmitterCheck.text": "Remaining to check by submitter:",
+
+  "deduplication.signature.show-button": "Show",
+
+  "deduplication.signature.show-button-ext": "Show matches",
+
+  "deduplication.signature.error.service.retrieve": "An error occurred while loading the Deduplication Signatures",
+
+  "deduplication.signature.cardTitle.title": "Titles",
+
+  "deduplication.signature.cardTitle.identifier": "Identifiers",
+
+  "sets.breadcrumbs": "Set Dashboard",
+
+  "compare.breadcrumbs": "Merge Deduplications",
+
+  "deduplication.sets.title": "Records duplicate Identifiers (DOI, PMID, ARXIV, SCOPUS, ISI)",
+
+  "deduplication.sets.subtitle": "The page shows potentially duplicate groups by signature. You can select the items to compare or reject. The system records the action \"No duplicate\" so the match is not show in the future.",
+
+  "deduplication.sets.message.no-data": "No sets found for this signature.",
+
+  "deduplication.sets.message.no-items": "No items found.",
+
+  "deduplication.sets.message.loading": "Loading ...",
+
+  "deduplication.sets.label.match-criteria": "Found other matches for these items by:",
+
+  "deduplication.sets.label.check-set": "Check this set",
+
+  "deduplication.sets.label.select-to-compare": "Select the items to compare them.",
+
+  "deduplication.sets.button.select-all": "Select all",
+
+  "deduplication.sets.button.deselect-all": "Deselect all",
+
+  "deduplication.sets.button.compare": "Compare",
+
+  "deduplication.sets.button.go-back": "Go back",
+
+  "deduplication.sets.button.no-duplicates": "No duplicates",
+
+  "deduplication.sets.button.delete-set": "Delete set",
+
+  "deduplication.sets.button.set-deleted": "Set deleted",
+
+  "deduplication.sets.label.collection": "Collection",
+
+  "deduplication.sets.label.description": "Based on <b> {{param}} </b> rule you can identify deduplication based on the <b> {{otherParam}} </b>",
+
+  "deduplication.sets.label.identifier": "Internal identifier",
+
+  "deduplication.sets.label.last-modified": "Last modified",
+
+  "deduplication.sets.label.status": "Status",
+
+  "deduplication.sets.label.title": "Title",
+
+  "deduplication.sets.label.author": "Author",
+
+  "deduplication.sets.label.date-issued": "Date issued",
+
+  "deduplication.sets.label.type": "Type",
+
+  "deduplication.sets.modal.title": "Remove Element",
+
+  "deduplication.sets.modal.confirm.info": "This operation can't be undone. Are you sure?",
+
+  "deduplication.sets.modal.confirm.cancel": "Cancel",
+
+  "deduplication.sets.modal.delete.submit": "Delete",
+
+  "deduplication.sets.modal.confirm.merge": "Are you sure you want to keep item with identifier {{param}}?",
+
+  "deduplication.sets.modal.merge.submit": "Confirm & Merge",
+
+  "deduplication.sets.notification.cannot-remove-set": "An error occurred while removing the set",
+
+  "deduplication.sets.notification.cannot-remove-item": "An error occurred while removing the item with id {{param}}",
+
+  "deduplication.sets.notification.cannot-get-set": "An error occurred while loading the sets",
+
+  "deduplication.sets.notification.cannot-get-item": "An error occurred while loading the items",
+
+  "deduplication.sets.notification.cannot-delete-item": "Item cannot be deleted",
+
+  "deduplication.sets.notification.select-items": "Please select at least two items",
+
+  "deduplication.sets.notification.item-removed": "Item with id {{param}} removed",
+
+  "deduplication.sets.notification.item-deleted": "Item with id {{param}} deleted",
+
+  "deduplication.sets.sub-header.set-id": "Set id.",
+
+  "deduplication.sets.sub-header.author": "Author:",
+
+  "deduplication.sets.sub-header.date-issued": "Date Issued",
+
+  "deduplication.merge.label.title": "Merge Deduplications",
+
+  "deduplication.merge.label.title": "Merge Deduplications",
+
+  "deduplication.merge.message.no-data": "No data found",
+
+  "deduplication.merge.label.info": "Records to compare",
+
+  "deduplication.merge.label.bitstreams": "Bitstream data (for bundle 'ORIGINAL')",
+
+  "deduplication.merge.label.merge-metadata": "Metadata to be merged",
+
+  "deduplication.merge.table.header.entities": "Entities",
+
+  "deduplication.merge.table.header.identifier": "Identifier",
+
+  "deduplication.merge.table.header.title": "Title",
+
+  "deduplication.merge.table.bitstream.header.title": "Bitstream Title",
+
+  "deduplication.merge.table.bitstream.header.identifier": "Bitstream Identifier",
+
+  "deduplication.merge.table.bitstream.header.item-identifier": "Item Identifier",
+
+  "deduplication.merge.table.bitstream.header.item-identifier-uuid": "UUID:",
+
+  "deduplication.merge.table.bitstream.header.item-identifier-handle": "Handle:",
+
+  "deduplication.merge.button.label.merge": "Preview & Merge",
+
+  "deduplication.merge.button.label.collapse-all": "Collapse All",
+
+  "deduplication.merge.button.label.expand-all": "Expand All",
+
+  "deduplication.merge.button.label.show-diff": "Show Diff",
+
+  "deduplication.merge.show-diff.modal.header": "Differences for values under",
+
+  "deduplication.merge.show-diff.modal.description": "Compare values under <b> place {{param}} </b> for item(s):",
+
+  "deduplication.merge.show-diff.modal.card-header": "Value of",
+
+  "deduplication.merge.show-diff.modal.card-header-sc": "Value under",
+
+  "deduplication.merge.show-diff.modal.card-header-sc-part2": "does not have a corresponding value to be compared with",
+
+  "deduplication.merge.show-diff.modal.card-header-link": "compared to",
+
+  "deduplication.merge.show-diff.modal.card-header-place": "place",
+
+  "deduplication.merge.show-diff.modal.button.close": "Close",
+
+  "deduplication.merge.notification.message-success": "Merge finished successfully",
+
+  "deduplication.merge.notification.message-error-500": "Merge failed, server error",
+
+  "deduplication.merge.notification.message-error-422": "Merge failed. Please check multiple selected values",
+
+  "deduplication.merge.notification.message-error-400": "Merge failed. Something went wrong, please check multiple selected values",
+
+  "deduplication.merge.notification.message-error": "Merge failed. Something went wrong, refresh and try again",
+
+  "deduplication.merge.tooltip.delete-info": "Clear all the selections",
+
+  "deduplication.merge.tooltip.show-diff": "Differences between values",
+
+  "deduplication.merge.tooltip.open-accordion": "Open",
+
+  "deduplication.merge.tooltip.close-accordion": "Close",
+
+  "deduplication.merge.tooltip.compare": "Compare selected items",
+
+  "deduplication.merge.tooltip.no-duplicate": "Mark selected items as no duplicates",
+
+  "deduplication.merge.tooltip.delete-set": "Delete this set",
+
+  "deduplication.merge.tooltip.delete-item": "Delete this item",
+
+  "deduplication.merge.tooltip.keep-item": "Keep this item",
+
+  "deduplication.merge.tooltip.item-link": "See item's details",
+
+  "deduplication.merge.preview-modal.title": "Preview of final merge",
+
+  "deduplication.merge.preview-modal.no-data": "No Data to show",
+
+  "deduplication.merge.preview-modal.table.item-title": "Item's title",
+
+  "deduplication.merge.preview-modal.table.item-handle": "Handle",
+
+  "deduplication.merge.preview-modal.table.item-uuid": "UUID",
+
+  "deduplication.merge.preview-modal.confirm-btn": "Finish Merge",
+
+  "deduplication.merge.preview-modal.confirm-title": "Confirm Merge",
+
+  "deduplication.merge.preview-modal.confirm-btn.submit": "Confirm & Close",
+
+  "deduplication.merge.items-table.th.type": "Type:",
+
+  "deduplication.merge.items-table.th.entity-type": "Entity type:",
+
+  "deduplication.merge.items-table.th.collection": "Collection:",
+
+  "deduplication.merge.items-table.td.no-data": "No data",
+
   "datafile.listelement.badge": "Data File",
 
   "datapackage.listelement.badge": "Data Package",
@@ -3878,6 +4130,8 @@
   "menu.section.curation_task": "Curation Task",
 
 
+  "menu.section.admin_deduplication": "Deduplication",
+
 
   "menu.section.edit": "Edit",
 
@@ -3914,6 +4168,8 @@
   "menu.section.icon.control_panel": "Control Panel menu section",
 
   "menu.section.icon.curation_tasks": "Curation Task menu section",
+
+  "menu.section.icon.deduplication": "Deduplication menu section",
 
   "menu.section.icon.edit": "Edit menu section",
 

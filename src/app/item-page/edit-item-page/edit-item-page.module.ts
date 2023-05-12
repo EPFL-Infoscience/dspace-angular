@@ -94,7 +94,8 @@ import { EditItemResolver } from '../../core/shared/resolvers/edit-item.resolver
     EditInPlaceFieldComponent,
     ThemedItemMetadataComponent,
     ItemMetadataComponent,
-    EditMetadataSecurityComponent
+    EditMetadataSecurityComponent,
+    ItemBitstreamsComponent
   ]
 })
 export class EditItemPageModule {
