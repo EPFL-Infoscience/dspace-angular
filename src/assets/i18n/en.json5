@@ -1673,6 +1673,8 @@
 
   "deduplication.signature.cardTitle.identifier": "Identifiers",
 
+  "deduplication.signature.cardTitle.titleAndYear": "Titles and years",
+
   "sets.breadcrumbs": "Set Dashboard",
 
   "compare.breadcrumbs": "Merge Deduplications",
