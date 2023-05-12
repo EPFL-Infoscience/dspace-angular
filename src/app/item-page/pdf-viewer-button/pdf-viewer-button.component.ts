@@ -7,6 +7,10 @@ import {
   AttachmentRenderingType,
   AttachmentTypeRendering
 } from '../../cris-layout/cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/bitstream-attachment/attachment-type.decorator';
+import { FeatureID } from '../../core/data/feature-authorization/feature-id';
+import { isNotEmpty } from '../../shared/empty.util';
+import { Observable } from 'rxjs';
+import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
 
 @Component({
   selector: 'ds-pdf-viewer-button',
@@ -15,7 +19,7 @@ import {
 })
 
 @AttachmentTypeRendering(AttachmentRenderingType.PDF, true)
-export class PdfViewerButtonComponent {
+export class PdfViewerButtonComponent implements OnInit {
 
   /**
    * Current DSpace Item
@@ -26,7 +30,15 @@ export class PdfViewerButtonComponent {
    */
   @Input() bitstream: Bitstream;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private authorizationService: AuthorizationDataService
+  ) {}
+
+  canOpenPdf$: Observable<boolean>;
+
+  ngOnInit(): void {
+    this.canOpenPdf$ = this.authorizationService.isAuthorized(FeatureID.CanDownload, isNotEmpty(this.bitstream) ? this.bitstream.self : undefined);
   }
 
   public openPdfViewer() {
