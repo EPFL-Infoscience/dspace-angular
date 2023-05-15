@@ -640,6 +640,7 @@ export class DefaultAppConfig implements AppConfig {
       enabled: true,
       elementsPerPage: 2,
     },
+    showViewerOnSameItemPage: false
   };
 
   advancedAttachmentRendering: AdvancedAttachmentRenderingConfig = {

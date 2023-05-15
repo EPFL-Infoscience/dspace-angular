@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import { Item } from '../../core/shared/item.model';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { TranslateService } from '@ngx-translate/core';
-import { getItemViewerPath } from '../item-page-routing-paths';
+import { getItemViewerDetailsPath, getItemViewerPath } from '../item-page-routing-paths';
 import {
   AttachmentRenderingType,
   AttachmentTypeRendering
@@ -36,8 +36,14 @@ export class IIIFToolbarComponent implements OnInit {
     this.manifestUrl = environment.rest.baseUrl + '/iiif/' + this.item.id + '/manifest';
   }
 
-  openMiradorViewer() {
-    window.open(getItemViewerPath(this.item, 'iiif'), '_blank');
+  async openMiradorViewer() {
+    // TODO: remove console.log
+    console.log('openMiradorViewer', { environment });
+    if (environment.attachmentRendering.showViewerOnSameItemPage) {
+      await this.router.navigate([ getItemViewerDetailsPath(this.item, 'iiif') ]);
+    } else {
+      await this.router.navigate([ getItemViewerPath(this.item, 'iiif') ]);
+    }
   }
 
   iiif() {
