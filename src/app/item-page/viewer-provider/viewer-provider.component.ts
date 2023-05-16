@@ -7,8 +7,8 @@ import {
   ViewerProvider,
   ViewerProviderDsoInterface
 } from './viewer-provider-dso.interface';
-import { forkJoin, Observable, Subscription } from 'rxjs';
-import { filter, map, withLatestFrom } from 'rxjs/operators';
+import { forkJoin, Observable, of, Subscription } from 'rxjs';
+import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { ViewerProviderDirective } from './directives/viewer-provider.directive';
 import { RouteService } from '../../core/services/route.service';
 import { ItemDataService } from '../../core/data/item-data.service';
@@ -98,8 +98,14 @@ export class ViewerProviderComponent implements OnInit, OnDestroy {
   }
 
   private initItem$() {
-    return this.routeDSO$.pipe(
-      map((data: ViewerProviderDsoInterface) => data.item),
+    return this.route.data.pipe(
+      switchMap((data: ViewerProviderDsoInterface) => {
+        if (data.dso) {return of(data.dso);}
+
+        return this.route.parent.parent.data.pipe(
+          map((x: ViewerProviderDsoInterface) => x.dso)
+        );
+      }),
       fetchNonNull(this.router, this.authService)
     );
   }

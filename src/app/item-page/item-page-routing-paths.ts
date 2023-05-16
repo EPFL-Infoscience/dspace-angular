@@ -38,7 +38,7 @@ export function getItemViewerPath(item: Item, viewer: string) {
 }
 
 export function getItemViewerDetailsPath(item: Item, viewer: string) {
-  return new URLCombiner(getItemPageRoute(item), VIEWERS_PATH, 'details', viewer).toString();
+  return new URLCombiner(getItemPageRoute(item), 'details', VIEWERS_PATH, viewer).toString();
 }
 
 export function getBitstreamItemViewerPath(item: Item, bitstream: Bitstream, viewer: string) {
