@@ -640,10 +640,10 @@ export class DefaultAppConfig implements AppConfig {
       enabled: true,
       elementsPerPage: 2,
     },
-    showViewerOnSameItemPage: false
   };
 
   advancedAttachmentRendering: AdvancedAttachmentRenderingConfig = {
+    showViewerOnSameItemPage: false,
     pagination: {
       enabled: true,
       elementsPerPage: 2,

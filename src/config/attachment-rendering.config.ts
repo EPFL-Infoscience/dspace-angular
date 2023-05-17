@@ -3,7 +3,6 @@
  */
 export interface AttachmentRenderingConfig {
   pagination: AttachmentRenderingPaginationConfig;
-  showViewerOnSameItemPage?: boolean;
 }
 
 export interface AttachmentRenderingPaginationConfig {
