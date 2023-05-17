@@ -120,7 +120,7 @@ export class MenuResolver implements Resolve<boolean> {
     // Read the different Browse-By types from config and add them to the browse menu
     this.sectionDataService.findVisibleSections().pipe(
       getFirstCompletedRemoteData()
-    ).subscribe( (sectionDefListRD: RemoteData<PaginatedList<Section>>) => {
+    ).subscribe((sectionDefListRD: RemoteData<PaginatedList<Section>>) => {
       if (sectionDefListRD.hasSucceeded) {
         sectionDefListRD.payload.page.forEach((section) => {
           let parentMenu: any = {
@@ -393,6 +393,19 @@ export class MenuResolver implements Resolve<boolean> {
           } as OnClickMenuItemModel,
         },
 
+        /* Deduplication */
+        {
+          id: 'deduplication',
+          active: false,
+          visible: isSiteAdmin,
+          model: {
+            type: MenuItemType.LINK,
+            text: 'menu.section.admin_deduplication',
+            link: '/admin/deduplication'
+          } as LinkMenuItemModel,
+          icon: 'clone',
+          index: 7
+        },
         /* Statistics */
         // TODO: enable this menu item once the feature has been implemented
         // {

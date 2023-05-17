@@ -1,0 +1,95 @@
+<div class="modal-header bg-light text-info">
+  <h4 class="modal-title">
+    {{ "deduplication.merge.show-diff.modal.header" | translate }}
+    <u>{{ metadataKey }}</u>
+  </h4>
+</div>
+<div class="modal-body">
+  <ng-container *ngFor="let object of objectMap | keyvalue; let isLast = last">
+    <ng-container *ngFor="let value of object.value; let i = index;">
+      <ng-container *ngIf="object.value | dsShowDiffBtn">
+        <div class="row justify-content-center">
+          <div class="col text-center">
+            <div class="card-header border-bottom-0 mb-2">
+              <span
+                [innerHtml]="'deduplication.merge.show-diff.modal.description' | translate: {param:object.key }"></span>
+              <span [ngStyle]="{ color: object.value[i].color }">{{ object.value[i].itemHandle }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header border-bottom-0 mb-2">
+            <div class="row">
+              <div class="col">
+                {{'deduplication.merge.show-diff.modal.card-header-sc' | translate}}
+                <span [ngStyle]="{ color: object.value[i].color }">{{ object.value[i].itemHandle }}
+                </span>
+                {{'deduplication.merge.show-diff.modal.card-header-sc-part2' | translate}}
+              </div>
+              <div class="col-2 text-right">({{'deduplication.merge.show-diff.modal.card-header-place' | translate}}
+                {{object.key}})</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div [innerHTML]="object.value[i].text"></div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="i < object.value.length - 1;">
+        <div class="row">
+          <div class="col text-center">
+            <div class="card-header border-bottom-0 mb-2">
+              <span
+                [innerHtml]="'deduplication.merge.show-diff.modal.description' | translate: {param:object.key }"></span>
+              <span [ngStyle]="{ color: object.value[i].color }">{{ object.value[i].itemHandle }}
+              </span>
+              &
+              <span [ngStyle]="{ color: object.value[i + 1]?.color }">{{ object.value[i + 1]?.itemHandle }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- FIRST VALUE -->
+        <div class="card mb-2">
+          <div class="card-header">
+            <div class="row">
+              <div class="col"> <span>{{'deduplication.merge.show-diff.modal.card-header' | translate}}</span>
+                <span [ngStyle]="{ color: object.value[i].color }">{{ object.value[i].itemHandle }} </span>
+                <span>{{'deduplication.merge.show-diff.modal.card-header-link' | translate}}</span>
+                <span [ngStyle]="{ color: object.value[i + 1]?.color }">{{ object.value[i + 1]?.itemHandle }} </span>
+              </div>
+              <div class="col-2 text-right"><span>({{'deduplication.merge.show-diff.modal.card-header-place' |
+                  translate}} {{object.key}})</span></div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div [innerHTML]="object.value[i].text | dsTextDiff: object.value[i + 1]?.text"></div>
+          </div>
+        </div>
+        <!-- SECOND VALUE -->
+        <div class="card mb-2">
+          <div class="card-header">
+            <div class="row">
+              <div class="col"><span>{{'deduplication.merge.show-diff.modal.card-header' | translate}}</span>
+                <span [ngStyle]="{ color: object.value[i + 1]?.color }">{{ object.value[i + 1]?.itemHandle }} </span>
+                <span>{{'deduplication.merge.show-diff.modal.card-header-link' | translate}}</span>
+                <span [ngStyle]="{ color: object.value[i]?.color }">{{ object.value[i]?.itemHandle }} </span>
+              </div>
+              <div class="col-2 text-right"><span>(place {{object.key}})</span></div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div [innerHTML]="object.value[i+1].text | dsTextDiff: object.value[i].text"></div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+    <hr *ngIf="!isLast" />
+  </ng-container>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">
+    {{ "deduplication.merge.show-diff.modal.button.close" | translate }}
+  </button>
+</div>

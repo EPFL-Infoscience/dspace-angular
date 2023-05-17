@@ -11,7 +11,7 @@ export class SubmissionRestServiceStub {
   protected store: Store<CoreState>;
   protected halService: HALEndpointService;
 
-  deleteById = jasmine.createSpy('deleteById');
+  deleteById = jasmine.createSpy('deleteById').and.returnValue(observableOf({}));
   fetchRequest = jasmine.createSpy('fetchRequest');
   getDataById = jasmine.createSpy('getDataById');
   getDataByHref = jasmine.createSpy('getDataByHref');
