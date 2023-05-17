@@ -10,5 +10,6 @@ export enum SectionsType {
   SherpaPolicies = 'sherpaPolicy',
   Identifiers = 'identifiers',
   DetectDuplicate = 'detect-duplicate',
-  Correction = 'correction'
+  Correction = 'correction',
+  Unpaywall = 'unpaywall'
 }
