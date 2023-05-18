@@ -83,6 +83,20 @@ export class ItemVersionsComponent implements OnInit {
   @Input() displayActions: boolean;
 
   /**
+   * Whether to display or not the checkboxes for selection
+   */
+  @Input() selectable = false;
+
+  /**
+   * Object of selected versions (only used when selectable is true)
+   */
+  selectedVersions: Record<string, Version> = {};
+
+  get compareButtonDisabled() {
+    return Object.values(this.selectedVersions).length < 2;
+  }
+
+  /**
    * Array of active subscriptions
    */
   subs: Subscription[] = [];
@@ -198,6 +212,10 @@ export class ItemVersionsComponent implements OnInit {
    */
   isThisBeingEdited(version: Version): boolean {
     return version?.version === this.versionBeingEditedNumber;
+  }
+
+  isAllSelected(totalLength: number): boolean {
+    return Object.values(this.selectedVersions).filter(x => !!x).length === totalLength;
   }
 
   /**
@@ -526,6 +544,32 @@ export class ItemVersionsComponent implements OnInit {
         })
       );
     }
+  }
+
+  compare() {
+    console.log('compare', this.selectedVersions);
+  }
+
+  onSelectAll(event, versions: Version[]) {
+    const checked = (event.target as HTMLInputElement).checked; // true or false
+    if (checked) {
+      versions.forEach((version) => this.selectedVersions[version.id] = version);
+    } else {
+      versions.forEach((version) => delete this.selectedVersions[version.id]);
+    }
+  }
+
+  onSelect(event, version: Version) {
+    const checked = (event.target as HTMLInputElement).checked; // true or false
+    if (checked) {
+      this.selectedVersions[version.id] = version;
+    } else {
+      delete this.selectedVersions[version.id];
+    }
+  }
+
+  isSelected(version) {
+    return this.selectedVersions[version.id] !== undefined;
   }
 
   ngOnDestroy(): void {

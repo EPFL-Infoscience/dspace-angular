@@ -3479,6 +3479,8 @@
 
   "item.select.table.title": "Title",
 
+  "item.version.selection.all-selected": "All selected",
+  "item.version.selection.selection-warning": "Please select at least two versions to be compared.",
 
   "item.version.history.empty": "There are no other versions for this item yet.",
 
