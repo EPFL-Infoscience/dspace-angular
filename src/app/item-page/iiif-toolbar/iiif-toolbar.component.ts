@@ -38,7 +38,7 @@ export class IIIFToolbarComponent implements OnInit {
 
   async openMiradorViewer() {
     if (environment.advancedAttachmentRendering.showViewerOnSameItemPage) {
-      await this.router.navigate([ getItemViewerDetailsPath(this.item, 'iiif') ]);
+      await this.router.navigate([ getItemViewerDetailsPath(this.item, 'iiif') ], { fragment: 'viewer' });
     } else {
       await this.router.navigate([ getItemViewerPath(this.item, 'iiif') ]);
     }

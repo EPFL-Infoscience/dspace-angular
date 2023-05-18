@@ -45,6 +45,10 @@ export function getBitstreamItemViewerPath(item: Item, bitstream: Bitstream, vie
   return new URLCombiner(getItemPageRoute(item), VIEWERS_PATH, bitstream.uuid, viewer).toString();
 }
 
+export function getBitstreamItemViewerDetailsPath(item: Item, bitstream: Bitstream, viewer: string) {
+  return new URLCombiner(getItemPageRoute(item), 'details', VIEWERS_PATH, bitstream.uuid, viewer).toString();
+}
+
 
 export function getItemEditVersionhistoryRoute(item: Item) {
   return new URLCombiner(getItemPageRoute(item), ITEM_EDIT_PATH, ITEM_EDIT_VERSIONHISTORY_PATH).toString();
