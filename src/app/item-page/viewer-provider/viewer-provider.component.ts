@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Location } from '@angular/common';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { DOCUMENT, Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   Viewer,
@@ -37,6 +37,7 @@ export class ViewerProviderComponent implements OnInit, OnDestroy {
   showBackButton: boolean;
 
   constructor(
+    @Inject(DOCUMENT) private document: Document,
     private readonly location: Location,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
@@ -74,6 +75,8 @@ export class ViewerProviderComponent implements OnInit, OnDestroy {
     let viewerComponentRef = viewContainerRef.createComponent<Viewer>(viewer);
     viewerComponentRef.instance.initialize(state);
     viewerComponentRef.changeDetectorRef.detectChanges();
+
+    this.scrollToViewer();
   }
 
   private initState$() {
@@ -108,6 +111,13 @@ export class ViewerProviderComponent implements OnInit, OnDestroy {
       }),
       fetchNonNull(this.router, this.authService)
     );
+  }
+
+  private scrollToViewer() {
+    if (!this.showBackButton && this.location.path().includes('viewer')) {
+      const element = this.document.getElementById('viewer');
+      element?.scrollIntoView({ block: 'end' });
+    }
   }
 
 }
