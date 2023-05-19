@@ -133,6 +133,7 @@
     "ng2-file-upload": "1.4.0",
     "ng2-google-charts": "^6.1.0",
     "ng2-nouislider": "^1.8.3",
+    "ng2-pdfjs-viewer": "^14.0.0",
     "ngx-infinite-scroll": "^10.0.1",
     "ngx-moment": "^5.0.0",
     "ngx-pagination": "5.0.0",
@@ -155,7 +156,7 @@
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "~13.1.0",
-    "@angular-devkit/build-angular": "~13.2.6",
+    "@angular-devkit/build-angular": "~13.3.11",
     "@angular-eslint/builder": "13.1.0",
     "@angular-eslint/eslint-plugin": "13.1.0",
     "@angular-eslint/eslint-plugin-template": "13.1.0",

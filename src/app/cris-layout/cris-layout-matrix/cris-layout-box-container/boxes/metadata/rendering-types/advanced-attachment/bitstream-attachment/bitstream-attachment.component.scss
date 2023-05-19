@@ -29,3 +29,13 @@ i.custom-icon {
   text-align: center;
   vertical-align: middle;
 }
+
+i#pdf-icon {
+  background-image: url('/assets/images/pdf-icon.svg');
+}
+
+button:hover {
+  i#pdf-icon {
+    background-image: url('/assets/images/pdf-icon-white.svg');
+  }
+}

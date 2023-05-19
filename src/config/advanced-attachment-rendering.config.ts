@@ -1,9 +1,12 @@
+import { MetadataValueFilter } from '../app/core/shared/metadata.models';
+
 /**
  * Interface configuration to define the advanced attachment rendering settings
  */
 export interface AdvancedAttachmentRenderingConfig {
   metadata: AttachmentMetadataConfig[];
   pagination: AdvancedAttachmentRenderingPaginationConfig;
+  showViewerOnSameItemPage?: boolean;
 }
 
 /**
