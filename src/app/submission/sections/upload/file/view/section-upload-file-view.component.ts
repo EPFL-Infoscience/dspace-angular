@@ -41,6 +41,10 @@ export class SubmissionSectionUploadFileViewComponent implements OnInit {
    */
   public fileDescrKey = 'Description';
 
+  public licenseCondition = 'License';
+
+  public fileType = 'Type';
+
   /**
    * The bitstream's description key
    * @type {string}
@@ -54,6 +58,8 @@ export class SubmissionSectionUploadFileViewComponent implements OnInit {
     if (isNotEmpty(this.fileData.metadata)) {
       this.metadata[this.fileTitleKey] = Metadata.all(this.fileData.metadata, 'dc.title');
       this.metadata[this.fileDescrKey] = Metadata.all(this.fileData.metadata, 'dc.description');
+      this.metadata[this.licenseCondition] = Metadata.all(this.fileData.metadata, 'oaire.licenseCondition');
+      this.metadata[this.fileType] = Metadata.all(this.fileData.metadata, 'dc.type');
     }
   }
 

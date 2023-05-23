@@ -6763,6 +6763,10 @@
 
   "submission.sections.upload.upload-successful": "Upload successful",
 
+  "submission.sections.upload.license-condition": "License condition",
+
+  "submission.sections.upload.file-type": "File type",
+
   "submission.sections.custom-url.label.previous-urls": "Previous Urls",
 
   "submission.sections.custom-url.alert.info": "Define here a custom URL which will be used to reach the item instead of using an internal randomly generated UUID identifier. ",
