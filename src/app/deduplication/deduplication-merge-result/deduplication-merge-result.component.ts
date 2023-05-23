@@ -55,6 +55,11 @@ export class DeduplicationMergeResultComponent {
   @Input() identifiers: SetIdentifiers | null;
 
   /**
+   * A flag to control if we are in the just compare mode or not
+   */
+  @Input()  justCompare = false;
+
+  /**
    * Confirmation modal template ref
    */
   @ViewChild('content') confirmationModal: TemplateRef<any>;

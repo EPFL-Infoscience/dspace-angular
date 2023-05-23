@@ -1,15 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Item } from '../../../core/shared/item.model';
-import { Version } from '../../../core/shared/version.model';
-import { RemoteData } from '../../../core/data/remote-data';
-import {
-  BehaviorSubject,
-  combineLatest,
-  Observable,
-  of,
-  Subscription,
-} from 'rxjs';
-import { VersionHistory } from '../../../core/shared/version-history.model';
+import {Component, Input, OnInit} from '@angular/core';
+import {Item} from '../../../core/shared/item.model';
+import {Version} from '../../../core/shared/version.model';
+import {RemoteData} from '../../../core/data/remote-data';
+import {BehaviorSubject, combineLatest, forkJoin, Observable, of, Subscription,} from 'rxjs';
+import {VersionHistory} from '../../../core/shared/version-history.model';
 import {
   getAllSucceededRemoteData,
   getAllSucceededRemoteDataPayload,
@@ -18,36 +12,39 @@ import {
   getFirstSucceededRemoteDataPayload,
   getRemoteDataPayload
 } from '../../../core/shared/operators';
-import { map, mergeMap, startWith, switchMap, take, tap } from 'rxjs/operators';
-import { PaginatedList } from '../../../core/data/paginated-list.model';
-import { PaginationComponentOptions } from '../../pagination/pagination-component-options.model';
-import { VersionHistoryDataService } from '../../../core/data/version-history-data.service';
-import { PaginatedSearchOptions } from '../../search/models/paginated-search-options.model';
-import { AlertType } from '../../alert/aletr-type';
-import { followLink } from '../../utils/follow-link-config.model';
-import { hasValue, hasValueOperator } from '../../empty.util';
-import { PaginationService } from '../../../core/pagination/pagination.service';
+import {map, mergeMap, startWith, switchMap, take, tap} from 'rxjs/operators';
+import {PaginatedList} from '../../../core/data/paginated-list.model';
+import {PaginationComponentOptions} from '../../pagination/pagination-component-options.model';
+import {VersionHistoryDataService} from '../../../core/data/version-history-data.service';
+import {PaginatedSearchOptions} from '../../search/models/paginated-search-options.model';
+import {AlertType} from '../../alert/aletr-type';
+import {followLink} from '../../utils/follow-link-config.model';
+import {hasValue, hasValueOperator} from '../../empty.util';
+import {PaginationService} from '../../../core/pagination/pagination.service';
 import {
   getItemEditVersionhistoryRoute,
   getItemPageRoute,
   getItemVersionRoute
 } from '../../../item-page/item-page-routing-paths';
-import { FormBuilder } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ItemVersionsSummaryModalComponent } from './item-versions-summary-modal/item-versions-summary-modal.component';
-import { NotificationsService } from '../../notifications/notifications.service';
-import { TranslateService } from '@ngx-translate/core';
-import { ItemVersionsDeleteModalComponent } from './item-versions-delete-modal/item-versions-delete-modal.component';
-import { VersionDataService } from '../../../core/data/version-data.service';
-import { ItemDataService } from '../../../core/data/item-data.service';
-import { Router } from '@angular/router';
-import { AuthorizationDataService } from '../../../core/data/feature-authorization/authorization-data.service';
-import { FeatureID } from '../../../core/data/feature-authorization/feature-id';
-import { ItemVersionsSharedService } from './item-versions-shared.service';
-import { WorkspaceItem } from '../../../core/submission/models/workspaceitem.model';
-import { WorkspaceitemDataService } from '../../../core/submission/workspaceitem-data.service';
-import { WorkflowItemDataService } from '../../../core/submission/workflowitem-data.service';
-import { ConfigurationDataService } from '../../../core/data/configuration-data.service';
+import {FormBuilder} from '@angular/forms';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ItemVersionsSummaryModalComponent} from './item-versions-summary-modal/item-versions-summary-modal.component';
+import {NotificationsService} from '../../notifications/notifications.service';
+import {TranslateService} from '@ngx-translate/core';
+import {ItemVersionsDeleteModalComponent} from './item-versions-delete-modal/item-versions-delete-modal.component';
+import {VersionDataService} from '../../../core/data/version-data.service';
+import {ItemDataService} from '../../../core/data/item-data.service';
+import {Router} from '@angular/router';
+import {AuthorizationDataService} from '../../../core/data/feature-authorization/authorization-data.service';
+import {FeatureID} from '../../../core/data/feature-authorization/feature-id';
+import {ItemVersionsSharedService} from './item-versions-shared.service';
+import {WorkspaceItem} from '../../../core/submission/models/workspaceitem.model';
+import {WorkspaceitemDataService} from '../../../core/submission/workspaceitem-data.service';
+import {WorkflowItemDataService} from '../../../core/submission/workflowitem-data.service';
+import {ConfigurationDataService} from '../../../core/data/configuration-data.service';
+import {StoreIdentifiersToMerge} from 'src/app/deduplication/interfaces/deduplication-merge.models';
+import {CookieService} from '../../../core/services/cookie.service';
+import {AuthService} from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'ds-item-versions',
@@ -94,6 +91,10 @@ export class ItemVersionsComponent implements OnInit {
 
   get compareButtonDisabled() {
     return Object.values(this.selectedVersions).length < 2;
+  }
+
+  get showSelectionAlert() {
+    return Object.values(this.selectedVersions).length === 1;
   }
 
   /**
@@ -181,20 +182,25 @@ export class ItemVersionsComponent implements OnInit {
   canCreateVersion$: Observable<boolean>;
   createVersionTitle$: Observable<string>;
 
-  constructor(private versionHistoryService: VersionHistoryDataService,
-              private versionService: VersionDataService,
-              private itemService: ItemDataService,
-              private paginationService: PaginationService,
-              private formBuilder: FormBuilder,
-              private modalService: NgbModal,
-              private notificationsService: NotificationsService,
-              private translateService: TranslateService,
-              private router: Router,
-              private itemVersionShared: ItemVersionsSharedService,
-              private authorizationService: AuthorizationDataService,
-              private workspaceItemDataService: WorkspaceitemDataService,
-              private workflowItemDataService: WorkflowItemDataService,
-              private configurationService: ConfigurationDataService,
+  isAuthenticated$ = this.authService.isAuthenticated();
+
+  constructor(
+    private versionHistoryService: VersionHistoryDataService,
+    private versionService: VersionDataService,
+    private itemService: ItemDataService,
+    private paginationService: PaginationService,
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal,
+    private notificationsService: NotificationsService,
+    private translateService: TranslateService,
+    private router: Router,
+    private itemVersionShared: ItemVersionsSharedService,
+    private authorizationService: AuthorizationDataService,
+    private workspaceItemDataService: WorkspaceitemDataService,
+    private workflowItemDataService: WorkflowItemDataService,
+    private configurationService: ConfigurationDataService,
+    private cookieService: CookieService,
+    private authService: AuthService,
   ) {
   }
 
@@ -547,7 +553,33 @@ export class ItemVersionsComponent implements OnInit {
   }
 
   compare() {
-    console.log('compare', this.selectedVersions);
+    const selectedVersionsObsList = Object.keys(this.selectedVersions).map((key) => {
+      return this.selectedVersions[key].item.pipe(getFirstCompletedRemoteData());
+    });
+
+    forkJoin(selectedVersionsObsList).pipe(take(1)).subscribe((items) => {
+        console.log('items', items);
+
+        const targetItemUUID = items.map((item) => item.payload.uuid);
+        const identifiersLinkList = items.map((item) => item.payload._links.self.href);
+
+        // storing items' href in order to get the item data from href
+        // because of their different types (in order to make the same call for all of them)
+        const storeObj: StoreIdentifiersToMerge = {
+          targetItemUUID: targetItemUUID[0],
+          identifiersLinkList,
+        };
+
+        this.cookieService.set(
+          `items-to-compare-identifiersLinkList`,
+          JSON.stringify(storeObj)
+        );
+
+        this.router.navigate(
+          ['admin/deduplication/compare'],
+          {queryParams: {justCompare: true}}
+        );
+      });
   }
 
   onSelectAll(event, versions: Version[]) {

@@ -16,7 +16,7 @@
         <table class="table table-striped table-bordered align-middle my-2">
           <thead>
           <tr>
-            <th scope="col" *ngIf="selectable">
+            <th scope="col" *ngIf="selectable && versions?.page?.length > 1 && (isAuthenticated$ | async)">
               <input type="checkbox"
                      (change)="onSelectAll($event, (versions?.page || []))"
                      [checked]="isAllSelected((versions?.page || []).length)" />
@@ -30,7 +30,8 @@
           </thead>
           <tbody>
           <tr *ngFor="let version of versions?.page" [id]="'version-row-' + version.id">
-            <td *ngIf="selectable" class="version-row-element-checkbox">
+            <td *ngIf="selectable && versions?.page?.length > 1 && (isAuthenticated$ | async)"
+                class="version-row-element-checkbox">
               <input type="checkbox" (change)="onSelect($event, version)" [checked]="isSelected(version)" />
             </td>
             <td class="version-row-element-version">
@@ -143,17 +144,22 @@
           </tr>
           </tbody>
         </table>
-        <div>*&nbsp;{{"item.version.history.selected" | translate}}</div>
 
-        <div *ngIf="selectable">
-          <button [disabled]="compareButtonDisabled" (click)="compare()">Compare</button>
+        <div *ngIf="selectable && versions?.page?.length > 1 && (isAuthenticated$ | async)" class="mb-3">
+          <button
+            class="btn btn-outline-primary btn-sm mb-3" type="button"
+            [disabled]="compareButtonDisabled" (click)="compare()">
+            Compare
+          </button>
 
           <ds-alert
-            *ngIf="compareButtonDisabled"
+            *ngIf="showSelectionAlert"
             [content]="'item.version.selection.selection-warning'"
             [type]="AlertTypeEnum.Warning">
           </ds-alert>
         </div>
+
+        <div>*&nbsp;{{"item.version.history.selected" | translate}}</div>
       </ds-pagination>
       <ds-alert *ngIf="!itemVersion || versions?.page?.length === 0" [content]="'item.version.history.empty'"
                 [type]="AlertTypeEnum.Info"></ds-alert>

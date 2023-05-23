@@ -149,6 +149,11 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   public repeatableFields: string[] = [];
 
   /**
+   * A flag to control if we are in the just compare mode or not
+   */
+  public justCompare = false;
+
+  /**
    * Stores all the parent keys with their nested metadata fields
    * @type {Map<string, string[]>}
    */
@@ -196,6 +201,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     this.signatureId = this.route.snapshot.params.signatureId;
     this.setChecksum = this.route.snapshot.params.setChecksum;
     this.setRule = this.route.snapshot.queryParams.rule;
+    this.justCompare = this.route.snapshot.queryParams.justCompare === 'true';
 
     if (hasValue(this.setChecksum)) {
       this.storedItemList = this.cookieService.get(
@@ -570,6 +576,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     this.modalRef.componentInstance.itemsToMerge = mergedItems;
     this.modalRef.componentInstance.targetItemId = this.targetItemId;
     this.modalRef.componentInstance.identifiers = setIdentifiers;
+    this.modalRef.componentInstance.justCompare = this.justCompare;
 
     // on modal close redirect to previous page
     this.modalRef.closed.subscribe((res) => {
