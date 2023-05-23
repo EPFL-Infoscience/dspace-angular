@@ -52,18 +52,25 @@ describe('GroupFormComponent', () => {
   let groups;
   let groupName;
   let groupDescription;
+  let groupIsClosed;
   let expected;
 
   beforeEach(waitForAsync(() => {
     groups = [GroupMock, GroupMock2];
     groupName = 'testGroupName';
     groupDescription = 'testDescription';
+    groupIsClosed = 'false';
     expected = Object.assign(new Group(), {
       name: groupName,
       metadata: {
         'dc.description': [
           {
             value: groupDescription
+          }
+        ],
+        'epfl.group.closed': [
+          {
+            value: groupIsClosed
           }
         ],
       },
@@ -233,6 +240,7 @@ describe('GroupFormComponent', () => {
       spyOn(component.submitForm, 'emit');
       component.groupName.value = groupName;
       component.groupDescription.value = groupDescription;
+      component.groupIsClosed.value = false;
     });
     describe('without active Group', () => {
       beforeEach(() => {
@@ -255,6 +263,11 @@ describe('GroupFormComponent', () => {
             'dc.description': [
               {
                 value: groupDescription
+              }
+            ],
+            'epfl.group.closed': [
+              {
+                value: groupIsClosed
               }
             ],
           },
@@ -299,6 +312,11 @@ describe('GroupFormComponent', () => {
           'dc.description': [
             {
               value: groupDescription
+            }
+          ],
+          'epfl.group.closed': [
+            {
+              value: groupIsClosed
             }
           ],
         },
