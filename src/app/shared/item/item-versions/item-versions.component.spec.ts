@@ -29,6 +29,7 @@ import { ConfigurationDataService } from '../../../core/data/configuration-data.
 import { Router } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
+import {CookieService} from '../../../core/services/cookie.service';
 
 describe('ItemVersionsComponent', () => {
   let component: ItemVersionsComponent;
@@ -133,6 +134,11 @@ describe('ItemVersionsComponent', () => {
     navigateByUrl: null,
   });
 
+  const cookieServiceSpy = jasmine.createSpyObj('cookieService', {
+    set: jasmine.createSpy('set'),
+  });
+
+
   beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
@@ -150,6 +156,7 @@ describe('ItemVersionsComponent', () => {
         {provide: WorkspaceitemDataService, useValue: workspaceItemDataServiceSpy},
         {provide: WorkflowItemDataService, useValue: workflowItemDataServiceSpy},
         {provide: ConfigurationDataService, useValue: configurationServiceSpy},
+        {provide: CookieService, useValue: cookieServiceSpy},
         { provide: Router, useValue: routerSpy },
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -211,6 +218,91 @@ describe('ItemVersionsComponent', () => {
     it(`should display summary ${version.summary} in the correct column for version ${version.id}`, () => {
       const summary = fixture.debugElement.query(By.css(`#version-row-${version.id} .version-row-element-summary`));
       expect(summary.nativeElement.textContent).toEqual(version.summary);
+    });
+  });
+
+  describe('when selectable is set to true', () => {
+    beforeAll(waitForAsync(() => {
+      component.selectable = true;
+      fixture.detectChanges();
+    }));
+
+    const query = (selector: string) => fixture.debugElement.query(By.css(selector));
+    const queryAll = (selector: string) => fixture.debugElement.queryAll(By.css(selector));
+
+    const queryCompareButton = () => query('#compare-btn');
+    const querySelectAllCheckbox = () => query('#select-all-checkbox');
+    const querySelectionColumn = () => query('#selection-col');
+    const querySelectionWarning = () => query('#selection-warning');
+    const queryVersionCheckbox = (versionId: string | number) => query(`#select-version-${versionId}`);
+
+    describe('and user is authenticated', function () {
+      beforeAll(waitForAsync(() => {
+        authenticationServiceSpy.isAuthenticated.and.returnValue(of(true));
+        fixture.detectChanges();
+      }));
+      it('should show the selection column', () => {
+        const selectionCol = querySelectionColumn();
+        expect(selectionCol).toBeTruthy();
+      });
+      it('should show the select checkboxes', () => {
+        let version1Checkbox = queryVersionCheckbox(version1.id);
+        let version2Checkbox = queryVersionCheckbox(version2.id);
+
+        expect(version1Checkbox).toBeTruthy();
+        expect(version2Checkbox).toBeTruthy();
+      });
+      it('should show compare button', () => {
+        const compareBtn = queryCompareButton();
+        expect(compareBtn).toBeTruthy();
+      });
+
+      it('should show the selection warning only if one version is selected', () => {
+        let version1Checkbox = queryVersionCheckbox(version1.id);
+        let version2Checkbox = queryVersionCheckbox(version2.id);
+        let compareButton = queryCompareButton();
+
+        version2Checkbox.nativeElement.click();
+        fixture.detectChanges();
+
+        expect(component.selectedVersions[version2.id]).toEqual(version2);
+        expect(compareButton.nativeElement.disabled).toBeTrue();
+
+        let selectionWarning = querySelectionWarning();
+        expect(selectionWarning).toBeTruthy();
+
+        version1Checkbox.nativeElement.click();
+        fixture.detectChanges();
+
+        expect(component.selectedVersions[version1.id]).toEqual(version1);
+
+        selectionWarning = querySelectionWarning();
+        expect(selectionWarning).toBeFalsy();
+
+        expect(compareButton.nativeElement.disabled).toBeTrue();
+      });
+    });
+
+    describe('and user is not authenticated', function () {
+      beforeAll(waitForAsync(() => {
+        authenticationServiceSpy.isAuthenticated.and.returnValue(of(true));
+        fixture.detectChanges();
+      }));
+      it('should not show the selection column', () => {
+        const selectionCol = fixture.debugElement.queryAll(By.css(`#selection-col`));
+        expect(selectionCol).toBeFalsy();
+      });
+      it('should not show the select checkboxes', () => {
+        let version1Checkbox = queryVersionCheckbox(version1.id);
+        let version2Checkbox = queryVersionCheckbox(version2.id);
+
+        expect(version1Checkbox).toBeFalsy();
+        expect(version2Checkbox).toBeFalsy();
+      });
+      it('should not show compare button', () => {
+        const selectionCol = fixture.debugElement.queryAll(By.css(`#compare-btn`));
+        expect(selectionCol).toBeFalsy();
+      });
     });
   });
 
