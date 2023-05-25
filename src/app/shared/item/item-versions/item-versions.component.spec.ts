@@ -222,10 +222,10 @@ describe('ItemVersionsComponent', () => {
   });
 
   describe('when selectable is set to true', () => {
-    beforeAll(waitForAsync(() => {
+    beforeEach(() => {
       component.selectable = true;
       fixture.detectChanges();
-    }));
+    });
 
     const query = (selector: string) => fixture.debugElement.query(By.css(selector));
     const queryAll = (selector: string) => fixture.debugElement.queryAll(By.css(selector));
@@ -237,10 +237,10 @@ describe('ItemVersionsComponent', () => {
     const queryVersionCheckbox = (versionId: string | number) => query(`#select-version-${versionId}`);
 
     describe('and user is authenticated', function () {
-      beforeAll(waitForAsync(() => {
-        authenticationServiceSpy.isAuthenticated.and.returnValue(of(true));
+      beforeEach(() => {
+        component.isAuthenticated$ = of(true);
         fixture.detectChanges();
-      }));
+      });
       it('should show the selection column', () => {
         const selectionCol = querySelectionColumn();
         expect(selectionCol).toBeTruthy();
@@ -256,7 +256,6 @@ describe('ItemVersionsComponent', () => {
         const compareBtn = queryCompareButton();
         expect(compareBtn).toBeTruthy();
       });
-
       it('should show the selection warning only if one version is selected', () => {
         let version1Checkbox = queryVersionCheckbox(version1.id);
         let version2Checkbox = queryVersionCheckbox(version2.id);
@@ -265,32 +264,48 @@ describe('ItemVersionsComponent', () => {
         version2Checkbox.nativeElement.click();
         fixture.detectChanges();
 
-        expect(component.selectedVersions[version2.id]).toEqual(version2);
-        expect(compareButton.nativeElement.disabled).toBeTrue();
+        expect(component.selectedVersions[version2.id])
+          .withContext('Version 2 should be selected')
+          .toEqual(version2);
+        expect(compareButton.nativeElement.disabled)
+          .withContext('Compare button should be disabled when only one version is selected')
+          .toBeTrue();
 
         let selectionWarning = querySelectionWarning();
-        expect(selectionWarning).toBeTruthy();
+        expect(selectionWarning)
+          .withContext('Selection warning should be shown when only one version is selected')
+          .toBeTruthy();
 
         version1Checkbox.nativeElement.click();
         fixture.detectChanges();
 
-        expect(component.selectedVersions[version1.id]).toEqual(version1);
+        expect(component.selectedVersions[version1.id])
+          .withContext('Version 1 should be selected')
+          .toEqual(version1);
 
         selectionWarning = querySelectionWarning();
-        expect(selectionWarning).toBeFalsy();
+        expect(selectionWarning)
+          .withContext('Selection warning should not be shown when two versions are selected')
+          .toBeFalsy();
 
-        expect(compareButton.nativeElement.disabled).toBeTrue();
+        expect(Object.keys(component.selectedVersions).length)
+          .withContext('There should be two selected versions')
+          .toEqual(2);
+
+        expect(compareButton.nativeElement.disabled)
+          .withContext('Compare button should be enabled when two versions are selected')
+          .toBeFalse();
       });
     });
 
-    describe('and user is not authenticated', function () {
-      beforeAll(waitForAsync(() => {
-        authenticationServiceSpy.isAuthenticated.and.returnValue(of(true));
+    describe('and user is not authenticated', () => {
+      beforeEach(() => {
+        component.isAuthenticated$ = of(false);
         fixture.detectChanges();
-      }));
+      });
       it('should not show the selection column', () => {
-        const selectionCol = fixture.debugElement.queryAll(By.css(`#selection-col`));
-        expect(selectionCol).toBeFalsy();
+        const columns = fixture.debugElement.queryAll(By.css(`#selection-col`));
+        expect(columns.length).toBe(0);
       });
       it('should not show the select checkboxes', () => {
         let version1Checkbox = queryVersionCheckbox(version1.id);
@@ -300,8 +315,8 @@ describe('ItemVersionsComponent', () => {
         expect(version2Checkbox).toBeFalsy();
       });
       it('should not show compare button', () => {
-        const selectionCol = fixture.debugElement.queryAll(By.css(`#compare-btn`));
-        expect(selectionCol).toBeFalsy();
+        const btn = queryCompareButton();
+        expect(btn).toBeFalsy();
       });
     });
   });
