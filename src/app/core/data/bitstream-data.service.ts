@@ -429,4 +429,5 @@ export class BitstreamDataService extends IdentifiableDataService<Bitstream> imp
       ...linksToFollow
     );
   }
+
 }

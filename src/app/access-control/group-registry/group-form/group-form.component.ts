@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
+  DynamicCheckboxModel,
   DynamicFormControlModel,
   DynamicFormLayout,
   DynamicInputModel,
@@ -69,6 +70,7 @@ export class GroupFormComponent implements OnInit, OnDestroy {
   groupName: DynamicInputModel;
   groupCommunity: DynamicInputModel;
   groupDescription: DynamicTextAreaModel;
+  groupIsClosed: DynamicCheckboxModel;
 
   /**
    * A list of all dynamic input models
@@ -85,6 +87,11 @@ export class GroupFormComponent implements OnInit, OnDestroy {
       }
     },
     groupDescription: {
+      grid: {
+        host: 'row'
+      }
+    },
+    groupIsClosed: {
       grid: {
         host: 'row'
       }
@@ -117,7 +124,7 @@ export class GroupFormComponent implements OnInit, OnDestroy {
   groupBeingEdited: Group;
 
   /**
-   * Observable whether or not the logged in user is allowed to delete the Group & doesn't have a linked object (community / collection linked to workspace group
+   * Observable whether the logged-in user is allowed to delete the Group & doesn't have a linked object (community / collection) linked to workspace group
    */
   canEdit$: Observable<boolean>;
 
@@ -171,8 +178,9 @@ export class GroupFormComponent implements OnInit, OnDestroy {
     observableCombineLatest(
       this.translateService.get(`${this.messagePrefix}.groupName`),
       this.translateService.get(`${this.messagePrefix}.groupCommunity`),
-      this.translateService.get(`${this.messagePrefix}.groupDescription`)
-    ).subscribe(([groupName, groupCommunity, groupDescription]) => {
+      this.translateService.get(`${this.messagePrefix}.groupDescription`),
+      this.translateService.get(`${this.messagePrefix}.groupIsClosed`)
+    ).subscribe(([groupName, groupCommunity, groupDescription, groupIsClosed]) => {
       this.groupName = new DynamicInputModel({
         id: 'groupName',
         label: groupName,
@@ -195,9 +203,16 @@ export class GroupFormComponent implements OnInit, OnDestroy {
         name: 'groupDescription',
         required: false,
       });
+      this.groupIsClosed = new DynamicCheckboxModel({
+        id: 'groupIsClosed',
+        label: groupIsClosed,
+        name: 'groupIsClosed',
+        required: false,
+      });
       this.formModel = [
         this.groupName,
         this.groupDescription,
+        this.groupIsClosed,
       ];
       this.formGroup = this.formBuilderService.createFormGroup(this.formModel);
 
@@ -229,15 +244,18 @@ export class GroupFormComponent implements OnInit, OnDestroy {
                 groupName: activeGroup.name,
                 groupCommunity: linkedObject?.name ?? '',
                 groupDescription: activeGroup.firstMetadataValue('dc.description'),
+                groupIsClosed: activeGroup.firstMetadataValue('epfl.group.closed') === 'true',
               });
             } else {
               this.formModel = [
                 this.groupName,
                 this.groupDescription,
+                this.groupIsClosed,
               ];
               this.formGroup.patchValue({
                 groupName: activeGroup.name,
                 groupDescription: activeGroup.firstMetadataValue('dc.description'),
+                groupIsClosed: activeGroup.firstMetadataValue('epfl.group.closed') === 'true',
               });
             }
             setTimeout(() => {
@@ -275,6 +293,11 @@ export class GroupFormComponent implements OnInit, OnDestroy {
             'dc.description': [
               {
                 value: this.groupDescription.value
+              }
+            ],
+            'epfl.group.closed': [
+              {
+                value: String(this.groupIsClosed.value)
               }
             ]
           },
@@ -355,6 +378,14 @@ export class GroupFormComponent implements OnInit, OnDestroy {
         op: 'replace',
         path: '/name',
         value: this.groupName.value
+      }];
+    }
+
+    if (hasValue(this.groupIsClosed.value)) {
+      operations = [...operations, {
+        op: 'replace',
+        path: '/metadata/epfl.group.closed/0/value',
+        value: String(this.groupIsClosed.value)
       }];
     }
 
