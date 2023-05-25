@@ -2,11 +2,7 @@ import { MergeObject } from './../../core/deduplication/models/merge-object.mode
 import { TranslateModule } from '@ngx-translate/core';
 import { DeduplicationItemsService } from './../deduplication-merge/deduplication-items.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  NgbActiveModal,
-  NgbModal,
-  NgbModule,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModule, } from '@ng-bootstrap/ng-bootstrap';
 
 import { DeduplicationMergeResultComponent } from './deduplication-merge-result.component';
 import { DeduplicationStateService } from '../deduplication-state.service';
@@ -16,7 +12,7 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
-describe('DeduplicationMergeResultComponent', () => {
+fdescribe('DeduplicationMergeResultComponent', () => {
   let component: DeduplicationMergeResultComponent;
   let compAsAny: any;
   let fixture: ComponentFixture<DeduplicationMergeResultComponent>;
@@ -116,6 +112,20 @@ describe('DeduplicationMergeResultComponent', () => {
 
     expect(component.compareMetadataValues.size).toBeGreaterThan(0);
     expect(element.nativeElement.innerText).toBe('dc.title');
+  });
+
+  it('should show/hide modal footer based on justCompare field', () => {
+    component.justCompare = false;
+    fixture.detectChanges();
+
+    const modalFooter = de.query(By.css('.modal-footer'));
+    expect(modalFooter).toBeTruthy();
+
+    component.justCompare = true;
+    fixture.detectChanges();
+
+    const modalFooter2 = de.query(By.css('.modal-footer'));
+    expect(modalFooter2).toBeFalsy();
   });
 
   describe('onMerge', () => {
