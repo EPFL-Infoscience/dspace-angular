@@ -8,6 +8,10 @@ import { FeatureID } from '../core/data/feature-authorization/feature-id';
 import { AuthorizationDataService } from '../core/data/feature-authorization/authorization-data.service';
 import { AuthService } from '../core/auth/auth.service';
 import { FileService } from '../core/shared/file.service';
+import { Item } from '../core/shared/item.model';
+import { ItemDataService } from '../core/data/item-data.service';
+import { followLink } from '../shared/utils/follow-link-config.model';
+import { getFirstSucceededRemoteDataPayload } from '../core/shared/operators';
 
 /**
  * This component renders a given Bitstream as a thumbnail.
@@ -30,6 +34,11 @@ export class ThumbnailComponent implements OnChanges {
    * If defaultImage is null, a HTML placeholder is used instead.
    */
   @Input() defaultImage? = null;
+
+  /**
+   * The item owning the attachment, whose thumbnail is used as fallback value
+   */
+  @Input() item?: Item;
 
   /**
    * The src attribute used in the template to render the image.
@@ -68,6 +77,7 @@ export class ThumbnailComponent implements OnChanges {
     protected auth: AuthService,
     protected authorizationService: AuthorizationDataService,
     protected fileService: FileService,
+    protected itemService: ItemDataService,
   ) {
   }
 
@@ -83,8 +93,16 @@ export class ThumbnailComponent implements OnChanges {
     const src = this.contentHref;
     if (hasValue(src)) {
       this.setSrc(src);
-    } else {
+    } else if (this.defaultImage) {
       this.setSrc(this.defaultImage);
+    } else if (this.item) {
+      this.itemService.findByHref(this.item._links.self.href, true, true, followLink('thumbnail')).pipe(
+        getFirstSucceededRemoteDataPayload(),
+        switchMap((item) => item.thumbnail),
+        getFirstSucceededRemoteDataPayload(),
+      ).subscribe((thumbnail) => {
+        this.setSrc(thumbnail._links.content.href);
+      });
     }
   }
 
