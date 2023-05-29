@@ -12,6 +12,7 @@ import { AuthService } from '../core/auth/auth.service';
 import { FileService } from '../core/shared/file.service';
 import { VarDirective } from '../shared/utils/var.directive';
 import { AuthorizationDataService } from '../core/data/feature-authorization/authorization-data.service';
+import { ItemDataService } from '../core/data/item-data.service';
 
 // eslint-disable-next-line @angular-eslint/pipe-prefix
 @Pipe({ name: 'translate' })
@@ -29,6 +30,7 @@ describe('ThumbnailComponent', () => {
   let de: DebugElement;
   let el: HTMLElement;
   let authService;
+  let itemService;
   let authorizationService;
   let fileService;
 
@@ -39,6 +41,9 @@ describe('ThumbnailComponent', () => {
     authorizationService = jasmine.createSpyObj('AuthorizationService', {
       isAuthorized: observableOf(true),
     });
+    itemService = jasmine.createSpyObj('ItemDataService', {
+      findById: jasmine.createSpy('findByHref')
+    });
     fileService = jasmine.createSpyObj('FileService', {
       retrieveFileDownloadLink: null
     });
@@ -48,6 +53,7 @@ describe('ThumbnailComponent', () => {
       declarations: [ThumbnailComponent, SafeUrlPipe, MockTranslatePipe, VarDirective],
       providers: [
         { provide: AuthService, useValue: authService },
+        { provide: ItemDataService, useValue: itemService },
         { provide: AuthorizationDataService, useValue: authorizationService },
         { provide: FileService, useValue: fileService }
       ]

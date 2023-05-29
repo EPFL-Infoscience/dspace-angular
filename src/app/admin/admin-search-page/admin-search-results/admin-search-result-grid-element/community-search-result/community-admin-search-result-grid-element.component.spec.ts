@@ -24,6 +24,7 @@ import { AuthorizationDataService } from '../../../../../core/data/feature-autho
 import { AuthorizationDataServiceStub } from '../../../../../shared/testing/authorization-service.stub';
 import { ThemeService } from '../../../../../shared/theme-support/theme.service';
 import { getMockThemeService } from '../../../../../shared/mocks/theme-service.mock';
+import { ItemDataService } from '../../../../../core/data/item-data.service';
 
 describe('CommunityAdminSearchResultGridElementComponent', () => {
   let component: CommunityAdminSearchResultGridElementComponent;
@@ -42,6 +43,10 @@ describe('CommunityAdminSearchResultGridElementComponent', () => {
     resolveLink: {}
   });
 
+  const itemService = jasmine.createSpyObj('ItemDataService', {
+    findById: jasmine.createSpy('findById')
+  });
+
   beforeEach(waitForAsync(() => {
     init();
     TestBed.configureTestingModule({
@@ -56,6 +61,7 @@ describe('CommunityAdminSearchResultGridElementComponent', () => {
         { provide: TruncatableService, useValue: mockTruncatableService },
         { provide: BitstreamDataService, useValue: {} },
         { provide: LinkService, useValue: linkService },
+        { provide: ItemDataService, useValue: itemService },
         { provide: AuthService, useClass: AuthServiceStub },
         { provide: FileService, useClass: FileServiceStub },
         { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
