@@ -1679,7 +1679,9 @@
 
   "sets.breadcrumbs": "Set Dashboard",
 
-  "compare.breadcrumbs": "Merge Deduplications",
+  "compare.breadcrumbs": "Compare Deduplications",
+
+  "merge-deduplication.breadcrumbs": "Merge Deduplications",
 
   "deduplication.sets.title": "Records duplicate Identifiers (DOI, PMID, ARXIV, SCOPUS, ISI)",
 
