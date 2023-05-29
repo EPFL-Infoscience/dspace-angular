@@ -34,6 +34,7 @@ import {
 import { ThumbnailService } from '../../../../../shared/thumbnail/thumbnail.service';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
+import { ItemDataService } from '../../../../../core/data/item-data.service';
 
 describe('ItemAdminSearchResultGridElementComponent', () => {
   let component: ItemAdminSearchResultGridElementComponent;
@@ -52,6 +53,10 @@ describe('ItemAdminSearchResultGridElementComponent', () => {
       return createSuccessfulRemoteDataObject$(new AccessStatusObject());
     }
   };
+
+  const itemService = jasmine.createSpyObj('ItemDataService', {
+    findById: jasmine.createSpy('findById')
+  });
 
   const mockThemeService = getMockThemeService();
   const mockThumbnailService = jasmine.createSpyObj('ThumbnailService', {
@@ -88,6 +93,7 @@ describe('ItemAdminSearchResultGridElementComponent', () => {
           { provide: FileService, useClass: FileServiceStub },
           { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
           { provide: ThumbnailService, useValue: mockThumbnailService },
+          { provide: ItemDataService, useValue: itemService },
         ],
         schemas: [NO_ERRORS_SCHEMA]
       })
