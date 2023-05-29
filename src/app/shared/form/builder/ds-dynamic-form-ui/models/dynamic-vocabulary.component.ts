@@ -278,6 +278,13 @@ export abstract class DsDynamicVocabularyComponent extends DynamicFormControlCom
     let returnValue;
     if (value.indexOf('::') === -1) {
       returnValue = new FormFieldMetadataValueObject(value);
+    } else if (value.includes('::will be ')) {
+      returnValue = new FormFieldMetadataValueObject(
+        value.substring(0, value.indexOf('::')),
+        null,
+        null,
+        value.substring(value.indexOf('::') + 2)
+      );
     } else {
       returnValue = new FormFieldMetadataValueObject(
         value.substring(0, value.lastIndexOf('::')),
