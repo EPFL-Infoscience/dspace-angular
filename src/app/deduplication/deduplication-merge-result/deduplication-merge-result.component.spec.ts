@@ -12,7 +12,7 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
-fdescribe('DeduplicationMergeResultComponent', () => {
+describe('DeduplicationMergeResultComponent', () => {
   let component: DeduplicationMergeResultComponent;
   let compAsAny: any;
   let fixture: ComponentFixture<DeduplicationMergeResultComponent>;
