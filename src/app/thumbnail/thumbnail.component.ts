@@ -93,8 +93,6 @@ export class ThumbnailComponent implements OnChanges {
     const src = this.contentHref;
     if (hasValue(src)) {
       this.setSrc(src);
-    } else if (this.defaultImage) {
-      this.setSrc(this.defaultImage);
     } else if (this.item) {
       this.itemService.findByHref(this.item._links.self.href, true, true, followLink('thumbnail')).pipe(
         getFirstSucceededRemoteDataPayload(),
@@ -103,6 +101,8 @@ export class ThumbnailComponent implements OnChanges {
       ).subscribe((thumbnail) => {
         this.setSrc(thumbnail._links.content.href);
       });
+    } else if (this.defaultImage) {
+      this.setSrc(this.defaultImage);
     }
   }
 
