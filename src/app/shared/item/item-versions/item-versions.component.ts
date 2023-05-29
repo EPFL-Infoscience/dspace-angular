@@ -554,33 +554,25 @@ export class ItemVersionsComponent implements OnInit {
   }
 
   compare() {
-    const selectedVersionsObsList = Object.keys(this.selectedVersions).map((key) => {
-      return this.selectedVersions[key].item.pipe(getFirstCompletedRemoteData());
-    });
+    const selectedVersionsObsList =
+      Object.values(this.selectedVersions)
+        .map((version) => version.item.pipe(getFirstCompletedRemoteData()));
 
     forkJoin(selectedVersionsObsList).pipe(take(1)).subscribe((items) => {
-        console.log('items', items);
+      const targetItemUUID = items.map((item) => item.payload.uuid);
+      const identifiersLinkList = items.map((item) => item.payload._links.self.href);
 
-        const targetItemUUID = items.map((item) => item.payload.uuid);
-        const identifiersLinkList = items.map((item) => item.payload._links.self.href);
+      // storing items' href in order to get the item data from href
+      // because of their different types (in order to make the same call for all of them)
+      const storeObj: StoreIdentifiersToMerge = {
+        targetItemUUID: targetItemUUID[0],
+        identifiersLinkList,
+      };
 
-        // storing items' href in order to get the item data from href
-        // because of their different types (in order to make the same call for all of them)
-        const storeObj: StoreIdentifiersToMerge = {
-          targetItemUUID: targetItemUUID[0],
-          identifiersLinkList,
-        };
+      this.cookieService.set(`items-to-compare-identifiersLinkList`, JSON.stringify(storeObj));
 
-        this.cookieService.set(
-          `items-to-compare-identifiersLinkList`,
-          JSON.stringify(storeObj)
-        );
-
-        this.router.navigate(
-          ['admin/deduplication/compare'],
-          {queryParams: {justCompare: true}}
-        );
-      });
+      this.router.navigate(['admin/deduplication/compare'], {queryParams: {justCompare: true}});
+    });
   }
 
   onSelectAll(event, versions: Version[]) {
