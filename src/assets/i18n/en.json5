@@ -5557,6 +5557,16 @@
 
   "search.filters.filter.dateIssued.min.label": "Start",
 
+  "search.filters.filter.dateCreated.head": "Date created",
+
+  "search.filters.filter.dateCreated.max.placeholder": "Maximum Date",
+
+  "search.filters.filter.dateCreated.max.label": "End",
+
+  "search.filters.filter.dateCreated.min.placeholder": "Minimum Date",
+
+  "search.filters.filter.dateCreated.min.label": "Start",
+
   "search.filters.filter.dateSubmitted.head": "Date submitted",
 
   "search.filters.filter.dateSubmitted.placeholder": "Date submitted",
