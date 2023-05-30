@@ -101,6 +101,8 @@
 
   "admin.edit-cms-metadata.error": "An error occurred while updating the metadata",
 
+  "admin.edit-cms-metadata.refresh-alert": "You may need to manually refresh the page in order to see the changes",
+
   "menu.section.cms_metadata_edit": "Edit CMS Metadata",
 
   "menu.section.cms.edit.metadata.head": "Edit Metadata",

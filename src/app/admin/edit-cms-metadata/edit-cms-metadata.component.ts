@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Operation } from 'fast-json-patch';
 import { BehaviorSubject } from 'rxjs';
 import { getFirstCompletedRemoteData } from '../../core/shared/operators';
+import { AlertType } from '../../shared/alert/aletr-type';
 
 /**
  * Component representing the page to edit cms metadata for site.
@@ -45,6 +46,8 @@ export class EditCmsMetadataComponent implements OnInit {
    * list of the metadata to be edited by the user
    */
   metadataList: string[] = [];
+
+  AlertTypeEnum = AlertType;
 
   constructor(
     private siteService: SiteDataService,
