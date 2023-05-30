@@ -6912,9 +6912,9 @@
 
   "submission.workflow.generic.view-help": "Select this option to view the item's metadata.",
 
-  "submission.workflow.email-template.workflowcustomemail_template1": "A nice name for template 1",
+  "submission.workflow.email-template.workflowcustomemail_template1": "Additional information required",
 
-  "submission.workflow.email-template.workflowcustomemail_template2": "A nice name for template 2",
+  "submission.workflow.email-template.workflowcustomemail_template2": "Data correction needed",
 
   "submission.workflow.tasks.claimed.approve": "Approve",
 
