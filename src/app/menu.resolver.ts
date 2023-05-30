@@ -397,7 +397,7 @@ export class MenuResolver implements Resolve<boolean> {
         {
           id: 'deduplication',
           active: false,
-          visible: isSiteAdmin,
+          visible: isSiteAdmin || isCollectionAdmin,
           model: {
             type: MenuItemType.LINK,
             text: 'menu.section.admin_deduplication',

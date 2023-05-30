@@ -1683,7 +1683,7 @@
 
   "compare.breadcrumbs": "Merge Deduplications",
 
-  "deduplication.sets.title": "Records duplicate Identifiers (DOI, PMID, ARXIV, SCOPUS, ISI)",
+  "deduplication.sets.title": "Deduplication",
 
   "deduplication.sets.subtitle": "The page shows potentially duplicate groups by signature. You can select the items to compare or reject. The system records the action \"No duplicate\" so the match is not show in the future.",
 
@@ -4962,6 +4962,8 @@
 
   "audit.overview.table.eperson" : "EPerson",
 
+  "audit.overview.table.details" : "Details",
+
   "audit.overview.table.timestamp" : "Time",
 
   "audit.overview.breadcrumbs": "Audit Logs Overview",
@@ -6914,9 +6916,9 @@
 
   "submission.workflow.generic.view-help": "Select this option to view the item's metadata.",
 
-  "submission.workflow.email-template.workflowcustomemail_template1": "A nice name for template 1",
+  "submission.workflow.email-template.workflowcustomemail_template1": "Additional information required",
 
-  "submission.workflow.email-template.workflowcustomemail_template2": "A nice name for template 2",
+  "submission.workflow.email-template.workflowcustomemail_template2": "Data correction needed",
 
   "submission.workflow.tasks.claimed.approve": "Approve",
 
