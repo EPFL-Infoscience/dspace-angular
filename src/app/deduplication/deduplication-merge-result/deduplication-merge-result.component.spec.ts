@@ -118,20 +118,6 @@ describe('DeduplicationMergeResultComponent', () => {
     expect(element.nativeElement.innerText).toBe('dc.title');
   });
 
-  it('should show/hide modal footer based on justCompare field', () => {
-    component.justCompare = false;
-    fixture.detectChanges();
-
-    const modalFooter = de.query(By.css('.modal-footer'));
-    expect(modalFooter).toBeTruthy();
-
-    component.justCompare = true;
-    fixture.detectChanges();
-
-    const modalFooter2 = de.query(By.css('.modal-footer'));
-    expect(modalFooter2).toBeFalsy();
-  });
-
   describe('onMerge', () => {
     beforeEach(() => {
       spyOn(component, 'onMerge');

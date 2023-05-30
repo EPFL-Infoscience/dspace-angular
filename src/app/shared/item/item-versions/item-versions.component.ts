@@ -567,11 +567,15 @@ export class ItemVersionsComponent implements OnInit {
       const storeObj: StoreIdentifiersToMerge = {
         targetItemUUID: targetItemUUID[0],
         identifiersLinkList,
+        justCompare: true
       };
 
       this.cookieService.set(`items-to-compare-identifiersLinkList`, JSON.stringify(storeObj));
 
-      this.router.navigate(['admin/deduplication/compare'], {queryParams: {justCompare: true}});
+      this.isCurrentUserAdmin().pipe(take(1)).subscribe((isAdmin) => {
+        const path = isAdmin ? 'admin/deduplication/compare' : 'deduplication/compare';
+        this.router.navigate([path]);
+      });
     });
   }
 
@@ -595,6 +599,10 @@ export class ItemVersionsComponent implements OnInit {
 
   isSelected(version) {
     return this.selectedVersions[version.id] !== undefined;
+  }
+
+  isCurrentUserAdmin(): Observable<boolean> {
+    return this.authorizationService.isAuthorized(FeatureID.AdministratorOf, undefined, undefined);
   }
 
   ngOnDestroy(): void {

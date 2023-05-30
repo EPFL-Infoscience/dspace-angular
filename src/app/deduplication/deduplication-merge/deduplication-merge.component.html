@@ -45,7 +45,10 @@
 
       <!-- BITSTREAM DATA TABLE -->
       <div class="col-md-12 p-0">
-        <ds-bitstream-table [itemsToCompare]="itemsToCompare" [bitstreamList]="bitstreamList">
+        <ds-bitstream-table
+          [itemsToCompare]="itemsToCompare"
+          [bitstreamList]="bitstreamList"
+          [selectable]="!justCompare">
         </ds-bitstream-table>
       </div>
 
@@ -66,14 +69,9 @@
           {{ "deduplication.merge.button.label.collapse-all" | translate }}
         </button>
 
-        <button class="btn btn-primary" (click)="openFinalResultsModal()">
+        <button *ngIf="!justCompare" class="btn btn-primary" (click)="openFinalResultsModal()">
           <i class="fas fa-tasks pr-1"></i>
-          {{
-            (justCompare
-              ? "deduplication.merge.button.label.preview"
-              : "deduplication.merge.button.label.merge")
-            | translate
-          }}
+          {{ "deduplication.merge.button.label.merge" | translate}}
         </button>
       </div>
       <!-- ACCORDION SECTION -->
@@ -100,7 +98,9 @@
                       "deduplication.merge.button.label.show-diff" | translate
                       }}
                     </button>
-                    <button [ngbTooltip]="
+                    <button
+                      *ngIf="!justCompare"
+                      [ngbTooltip]="
                         'deduplication.merge.tooltip.delete-info' | translate
                       " placement="left" class="btn btn-sm btn-warning mr-1 delete-btn"
                       (click)="removeAllSelections(metadataKeyValues.key)">
@@ -142,7 +142,7 @@
                           hasMultipleSelection(metadataKeyValues.key);
                           else singleSelection
                         ">
-                        <div class="col-md-1">
+                        <div *ngIf="!justCompare" class="col-md-1">
                           <!-- CHECKBOX INPUT -->
                           <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" [checked]="
@@ -172,7 +172,7 @@
                       <!-- if only one selection can occur-->
                       <!-- RADIO-BUTTON SECTION -->
                       <ng-template #singleSelection>
-                        <div class="col-1">
+                        <div *ngIf="!justCompare" class="col-1">
                           <!-- RADIO INPUT -->
                           <div class="custom-control custom-radio">
                             <input class="custom-control-input" type="radio" [name]="metadataKeyValues.key" [id]="

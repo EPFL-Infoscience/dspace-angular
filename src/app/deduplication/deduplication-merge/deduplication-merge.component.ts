@@ -201,19 +201,20 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     this.signatureId = this.route.snapshot.params.signatureId;
     this.setChecksum = this.route.snapshot.params.setChecksum;
     this.setRule = this.route.snapshot.queryParams.rule;
-    this.justCompare = this.route.snapshot.queryParams.justCompare === 'true';
 
     if (hasValue(this.setChecksum)) {
       this.storedItemList = this.cookieService.get(
         `items-to-compare-${this.setChecksum}`
       );
     } else {
-
       const storeObj: StoreIdentifiersToMerge = this.cookieService.get(
         `items-to-compare-identifiersLinkList`
       );
       this.storedItemList = storeObj.identifiersLinkList;
       this.targetItemId = storeObj.targetItemUUID;
+
+      // if the justCompare flag is set to true, then we are in the just compare mode
+      this.justCompare = !!storeObj.justCompare;
     }
   }
 
@@ -576,7 +577,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     this.modalRef.componentInstance.itemsToMerge = mergedItems;
     this.modalRef.componentInstance.targetItemId = this.targetItemId;
     this.modalRef.componentInstance.identifiers = setIdentifiers;
-    this.modalRef.componentInstance.justCompare = this.justCompare;
 
     // on modal close redirect to previous page
     this.modalRef.closed.subscribe((res) => {

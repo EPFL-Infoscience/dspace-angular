@@ -128,6 +128,19 @@ describe('BitstreamTableComponent', () => {
     });
   });
 
+  describe('if selectable=false', () => {
+    beforeEach(() => {
+      component.selectable = false;
+      component.itemsToCompare = itemsData;
+      fixture.detectChanges();
+    });
+
+    it('should not show selection checkboxes ', () => {
+      const checkbox = de.query(By.css('input.checkbox-0'));
+      expect(checkbox).toBeNull();
+    });
+  });
+
   describe('onBitstreamChecked', () => {
     beforeEach(() => {
       spyOn(component, 'onBitstreamChecked');
