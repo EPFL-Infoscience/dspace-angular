@@ -58,4 +58,5 @@ export interface SetIdentifiers {
 export interface StoreIdentifiersToMerge{
   targetItemUUID: string;
   identifiersLinkList: string[];
+  justCompare?: boolean;
 }

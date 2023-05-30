@@ -1,22 +1,13 @@
-import {
-  createSuccessfulRemoteDataObject$,
-} from '../../shared/remote-data.utils';
+import { createSuccessfulRemoteDataObject$, } from '../../shared/remote-data.utils';
 import { Item } from '../../core/shared/item.model';
 import { TranslateModule } from '@ngx-translate/core';
-import {
-  ComponentFixture,
-  ComponentFixtureAutoDetect,
-  TestBed,
-} from '@angular/core/testing';
+import { ComponentFixture, ComponentFixtureAutoDetect, TestBed, } from '@angular/core/testing';
 import { ItemData } from '../interfaces/deduplication-merge.models';
 import { BitstreamTableComponent } from './bitstream-table.component';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { Bundle } from '../../core/shared/bundle.model';
-import {
-  buildPaginatedList,
-  PaginatedList,
-} from '../../core/data/paginated-list.model';
+import { buildPaginatedList, PaginatedList, } from '../../core/data/paginated-list.model';
 import { createPaginatedList } from '../../shared/testing/utils.test';
 import { Bitstream } from '../../core/shared/bitstream.model';
 import { PageInfo } from '../../core/shared/page-info.model';
@@ -125,6 +116,19 @@ describe('BitstreamTableComponent', () => {
       fixture.detectChanges();
       const a = de.query(By.css('a#redirect-0'));
       expect(a).toBeDefined();
+    });
+  });
+
+  describe('if selectable=false', () => {
+    beforeEach(() => {
+      component.selectable = false;
+      component.itemsToCompare = itemsData;
+      fixture.detectChanges();
+    });
+
+    it('should not show selection checkboxes ', () => {
+      const checkbox = de.query(By.css('input.checkbox-0'));
+      expect(checkbox).toBeNull();
     });
   });
 

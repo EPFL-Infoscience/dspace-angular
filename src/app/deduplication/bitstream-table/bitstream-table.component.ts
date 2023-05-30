@@ -27,6 +27,11 @@ export class BitstreamTableComponent {
   @Input() previewMode = false;
 
   /**
+   * Flag that indicates if the bitstream is selectable
+   */
+  @Input() selectable = true;
+
+  /**
    * Add/remove the bitstream from @var bitstreamList based on the selection
    * @param event The event that triggered the checkbox change
    * @param bitstream The bitstream to be checked or unchecked

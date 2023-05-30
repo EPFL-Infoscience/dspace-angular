@@ -1,7 +1,7 @@
 <table class="table table-bordered">
   <thead class="bundle-row">
     <tr>
-      <th scope="col">
+      <th *ngIf="selectable" scope="col">
         {{ "Select" | translate }}
       </th>
       <th scope="col">
@@ -62,7 +62,7 @@
             let bitstream of itemObj.object | dsGetBitstreams | async | async
           "
         >
-          <td>
+          <td *ngIf="selectable">
             <div class="custom-control custom-checkbox">
               <input
                 type="checkbox"
