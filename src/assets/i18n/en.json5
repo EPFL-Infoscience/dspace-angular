@@ -5862,9 +5862,9 @@
 
   "sorting.metric.download.DESC" : "Downloads Descending",
 
-  "sorting.metric.scopus.citation.ASC" : "Citations Ascending",
+  "sorting.metric.scopusCitation.ASC" : "Citations Ascending",
 
-  "sorting.metric.scopus.citation.DESC" : "Citations Descending",
+  "sorting.metric.scopusCitation.DESC" : "Citations Descending",
 
   "sorting.score.ASC": "Least Relevant",
 
