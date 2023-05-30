@@ -1681,7 +1681,7 @@
 
   "compare.breadcrumbs": "Merge Deduplications",
 
-  "deduplication.sets.title": "Records duplicate Identifiers (DOI, PMID, ARXIV, SCOPUS, ISI)",
+  "deduplication.sets.title": "Deduplication",
 
   "deduplication.sets.subtitle": "The page shows potentially duplicate groups by signature. You can select the items to compare or reject. The system records the action \"No duplicate\" so the match is not show in the future.",
 
@@ -5558,6 +5558,16 @@
   "search.filters.filter.dateIssued.min.placeholder": "Minimum Date",
 
   "search.filters.filter.dateIssued.min.label": "Start",
+
+  "search.filters.filter.dateCreated.head": "Date created",
+
+  "search.filters.filter.dateCreated.max.placeholder": "Maximum Date",
+
+  "search.filters.filter.dateCreated.max.label": "End",
+
+  "search.filters.filter.dateCreated.min.placeholder": "Minimum Date",
+
+  "search.filters.filter.dateCreated.min.label": "Start",
 
   "search.filters.filter.dateSubmitted.head": "Date submitted",
 
