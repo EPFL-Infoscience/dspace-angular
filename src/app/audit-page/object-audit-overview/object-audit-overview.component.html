@@ -25,6 +25,7 @@
                 <!-- <th>{{ 'audit.overview.table.id' | translate }}</th> -->
                 <th>{{ 'audit.overview.table.entityType' | translate }}</th>
                 <th>{{ 'audit.overview.table.eperson' | translate }}</th>
+                <th>{{ 'audit.overview.table.details' | translate }}</th>
                 <th>{{ 'audit.overview.table.timestamp' | translate }}</th>
                 <th>Other Object</th>
               </tr>
@@ -34,7 +35,8 @@
                 <!-- <td><a [routerLink]="['/auditlogs/', audit.id]">{{audit.id}}</a></td> -->
                 <td>{{ audit.eventType }}</td>
                 <td *ngVar="(getEpersonName(audit) | async) as ePersonName">{{ePersonName}}</td>
-                <td>{{ audit.timeStamp | date:dateFormat}}</td>
+                <td>{{ audit.detail }}</td>
+                <td>{{ audit.timeStamp | date:dateFormat }}</td>
                 <td>
                             <span *ngIf="object.id === audit.objectUUID">
                                 <!-- object.id === audit.objectUUID -->
