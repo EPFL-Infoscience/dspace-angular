@@ -293,7 +293,7 @@ import { DEDUPLICATION_PATH } from './admin/admin-routing-paths';
         ]
       }
     ], {
-      enableTracing: true,
+      // enableTracing: true,
       useHash: false,
       scrollPositionRestoration: 'enabled',
       anchorScrolling: 'enabled',
