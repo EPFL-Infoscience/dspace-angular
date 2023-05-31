@@ -4739,11 +4739,15 @@
 
   "reciter.suggestion.source.orcidWorks": "ORCID registry",
 
+  "reciter.suggestion.source.pubmed": "Pubmed repository",
+
   "reciter.suggestion.from.source": "from the ",
 
   "reciter.suggestion.totalScore": "Total Score",
 
   "reciter.suggestion.type.oaire": "Publications",
+
+  "reciter.suggestion.type.pubmed" : "Publications",
 
   "reciter.suggestion.type.orcidWorks": "Publications",
 
