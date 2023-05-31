@@ -1681,7 +1681,7 @@
 
   "sets.breadcrumbs": "Set Dashboard",
 
-  "compare.breadcrumbs": "Compare Deduplications",
+  "compare.breadcrumbs": "Compare Items",
 
   "merge-deduplication.breadcrumbs": "Merge Deduplications",
 
@@ -1769,7 +1769,7 @@
 
   "deduplication.merge.label.title": "Merge Deduplications",
 
-  "deduplication.merge.label.just-compare-title": "Compare Deduplications",
+  "deduplication.merge.label.just-compare-title": "Compare Items",
 
   "deduplication.merge.message.no-data": "No data found",
 
