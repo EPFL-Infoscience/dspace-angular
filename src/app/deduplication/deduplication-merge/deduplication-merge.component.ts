@@ -149,6 +149,11 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   public repeatableFields: string[] = [];
 
   /**
+   * A flag to control if we are in the just compare mode or not
+   */
+  public justCompare = false;
+
+  /**
    * Stores all the parent keys with their nested metadata fields
    * @type {Map<string, string[]>}
    */
@@ -202,12 +207,14 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
         `items-to-compare-${this.setChecksum}`
       );
     } else {
-
       const storeObj: StoreIdentifiersToMerge = this.cookieService.get(
         `items-to-compare-identifiersLinkList`
       );
       this.storedItemList = storeObj.identifiersLinkList;
       this.targetItemId = storeObj.targetItemUUID;
+
+      // if the justCompare flag is set to true, then we are in the just compare mode
+      this.justCompare = !!storeObj.justCompare;
     }
   }
 

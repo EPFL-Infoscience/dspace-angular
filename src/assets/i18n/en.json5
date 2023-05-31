@@ -1681,7 +1681,9 @@
 
   "sets.breadcrumbs": "Set Dashboard",
 
-  "compare.breadcrumbs": "Merge Deduplications",
+  "compare.breadcrumbs": "Compare Deduplications",
+
+  "merge-deduplication.breadcrumbs": "Merge Deduplications",
 
   "deduplication.sets.title": "Deduplication",
 
@@ -1767,7 +1769,7 @@
 
   "deduplication.merge.label.title": "Merge Deduplications",
 
-  "deduplication.merge.label.title": "Merge Deduplications",
+  "deduplication.merge.label.just-compare-title": "Compare Deduplications",
 
   "deduplication.merge.message.no-data": "No data found",
 
@@ -1794,6 +1796,8 @@
   "deduplication.merge.table.bitstream.header.item-identifier-handle": "Handle:",
 
   "deduplication.merge.button.label.merge": "Preview & Merge",
+
+  "deduplication.merge.button.label.preview": "Preview",
 
   "deduplication.merge.button.label.collapse-all": "Collapse All",
 
@@ -3487,6 +3491,8 @@
 
   "item.select.table.title": "Title",
 
+  "item.version.selection.all-selected": "All selected",
+  "item.version.selection.selection-warning": "Please select at least two versions to be compared.",
 
   "item.version.history.empty": "There are no other versions for this item yet.",
 

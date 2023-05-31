@@ -40,7 +40,7 @@ import { DeduplicationSetsComponent } from '../../deduplication/sets/sets-compon
         component: DeduplicationMergeComponent,
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         data: {
-          title: 'compare.breadcrumbs',
+          title: 'merge-deduplication.breadcrumbs',
           breadcrumbKey: 'compare',
           showBreadcrumbsFluid: false
         }
@@ -51,7 +51,7 @@ import { DeduplicationSetsComponent } from '../../deduplication/sets/sets-compon
         component: DeduplicationMergeComponent,
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         data: {
-          title: 'Compare Deduplications',
+          title: 'compare.breadcrumbs',
           breadcrumbKey: 'compare',
           showBreadcrumbsFluid: false
         }
