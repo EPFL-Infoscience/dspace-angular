@@ -101,6 +101,8 @@
 
   "admin.edit-cms-metadata.error": "An error occurred while updating the metadata",
 
+  "admin.edit-cms-metadata.refresh-alert": "You may need to manually refresh the page in order to see the changes",
+
   "menu.section.cms_metadata_edit": "Edit CMS Metadata",
 
   "menu.section.cms.edit.metadata.head": "Edit Metadata",
@@ -1683,7 +1685,7 @@
 
   "merge-deduplication.breadcrumbs": "Merge Deduplications",
 
-  "deduplication.sets.title": "Records duplicate Identifiers (DOI, PMID, ARXIV, SCOPUS, ISI)",
+  "deduplication.sets.title": "Deduplication",
 
   "deduplication.sets.subtitle": "The page shows potentially duplicate groups by signature. You can select the items to compare or reject. The system records the action \"No duplicate\" so the match is not show in the future.",
 
@@ -4743,11 +4745,15 @@
 
   "reciter.suggestion.source.orcidWorks": "ORCID registry",
 
+  "reciter.suggestion.source.pubmed": "Pubmed repository",
+
   "reciter.suggestion.from.source": "from the ",
 
   "reciter.suggestion.totalScore": "Total Score",
 
   "reciter.suggestion.type.oaire": "Publications",
+
+  "reciter.suggestion.type.pubmed" : "Publications",
 
   "reciter.suggestion.type.orcidWorks": "Publications",
 
@@ -4965,6 +4971,8 @@
   "audit.overview.table.entityType" : "Audit Type",
 
   "audit.overview.table.eperson" : "EPerson",
+
+  "audit.overview.table.details" : "Details",
 
   "audit.overview.table.timestamp" : "Time",
 
@@ -5563,6 +5571,16 @@
 
   "search.filters.filter.dateIssued.min.label": "Start",
 
+  "search.filters.filter.dateCreated.head": "Date created",
+
+  "search.filters.filter.dateCreated.max.placeholder": "Maximum Date",
+
+  "search.filters.filter.dateCreated.max.label": "End",
+
+  "search.filters.filter.dateCreated.min.placeholder": "Minimum Date",
+
+  "search.filters.filter.dateCreated.min.label": "Start",
+
   "search.filters.filter.dateSubmitted.head": "Date submitted",
 
   "search.filters.filter.dateSubmitted.placeholder": "Date submitted",
@@ -5856,9 +5874,9 @@
 
   "sorting.metric.download.DESC" : "Downloads Descending",
 
-  "sorting.metric.scopus.citation.ASC" : "Citations Ascending",
+  "sorting.metric.scopusCitation.ASC" : "Citations Ascending",
 
-  "sorting.metric.scopus.citation.DESC" : "Citations Descending",
+  "sorting.metric.scopusCitation.DESC" : "Citations Descending",
 
   "sorting.score.ASC": "Least Relevant",
 
@@ -6908,9 +6926,9 @@
 
   "submission.workflow.generic.view-help": "Select this option to view the item's metadata.",
 
-  "submission.workflow.email-template.workflowcustomemail_template1": "A nice name for template 1",
+  "submission.workflow.email-template.workflowcustomemail_template1": "Additional information required",
 
-  "submission.workflow.email-template.workflowcustomemail_template2": "A nice name for template 2",
+  "submission.workflow.email-template.workflowcustomemail_template2": "Data correction needed",
 
   "submission.workflow.tasks.claimed.approve": "Approve",
 

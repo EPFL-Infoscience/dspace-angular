@@ -88,9 +88,10 @@ export class ObjectAuditOverviewComponent implements OnInit {
   setAudits() {
     const config$ = this.paginationService.getFindListOptions(this.pageConfig.id, this.config, this.pageConfig);
     const isAdmin$ = this.isCurrentUserAdmin();
-    this.auditsRD$ = combineLatest([isAdmin$, config$]).pipe(
-      mergeMap(([isAdmin, config]) => {
-        if (isAdmin) {
+    const isCurator$ = this.isCurrentUserCurator();
+    this.auditsRD$ = combineLatest([isCurator$, isAdmin$, config$]).pipe(
+      mergeMap(([isCurator, isAdmin, config]) => {
+        if (isCurator || isAdmin) {
           return this.auditService.findByObject(this.object.id, config);
         }
       })
@@ -99,6 +100,10 @@ export class ObjectAuditOverviewComponent implements OnInit {
 
   isCurrentUserAdmin(): Observable<boolean> {
     return this.authorizationService.isAuthorized(FeatureID.AdministratorOf, undefined, undefined);
+  }
+
+  isCurrentUserCurator(): Observable<boolean> {
+    return this.authorizationService.isAuthorized(FeatureID.CuratorOf, undefined, undefined);
   }
 
   /**
