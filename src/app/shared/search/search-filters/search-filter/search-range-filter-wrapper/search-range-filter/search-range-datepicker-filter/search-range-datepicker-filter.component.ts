@@ -17,7 +17,6 @@ import { SearchConfigurationService } from '../../../../../../../core/shared/sea
 import { SearchFilterConfig } from '../../../../../models/search-filter-config.model';
 import { renderFacetForEnvironment } from '../../../search-filter-type-decorator';
 import { FilterType } from '../../../../../models/filter-type.model';
-import * as moment from 'moment/moment';
 import { unitOfTime } from 'moment/moment';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { isEqual } from 'lodash';

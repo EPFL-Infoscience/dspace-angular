@@ -2,9 +2,8 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { filter, map, startWith } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 
 import { VocabularyEntryDetail } from '../../../core/submission/vocabularies/models/vocabulary-entry-detail.model';
@@ -16,10 +15,9 @@ import { PageInfo } from '../../../core/shared/page-info.model';
 import { VocabularyEntry } from '../../../core/submission/vocabularies/models/vocabulary-entry.model';
 import { VocabularyTreeFlattener } from './vocabulary-tree-flattener';
 import { VocabularyTreeFlatDataSource } from './vocabulary-tree-flat-data-source';
-import { CoreState } from '../../../core/core-state.model';
 import { lowerCase } from 'lodash/string';
 import { FormFieldMetadataValueObject } from '../builder/models/form-field-metadata-value.model';
-import { Metadata } from '../../core/shared/metadata.utils';
+import { Metadata } from '../../../core/shared/metadata.utils';
 
 /**
  * Component that show a hierarchical vocabulary in a tree view

@@ -15,10 +15,10 @@ import {
 } from '../../../../../../core/shared/search/search-filter.service';
 import { SearchService } from '../../../../../../core/shared/search/search.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as moment from 'moment';
 import { SEARCH_CONFIG_SERVICE } from '../../../../../../my-dspace-page/my-dspace-page.component';
 import { SearchConfigurationService } from '../../../../../../core/shared/search/search-configuration.service';
 import { hasValue } from '../../../../../empty.util';
+import { yearFromString } from 'src/app/shared/date.util';
 
 /**
  * The suffix for a range filters' minimum in the frontend URL
@@ -119,7 +119,7 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
    * @protected
    */
   protected initMax() {
-    this.max = moment(this.filterConfig.maxValue, this.dateFormats).year() || this.max;
+    this.max = yearFromString(this.filterConfig.maxValue) || this.max;
   }
 
   /**
@@ -127,7 +127,7 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
    * @protected
    */
   protected initMin() {
-    this.min = moment(this.filterConfig.minValue, this.dateFormats).year() || this.min;
+    this.min = yearFromString(this.filterConfig.minValue) || this.min;
   }
 
   /**
