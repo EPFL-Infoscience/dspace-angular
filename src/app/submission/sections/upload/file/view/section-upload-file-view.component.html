@@ -13,6 +13,12 @@
       </ng-container>
       <span class="clearfix"></span>
     </ng-container>
+
+    <ng-container *ngFor="let entry of getAllMetadataValue(fileType)">
+      <span class="font-weight-bold">{{'submission.sections.upload.file-type' | translate}}:</span> {{ entry['display'] ?? entry['value'] }}
+      <span class="clearfix"></span>
+    </ng-container>
+
     <ng-container *ngFor="let entry of getAllMetadataValue(fileDescrKey)">
       <ng-container *ngIf="entry.value !== ''">
           {{entry.value | dsTruncate:['150']}}
@@ -22,6 +28,13 @@
       </ng-container>
       <span class="clearfix"></span>
     </ng-container>
+
+    <ng-container *ngFor="let entry of getAllMetadataValue(licenseCondition)">
+      <span class="font-weight-bold">{{'submission.sections.upload.license-condition' | translate}}:</span> {{ entry['display'] ?? entry['value'] }}
+      <span class="clearfix"></span>
+    </ng-container>
+
+
   </ng-container>
 
   <span class="clearfix"></span>

@@ -62,19 +62,21 @@ export class DetectDuplicateService {
       map((item: WorkspaceitemSectionDetectDuplicateObject) => {
         const outputObject: WorkspaceitemSectionDetectDuplicateObject = {} as WorkspaceitemSectionDetectDuplicateObject;
         outputObject.matches = {};
-        Object.keys(item.matches)
-          .filter((key) => {
-            let output = false;
-            if (isWorkFlow) {
-              output = isEmpty(item.matches[key].workflowDecision);
-            } else {
-              output = isEmpty(item.matches[key].submitterDecision);
-            }
-            return output;
-          })
-          .forEach((key) => {
-            outputObject.matches[key] = item.matches[key];
-          });
+        if (item && item.matches) {
+          Object.keys(item.matches)
+            .filter((key) => {
+              let output = false;
+              if (isWorkFlow) {
+                output = isEmpty(item.matches[key].workflowDecision);
+              } else {
+                output = isEmpty(item.matches[key].submitterDecision);
+              }
+              return output;
+            })
+            .forEach((key) => {
+              outputObject.matches[key] = item.matches[key];
+            });
+        }
         return outputObject;
       })
     );

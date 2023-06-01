@@ -101,6 +101,8 @@
 
   "admin.edit-cms-metadata.error": "An error occurred while updating the metadata",
 
+  "admin.edit-cms-metadata.refresh-alert": "You may need to manually refresh the page in order to see the changes",
+
   "menu.section.cms_metadata_edit": "Edit CMS Metadata",
 
   "menu.section.cms.edit.metadata.head": "Edit Metadata",
@@ -513,6 +515,8 @@
   "admin.access-control.groups.form.groupCommunity": "Community or Collection",
 
   "admin.access-control.groups.form.groupDescription": "Description",
+
+  "admin.access-control.groups.form.groupIsClosed": "Closed",
 
   "admin.access-control.groups.form.groupStatus": "Status",
 
@@ -1613,6 +1617,264 @@
 
   "RELATION.OrgUnit.people.search.results.head" : "People",
 
+  "deduplication.breadcrumbs": "Deduplication",
+
+  "deduplication.title": "Deduplication",
+
+  "deduplication.home.tab.all-signatures": "All",
+
+  "deduplication.home.tab.show-more": "Show more",
+
+  "deduplication.home.tab.compare": "Compare",
+
+  "deduplication.home.button.compare": "Compare",
+
+  "deduplication.home.description.compare": "Compare item using internal identifier (each one MUST be separated by comma e.g 123,232,4343).",
+
+  "deduplication.compare.notification.required-condition": "Please set 2 identifiers separated by comma",
+
+  "deduplication.compare.notification.valid-id": "Identifier is valid",
+
+  "deduplication.compare.notification.header": "Informing messages for each identifier",
+
+  "deduplication.compare.item-identifier": "Identifier:",
+
+  "deduplication.compare.notification.id-workflow-item": "Workflow item exists. Change the order. The first identifier should not be a workflow item.",
+
+  "deduplication.compare.notification.id-workspace-item": "Workspace item exists. Change the order. The first identifier should not be a workspace item.",
+
+  "deduplication.compare.confirm-modal.title": "Continue with merge",
+
+  "deduplication.compare.confirm-modal.btn-text": "Next",
+
+  "deduplication.compare.notification.error": "Unable to get data from the server!",
+
+  "deduplication.compare.notification.item-does-not-exists": "Item does not exists!",
+
+  "deduplication.compare.required-condition": "Enter at least 2 different identifiers separated by comma",
+
+  "deduplication.compare.workflow-404": "Workflow item does not exist!",
+
+  "deduplication.compare.workspace-404": "Workspace item does not exist!",
+
+  "deduplication.signature.loading": "Loading signatures ...",
+
+  "deduplication.signature.no-data": "No signatures found.",
+
+  "deduplication.signature.groupAdminstratorCheck.text": "Total potential match (Admin check):",
+
+  "deduplication.signature.groupReviewerCheck.text": "Remaining to check by librarian (quality check):",
+
+  "deduplication.signature.groupSubmitterCheck.text": "Remaining to check by submitter:",
+
+  "deduplication.signature.show-button": "Show",
+
+  "deduplication.signature.show-button-ext": "Show matches",
+
+  "deduplication.signature.error.service.retrieve": "An error occurred while loading the Deduplication Signatures",
+
+  "deduplication.signature.cardTitle.title": "Titles",
+
+  "deduplication.signature.cardTitle.identifier": "Identifiers",
+
+  "deduplication.signature.cardTitle.titleAndYear": "Titles and years",
+
+  "sets.breadcrumbs": "Set Dashboard",
+
+  "compare.breadcrumbs": "Compare Items",
+
+  "merge-deduplication.breadcrumbs": "Merge Deduplications",
+
+  "deduplication.sets.title": "Deduplication",
+
+  "deduplication.sets.subtitle": "The page shows potentially duplicate groups by signature. You can select the items to compare or reject. The system records the action \"No duplicate\" so the match is not show in the future.",
+
+  "deduplication.sets.message.no-data": "No sets found for this signature.",
+
+  "deduplication.sets.message.no-items": "No items found.",
+
+  "deduplication.sets.message.loading": "Loading ...",
+
+  "deduplication.sets.label.match-criteria": "Found other matches for these items by:",
+
+  "deduplication.sets.label.check-set": "Check this set",
+
+  "deduplication.sets.label.select-to-compare": "Select the items to compare them.",
+
+  "deduplication.sets.button.select-all": "Select all",
+
+  "deduplication.sets.button.deselect-all": "Deselect all",
+
+  "deduplication.sets.button.compare": "Compare",
+
+  "deduplication.sets.button.go-back": "Go back",
+
+  "deduplication.sets.button.no-duplicates": "No duplicates",
+
+  "deduplication.sets.button.delete-set": "Delete set",
+
+  "deduplication.sets.button.set-deleted": "Set deleted",
+
+  "deduplication.sets.label.collection": "Collection",
+
+  "deduplication.sets.label.description": "Based on <b> {{param}} </b> rule you can identify deduplication based on the <b> {{otherParam}} </b>",
+
+  "deduplication.sets.label.identifier": "Internal identifier",
+
+  "deduplication.sets.label.last-modified": "Last modified",
+
+  "deduplication.sets.label.status": "Status",
+
+  "deduplication.sets.label.title": "Title",
+
+  "deduplication.sets.label.author": "Author",
+
+  "deduplication.sets.label.date-issued": "Date issued",
+
+  "deduplication.sets.label.type": "Type",
+
+  "deduplication.sets.modal.title": "Remove Element",
+
+  "deduplication.sets.modal.confirm.info": "This operation can't be undone. Are you sure?",
+
+  "deduplication.sets.modal.confirm.cancel": "Cancel",
+
+  "deduplication.sets.modal.delete.submit": "Delete",
+
+  "deduplication.sets.modal.confirm.merge": "Are you sure you want to keep item with identifier {{param}}?",
+
+  "deduplication.sets.modal.merge.submit": "Confirm & Merge",
+
+  "deduplication.sets.notification.cannot-remove-set": "An error occurred while removing the set",
+
+  "deduplication.sets.notification.cannot-remove-item": "An error occurred while removing the item with id {{param}}",
+
+  "deduplication.sets.notification.cannot-get-set": "An error occurred while loading the sets",
+
+  "deduplication.sets.notification.cannot-get-item": "An error occurred while loading the items",
+
+  "deduplication.sets.notification.cannot-delete-item": "Item cannot be deleted",
+
+  "deduplication.sets.notification.select-items": "Please select at least two items",
+
+  "deduplication.sets.notification.item-removed": "Item with id {{param}} removed",
+
+  "deduplication.sets.notification.item-deleted": "Item with id {{param}} deleted",
+
+  "deduplication.sets.sub-header.set-id": "Set id.",
+
+  "deduplication.sets.sub-header.author": "Author:",
+
+  "deduplication.sets.sub-header.date-issued": "Date Issued",
+
+  "deduplication.merge.label.title": "Merge Deduplications",
+
+  "deduplication.merge.label.just-compare-title": "Compare Items",
+
+  "deduplication.merge.message.no-data": "No data found",
+
+  "deduplication.merge.label.info": "Records to compare",
+
+  "deduplication.merge.label.bitstreams": "Bitstream data (for bundle 'ORIGINAL')",
+
+  "deduplication.merge.label.merge-metadata": "Metadata to be merged",
+
+  "deduplication.merge.table.header.entities": "Entities",
+
+  "deduplication.merge.table.header.identifier": "Identifier",
+
+  "deduplication.merge.table.header.title": "Title",
+
+  "deduplication.merge.table.bitstream.header.title": "Bitstream Title",
+
+  "deduplication.merge.table.bitstream.header.identifier": "Bitstream Identifier",
+
+  "deduplication.merge.table.bitstream.header.item-identifier": "Item Identifier",
+
+  "deduplication.merge.table.bitstream.header.item-identifier-uuid": "UUID:",
+
+  "deduplication.merge.table.bitstream.header.item-identifier-handle": "Handle:",
+
+  "deduplication.merge.button.label.merge": "Preview & Merge",
+
+  "deduplication.merge.button.label.preview": "Preview",
+
+  "deduplication.merge.button.label.collapse-all": "Collapse All",
+
+  "deduplication.merge.button.label.expand-all": "Expand All",
+
+  "deduplication.merge.button.label.show-diff": "Show Diff",
+
+  "deduplication.merge.show-diff.modal.header": "Differences for values under",
+
+  "deduplication.merge.show-diff.modal.description": "Compare values under <b> place {{param}} </b> for item(s):",
+
+  "deduplication.merge.show-diff.modal.card-header": "Value of",
+
+  "deduplication.merge.show-diff.modal.card-header-sc": "Value under",
+
+  "deduplication.merge.show-diff.modal.card-header-sc-part2": "does not have a corresponding value to be compared with",
+
+  "deduplication.merge.show-diff.modal.card-header-link": "compared to",
+
+  "deduplication.merge.show-diff.modal.card-header-place": "place",
+
+  "deduplication.merge.show-diff.modal.button.close": "Close",
+
+  "deduplication.merge.notification.message-success": "Merge finished successfully",
+
+  "deduplication.merge.notification.message-error-500": "Merge failed, server error",
+
+  "deduplication.merge.notification.message-error-422": "Merge failed. Please check multiple selected values",
+
+  "deduplication.merge.notification.message-error-400": "Merge failed. Something went wrong, please check multiple selected values",
+
+  "deduplication.merge.notification.message-error": "Merge failed. Something went wrong, refresh and try again",
+
+  "deduplication.merge.tooltip.delete-info": "Clear all the selections",
+
+  "deduplication.merge.tooltip.show-diff": "Differences between values",
+
+  "deduplication.merge.tooltip.open-accordion": "Open",
+
+  "deduplication.merge.tooltip.close-accordion": "Close",
+
+  "deduplication.merge.tooltip.compare": "Compare selected items",
+
+  "deduplication.merge.tooltip.no-duplicate": "Mark selected items as no duplicates",
+
+  "deduplication.merge.tooltip.delete-set": "Delete this set",
+
+  "deduplication.merge.tooltip.delete-item": "Delete this item",
+
+  "deduplication.merge.tooltip.keep-item": "Keep this item",
+
+  "deduplication.merge.tooltip.item-link": "See item's details",
+
+  "deduplication.merge.preview-modal.title": "Preview of final merge",
+
+  "deduplication.merge.preview-modal.no-data": "No Data to show",
+
+  "deduplication.merge.preview-modal.table.item-title": "Item's title",
+
+  "deduplication.merge.preview-modal.table.item-handle": "Handle",
+
+  "deduplication.merge.preview-modal.table.item-uuid": "UUID",
+
+  "deduplication.merge.preview-modal.confirm-btn": "Finish Merge",
+
+  "deduplication.merge.preview-modal.confirm-title": "Confirm Merge",
+
+  "deduplication.merge.preview-modal.confirm-btn.submit": "Confirm & Close",
+
+  "deduplication.merge.items-table.th.type": "Type:",
+
+  "deduplication.merge.items-table.th.entity-type": "Entity type:",
+
+  "deduplication.merge.items-table.th.collection": "Collection:",
+
+  "deduplication.merge.items-table.td.no-data": "No data",
+
   "datafile.listelement.badge": "Data File",
 
   "datapackage.listelement.badge": "Data Package",
@@ -1736,6 +1998,8 @@
   "cris-layout.advanced-attachment.datacite.rights": "Access type",
 
   "cris-layout.advanced-attachment.datacite.available": "Embargo End Date",
+
+  "cris-layout.advanced-attachment.view-pdf": "Open PDF",
 
   "cris-layout.attachment.viewMore": "View More",
 
@@ -1980,6 +2244,8 @@
 
   "error.validation.notRepeatable": "This field is not repeatable, please choose only one value and discard the others.",
 
+  "error.validation.detect-duplicate": "The handling of the detected duplicates is mandatory",
+
   "event.listelement.badge" : "Event",
 
   "explore.browse-section.title" : "Browse",
@@ -2151,7 +2417,9 @@
 
   "explore.infrastructure.breadcrumbs": "Infrastructure",
 
-  "explore.fundings.breadcrumbs": "Projects",
+  "explore.fundings.breadcrumbs": "Fundings",
+
+  "explore.projects.breadcrumbs": "Projects",
 
   "explore.fundings_and_projects.breadcrumbs": "Projects",
 
@@ -3223,6 +3491,8 @@
 
   "item.select.table.title": "Title",
 
+  "item.version.selection.all-selected": "All selected",
+  "item.version.selection.selection-warning": "Please select at least two versions to be compared.",
 
   "item.version.history.empty": "There are no other versions for this item yet.",
 
@@ -3443,6 +3713,273 @@
 
   "iiiftoolbar.iiif.copy-clipboard-notification": "IIIF manifest has been copied to clipboard",
 
+  "layout.tab.header.Person.details": "Profile",
+
+  "layout.tab.header.Person.publications": "Authored Publications",
+
+  "layout.tab.header.Person.projects": "Projects",
+
+  "layout.tab.header.Person.orcid": "ORCID",
+
+  "layout.tab.header.Person.otherinfo": "Other",
+
+  "layout.tab.header.Person.indicators": "Metrics",
+
+  "layout.tab.header.Person.secure": "Secured Tab",
+
+  "layout.tab.header.OrgUnit.maininformation": "Information",
+
+  "layout.tab.header.OrgUnit.details": "Details",
+
+  "layout.tab.header.OrgUnit.organizations": "Organizations",
+
+  "layout.tab.header.OrgUnit.publications": "Publications",
+
+  "layout.tab.header.OrgUnit.rppublications": "Researchers publications",
+
+  "layout.tab.header.OrgUnit.projects": "Projects",
+
+  "layout.tab.header.OrgUnit.rpprojects": "Researchers projects",
+
+  "layout.tab.header.OrgUnit.people": "People",
+
+  "layout.tab.header.Journal.details": "Details",
+
+  "layout.tab.header.Publication.details": "Details",
+
+  "layout.tab.header.Product.details": "Details",
+
+  "layout.tab.header.Patent.details": "Details",
+
+  "layout.box.header.Person.projects": "Projects",
+
+  "layout.box.header.Person.researchoutputs": "Publications",
+
+  "layout.box.header.Person.editedresearchoutputs": "Edited Publications",
+
+  "layout.box.header.Person.qualifications": "Professional Qualifications",
+
+  "layout.box.header.Person.media": "Media Contact Directory",
+
+  "layout.box.header.Person.namecard": "Name Card",
+
+  "layout.box.header.Person.researcherprofile": "Profile",
+
+  "layout.box.header.Person.metrics": "Metrics",
+
+  "layout.box.header.Person.usagemetrics": "Usage Metrics",
+
+  "layout.box.header.Person.secure": "Secured box",
+
+  "layout.box.header.OrgUnit.rpprojects": "OrgUnit's Researchers projects",
+
+  "layout.box.header.OrgUnit.publications": "OrgUnit's Publications",
+
+  "layout.box.header.OrgUnit.rppublications": "OrgUnit's Researchers publications",
+
+  "layout.box.header.OrgUnit.people": "OrgUnit's Researchers",
+
+  "layout.box.header.OrgUnit.projects": "OrgUnit funded Projects",
+
+  "layout.box.header.OrgUnit.description": "Description",
+
+  "layout.box.header.OrgUnit.organizations": "SubOrgUnits",
+
+  "layout.box.header.OrgUnit.details": "Details",
+
+  "layout.box.header.OrgUnit.orgcard": "Card",
+
+  "layout.box.header.OrgUnit.metrics": "Metrics",
+
+  "layout.box.header.Journal.details": "Journal description",
+
+  "layout.box.header.Journal.metrics": "Metrics",
+
+  "layout.box.header.Publication.iiifviewer": "IIIF Viewer",
+
+  "layout.box.header.Publication.details": "Details",
+
+  "layout.box.header.Publication.metrics": "Metrics",
+
+  "layout.box.header.Publication.altmetrics": "Alternative Metrics",
+
+  "layout.box.header.Publication.usagemetrics": "Usage Metrics",
+
+  "layout.box.header.Patent.details": "Details",
+
+  "layout.box.header.Patent.metrics": "Metrics",
+
+  "layout.box.header.Patent.altmetrics": "Metrics",
+
+  "layout.box.header.Patent.usagemetrics": "Metrics",
+
+  "layout.box.header.Product.details": "Details",
+
+  "layout.box.header.Product.metrics": "Metrics",
+
+  "layout.box.header.Product.altmetrics": "Metrics",
+
+  "layout.box.header.Product.usagemetrics": "Metrics",
+
+  "layout.field.label.OrgUnit.dc.description.abstract": "Description",
+
+  "layout.field.label.OrgUnit.crisou.boards": "Boards",
+
+  "layout.field.label.OrgUnit.dc.title": "Organisation Name",
+
+  "layout.field.label.OrgUnit.crisou.director": "Director",
+
+  "layout.field.label.OrgUnit.organization.parentOrganization": "Parent Organisation",
+
+  "layout.field.label.OrgUnit.organization.foundingDate": "Founding Date",
+
+  "layout.field.label.OrgUnit.organization.address.addressLocality": "City",
+
+  "layout.field.label.OrgUnit.organization.address.addressCountry": "Country",
+
+  "layout.field.label.Person.dc.subject": "Research Interests",
+
+  "layout.field.label.Person.person.knowsLanguage": "Knows Language",
+
+  "layout.field.label.Person.dc.title": "Preferred name",
+
+  "layout.field.label.Person.crisrp.name": "Official Name",
+
+  "layout.field.label.Person.crisrp.name.translated": "Translated Name",
+
+  "layout.field.label.Person.crisrp.name.variant": "Alternative Name",
+
+  "layout.field.label.Person.person.affiliation.name": "Main Affiliation",
+
+  "layout.field.label.Person.oairecerif.identifier.url": "Web Site",
+
+  "layout.field.label.Person.person.email": "Email",
+
+  "layout.field.label.Person.person.identifier.orcid": "ORCID",
+
+  "layout.field.label.Person.person.identifier.scopus-author-id": "Scopus Author ID",
+
+  "layout.field.label.Person.person.identifier.rid": "Researcher ID",
+
+  "layout.field.label.Person.dc.description.abstract": "Biography",
+
+  "layout.field.label.Person.oairecerif.person.affiliation": "Affiliation",
+
+  "layout.field.label.Person.crisrp.education": "Education",
+
+  "layout.field.label.Person.crisrp.qualification": "Qualification",
+
+  "layout.field.label.Person.crisrp.country": "Country",
+
+  "layout.field.label.Person.person.birthDate": "Birth Date",
+
+  "layout.field.label.Journal.dc.title": "Journal Title",
+
+  "layout.field.label.Journal.dc.subject": "Keywords",
+
+  "layout.field.label.Journal.dc.identifier.issn": "ISSN",
+
+  "layout.field.label.Publication.dc.relation.ispartof": "Journal",
+
+  "layout.field.label.Publication.dc.relation.issn": "ISSN",
+
+  "layout.field.label.Publication.dc.date.issued": "Date Issued",
+
+  "layout.field.label.Publication.dc.contributor.author": "Author(s)",
+
+  "layout.field.label.Publication.dc.contributor.editor": "Editor(s)",
+
+  "layout.field.label.Publication.dc.identifier.doi": "DOI",
+
+  "layout.field.label.Publication.dc.identifier.url": "Link(s)",
+
+  "layout.field.label.Publication.epfl.url.arxiv": "ArXiv",
+
+  "layout.field.label.Publication.epfl.url.zenodo": "Zenodo",
+
+  "layout.field.label.Publication.epfl.url.github": "Github",
+
+  "layout.field.label.Publication.epfl.url.gitlab": "Gitlab",
+
+  "layout.field.label.Publication.epfl.url.cforscience": "C4Science",
+
+  "layout.field.label.Publication.epfl.url.other": "Other Url:",
+
+  "layout.field.label.Publication.dc.description.abstract": "Abstract",
+
+  "layout.field.label.Publication.dc.relation.project": "Project(s)",
+
+  "layout.field.label.Publication.dc.relation.product": "Product(s) or Dataset(s)",
+
+  "layout.field.label.Publication.dc.relation.funding": "Funding(s)",
+
+  "layout.field.label.Publication.dc.subject": "Subjects",
+
+  "layout.field.label.Product.dc.title": "Title",
+
+  "layout.field.label.Product.dc.relation.ispartof": "Journal",
+
+  "layout.field.label.Product.dc.relation.issn": "ISSN",
+
+  "layout.field.label.Product.dc.date.issued": "Date Issued",
+
+  "layout.field.label.Product.dc.contributor.author": "Author(s)",
+
+  "layout.field.label.Product.dc.identifier.doi": "DOI",
+
+  "layout.field.label.Product.dc.description.abstract": "Abstract",
+
+  "layout.field.label.Product.dc.relation.project": "Project(s)",
+
+  "layout.field.label.Product.dc.relation.funding": "Funding(s)",
+
+  "layout.field.label.Product.dc.relation.publication": "Publication(s)",
+
+  "layout.field.label.Product.dc.subject": "Subjects",
+
+  "layout.field.label.Patent.dc.title": "Title",
+
+  "layout.field.label.Patent.dc.relation.ispartof": "Journal",
+
+  "layout.field.label.Patent.dc.relation.issn": "ISSN",
+
+  "layout.field.label.Patent.dc.date.issued": "Date Issued",
+
+  "layout.field.label.Patent.dc.contributor.author": "Author(s)",
+
+  "layout.field.label.Patent.dc.identifier.patentno": "DOI",
+
+  "layout.field.label.Patent.dc.description.abstract": "Abstract",
+
+  "layout.field.label.Patent.dc.relation.project": "Project(s)",
+
+  "layout.field.label.Patent.dc.relation.funding": "Funding(s)",
+
+  "layout.field.label.Patent.dc.subject": "Subjects",
+
+  "layout.field.label.Person.crisrp.qualification.start": "Start",
+
+  "layout.field.label.Person.crisrp.qualification.end": "End",
+
+  "layout.field.label.Person.oairecerif.affiliation.role": "Role",
+
+  "layout.field.label.Person.oairecerif.affiliation.startDate": "Start",
+
+  "layout.field.label.Person.oairecerif.affiliation.endDate": "End",
+
+  "layout.field.label.Person.crisrp.education.role": "Role",
+
+  "layout.field.label.Person.crisrp.education.start": "Start",
+
+  "layout.field.label.Person.crisrp.education.end": "End",
+
+  "layout.field.label.Publication.oairecerif.author.affiliation": "Affiliation",
+
+  "layout.field.label.Publication.oairecerif.editor.affiliation": "Affiliation",
+
+  "layout.field.label.Product.oairecerif.author.affiliation": "Affiliation",
+
+  "layout.field.label.Patent.oairecerif.author.affiliation": "Affiliation",
 
   "loading.bitstream": "Loading bitstream...",
 
@@ -3498,9 +4035,9 @@
 
   "login.form.password": "Password",
 
-  "login.form.shibboleth": "Log in with Shibboleth",
+  "login.form.shibboleth": "Log in with EPFL account",
 
-  "login.form.submit": "Log in",
+  "login.form.submit": "Log in with local account",
 
   "login.title": "Login",
 
@@ -3582,6 +4119,16 @@
 
   "menu.section.browse_community_by_title": "By Title",
 
+  "menu.section.research": "Research",
+
+  "menu.section.archive": "Archive",
+
+  "menu.section.archive.sectionfonds": "Fonds",
+
+  "menu.section.archive.sectionaggregations": "Collections",
+
+  "menu.section.archive.sectiondocuments": "Archive Materials & Inscriptions",
+
   "menu.section.explore_infrastructure": "Infrastructure",
 
   "menu.section.explore_publications": "Research Outputs",
@@ -3594,9 +4141,11 @@
 
   "menu.section.explore_orgunits": "Organizations",
 
-  "menu.section.explore_fundings": "Projects",
+  "menu.section.explore_fundings": "Fundings",
 
-  "menu.section.explore_fundings_and_projects": "Projects",
+  "menu.section.explore_projects": "Projects",
+
+  "menu.section.explore_fundings_and_projects": "Fundings & Projects",
 
   "menu.section.communities_and_collections": "Communities & Collections",
 
@@ -3606,6 +4155,8 @@
 
   "menu.section.curation_task": "Curation Task",
 
+
+  "menu.section.admin_deduplication": "Deduplication",
 
 
   "menu.section.edit": "Edit",
@@ -3632,8 +4183,6 @@
 
   "menu.section.import_from_excel": "Import from excel",
 
-  "menu.section.export_batch": "Batch Export (ZIP)",
-
   "menu.section.export_to_excel": "Export to excel",
 
   "menu.section.icon.access_control": "Access Control menu section",
@@ -3643,6 +4192,8 @@
   "menu.section.icon.control_panel": "Control Panel menu section",
 
   "menu.section.icon.curation_tasks": "Curation Task menu section",
+
+  "menu.section.icon.deduplication": "Deduplication menu section",
 
   "menu.section.icon.edit": "Edit menu section",
 
@@ -4194,11 +4745,15 @@
 
   "reciter.suggestion.source.orcidWorks": "ORCID registry",
 
+  "reciter.suggestion.source.pubmed": "Pubmed repository",
+
   "reciter.suggestion.from.source": "from the ",
 
   "reciter.suggestion.totalScore": "Total Score",
 
   "reciter.suggestion.type.oaire": "Publications",
+
+  "reciter.suggestion.type.pubmed" : "Publications",
 
   "reciter.suggestion.type.orcidWorks": "Publications",
 
@@ -4417,6 +4972,8 @@
 
   "audit.overview.table.eperson" : "EPerson",
 
+  "audit.overview.table.details" : "Details",
+
   "audit.overview.table.timestamp" : "Time",
 
   "audit.overview.breadcrumbs": "Audit Logs Overview",
@@ -4594,6 +5151,7 @@
 
   "publication.search.title": "Publication Search",
 
+  "product.page.titleprefix": "Product: ",
 
   "media-viewer.next": "Next",
 
@@ -5013,6 +5571,16 @@
 
   "search.filters.filter.dateIssued.min.label": "Start",
 
+  "search.filters.filter.dateCreated.head": "Date created",
+
+  "search.filters.filter.dateCreated.max.placeholder": "Maximum Date",
+
+  "search.filters.filter.dateCreated.max.label": "End",
+
+  "search.filters.filter.dateCreated.min.placeholder": "Minimum Date",
+
+  "search.filters.filter.dateCreated.min.label": "Start",
+
   "search.filters.filter.dateSubmitted.head": "Date submitted",
 
   "search.filters.filter.dateSubmitted.placeholder": "Date submitted",
@@ -5306,9 +5874,9 @@
 
   "sorting.metric.download.DESC" : "Downloads Descending",
 
-  "sorting.metric.scopus.citation.ASC" : "Citations Ascending",
+  "sorting.metric.scopusCitation.ASC" : "Citations Ascending",
 
-  "sorting.metric.scopus.citation.DESC" : "Citations Descending",
+  "sorting.metric.scopusCitation.DESC" : "Citations Descending",
 
   "sorting.score.ASC": "Least Relevant",
 
@@ -6113,8 +6681,6 @@
 
   "submission.sections.submit.progressbar.sherpaPolicies": "Publisher open access policy information",
 
-  "submission.sections.submit.progressbar.sherpaPolicies": "Publisher open access policy information",
-
   "submission.sections.submit.progressbar.upload-publication": "Upload files",
 
   "submission.sections.submit.progressbar.upload-product": "Upload files",
@@ -6134,8 +6700,6 @@
   "submission.sections.submit.progressbar.upload-person": "Upload files",
 
   "submission.sections.submit.progressbar.correction": "Corrections",
-
-  "submission.sections.sherpa-policy.title-empty": "No publisher policy information available. If your work has an associated ISSN, please enter it above to see any related publisher open access policies.",
 
   "submission.sections.sherpa-policy.title-empty": "No publisher policy information available. If your work has an associated ISSN, please enter it above to see any related publisher open access policies.",
 
@@ -6224,6 +6788,10 @@
   "submission.sections.upload.upload-failed": "Upload failed",
 
   "submission.sections.upload.upload-successful": "Upload successful",
+
+  "submission.sections.upload.license-condition": "License condition",
+
+  "submission.sections.upload.file-type": "File type",
 
   "submission.sections.custom-url.label.previous-urls": "Previous Urls",
 
@@ -6358,9 +6926,9 @@
 
   "submission.workflow.generic.view-help": "Select this option to view the item's metadata.",
 
-  "submission.workflow.email-template.workflowcustomemail_template1": "A nice name for template 1",
+  "submission.workflow.email-template.workflowcustomemail_template1": "Additional information required",
 
-  "submission.workflow.email-template.workflowcustomemail_template2": "A nice name for template 2",
+  "submission.workflow.email-template.workflowcustomemail_template2": "Data correction needed",
 
   "submission.workflow.tasks.claimed.approve": "Approve",
 
@@ -6505,6 +7073,12 @@
   "treeview.load-more": "Load more",
 
 
+
+  "viewer.provider.iiif.breadcrumbs": "Mirador Viewer",
+
+  "viewer.provider.pdf.breadcrumbs": "PDF Viewer",
+
+  "viewer.provider.title": "Viewer",
 
   "vocabulary.import-external.preview.title.Product": "Product Preview",
 
@@ -6920,6 +7494,134 @@
 
   "cris-layout.rendering.collapse" : "collapse",
 
+  "family.listelement.badge": "Family",
+
+  "place.listelement.badge": "Place",
+
+  "archivalmaterials.listelement.badge": "Archival Materials",
+
+  "fond.listelement.badge": "Fond",
+
+  "journalfond.listelement.badge": "Journal Fond",
+
+  "aggregation.listelement.badge": "Aggregation",
+  "news.listelement.badge": "News",
+  "staticpage.listelement.badge": "Page",
+  "path.listelement.badge": "Path",
+  "opera.listelement.badge": "Opera",
+  "coin.listelement.badge": "Coin",
+  "scientificmaterial.listelement.badge": "Scientific Material",
+
+  "picture.listelement.badge": "Picture",
+  "menu.section.explore_sectionfonds" : "Fonds",
+  "menu.section.explore_sectionjournalfonds" : "Journal Fonds",
+
+  "menu.section.explore_sectionaggregations" : "Collections",
+  "menu.section.explore_sectiondocuments" : "Documents & Other materials",
+  "explore.counters-section.fonds" : "Fonds",
+  "explore.counters-section.journalfonds" : "Journal Fonds",
+  "explore.counters-section.aggregations" : "Collections",
+  "explore.counters-section.documents" : "Documents & Other materials",
+
+  "explore.index.titleF" : "Title",
+  "explore.index.typeF" : "Type",
+  "explore.index.dateissuedF" : "Date",
+  "explore.index.subjectF" : "Subject",
+  "explore.index.titleJF" : "Title",
+  "explore.index.typeJF" : "Type",
+  "explore.index.dateissuedJF" : "Date",
+  "explore.index.subjectJF" : "Subject",
+  "explore.index.titleA" : "Title",
+  "explore.index.typeA" : "Type",
+  "explore.index.dateissuedA" : "Date",
+  "explore.index.subjectA" : "Subject",
+  "explore.index.path" : "Path",
+  "explore.index.fond" : "Fond",
+  "explore.index.journalfond" : "Journal Fond",
+  "explore.index.aggregation" : "Collection",
+
+  "explore.search-section.sectiondocuments.title" : "Search Documents & Other materials",
+
+  "explore.search-section.sectionfonds.title" : "Search Fonds",
+
+  "explore.search-section.sectionjournalfonds.title" : "Search Journal fonds",
+
+  "explore.search-section.sectionaggregations.title" : "Search Collections",
+
+  "explore.sectiondocuments.breadcrumbs": "Documents & Other materials",
+
+  "explore.sectionfonds.breadcrumbs": "Fonds",
+  "explore.sectionjournalfonds.breadcrumbs": "Journal Fonds",
+  "explore.sectionaggregations.breadcrumbs": "Collections",
+  "documents.search.results.head": "Documents & Other materials Search Results",
+  "fonds.search.results.head": "Fonds Search Results",
+  "journalfonds.search.results.head": "Journal Fonds Search Results",
+  "aggregations.search.results.head": "Collections Search Results",
+  "search.filters.filter.path.head": "Path",
+  "search.filters.filter.path.placeholder": "Path name",
+  "search.filters.filter.path.label": "Search Path name",
+  "search.filters.applied.f.path": "Path",
+  "search.filters.filter.fond.head": "Fond",
+  "search.filters.filter.fond.placeholder": "Fond name",
+  "search.filters.filter.fond.label": "Search Fond name",
+  "search.filters.applied.f.fond": "Fond",
+  "search.filters.filter.journalfond.head": "Journal Fond",
+  "search.filters.filter.journalfond.placeholder": "Journal Fond name",
+  "search.filters.filter.journalfond.label": "Search Journal Fond name",
+  "search.filters.applied.f.journalfond": "Journal Fond",
+  "search.filters.filter.aggregation.head": "Collection",
+  "search.filters.filter.aggregation.placeholder": "Collection name",
+  "search.filters.filter.aggregation.label": "Search Collection name",
+  "search.filters.applied.f.aggregation": "Collection",
+  "submission.sections.submit.progressbar.describe.archival_materials": "Archival Materials Basic Information",
+
+  "submission.sections.submit.progressbar.describe.archival_materials_indexing": "Archival Materials Indexing Information",
+  "submission.sections.submit.progressbar.describe.archival_materials_references": "Archival Materials Contextual References",
+
+  "submission.sections.submit.progressbar.describe.fond": "Fond Details",
+
+  "submission.sections.submit.progressbar.describe.place": "Place Details",
+
+  "submission.sections.submit.progressbar.describe.family": "Family Details",
+
+  "submission.sections.submit.progressbar.describe.aggregation": "Aggregation Details",
+
+  "submission.sections.submit.progressbar.describe.journal_fond": "Journal Fond Details",
+
+  "submission.sections.submit.progressbar.describe.journal_fond-glamjournalfond-history": "Journal Fond History",
+
+  "submission.sections.submit.progressbar.describe.journal_fond-glamjournalfond-relation-person": "Journal Fond Person",
+
+  "submission.sections.submit.progressbar.describe.journal_fond-glamjournalfond-relation-journalfond": "Journal Fond Relation",
+
+  "submission.sections.submit.progressbar.describe.path": "Path Details",
+
+  "submission.sections.submit.progressbar.describe.opera": "Opera Details",
+
+  "submission.sections.submit.progressbar.describe.coin": "Coin Details",
+
+  "submission.sections.submit.progressbar.describe.picture": "Picture Details",
+
+  "submission.sections.submit.progressbar.describe.news": "News Details",
+
+  "submission.sections.submit.progressbar.describe.staticpage": "Page Details",
+
+  "submission.sections.submit.progressbar.describe.staticpage-url": "Page URL",
+
+  "submission.sections.submit.progressbar.describe.journal_materials": "Journal Issue Basic Information",
+
+  "submission.sections.submit.progressbar.describe.journal_materials_indexing": "Journal Issue Indexing Information",
+
+  "submission.sections.submit.progressbar.describe.journal_materials_references": "Journal Issue Contextual References",
+
+  "submission.sections.submit.progressbar.describe.scientificmaterial": "Scientific Material Basic Information",
+
+  "submission.sections.submit.progressbar.describe.scientificmaterial_indexing": "Scientific Material Indexing Information",
+
+  "submission.sections.submit.progressbar.describe.scientificmaterial_references": "Scientific Material Contextual References",
+
+  "submission.sections.submit.progressbar.describe.journal_issue": "Journal Issue Details",
+
   "map.coordinates-invalid": "Coordinates are not valid",
 
   "curation-task.task.hocr.label": "Extract text (HOCR) from images",
@@ -6956,6 +7658,12 @@
 
   "curation-task.task.undopdfiiif.label": "Undo PDF 2 IIIF Images",
 
-  "curation-task.task.rebuildpdftoc.label": "Rebuild the PDF ToC"
+  "curation-task.task.rebuildpdftoc.label": "Rebuild the PDF ToC",
+
+  "vocabulary-treeview.header.fondboxtree": "Fond Tree",
+
+  "vocabulary-treeview.header.journalfondboxtree": "Journal Fond Tree",
+
+  "vocabulary-treeview.header.aggregationboxtree": "Collection Tree"
 }
 

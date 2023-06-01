@@ -2,7 +2,11 @@
   <span *ngIf="accessCondition.action == 'DEFAULT_BITSTREAM_READ'" class="badge badge-primary mt-3 mr-2">
     {{accessCondition.name}} {{accessCondition.startDate}} {{accessCondition.endDate}}
   </span>
-  <span *ngIf="accessCondition.name == 'lease'" class="badge badge-primary mt-3 mr-2">{{accessCondition.name}} from {{accessCondition.endDate}}</span>
-  <span *ngIf="accessCondition.name == 'embargo'" class="badge badge-dark mt-3 mr-2">{{accessCondition.name}} until {{accessCondition.startDate}}</span>
+  <ng-container [ngSwitch]="accessCondition.name">
+    <span *ngSwitchCase="'openaccess'" class="badge badge-success mt-3 mr-2">{{accessCondition.name}}</span>
+    <span *ngSwitchCase="'lease'" class="badge badge-primary mt-3 mr-2">{{accessCondition.name}} from {{accessCondition.endDate}}</span>
+    <span *ngSwitchCase="'embargo'" class="badge badge-dark mt-3 mr-2">{{accessCondition.name}} until {{accessCondition.startDate}}</span>
+    <span *ngSwitchDefault class="badge badge-primary mt-3 mr-2">{{accessCondition.name}}</span>
+  </ng-container>
   <br>
 </ng-container>

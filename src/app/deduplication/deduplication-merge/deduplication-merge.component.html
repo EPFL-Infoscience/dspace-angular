@@ -1,0 +1,263 @@
+<div class="container">
+  <div class="row border-bottom mb-2 pb-1 justify-content-between">
+    <h2 id="header">
+      {{
+        (justCompare
+          ? "deduplication.merge.label.just-compare-title"
+          : "deduplication.merge.label.title")
+        | translate
+      }}
+    </h2>
+    <button class="btn btn-outline-secondary btn-sm" (click)="goBack()">
+      <i class="fa fa-arrow-left pr-1" aria-hidden="true"></i>
+      {{ "deduplication.sets.button.go-back" | translate }}
+    </button>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 text-center" *ngIf="!itemsToCompare">
+      <ds-loading message="{{ 'loading.default' | translate }}"> </ds-loading>
+    </div>
+
+    <div class="col-md-12 text-center" *ngIf="itemsToCompare?.length == 0">
+      <h4 class="p-3">
+        {{ "deduplication.merge.message.no-data" | translate }}
+      </h4>
+    </div>
+
+    <ng-container *ngIf="itemsToCompare && itemsToCompare.length > 0">
+      <div class="col-md-12 text-center my-3">
+        <h5 class="font-weight-bold">
+          {{ "deduplication.merge.label.info" | translate }}
+        </h5>
+      </div>
+
+      <!-- ITEM DATA TABLE -->
+      <div class="col-md-12 p-0">
+        <ds-items-table [itemsToCompare]="itemsToCompare"></ds-items-table>
+      </div>
+
+      <div class="col-md-12 text-center my-3">
+        <h5 class="font-weight-bold">
+          {{ "deduplication.merge.label.bitstreams" | translate }}
+        </h5>
+      </div>
+
+      <!-- BITSTREAM DATA TABLE -->
+      <div class="col-md-12 p-0">
+        <ds-bitstream-table
+          [itemsToCompare]="itemsToCompare"
+          [bitstreamList]="bitstreamList"
+          [selectable]="!justCompare">
+        </ds-bitstream-table>
+      </div>
+
+      <div class="col-md-12 text-center py-2 mb-3">
+        <h5 class="font-weight-bold">
+          {{ "deduplication.merge.label.merge-metadata" | translate }}
+        </h5>
+      </div>
+
+      <div class="text-right p-0 mb-1 col-md-12">
+        <button *ngIf="!isExpanded" class="btn btn-outline-info mr-1" (click)="expandAll()">
+          <i class="fa fa-chevron-down pr-1" aria-hidden="true"></i>
+          {{ "deduplication.merge.button.label.expand-all" | translate }}
+        </button>
+
+        <button *ngIf="isExpanded" class="btn btn-outline-info mr-1" (click)="collapseAll()">
+          <i class="fa fa-chevron-up pr-1" aria-hidden="true"></i>
+          {{ "deduplication.merge.button.label.collapse-all" | translate }}
+        </button>
+
+        <button *ngIf="!justCompare" class="btn btn-primary" (click)="openFinalResultsModal()">
+          <i class="fas fa-tasks pr-1"></i>
+          {{ "deduplication.merge.button.label.merge" | translate}}
+        </button>
+      </div>
+      <!-- ACCORDION SECTION -->
+      <div class="col-md-12 p-0">
+        <ng-container *ngIf="compareMetadataValues.size > 0">
+          <ngb-accordion [destroyOnHide]="false" [closeOthers]="false" activeIds="panel-0" *ngFor="
+              let metadataKeyValues of compareMetadataValues | keyvalue;
+              let kIdx = index
+            ">
+            <ngb-panel id="panel-{{ 0 }}">
+              <!-- HEADER SECTION -->
+              <ng-template ngbPanelHeader let-opened="opened">
+                <div class="row">
+                  <div class="col-md-9 mt-1 uppercase">
+                    {{ metadataKeyValues.key }}
+                  </div>
+
+                  <div class="col-md-3 text-right mt-1">
+                    <button [ngbTooltip]="
+                        'deduplication.merge.tooltip.show-diff' | translate
+                      " placement="left" *ngIf="metadataKeyValues.value.length > 1"
+                      class="btn btn-sm btn-info mr-1 show-diff-btn" (click)="showDiff(metadataKeyValues.key)">
+                      {{
+                      "deduplication.merge.button.label.show-diff" | translate
+                      }}
+                    </button>
+                    <button
+                      *ngIf="!justCompare"
+                      [ngbTooltip]="
+                        'deduplication.merge.tooltip.delete-info' | translate
+                      " placement="left" class="btn btn-sm btn-warning mr-1 delete-btn"
+                      (click)="removeAllSelections(metadataKeyValues.key)">
+                      <i class="fa fa-minus-square" aria-hidden="true"></i>
+                    </button>
+                    <button ngbPanelToggle [ngbTooltip]="
+                        opened
+                          ? ('deduplication.merge.tooltip.close-accordion'
+                            | translate)
+                          : ('deduplication.merge.tooltip.open-accordion'
+                            | translate)
+                      " placement="left" class="btn btn-sm" [ngClass]="
+                        opened ? 'btn-secondary' : 'btn-outline-secondary'
+                      ">
+                      <i *ngIf="!opened" class="fa fa-chevron-up"></i>
+                      <i *ngIf="opened" class="fa fa-chevron-down"></i>
+                    </button>
+                  </div>
+                </div>
+              </ng-template>
+              <!-- CONTENT SECTION -->
+              <ng-template ngbPanelContent>
+                <ng-container *ngFor="
+                    let itemsData of metadataKeyValues.value;
+                    let last = last;
+                    let itemIdx = index
+                  ">
+                  <!-- ROW SECTION (ONE VALUE) -->
+                  <div class="rounded-lg" [ngClass]="{
+                      'heighlighted-selection': isValueChecked(
+                        metadataKeyValues.key,
+                        itemsData.items
+                      )
+                    }">
+                    <div class="row">
+                      <!-- if more than one selection can occur-->
+                      <!-- CHECKBOX SECTION -->
+                      <ng-container *ngIf="
+                          hasMultipleSelection(metadataKeyValues.key);
+                          else singleSelection
+                        ">
+                        <div *ngIf="!justCompare" class="col-md-1">
+                          <!-- CHECKBOX INPUT -->
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" [checked]="
+                                isValueChecked(
+                                  metadataKeyValues.key,
+                                  itemsData.items
+                                )
+                              " [id]="
+                                metadataKeyValues.key +
+                                itemsData.value +
+                                itemIdx
+                              " (change)="
+                                onValueSelect(
+                                  metadataKeyValues.key,
+                                  itemsData.items,
+                                  'multiple'
+                                )
+                              " />
+                            <label class="custom-control-label" [for]="
+                                metadataKeyValues.key +
+                                itemsData.value +
+                                itemIdx
+                              "></label>
+                          </div>
+                        </div>
+                      </ng-container>
+                      <!-- if only one selection can occur-->
+                      <!-- RADIO-BUTTON SECTION -->
+                      <ng-template #singleSelection>
+                        <div *ngIf="!justCompare" class="col-1">
+                          <!-- RADIO INPUT -->
+                          <div class="custom-control custom-radio">
+                            <input class="custom-control-input" type="radio" [name]="metadataKeyValues.key" [id]="
+                                metadataKeyValues.key +
+                                itemsData.value +
+                                itemIdx
+                              " [checked]="
+                                isValueChecked(
+                                  metadataKeyValues.key,
+                                  itemsData.items
+                                )
+                              " [value]="itemsData.value + metadataKeyValues.key" (change)="
+                                onValueSelect(
+                                  metadataKeyValues.key,
+                                  itemsData.items,
+                                  'single'
+                                )
+                              " (click)="
+                                uncheckValue(
+                                  metadataKeyValues.key,
+                                  itemsData.items,
+                                  'single'
+                                )
+                              " />
+                            <label class="custom-control-label" [for]="
+                                metadataKeyValues.key +
+                                itemsData.value +
+                                itemIdx
+                              "></label>
+                          </div>
+                        </div>
+                      </ng-template>
+
+                      <!-- VALUE SECTION -->
+                      <span class="col-md-7">
+                        {{ itemsData.value }}
+                      </span>
+                      <!-- IDENTIFIERS SECTION -->
+                      <span class="col-md-4">
+                        <ng-container *ngFor="let item of itemsData.items;let idx = index">
+                          <span [ngStyle]="{ color: item.color }">
+                            <span *ngIf="item.itemHandle;else itemId">
+                              {{ item.itemHandle }}
+                            </span>
+                            <ng-template #itemId>
+                              {{ item.itemId}}
+                            </ng-template>
+                          </span>
+                          <span *ngIf="idx !== itemsData.items.length - 1">
+                            ,</span>
+                        </ng-container>
+                      </span>
+                    </div>
+                    <!-- NESTED METADATA VALUES SECTION -->
+                    <ng-container *ngIf="itemsData?.nestedMetadataValues?.length > 0">
+                      <ng-container *ngFor="
+                          let nestedValue of itemsData.nestedMetadataValues
+                        ">
+                        <div class="col-md-12 pt-2">
+                          <div class="card">
+                            <div class="card-header">
+                              {{ nestedValue.nestedMetadataKey }}
+                            </div>
+                            <div class="card-body">
+                              <!-- VALUE SECTION -->
+                              <span class="col-md-7">
+                                {{ nestedValue.value }}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                  <hr *ngIf="metadataKeyValues.value.length > 1 && !last" />
+                </ng-container>
+              </ng-template>
+            </ngb-panel>
+          </ngb-accordion>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<button *ngIf="showBtn$ | async" class="top-btn btn btn-small btn-primary" (click)="goToTop()">
+  <i class="fa fa-chevron-up" aria-hidden="true"></i>
+</button>

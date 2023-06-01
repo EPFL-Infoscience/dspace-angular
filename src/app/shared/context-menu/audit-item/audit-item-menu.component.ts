@@ -21,6 +21,7 @@ import { AuthorizationDataService } from '../../../core/data/feature-authorizati
 export class AuditItemMenuComponent extends ContextMenuEntryComponent implements OnInit {
 
   public isAdmin: BehaviorSubject<boolean> =  new BehaviorSubject<boolean>(false);
+  public isCurator: BehaviorSubject<boolean> =  new BehaviorSubject<boolean>(false);
 
   constructor(
     @Inject('contextMenuObjectProvider') protected injectedContextMenuObject: DSpaceObject,
@@ -34,5 +35,9 @@ export class AuditItemMenuComponent extends ContextMenuEntryComponent implements
     this.authorizationService.isAuthorized(FeatureID.AdministratorOf, undefined, undefined).pipe(
       take(1)
     ).subscribe((isAuthorized: boolean) => (this.isAdmin.next(isAuthorized)));
+
+    this.authorizationService.isAuthorized(FeatureID.CuratorOf, undefined, undefined).pipe(
+      take(1)
+    ).subscribe((isAuthorized: boolean) => (this.isCurator.next(isAuthorized)));
   }
 }

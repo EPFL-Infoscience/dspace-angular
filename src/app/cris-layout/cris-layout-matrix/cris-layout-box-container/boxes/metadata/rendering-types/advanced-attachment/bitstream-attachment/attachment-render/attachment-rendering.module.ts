@@ -6,9 +6,15 @@ import {
 import { SearchModule } from '../../../../../../../../../shared/search/search.module';
 import { SharedModule } from '../../../../../../../../../shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { IIIFToolbarComponent } from '../../../../../../../../../item-page/iiif-toolbar/iiif-toolbar.component';
+import {
+  PdfViewerButtonComponent
+} from '../../../../../../../../../item-page/pdf-viewer-button/pdf-viewer-button.component';
 
 const COMPONENTS = [
-  FileDownloadButtonComponent
+  FileDownloadButtonComponent,
+  IIIFToolbarComponent,
+  PdfViewerButtonComponent,
 ];
 
 @NgModule({

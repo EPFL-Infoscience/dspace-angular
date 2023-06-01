@@ -16,6 +16,8 @@ import { CookieServiceMock } from '../mocks/cookie.service.mock';
 import { HttpXsrfTokenExtractorMock } from '../mocks/http-xsrf-token-extractor.mock';
 import { AuthService } from '../../core/auth/auth.service';
 import { AuthServiceMock } from '../mocks/auth.service.mock';
+import { KeepConnectionAliveService } from '../../core/shared/keep-connection-alive.service';
+import { KeepConnectionAliveServiceMock } from '../mocks/keep-connection-alive.service.mock';
 
 describe('UploaderComponent test', () => {
 
@@ -43,6 +45,7 @@ describe('UploaderComponent test', () => {
         { provide: AuthService, useValue: new AuthServiceMock() },
         { provide: HttpXsrfTokenExtractor, useValue: new HttpXsrfTokenExtractorMock('mock-token') },
         { provide: CookieService, useValue: new CookieServiceMock() },
+        { provide: KeepConnectionAliveService, useValue: new KeepConnectionAliveServiceMock() },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });

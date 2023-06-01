@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Operation } from 'fast-json-patch';
 import { BehaviorSubject } from 'rxjs';
 import { getFirstCompletedRemoteData } from '../../core/shared/operators';
+import { AlertType } from '../../shared/alert/aletr-type';
 
 /**
  * Component representing the page to edit cms metadata for site.
@@ -46,6 +47,8 @@ export class EditCmsMetadataComponent implements OnInit {
    */
   metadataList: string[] = [];
 
+  AlertTypeEnum = AlertType;
+
   constructor(
     private siteService: SiteDataService,
     private notificationsService: NotificationsService,
@@ -74,15 +77,13 @@ export class EditCmsMetadataComponent implements OnInit {
 
     this.siteService.patch(this.site, operations).pipe(getFirstCompletedRemoteData())
       .subscribe((restResponse) => {
-        if (restResponse.isSuccess) {
+        if (restResponse.hasSucceeded) {
           this.site = restResponse.payload;
           this.notificationsService.success(this.translateService.get('admin.edit-cms-metadata.success'));
           this.selectedMetadata = undefined;
           this.editMode.next(false);
         } else {
-          if (restResponse.isError) {
-            this.notificationsService.error(this.translateService.get('admin.edit-cms-metadata.error'));
-          }
+          this.notificationsService.error(this.translateService.get('admin.edit-cms-metadata.error'));
         }
         this.siteService.setStale();
       });

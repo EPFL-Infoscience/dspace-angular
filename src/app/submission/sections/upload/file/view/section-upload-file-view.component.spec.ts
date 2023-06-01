@@ -80,6 +80,8 @@ describe('SubmissionSectionUploadFileViewComponent test suite', () => {
       const expectMetadataMap = {
         [comp.fileTitleKey]: Metadata.all(fileData.metadata, 'dc.title'),
         [comp.fileDescrKey]: [],
+        [comp.licenseCondition]: [],
+        [comp.fileType]: [],
       };
 
       fixture.detectChanges();

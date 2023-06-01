@@ -640,6 +640,7 @@ export class DefaultAppConfig implements AppConfig {
   };
 
   advancedAttachmentRendering: AdvancedAttachmentRenderingConfig = {
+    showViewerOnSameItemPage: false,
     pagination: {
       enabled: true,
       elementsPerPage: 2,
@@ -672,7 +673,7 @@ export class DefaultAppConfig implements AppConfig {
         name: 'checksum',
         type: AdvancedAttachmentElementType.Attribute,
       }
-    ]
+    ],
   };
 
   searchResult: SearchResultConfig = {

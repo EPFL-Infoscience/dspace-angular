@@ -45,6 +45,7 @@ import { RedirectService } from './redirect/redirect.service';
 import {
   CollectionAdministratorGuard
 } from './core/data/feature-authorization/feature-authorization-guard/collection-administrator.guard';
+import { DEDUPLICATION_PATH } from './admin/admin-routing-paths';
 
 @NgModule({
   imports: [
@@ -165,6 +166,11 @@ import {
             loadChildren: () => import('./admin/admin.module')
               .then((m) => m.AdminModule),
             canActivate: [CollectionAdministratorGuard, EndUserAgreementCurrentUserGuard]
+          },
+          {
+            path: DEDUPLICATION_PATH,
+            loadChildren: () => import('./admin/admin-deduplication-page/admin-deduplication-page.module')
+              .then((m) => m.AdminDeduplicationPageModule),
           },
           {
             path: 'login',

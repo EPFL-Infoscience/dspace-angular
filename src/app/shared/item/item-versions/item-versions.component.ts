@@ -1,15 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Item } from '../../../core/shared/item.model';
-import { Version } from '../../../core/shared/version.model';
-import { RemoteData } from '../../../core/data/remote-data';
-import {
-  BehaviorSubject,
-  combineLatest,
-  Observable,
-  of,
-  Subscription,
-} from 'rxjs';
-import { VersionHistory } from '../../../core/shared/version-history.model';
+import {Component, Input, OnInit} from '@angular/core';
+import {Item} from '../../../core/shared/item.model';
+import {Version} from '../../../core/shared/version.model';
+import {RemoteData} from '../../../core/data/remote-data';
+import {BehaviorSubject, combineLatest, forkJoin, Observable, of, Subscription,} from 'rxjs';
+import {VersionHistory} from '../../../core/shared/version-history.model';
 import {
   getAllSucceededRemoteData,
   getAllSucceededRemoteDataPayload,
@@ -18,36 +12,40 @@ import {
   getFirstSucceededRemoteDataPayload,
   getRemoteDataPayload
 } from '../../../core/shared/operators';
-import { map, mergeMap, startWith, switchMap, take, tap } from 'rxjs/operators';
-import { PaginatedList } from '../../../core/data/paginated-list.model';
-import { PaginationComponentOptions } from '../../pagination/pagination-component-options.model';
-import { VersionHistoryDataService } from '../../../core/data/version-history-data.service';
-import { PaginatedSearchOptions } from '../../search/models/paginated-search-options.model';
-import { AlertType } from '../../alert/aletr-type';
-import { followLink } from '../../utils/follow-link-config.model';
-import { hasValue, hasValueOperator } from '../../empty.util';
-import { PaginationService } from '../../../core/pagination/pagination.service';
+import {map, mergeMap, startWith, switchMap, take, tap} from 'rxjs/operators';
+import {PaginatedList} from '../../../core/data/paginated-list.model';
+import {PaginationComponentOptions} from '../../pagination/pagination-component-options.model';
+import {VersionHistoryDataService} from '../../../core/data/version-history-data.service';
+import {PaginatedSearchOptions} from '../../search/models/paginated-search-options.model';
+import {AlertType} from '../../alert/aletr-type';
+import {followLink} from '../../utils/follow-link-config.model';
+import {hasValue, hasValueOperator} from '../../empty.util';
+import {PaginationService} from '../../../core/pagination/pagination.service';
 import {
-  getItemEditVersionhistoryRoute,
+  getItemEditVersionhistoryRoute, getItemFullPageRoute,
   getItemPageRoute,
   getItemVersionRoute
 } from '../../../item-page/item-page-routing-paths';
-import { FormBuilder } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ItemVersionsSummaryModalComponent } from './item-versions-summary-modal/item-versions-summary-modal.component';
-import { NotificationsService } from '../../notifications/notifications.service';
-import { TranslateService } from '@ngx-translate/core';
-import { ItemVersionsDeleteModalComponent } from './item-versions-delete-modal/item-versions-delete-modal.component';
-import { VersionDataService } from '../../../core/data/version-data.service';
-import { ItemDataService } from '../../../core/data/item-data.service';
-import { Router } from '@angular/router';
-import { AuthorizationDataService } from '../../../core/data/feature-authorization/authorization-data.service';
-import { FeatureID } from '../../../core/data/feature-authorization/feature-id';
-import { ItemVersionsSharedService } from './item-versions-shared.service';
-import { WorkspaceItem } from '../../../core/submission/models/workspaceitem.model';
-import { WorkspaceitemDataService } from '../../../core/submission/workspaceitem-data.service';
-import { WorkflowItemDataService } from '../../../core/submission/workflowitem-data.service';
-import { ConfigurationDataService } from '../../../core/data/configuration-data.service';
+import {FormBuilder} from '@angular/forms';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ItemVersionsSummaryModalComponent} from './item-versions-summary-modal/item-versions-summary-modal.component';
+import {NotificationsService} from '../../notifications/notifications.service';
+import {TranslateService} from '@ngx-translate/core';
+import {ItemVersionsDeleteModalComponent} from './item-versions-delete-modal/item-versions-delete-modal.component';
+import {VersionDataService} from '../../../core/data/version-data.service';
+import {ItemDataService} from '../../../core/data/item-data.service';
+import {Router} from '@angular/router';
+import {AuthorizationDataService} from '../../../core/data/feature-authorization/authorization-data.service';
+import {FeatureID} from '../../../core/data/feature-authorization/feature-id';
+import {ItemVersionsSharedService} from './item-versions-shared.service';
+import {WorkspaceItem} from '../../../core/submission/models/workspaceitem.model';
+import {WorkspaceitemDataService} from '../../../core/submission/workspaceitem-data.service';
+import {WorkflowItemDataService} from '../../../core/submission/workflowitem-data.service';
+import {ConfigurationDataService} from '../../../core/data/configuration-data.service';
+import {StoreIdentifiersToMerge} from 'src/app/deduplication/interfaces/deduplication-merge.models';
+import {CookieService} from '../../../core/services/cookie.service';
+import {AuthService} from '../../../core/auth/auth.service';
+
 
 @Component({
   selector: 'ds-item-versions',
@@ -81,6 +79,24 @@ export class ItemVersionsComponent implements OnInit {
    * Whether or not to display the action buttons (delete/create/edit version)
    */
   @Input() displayActions: boolean;
+
+  /**
+   * Whether to display or not the checkboxes for selection
+   */
+  @Input() selectable = false;
+
+  /**
+   * Object of selected versions (only used when selectable is true)
+   */
+  selectedVersions: Record<string, Version> = {};
+
+  get compareButtonDisabled() {
+    return Object.values(this.selectedVersions).length < 2;
+  }
+
+  get showSelectionAlert() {
+    return Object.values(this.selectedVersions).length === 1;
+  }
 
   /**
    * Array of active subscriptions
@@ -167,20 +183,25 @@ export class ItemVersionsComponent implements OnInit {
   canCreateVersion$: Observable<boolean>;
   createVersionTitle$: Observable<string>;
 
-  constructor(private versionHistoryService: VersionHistoryDataService,
-              private versionService: VersionDataService,
-              private itemService: ItemDataService,
-              private paginationService: PaginationService,
-              private formBuilder: FormBuilder,
-              private modalService: NgbModal,
-              private notificationsService: NotificationsService,
-              private translateService: TranslateService,
-              private router: Router,
-              private itemVersionShared: ItemVersionsSharedService,
-              private authorizationService: AuthorizationDataService,
-              private workspaceItemDataService: WorkspaceitemDataService,
-              private workflowItemDataService: WorkflowItemDataService,
-              private configurationService: ConfigurationDataService,
+  isAuthenticated$ = this.authService.isAuthenticated();
+
+  constructor(
+    private versionHistoryService: VersionHistoryDataService,
+    private versionService: VersionDataService,
+    private itemService: ItemDataService,
+    private paginationService: PaginationService,
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal,
+    private notificationsService: NotificationsService,
+    private translateService: TranslateService,
+    private router: Router,
+    private itemVersionShared: ItemVersionsSharedService,
+    private authorizationService: AuthorizationDataService,
+    private workspaceItemDataService: WorkspaceitemDataService,
+    private workflowItemDataService: WorkflowItemDataService,
+    private configurationService: ConfigurationDataService,
+    private cookieService: CookieService,
+    private authService: AuthService,
   ) {
   }
 
@@ -198,6 +219,10 @@ export class ItemVersionsComponent implements OnInit {
    */
   isThisBeingEdited(version: Version): boolean {
     return version?.version === this.versionBeingEditedNumber;
+  }
+
+  isAllSelected(totalLength: number): boolean {
+    return Object.values(this.selectedVersions).filter(x => !!x).length === totalLength;
   }
 
   /**
@@ -313,9 +338,21 @@ export class ItemVersionsComponent implements OnInit {
           } else {
             this.notificationsService.error(null, this.translateService.get(failureMessageKey, {'version': versionNumber}));
           }
+
           if (redirectToLatest) {
-            const path = getItemEditVersionhistoryRoute(newLatestVersionItem);
-            this.router.navigateByUrl(path);
+            this.isCurrentUserAdmin().pipe(
+              switchMap(isAdmin => {
+                let path = '';
+
+                if (isAdmin) {
+                  path = getItemEditVersionhistoryRoute(newLatestVersionItem);
+                } else {
+                  path = getItemFullPageRoute(newLatestVersionItem);
+                }
+                return this.router.navigateByUrl(path);
+              }),
+              take(1)
+            ).subscribe();
           }
         });
       }
@@ -447,7 +484,7 @@ export class ItemVersionsComponent implements OnInit {
   getWorkspaceId(versionItem): Observable<string> {
     return versionItem.pipe(
       getFirstSucceededRemoteDataPayload(),
-      map((item: Item) => item.uuid),
+      map((item: Item) => item?.uuid),
       switchMap((itemUuid: string) => this.workspaceItemDataService.findByItem(itemUuid, true)),
       getFirstCompletedRemoteData<WorkspaceItem>(),
       map((res: RemoteData<WorkspaceItem>) => res?.payload?.id ),
@@ -526,6 +563,58 @@ export class ItemVersionsComponent implements OnInit {
         })
       );
     }
+  }
+
+  compare() {
+    const selectedVersionsObsList =
+      Object.values(this.selectedVersions)
+        .map((version) => version.item.pipe(getFirstCompletedRemoteData()));
+
+    forkJoin(selectedVersionsObsList).pipe(take(1)).subscribe((items) => {
+      const targetItemUUID = items.map((item) => item.payload.uuid);
+      const identifiersLinkList = items.map((item) => item.payload._links.self.href);
+
+      // storing items' href in order to get the item data from href
+      // because of their different types (in order to make the same call for all of them)
+      const storeObj: StoreIdentifiersToMerge = {
+        targetItemUUID: targetItemUUID[0],
+        identifiersLinkList,
+        justCompare: true
+      };
+
+      this.cookieService.set(`items-to-compare-identifiersLinkList`, JSON.stringify(storeObj));
+
+      this.isCurrentUserAdmin().pipe(take(1)).subscribe((isAdmin) => {
+        const path = isAdmin ? 'admin/deduplication/compare' : 'deduplication/compare';
+        this.router.navigate([path]);
+      });
+    });
+  }
+
+  onSelectAll(event, versions: Version[]) {
+    const checked = (event.target as HTMLInputElement).checked; // true or false
+    if (checked) {
+      versions.forEach((version) => this.selectedVersions[version.id] = version);
+    } else {
+      versions.forEach((version) => delete this.selectedVersions[version.id]);
+    }
+  }
+
+  onSelect(event, version: Version) {
+    const checked = (event.target as HTMLInputElement).checked; // true or false
+    if (checked) {
+      this.selectedVersions[version.id] = version;
+    } else {
+      delete this.selectedVersions[version.id];
+    }
+  }
+
+  isSelected(version) {
+    return this.selectedVersions[version.id] !== undefined;
+  }
+
+  isCurrentUserAdmin(): Observable<boolean> {
+    return this.authorizationService.isAuthorized(FeatureID.AdministratorOf, undefined, undefined);
   }
 
   ngOnDestroy(): void {
