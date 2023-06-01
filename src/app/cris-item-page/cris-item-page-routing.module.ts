@@ -22,7 +22,7 @@ const routes: Routes = [
         public: [{
           id: 'statistics_item_:id',
           active: true,
-          visible: true,
+          visible: false,
           model: {
             type: MenuItemType.LINK,
             text: 'menu.section.statistics',
@@ -46,7 +46,7 @@ const routes: Routes = [
         public: [{
           id: 'statistics_item_:id',
           active: true,
-          visible: true,
+          visible: false,
           model: {
             type: MenuItemType.LINK,
             text: 'menu.section.statistics',
