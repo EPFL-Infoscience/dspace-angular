@@ -24,6 +24,8 @@ export class IIIFToolbarComponent implements OnInit {
   // The path to the REST manifest endpoint.
   manifestUrl: string;
 
+  iiifEnabled: boolean;
+
   constructor(
     protected router: Router,
     protected route: ActivatedRoute,
@@ -34,6 +36,8 @@ export class IIIFToolbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.manifestUrl = environment.rest.baseUrl + '/iiif/' + this.item.id + '/manifest';
+
+    this.iiifEnabled = this.isIIIFEnabled();
   }
 
   async openMiradorViewer() {
@@ -57,6 +61,11 @@ export class IIIFToolbarComponent implements OnInit {
     navigator.clipboard.writeText(this.manifestUrl).then(() => {
       this.notificationsService.success(null, this.translate.get('iiiftoolbar.iiif.copy-clipboard-notification'));
     });
+  }
+
+  private isIIIFEnabled(): boolean {
+    const regexIIIFItem = /true|yes/i;
+    return this.item.firstMetadataValue('dspace.iiif.enabled').match(regexIIIFItem) !== null;
   }
 
 }
