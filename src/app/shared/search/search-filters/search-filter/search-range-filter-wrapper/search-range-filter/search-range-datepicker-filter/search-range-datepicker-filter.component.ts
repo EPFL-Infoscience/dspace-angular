@@ -8,7 +8,7 @@ import {
   NgbDateStruct,
   NgbInputDatepicker,
 } from '@ng-bootstrap/ng-bootstrap';
-import { hasValue } from '../../../../../../empty.util';
+import { hasValue, isNotEmpty } from '../../../../../../empty.util';
 import { SearchService } from '../../../../../../../core/shared/search/search.service';
 import {
   FILTER_CONFIG,
@@ -129,16 +129,33 @@ export class SearchRangeDatepickerFilterComponent extends SearchRangeFilterCompo
     this.max = null;
   }
 
-  private isStringYear(date: string) {
-    return date.match(/^\d{4}$/);
+  /**
+   * Check if the string representing the date is in the 'yyyy' format
+   * @param date the string representing the date
+   * @returns true if the date is a year
+   */
+  private isStringDateYear(date: string): boolean {
+    return /^\d{4}$/.test(date);
   }
 
-  protected override initRange(minmax: [string, string]) {
-    const fromDate = minmax[0];
-    const toDate = minmax[1];
+  private parseFromDate(date: string) {
+    return this.isStringDateYear(date) ? `${date}-01-01` : date;
+  }
 
-    this.range[0] = this.stringToNgbDateStruct(fromDate);
-    this.range[1] = this.isStringYear(toDate) ? this.stringToNgbDateStruct(`${toDate}-12-31`) : this.stringToNgbDateStruct(toDate);
+  private parseToDate(date: string) {
+    return this.isStringDateYear(date) ? `${date}-12-31` : date;
+  }
+
+  protected override initRange(minmax: [string | null, string | null]) {
+    const fromDate = this.parseFromDate(minmax[0]);
+    const toDate = this.parseToDate(minmax[1]);
+
+    if (isNotEmpty(fromDate) && fromDate !== 'null') {
+      this.range[0] = this.stringToNgbDateStruct(fromDate);
+    }
+    if (isNotEmpty(toDate) && toDate !== 'null') {
+      this.range[1] = this.stringToNgbDateStruct(toDate);
+    }
   }
 
   private stringToNgbDateStruct(stringDate: string): NgbDateStruct {
@@ -188,9 +205,19 @@ export class SearchRangeDatepickerFilterComponent extends SearchRangeFilterCompo
    * @param input date farmated in string
    * @returns the valid date or null otherwise
    */
-  validateInput(currentValue: NgbDateStruct | null, input: string): NgbDateStruct | null {
+  validateInput(currentValue: NgbDateStruct | null, input: string): NgbDateStruct | null { // TODO NgbDateStruct?
     const parsed = this.formatter.parse(input);
-    return parsed && this.calendar.isValid(NgbDate.from(parsed)) ? NgbDate.from(parsed) : currentValue;
+    if (
+      parsed == null &&
+      (
+        currentValue === this.fromDate && this.toDate != null ||
+        currentValue === this.toDate && this.fromDate != null
+      )
+    ) {
+      return null;
+    }
+    const ngbDate = NgbDate.from(parsed);
+    return this.calendar.isValid(ngbDate) ? ngbDate : currentValue;
   }
 
   /**
