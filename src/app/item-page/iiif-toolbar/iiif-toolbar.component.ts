@@ -65,7 +65,7 @@ export class IIIFToolbarComponent implements OnInit {
 
   private isIIIFEnabled(): boolean {
     const regexIIIFItem = /true|yes/i;
-    return this.item.firstMetadataValue('dspace.iiif.enabled').match(regexIIIFItem) !== null;
+    return regexIIIFItem.test(this.item.firstMetadataValue('dspace.iiif.enabled'));
   }
 
 }
