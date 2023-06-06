@@ -51,7 +51,7 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
   /**
    * The date formats that are possible to appear in a date filter
    */
-  protected readonly dateFormats = ['YYYY', 'YYYY-MM', 'YYYY-MM-DD'];
+  protected readonly dateFormats = ['yyyy', 'yyyy-MM', 'yyyy-MM-DD'];
 
   /**
    * Fallback minimum for the range
