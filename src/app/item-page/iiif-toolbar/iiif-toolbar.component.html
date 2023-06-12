@@ -1,4 +1,4 @@
-<ng-container>
+<ng-container *ngIf="iiifEnabled">
   <button class="btn btn-outline-primary mb-1" (click)="openMiradorViewer()">
     <i class="custom-icon" id="mirador-icon"></i> {{ 'iiiftoolbar.mirador' | translate }}
   </button>
@@ -20,5 +20,4 @@
       </div>
     </div>
   </div>
-
 </ng-container>
