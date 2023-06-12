@@ -65,6 +65,7 @@
     "html-to-docx": "~1.4.0",
     "minimist": "^1.2.5",
     "webdriver-manager": "^12.1.8",
+    "webpack": "^5.69.1",
     "ts-node": "10.2.1"
   },
   "dependencies": {
