@@ -11,7 +11,6 @@
     <p class="text-primary">{{dropOverDocumentMsg | translate}}</p>
   </div>
 </div>
-<p>{{uploaderId}}</p>
 <div [attr.id]="uploaderId" class="row">
   <div class="col-md-12">
     <div ng2FileDrop
@@ -19,7 +18,7 @@
          [uploader]="uploader"
          (fileOver)="fileOverBase($event)"
          class="well ds-base-drop-zone mt-1 mb-3 text-muted">
-      <div class="text-center m-0 p-2 d-flex justify-content-center align-items-center" *ngIf="uploader?.queue?.length === 0" style="border: solid 2px red;">
+      <div class="text-center m-0 p-2 d-flex justify-content-center align-items-center" *ngIf="uploader?.queue?.length === 0">
         <span>
           <i class="fas fa-upload" aria-hidden="true"></i>
           {{dropMsg | translate}}{{'uploader.or' | translate}}
