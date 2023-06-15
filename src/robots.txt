@@ -16,6 +16,8 @@ Disallow: /submit
 Disallow: /workspaceitems
 Disallow: /profile
 Disallow: /workflowitems
+# TEMP - DISABLE THE ENTIRE WEBSITE
+Disallow: /
 
 # Optionally uncomment the following line ONLY if sitemaps are working
 # and you have verified that your site is being indexed correctly.
