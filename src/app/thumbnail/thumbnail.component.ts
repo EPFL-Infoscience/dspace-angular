@@ -99,7 +99,9 @@ export class ThumbnailComponent implements OnChanges {
         switchMap((item) => item.thumbnail),
         getFirstSucceededRemoteDataPayload(),
       ).subscribe((thumbnail) => {
-        this.setSrc(thumbnail._links.content.href);
+        if (hasValue(thumbnail)) {
+          this.setSrc(thumbnail._links.content.href);
+        }
       });
     } else if (this.defaultImage) {
       this.setSrc(this.defaultImage);
@@ -144,18 +146,15 @@ export class ThumbnailComponent implements OnChanges {
 
       this.auth.isAuthenticated().pipe(
         switchMap((isLoggedIn) => {
-          if (isLoggedIn) {
-            return this.authorizationService.isAuthorized(FeatureID.CanDownload, thumbnail.self);
-          } else {
-            return observableOf(false);
-          }
-        }),
-        switchMap((isAuthorized) => {
-          if (isAuthorized) {
-            return this.fileService.retrieveFileDownloadLink(thumbnailSrc);
-          } else {
+          if (!isLoggedIn) {
             return observableOf(null);
           }
+
+          return this.authorizationService
+            .isAuthorized(FeatureID.CanDownload, thumbnail.self)
+            .pipe(
+              switchMap(() => this.fileService.retrieveFileDownloadLink(thumbnailSrc))
+            );
         })
       ).subscribe((url: string) => {
         if (hasValue(url)) {
