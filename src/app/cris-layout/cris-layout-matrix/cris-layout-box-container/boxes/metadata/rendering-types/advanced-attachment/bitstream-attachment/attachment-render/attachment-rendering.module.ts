@@ -10,11 +10,20 @@ import { IIIFToolbarComponent } from '../../../../../../../../../item-page/iiif-
 import {
   PdfViewerButtonComponent
 } from '../../../../../../../../../item-page/pdf-viewer-button/pdf-viewer-button.component';
+import {
+  MediaContentViewerComponent
+} from "../../../../../../../../../item-page/media-viewer/media-content-viewer/media-content-viewer.component";
+import {HomePageModule} from "../../../../../../../../../home-page/home-page.module";
+import {VgCoreModule} from "@videogular/ngx-videogular/core";
+import {VgOverlayPlayModule} from "@videogular/ngx-videogular/overlay-play";
+import {VgControlsModule} from "@videogular/ngx-videogular/controls";
+import {VgBufferingModule} from "@videogular/ngx-videogular/buffering";
 
 const COMPONENTS = [
   FileDownloadButtonComponent,
   IIIFToolbarComponent,
   PdfViewerButtonComponent,
+  MediaContentViewerComponent,
 ];
 
 @NgModule({
@@ -23,7 +32,12 @@ const COMPONENTS = [
     CommonModule,
     SearchModule,
     SharedModule,
-    TranslateModule
+    TranslateModule,
+    HomePageModule,
+    VgCoreModule,
+    VgOverlayPlayModule,
+    VgControlsModule,
+    VgBufferingModule
   ],
   exports: [...COMPONENTS]
 })

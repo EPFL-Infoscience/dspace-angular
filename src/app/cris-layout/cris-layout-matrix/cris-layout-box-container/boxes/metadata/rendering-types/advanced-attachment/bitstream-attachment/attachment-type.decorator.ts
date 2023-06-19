@@ -4,7 +4,8 @@ import { Component } from '@angular/core';
 export enum AttachmentRenderingType {
   DOWNLOAD = 'DOWNLOAD',
   IIIF = 'IIIF',
-  PDF = 'PDF'
+  PDF = 'PDF',
+  VIDEO = 'VIDEO'
 }
 
 const fieldType = new Map();
