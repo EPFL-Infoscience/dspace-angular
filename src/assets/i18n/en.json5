@@ -2389,6 +2389,34 @@
 
   "explore.index.type" : "Type",
 
+  "explore.index.author_editor" : "Author or Editor",
+
+  "explore.index.publisher" : "Publisher",
+
+  "explore.index.dateAccessioned" : "Date accessioned",
+
+  "explore.index.publishedIn" : "Published in (journal or book)",
+
+  "explore.index.abstract" : "Abstract",
+
+  "explore.index.fulltext" : "Full text",
+
+  "explore.index.types" : "Document type",
+
+  "explore.index.fundername" : "Funder name",
+
+  "explore.index.name" : "Name",
+
+  "explore.index.identifier" : "Identifier",
+
+  "explore.index.researcherActive" : "Is active",
+
+  "explore.index.ouTitle" : "Unit name",
+
+  "explore.index.ouDirector" : "Head of unit",
+
+  "explore.index.ouActive" : "Is active",
+
   "explore.index.original_bundle_oaire_licenseCondition": "License condition",
 
   "explore.index.original_bundle_datacite_rights":  "File Accessibility",
