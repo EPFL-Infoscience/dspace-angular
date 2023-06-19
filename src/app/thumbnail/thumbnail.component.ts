@@ -86,7 +86,7 @@ export class ThumbnailComponent implements OnChanges {
    * Use a default image if no actual image is available.
    */
   ngOnChanges(): void {
-    if (hasNoValue(this.thumbnail)) {
+    if (hasNoValue(this.thumbnail) && hasNoValue(this.item)) {
       return;
     }
 
