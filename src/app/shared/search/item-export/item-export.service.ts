@@ -65,7 +65,8 @@ export class ItemExportService {
     searchOptions: SearchOptions,
     entityType: string,
     format: ItemExportFormat,
-    itemList: string[] = []
+    itemList: string[] = [],
+    isExportUrl = false
   ): Observable<number> {
     if (molteplicity === ItemExportFormatMolteplicity.SINGLE) {
       return this.itemExportFormatService.doExport(item.uuid, format);
