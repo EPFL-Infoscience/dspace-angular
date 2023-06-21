@@ -16,6 +16,7 @@ import { hasValue } from '../../shared/empty.util';
 import { AuthService } from '../../core/auth/auth.service';
 import { Location } from '@angular/common';
 import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
+import { PLACEHOLDER_PARENT_METADATA } from '../../shared/form/builder/ds-dynamic-form-ui/ds-dynamic-form-constants';
 
 
 /**
@@ -58,7 +59,16 @@ export class FullItemPageComponent extends ItemPageComponent implements OnInit, 
     this.metadata$ = this.itemRD$.pipe(
       map((rd: RemoteData<Item>) => rd.payload),
       filter((item: Item) => hasValue(item)),
-      map((item: Item) => item.metadata),);
+      map((item: Item) =>
+        Object.keys(item.metadata)
+          .reduce((metadataMap, metadataKey) =>
+              Object.assign(
+                metadataMap,
+                { [metadataKey]: item.metadata[metadataKey].filter(mv => hasValue(mv?.value) && mv.value !== PLACEHOLDER_PARENT_METADATA) }),
+            new MetadataMap()
+          )
+      )
+    );
 
     this.subs.push(this.route.data.subscribe((data: Data) => {
         this.fromSubmissionObject = hasValue(data.wfi) || hasValue(data.wsi);
