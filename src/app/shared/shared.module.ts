@@ -402,6 +402,7 @@ import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 import { ChangeSubmitterService } from '../submission/change-submitter.service';
 import { ChangeSubmitterRestService } from '../core/submission/change-submitter-rest.service';
 import { ClaimedTaskActionsSendEmailComponent } from './mydspace-actions/claimed-task/email/claimed-task-actions-send-email.component';
+import { ChangeSubmitterButtonComponent } from './change-submitter-button/change-submitter-button.component';
 
 const MODULES = [
   CommonModule,
@@ -624,6 +625,7 @@ const COMPONENTS = [
   GroupSearchBoxComponent,
   PdfViewerComponent,
   AdditionalMetadataComponent,
+  ChangeSubmitterButtonComponent,
 ];
 
 const ENTRY_COMPONENTS = [
@@ -773,7 +775,7 @@ const DIRECTIVES = [
     ...DIRECTIVES,
     TranslateModule,
     AdditionalMetadataComponent
-  ]
+  ],
 })
 
 /**

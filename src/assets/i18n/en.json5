@@ -6934,6 +6934,8 @@
 
   "submission.workflow.generic.change-submitter.modal.info": "Select the new item's submitter",
 
+  "submission.workflow.generic.change-submitter.modal.current-submitter": "Current submitter",
+
   "submission.workflow.generic.change-submitter.notification.success.title": "Submitter changed",
 
   "submission.workflow.generic.change-submitter.notification.success.content": "The submitter of the workflow item has been changed to {{email}}",
