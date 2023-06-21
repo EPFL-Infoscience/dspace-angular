@@ -10,6 +10,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Options } from 'sortablejs';
 import { BehaviorSubject } from 'rxjs';
 import { Router, UrlTree } from '@angular/router';
+import { isNotEmpty } from '../empty.util';
+
 const TOOLTIP_TEXT_LIMIT = 21;
 @Component({
   selector: 'ds-chips',
@@ -93,8 +95,12 @@ export class ChipsComponent implements OnChanges {
         if (isObject(chipsItem.item[field])) {
           textToDisplay.push(chipsItem.item[field].display);
           this.toolTipVisibleCheck(chipsItem.item[field].display);
-          if (chipsItem.item[field].hasOtherInformation()) {
-            Object.keys(chipsItem.item[field].otherInformation)
+          let otherInformationKeys: string[] = null;
+          if (
+            chipsItem.item[field].hasOtherInformation() &&
+            isNotEmpty(otherInformationKeys = this.getDisplayableOtherInformationKeys(chipsItem, field))
+          ) {
+            otherInformationKeys
               .forEach((otherField) => {
                 this.translate.get('form.other-information.' + otherField)
                   .subscribe((label) => {
@@ -102,7 +108,7 @@ export class ChipsComponent implements OnChanges {
                     textToDisplay.push(label + ': ' + otherInformationText);
                     this.toolTipVisibleCheck(label + ': ' + otherInformationText);
                   });
-            });
+              });
           }
           if (this.hasWillBeReferenced(chipsItem, field)) {
             textToDisplay.push(this.getWillBeReferencedContent(chipsItem, field));
@@ -116,11 +122,19 @@ export class ChipsComponent implements OnChanges {
         this.toolTipVisibleCheck(chipsItem.display);
       }
       this.cdr.detectChanges();
-      if ((!chipsItem.hasIcons() || !chipsItem.hasVisibleIcons() || field ) && this.isShowToolTip) {
+      if ((!chipsItem.hasIcons() || !chipsItem.hasVisibleIcons() || field) && this.isShowToolTip) {
         this.tipText = textToDisplay;
         tooltip.open();
       }
     }
+  }
+
+  private getDisplayableOtherInformationKeys(chipsItem: ChipsItem, field: string): string[] {
+    return Object.keys(chipsItem.item[field]?.otherInformation)
+      .filter((otherInformationKey: string) =>
+        !otherInformationKey.startsWith('data-') &&
+        !chipsItem.item[otherInformationKey.replace(/\_/g, '.')]?.hasPlaceholder()
+      );
   }
 
   hasWillBeGenerated(chip: ChipsItem, metadata: string) {
