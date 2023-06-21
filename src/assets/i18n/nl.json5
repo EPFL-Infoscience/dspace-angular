@@ -194,6 +194,10 @@
   // TODO New key - Add a translation
   "admin.edit-cms-metadata.error": "An error occurred while updating the metadata",
 
+  // "admin.edit-cms-metadata.refresh-alert": "You may need to manually refresh the page in order to see the changes",
+  // TODO New key - Add a translation
+  "admin.edit-cms-metadata.refresh-alert": "You may need to manually refresh the page in order to see the changes",
+
   // "menu.section.cms_metadata_edit": "Edit CMS Metadata",
   // TODO New key - Add a translation
   "menu.section.cms_metadata_edit": "Edit CMS Metadata",
@@ -934,6 +938,10 @@
   // "admin.access-control.groups.form.groupDescription": "Description",
   // TODO New key - Add a translation
   "admin.access-control.groups.form.groupDescription": "Description",
+
+  // "admin.access-control.groups.form.groupIsClosed": "Closed",
+  // TODO New key - Add a translation
+  "admin.access-control.groups.form.groupIsClosed": "Closed",
 
   // "admin.access-control.groups.form.groupStatus": "Status",
   // TODO New key - Add a translation
@@ -3001,6 +3009,522 @@
   // TODO New key - Add a translation
   "RELATION.OrgUnit.people.search.results.head" : "People",
 
+  // "deduplication.breadcrumbs": "Deduplication",
+  // TODO New key - Add a translation
+  "deduplication.breadcrumbs": "Deduplication",
+
+  // "deduplication.title": "Deduplication",
+  // TODO New key - Add a translation
+  "deduplication.title": "Deduplication",
+
+  // "deduplication.home.tab.all-signatures": "All",
+  // TODO New key - Add a translation
+  "deduplication.home.tab.all-signatures": "All",
+
+  // "deduplication.home.tab.show-more": "Show more",
+  // TODO New key - Add a translation
+  "deduplication.home.tab.show-more": "Show more",
+
+  // "deduplication.home.tab.compare": "Compare",
+  // TODO New key - Add a translation
+  "deduplication.home.tab.compare": "Compare",
+
+  // "deduplication.home.button.compare": "Compare",
+  // TODO New key - Add a translation
+  "deduplication.home.button.compare": "Compare",
+
+  // "deduplication.home.description.compare": "Compare item using internal identifier (each one MUST be separated by comma e.g 123,232,4343).",
+  // TODO New key - Add a translation
+  "deduplication.home.description.compare": "Compare item using internal identifier (each one MUST be separated by comma e.g 123,232,4343).",
+
+  // "deduplication.compare.notification.required-condition": "Please set 2 identifiers separated by comma",
+  // TODO New key - Add a translation
+  "deduplication.compare.notification.required-condition": "Please set 2 identifiers separated by comma",
+
+  // "deduplication.compare.notification.valid-id": "Identifier is valid",
+  // TODO New key - Add a translation
+  "deduplication.compare.notification.valid-id": "Identifier is valid",
+
+  // "deduplication.compare.notification.header": "Informing messages for each identifier",
+  // TODO New key - Add a translation
+  "deduplication.compare.notification.header": "Informing messages for each identifier",
+
+  // "deduplication.compare.item-identifier": "Identifier:",
+  // TODO New key - Add a translation
+  "deduplication.compare.item-identifier": "Identifier:",
+
+  // "deduplication.compare.notification.id-workflow-item": "Workflow item exists. Change the order. The first identifier should not be a workflow item.",
+  // TODO New key - Add a translation
+  "deduplication.compare.notification.id-workflow-item": "Workflow item exists. Change the order. The first identifier should not be a workflow item.",
+
+  // "deduplication.compare.notification.id-workspace-item": "Workspace item exists. Change the order. The first identifier should not be a workspace item.",
+  // TODO New key - Add a translation
+  "deduplication.compare.notification.id-workspace-item": "Workspace item exists. Change the order. The first identifier should not be a workspace item.",
+
+  // "deduplication.compare.confirm-modal.title": "Continue with merge",
+  // TODO New key - Add a translation
+  "deduplication.compare.confirm-modal.title": "Continue with merge",
+
+  // "deduplication.compare.confirm-modal.btn-text": "Next",
+  // TODO New key - Add a translation
+  "deduplication.compare.confirm-modal.btn-text": "Next",
+
+  // "deduplication.compare.notification.error": "Unable to get data from the server!",
+  // TODO New key - Add a translation
+  "deduplication.compare.notification.error": "Unable to get data from the server!",
+
+  // "deduplication.compare.notification.item-does-not-exists": "Item does not exists!",
+  // TODO New key - Add a translation
+  "deduplication.compare.notification.item-does-not-exists": "Item does not exists!",
+
+  // "deduplication.compare.required-condition": "Enter at least 2 different identifiers separated by comma",
+  // TODO New key - Add a translation
+  "deduplication.compare.required-condition": "Enter at least 2 different identifiers separated by comma",
+
+  // "deduplication.compare.workflow-404": "Workflow item does not exist!",
+  // TODO New key - Add a translation
+  "deduplication.compare.workflow-404": "Workflow item does not exist!",
+
+  // "deduplication.compare.workspace-404": "Workspace item does not exist!",
+  // TODO New key - Add a translation
+  "deduplication.compare.workspace-404": "Workspace item does not exist!",
+
+  // "deduplication.signature.loading": "Loading signatures ...",
+  // TODO New key - Add a translation
+  "deduplication.signature.loading": "Loading signatures ...",
+
+  // "deduplication.signature.no-data": "No signatures found.",
+  // TODO New key - Add a translation
+  "deduplication.signature.no-data": "No signatures found.",
+
+  // "deduplication.signature.groupAdminstratorCheck.text": "Total potential match (Admin check):",
+  // TODO New key - Add a translation
+  "deduplication.signature.groupAdminstratorCheck.text": "Total potential match (Admin check):",
+
+  // "deduplication.signature.groupReviewerCheck.text": "Remaining to check by librarian (quality check):",
+  // TODO New key - Add a translation
+  "deduplication.signature.groupReviewerCheck.text": "Remaining to check by librarian (quality check):",
+
+  // "deduplication.signature.groupSubmitterCheck.text": "Remaining to check by submitter:",
+  // TODO New key - Add a translation
+  "deduplication.signature.groupSubmitterCheck.text": "Remaining to check by submitter:",
+
+  // "deduplication.signature.show-button": "Show",
+  // TODO New key - Add a translation
+  "deduplication.signature.show-button": "Show",
+
+  // "deduplication.signature.show-button-ext": "Show matches",
+  // TODO New key - Add a translation
+  "deduplication.signature.show-button-ext": "Show matches",
+
+  // "deduplication.signature.error.service.retrieve": "An error occurred while loading the Deduplication Signatures",
+  // TODO New key - Add a translation
+  "deduplication.signature.error.service.retrieve": "An error occurred while loading the Deduplication Signatures",
+
+  // "deduplication.signature.cardTitle.title": "Titles",
+  // TODO New key - Add a translation
+  "deduplication.signature.cardTitle.title": "Titles",
+
+  // "deduplication.signature.cardTitle.identifier": "Identifiers",
+  // TODO New key - Add a translation
+  "deduplication.signature.cardTitle.identifier": "Identifiers",
+
+  // "deduplication.signature.cardTitle.titleAndYear": "Titles and years",
+  // TODO New key - Add a translation
+  "deduplication.signature.cardTitle.titleAndYear": "Titles and years",
+
+  // "sets.breadcrumbs": "Set Dashboard",
+  // TODO New key - Add a translation
+  "sets.breadcrumbs": "Set Dashboard",
+
+  // "compare.breadcrumbs": "Compare Items",
+  // TODO New key - Add a translation
+  "compare.breadcrumbs": "Compare Items",
+
+  // "merge-deduplication.breadcrumbs": "Merge Deduplications",
+  // TODO New key - Add a translation
+  "merge-deduplication.breadcrumbs": "Merge Deduplications",
+
+  // "deduplication.sets.title": "Deduplication",
+  // TODO New key - Add a translation
+  "deduplication.sets.title": "Deduplication",
+
+  // "deduplication.sets.subtitle": "The page shows potentially duplicate groups by signature. You can select the items to compare or reject. The system records the action \"No duplicate\" so the match is not show in the future.",
+  // TODO New key - Add a translation
+  "deduplication.sets.subtitle": "The page shows potentially duplicate groups by signature. You can select the items to compare or reject. The system records the action \"No duplicate\" so the match is not show in the future.",
+
+  // "deduplication.sets.message.no-data": "No sets found for this signature.",
+  // TODO New key - Add a translation
+  "deduplication.sets.message.no-data": "No sets found for this signature.",
+
+  // "deduplication.sets.message.no-items": "No items found.",
+  // TODO New key - Add a translation
+  "deduplication.sets.message.no-items": "No items found.",
+
+  // "deduplication.sets.message.loading": "Loading ...",
+  // TODO New key - Add a translation
+  "deduplication.sets.message.loading": "Loading ...",
+
+  // "deduplication.sets.label.match-criteria": "Found other matches for these items by:",
+  // TODO New key - Add a translation
+  "deduplication.sets.label.match-criteria": "Found other matches for these items by:",
+
+  // "deduplication.sets.label.check-set": "Check this set",
+  // TODO New key - Add a translation
+  "deduplication.sets.label.check-set": "Check this set",
+
+  // "deduplication.sets.label.select-to-compare": "Select the items to compare them.",
+  // TODO New key - Add a translation
+  "deduplication.sets.label.select-to-compare": "Select the items to compare them.",
+
+  // "deduplication.sets.button.select-all": "Select all",
+  // TODO New key - Add a translation
+  "deduplication.sets.button.select-all": "Select all",
+
+  // "deduplication.sets.button.deselect-all": "Deselect all",
+  // TODO New key - Add a translation
+  "deduplication.sets.button.deselect-all": "Deselect all",
+
+  // "deduplication.sets.button.compare": "Compare",
+  // TODO New key - Add a translation
+  "deduplication.sets.button.compare": "Compare",
+
+  // "deduplication.sets.button.go-back": "Go back",
+  // TODO New key - Add a translation
+  "deduplication.sets.button.go-back": "Go back",
+
+  // "deduplication.sets.button.no-duplicates": "No duplicates",
+  // TODO New key - Add a translation
+  "deduplication.sets.button.no-duplicates": "No duplicates",
+
+  // "deduplication.sets.button.delete-set": "Delete set",
+  // TODO New key - Add a translation
+  "deduplication.sets.button.delete-set": "Delete set",
+
+  // "deduplication.sets.button.set-deleted": "Set deleted",
+  // TODO New key - Add a translation
+  "deduplication.sets.button.set-deleted": "Set deleted",
+
+  // "deduplication.sets.label.collection": "Collection",
+  // TODO New key - Add a translation
+  "deduplication.sets.label.collection": "Collection",
+
+  // "deduplication.sets.label.description": "Based on <b> {{param}} </b> rule you can identify deduplication based on the <b> {{otherParam}} </b>",
+  // TODO New key - Add a translation
+  "deduplication.sets.label.description": "Based on <b> {{param}} </b> rule you can identify deduplication based on the <b> {{otherParam}} </b>",
+
+  // "deduplication.sets.label.identifier": "Internal identifier",
+  // TODO New key - Add a translation
+  "deduplication.sets.label.identifier": "Internal identifier",
+
+  // "deduplication.sets.label.last-modified": "Last modified",
+  // TODO New key - Add a translation
+  "deduplication.sets.label.last-modified": "Last modified",
+
+  // "deduplication.sets.label.status": "Status",
+  // TODO New key - Add a translation
+  "deduplication.sets.label.status": "Status",
+
+  // "deduplication.sets.label.title": "Title",
+  // TODO New key - Add a translation
+  "deduplication.sets.label.title": "Title",
+
+  // "deduplication.sets.label.author": "Author",
+  // TODO New key - Add a translation
+  "deduplication.sets.label.author": "Author",
+
+  // "deduplication.sets.label.date-issued": "Date issued",
+  // TODO New key - Add a translation
+  "deduplication.sets.label.date-issued": "Date issued",
+
+  // "deduplication.sets.label.type": "Type",
+  // TODO New key - Add a translation
+  "deduplication.sets.label.type": "Type",
+
+  // "deduplication.sets.modal.title": "Remove Element",
+  // TODO New key - Add a translation
+  "deduplication.sets.modal.title": "Remove Element",
+
+  // "deduplication.sets.modal.confirm.info": "This operation can't be undone. Are you sure?",
+  // TODO New key - Add a translation
+  "deduplication.sets.modal.confirm.info": "This operation can't be undone. Are you sure?",
+
+  // "deduplication.sets.modal.confirm.cancel": "Cancel",
+  // TODO New key - Add a translation
+  "deduplication.sets.modal.confirm.cancel": "Cancel",
+
+  // "deduplication.sets.modal.delete.submit": "Delete",
+  // TODO New key - Add a translation
+  "deduplication.sets.modal.delete.submit": "Delete",
+
+  // "deduplication.sets.modal.confirm.merge": "Are you sure you want to keep item with identifier {{param}}?",
+  // TODO New key - Add a translation
+  "deduplication.sets.modal.confirm.merge": "Are you sure you want to keep item with identifier {{param}}?",
+
+  // "deduplication.sets.modal.merge.submit": "Confirm & Merge",
+  // TODO New key - Add a translation
+  "deduplication.sets.modal.merge.submit": "Confirm & Merge",
+
+  // "deduplication.sets.notification.cannot-remove-set": "An error occurred while removing the set",
+  // TODO New key - Add a translation
+  "deduplication.sets.notification.cannot-remove-set": "An error occurred while removing the set",
+
+  // "deduplication.sets.notification.cannot-remove-item": "An error occurred while removing the item with id {{param}}",
+  // TODO New key - Add a translation
+  "deduplication.sets.notification.cannot-remove-item": "An error occurred while removing the item with id {{param}}",
+
+  // "deduplication.sets.notification.cannot-get-set": "An error occurred while loading the sets",
+  // TODO New key - Add a translation
+  "deduplication.sets.notification.cannot-get-set": "An error occurred while loading the sets",
+
+  // "deduplication.sets.notification.cannot-get-item": "An error occurred while loading the items",
+  // TODO New key - Add a translation
+  "deduplication.sets.notification.cannot-get-item": "An error occurred while loading the items",
+
+  // "deduplication.sets.notification.cannot-delete-item": "Item cannot be deleted",
+  // TODO New key - Add a translation
+  "deduplication.sets.notification.cannot-delete-item": "Item cannot be deleted",
+
+  // "deduplication.sets.notification.select-items": "Please select at least two items",
+  // TODO New key - Add a translation
+  "deduplication.sets.notification.select-items": "Please select at least two items",
+
+  // "deduplication.sets.notification.item-removed": "Item with id {{param}} removed",
+  // TODO New key - Add a translation
+  "deduplication.sets.notification.item-removed": "Item with id {{param}} removed",
+
+  // "deduplication.sets.notification.item-deleted": "Item with id {{param}} deleted",
+  // TODO New key - Add a translation
+  "deduplication.sets.notification.item-deleted": "Item with id {{param}} deleted",
+
+  // "deduplication.sets.sub-header.set-id": "Set id.",
+  // TODO New key - Add a translation
+  "deduplication.sets.sub-header.set-id": "Set id.",
+
+  // "deduplication.sets.sub-header.author": "Author:",
+  // TODO New key - Add a translation
+  "deduplication.sets.sub-header.author": "Author:",
+
+  // "deduplication.sets.sub-header.date-issued": "Date Issued",
+  // TODO New key - Add a translation
+  "deduplication.sets.sub-header.date-issued": "Date Issued",
+
+  // "deduplication.merge.label.title": "Merge Deduplications",
+  // TODO New key - Add a translation
+  "deduplication.merge.label.title": "Merge Deduplications",
+
+  // "deduplication.merge.label.just-compare-title": "Compare Items",
+  // TODO New key - Add a translation
+  "deduplication.merge.label.just-compare-title": "Compare Items",
+
+  // "deduplication.merge.message.no-data": "No data found",
+  // TODO New key - Add a translation
+  "deduplication.merge.message.no-data": "No data found",
+
+  // "deduplication.merge.label.info": "Records to compare",
+  // TODO New key - Add a translation
+  "deduplication.merge.label.info": "Records to compare",
+
+  // "deduplication.merge.label.bitstreams": "Bitstream data (for bundle 'ORIGINAL')",
+  // TODO New key - Add a translation
+  "deduplication.merge.label.bitstreams": "Bitstream data (for bundle 'ORIGINAL')",
+
+  // "deduplication.merge.label.merge-metadata": "Metadata to be merged",
+  // TODO New key - Add a translation
+  "deduplication.merge.label.merge-metadata": "Metadata to be merged",
+
+  // "deduplication.merge.table.header.entities": "Entities",
+  // TODO New key - Add a translation
+  "deduplication.merge.table.header.entities": "Entities",
+
+  // "deduplication.merge.table.header.identifier": "Identifier",
+  // TODO New key - Add a translation
+  "deduplication.merge.table.header.identifier": "Identifier",
+
+  // "deduplication.merge.table.header.title": "Title",
+  // TODO New key - Add a translation
+  "deduplication.merge.table.header.title": "Title",
+
+  // "deduplication.merge.table.bitstream.header.title": "Bitstream Title",
+  // TODO New key - Add a translation
+  "deduplication.merge.table.bitstream.header.title": "Bitstream Title",
+
+  // "deduplication.merge.table.bitstream.header.identifier": "Bitstream Identifier",
+  // TODO New key - Add a translation
+  "deduplication.merge.table.bitstream.header.identifier": "Bitstream Identifier",
+
+  // "deduplication.merge.table.bitstream.header.item-identifier": "Item Identifier",
+  // TODO New key - Add a translation
+  "deduplication.merge.table.bitstream.header.item-identifier": "Item Identifier",
+
+  // "deduplication.merge.table.bitstream.header.item-identifier-uuid": "UUID:",
+  // TODO New key - Add a translation
+  "deduplication.merge.table.bitstream.header.item-identifier-uuid": "UUID:",
+
+  // "deduplication.merge.table.bitstream.header.item-identifier-handle": "Handle:",
+  // TODO New key - Add a translation
+  "deduplication.merge.table.bitstream.header.item-identifier-handle": "Handle:",
+
+  // "deduplication.merge.button.label.merge": "Preview & Merge",
+  // TODO New key - Add a translation
+  "deduplication.merge.button.label.merge": "Preview & Merge",
+
+  // "deduplication.merge.button.label.preview": "Preview",
+  // TODO New key - Add a translation
+  "deduplication.merge.button.label.preview": "Preview",
+
+  // "deduplication.merge.button.label.collapse-all": "Collapse All",
+  // TODO New key - Add a translation
+  "deduplication.merge.button.label.collapse-all": "Collapse All",
+
+  // "deduplication.merge.button.label.expand-all": "Expand All",
+  // TODO New key - Add a translation
+  "deduplication.merge.button.label.expand-all": "Expand All",
+
+  // "deduplication.merge.button.label.show-diff": "Show Diff",
+  // TODO New key - Add a translation
+  "deduplication.merge.button.label.show-diff": "Show Diff",
+
+  // "deduplication.merge.show-diff.modal.header": "Differences for values under",
+  // TODO New key - Add a translation
+  "deduplication.merge.show-diff.modal.header": "Differences for values under",
+
+  // "deduplication.merge.show-diff.modal.description": "Compare values under <b> place {{param}} </b> for item(s):",
+  // TODO New key - Add a translation
+  "deduplication.merge.show-diff.modal.description": "Compare values under <b> place {{param}} </b> for item(s):",
+
+  // "deduplication.merge.show-diff.modal.card-header": "Value of",
+  // TODO New key - Add a translation
+  "deduplication.merge.show-diff.modal.card-header": "Value of",
+
+  // "deduplication.merge.show-diff.modal.card-header-sc": "Value under",
+  // TODO New key - Add a translation
+  "deduplication.merge.show-diff.modal.card-header-sc": "Value under",
+
+  // "deduplication.merge.show-diff.modal.card-header-sc-part2": "does not have a corresponding value to be compared with",
+  // TODO New key - Add a translation
+  "deduplication.merge.show-diff.modal.card-header-sc-part2": "does not have a corresponding value to be compared with",
+
+  // "deduplication.merge.show-diff.modal.card-header-link": "compared to",
+  // TODO New key - Add a translation
+  "deduplication.merge.show-diff.modal.card-header-link": "compared to",
+
+  // "deduplication.merge.show-diff.modal.card-header-place": "place",
+  // TODO New key - Add a translation
+  "deduplication.merge.show-diff.modal.card-header-place": "place",
+
+  // "deduplication.merge.show-diff.modal.button.close": "Close",
+  // TODO New key - Add a translation
+  "deduplication.merge.show-diff.modal.button.close": "Close",
+
+  // "deduplication.merge.notification.message-success": "Merge finished successfully",
+  // TODO New key - Add a translation
+  "deduplication.merge.notification.message-success": "Merge finished successfully",
+
+  // "deduplication.merge.notification.message-error-500": "Merge failed, server error",
+  // TODO New key - Add a translation
+  "deduplication.merge.notification.message-error-500": "Merge failed, server error",
+
+  // "deduplication.merge.notification.message-error-422": "Merge failed. Please check multiple selected values",
+  // TODO New key - Add a translation
+  "deduplication.merge.notification.message-error-422": "Merge failed. Please check multiple selected values",
+
+  // "deduplication.merge.notification.message-error-400": "Merge failed. Something went wrong, please check multiple selected values",
+  // TODO New key - Add a translation
+  "deduplication.merge.notification.message-error-400": "Merge failed. Something went wrong, please check multiple selected values",
+
+  // "deduplication.merge.notification.message-error": "Merge failed. Something went wrong, refresh and try again",
+  // TODO New key - Add a translation
+  "deduplication.merge.notification.message-error": "Merge failed. Something went wrong, refresh and try again",
+
+  // "deduplication.merge.tooltip.delete-info": "Clear all the selections",
+  // TODO New key - Add a translation
+  "deduplication.merge.tooltip.delete-info": "Clear all the selections",
+
+  // "deduplication.merge.tooltip.show-diff": "Differences between values",
+  // TODO New key - Add a translation
+  "deduplication.merge.tooltip.show-diff": "Differences between values",
+
+  // "deduplication.merge.tooltip.open-accordion": "Open",
+  // TODO New key - Add a translation
+  "deduplication.merge.tooltip.open-accordion": "Open",
+
+  // "deduplication.merge.tooltip.close-accordion": "Close",
+  // TODO New key - Add a translation
+  "deduplication.merge.tooltip.close-accordion": "Close",
+
+  // "deduplication.merge.tooltip.compare": "Compare selected items",
+  // TODO New key - Add a translation
+  "deduplication.merge.tooltip.compare": "Compare selected items",
+
+  // "deduplication.merge.tooltip.no-duplicate": "Mark selected items as no duplicates",
+  // TODO New key - Add a translation
+  "deduplication.merge.tooltip.no-duplicate": "Mark selected items as no duplicates",
+
+  // "deduplication.merge.tooltip.delete-set": "Delete this set",
+  // TODO New key - Add a translation
+  "deduplication.merge.tooltip.delete-set": "Delete this set",
+
+  // "deduplication.merge.tooltip.delete-item": "Delete this item",
+  // TODO New key - Add a translation
+  "deduplication.merge.tooltip.delete-item": "Delete this item",
+
+  // "deduplication.merge.tooltip.keep-item": "Keep this item",
+  // TODO New key - Add a translation
+  "deduplication.merge.tooltip.keep-item": "Keep this item",
+
+  // "deduplication.merge.tooltip.item-link": "See item's details",
+  // TODO New key - Add a translation
+  "deduplication.merge.tooltip.item-link": "See item's details",
+
+  // "deduplication.merge.preview-modal.title": "Preview of final merge",
+  // TODO New key - Add a translation
+  "deduplication.merge.preview-modal.title": "Preview of final merge",
+
+  // "deduplication.merge.preview-modal.no-data": "No Data to show",
+  // TODO New key - Add a translation
+  "deduplication.merge.preview-modal.no-data": "No Data to show",
+
+  // "deduplication.merge.preview-modal.table.item-title": "Item's title",
+  // TODO New key - Add a translation
+  "deduplication.merge.preview-modal.table.item-title": "Item's title",
+
+  // "deduplication.merge.preview-modal.table.item-handle": "Handle",
+  // TODO New key - Add a translation
+  "deduplication.merge.preview-modal.table.item-handle": "Handle",
+
+  // "deduplication.merge.preview-modal.table.item-uuid": "UUID",
+  // TODO New key - Add a translation
+  "deduplication.merge.preview-modal.table.item-uuid": "UUID",
+
+  // "deduplication.merge.preview-modal.confirm-btn": "Finish Merge",
+  // TODO New key - Add a translation
+  "deduplication.merge.preview-modal.confirm-btn": "Finish Merge",
+
+  // "deduplication.merge.preview-modal.confirm-title": "Confirm Merge",
+  // TODO New key - Add a translation
+  "deduplication.merge.preview-modal.confirm-title": "Confirm Merge",
+
+  // "deduplication.merge.preview-modal.confirm-btn.submit": "Confirm & Close",
+  // TODO New key - Add a translation
+  "deduplication.merge.preview-modal.confirm-btn.submit": "Confirm & Close",
+
+  // "deduplication.merge.items-table.th.type": "Type:",
+  // TODO New key - Add a translation
+  "deduplication.merge.items-table.th.type": "Type:",
+
+  // "deduplication.merge.items-table.th.entity-type": "Entity type:",
+  // TODO New key - Add a translation
+  "deduplication.merge.items-table.th.entity-type": "Entity type:",
+
+  // "deduplication.merge.items-table.th.collection": "Collection:",
+  // TODO New key - Add a translation
+  "deduplication.merge.items-table.th.collection": "Collection:",
+
+  // "deduplication.merge.items-table.td.no-data": "No data",
+  // TODO New key - Add a translation
+  "deduplication.merge.items-table.td.no-data": "No data",
+
   // "datafile.listelement.badge": "Data File",
   // TODO New key - Add a translation
   "datafile.listelement.badge": "Data File",
@@ -3234,6 +3758,10 @@
   // "cris-layout.advanced-attachment.datacite.available": "Embargo End Date",
   // TODO New key - Add a translation
   "cris-layout.advanced-attachment.datacite.available": "Embargo End Date",
+
+  // "cris-layout.advanced-attachment.view-pdf": "Open PDF",
+  // TODO New key - Add a translation
+  "cris-layout.advanced-attachment.view-pdf": "Open PDF",
 
   // "cris-layout.attachment.viewMore": "View More",
   // TODO New key - Add a translation
@@ -3687,6 +4215,10 @@
   // TODO New key - Add a translation
   "error.validation.notRepeatable": "This field is not repeatable, please choose only one value and discard the others.",
 
+  // "error.validation.detect-duplicate": "The handling of the detected duplicates is mandatory",
+  // TODO New key - Add a translation
+  "error.validation.detect-duplicate": "The handling of the detected duplicates is mandatory",
+
   // "event.listelement.badge" : "Event",
   // TODO New key - Add a translation
   "event.listelement.badge" : "Event",
@@ -4028,9 +4560,13 @@
   // TODO New key - Add a translation
   "explore.infrastructure.breadcrumbs": "Infrastructure",
 
-  // "explore.fundings.breadcrumbs": "Projects",
+  // "explore.fundings.breadcrumbs": "Fundings",
   // TODO New key - Add a translation
-  "explore.fundings.breadcrumbs": "Projects",
+  "explore.fundings.breadcrumbs": "Fundings",
+
+  // "explore.projects.breadcrumbs": "Projects",
+  // TODO New key - Add a translation
+  "explore.projects.breadcrumbs": "Projects",
 
   // "explore.fundings_and_projects.breadcrumbs": "Projects",
   // TODO New key - Add a translation
@@ -5982,6 +6518,12 @@
   // "item.select.table.title": "Title",
   "item.select.table.title": "Titel",
 
+  // "item.version.selection.all-selected": "All selected",
+  // TODO New key - Add a translation
+  "item.version.selection.all-selected": "All selected",
+  // "item.version.selection.selection-warning": "Please select at least two versions to be compared.",
+  // TODO New key - Add a translation
+  "item.version.selection.selection-warning": "Please select at least two versions to be compared.",
 
   // "item.version.history.empty": "There are no other versions for this item yet.",
   // TODO New key - Add a translation
@@ -7014,11 +7556,12 @@
   // "login.form.password": "Password",
   "login.form.password": "Wachtwoord",
 
-  // "login.form.shibboleth": "Log in with Shibboleth",
+  // "login.form.shibboleth": "Log in with EPFL account",
   // TODO New key - Add a translation
-  "login.form.shibboleth": "Log in with Shibboleth",
+  "login.form.shibboleth": "Log in with EPFL account",
 
-  // "login.form.submit": "Log in",
+  // "login.form.submit": "Log in with local account",
+  // TODO Source message changed - Revise the translation
   "login.form.submit": "Aanmelden",
 
   // "login.title": "Login",
@@ -7156,6 +7699,26 @@
   // "menu.section.browse_community_by_title": "By Title",
   "menu.section.browse_community_by_title": "Op titel",
 
+  // "menu.section.research": "Research",
+  // TODO New key - Add a translation
+  "menu.section.research": "Research",
+
+  // "menu.section.archive": "Archive",
+  // TODO New key - Add a translation
+  "menu.section.archive": "Archive",
+
+  // "menu.section.archive.sectionfonds": "Fonds",
+  // TODO New key - Add a translation
+  "menu.section.archive.sectionfonds": "Fonds",
+
+  // "menu.section.archive.sectionaggregations": "Collections",
+  // TODO New key - Add a translation
+  "menu.section.archive.sectionaggregations": "Collections",
+
+  // "menu.section.archive.sectiondocuments": "Archive Materials & Inscriptions",
+  // TODO New key - Add a translation
+  "menu.section.archive.sectiondocuments": "Archive Materials & Inscriptions",
+
   // "menu.section.explore_infrastructure": "Infrastructure",
   // TODO New key - Add a translation
   "menu.section.explore_infrastructure": "Infrastructure",
@@ -7180,13 +7743,17 @@
   // TODO New key - Add a translation
   "menu.section.explore_orgunits": "Organizations",
 
-  // "menu.section.explore_fundings": "Projects",
+  // "menu.section.explore_fundings": "Fundings",
   // TODO New key - Add a translation
-  "menu.section.explore_fundings": "Projects",
+  "menu.section.explore_fundings": "Fundings",
 
-  // "menu.section.explore_fundings_and_projects": "Projects",
+  // "menu.section.explore_projects": "Projects",
   // TODO New key - Add a translation
-  "menu.section.explore_fundings_and_projects": "Projects",
+  "menu.section.explore_projects": "Projects",
+
+  // "menu.section.explore_fundings_and_projects": "Fundings & Projects",
+  // TODO New key - Add a translation
+  "menu.section.explore_fundings_and_projects": "Fundings & Projects",
 
   // "menu.section.communities_and_collections": "Communities & Collections",
   // TODO New key - Add a translation
@@ -7200,6 +7767,10 @@
   // "menu.section.curation_task": "Curation Task",
   "menu.section.curation_task": "Beheertaak",
 
+
+  // "menu.section.admin_deduplication": "Deduplication",
+  // TODO New key - Add a translation
+  "menu.section.admin_deduplication": "Deduplication",
 
 
   // "menu.section.edit": "Edit",
@@ -7239,10 +7810,6 @@
   // TODO New key - Add a translation
   "menu.section.import_from_excel": "Import from excel",
 
-  // "menu.section.export_batch": "Batch Export (ZIP)",
-  // TODO New key - Add a translation
-  "menu.section.export_batch": "Batch Export (ZIP)",
-
   // "menu.section.export_to_excel": "Export to excel",
   // TODO New key - Add a translation
   "menu.section.export_to_excel": "Export to excel",
@@ -7260,6 +7827,10 @@
   // "menu.section.icon.curation_tasks": "Curation Task menu section",
   // TODO New key - Add a translation
   "menu.section.icon.curation_tasks": "Curation Task menu section",
+
+  // "menu.section.icon.deduplication": "Deduplication menu section",
+  // TODO New key - Add a translation
+  "menu.section.icon.deduplication": "Deduplication menu section",
 
   // "menu.section.icon.edit": "Edit menu section",
   "menu.section.icon.edit": "Menusectie bewerkingen",
@@ -8269,6 +8840,10 @@
   // TODO New key - Add a translation
   "reciter.suggestion.source.orcidWorks": "ORCID registry",
 
+  // "reciter.suggestion.source.pubmed": "Pubmed repository",
+  // TODO New key - Add a translation
+  "reciter.suggestion.source.pubmed": "Pubmed repository",
+
   // "reciter.suggestion.from.source": "from the ",
   // TODO New key - Add a translation
   "reciter.suggestion.from.source": "from the ",
@@ -8280,6 +8855,10 @@
   // "reciter.suggestion.type.oaire": "Publications",
   // TODO New key - Add a translation
   "reciter.suggestion.type.oaire": "Publications",
+
+  // "reciter.suggestion.type.pubmed" : "Publications",
+  // TODO New key - Add a translation
+  "reciter.suggestion.type.pubmed" : "Publications",
 
   // "reciter.suggestion.type.orcidWorks": "Publications",
   // TODO New key - Add a translation
@@ -8682,6 +9261,10 @@
   // TODO New key - Add a translation
   "audit.overview.table.eperson" : "EPerson",
 
+  // "audit.overview.table.details" : "Details",
+  // TODO New key - Add a translation
+  "audit.overview.table.details" : "Details",
+
   // "audit.overview.table.timestamp" : "Time",
   // TODO New key - Add a translation
   "audit.overview.table.timestamp" : "Time",
@@ -9014,6 +9597,9 @@
   // TODO Source message changed - Revise the translation
   "publication.search.title": "DSpace Angular :: Publicatie zoeken",
 
+  // "product.page.titleprefix": "Product: ",
+  // TODO New key - Add a translation
+  "product.page.titleprefix": "Product: ",
 
   // "media-viewer.next": "Next",
   // TODO New key - Add a translation
@@ -9804,6 +10390,26 @@
   // TODO New key - Add a translation
   "search.filters.filter.dateIssued.min.label": "Start",
 
+  // "search.filters.filter.dateCreated.head": "Date created",
+  // TODO New key - Add a translation
+  "search.filters.filter.dateCreated.head": "Date created",
+
+  // "search.filters.filter.dateCreated.max.placeholder": "Maximum Date",
+  // TODO New key - Add a translation
+  "search.filters.filter.dateCreated.max.placeholder": "Maximum Date",
+
+  // "search.filters.filter.dateCreated.max.label": "End",
+  // TODO New key - Add a translation
+  "search.filters.filter.dateCreated.max.label": "End",
+
+  // "search.filters.filter.dateCreated.min.placeholder": "Minimum Date",
+  // TODO New key - Add a translation
+  "search.filters.filter.dateCreated.min.placeholder": "Minimum Date",
+
+  // "search.filters.filter.dateCreated.min.label": "Start",
+  // TODO New key - Add a translation
+  "search.filters.filter.dateCreated.min.label": "Start",
+
   // "search.filters.filter.dateSubmitted.head": "Date submitted",
   "search.filters.filter.dateSubmitted.head": "Indiendatum",
 
@@ -10332,13 +10938,13 @@
   // TODO New key - Add a translation
   "sorting.metric.download.DESC" : "Downloads Descending",
 
-  // "sorting.metric.scopus.citation.ASC" : "Citations Ascending",
+  // "sorting.metric.scopusCitation.ASC" : "Citations Ascending",
   // TODO New key - Add a translation
-  "sorting.metric.scopus.citation.ASC" : "Citations Ascending",
+  "sorting.metric.scopusCitation.ASC" : "Citations Ascending",
 
-  // "sorting.metric.scopus.citation.DESC" : "Citations Descending",
+  // "sorting.metric.scopusCitation.DESC" : "Citations Descending",
   // TODO New key - Add a translation
-  "sorting.metric.scopus.citation.DESC" : "Citations Descending",
+  "sorting.metric.scopusCitation.DESC" : "Citations Descending",
 
   // "sorting.score.ASC": "Least Relevant",
   // TODO New key - Add a translation
@@ -11913,10 +12519,6 @@
   // TODO New key - Add a translation
   "submission.sections.submit.progressbar.sherpaPolicies": "Publisher open access policy information",
 
-  // "submission.sections.submit.progressbar.sherpaPolicies": "Publisher open access policy information",
-  // TODO New key - Add a translation
-  "submission.sections.submit.progressbar.sherpaPolicies": "Publisher open access policy information",
-
   // "submission.sections.submit.progressbar.upload-publication": "Upload files",
   // TODO New key - Add a translation
   "submission.sections.submit.progressbar.upload-publication": "Upload files",
@@ -11956,10 +12558,6 @@
   // "submission.sections.submit.progressbar.correction": "Corrections",
   // TODO New key - Add a translation
   "submission.sections.submit.progressbar.correction": "Corrections",
-
-  // "submission.sections.sherpa-policy.title-empty": "No publisher policy information available. If your work has an associated ISSN, please enter it above to see any related publisher open access policies.",
-  // TODO New key - Add a translation
-  "submission.sections.sherpa-policy.title-empty": "No publisher policy information available. If your work has an associated ISSN, please enter it above to see any related publisher open access policies.",
 
   // "submission.sections.sherpa-policy.title-empty": "No publisher policy information available. If your work has an associated ISSN, please enter it above to see any related publisher open access policies.",
   // TODO New key - Add a translation
@@ -12115,6 +12713,14 @@
 
   // "submission.sections.upload.upload-successful": "Upload successful",
   "submission.sections.upload.upload-successful": "Upload geslaagd",
+
+  // "submission.sections.upload.license-condition": "License condition",
+  // TODO New key - Add a translation
+  "submission.sections.upload.license-condition": "License condition",
+
+  // "submission.sections.upload.file-type": "File type",
+  // TODO New key - Add a translation
+  "submission.sections.upload.file-type": "File type",
 
   // "submission.sections.custom-url.label.previous-urls": "Previous Urls",
   // TODO New key - Add a translation
@@ -12371,13 +12977,13 @@
   // "submission.workflow.generic.view-help": "Select this option to view the item's metadata.",
   "submission.workflow.generic.view-help": "Kies deze optie om de metadata van het item te bekijken.",
 
-  // "submission.workflow.email-template.workflowcustomemail_template1": "A nice name for template 1",
+  // "submission.workflow.email-template.workflowcustomemail_template1": "Additional information required",
   // TODO New key - Add a translation
-  "submission.workflow.email-template.workflowcustomemail_template1": "A nice name for template 1",
+  "submission.workflow.email-template.workflowcustomemail_template1": "Additional information required",
 
-  // "submission.workflow.email-template.workflowcustomemail_template2": "A nice name for template 2",
+  // "submission.workflow.email-template.workflowcustomemail_template2": "Data correction needed",
   // TODO New key - Add a translation
-  "submission.workflow.email-template.workflowcustomemail_template2": "A nice name for template 2",
+  "submission.workflow.email-template.workflowcustomemail_template2": "Data correction needed",
 
   // "submission.workflow.tasks.claimed.approve": "Approve",
   "submission.workflow.tasks.claimed.approve": "Accepteer",
@@ -12626,6 +13232,18 @@
   "treeview.load-more": "Load more",
 
 
+
+  // "viewer.provider.iiif.breadcrumbs": "Mirador Viewer",
+  // TODO New key - Add a translation
+  "viewer.provider.iiif.breadcrumbs": "Mirador Viewer",
+
+  // "viewer.provider.pdf.breadcrumbs": "PDF Viewer",
+  // TODO New key - Add a translation
+  "viewer.provider.pdf.breadcrumbs": "PDF Viewer",
+
+  // "viewer.provider.title": "Viewer",
+  // TODO New key - Add a translation
+  "viewer.provider.title": "Viewer",
 
   // "vocabulary.import-external.preview.title.Product": "Product Preview",
   // TODO New key - Add a translation
@@ -13446,6 +14064,314 @@
   // TODO New key - Add a translation
   "cris-layout.rendering.collapse" : "collapse",
 
+  // "family.listelement.badge": "Family",
+  // TODO New key - Add a translation
+  "family.listelement.badge": "Family",
+
+  // "place.listelement.badge": "Place",
+  // TODO New key - Add a translation
+  "place.listelement.badge": "Place",
+
+  // "archivalmaterials.listelement.badge": "Archival Materials",
+  // TODO New key - Add a translation
+  "archivalmaterials.listelement.badge": "Archival Materials",
+
+  // "fond.listelement.badge": "Fond",
+  // TODO New key - Add a translation
+  "fond.listelement.badge": "Fond",
+
+  // "journalfond.listelement.badge": "Journal Fond",
+  // TODO New key - Add a translation
+  "journalfond.listelement.badge": "Journal Fond",
+
+  // "aggregation.listelement.badge": "Aggregation",
+  // TODO New key - Add a translation
+  "aggregation.listelement.badge": "Aggregation",
+  // "news.listelement.badge": "News",
+  // TODO New key - Add a translation
+  "news.listelement.badge": "News",
+  // "staticpage.listelement.badge": "Page",
+  // TODO New key - Add a translation
+  "staticpage.listelement.badge": "Page",
+  // "path.listelement.badge": "Path",
+  // TODO New key - Add a translation
+  "path.listelement.badge": "Path",
+  // "opera.listelement.badge": "Opera",
+  // TODO New key - Add a translation
+  "opera.listelement.badge": "Opera",
+  // "coin.listelement.badge": "Coin",
+  // TODO New key - Add a translation
+  "coin.listelement.badge": "Coin",
+  // "scientificmaterial.listelement.badge": "Scientific Material",
+  // TODO New key - Add a translation
+  "scientificmaterial.listelement.badge": "Scientific Material",
+
+  // "picture.listelement.badge": "Picture",
+  // TODO New key - Add a translation
+  "picture.listelement.badge": "Picture",
+  // "menu.section.explore_sectionfonds" : "Fonds",
+  // TODO New key - Add a translation
+  "menu.section.explore_sectionfonds" : "Fonds",
+  // "menu.section.explore_sectionjournalfonds" : "Journal Fonds",
+  // TODO New key - Add a translation
+  "menu.section.explore_sectionjournalfonds" : "Journal Fonds",
+
+  // "menu.section.explore_sectionaggregations" : "Collections",
+  // TODO New key - Add a translation
+  "menu.section.explore_sectionaggregations" : "Collections",
+  // "menu.section.explore_sectiondocuments" : "Documents & Other materials",
+  // TODO New key - Add a translation
+  "menu.section.explore_sectiondocuments" : "Documents & Other materials",
+  // "explore.counters-section.fonds" : "Fonds",
+  // TODO New key - Add a translation
+  "explore.counters-section.fonds" : "Fonds",
+  // "explore.counters-section.journalfonds" : "Journal Fonds",
+  // TODO New key - Add a translation
+  "explore.counters-section.journalfonds" : "Journal Fonds",
+  // "explore.counters-section.aggregations" : "Collections",
+  // TODO New key - Add a translation
+  "explore.counters-section.aggregations" : "Collections",
+  // "explore.counters-section.documents" : "Documents & Other materials",
+  // TODO New key - Add a translation
+  "explore.counters-section.documents" : "Documents & Other materials",
+
+  // "explore.index.titleF" : "Title",
+  // TODO New key - Add a translation
+  "explore.index.titleF" : "Title",
+  // "explore.index.typeF" : "Type",
+  // TODO New key - Add a translation
+  "explore.index.typeF" : "Type",
+  // "explore.index.dateissuedF" : "Date",
+  // TODO New key - Add a translation
+  "explore.index.dateissuedF" : "Date",
+  // "explore.index.subjectF" : "Subject",
+  // TODO New key - Add a translation
+  "explore.index.subjectF" : "Subject",
+  // "explore.index.titleJF" : "Title",
+  // TODO New key - Add a translation
+  "explore.index.titleJF" : "Title",
+  // "explore.index.typeJF" : "Type",
+  // TODO New key - Add a translation
+  "explore.index.typeJF" : "Type",
+  // "explore.index.dateissuedJF" : "Date",
+  // TODO New key - Add a translation
+  "explore.index.dateissuedJF" : "Date",
+  // "explore.index.subjectJF" : "Subject",
+  // TODO New key - Add a translation
+  "explore.index.subjectJF" : "Subject",
+  // "explore.index.titleA" : "Title",
+  // TODO New key - Add a translation
+  "explore.index.titleA" : "Title",
+  // "explore.index.typeA" : "Type",
+  // TODO New key - Add a translation
+  "explore.index.typeA" : "Type",
+  // "explore.index.dateissuedA" : "Date",
+  // TODO New key - Add a translation
+  "explore.index.dateissuedA" : "Date",
+  // "explore.index.subjectA" : "Subject",
+  // TODO New key - Add a translation
+  "explore.index.subjectA" : "Subject",
+  // "explore.index.path" : "Path",
+  // TODO New key - Add a translation
+  "explore.index.path" : "Path",
+  // "explore.index.fond" : "Fond",
+  // TODO New key - Add a translation
+  "explore.index.fond" : "Fond",
+  // "explore.index.journalfond" : "Journal Fond",
+  // TODO New key - Add a translation
+  "explore.index.journalfond" : "Journal Fond",
+  // "explore.index.aggregation" : "Collection",
+  // TODO New key - Add a translation
+  "explore.index.aggregation" : "Collection",
+
+  // "explore.search-section.sectiondocuments.title" : "Search Documents & Other materials",
+  // TODO New key - Add a translation
+  "explore.search-section.sectiondocuments.title" : "Search Documents & Other materials",
+
+  // "explore.search-section.sectionfonds.title" : "Search Fonds",
+  // TODO New key - Add a translation
+  "explore.search-section.sectionfonds.title" : "Search Fonds",
+
+  // "explore.search-section.sectionjournalfonds.title" : "Search Journal fonds",
+  // TODO New key - Add a translation
+  "explore.search-section.sectionjournalfonds.title" : "Search Journal fonds",
+
+  // "explore.search-section.sectionaggregations.title" : "Search Collections",
+  // TODO New key - Add a translation
+  "explore.search-section.sectionaggregations.title" : "Search Collections",
+
+  // "explore.sectiondocuments.breadcrumbs": "Documents & Other materials",
+  // TODO New key - Add a translation
+  "explore.sectiondocuments.breadcrumbs": "Documents & Other materials",
+
+  // "explore.sectionfonds.breadcrumbs": "Fonds",
+  // TODO New key - Add a translation
+  "explore.sectionfonds.breadcrumbs": "Fonds",
+  // "explore.sectionjournalfonds.breadcrumbs": "Journal Fonds",
+  // TODO New key - Add a translation
+  "explore.sectionjournalfonds.breadcrumbs": "Journal Fonds",
+  // "explore.sectionaggregations.breadcrumbs": "Collections",
+  // TODO New key - Add a translation
+  "explore.sectionaggregations.breadcrumbs": "Collections",
+  // "documents.search.results.head": "Documents & Other materials Search Results",
+  // TODO New key - Add a translation
+  "documents.search.results.head": "Documents & Other materials Search Results",
+  // "fonds.search.results.head": "Fonds Search Results",
+  // TODO New key - Add a translation
+  "fonds.search.results.head": "Fonds Search Results",
+  // "journalfonds.search.results.head": "Journal Fonds Search Results",
+  // TODO New key - Add a translation
+  "journalfonds.search.results.head": "Journal Fonds Search Results",
+  // "aggregations.search.results.head": "Collections Search Results",
+  // TODO New key - Add a translation
+  "aggregations.search.results.head": "Collections Search Results",
+  // "search.filters.filter.path.head": "Path",
+  // TODO New key - Add a translation
+  "search.filters.filter.path.head": "Path",
+  // "search.filters.filter.path.placeholder": "Path name",
+  // TODO New key - Add a translation
+  "search.filters.filter.path.placeholder": "Path name",
+  // "search.filters.filter.path.label": "Search Path name",
+  // TODO New key - Add a translation
+  "search.filters.filter.path.label": "Search Path name",
+  // "search.filters.applied.f.path": "Path",
+  // TODO New key - Add a translation
+  "search.filters.applied.f.path": "Path",
+  // "search.filters.filter.fond.head": "Fond",
+  // TODO New key - Add a translation
+  "search.filters.filter.fond.head": "Fond",
+  // "search.filters.filter.fond.placeholder": "Fond name",
+  // TODO New key - Add a translation
+  "search.filters.filter.fond.placeholder": "Fond name",
+  // "search.filters.filter.fond.label": "Search Fond name",
+  // TODO New key - Add a translation
+  "search.filters.filter.fond.label": "Search Fond name",
+  // "search.filters.applied.f.fond": "Fond",
+  // TODO New key - Add a translation
+  "search.filters.applied.f.fond": "Fond",
+  // "search.filters.filter.journalfond.head": "Journal Fond",
+  // TODO New key - Add a translation
+  "search.filters.filter.journalfond.head": "Journal Fond",
+  // "search.filters.filter.journalfond.placeholder": "Journal Fond name",
+  // TODO New key - Add a translation
+  "search.filters.filter.journalfond.placeholder": "Journal Fond name",
+  // "search.filters.filter.journalfond.label": "Search Journal Fond name",
+  // TODO New key - Add a translation
+  "search.filters.filter.journalfond.label": "Search Journal Fond name",
+  // "search.filters.applied.f.journalfond": "Journal Fond",
+  // TODO New key - Add a translation
+  "search.filters.applied.f.journalfond": "Journal Fond",
+  // "search.filters.filter.aggregation.head": "Collection",
+  // TODO New key - Add a translation
+  "search.filters.filter.aggregation.head": "Collection",
+  // "search.filters.filter.aggregation.placeholder": "Collection name",
+  // TODO New key - Add a translation
+  "search.filters.filter.aggregation.placeholder": "Collection name",
+  // "search.filters.filter.aggregation.label": "Search Collection name",
+  // TODO New key - Add a translation
+  "search.filters.filter.aggregation.label": "Search Collection name",
+  // "search.filters.applied.f.aggregation": "Collection",
+  // TODO New key - Add a translation
+  "search.filters.applied.f.aggregation": "Collection",
+  // "submission.sections.submit.progressbar.describe.archival_materials": "Archival Materials Basic Information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.archival_materials": "Archival Materials Basic Information",
+
+  // "submission.sections.submit.progressbar.describe.archival_materials_indexing": "Archival Materials Indexing Information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.archival_materials_indexing": "Archival Materials Indexing Information",
+  // "submission.sections.submit.progressbar.describe.archival_materials_references": "Archival Materials Contextual References",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.archival_materials_references": "Archival Materials Contextual References",
+
+  // "submission.sections.submit.progressbar.describe.fond": "Fond Details",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.fond": "Fond Details",
+
+  // "submission.sections.submit.progressbar.describe.place": "Place Details",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.place": "Place Details",
+
+  // "submission.sections.submit.progressbar.describe.family": "Family Details",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.family": "Family Details",
+
+  // "submission.sections.submit.progressbar.describe.aggregation": "Aggregation Details",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.aggregation": "Aggregation Details",
+
+  // "submission.sections.submit.progressbar.describe.journal_fond": "Journal Fond Details",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.journal_fond": "Journal Fond Details",
+
+  // "submission.sections.submit.progressbar.describe.journal_fond-glamjournalfond-history": "Journal Fond History",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.journal_fond-glamjournalfond-history": "Journal Fond History",
+
+  // "submission.sections.submit.progressbar.describe.journal_fond-glamjournalfond-relation-person": "Journal Fond Person",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.journal_fond-glamjournalfond-relation-person": "Journal Fond Person",
+
+  // "submission.sections.submit.progressbar.describe.journal_fond-glamjournalfond-relation-journalfond": "Journal Fond Relation",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.journal_fond-glamjournalfond-relation-journalfond": "Journal Fond Relation",
+
+  // "submission.sections.submit.progressbar.describe.path": "Path Details",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.path": "Path Details",
+
+  // "submission.sections.submit.progressbar.describe.opera": "Opera Details",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.opera": "Opera Details",
+
+  // "submission.sections.submit.progressbar.describe.coin": "Coin Details",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.coin": "Coin Details",
+
+  // "submission.sections.submit.progressbar.describe.picture": "Picture Details",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.picture": "Picture Details",
+
+  // "submission.sections.submit.progressbar.describe.news": "News Details",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.news": "News Details",
+
+  // "submission.sections.submit.progressbar.describe.staticpage": "Page Details",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.staticpage": "Page Details",
+
+  // "submission.sections.submit.progressbar.describe.staticpage-url": "Page URL",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.staticpage-url": "Page URL",
+
+  // "submission.sections.submit.progressbar.describe.journal_materials": "Journal Issue Basic Information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.journal_materials": "Journal Issue Basic Information",
+
+  // "submission.sections.submit.progressbar.describe.journal_materials_indexing": "Journal Issue Indexing Information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.journal_materials_indexing": "Journal Issue Indexing Information",
+
+  // "submission.sections.submit.progressbar.describe.journal_materials_references": "Journal Issue Contextual References",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.journal_materials_references": "Journal Issue Contextual References",
+
+  // "submission.sections.submit.progressbar.describe.scientificmaterial": "Scientific Material Basic Information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.scientificmaterial": "Scientific Material Basic Information",
+
+  // "submission.sections.submit.progressbar.describe.scientificmaterial_indexing": "Scientific Material Indexing Information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.scientificmaterial_indexing": "Scientific Material Indexing Information",
+
+  // "submission.sections.submit.progressbar.describe.scientificmaterial_references": "Scientific Material Contextual References",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.scientificmaterial_references": "Scientific Material Contextual References",
+
+  // "submission.sections.submit.progressbar.describe.journal_issue": "Journal Issue Details",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.journal_issue": "Journal Issue Details",
+
   // "map.coordinates-invalid": "Coordinates are not valid",
   // TODO New key - Add a translation
   "map.coordinates-invalid": "Coordinates are not valid",
@@ -13518,9 +14444,21 @@
   // TODO New key - Add a translation
   "curation-task.task.undopdfiiif.label": "Undo PDF 2 IIIF Images",
 
-  // "curation-task.task.rebuildpdftoc.label": "Rebuild the PDF ToC"
+  // "curation-task.task.rebuildpdftoc.label": "Rebuild the PDF ToC",
   // TODO New key - Add a translation
-  "curation-task.task.rebuildpdftoc.label": "Rebuild the PDF ToC"
+  "curation-task.task.rebuildpdftoc.label": "Rebuild the PDF ToC",
+
+  // "vocabulary-treeview.header.fondboxtree": "Fond Tree",
+  // TODO New key - Add a translation
+  "vocabulary-treeview.header.fondboxtree": "Fond Tree",
+
+  // "vocabulary-treeview.header.journalfondboxtree": "Journal Fond Tree",
+  // TODO New key - Add a translation
+  "vocabulary-treeview.header.journalfondboxtree": "Journal Fond Tree",
+
+  // "vocabulary-treeview.header.aggregationboxtree": "Collection Tree"
+  // TODO New key - Add a translation
+  "vocabulary-treeview.header.aggregationboxtree": "Collection Tree"
 
 
 
