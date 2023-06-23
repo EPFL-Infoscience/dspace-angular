@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { getFirstSucceededRemoteDataPayload } from '../../core/shared/operators';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 import { Collection } from '../../core/shared/collection.model';
 import { FeatureID } from '../../core/data/feature-authorization/feature-id';
 import { ChangeSubmitterService } from '../../submission/change-submitter.service';
@@ -39,6 +39,8 @@ export class ChangeSubmitterButtonComponent implements OnInit {
 
   @Input() showToCollectionAdmin = false;
 
+  @Input() showToCollectionCurator = false;
+
   @Input() showToSubmitter = false;
 
   @Input() submitterEmail: string;
@@ -52,6 +54,8 @@ export class ChangeSubmitterButtonComponent implements OnInit {
   isItem: boolean;
 
   currentSubmitterEmail: string;
+
+  collectionHref$: Observable<string>;
 
   constructor(
     protected changeSubmitterService: ChangeSubmitterService,
@@ -81,6 +85,15 @@ export class ChangeSubmitterButtonComponent implements OnInit {
     } else {
       throw new Error('No item provided');
     }
+
+    const href = this.isWorkspaceItem ? this.workspaceItem._links.collection.href : this.item._links.owningCollection.href;
+
+    this.collectionHref$ = this.collectionService.findByHref(href).pipe(
+      getFirstSucceededRemoteDataPayload(),
+      map((collection: Collection) => collection._links.self.href),
+      shareReplay(),
+    );
+
   }
 
   openChangeSubmitterModal(template: TemplateRef<any>) {
@@ -107,15 +120,9 @@ export class ChangeSubmitterButtonComponent implements OnInit {
 
   }
 
-  isCollectionAdmin(): Observable<boolean> {
-    // TODO check href
-    const href = this.isWorkspaceItem ? this.workspaceItem._links.collection.href : this.item._links.owningCollection.href;
-    const collectionHref$ = this.collectionService.findByHref(href).pipe(
-      getFirstSucceededRemoteDataPayload(),
-      map((collection: Collection) => collection._links.self.href),
-    );
-    return collectionHref$.pipe(
-      switchMap((collectionHref) => this.authorizationService.isAuthorized(FeatureID.AdministratorOf, collectionHref)),
+  checkCollectionAuthorization(featureId: FeatureID): Observable<boolean> {
+    return this.collectionHref$.pipe(
+      switchMap((collectionHref) => this.authorizationService.isAuthorized(featureId, collectionHref)),
       take(1),
     );
   }
@@ -130,9 +137,16 @@ export class ChangeSubmitterButtonComponent implements OnInit {
   }
 
   get showSubmitterButton$(): Observable<boolean> {
-    return combineLatest([this.isCollectionAdmin(), this.isItemSubmitter()]).pipe(
-      map(([isCollectionAdmin, isItemSubmitter]) =>
-        this.showAlways || this.showToCollectionAdmin && isCollectionAdmin || this.showToSubmitter && isItemSubmitter
+    return combineLatest([
+      this.checkCollectionAuthorization(FeatureID.AdministratorOf),
+      this.checkCollectionAuthorization(FeatureID.CuratorOf),
+      this.isItemSubmitter(),
+    ]).pipe(
+      map(([isCollectionAdmin, isCollectionCurator, isItemSubmitter]) =>
+        this.showAlways ||
+        this.showToCollectionAdmin && isCollectionAdmin ||
+        this.showToCollectionCurator && isCollectionCurator ||
+        this.showToSubmitter && isItemSubmitter
       ),
       take(1),
     );
