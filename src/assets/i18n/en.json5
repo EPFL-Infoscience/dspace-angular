@@ -2417,6 +2417,12 @@
 
   "explore.index.ouActive" : "Is active",
 
+  "explore.index.fundingname" : "Funding",
+
+  "explore.index.role" : "Job Title",
+
+  "explore.index.personIdentifier" : "Identifier",
+
   "explore.index.original_bundle_oaire_licenseCondition": "License condition",
 
   "explore.index.original_bundle_datacite_rights":  "File Accessibility",
