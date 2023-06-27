@@ -6944,11 +6944,11 @@
 
   "submission.workflow.generic.change-submitter.notification.success.title": "Submitter changed",
 
-  "submission.workflow.generic.change-submitter.notification.success.content": "The submitter of the workflow item has been changed to {{email}}",
+  "submission.workflow.generic.change-submitter.notification.success.content": "The submitter of the item has been changed to {{email}}",
 
   "submission.workflow.generic.change-submitter.notification.error.title": "Submitter not changed",
 
-  "submission.workflow.generic.change-submitter.notification.error.content": "An error occurred while changing the submitter of the workflow item",
+  "submission.workflow.generic.change-submitter.notification.error.content": "An error occurred while changing the submitter of the item",
 
   "submission.workflow.generic.delete": "Delete",
 

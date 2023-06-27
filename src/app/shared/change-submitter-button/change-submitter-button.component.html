@@ -15,7 +15,7 @@
   </div>
   <div class="modal-body">
     <!-- TODO i18n -->
-    <p>{{'submission.workflow.generic.change-submitter.modal.current-submitter' | translate}}: {{currentSubmitterEmail}}</p>
+    <p><b>{{'submission.workflow.generic.change-submitter.modal.current-submitter' | translate}}:</b> {{currentSubmitterEmail}}</p>
     <p>{{'submission.workflow.generic.change-submitter.modal.info' | translate}}</p>
 
     <ds-eperson-group-list [isListOfEPerson]="true" (select)="c($event)"></ds-eperson-group-list>
