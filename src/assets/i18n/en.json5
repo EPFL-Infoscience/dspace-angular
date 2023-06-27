@@ -5480,6 +5480,8 @@
 
   "search.filters.applied.f.language": "Language",
 
+  "search.filters.applied.f.latereview": "Review Later",
+
   "search.filters.applied.f.namedresourcetype": "Status",
 
   "search.filters.applied.f.personorgunits": "Organisation",
@@ -7604,6 +7606,9 @@
   "search.filters.filter.journalfond.head": "Journal Fond",
   "search.filters.filter.journalfond.placeholder": "Journal Fond name",
   "search.filters.filter.journalfond.label": "Search Journal Fond name",
+  "search.filters.filter.latereview.head": "Review Later",
+  "search.filters.filter.latereview.label": "Review Later",
+  "search.filters.filter.latereview.placeholder": "Review Later",
   "search.filters.applied.f.journalfond": "Journal Fond",
   "search.filters.filter.aggregation.head": "Collection",
   "search.filters.filter.aggregation.placeholder": "Collection name",
