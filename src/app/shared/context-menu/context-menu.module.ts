@@ -23,6 +23,7 @@ import { ItemVersionMenuComponent } from './item-version/item-version-menu.compo
 import { ItemVersionContainerComponent } from './item-version/item-version-container/item-version-container.component';
 import { FullItemMenuComponent } from './full-item/full-item-menu.component';
 import { OrcidViewPageMenuComponent } from './orcid-view-page/orcid-view-page-menu.component';
+import { ChangeSubmitterComponent } from './change-submitter/change-submitter.component';
 
 const COMPONENTS = [
   BulkImportMenuComponent,
@@ -40,7 +41,8 @@ const COMPONENTS = [
   ItemVersionMenuComponent,
   ItemVersionContainerComponent,
   FullItemMenuComponent,
-  OrcidViewPageMenuComponent
+  OrcidViewPageMenuComponent,
+  ChangeSubmitterComponent,
 ];
 
 const ENTRY_COMPONENTS = [

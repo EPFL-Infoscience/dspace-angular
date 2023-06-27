@@ -1,20 +1,24 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { LinkService } from '../../../../core/cache/builders/link.service';
 import { Item } from '../../../../core/shared/item.model';
 
 import { ViewMode } from '../../../../core/shared/view-mode.model';
 import { WorkspaceItem } from '../../../../core/submission/models/workspaceitem.model';
 import { listableObjectComponent } from '../../../object-collection/shared/listable-object/listable-object.decorator';
-import { MyDspaceItemStatusType } from '../../../object-collection/shared/mydspace-item-status/my-dspace-item-status-type';
+import {
+  MyDspaceItemStatusType,
+} from '../../../object-collection/shared/mydspace-item-status/my-dspace-item-status-type';
 import { WorkspaceItemSearchResult } from '../../../object-collection/shared/workspace-item-search-result.model';
 import { TruncatableService } from '../../../truncatable/truncatable.service';
-import { SearchResultListElementComponent } from '../../search-result-list-element/search-result-list-element.component';
+import {
+  SearchResultListElementComponent,
+} from '../../search-result-list-element/search-result-list-element.component';
 import { DSONameService } from '../../../../core/breadcrumbs/dso-name.service';
 import { APP_CONFIG, AppConfig } from '../../../../../config/app-config.interface';
 import { ItemSearchResult } from '../../../object-collection/shared/item-search-result.model';
-import { map } from 'rxjs/operators';
+import { map, shareReplay, tap } from 'rxjs/operators';
 import { getFirstSucceededRemoteDataPayload } from '../../../../core/shared/operators';
 import { CollectionElementLinkType } from '../../../object-collection/collection-element-link.type';
 import { followLink } from '../../../utils/follow-link-config.model';
@@ -39,6 +43,8 @@ export class WorkspaceItemSearchResultListElementComponent extends SearchResultL
    * The item search result derived from the WorkspaceItemSearchResult
    */
   derivedSearchResult$: Observable<ItemSearchResult>;
+
+  submitterEmail = new BehaviorSubject<string>('');
 
   /**
    * Represent item's status
@@ -75,10 +81,16 @@ export class WorkspaceItemSearchResultListElementComponent extends SearchResultL
     this.derivedSearchResult$ = this.object.indexableObject.item.pipe(
       getFirstSucceededRemoteDataPayload(),
       map((item: Item) => {
-      const result = new ItemSearchResult();
-      result.indexableObject = item;
-      result.hitHighlights = this.object.hitHighlights;
-      return result;
-    }));
+        const result = new ItemSearchResult();
+        result.indexableObject = item;
+        result.hitHighlights = this.object.hitHighlights;
+        return result;
+      }),
+      tap((res: ItemSearchResult) => {
+        const email = res.indexableObject.submitterEmail;
+        this.submitterEmail.next(email);
+      }),
+      shareReplay(1),
+    );
   }
 }
