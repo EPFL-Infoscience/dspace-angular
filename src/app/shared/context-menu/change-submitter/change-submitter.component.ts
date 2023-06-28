@@ -15,12 +15,18 @@ import { Item } from '../../../core/shared/item.model';
 export class ChangeSubmitterComponent extends ContextMenuEntryComponent {
   item: Item;
 
+  showForEntityTypes = ['Publication', 'Product', 'Patent'];
+
   constructor(
     @Inject('contextMenuObjectProvider') protected injectedContextMenuObject: DSpaceObject,
     @Inject('contextMenuObjectTypeProvider') protected injectedContextMenuObjectType: DSpaceObjectType,
   ) {
     super(injectedContextMenuObject, injectedContextMenuObjectType, ContextMenuEntryType.EditSubmission);
     this.item = this.contextMenuObject as Item;
+  }
+
+  showForCurrentItem(): boolean {
+    return this.showForEntityTypes.includes(this.item.entityType);
   }
 
 }
