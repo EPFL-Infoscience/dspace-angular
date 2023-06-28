@@ -5807,6 +5807,18 @@
 
   "search.filters.filter.source.placeholder": "Source",
 
+  "search.filters.filter.ouActive.head": "Active Status",
+
+  "search.filters.filter.ouActive.label": "Search Active Status",
+
+  "search.filters.filter.ouActive.placeholder": "Active Status",
+
+  "search.filters.filter.researcherActive.head": "Active Status",
+
+  "search.filters.filter.researcherActive.label": "Search Active Status",
+
+  "search.filters.filter.researcherActive.placeholder": "Active Status",
+
 
   "search.filters.entityType.JournalIssue": "Journal Issue",
 
