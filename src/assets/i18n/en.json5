@@ -5795,6 +5795,18 @@
 
   "search.filters.filter.unit.placeholder": "Unit",
 
+  "search.filters.filter.author_editor.head": "Author or Editor",
+
+  "search.filters.filter.author_editor.label": "Search Author or Editor",
+
+  "search.filters.filter.author_editor.placeholder": "Author or Editor",
+
+  "search.filters.filter.source.head": "Source",
+
+  "search.filters.filter.source.label": "Search Source",
+
+  "search.filters.filter.source.placeholder": "Source",
+
 
   "search.filters.entityType.JournalIssue": "Journal Issue",
 
