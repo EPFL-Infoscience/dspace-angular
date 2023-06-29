@@ -13,6 +13,7 @@
   <ng-template #requestACopyTpl>
     <a
       *ngIf="bitstreamPath$ | async as requestACopyLink"
+      [ngbTooltip]="'cris-layout.advanced-attachment.requestACopy.tooltip' | translate"
       [routerLink]="requestACopyLink?.routerLink" [queryParams]="requestACopyLink?.queryParams"
       class="btn btn-outline-primary" data-test="requestACopy">
       {{ 'cris-layout.advanced-attachment.requestACopy' |

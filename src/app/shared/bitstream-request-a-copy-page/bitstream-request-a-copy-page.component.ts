@@ -20,6 +20,7 @@ import { DSONameService } from '../../core/breadcrumbs/dso-name.service';
 import { Location } from '@angular/common';
 import { BitstreamDataService } from '../../core/data/bitstream-data.service';
 import { getItemPageRoute } from '../../item-page/item-page-routing-paths';
+import { AlertType } from '../alert/aletr-type';
 
 @Component({
   selector: 'ds-bitstream-request-a-copy-page',
@@ -42,6 +43,8 @@ export class BitstreamRequestACopyPageComponent implements OnInit, OnDestroy {
   bitstream$: Observable<Bitstream>;
   bitstream: Bitstream;
   bitstreamName: string;
+
+  AlertTypeEnum = AlertType;
 
   constructor(private location: Location,
               private translateService: TranslateService,
@@ -209,4 +212,6 @@ export class BitstreamRequestACopyPageComponent implements OnInit, OnDestroy {
   getBitstreamLink() {
     return [getBitstreamDownloadRoute(this.bitstream)];
   }
+
+  protected readonly AlertType = AlertType;
 }

@@ -867,6 +867,8 @@
 
   "bitstream-request-a-copy.submit.error": "Something went wrong with submitting the item request.",
 
+  "bitstream-request-a-copy.submit.info": "EPFL authenticated users can download restricted access files",
+
 
 
   "browse.back.all-results": "All browse results",
@@ -1990,6 +1992,8 @@
   "cris-layout.advanced-attachment.download": "Download",
 
   "cris-layout.advanced-attachment.requestACopy": "Request a copy",
+
+  "cris-layout.advanced-attachment.requestACopy.tooltip": "EPFL authenticated users can download restricted access files",
 
   "cris-layout.advanced-attachment.viewMore": "View More",
 
