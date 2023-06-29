@@ -1,4 +1,5 @@
 <ds-thumbnail *ngIf="(initialized | async)" data-test="thumbnail"
               [thumbnail]="thumbnail$ | async"
+              [item]="itemProvider"
               [defaultImage]="default">
 </ds-thumbnail>

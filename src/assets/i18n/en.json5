@@ -2389,6 +2389,40 @@
 
   "explore.index.type" : "Type",
 
+  "explore.index.author_editor" : "Author or Editor",
+
+  "explore.index.publisher" : "Publisher",
+
+  "explore.index.dateAccessioned" : "Date accessioned",
+
+  "explore.index.publishedIn" : "Published in (journal or book)",
+
+  "explore.index.abstract" : "Abstract",
+
+  "explore.index.fulltext" : "Full text",
+
+  "explore.index.types" : "Document type",
+
+  "explore.index.fundername" : "Funder name",
+
+  "explore.index.name" : "Name",
+
+  "explore.index.identifier" : "Identifier",
+
+  "explore.index.researcherActive" : "Is active",
+
+  "explore.index.ouTitle" : "Unit name",
+
+  "explore.index.ouDirector" : "Head of unit",
+
+  "explore.index.ouActive" : "Is active",
+
+  "explore.index.fundingname" : "Funding",
+
+  "explore.index.role" : "Job Title",
+
+  "explore.index.personIdentifier" : "Identifier",
+
   "explore.index.original_bundle_oaire_licenseCondition": "License condition",
 
   "explore.index.original_bundle_datacite_rights":  "File Accessibility",
@@ -5446,6 +5480,8 @@
 
   "search.filters.applied.f.language": "Language",
 
+  "search.filters.applied.f.latereview": "Review Later",
+
   "search.filters.applied.f.namedresourcetype": "Status",
 
   "search.filters.applied.f.personorgunits": "Organisation",
@@ -5758,6 +5794,30 @@
   "search.filters.filter.unit.label": "Search Unit",
 
   "search.filters.filter.unit.placeholder": "Unit",
+
+  "search.filters.filter.author_editor.head": "Author or Editor",
+
+  "search.filters.filter.author_editor.label": "Search Author or Editor",
+
+  "search.filters.filter.author_editor.placeholder": "Author or Editor",
+
+  "search.filters.filter.source.head": "Source",
+
+  "search.filters.filter.source.label": "Search Source",
+
+  "search.filters.filter.source.placeholder": "Source",
+
+  "search.filters.filter.ouActive.head": "Active Status",
+
+  "search.filters.filter.ouActive.label": "Search Active Status",
+
+  "search.filters.filter.ouActive.placeholder": "Active Status",
+
+  "search.filters.filter.researcherActive.head": "Active Status",
+
+  "search.filters.filter.researcherActive.label": "Search Active Status",
+
+  "search.filters.filter.researcherActive.placeholder": "Active Status",
 
 
   "search.filters.entityType.JournalIssue": "Journal Issue",
@@ -6906,13 +6966,15 @@
 
   "submission.workflow.generic.change-submitter.modal.info": "Select the new item's submitter",
 
+  "submission.workflow.generic.change-submitter.modal.current-submitter": "Current submitter",
+
   "submission.workflow.generic.change-submitter.notification.success.title": "Submitter changed",
 
-  "submission.workflow.generic.change-submitter.notification.success.content": "The submitter of the workflow item has been changed to {{email}}",
+  "submission.workflow.generic.change-submitter.notification.success.content": "The submitter of the item has been changed to {{email}}",
 
   "submission.workflow.generic.change-submitter.notification.error.title": "Submitter not changed",
 
-  "submission.workflow.generic.change-submitter.notification.error.content": "An error occurred while changing the submitter of the workflow item",
+  "submission.workflow.generic.change-submitter.notification.error.content": "An error occurred while changing the submitter of the item",
 
   "submission.workflow.generic.delete": "Delete",
 
@@ -7568,6 +7630,9 @@
   "search.filters.filter.journalfond.head": "Journal Fond",
   "search.filters.filter.journalfond.placeholder": "Journal Fond name",
   "search.filters.filter.journalfond.label": "Search Journal Fond name",
+  "search.filters.filter.latereview.head": "Review Later",
+  "search.filters.filter.latereview.label": "Review Later",
+  "search.filters.filter.latereview.placeholder": "Review Later",
   "search.filters.applied.f.journalfond": "Journal Fond",
   "search.filters.filter.aggregation.head": "Collection",
   "search.filters.filter.aggregation.placeholder": "Collection name",

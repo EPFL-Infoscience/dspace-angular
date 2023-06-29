@@ -1,0 +1,27 @@
+<button type="button" *ngIf="showSubmitterButton$ | async"
+        id="{{'change_submitter_' + id}}"
+        [class]="buttonClass"
+        ngbTooltip="{{'submission.workflow.generic.change-submitter-help' | translate}}"
+        (click)="openChangeSubmitterModal(changeSubmitter)">
+  <i class="fa fa-user-edit" *ngIf="showIcon"></i> {{'submission.workflow.generic.change-submitter' | translate}}
+</button>
+
+<ng-template #changeSubmitter let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-info">{{'submission.workflow.generic.change-submitter.modal.title' | translate}}</h4>
+    <button type="button" id="change_submitter_close" class="close" aria-label="Close" (click)="d('cancel')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!-- TODO i18n -->
+    <p><b>{{'submission.workflow.generic.change-submitter.modal.current-submitter' | translate}}:</b> {{currentSubmitterEmail}}</p>
+    <p>{{'submission.workflow.generic.change-submitter.modal.info' | translate}}</p>
+
+    <ds-eperson-group-list [isListOfEPerson]="true" (select)="c($event)"></ds-eperson-group-list>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" id="change_submitter_cancel" class="btn btn-secondary" (click)="d('cancel')">{{'submission.workflow.generic.change-submitter.modal.dismiss' | translate}}</button>
+  </div>
+</ng-template>
