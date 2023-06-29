@@ -154,30 +154,8 @@ export class ItemStatusComponent implements OnInit {
     );
   }
 
-  openChangeSubmitterModal(template: TemplateRef<any>) {
-    const options: NgbModalOptions = {size: 'xl'};
-    const modal = this.modalService.open(template, options);
-    modal.closed
-      .pipe(
-        switchMap(submitter =>
-          this.changeSubmitterService.changeSubmitterItem(this.item$.getValue(), submitter)
-            .pipe(
-              map(hasSucceeded => ({ hasSucceeded, submitter})),
-              take(1)
-            )
-        )
-      ).subscribe(({hasSucceeded, submitter}) => {
-        if (hasSucceeded) {
-          const email = (submitter as EPerson).email;
-          this.itemSubmitterEmail$.next(email);
-          this.itemSubmitterName$.next(submitter.name);
-          this.notificationsService.success(this.translate.instant('submission.workflow.generic.change-submitter.notification.success.title'),
-            this.translate.instant('submission.workflow.generic.change-submitter.notification.success.content', {email}));
-        } else {
-          this.notificationsService.error(this.translate.instant('submission.workflow.generic.change-submitter.notification.error.title'),
-            this.translate.instant('submission.workflow.generic.change-submitter.notification.error.content'));
-        }
-      });
+  get item() {
+    return this.item$.getValue();
   }
 
   /**
