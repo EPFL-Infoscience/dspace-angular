@@ -137,7 +137,9 @@ export class ItemExportFormatService extends IdentifiableDataService<ItemExportF
     if (isNotEmpty(itemList)) {
       parameterValues = this.listUUIDParameter(itemList.join(';'), parameterValues);
     } else {
-      parameterValues = this.entityTypeParameter(entityType, parameterValues);
+      if (isNotEmpty(entityType)) {
+        parameterValues = this.entityTypeParameter(entityType, parameterValues);
+      }
       parameterValues = this.queryParameter(searchOptions, parameterValues);
       parameterValues = this.filtersParameter(searchOptions, parameterValues);
       parameterValues = this.scopeParameter(searchOptions, parameterValues);
