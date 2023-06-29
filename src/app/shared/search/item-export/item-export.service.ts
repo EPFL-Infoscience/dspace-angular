@@ -66,7 +66,6 @@ export class ItemExportService {
     entityType: string,
     format: ItemExportFormat,
     itemList: string[] = [],
-    isExportUrl = false
   ): Observable<number> {
     if (molteplicity === ItemExportFormatMolteplicity.SINGLE) {
       return this.itemExportFormatService.doExport(item.uuid, format);
