@@ -6,7 +6,8 @@
       <ui-switch [checkedLabel]="'researcher.profile.public.visibility' | translate"
                  [uncheckedLabel]="'researcher.profile.private.visibility' | translate"
                  [checked]="researcherProfile.visible"
-                 (change)="toggleProfileVisibility(researcherProfile)" ></ui-switch>
+                 (change)="toggleProfileVisibility(researcherProfile)"
+                 [disabled]="true"></ui-switch>
     </p>
   </div>
   <div *ngIf="!researcherProfile">
@@ -26,14 +27,6 @@
     <ng-container *ngIf="researcherProfile">
       <button class="btn btn-primary mr-2" [disabled]="!researcherProfile" (click)="viewProfile(researcherProfile)">
         <i class="fas fa-info-circle"></i> {{'researcher.profile.view' | translate}}
-      </button>
-      <button class="btn btn-danger" [disabled]="!researcherProfile || disableResearcherProfileManagement" (click)="deleteProfile(researcherProfile)">
-        <span *ngIf="(isProcessingDelete() | async)">
-          <i class='fas fa-circle-notch fa-spin'></i> {{'researcher.profile.action.processing' | translate}}
-        </span>
-        <span *ngIf="!(isProcessingDelete() | async)">
-          <i class="fas fa-trash-alt"></i> &nbsp;{{'researcher.profile.delete' | translate}}
-        </span>
       </button>
     </ng-container>
   </div>
