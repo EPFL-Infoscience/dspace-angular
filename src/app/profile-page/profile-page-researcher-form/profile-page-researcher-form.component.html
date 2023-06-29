@@ -1,14 +1,6 @@
 <div *ngVar="(researcherProfile$ | async) as researcherProfile">
   <div *ngIf="researcherProfile">
     <p>{{'researcher.profile.associated' | translate}}</p>
-    <p class="align-items-center researcher-profile-switch" >
-      <span class="mr-3">{{'researcher.profile.status' | translate}}</span>
-      <ui-switch [checkedLabel]="'researcher.profile.public.visibility' | translate"
-                 [uncheckedLabel]="'researcher.profile.private.visibility' | translate"
-                 [checked]="researcherProfile.visible"
-                 (change)="toggleProfileVisibility(researcherProfile)"
-                 [disabled]="true"></ui-switch>
-    </p>
   </div>
   <div *ngIf="!researcherProfile">
     <p>{{'researcher.profile.not.associated' | translate}}</p>
