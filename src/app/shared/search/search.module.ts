@@ -65,6 +65,7 @@ import {
 import {
   SearchRangeFilterWrapperComponent
 } from './search-filters/search-filter/search-range-filter-wrapper/search-range-filter-wrapper.component';
+import { ItemExportUrlComponent } from './item-export/item-export-url/item-export-url.component';
 
 const COMPONENTS = [
   SearchComponent,
@@ -95,6 +96,7 @@ const COMPONENTS = [
   ThemedSearchSettingsComponent,
   ItemExportListComponent,
   ItemExportComponent,
+  ItemExportUrlComponent,
   ItemExportAlertComponent,
   ItemExportModalLauncherComponent
 ];
