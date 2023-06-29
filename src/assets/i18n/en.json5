@@ -3626,8 +3626,6 @@
 
   "item-export.modal-launcher.multiple.btn": "Export",
 
-  "item-export.export-url.btn": "Export url",
-
   "item-export.alert.single": "Export item <b>{{title}}</b>",
 
   "item-export.alert.multiple": "Export all items of a particular entity type belonging to the current search.",
