@@ -2429,7 +2429,7 @@
 
   "explore.index.original_bundle_oaire_licenseCondition": "License condition",
 
-  "explore.index.original_bundle_datacite_rights":  "File Accessibility",
+  "explore.index.original_bundle_datacite_rights":  "Availability",
 
   "explore.index.original_bundle_datacite_available": "File Availability",
 
@@ -5518,7 +5518,7 @@
 
   "search.filters.applied.f.original_bundle_datacite_available.max": "End Date",
 
-  "search.filters.applied.f.original_bundle_datacite_rights": "File Accessibility",
+  "search.filters.applied.f.original_bundle_datacite_rights": "Availability",
 
   "search.filters.applied.f.original_bundle_oaire_licenseCondition": "File License",
 
@@ -5759,11 +5759,11 @@
 
   "search.filters.filter.original_bundle_datacite_available.max.label": "End",
 
-  "search.filters.filter.original_bundle_datacite_rights.head": "File Accessibility",
+  "search.filters.filter.original_bundle_datacite_rights.head": "Availability",
 
-  "search.filters.filter.original_bundle_datacite_rights.placeholder": "File Accessibility",
+  "search.filters.filter.original_bundle_datacite_rights.placeholder": "Availability",
 
-  "search.filters.filter.original_bundle_datacite_rights.label": "Search file accessibility",
+  "search.filters.filter.original_bundle_datacite_rights.label": "Search Availability",
 
   "search.filters.filter.scope.head": "Scope",
 
