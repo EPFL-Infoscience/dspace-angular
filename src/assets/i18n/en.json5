@@ -5605,13 +5605,13 @@
 
   "search.filters.filter.creativeWorkPublisher.label": "Search publisher",
 
-  "search.filters.filter.dateIssued.head": "Date",
+  "search.filters.filter.dateIssued.head": "Publication Date",
 
-  "search.filters.filter.dateIssued.max.placeholder": "Maximum Date",
+  "search.filters.filter.dateIssued.max.placeholder": "Maximum Publication Date",
 
   "search.filters.filter.dateIssued.max.label": "End",
 
-  "search.filters.filter.dateIssued.min.placeholder": "Minimum Date",
+  "search.filters.filter.dateIssued.min.placeholder": "Minimum Publication Date",
 
   "search.filters.filter.dateIssued.min.label": "Start",
 
@@ -5803,17 +5803,17 @@
 
   "search.filters.filter.unit.placeholder": "Unit",
 
-  "search.filters.filter.author_editor.head": "Author or Editor",
+  "search.filters.filter.author_editor.head": "Authors, Contributors, Editors",
 
-  "search.filters.filter.author_editor.label": "Search Author or Editor",
+  "search.filters.filter.author_editor.label": "Search Authors, Contributors, Editors",
 
-  "search.filters.filter.author_editor.placeholder": "Author or Editor",
+  "search.filters.filter.author_editor.placeholder": "Authors, Contributors, Editors",
 
-  "search.filters.filter.source.head": "Source",
+  "search.filters.filter.source.head": "Journals, Sources, Series",
 
-  "search.filters.filter.source.label": "Search Source",
+  "search.filters.filter.source.label": "Search Journals, Sources, Series",
 
-  "search.filters.filter.source.placeholder": "Source",
+  "search.filters.filter.source.placeholder": "Journals, Sources, Series",
 
   "search.filters.filter.ouActive.head": "Active Status",
 
@@ -5826,6 +5826,12 @@
   "search.filters.filter.researcherActive.label": "Search Active Status",
 
   "search.filters.filter.researcherActive.placeholder": "Active Status",
+
+  "search.filters.filter.epflResourceType.head": "Resources Types",
+
+  "search.filters.filter.epflResourceType.label": "Search Resources Types",
+
+  "search.filters.filter.epflResourceType.placeholder": "Resources Types",
 
 
   "search.filters.entityType.JournalIssue": "Journal Issue",
