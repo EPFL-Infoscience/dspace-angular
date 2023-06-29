@@ -3662,6 +3662,10 @@
 
   "item-export.process.title": "Bulk export item",
 
+  "bulk-export-url.process.title": "Bulk Export URL",
+
+  "mydspace.export-url": "Export URL",
+
   "journal.listelement.badge": "Journal",
 
   "journal.page.description": "Description",
