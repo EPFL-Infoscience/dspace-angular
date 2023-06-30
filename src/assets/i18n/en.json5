@@ -2266,9 +2266,9 @@
 
   "explore.facet-section.title" : "Discover",
 
-  "explore.index.all" : "All + fulltext",
+  "explore.index.all" : "All (incl. fulltext)",
 
-  "explore.index.epflAll" : "All",
+  "explore.index.epflAll" : "All (without fulltext)",
 
   "explore.index.source" : "Journals, Sources, Series",
 
