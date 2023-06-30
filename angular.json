@@ -55,7 +55,6 @@
               }
             ],
             "styles": [
-              "./node_modules/@videogular/ngx-videogular/fonts/videogular.css",
               "src/styles/startup.scss",
               "video.js/dist/video-js.css",
               "videojs-wavesurfer/dist/css/videojs.wavesurfer.css",

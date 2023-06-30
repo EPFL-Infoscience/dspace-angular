@@ -1,12 +1,13 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {
   AttachmentRenderingType,
   AttachmentTypeRendering
 } from '../../../cris-layout/cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/bitstream-attachment/attachment-type.decorator';
 import {Item} from '../../../core/shared/item.model';
 import {Bitstream} from '../../../core/shared/bitstream.model';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {MediaViewerPopupComponent} from '../media-viewer-popup/media-viewer-popup.component';
+import {Router} from '@angular/router';
+import {environment} from '../../../../environments/environment';
+import {getBitstreamItemViewerDetailsPath, getBitstreamItemViewerPath} from '../../item-page-routing-paths';
 
 
 @Component({
@@ -15,7 +16,8 @@ import {MediaViewerPopupComponent} from '../media-viewer-popup/media-viewer-popu
   styleUrls: ['./media-content-viewer.component.scss'],
 })
 @AttachmentTypeRendering(AttachmentRenderingType.VIDEO, true)
-export class MediaContentViewerComponent implements OnInit, OnDestroy{
+@AttachmentTypeRendering(AttachmentRenderingType.AUDIO, true)
+export class MediaContentViewerComponent {
 
   /**
    * Current DSpace Item
@@ -25,21 +27,14 @@ export class MediaContentViewerComponent implements OnInit, OnDestroy{
    * The bitstream
    */
   @Input() bitstream: Bitstream;
-
-
-
-  constructor(
-    private  modelService: NgbModal
+    constructor(
+    private router: Router
   ) {}
-
-  // Instantiate a Video.js player OnInit
-  ngOnInit() {
+  async openViewer() {
+    if (environment.advancedAttachmentRendering.showViewerOnSameItemPage) {
+      await this.router.navigate([getBitstreamItemViewerDetailsPath(this.item, this.bitstream, 'media')], {fragment: 'viewer'});
+    } else {
+      await this.router.navigate([getBitstreamItemViewerPath(this.item, this.bitstream, 'media')]);
     }
-
-  ngOnDestroy() {
-  }
-
-  openViewer() {
-    this.modelService.open(MediaViewerPopupComponent,{size:'xl'});
   }
 }

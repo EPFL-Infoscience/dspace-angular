@@ -153,7 +153,7 @@
     "uuid": "^8.3.2",
     "video.js": "^7.0.5",
     "videojs-playlist": "^5.1.0",
-    "videojs-wavesurfer": "^3.3.0",
+    "videojs-wavesurfer": "^3.9.0",
     "webfontloader": "1.6.28",
     "zone.js": "~0.11.5"
   },

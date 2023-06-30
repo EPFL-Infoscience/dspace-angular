@@ -396,6 +396,9 @@ import { EntityIconDirective } from './entity-icon/entity-icon.directive';
 import {
   AdditionalMetadataComponent
 } from './object-list/search-result-list-element/additional-metadata/additional-metadata.component';
+import {
+  MediaPlayerComponent
+} from "../item-page/viewer-provider/viewers/item-viewers/media-item-viewer/media-player/media-player.component";
 
 const MODULES = [
   CommonModule,
@@ -701,7 +704,8 @@ const SHARED_ITEM_PAGE_COMPONENTS = [
   GenericItemPageFieldComponent,
   MetadataRepresentationListComponent,
   RelatedItemsComponent,
-  DsoPageOrcidButtonComponent
+  DsoPageOrcidButtonComponent,
+  MediaPlayerComponent
 ];
 
 const PROVIDERS = [

@@ -1,0 +1,32 @@
+<div class="page-wrapper">
+  <div class="playlist-wrapper">
+    <div class="playlist-mother-video">
+      <div id="video-content-wrapper" [hidden]="!(isVideo$ | async)">
+        <video class="video-js vjs-big-play-centered" id="video_{{idx}}" controls playsinline preload="none"></video>
+      </div>
+      <div id="audio-content-wrapper" [hidden]="(isVideo$ | async)">
+        <video class="video-js" id="audio_{{idx}}" controls playsinline preload="none"></video>
+      </div>
+    </div>
+    <div  class="playlist-products">
+      <ul class="playlist">
+        <li
+          *ngFor="let item of videoItems; let $index = index"
+          (click)="startPlaylist(item, $index)"
+          class="playlist-item-list"
+          [class.selected]="item === currentVideo">
+          <div class="playlist-img">
+            <img [src]="item.thumbnail" alt="no image"/>
+          </div >
+          <div class="playlist-description">
+            <p class="content-name"><b>{{getContentName(item)}}</b></p>
+            <p class="content-size">{{item.bitstream.sizeBytes | dsFileSize}}</p>
+            <p class="content-format"> {{getContentFormat(item) | async}}</p>
+          </div>
+        </li>
+        <li></li>
+      </ul>
+    </div>
+  </div>
+<!--  <div class="playlist-child-videos" id="plylst_upcming"></div>-->
+</div>

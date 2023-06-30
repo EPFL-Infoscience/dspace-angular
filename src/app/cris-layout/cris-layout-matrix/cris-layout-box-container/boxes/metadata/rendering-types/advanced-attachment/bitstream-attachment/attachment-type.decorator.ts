@@ -5,7 +5,8 @@ export enum AttachmentRenderingType {
   DOWNLOAD = 'DOWNLOAD',
   IIIF = 'IIIF',
   PDF = 'PDF',
-  VIDEO = 'VIDEO'
+  VIDEO = 'VIDEO-STREAMING',
+  AUDIO = 'AUDIO-STREAMING'
 }
 
 const fieldType = new Map();

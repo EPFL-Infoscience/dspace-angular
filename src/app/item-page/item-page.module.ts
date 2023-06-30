@@ -48,14 +48,6 @@ import { OrcidPageComponent } from './orcid-page/orcid-page.component';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { OrcidSyncSettingsComponent } from './orcid-page/orcid-sync-settings/orcid-sync-settings.component';
 import { OrcidQueueComponent } from './orcid-page/orcid-queue/orcid-queue.component';
-import {MediaViewerPopupComponent} from './media-viewer/media-viewer-popup/media-viewer-popup.component';
-import {VgCoreModule} from '@videogular/ngx-videogular/core';
-import {VgOverlayPlayModule} from '@videogular/ngx-videogular/overlay-play';
-import {VgControlsModule} from '@videogular/ngx-videogular/controls';
-import {VgBufferingModule} from '@videogular/ngx-videogular/buffering';
-import {MediaPlayerComponent} from './media-viewer/media-player/media-player.component';
-import { MediaPlayerComponent } from './media-viewer/media-player/media-player.component';
-import { VideoWaveserferTestComponent } from './media-viewer/video-waveserfer-test/video-waveserfer-test.component';
 
 
 const ENTRY_COMPONENTS = [
@@ -90,8 +82,7 @@ const DECLARATIONS = [
   OrcidPageComponent,
   OrcidAuthComponent,
   OrcidSyncSettingsComponent,
-  OrcidQueueComponent,
-  MediaViewerPopupComponent
+  OrcidQueueComponent
 ];
 
 @NgModule({
@@ -108,17 +99,10 @@ const DECLARATIONS = [
     CrisItemPageModule,
     ContextMenuModule.withEntryComponents(),
     MiradorViewerModule,
-    VgCoreModule,
-    VgOverlayPlayModule,
-    VgControlsModule,
-    VgBufferingModule
   ],
   declarations: [
     ...DECLARATIONS,
-    VersionedItemComponent,
-    MediaPlayerComponent,
-    MediaPlayerComponent,
-    VideoWaveserferTestComponent
+    VersionedItemComponent
   ],
   exports: [
     ...DECLARATIONS

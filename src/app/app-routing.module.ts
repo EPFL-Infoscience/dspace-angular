@@ -45,8 +45,6 @@ import { MenuResolver } from './menu.resolver';
 import { ThemedPageErrorComponent } from './page-error/themed-page-error.component';
 import { SUGGESTION_MODULE_PATH } from './suggestions-page/suggestions-page-routing-paths';
 import { RedirectService } from './redirect/redirect.service';
-// import {NewMediaViewerComponent} from "./item-page/media-viewer/media-content-viewer/media-content-viewer.component";
-import {MediaPlayerComponent} from "./item-page/media-viewer/media-player/media-player.component";
 
 @NgModule({
   imports: [
@@ -249,11 +247,6 @@ import {MediaPlayerComponent} from "./item-page/media-viewer/media-player/media-
             path: FORBIDDEN_PATH,
             component: ThemedForbiddenComponent
           },
-          {
-            path:'videoTest',
-            component: MediaPlayerComponent
-          }
-          ,
           {
             path: STATISTICS_PAGE_PATH,
             loadChildren: () => import('./statistics-page/statistics-page-routing.module')

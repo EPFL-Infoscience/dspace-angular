@@ -1,9 +1,10 @@
 .playlist-wrapper {
   display: grid;
-  grid-template-columns: 2fr 180px;
-  gap: 15px;
+  //grid-template-columns: 2fr 180px;
+  grid-template-columns: 2fr 300px;
+  gap: 1px;
   align-items: flex-start;
-  padding: 5px 5%;
+  padding: 5px;
 
   video {
     width:100%;
@@ -18,11 +19,15 @@
   .playlist-products {
     height:100%;
     overflow-y: hidden;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 
   .playlist-products .playlist {
-    padding: 10px;
-    height:50vh;
+    padding-left: 0px;
+    padding-right: 5px;
+    padding-top: 10px;
+    height:52vh;
     overflow: auto;
   }
 
@@ -46,7 +51,8 @@
 
   .playlist-products ul.playlist img {
     padding: 5px;
-    max-width: 150px;
+    max-width: 120px;
+    //max-height: 100px;
   }
 
   .playlist-products ul.playlist li {
@@ -58,7 +64,32 @@
   }
 
   .playlist-products ul.playlist li.selected {
-    background: #2980b9;
+    background: #bebebe;
   }
+
+  .playlist-description {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 5px;
+    max-width: 150px;
+  }
+
+  .playlist-img{
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .playlist-description p {
+    margin: 0;
+  }
+
+  .content-name{
+    font-size: 80%;
+  }
+
+  .content-size, .content-format{
+    font-size: 60%;
+  }
+
 }
 

@@ -18,4 +18,9 @@ export class MediaViewerItem {
    * Incoming Bitsream thumbnail
    */
   thumbnail: string;
+
+  /**
+   * Incoming manifest url
+   */
+  manifestUrl: string;
 }
