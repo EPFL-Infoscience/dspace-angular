@@ -2266,7 +2266,11 @@
 
   "explore.facet-section.title" : "Discover",
 
-  "explore.index.all" : "All",
+  "explore.index.all" : "All + fulltext",
+
+  "explore.index.epflAll" : "All",
+
+  "explore.index.source" : "Journals, Sources, Series",
 
   "explore.index.author" : "Author",
 
@@ -2287,7 +2291,7 @@
   "explore.index.chart.bar.dateIssued.year": "Year",
 
 
-  "explore.index.dateIssued" : "Date issued",
+  "explore.index.dateIssued" : "Publication Year",
 
   "explore.index.dateissued" : "Date issued",
 
@@ -2393,7 +2397,7 @@
 
   "explore.index.type" : "Type",
 
-  "explore.index.author_editor" : "Author or Editor",
+  "explore.index.author_editor" : "Author, Contributor, Editor",
 
   "explore.index.publisher" : "Publisher",
 
