@@ -867,6 +867,8 @@
 
   "bitstream-request-a-copy.submit.error": "Something went wrong with submitting the item request.",
 
+  "bitstream-request-a-copy.submit.info": "EPFL authenticated users can download restricted access files",
+
 
 
   "browse.back.all-results": "All browse results",
@@ -1991,6 +1993,8 @@
 
   "cris-layout.advanced-attachment.requestACopy": "Request a copy",
 
+  "cris-layout.advanced-attachment.requestACopy.tooltip": "EPFL authenticated users can download restricted access files",
+
   "cris-layout.advanced-attachment.viewMore": "View More",
 
   "cris-layout.advanced-attachment.oaire.licenseCondition": "License Condition",
@@ -2425,7 +2429,7 @@
 
   "explore.index.original_bundle_oaire_licenseCondition": "License condition",
 
-  "explore.index.original_bundle_datacite_rights":  "File Accessibility",
+  "explore.index.original_bundle_datacite_rights":  "Availability",
 
   "explore.index.original_bundle_datacite_available": "File Availability",
 
@@ -5518,7 +5522,7 @@
 
   "search.filters.applied.f.original_bundle_datacite_available.max": "End Date",
 
-  "search.filters.applied.f.original_bundle_datacite_rights": "File Accessibility",
+  "search.filters.applied.f.original_bundle_datacite_rights": "Availability",
 
   "search.filters.applied.f.original_bundle_oaire_licenseCondition": "File License",
 
@@ -5601,13 +5605,13 @@
 
   "search.filters.filter.creativeWorkPublisher.label": "Search publisher",
 
-  "search.filters.filter.dateIssued.head": "Date",
+  "search.filters.filter.dateIssued.head": "Publication Date",
 
-  "search.filters.filter.dateIssued.max.placeholder": "Maximum Date",
+  "search.filters.filter.dateIssued.max.placeholder": "Maximum Publication Date",
 
   "search.filters.filter.dateIssued.max.label": "End",
 
-  "search.filters.filter.dateIssued.min.placeholder": "Minimum Date",
+  "search.filters.filter.dateIssued.min.placeholder": "Minimum Publication Date",
 
   "search.filters.filter.dateIssued.min.label": "Start",
 
@@ -5759,11 +5763,11 @@
 
   "search.filters.filter.original_bundle_datacite_available.max.label": "End",
 
-  "search.filters.filter.original_bundle_datacite_rights.head": "File Accessibility",
+  "search.filters.filter.original_bundle_datacite_rights.head": "Availability",
 
-  "search.filters.filter.original_bundle_datacite_rights.placeholder": "File Accessibility",
+  "search.filters.filter.original_bundle_datacite_rights.placeholder": "Availability",
 
-  "search.filters.filter.original_bundle_datacite_rights.label": "Search file accessibility",
+  "search.filters.filter.original_bundle_datacite_rights.label": "Search Availability",
 
   "search.filters.filter.scope.head": "Scope",
 
@@ -5799,17 +5803,17 @@
 
   "search.filters.filter.unit.placeholder": "Unit",
 
-  "search.filters.filter.author_editor.head": "Author or Editor",
+  "search.filters.filter.author_editor.head": "Authors, Contributors, Editors",
 
-  "search.filters.filter.author_editor.label": "Search Author or Editor",
+  "search.filters.filter.author_editor.label": "Search Authors, Contributors, Editors",
 
-  "search.filters.filter.author_editor.placeholder": "Author or Editor",
+  "search.filters.filter.author_editor.placeholder": "Authors, Contributors, Editors",
 
-  "search.filters.filter.source.head": "Source",
+  "search.filters.filter.source.head": "Journals, Sources, Series",
 
-  "search.filters.filter.source.label": "Search Source",
+  "search.filters.filter.source.label": "Search Journals, Sources, Series",
 
-  "search.filters.filter.source.placeholder": "Source",
+  "search.filters.filter.source.placeholder": "Journals, Sources, Series",
 
   "search.filters.filter.ouActive.head": "Active Status",
 
@@ -5822,6 +5826,12 @@
   "search.filters.filter.researcherActive.label": "Search Active Status",
 
   "search.filters.filter.researcherActive.placeholder": "Active Status",
+
+  "search.filters.filter.epflResourceType.head": "Resources Types",
+
+  "search.filters.filter.epflResourceType.label": "Search Resources Types",
+
+  "search.filters.filter.epflResourceType.placeholder": "Resources Types",
 
 
   "search.filters.entityType.JournalIssue": "Journal Issue",
