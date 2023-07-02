@@ -5773,6 +5773,12 @@
 
   "search.filters.filter.original_bundle_datacite_rights.label": "Search Availability",
 
+  "search.filters.filter.datacite_rights.head": "Availability",
+
+  "search.filters.filter.datacite_rights.placeholder": "Availability",
+
+  "search.filters.filter.datacite_rights.label": "Search Availability",
+
   "search.filters.filter.scope.head": "Scope",
 
   "search.filters.filter.scope.placeholder": "Scope filter",
