@@ -6329,6 +6329,10 @@
 
   "submission.sections.submit.progressbar.correction": "Correction details",
 
+  "submission.sections.submit.progressbar.itemAccessConditions": "Item Access Conditions",
+
+  "submission.sections.submit.progressbar.describe.ctb-metadata": "Common file attributes - set for each file unless differently specified",
+
 
 
   "submission.sections.detect-duplicate.clear-decision": "Undo",
