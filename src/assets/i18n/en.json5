@@ -3422,6 +3422,8 @@
 
   "item.preview.dc.relation.ispartofseries" : "Serie",
 
+  "item.preview.dc.relation.journal" : "Journal",
+
   "item.preview.dc.identifier.uri": "Identifier:",
 
   "item.preview.dc.contributor.advisor" : "Advisor",
