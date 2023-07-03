@@ -867,6 +867,8 @@
 
   "bitstream-request-a-copy.submit.error": "Something went wrong with submitting the item request.",
 
+  "bitstream-request-a-copy.submit.info": "EPFL authenticated users can download restricted access files",
+
 
 
   "browse.back.all-results": "All browse results",
@@ -1991,6 +1993,8 @@
 
   "cris-layout.advanced-attachment.requestACopy": "Request a copy",
 
+  "cris-layout.advanced-attachment.requestACopy.tooltip": "EPFL authenticated users can download restricted access files",
+
   "cris-layout.advanced-attachment.viewMore": "View More",
 
   "cris-layout.advanced-attachment.oaire.licenseCondition": "License Condition",
@@ -2262,7 +2266,11 @@
 
   "explore.facet-section.title" : "Discover",
 
-  "explore.index.all" : "All",
+  "explore.index.all" : "All (incl. fulltext)",
+
+  "explore.index.epflAll" : "All (without fulltext)",
+
+  "explore.index.source" : "Journals, Sources, Series",
 
   "explore.index.author" : "Author",
 
@@ -2283,7 +2291,7 @@
   "explore.index.chart.bar.dateIssued.year": "Year",
 
 
-  "explore.index.dateIssued" : "Date issued",
+  "explore.index.dateIssued" : "Publication Year",
 
   "explore.index.dateissued" : "Date issued",
 
@@ -2389,9 +2397,43 @@
 
   "explore.index.type" : "Type",
 
+  "explore.index.author_editor" : "Author, Contributor, Editor",
+
+  "explore.index.publisher" : "Publisher",
+
+  "explore.index.dateAccessioned" : "Date accessioned",
+
+  "explore.index.publishedIn" : "Published in (journal or book)",
+
+  "explore.index.abstract" : "Abstract",
+
+  "explore.index.fulltext" : "Full text",
+
+  "explore.index.types" : "Document type",
+
+  "explore.index.fundername" : "Funder name",
+
+  "explore.index.name" : "Name",
+
+  "explore.index.identifier" : "Identifier",
+
+  "explore.index.researcherActive" : "Is active",
+
+  "explore.index.ouTitle" : "Unit name",
+
+  "explore.index.ouDirector" : "Head of unit",
+
+  "explore.index.ouActive" : "Is active",
+
+  "explore.index.fundingname" : "Funding",
+
+  "explore.index.role" : "Job Title",
+
+  "explore.index.personIdentifier" : "Identifier",
+
   "explore.index.original_bundle_oaire_licenseCondition": "License condition",
 
-  "explore.index.original_bundle_datacite_rights":  "File Accessibility",
+  "explore.index.original_bundle_datacite_rights":  "Availability",
 
   "explore.index.original_bundle_datacite_available": "File Availability",
 
@@ -3380,6 +3422,8 @@
 
   "item.preview.dc.relation.ispartofseries" : "Serie",
 
+  "item.preview.dc.relation.journal" : "Journal",
+
   "item.preview.dc.identifier.uri": "Identifier:",
 
   "item.preview.dc.contributor.advisor" : "Advisor",
@@ -3623,6 +3667,10 @@
   "item-export.modal.title": "Item Export Process Launcher",
 
   "item-export.process.title": "Bulk export item",
+
+  "bulk-export-url.process.title": "Bulk Export URL",
+
+  "mydspace.export-url": "Export URL",
 
   "journal.listelement.badge": "Journal",
 
@@ -5446,6 +5494,8 @@
 
   "search.filters.applied.f.language": "Language",
 
+  "search.filters.applied.f.latereview": "Review Later",
+
   "search.filters.applied.f.namedresourcetype": "Status",
 
   "search.filters.applied.f.personorgunits": "Organisation",
@@ -5478,7 +5528,7 @@
 
   "search.filters.applied.f.original_bundle_datacite_available.max": "End Date",
 
-  "search.filters.applied.f.original_bundle_datacite_rights": "File Accessibility",
+  "search.filters.applied.f.original_bundle_datacite_rights": "Availability",
 
   "search.filters.applied.f.original_bundle_oaire_licenseCondition": "File License",
 
@@ -5561,13 +5611,13 @@
 
   "search.filters.filter.creativeWorkPublisher.label": "Search publisher",
 
-  "search.filters.filter.dateIssued.head": "Date",
+  "search.filters.filter.dateIssued.head": "Publication Date",
 
-  "search.filters.filter.dateIssued.max.placeholder": "Maximum Date",
+  "search.filters.filter.dateIssued.max.placeholder": "Maximum Publication Date",
 
   "search.filters.filter.dateIssued.max.label": "End",
 
-  "search.filters.filter.dateIssued.min.placeholder": "Minimum Date",
+  "search.filters.filter.dateIssued.min.placeholder": "Minimum Publication Date",
 
   "search.filters.filter.dateIssued.min.label": "Start",
 
@@ -5719,11 +5769,17 @@
 
   "search.filters.filter.original_bundle_datacite_available.max.label": "End",
 
-  "search.filters.filter.original_bundle_datacite_rights.head": "File Accessibility",
+  "search.filters.filter.original_bundle_datacite_rights.head": "Availability",
 
-  "search.filters.filter.original_bundle_datacite_rights.placeholder": "File Accessibility",
+  "search.filters.filter.original_bundle_datacite_rights.placeholder": "Availability",
 
-  "search.filters.filter.original_bundle_datacite_rights.label": "Search file accessibility",
+  "search.filters.filter.original_bundle_datacite_rights.label": "Search Availability",
+
+  "search.filters.filter.datacite_rights.head": "Availability",
+
+  "search.filters.filter.datacite_rights.placeholder": "Availability",
+
+  "search.filters.filter.datacite_rights.label": "Search Availability",
 
   "search.filters.filter.scope.head": "Scope",
 
@@ -5758,6 +5814,36 @@
   "search.filters.filter.unit.label": "Search Unit",
 
   "search.filters.filter.unit.placeholder": "Unit",
+
+  "search.filters.filter.author_editor.head": "Authors, Contributors, Editors",
+
+  "search.filters.filter.author_editor.label": "Search Authors, Contributors, Editors",
+
+  "search.filters.filter.author_editor.placeholder": "Authors, Contributors, Editors",
+
+  "search.filters.filter.source.head": "Journals, Sources, Series",
+
+  "search.filters.filter.source.label": "Search Journals, Sources, Series",
+
+  "search.filters.filter.source.placeholder": "Journals, Sources, Series",
+
+  "search.filters.filter.ouActive.head": "Active Status",
+
+  "search.filters.filter.ouActive.label": "Search Active Status",
+
+  "search.filters.filter.ouActive.placeholder": "Active Status",
+
+  "search.filters.filter.researcherActive.head": "Active Status",
+
+  "search.filters.filter.researcherActive.label": "Search Active Status",
+
+  "search.filters.filter.researcherActive.placeholder": "Active Status",
+
+  "search.filters.filter.epflResourceType.head": "Resources Types",
+
+  "search.filters.filter.epflResourceType.label": "Search Resources Types",
+
+  "search.filters.filter.epflResourceType.placeholder": "Resources Types",
 
 
   "search.filters.entityType.JournalIssue": "Journal Issue",
@@ -6250,6 +6336,10 @@
   "submission.sections.correction.column.policy": "Policy",
 
   "submission.sections.submit.progressbar.correction": "Correction details",
+
+  "submission.sections.submit.progressbar.itemAccessConditions": "Item Access Conditions",
+
+  "submission.sections.submit.progressbar.describe.ctb-metadata": "Common file attributes - set for each file unless differently specified",
 
 
 
@@ -6906,13 +6996,15 @@
 
   "submission.workflow.generic.change-submitter.modal.info": "Select the new item's submitter",
 
+  "submission.workflow.generic.change-submitter.modal.current-submitter": "Current submitter",
+
   "submission.workflow.generic.change-submitter.notification.success.title": "Submitter changed",
 
-  "submission.workflow.generic.change-submitter.notification.success.content": "The submitter of the workflow item has been changed to {{email}}",
+  "submission.workflow.generic.change-submitter.notification.success.content": "The submitter of the item has been changed to {{email}}",
 
   "submission.workflow.generic.change-submitter.notification.error.title": "Submitter not changed",
 
-  "submission.workflow.generic.change-submitter.notification.error.content": "An error occurred while changing the submitter of the workflow item",
+  "submission.workflow.generic.change-submitter.notification.error.content": "An error occurred while changing the submitter of the item",
 
   "submission.workflow.generic.delete": "Delete",
 
@@ -7568,6 +7660,9 @@
   "search.filters.filter.journalfond.head": "Journal Fond",
   "search.filters.filter.journalfond.placeholder": "Journal Fond name",
   "search.filters.filter.journalfond.label": "Search Journal Fond name",
+  "search.filters.filter.latereview.head": "Review Later",
+  "search.filters.filter.latereview.label": "Review Later",
+  "search.filters.filter.latereview.placeholder": "Review Later",
   "search.filters.applied.f.journalfond": "Journal Fond",
   "search.filters.filter.aggregation.head": "Collection",
   "search.filters.filter.aggregation.placeholder": "Collection name",

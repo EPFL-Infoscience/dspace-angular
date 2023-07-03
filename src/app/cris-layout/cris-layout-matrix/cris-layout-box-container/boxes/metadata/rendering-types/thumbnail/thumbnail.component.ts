@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 
 import { BehaviorSubject, of as observableOf } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
 import { FieldRenderingType, MetadataBoxFieldRendering } from '../metadata-box.decorator';
@@ -18,7 +18,7 @@ import { PaginatedList } from '../../../../../../../core/data/paginated-list.mod
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'span[ds-thumbnail].float-left',
   templateUrl: './thumbnail.component.html',
-  styleUrls: ['./thumbnail.component.scss']
+  styleUrls: ['./thumbnail.component.scss'],
 })
 @MetadataBoxFieldRendering(FieldRenderingType.THUMBNAIL, true)
 /**
@@ -64,25 +64,25 @@ export class ThumbnailComponent extends BitstreamRenderingModelComponent impleme
     this.getBitstreamsByItem().pipe(
       map((bitstreamList: PaginatedList<Bitstream>) => bitstreamList.page),
       switchMap((filteredBitstreams: Bitstream[]) => {
-        if (filteredBitstreams.length > 0) {
-          if (isEmpty(filteredBitstreams[0].thumbnail)) {
-            return observableOf(null);
-          } else {
-            return filteredBitstreams[0].thumbnail.pipe(
-              getFirstCompletedRemoteData(),
-              map((thumbnailRD) => {
-                if (thumbnailRD.hasSucceeded && isNotEmpty(thumbnailRD.payload)) {
-                  return thumbnailRD.payload;
-                } else {
-                  return null;
-                }
-              })
-            );
-          }
-        } else {
+        if (filteredBitstreams.length === 0) {
           return observableOf(null);
         }
-      })
+        if (isEmpty(filteredBitstreams[0]?.thumbnail)) {
+          return observableOf(null);
+        }
+
+        return filteredBitstreams[0].thumbnail.pipe(
+          getFirstCompletedRemoteData(),
+          map((thumbnailRD) => {
+            if (thumbnailRD.hasSucceeded && isNotEmpty(thumbnailRD.payload)) {
+              return thumbnailRD.payload;
+            } else {
+              return null;
+            }
+          })
+        );
+      }),
+      take(1)
     ).subscribe((thumbnail: Bitstream) => {
       if (isNotEmpty(thumbnail)) {
         this.thumbnail$.next(thumbnail);
@@ -101,6 +101,8 @@ export class ThumbnailComponent extends BitstreamRenderingModelComponent impleme
       this.default = 'assets/images/project-placeholder.svg';
     } else if (hasValue(eType) && eType.toUpperCase() === 'ORGUNIT') {
       this.default = 'assets/images/orgunit-placeholder.svg';
+    } else if (hasValue(eType) && eType.toUpperCase() === 'PUBLICATION') {
+      this.default = 'assets/images/publication-placeholder.svg';
     }
   }
 }

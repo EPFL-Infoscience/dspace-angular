@@ -115,7 +115,9 @@
 
         <ng-content select="[additionalSearchFormOptions]"></ng-content>
 
-        <ds-item-export-modal-launcher [searchOptions$]="searchOptions$" *ngIf="showExport"></ds-item-export-modal-launcher>
+        <ds-item-export-modal-launcher *ngIf="showExport" [searchOptions$]="searchOptions$"></ds-item-export-modal-launcher>
+
+        <ds-item-export-url *ngIf="showExportUrl" [searchOptions$]="searchOptions$" class="ml-2"></ds-item-export-url>
 
         <ng-content select="[additionalOptionsEnd]"></ng-content>
     </div>

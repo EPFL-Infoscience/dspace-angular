@@ -164,6 +164,11 @@ export class SearchComponent implements OnInit, OnDestroy {
   @Input() showExport = true;
 
   /**
+   * A boolean representing if show export url button
+   */
+  @Input() showExportUrl = true;
+
+  /**
    * A boolean representing if show search result notice
    */
   @Input() showSearchResultNotice = false;

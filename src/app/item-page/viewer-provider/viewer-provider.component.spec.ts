@@ -11,6 +11,9 @@ import { AuthService } from '../../core/auth/auth.service';
 import { AuthServiceMock } from '../../shared/mocks/auth.service.mock';
 import { TranslateModule } from '@ngx-translate/core';
 import { SpyLocation } from '@angular/common/testing';
+import { BitstreamDataService } from '../../core/data/bitstream-data.service';
+import { Bitstream } from '../../core/shared/bitstream.model';
+import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
 
 describe('ViewerProviderComponent', () => {
   let component: ViewerProviderComponent;
@@ -19,6 +22,11 @@ describe('ViewerProviderComponent', () => {
   beforeAll(() => {
     window.onbeforeunload = () => '';
   });
+
+  const mockBitstreamDataService = jasmine.createSpyObj('bitstreamDataService', {
+    findById: createSuccessfulRemoteDataObject$(new Bitstream())
+  });
+
 
   beforeEach(async () => {
     // location = jasmine.createSpyObj('location', ['back', 'path']);
@@ -30,6 +38,7 @@ describe('ViewerProviderComponent', () => {
         {provide: ItemDataService, useValue: {}},
         {provide: Location, useValue: new SpyLocation()},
         {provide: AuthService, useValue: new AuthServiceMock()},
+        {provide: BitstreamDataService, useValue: mockBitstreamDataService}
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })
