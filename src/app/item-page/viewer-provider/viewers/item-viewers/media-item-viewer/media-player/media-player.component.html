@@ -2,13 +2,17 @@
   <div class="playlist-wrapper">
     <div class="playlist-mother-video">
       <div id="video-content-wrapper" [hidden]="!(isVideo$ | async)">
-        <video class="video-js vjs-big-play-centered" id="video_{{idx}}" controls playsinline preload="none"></video>
+        <video class="video-js vjs-big-play-centered" id="video_{{IDX}}" controls playsinline preload="none"></video>
       </div>
       <div id="audio-content-wrapper" [hidden]="(isVideo$ | async)">
-        <video class="video-js" id="audio_{{idx}}" controls playsinline preload="none"></video>
+        <video class="video-js" id="audio_{{IDX}}" controls playsinline preload="none"></video>
       </div>
     </div>
-    <div  class="playlist-products">
+    <div  class="playlist-products"
+          infiniteScroll
+          [fromRoot]="true"
+          [infiniteScrollContainer]="'.playlist'"
+          (scrolled)="onScrollDown()">
       <ul class="playlist">
         <li
           *ngFor="let item of videoItems; let $index = index"
@@ -16,7 +20,7 @@
           class="playlist-item-list"
           [class.selected]="item === currentVideo">
           <div class="playlist-img">
-            <img [src]="item.thumbnail ? item.thumbnail : default" alt="no image"/>
+            <img [src]="item.thumbnail ? item.thumbnail : ALT_IMAGE" alt="no image"/>
           </div >
           <div class="playlist-description">
             <p class="content-name"><b>{{getContentName(item)}}</b></p>

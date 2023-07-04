@@ -1,3 +1,1 @@
-<ng-container *ngVar="mediaList$ | async as mediaList">
-  <ds-media-player [videoItems]="mediaList$ | async "></ds-media-player>
-</ng-container>
+<ds-media-player (scrollDownEmitter)="scrollDown($event)" [videoItems]="mediaList$ | async "></ds-media-player>
