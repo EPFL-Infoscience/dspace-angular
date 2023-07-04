@@ -332,6 +332,9 @@ import { EntityIconDirective } from './entity-icon/entity-icon.directive';
 import {
   AdditionalMetadataComponent
 } from './object-list/search-result-list-element/additional-metadata/additional-metadata.component';
+import {
+  MediaPlayerComponent
+} from '../item-page/viewer-provider/viewers/item-viewers/media-item-viewer/media-player/media-player.component';
 
 const MODULES = [
   CommonModule,
@@ -543,7 +546,8 @@ const ENTRY_COMPONENTS = [
   ThemedBrowseMostElementsComponent,
   SearchChartBarHorizontalComponent,
   RelationshipsListComponent,
-  AdditionalMetadataComponent
+  AdditionalMetadataComponent,
+  MediaPlayerComponent
 ];
 
 const PROVIDERS = [
