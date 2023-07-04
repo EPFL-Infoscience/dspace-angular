@@ -139,6 +139,7 @@ import {
 import {
   AttachmentRenderingModule
 } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/bitstream-attachment/attachment-render/attachment-rendering.module';
+import { FormModule } from '../shared/form/form.module';
 import { CrisLayoutMediaBoxComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/media-box/cris-layout-media-box.component';
 
 const ENTRY_COMPONENTS = [
@@ -217,7 +218,8 @@ const ENTRY_COMPONENTS = [
     ItemSharedModule,
     ViewersSharedModule,
     MetricsModule,
-    AttachmentRenderingModule
+    AttachmentRenderingModule,
+    FormModule
   ],
   exports: [
     CrisLayoutComponent,
