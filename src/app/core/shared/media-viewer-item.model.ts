@@ -22,5 +22,5 @@ export class MediaViewerItem {
   /**
    * Incoming manifest url
    */
-  manifestUrl: string;
+  manifestUrl?: string;
 }

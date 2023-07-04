@@ -16,7 +16,7 @@
           class="playlist-item-list"
           [class.selected]="item === currentVideo">
           <div class="playlist-img">
-            <img [src]="item.thumbnail" alt="no image"/>
+            <img [src]="item.thumbnail ? item.thumbnail : default" alt="no image"/>
           </div >
           <div class="playlist-description">
             <p class="content-name"><b>{{getContentName(item)}}</b></p>

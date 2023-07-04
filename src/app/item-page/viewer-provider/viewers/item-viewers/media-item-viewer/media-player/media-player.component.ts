@@ -4,7 +4,7 @@ import {
   Input,
   OnDestroy,
   OnInit, AfterContentInit,
-  ViewEncapsulation, ElementRef, Inject
+  ViewEncapsulation, ElementRef, Inject, AfterContentChecked, AfterViewChecked
 } from '@angular/core';
 import videojs from 'video.js';
 import WaveSurfer from 'wavesurfer.js';
@@ -25,7 +25,7 @@ import {BitstreamFormat} from "../../../../../../core/shared/bitstream-format.mo
   styleUrls: ['./media-player.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class MediaPlayerComponent implements OnInit, OnDestroy, AfterViewInit, AfterContentInit{
+export class MediaPlayerComponent implements OnInit, OnDestroy, AfterViewInit, AfterContentInit, AfterContentChecked, AfterViewChecked{
   idx = 'clip1';
   isVideo$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   private _elementRef: ElementRef;
@@ -33,11 +33,15 @@ export class MediaPlayerComponent implements OnInit, OnDestroy, AfterViewInit, A
   private readonly configAudio: any;
   private videoPlayer: any;
   private audioPlayer: any;
+  public default = 'assets/images/replacement_image.svg';
+
   private plugin: any;
   private activeIndex = 0;
   currentVideo: MediaViewerItem;
   @Input() videoItems: MediaViewerItem[];
+  @Input() videoItems2: MediaViewerItem[];
   @Input() manifestUrl: Bitstream;
+  @Input() thambnails: any;
   private manifest: string[];
   private manifestPeaks: string[];
 
@@ -85,12 +89,24 @@ export class MediaPlayerComponent implements OnInit, OnDestroy, AfterViewInit, A
   }
 
   ngOnInit() {
+    this.videoPlayer.dispose();
+    this.videoPlayer = false;
+    this.audioPlayer.dispose();
+    this.audioPlayer = false;
+  }
+
+  ngAfterContentChecked(){
+  }
+
+  ngAfterViewChecked() {
   }
 
   ngAfterContentInit() {
+    console.log('videoItems',this.videoItems);
+    console.log('videoItems2',this.videoItems2);
+    console.log('thambnails',this.thambnails);
     this.currentVideo = this.videoItems[0];
     this.isVideo$.next(this.checkContentType(this.currentVideo));
-    console.log('videoItems',this.videoItems);
     console.log('currentItem',this.currentVideo);
     console.log('peeks',this.currentVideo.bitstream.allMetadata('bitstream.audio.peaks')[0].value);
   }

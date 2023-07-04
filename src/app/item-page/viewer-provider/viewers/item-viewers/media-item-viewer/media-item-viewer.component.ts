@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {BaseItemViewerComponent} from '../base-item-viewer.component';
 import {BehaviorSubject, Observable} from "rxjs";
 import {MediaViewerItem} from "../../../../../core/shared/media-viewer-item.model";
@@ -15,7 +15,8 @@ import {filter, take} from "rxjs/operators";
 @Component({
   selector: 'ds-media-item-viewer',
   templateUrl: './media-item-viewer.component.html',
-  styleUrls: ['./media-item-viewer.component.scss']
+  styleUrls: ['./media-item-viewer.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MediaItemViewerComponent extends BaseItemViewerComponent implements OnInit {
 
