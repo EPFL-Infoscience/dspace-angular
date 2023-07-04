@@ -231,6 +231,7 @@ import {
 } from './metadata/schema-json-ld/schema-types/product/product-creative-work-schema-type';
 import { ProductDatasetSchemaType } from './metadata/schema-json-ld/schema-types/product/product-dataset-schema-type';
 import { PersonSchemaType } from './metadata/schema-json-ld/schema-types/Person/person-schema-type';
+import { UnpaywallItemService } from "./data/unpaywall-item.service";
 
 /**
  * When not in production, endpoint responses can be mocked for testing purposes
@@ -267,6 +268,7 @@ const PROVIDERS = [
   HALEndpointService,
   HostWindowService,
   ItemDataService,
+  UnpaywallItemService,
   MetadataService,
   SchemaJsonLDService,
   ObjectCacheService,
