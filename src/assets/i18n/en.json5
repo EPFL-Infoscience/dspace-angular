@@ -1598,7 +1598,7 @@
 
   "deduplication.home.button.compare": "Compare",
 
-  "deduplication.home.description.compare": "Compare item using internal identifier (each one MUST be separated by comma e.g 123,232,4343).",
+  "deduplication.home.description.compare": "Compare items using their internal ID (it can be retrieved from the item URL or by selecting 'Administer' on the item page). Each one MUST be separated by comma e.g 123,232,4343.",
 
   "deduplication.compare.notification.required-condition": "Please set 2 identifiers separated by comma",
 
@@ -1698,7 +1698,9 @@
 
   "deduplication.sets.label.type": "Type",
 
-  "deduplication.sets.modal.title": "Remove Element",
+  "deduplication.sets.delete-modal.title": "Permanently remove these items from repository!",
+
+  "deduplication.sets.item-delete-modal.title": "Permanently remove this item from repository!",
 
   "deduplication.sets.modal.confirm.info": "This operation can't be undone. Are you sure?",
 

@@ -25,11 +25,6 @@ export class GetBitstreamsPipe implements PipeTransform {
       return item.bundles.pipe(
         getAllSucceededRemoteDataPayload(),
         getPaginatedListPayload(),
-        map((x: Bundle[]) =>
-          x.filter((bundle) =>
-            isEqual(this.dsoNameService.getName(bundle), 'ORIGINAL')
-          )
-        ),
         switchMap((bundle: Bundle[]) => {
           if (bundle.length > 0) {
             return bundle.map((b: Bundle) => {
