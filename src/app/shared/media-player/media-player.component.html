@@ -1,4 +1,4 @@
-<div class="page-wrapper">
+<div class="page-wrapper"  *ngIf="(videoPlayer && audioPlayer)">
   <div class="playlist-wrapper">
     <div class="playlist-mother-video">
       <div id="video-content-wrapper" [hidden]="!(isVideo$ | async)">
@@ -32,5 +32,4 @@
       </ul>
     </div>
   </div>
-<!--  <div class="playlist-child-videos" id="plylst_upcming"></div>-->
 </div>
