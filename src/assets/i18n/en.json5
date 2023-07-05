@@ -3422,6 +3422,8 @@
 
   "item.preview.dc.relation.ispartofseries" : "Serie",
 
+  "item.preview.dc.relation.journal" : "Journal",
+
   "item.preview.dc.identifier.uri": "Identifier:",
 
   "item.preview.dc.contributor.advisor" : "Advisor",
@@ -5773,6 +5775,12 @@
 
   "search.filters.filter.original_bundle_datacite_rights.label": "Search Availability",
 
+  "search.filters.filter.datacite_rights.head": "Availability",
+
+  "search.filters.filter.datacite_rights.placeholder": "Availability",
+
+  "search.filters.filter.datacite_rights.label": "Search Availability",
+
   "search.filters.filter.scope.head": "Scope",
 
   "search.filters.filter.scope.placeholder": "Scope filter",
@@ -6328,6 +6336,10 @@
   "submission.sections.correction.column.policy": "Policy",
 
   "submission.sections.submit.progressbar.correction": "Correction details",
+
+  "submission.sections.submit.progressbar.itemAccessConditions": "Item Access Conditions",
+
+  "submission.sections.submit.progressbar.describe.ctb-metadata": "Common file attributes - set for each file unless differently specified",
 
 
 
