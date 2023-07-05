@@ -1,4 +1,4 @@
-<div class="page-wrapper"  *ngIf="(videoPlayer && audioPlayer)">
+<div class="page-wrapper"  *ngIf="isPlatformBrowser">
   <div class="playlist-wrapper">
     <div class="playlist-mother-video">
       <div id="video-content-wrapper" [hidden]="!(isVideo$ | async)">

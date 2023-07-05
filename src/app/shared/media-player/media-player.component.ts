@@ -11,7 +11,8 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import videojs from 'video.js';
-import Wavesurfer from 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
+import WaveSurfer from 'wavesurfer.js';
+import * as Wavesurfer from 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
 import {MediaViewerItem} from '../../core/shared/media-viewer-item.model';
 import {map} from 'rxjs/operators';
 import {DOCUMENT, isPlatformBrowser} from '@angular/common';
@@ -40,6 +41,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy, AfterViewInit, A
   public isVideo$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public videoPlayer: any;
   public audioPlayer: any;
+  public isPlatformBrowser: boolean;
 
   public currentVideo: MediaViewerItem;
   private readonly configVideo: any;
@@ -88,7 +90,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy, AfterViewInit, A
   }
 
   ngOnInit() {
-
+    this.isPlatformBrowser = isPlatformBrowser(this.platformId);
   }
 
   ngAfterContentInit() {
@@ -100,8 +102,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy, AfterViewInit, A
     let audioEl = 'audio_' + this.IDX;
     let videoEl = 'video_' + this.IDX;
 
-    if (isPlatformBrowser(this.platformId)) {
-
+    if (this.isPlatformBrowser) {
       this.videoPlayer = videojs(this._document.getElementById(videoEl), this.configVideo, () => {
         console.log('player ready! id:', videoEl);
         this.videoPlayer.src({src: this.currentVideo?.manifestUrl, type: 'application/dash+xml'});
