@@ -1,11 +1,13 @@
-import {NgModule} from '@angular/core';
-import {MediaPlayerComponent} from './media-player.component';
-import {CommonModule} from '@angular/common';
-import {SharedModule} from '../shared.module';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
+import { SharedModule } from '../shared.module';
+import { MediaPlayerComponent } from './media-player.component';
+import { MediaPlayerPlaylistComponent } from './media-player-playlist/media-player-playlist.component';
 
 const COMPONENTS = [
-  MediaPlayerComponent
+  MediaPlayerComponent,
+  MediaPlayerPlaylistComponent
 ];
 
 @NgModule({

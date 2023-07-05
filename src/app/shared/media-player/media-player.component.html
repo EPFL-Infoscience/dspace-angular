@@ -1,14 +1,18 @@
 <div class="page-wrapper"  *ngIf="isPlatformBrowser">
   <div class="playlist-wrapper">
     <div class="playlist-mother-video">
-      <div id="video-content-wrapper" [hidden]="!(isVideo$ | async)">
-        <video class="video-js vjs-big-play-centered" id="video_{{IDX}}" controls playsinline preload="none"></video>
+      <ds-themed-loading *ngIf="!(isPlayerInitialized$ | async)" [showMessage]="false"></ds-themed-loading>
+      <div id="video-content-wrapper" [hidden]="!(isPlayerInitialized$ | async) || !(isVideo$ | async)">
+        <video class="video-js vjs-big-play-centered" id="video_player" controls playsinline preload="none"></video>
       </div>
-      <div id="audio-content-wrapper" [hidden]="(isVideo$ | async)">
-        <video class="video-js" id="audio_{{IDX}}" controls playsinline preload="none"></video>
+      <div id="audio-content-wrapper" [hidden]="!(isPlayerInitialized$ | async) || (isVideo$ | async)">
+        <video class="video-js" id="audio_player" controls playsinline preload="none"></video>
       </div>
     </div>
-    <div  class="playlist-products"
+    <ds-media-player-playlist [itemUUID]="itemUUID"
+                              [startUUID]="startUUID"
+                              (selectItem)="setNewItem($event.item, $event.index)"></ds-media-player-playlist>
+    <!--<div  class="playlist-products"
           infiniteScroll
           [fromRoot]="true"
           [infiniteScrollContainer]="'.playlist'"
@@ -16,9 +20,9 @@
       <ul class="playlist">
         <li
           *ngFor="let item of videoItems; let $index = index"
-          (click)="startPlaylist(item, $index)"
+          (click)="setNewItem(item, $index)"
           class="playlist-item-list"
-          [class.selected]="item === currentVideo">
+          [class.selected]="item === currentItem$">
           <div class="playlist-img">
             <img [src]="item.thumbnail ? item.thumbnail : ALT_IMAGE" alt="no image"/>
           </div >
@@ -30,6 +34,6 @@
         </li>
         <li></li>
       </ul>
-    </div>
+    </div>-->
   </div>
 </div>

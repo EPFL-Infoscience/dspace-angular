@@ -1,28 +1,11 @@
-import {
-  AfterContentInit,
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Inject,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output, PLATFORM_ID,
-  ViewEncapsulation
-} from '@angular/core';
-import videojs from 'video.js';
-import WaveSurfer from 'wavesurfer.js';
-import * as Wavesurfer from 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
-import {MediaViewerItem} from '../../core/shared/media-viewer-item.model';
-import {map} from 'rxjs/operators';
-import {DOCUMENT, isPlatformBrowser} from '@angular/common';
-import {Bitstream} from '../../core/shared/bitstream.model';
-import {environment} from '../../../environments/environment';
-import {RemoteData} from '../../core/data/remote-data';
-import {BitstreamFormat} from '../../core/shared/bitstream-format.model';
-import {BitstreamDataService} from '../../core/data/bitstream-data.service';
-import {BehaviorSubject} from 'rxjs';
+import { Component, Inject, Input, OnDestroy, OnInit, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
+import videojs from 'video.js';
+import Wavesurfer from 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
+import { BehaviorSubject } from 'rxjs';
+
+import { MediaViewerItem } from '../../core/shared/media-viewer-item.model';
 
 @Component({
   selector: 'ds-media-player',
@@ -30,30 +13,64 @@ import {BehaviorSubject} from 'rxjs';
   styleUrls: ['./media-player.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class MediaPlayerComponent implements OnInit, OnDestroy, AfterViewInit, AfterContentInit {
-  @Input() videoItems: MediaViewerItem[];
-  @Input() manifestUrl: Bitstream;
+export class MediaPlayerComponent implements OnInit, OnDestroy {
 
-  @Output() scrollDownEmitter = new EventEmitter<number>();
+  /**
+   * The item uuid
+   */
+  @Input() itemUUID: string;
 
-  public IDX = 'clip1';
-  public ALT_IMAGE = 'assets/images/replacement_image.svg';
+  /**
+   * If given, the uuid of the bitstream to start playing
+   */
+  @Input() startUUID: string;
+
+  /**
+   * A boolean representing whether player is initialized or not
+   */
+  public isPlayerInitialized$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  /**
+   * A boolean representing whether the playing media is a video or not
+   */
   public isVideo$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
+  /**
+   * The instance of videojs for video media
+   */
   public videoPlayer: any;
+
+  /**
+   * The instance of videojs for video media
+   */
   public audioPlayer: any;
+
+  /**
+   * A boolean representing whether if is CSR or not
+   */
   public isPlatformBrowser: boolean;
 
-  public currentVideo: MediaViewerItem;
-  private readonly configVideo: any;
-  private readonly configAudio: any;
-  private currentPage = 1;
-  private plugin: any;
-  private activeIndex = 0;
+  /**
+   * The playing media item
+   */
+  public currentItem$: BehaviorSubject<MediaViewerItem> = new BehaviorSubject<MediaViewerItem>(null);
 
-  envMetadata = environment.advancedAttachmentRendering.metadata;
+  /**
+   * The config object for video player
+   * @private
+   */
+  private readonly configVideo: any;
+
+  /**
+   * The config object for audio player
+   * @private
+   */
+  private readonly configAudio: any;
+
+  private plugin: any;
+
   constructor(@Inject(DOCUMENT) private _document: Document,
-              @Inject(PLATFORM_ID) protected platformId: Object,
-              protected bitstreamDataService: BitstreamDataService) {
+              @Inject(PLATFORM_ID) protected platformId: string) {
     this.videoPlayer = false;
     this.audioPlayer = false;
     this.plugin = Wavesurfer;
@@ -93,73 +110,79 @@ export class MediaPlayerComponent implements OnInit, OnDestroy, AfterViewInit, A
     this.isPlatformBrowser = isPlatformBrowser(this.platformId);
   }
 
-  ngAfterContentInit() {
-    this.currentVideo = this.videoItems[0];
-    this.isVideo$.next(this.checkContentType(this.currentVideo));
+  /**
+   * Handle the selected item given by the playlist
+   * @param item
+   * @param index
+   */
+  setNewItem(item: MediaViewerItem, index: number) {
+    if (this.isPlayerInitialized$.value) {
+      this.changePlayingItem(item);
+    } else {
+      this.initPlayer(item);
+    }
   }
 
-  ngAfterViewInit() {
-    let audioEl = 'audio_' + this.IDX;
-    let videoEl = 'video_' + this.IDX;
+  /**
+   * Init videojs player with the given item as source
+   *
+   * @param item
+   * @private
+   */
+  private initPlayer(item: MediaViewerItem): void {
+    let audioEl = 'audio_player';
+    let videoEl = 'video_player';
 
     if (this.isPlatformBrowser) {
-      this.videoPlayer = videojs(this._document.getElementById(videoEl), this.configVideo, () => {
-        console.log('player ready! id:', videoEl);
-        this.videoPlayer.src({src: this.currentVideo?.manifestUrl, type: 'application/dash+xml'});
-      });
+      this.isPlayerInitialized$.next(true);
+      this.currentItem$.next(item);
+      this.isVideo$.next(this.checkContentType(item));
 
-      this.audioPlayer = videojs(this._document.getElementById(audioEl), this.configAudio, () => {
-        console.log('player ready! id:', audioEl,);
-        this.audioPlayer.src({
-          src: this.currentVideo?.manifestUrl,
-          type: 'application/dash+xml',
-          peaks: this.currentVideo.bitstream?.allMetadata('bitstream.audio.peaks')[0]?.value
+      if (this.isVideo$.value) {
+        this.videoPlayer = videojs(this._document.getElementById(videoEl), this.configVideo, () => {
+          console.log('player ready! id:', videoEl);
+          this.videoPlayer.src({ src: this.currentItem$?.value?.manifestUrl, type: 'application/dash+xml' });
         });
-      });
+      } else {
+        this.audioPlayer = videojs(this._document.getElementById(audioEl), this.configAudio, () => {
+          console.log('player ready! id:', audioEl,);
+          this.audioPlayer.src({
+            src: this.currentItem$?.value?.manifestUrl,
+            type: 'application/dash+xml',
+            peaks: this.currentItem$?.value?.bitstream?.allMetadata('bitstream.audio.peaks')[0]?.value
+          });
+        });
+      }
     }
   }
 
-  ngOnDestroy() {
-    this.playersDispose();
-  }
-
-  startPlaylist(item: any, index: number) {
-    this.activeIndex = index;
-    this.currentVideo = item;
-    this.isVideo$.next(this.checkContentType(this.currentVideo));
-
-    if (this.isVideo$.value) {
-      this.videoPlayer.src({src: this.currentVideo?.manifestUrl, type: 'application/dash+xml'});
-    } else {
-      this.audioPlayer.src({
-        src: this.currentVideo?.manifestUrl,
-        type: 'application/dash+xml',
-        peaks: this.currentVideo.bitstream.allMetadata('bitstream.audio.peaks')[0].value
-      });
-    }
-  }
-
-  checkContentType(currentMedia: MediaViewerItem) {
+  private checkContentType(currentMedia: MediaViewerItem) {
     //TODO: update check format existence
     return currentMedia?.format === 'video';
   }
 
-  getContentFormat(item: MediaViewerItem) {
-    return item.bitstream.format?.pipe(
-      map((rd: RemoteData<BitstreamFormat>) => {
-        return rd.payload?.shortDescription;
-      })
-    );
+  /**
+   * Change the source according to the given item
+   *
+   * @param item
+   * @private
+   */
+  private changePlayingItem(item: MediaViewerItem) {
+    if (this.isVideo$.value) {
+      this.videoPlayer.src({ src: this.currentItem$?.value?.manifestUrl, type: 'application/dash+xml' });
+    } else {
+      this.audioPlayer.src({
+        src: this.currentItem$?.value?.manifestUrl,
+        type: 'application/dash+xml',
+        peaks: this.currentItem$?.value?.bitstream.allMetadata('bitstream.audio.peaks')[0].value
+      });
+    }
   }
 
-  getContentName(item: MediaViewerItem) {
-    return item.bitstream.firstMetadataValue(this.envMetadata[0].name).split('.')[0];
-  }
-  onScrollDown() {
-    console.log('onScroll');
-    this.scrollDownEmitter.emit(++this.currentPage);
-  }
-  playersDispose(){
+  /**
+   * Dispose player on destroy
+   */
+  ngOnDestroy() {
     if (this.videoPlayer) {
       this.videoPlayer.dispose();
       this.videoPlayer = false;
