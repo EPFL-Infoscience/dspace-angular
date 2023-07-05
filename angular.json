@@ -55,8 +55,6 @@
             ],
             "styles": [
               "src/styles/startup.scss",
-              "video.js/dist/video-js.css",
-              "videojs-wavesurfer/dist/css/videojs.wavesurfer.css",
               {
                 "input": "src/styles/base-theme.scss",
                 "inject": false,
