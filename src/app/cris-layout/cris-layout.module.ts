@@ -139,6 +139,7 @@ import {
 import {
   AttachmentRenderingModule
 } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/bitstream-attachment/attachment-render/attachment-rendering.module';
+import { FormModule } from '../shared/form/form.module';
 import { CrisLayoutMediaBoxComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/media-box/cris-layout-media-box.component';
 import {MediaPlayerModule} from '../shared/media-player/media-player.module';
 
@@ -219,6 +220,7 @@ const ENTRY_COMPONENTS = [
     ViewersSharedModule,
     MetricsModule,
     AttachmentRenderingModule,
+    FormModule,
     MediaPlayerModule
   ],
   exports: [

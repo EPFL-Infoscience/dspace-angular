@@ -13,6 +13,7 @@ import { AdminEditUserAgreementComponent } from './admin-edit-user-agreement/adm
 import { EditCmsMetadataComponent } from './edit-cms-metadata/edit-cms-metadata.component';
 import { MarkdownEditorModule } from '../shared/markdown-editor/markdown-editor.module';
 import { BatchImportPageComponent } from './admin-import-batch-page/batch-import-page.component';
+import { UploadModule } from '../shared/upload/upload.module';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -28,8 +29,9 @@ const ENTRY_COMPONENTS = [
     AccessControlModule,
     AdminSearchModule.withEntryComponents(),
     AdminWorkflowModuleModule.withEntryComponents(),
-    MarkdownEditorModule,
-    SharedModule
+    SharedModule,
+    UploadModule,
+    MarkdownEditorModule
   ],
   declarations: [
     AdminCurationTasksComponent,
