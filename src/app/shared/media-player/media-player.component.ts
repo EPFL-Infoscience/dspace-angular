@@ -13,14 +13,15 @@ import {
 import videojs from 'video.js';
 import * as Wavesurfer from 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
 import {BehaviorSubject} from 'rxjs';
-import {MediaViewerItem} from '../../../../../../core/shared/media-viewer-item.model';
+import {MediaViewerItem} from '../../core/shared/media-viewer-item.model';
 import {map} from 'rxjs/operators';
 import {DOCUMENT} from '@angular/common';
-import {Bitstream} from '../../../../../../core/shared/bitstream.model';
-import {environment} from '../../../../../../../environments/environment';
-import {RemoteData} from '../../../../../../core/data/remote-data';
-import {BitstreamFormat} from '../../../../../../core/shared/bitstream-format.model';
-import {BitstreamDataService} from '../../../../../../core/data/bitstream-data.service';
+import {Bitstream} from '../../core/shared/bitstream.model';
+import {environment} from '../../../environments/environment';
+import {RemoteData} from '../../core/data/remote-data';
+import {BitstreamFormat} from '../../core/shared/bitstream-format.model';
+import {BitstreamDataService} from '../../core/data/bitstream-data.service';
+
 
 @Component({
   selector: 'ds-media-player',
