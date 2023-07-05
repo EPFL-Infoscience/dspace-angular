@@ -123,7 +123,8 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
   /**
    * Remove element modal's title text.
    */
-  removeElementText = 'deduplication.sets.modal.title';
+  removeSetText = 'deduplication.sets.delete-modal.title';
+  removeSetItemText = 'deduplication.sets.item-delete-modal.title';
 
   /**
    * Remove element modal's submit button text.
@@ -255,7 +256,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
     set?: SetObject
   ) {
     this.confirmModalText = {
-      title: this.removeElementText,
+      title: element === 'set' ? this.removeSetText : this.removeSetItemText,
       btnText: this.delteBtnText,
       titleClass: 'text-danger',
       btnClass: 'btn-danger',
