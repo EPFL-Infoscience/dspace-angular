@@ -7,20 +7,20 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Output,
+  Output, PLATFORM_ID,
   ViewEncapsulation
 } from '@angular/core';
 import videojs from 'video.js';
-import * as Wavesurfer from 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
-import {BehaviorSubject} from 'rxjs';
+import Wavesurfer from 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
 import {MediaViewerItem} from '../../core/shared/media-viewer-item.model';
 import {map} from 'rxjs/operators';
-import {DOCUMENT} from '@angular/common';
+import {DOCUMENT, isPlatformBrowser} from '@angular/common';
 import {Bitstream} from '../../core/shared/bitstream.model';
 import {environment} from '../../../environments/environment';
 import {RemoteData} from '../../core/data/remote-data';
 import {BitstreamFormat} from '../../core/shared/bitstream-format.model';
 import {BitstreamDataService} from '../../core/data/bitstream-data.service';
+import {BehaviorSubject} from 'rxjs';
 
 
 @Component({
@@ -38,18 +38,19 @@ export class MediaPlayerComponent implements OnInit, OnDestroy, AfterViewInit, A
   public IDX = 'clip1';
   public ALT_IMAGE = 'assets/images/replacement_image.svg';
   public isVideo$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-  public currentVideo: MediaViewerItem;
+  public videoPlayer: any;
+  public audioPlayer: any;
 
+  public currentVideo: MediaViewerItem;
   private readonly configVideo: any;
   private readonly configAudio: any;
-  private videoPlayer: any;
-  private audioPlayer: any;
   private currentPage = 1;
   private plugin: any;
   private activeIndex = 0;
 
   envMetadata = environment.advancedAttachmentRendering.metadata;
   constructor(@Inject(DOCUMENT) private _document: Document,
+              @Inject(PLATFORM_ID) protected platformId: Object,
               protected bitstreamDataService: BitstreamDataService) {
     this.videoPlayer = false;
     this.audioPlayer = false;
@@ -87,7 +88,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy, AfterViewInit, A
   }
 
   ngOnInit() {
-    this.playersInit();
+
   }
 
   ngAfterContentInit() {
@@ -99,23 +100,26 @@ export class MediaPlayerComponent implements OnInit, OnDestroy, AfterViewInit, A
     let audioEl = 'audio_' + this.IDX;
     let videoEl = 'video_' + this.IDX;
 
-    this.videoPlayer = videojs(this._document.getElementById(videoEl), this.configVideo, () => {
-      console.log('player ready! id:', videoEl);
-      this.videoPlayer.src({src: this.currentVideo?.manifestUrl, type: 'application/dash+xml'});
-    });
+    if (isPlatformBrowser(this.platformId)) {
 
-    this.audioPlayer = videojs(this._document.getElementById(audioEl), this.configAudio, () => {
-      console.log('player ready! id:', audioEl,);
-      this.audioPlayer.src({
-        src: this.currentVideo?.manifestUrl,
-        type: 'application/dash+xml',
-        peaks: this.currentVideo.bitstream?.allMetadata('bitstream.audio.peaks')[0]?.value
+      this.videoPlayer = videojs(this._document.getElementById(videoEl), this.configVideo, () => {
+        console.log('player ready! id:', videoEl);
+        this.videoPlayer.src({src: this.currentVideo?.manifestUrl, type: 'application/dash+xml'});
       });
-    });
+
+      this.audioPlayer = videojs(this._document.getElementById(audioEl), this.configAudio, () => {
+        console.log('player ready! id:', audioEl,);
+        this.audioPlayer.src({
+          src: this.currentVideo?.manifestUrl,
+          type: 'application/dash+xml',
+          peaks: this.currentVideo.bitstream?.allMetadata('bitstream.audio.peaks')[0]?.value
+        });
+      });
+    }
   }
 
   ngOnDestroy() {
-    this.playersInit();
+    this.playersDispose();
   }
 
   startPlaylist(item: any, index: number) {
@@ -154,7 +158,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy, AfterViewInit, A
     console.log('onScroll');
     this.scrollDownEmitter.emit(++this.currentPage);
   }
-  playersInit(){
+  playersDispose(){
     if (this.videoPlayer) {
       this.videoPlayer.dispose();
       this.videoPlayer = false;
