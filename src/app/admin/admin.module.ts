@@ -13,6 +13,7 @@ import { AdminEditUserAgreementComponent } from './admin-edit-user-agreement/adm
 import { EditCmsMetadataComponent } from './edit-cms-metadata/edit-cms-metadata.component';
 import { MarkdownEditorModule } from '../shared/markdown-editor/markdown-editor.module';
 import { BatchImportPageComponent } from './admin-import-batch-page/batch-import-page.component';
+import { UploadModule } from '../shared/upload/upload.module';
 import { AdminLanguageFilesComponent } from './admin-language-files/admin-language-files.component';
 
 const ENTRY_COMPONENTS = [
@@ -29,8 +30,9 @@ const ENTRY_COMPONENTS = [
     AccessControlModule,
     AdminSearchModule.withEntryComponents(),
     AdminWorkflowModuleModule.withEntryComponents(),
-    MarkdownEditorModule,
-    SharedModule
+    SharedModule,
+    UploadModule,
+    MarkdownEditorModule
   ],
   declarations: [
     AdminCurationTasksComponent,
