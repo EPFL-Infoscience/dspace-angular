@@ -49,7 +49,6 @@ describe('IiifToolbarComponent', () => {
       ]
     },
     relationships: createRelationshipsObservable(),
-    self: 'fake-id'
   });
 
   beforeEach(async () => {
@@ -69,6 +68,7 @@ describe('IiifToolbarComponent', () => {
     fixture = TestBed.createComponent(IIIFToolbarComponent);
     component = fixture.componentInstance;
     component.item = mockItem;
+    component.getObjectUrl = () => 'https://test-url.com';
     fixture.detectChanges();
 
     translateService = (component as any).translate;

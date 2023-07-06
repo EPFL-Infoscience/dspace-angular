@@ -32,6 +32,10 @@ export class IIIFToolbarComponent implements OnInit {
 
   isAuthorized$ = of(false);
 
+  getObjectUrl() {
+    return isNotEmpty(this.item) ? this.item.self : undefined;
+  }
+
   constructor(
     protected router: Router,
     protected route: ActivatedRoute,
@@ -43,7 +47,7 @@ export class IIIFToolbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.manifestUrl = environment.rest.baseUrl + '/iiif/' + this.item.id + '/manifest';
-    this.isAuthorized$ = this.authorizationService.isAuthorized(FeatureID.CanDownload, isNotEmpty(this.item) ? this.item.self : undefined);
+    this.isAuthorized$ = this.authorizationService.isAuthorized(FeatureID.CanDownload, this.getObjectUrl());
     this.iiifEnabled = this.isIIIFEnabled();
   }
 
