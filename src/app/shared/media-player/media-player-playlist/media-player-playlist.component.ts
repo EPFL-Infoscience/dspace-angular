@@ -67,7 +67,7 @@ export class MediaPlayerPlaylistComponent implements OnInit {
 
   ngOnInit(): void {
     this.pageOptions = {
-      elementsPerPage: 8,
+      elementsPerPage: 10,
       currentPage: 1
     };
     this.buildPlaylist(isNotEmpty(this.startUUID)).subscribe((list: MediaViewerItem[]) => {
@@ -85,7 +85,9 @@ export class MediaPlayerPlaylistComponent implements OnInit {
   onScrollDown() {
     if (this.hasMoreElements) {
       this.pageOptions.currentPage++;
-      this.buildPlaylist(false);
+      this.buildPlaylist(false).subscribe((list: MediaViewerItem[]) => {
+        this.mediaViewerItemList$.next([...this.mediaViewerItemList$.value, ...list]);
+      });
     }
   }
 
