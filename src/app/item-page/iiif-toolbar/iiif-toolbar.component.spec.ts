@@ -12,6 +12,8 @@ import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.util
 import { buildPaginatedList } from '../../core/data/paginated-list.model';
 import { PageInfo } from '../../core/shared/page-info.model';
 import { createRelationshipsObservable } from '../simple/item-types/shared/item.component.spec';
+import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
+import { AuthorizationDataServiceStub } from '../../shared/testing/authorization-service.stub';
 
 describe('IiifToolbarComponent', () => {
   let component: IIIFToolbarComponent;
@@ -46,7 +48,7 @@ describe('IiifToolbarComponent', () => {
         }
       ]
     },
-    relationships: createRelationshipsObservable()
+    relationships: createRelationshipsObservable(),
   });
 
   beforeEach(async () => {
@@ -54,7 +56,8 @@ describe('IiifToolbarComponent', () => {
       declarations: [ IIIFToolbarComponent ],
       imports: [ RouterTestingModule.withRoutes([]), TranslateModule.forRoot() ],
       providers: [
-        {provide: NotificationsService, useValue: NotificationsServiceStub}
+        {provide: NotificationsService, useValue: NotificationsServiceStub},
+        {provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })
@@ -65,6 +68,7 @@ describe('IiifToolbarComponent', () => {
     fixture = TestBed.createComponent(IIIFToolbarComponent);
     component = fixture.componentInstance;
     component.item = mockItem;
+    component.getObjectUrl = () => 'https://test-url.com';
     fixture.detectChanges();
 
     translateService = (component as any).translate;
