@@ -7,7 +7,7 @@
                preload="none"></video>
       </div>
       <div id="audio-content-wrapper h-100 w-100" [hidden]="!(isPlayerInitialized$ | async) || (isVideo$ | async)">
-        <video class="video-js" id="audio_player" controls playsinline preload="none"></video>
+        <audio class="video-js" id="audio_player" controls playsinline preload="none"></audio>
       </div>
     </div>
   </div>

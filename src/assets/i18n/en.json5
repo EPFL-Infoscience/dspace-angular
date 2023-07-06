@@ -6651,6 +6651,8 @@
 
   "viewer.provider.iiif.breadcrumbs": "Mirador Viewer",
 
+  "viewer.provider.media.breadcrumbs": "Player",
+
   "viewer.provider.pdf.breadcrumbs": "PDF Viewer",
 
   "viewer.provider.title": "Viewer",
