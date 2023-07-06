@@ -11,29 +11,6 @@
     </div>
     <ds-media-player-playlist [itemUUID]="itemUUID"
                               [startUUID]="startUUID"
-                              (selectItem)="setNewItem($event.item, $event.index)"></ds-media-player-playlist>
-    <!--<div  class="playlist-products"
-          infiniteScroll
-          [fromRoot]="true"
-          [infiniteScrollContainer]="'.playlist'"
-          (scrolled)="onScrollDown()">
-      <ul class="playlist">
-        <li
-          *ngFor="let item of videoItems; let $index = index"
-          (click)="setNewItem(item, $index)"
-          class="playlist-item-list"
-          [class.selected]="item === currentItem$">
-          <div class="playlist-img">
-            <img [src]="item.thumbnail ? item.thumbnail : ALT_IMAGE" alt="no image"/>
-          </div >
-          <div class="playlist-description">
-            <p class="content-name"><b>{{getContentName(item)}}</b></p>
-            <p class="content-size">{{item.bitstream.sizeBytes | dsFileSize}}</p>
-            <p class="content-format"> {{getContentFormat(item) | async}}</p>
-          </div>
-        </li>
-        <li></li>
-      </ul>
-    </div>-->
+                              (selectItem)="setNewMediaItem($event)"></ds-media-player-playlist>
   </div>
 </div>

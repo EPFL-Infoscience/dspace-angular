@@ -1,20 +1,23 @@
-<div  class="playlist-products"
-      infiniteScroll
-      [fromRoot]="true"
-      [infiniteScrollContainer]="'.playlist'"
-      (scrolled)="onScrollDown()">
+<div class="playlist-products"
+     infiniteScroll
+     [fromRoot]="true"
+     [infiniteScrollContainer]="'.playlist'"
+     (scrolled)="onScrollDown()">
   <ul class="playlist">
-    <li *ngFor="let item of (mediaViewerItemList$ | async); let $index = index"
-      (click)="emitSelectItem(item, $index)"
-      class="playlist-item-list"
-      [class.selected]="item === selectedItem">
+    <li *ngFor="let mediaItem of (mediaViewerItemList$ | async); let $index = index"
+        (click)="emitSelectItem(mediaItem)"
+        class="playlist-item-list"
+        [class.selected]="mediaItem.bitstream.uuid === selectedMediaItem.bitstream.uuid">
       <div class="playlist-img">
-        <img [src]="item.thumbnail ? item.thumbnail : ALT_IMAGE" alt="no image"/>
-      </div >
+        <img class="img-fluid" alt="no image"
+             [src]="mediaItem.thumbnail ? mediaItem.thumbnail : ALT_IMAGE"/>
+      </div>
       <div class="playlist-description">
-        <p class="content-name"><b>{{item.name}}</b></p>
-        <p class="content-size">{{item.bitstream.sizeBytes | dsFileSize}}</p>
-        <p class="content-format"> {{item.formatDescription}}</p>
+        <div class="media-title" title="{{mediaItem.name}}">
+          <p class="content-name"><b>{{mediaItem.name}}</b></p>
+        </div>
+        <p class="content-size">{{mediaItem.bitstream.sizeBytes | dsFileSize}}</p>
+        <p class="content-format"> {{mediaItem.formatDescription}}</p>
       </div>
     </li>
     <li></li>

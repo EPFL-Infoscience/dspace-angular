@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map, mergeMap, tap, toArray } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { map, mergeMap, toArray } from 'rxjs/operators';
+import findIndex from 'lodash/findIndex';
 
 import { BitstreamDataService, MetadataFilter } from '../../../core/data/bitstream-data.service';
 import { FindListOptions } from '../../../core/data/find-list-options.model';
@@ -12,12 +13,7 @@ import { buildPaginatedList, PaginatedList } from '../../../core/data/paginated-
 import { Bitstream } from '../../../core/shared/bitstream.model';
 import { BitstreamFormat } from '../../../core/shared/bitstream-format.model';
 import { MediaViewerItem } from '../../../core/shared/media-viewer-item.model';
-import { isEmpty } from '../../empty.util';
-
-export interface PlaylistSelectedVideo {
-  item: MediaViewerItem,
-  index: number
-}
+import { isEmpty, isNotEmpty } from '../../empty.util';
 
 @Component({
   selector: 'ds-media-player-playlist',
@@ -59,12 +55,12 @@ export class MediaPlayerPlaylistComponent implements OnInit {
   /**
    * The current selected Bitstream
    */
-  selectedItem: MediaViewerItem;
+  selectedMediaItem: MediaViewerItem;
 
   /**
    * An event emitted when a playlist element is selected
    */
-  @Output() selectItem: EventEmitter<PlaylistSelectedVideo> = new EventEmitter<PlaylistSelectedVideo>();
+  @Output() selectItem: EventEmitter<MediaViewerItem> = new EventEmitter<MediaViewerItem>();
 
   constructor(protected bitstreamDataService: BitstreamDataService) {
   }
@@ -74,11 +70,11 @@ export class MediaPlayerPlaylistComponent implements OnInit {
       elementsPerPage: 8,
       currentPage: 1
     };
-    this.retrieveBitstreams().subscribe((list: MediaViewerItem[]) => {
-      if (isEmpty(this.selectedItem) && isEmpty(this.startUUID)) {
-        this.selectedItem = list[0];
-        this.emitSelectItem(this.selectedItem, 0);
+    this.buildPlaylist(isNotEmpty(this.startUUID)).subscribe((list: MediaViewerItem[]) => {
+      if (isEmpty(this.selectedMediaItem) && isEmpty(this.startUUID)) {
+        this.selectedMediaItem = list[0];
       }
+      this.emitSelectItem(this.selectedMediaItem);
       this.mediaViewerItemList$.next([...this.mediaViewerItemList$.value, ...list]);
     });
   }
@@ -89,11 +85,38 @@ export class MediaPlayerPlaylistComponent implements OnInit {
   onScrollDown() {
     if (this.hasMoreElements) {
       this.pageOptions.currentPage++;
-      this.retrieveBitstreams();
+      this.buildPlaylist(false);
     }
   }
 
-  private retrieveBitstreams(): Observable<MediaViewerItem[]> {
+  /**
+   * Generate a list of MediaViewerItem by retrieving the bitstream
+   *
+   * @param scrollToGivenUUID If true it continues to retrieve the bitstream until the bitstream with startUUID is not found
+   * @private
+   */
+  private buildPlaylist(scrollToGivenUUID: boolean): Observable<MediaViewerItem[]> {
+    const filters: MetadataFilter[] = [{
+      metadataName: 'bitstream.category',
+      metadataValue: 'media'
+    }];
+
+    return this.retrieveBitstreams(scrollToGivenUUID).pipe(
+      mergeMap((bitstreamList: PaginatedList<Bitstream>) => {
+        return bitstreamList.page;
+      }),
+      mergeMap((bitstream: Bitstream) => this.createMediaViewerItem(bitstream)),
+      toArray()
+    );
+  }
+
+  /**
+   * Retrieve bitstream related to the item
+   *
+   * @param scrollToGivenUUID If true it continues to retrieve the bitstream until the bitstream with startUUID is not found
+   * @private
+   */
+  private retrieveBitstreams(scrollToGivenUUID: boolean): Observable<PaginatedList<Bitstream>> {
     const filters: MetadataFilter[] = [{
       metadataName: 'bitstream.category',
       metadataValue: 'media'
@@ -115,14 +138,40 @@ export class MediaPlayerPlaylistComponent implements OnInit {
       }),
       mergeMap((bitstreamList: PaginatedList<Bitstream>) => {
         this.hasMoreElements = this.pageOptions.currentPage !== bitstreamList?.pageInfo?.totalPages;
-        return bitstreamList.page;
-      }),
-      mergeMap((bitstream: Bitstream) => this.createMediaViewerItem(bitstream)),
-      toArray(),
-      tap(console.log)
+        if (scrollToGivenUUID && isEmpty(this.selectedMediaItem)) {
+
+          const bitstreamIndex = findIndex(bitstreamList.page, { uuid: this.startUUID });
+          if (bitstreamIndex !== -1) {
+            return this.createMediaViewerItem(bitstreamList.page[bitstreamIndex]).pipe(
+              map((mediaItem: MediaViewerItem) => {
+                this.selectedMediaItem = mediaItem;
+                return bitstreamList;
+              })
+            );
+          } else if (this.hasMoreElements) {
+            this.pageOptions.currentPage++;
+            return this.retrieveBitstreams(scrollToGivenUUID).pipe(
+              map((bitstreamListRec: PaginatedList<Bitstream>) => {
+                return buildPaginatedList(bitstreamListRec.pageInfo, [...bitstreamList.page, ...bitstreamListRec.page]);
+              })
+            );
+          } else {
+            return of(bitstreamList);
+          }
+        } else {
+          return of(bitstreamList);
+        }
+      })
     );
   }
 
+
+  /**
+   * Create an instance of MediaViewerItem by the given bitstream
+   *
+   * @param bitstream
+   * @private
+   */
   private createMediaViewerItem(bitstream: Bitstream): Observable<MediaViewerItem> {
 
     const format$: Observable<BitstreamFormat> = bitstream.format.pipe(
@@ -145,18 +194,17 @@ export class MediaPlayerPlaylistComponent implements OnInit {
         mediaItem.manifestUrl = bitstream.allMetadataValues('dash.manifest')[0];
         return mediaItem;
       }));
-
   }
 
   /**
-   * Emit the select event
+   * Emit the selectItem event
    *
    * @param item
    * @param index
    */
-  emitSelectItem(item: MediaViewerItem, index: number) {
-    this.selectedItem = item;
-    this.selectItem.emit({ item, index });
+  emitSelectItem(item: MediaViewerItem) {
+    this.selectedMediaItem = item;
+    this.selectItem.emit(item);
   }
 
 }

@@ -113,9 +113,8 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   /**
    * Handle the selected item given by the playlist
    * @param item
-   * @param index
    */
-  setNewItem(item: MediaViewerItem, index: number) {
+  setNewMediaItem(item: MediaViewerItem) {
     if (this.isPlayerInitialized$.value) {
       this.changePlayingItem(item);
     } else {
