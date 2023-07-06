@@ -9,6 +9,10 @@ import {
   AttachmentRenderingType,
   AttachmentTypeRendering
 } from '../../cris-layout/cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/bitstream-attachment/attachment-type.decorator';
+import { FeatureID } from '../../core/data/feature-authorization/feature-id';
+import { isNotEmpty } from '../../shared/empty.util';
+import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'ds-iiif-toolbar',
@@ -26,17 +30,20 @@ export class IIIFToolbarComponent implements OnInit {
 
   iiifEnabled: boolean;
 
+  isAuthorized$ = of(false);
+
   constructor(
     protected router: Router,
     protected route: ActivatedRoute,
     protected notificationsService: NotificationsService,
+    protected authorizationService: AuthorizationDataService,
     protected translate: TranslateService,
   ) {
   }
 
   ngOnInit(): void {
     this.manifestUrl = environment.rest.baseUrl + '/iiif/' + this.item.id + '/manifest';
-
+    this.isAuthorized$ = this.authorizationService.isAuthorized(FeatureID.CanDownload, isNotEmpty(this.item) ? this.item.self : undefined);
     this.iiifEnabled = this.isIIIFEnabled();
   }
 
