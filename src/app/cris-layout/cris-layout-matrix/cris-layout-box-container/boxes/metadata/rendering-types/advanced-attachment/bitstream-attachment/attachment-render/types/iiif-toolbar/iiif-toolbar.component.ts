@@ -9,6 +9,10 @@ import {
   getItemViewerPath
 } from '../../../../../../../../../../../item-page/item-page-routing-paths';
 import { AttachmentRenderingType, AttachmentTypeRendering } from '../../../attachment-type.decorator';
+import { FeatureID } from '../../../../../../../../../../../core/data/feature-authorization/feature-id';
+import { isNotEmpty } from '../../../../../../../../../../../shared/empty.util';
+import { AuthorizationDataService } from '../../../../../../../../../../../core/data/feature-authorization/authorization-data.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'ds-iiif-toolbar',
@@ -26,17 +30,24 @@ export class IIIFToolbarComponent implements OnInit {
 
   iiifEnabled: boolean;
 
+  isAuthorized$ = of(false);
+
+  getObjectUrl() {
+    return isNotEmpty(this.item) ? this.item.self : undefined;
+  }
+
   constructor(
     protected router: Router,
     protected route: ActivatedRoute,
     protected notificationsService: NotificationsService,
+    protected authorizationService: AuthorizationDataService,
     protected translate: TranslateService,
   ) {
   }
 
   ngOnInit(): void {
     this.manifestUrl = environment.rest.baseUrl + '/iiif/' + this.item.id + '/manifest';
-
+    this.isAuthorized$ = this.authorizationService.isAuthorized(FeatureID.CanDownload, this.getObjectUrl());
     this.iiifEnabled = this.isIIIFEnabled();
   }
 
