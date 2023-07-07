@@ -1,11 +1,10 @@
 import { Component, Inject, Input, OnDestroy, OnInit, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
-import videojs from 'video.js';
-import Wavesurfer from 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
 import { BehaviorSubject } from 'rxjs';
 
 import { MediaViewerItem } from '../../core/shared/media-viewer-item.model';
+import { VideojsService } from './services/videojs.service';
 
 @Component({
   selector: 'ds-media-player',
@@ -26,9 +25,14 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   @Input() startUUID: string;
 
   /**
-   * A boolean representing whether player is initialized or not
+   * A boolean representing whether audio player is initialized or not
    */
-  public isPlayerInitialized$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public isAudioPlayerInitialized$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  /**
+   * A boolean representing whether video player is initialized or not
+   */
+  public isVideoPlayerInitialized$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   /**
    * A boolean representing whether the playing media is a video or not
@@ -48,7 +52,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   /**
    * A boolean representing whether if is CSR or not
    */
-  public isPlatformBrowser: boolean;
+  public isPlatformBrowser: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   /**
    * The playing media item
@@ -56,58 +60,31 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   public currentItem$: BehaviorSubject<MediaViewerItem> = new BehaviorSubject<MediaViewerItem>(null);
 
   /**
-   * The config object for video player
-   * @private
+   * The instance for the VideojsService
    */
-  private readonly configVideo: any;
-
-  /**
-   * The config object for audio player
-   * @private
-   */
-  private readonly configAudio: any;
-
-  private plugin: any;
+  public videojsService: VideojsService;
 
   constructor(@Inject(DOCUMENT) private _document: Document,
               @Inject(PLATFORM_ID) protected platformId: string) {
-    this.videoPlayer = false;
-    this.audioPlayer = false;
-    this.plugin = Wavesurfer;
-    this.configAudio = {
-      controls: true,
-      bigPlayButton: false,
-      autoplay: false,
-      fluid: false,
-      loop: false,
-      with: 600,
-      height: 480,
-      plugins: {
-        wavesurfer: {
-          backend: 'MediaElement',
-          debug: true,
-          waveColor: 'green',
-          progressColor: 'grey',
-          cursorColor: 'grey',
-          hideScrollbar: true,
-          barHeight: 0.00002,
-        }
-      }
-    };
-
-    this.configVideo = {
-      controls: true,
-      bigPlayButton: true,
-      autoplay: false,
-      fluid: false,
-      loop: false,
-      with: 600,
-      height: 480
-    };
   }
 
   ngOnInit() {
-    this.isPlatformBrowser = isPlatformBrowser(this.platformId);
+    this.videoPlayer = false;
+    this.audioPlayer = false;
+    /* IMPORTANT
+       Due to a problem occurring on SSR with the Videojs dependency, which use window object, the service can't be injected.
+       So we need to instantiate the class directly based on current the platform */
+    if (isPlatformBrowser(this.platformId)) {
+      import('./services/browser-videojs.service').then((s) => {
+        this.videojsService = new s.BrowserVideojsService();
+        this.isPlatformBrowser.next(true);
+      });
+    } else {
+      import('./services/server-videojs.service').then((s) => {
+        this.videojsService = new s.ServerVideojsService();
+        this.isPlatformBrowser.next(false);
+      });
+    }
   }
 
   /**
@@ -115,11 +92,22 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
    * @param item
    */
   setNewMediaItem(item: MediaViewerItem) {
-    if (this.isPlayerInitialized$.value) {
-      this.changePlayingItem(item);
+    this.currentItem$.next(item);
+    this.isVideo$.next(this.checkContentType(item));
+    if (this.isVideo$.value) {
+      if (this.isVideoPlayerInitialized$.value) {
+        this.changePlayingItem(item);
+      } else {
+        this.initPlayer(item);
+      }
     } else {
-      this.initPlayer(item);
+      if (this.isAudioPlayerInitialized$.value) {
+        this.changePlayingItem(item);
+      } else {
+        this.initPlayer(item);
+      }
     }
+
   }
 
   /**
@@ -129,29 +117,28 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
    * @private
    */
   private initPlayer(item: MediaViewerItem): void {
-    let audioEl = 'audio_player';
-    let videoEl = 'video_player';
+    if (this.isVideo$.value) {
+      this.isVideoPlayerInitialized$.next(true);
+      // stop audio player when switching from audio to video
+      this.disposeAudioPlayer();
+      setTimeout(() => {
+        this.videoPlayer = this.videojsService.initVideoPlayer(
+          this._document.getElementById('video_player'),
+          this.currentItem$?.value
+        );
+      }, 100);
 
-    if (this.isPlatformBrowser) {
-      this.isPlayerInitialized$.next(true);
-      this.currentItem$.next(item);
-      this.isVideo$.next(this.checkContentType(item));
+    } else {
+      this.isAudioPlayerInitialized$.next(true);
+      // stop audio player when switching from video to audio
+      this.disposeVideoPlayer();
+      setTimeout(() => {
+        this.audioPlayer = this.videojsService.initAudioPlayer(
+          this._document.getElementById('audio_player'),
+          this.currentItem$?.value
+        );
+      }, 100);
 
-      if (this.isVideo$.value) {
-        this.videoPlayer = videojs(this._document.getElementById(videoEl), this.configVideo, () => {
-          console.log('player ready! id:', videoEl);
-          this.videoPlayer.src({ src: this.currentItem$?.value?.manifestUrl, type: 'application/dash+xml' });
-        });
-      } else {
-        this.audioPlayer = videojs(this._document.getElementById(audioEl), this.configAudio, () => {
-          console.log('player ready! id:', audioEl,);
-          this.audioPlayer.src({
-            src: this.currentItem$?.value?.manifestUrl,
-            type: 'application/dash+xml',
-            peaks: this.currentItem$?.value?.bitstream?.allMetadata('bitstream.audio.peaks')[0]?.value
-          });
-        });
-      }
     }
   }
 
@@ -168,8 +155,16 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
    */
   private changePlayingItem(item: MediaViewerItem) {
     if (this.isVideo$.value) {
+      // stop audio player when switching from audio to video
+      this.disposeAudioPlayer();
+      this.videoPlayer.pause();
+      this.videoPlayer.reset();
       this.videoPlayer.src({ src: this.currentItem$?.value?.manifestUrl, type: 'application/dash+xml' });
     } else {
+      // stop audio player when switching from video to audio
+      this.disposeVideoPlayer();
+      this.audioPlayer.pause();
+      this.audioPlayer.reset();
       this.audioPlayer.src({
         src: this.currentItem$?.value?.manifestUrl,
         type: 'application/dash+xml',
@@ -182,13 +177,30 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
    * Dispose player on destroy
    */
   ngOnDestroy() {
-    if (this.videoPlayer) {
-      this.videoPlayer.dispose();
-      this.videoPlayer = false;
-    }
+    this.currentItem$.next(null);
+    this.disposeAudioPlayer();
+    this.disposeVideoPlayer();
+  }
+
+  /**
+   * Dispose audio player
+   */
+  private disposeAudioPlayer() {
     if (this.audioPlayer) {
       this.audioPlayer.dispose();
       this.audioPlayer = false;
+      this.isAudioPlayerInitialized$.next(false);
+    }
+  }
+
+  /**
+   * Dispose video player
+   */
+  private disposeVideoPlayer() {
+    if (this.videoPlayer) {
+      this.videoPlayer.dispose();
+      this.videoPlayer = false;
+      this.isVideoPlayerInitialized$.next(false);
     }
   }
 }
