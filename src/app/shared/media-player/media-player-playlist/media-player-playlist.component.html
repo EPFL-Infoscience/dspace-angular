@@ -1,7 +1,10 @@
 <div class="playlist-container h-100"
      infiniteScroll
-     [fromRoot]="true"
+     [fromRoot]="false"
+     [infiniteScrollDistance]="2.5"
+     [infiniteScrollThrottle]="0"
      [infiniteScrollContainer]="'.playlist'"
+     [scrollWindow]="false"
      (scrolled)="onScrollDown()">
   <ul class="playlist px-1 h-100">
     <li *ngFor="let mediaItem of (mediaViewerItemList$ | async); let $index = index"
