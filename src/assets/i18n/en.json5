@@ -4615,6 +4615,8 @@
 
   "nav.subscriptions" : "Subscriptions",
 
+  "nav.userStatistics" : "Profile Stats",
+
   "none.listelement.badge": "Item",
 
   "openaire.broker.title": "OpenAIRE Broker",
