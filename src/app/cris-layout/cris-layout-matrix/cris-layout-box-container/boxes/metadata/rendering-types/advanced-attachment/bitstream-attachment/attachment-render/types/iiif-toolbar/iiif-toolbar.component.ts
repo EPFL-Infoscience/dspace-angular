@@ -1,18 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { environment } from '../../../environments/environment';
-import { Item } from '../../core/shared/item.model';
-import { NotificationsService } from '../../shared/notifications/notifications.service';
+import { environment } from '../../../../../../../../../../../../environments/environment';
+import { Item } from '../../../../../../../../../../../core/shared/item.model';
+import { NotificationsService } from '../../../../../../../../../../../shared/notifications/notifications.service';
 import { TranslateService } from '@ngx-translate/core';
-import { getItemViewerDetailsPath, getItemViewerPath } from '../item-page-routing-paths';
 import {
-  AttachmentRenderingType,
-  AttachmentTypeRendering
-} from '../../cris-layout/cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/bitstream-attachment/attachment-type.decorator';
-import { FeatureID } from '../../core/data/feature-authorization/feature-id';
-import { isNotEmpty } from '../../shared/empty.util';
-import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
+  getItemViewerDetailsPath,
+  getItemViewerPath
+} from '../../../../../../../../../../../item-page/item-page-routing-paths';
+import { AttachmentRenderingType, AttachmentTypeRendering } from '../../../attachment-type.decorator';
+import { FeatureID } from '../../../../../../../../../../../core/data/feature-authorization/feature-id';
+import { isNotEmpty } from '../../../../../../../../../../../shared/empty.util';
+import { AuthorizationDataService } from '../../../../../../../../../../../core/data/feature-authorization/authorization-data.service';
 import { of } from 'rxjs';
+import { Bitstream } from '../../../../../../../../../../../core/shared/bitstream.model';
 
 @Component({
   selector: 'ds-iiif-toolbar',
@@ -25,6 +26,9 @@ export class IIIFToolbarComponent implements OnInit {
   @Input()
   item: Item;
 
+  @Input()
+  bitstream: Bitstream;
+
   // The path to the REST manifest endpoint.
   manifestUrl: string;
 
@@ -33,7 +37,7 @@ export class IIIFToolbarComponent implements OnInit {
   isAuthorized$ = of(false);
 
   getObjectUrl() {
-    return isNotEmpty(this.item) ? this.item.self : undefined;
+    return isNotEmpty(this.bitstream) ? this.bitstream.self : undefined;
   }
 
   constructor(
