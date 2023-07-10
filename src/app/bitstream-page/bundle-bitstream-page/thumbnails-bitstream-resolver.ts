@@ -27,9 +27,9 @@ export class ThumbnailsBitstreamResolver implements Resolve<any> {
    */
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     const bundleId = route.params.bundle_uuid;
-    const thumbnailId = route.params.thumbnail_id;
+    const thumbnailIndex = route.params.thumbnail_id;
     const paginatedOptions = new PaginatedSearchOptions({
-      pagination: Object.assign(new PaginationComponentOptions(), { id: thumbnailId , pageSize: 1, currentPage: thumbnailId})});
+      pagination: Object.assign(new PaginationComponentOptions(), { id: thumbnailIndex , pageSize: 1, currentPage: thumbnailIndex})});
     return this.bundleDataService.getBitstreams(bundleId, paginatedOptions)
       .pipe(
         getFirstCompletedRemoteData(),
