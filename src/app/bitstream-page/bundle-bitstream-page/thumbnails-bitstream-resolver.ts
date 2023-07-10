@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
-import {RemoteData} from '../../core/data/remote-data';
-import {Bitstream} from '../../core/shared/bitstream.model';
 import {BundleDataService} from '../../core/data/bundle-data.service';
 import {Observable} from 'rxjs';
 import {PaginatedSearchOptions} from '../../shared/search/models/paginated-search-options.model';
 import {PaginationComponentOptions} from '../../shared/pagination/pagination-component-options.model';
-import {PaginatedList} from '../../core/data/paginated-list.model';
 import {getFirstCompletedRemoteData} from '../../core/shared/operators';
 import {map} from 'rxjs/operators';
+import {
+  createNoContentRemoteDataObject,
+  createSuccessfulRemoteDataObject,
+} from '../../shared/remote-data.utils';
 
 
 @Injectable({
@@ -21,11 +22,10 @@ export class ThumbnailsBitstreamResolver implements Resolve<any> {
    * Method for resolving a bitstream based on the parameters in the current route
    * @param {ActivatedRouteSnapshot} route The current ActivatedRouteSnapshot
    * @param {RouterStateSnapshot} state The current RouterStateSnapshot
-   * @returns Observable<<RemoteData<Item>> Emits the found bitstream based on the parameters in the current route,
+   * @returns Observable<RemoteData<PaginatedList<Bitstream>>> Emits the found bitstream based on the parameters in the current route,
    * or an error if something went wrong
    */
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-    console.log('start resolve', route);
     const bundleId = route.params.bundle_uuid;
     const thumbnailId = route.params.thumbnail_id;
     const paginatedOptions = new PaginatedSearchOptions({
@@ -33,7 +33,10 @@ export class ThumbnailsBitstreamResolver implements Resolve<any> {
     return this.bundleDataService.getBitstreams(bundleId, paginatedOptions)
       .pipe(
         getFirstCompletedRemoteData(),
-        map((remoteData: RemoteData<PaginatedList<Bitstream>>) => remoteData.payload?.page[0]),
+        map ((data) => data.payload?.page[0]),
+        map ((data) => {
+          return data ? createSuccessfulRemoteDataObject(data) : createNoContentRemoteDataObject();
+        })
       );
   }
 }
