@@ -111,7 +111,6 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
    * @protected
    */
   protected initRange(minmax: [string | null, string | null]) {
-    console.log('init range', minmax);
     this.range = minmax;
   }
 
@@ -129,7 +128,6 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
    */
   protected initMin() {
     this.min = yearFromString(this.filterConfig.minValue) || this.min;
-    console.log('initMin', this.min);
   }
 
   /**
@@ -137,16 +135,12 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
    * @protected
    */
   protected getMinMaxParams(): Observable<[string, string]> {
-    console.log('getMinMaxParams');
-    return this.route.queryParamMap
-      .pipe(
-        tap(console.log),
-        map(paramMaps => [
-          paramMaps.get(this.filterConfig.paramName + RANGE_FILTER_MIN_SUFFIX) ?? `${this.min}`,
-          paramMaps.get(this.filterConfig.paramName + RANGE_FILTER_MAX_SUFFIX) ?? `${this.max}`
-        ]),
-        tap(console.log)
-      );
+    return this.route.queryParamMap.pipe(
+      map(paramMaps => [
+        paramMaps.get(this.filterConfig.paramName + RANGE_FILTER_MIN_SUFFIX) ?? `${this.min}`,
+        paramMaps.get(this.filterConfig.paramName + RANGE_FILTER_MAX_SUFFIX) ?? `${this.max}`
+      ]),
+    );
   }
 
   /**
