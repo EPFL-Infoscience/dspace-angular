@@ -14,6 +14,7 @@ import { cold } from 'jasmine-marbles';
 import { By } from '@angular/platform-browser';
 import { AuthService } from '../../../core/auth/auth.service';
 import { of } from 'rxjs';
+import { ResearcherProfileDataService } from '../../../core/profile/researcher-profile-data.service';
 
 describe('UserMenuComponent', () => {
 
@@ -23,11 +24,13 @@ describe('UserMenuComponent', () => {
   let authState: AuthState;
   let authStateLoading: AuthState;
   let authService: AuthService;
+  let researcherProfileService: ResearcherProfileDataService;
 
   function serviceInit() {
     authService = jasmine.createSpyObj('authService', {
       getAuthenticatedUserFromStore: of(EPersonMock)
     });
+    researcherProfileService = jasmine.createSpyObj('researcherProfileService', ['findRelatedItemId']);
   }
 
   function init() {
@@ -69,7 +72,8 @@ describe('UserMenuComponent', () => {
         })
       ],
       providers: [
-        { provide: AuthService, useValue: authService }
+        { provide: AuthService, useValue: authService },
+        { provide: ResearcherProfileDataService, useValue: researcherProfileService },
       ],
       declarations: [
         UserMenuComponent
