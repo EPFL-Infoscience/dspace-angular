@@ -9,6 +9,7 @@ import {
   XSRF_REQUEST_HEADER,
   XSRF_RESPONSE_HEADER
 } from '../xsrf/xsrf.interceptor';
+import { DspaceRestService } from '../dspace-rest/dspace-rest.service';
 
 describe(`ServerAuthRequestService`, () => {
   let href: string;
@@ -17,6 +18,7 @@ describe(`ServerAuthRequestService`, () => {
   let httpClient: HttpClient;
   let httpResponse: HttpResponse<any>;
   let halService: HALEndpointService;
+  let restService: DspaceRestService;
   const mockToken = 'mock-token';
 
   beforeEach(() => {
@@ -37,7 +39,7 @@ describe(`ServerAuthRequestService`, () => {
     halService = jasmine.createSpyObj('halService', {
       'getRootHref': '/api'
     });
-    service = new ServerAuthRequestService(halService, requestService, null, httpClient);
+    service = new ServerAuthRequestService(halService, requestService, null, restService, httpClient);
   });
 
   describe(`createShortLivedTokenRequest`, () => {

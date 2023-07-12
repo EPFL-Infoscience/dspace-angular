@@ -29,7 +29,7 @@ import { ConfigurationDataService } from '../../core/data/configuration-data.ser
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ItemSharedModule } from '../item-shared.module';
-import { CookieService } from '../../../core/services/cookie.service';
+import { CookieService } from '../../core/services/cookie.service';
 
 describe('ItemVersionsComponent', () => {
   let component: ItemVersionsComponent;
