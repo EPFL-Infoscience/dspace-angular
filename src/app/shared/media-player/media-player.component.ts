@@ -115,7 +115,6 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
    * @param timestamp
    */
   setNewTimestamp(timestamp: number) {
-    console.log('setNewTimestamp ', timestamp);
     if (this.isVideoPlayerInitialized$.value) {
       this.videoPlayer.currentTime(timestamp);
       }

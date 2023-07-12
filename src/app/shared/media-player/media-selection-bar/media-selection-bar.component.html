@@ -1,4 +1,5 @@
 <div class="thumbs"
+     #thumbs
      infiniteScroll
      [fromRoot]="false"
      [infiniteScrollDistance]="2.5"
@@ -9,7 +10,10 @@
 
   <div class="thumbs-item" *ngFor="let selectionItem of (mediaSelectionItemList$ | async); let $index = index"
        (click)="emitSelectItem(selectionItem)">
-    <img class="img-fluid" alt="no image" [title]="selectionItem.sceneTimestamp"
+    <img class="img-fluid" alt="no image"
          [src]="selectionItem.thumbnail"/>
+    <div class="thumbs-item-caption">
+      {{ selectionItem.sceneTimestamp | number:'1.0-0' }}
+    </div>
   </div>
 </div>

@@ -17,6 +17,11 @@
     text-align: center;
     position: relative;
     overflow: hidden;
+    margin-right: 4px;
+
+    &:last-child {
+      margin-right: 0;
+    }
 
     img {
       position: absolute;
@@ -27,6 +32,16 @@
         transition: .3s ease;
         transform: scale(1.2);
       }
+    }
+
+    &-caption {
+      position: absolute;
+      right: 4px;
+      bottom: 4px;
+      background: #fff;
+      padding: 4px;
+      font-size: 10px;
+      line-height: 12px;
     }
   }
 }

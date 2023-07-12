@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, Output, ViewChild} from '@angular/core';
 import {BitstreamDataService, MetadataFilter} from '../../../core/data/bitstream-data.service';
 import {FindListOptions} from '../../../core/data/find-list-options.model';
 import {BehaviorSubject, Observable, of} from 'rxjs';
@@ -61,6 +61,15 @@ export class MediaSelectionBarComponent implements OnChanges {
    */
   @Output() selectItem: EventEmitter<number> = new EventEmitter<number>();
 
+  @ViewChild('thumbs') thumbs: ElementRef;
+
+  @HostListener('wheel', ['$event'])
+  onMouseWheel(event: WheelEvent) {
+    event.preventDefault();
+    const delta = Math.sign(event.deltaY);
+    this.thumbs.nativeElement.scrollLeft += delta * 50;
+  }
+
   constructor(protected bitstreamDataService: BitstreamDataService) {
   }
   ngOnChanges(): void {
@@ -70,13 +79,10 @@ export class MediaSelectionBarComponent implements OnChanges {
     };
 
     this.selectedMediaItemUUID$.next(this.currentItem.bitstream?.id ? this.currentItem.bitstream?.id : this.startUUID);
-
-    console.log('onChanged id', this.selectedMediaItemUUID$.value);
-
+    if (this.thumbs) {
+      this.thumbs.nativeElement.scrollLeft = 0;
+    }
     this.bundleName = 'SCENES-THUMBNAIL-' + this.selectedMediaItemUUID$.value;
-    console.log('startUUID - ' , this.selectedMediaItemUUID$.value);
-    console.log('itemUUID - ' , this.itemUUID);
-    console.log('bundleName - ' , this.bundleName);
 
     this.mediaSelectionItemList$ = new BehaviorSubject<MediaSelectionBarItem[]>([]);
     this.hasMoreElements = false;
@@ -90,11 +96,8 @@ export class MediaSelectionBarComponent implements OnChanges {
    * Retrieve more selection bar element on scroll
    */
   onScrollDown() {
-    console.log('scrollDown');
-    console.log('hasMoreElements',this.hasMoreElements );
     if (this.hasMoreElements) {
       this.pageOptions.currentPage++;
-      console.log('currentPage',this.pageOptions.currentPage);
       this.buildSelectionList(false).subscribe((list: MediaSelectionBarItem[]) => {
         this.mediaSelectionItemList$.next([...this.mediaSelectionItemList$.value, ...list]);
       });
@@ -109,9 +112,6 @@ export class MediaSelectionBarComponent implements OnChanges {
    */
   private retrieveBitstreams(isStartUUIDPresent: boolean): Observable<PaginatedList<Bitstream>> {
     const filters: MetadataFilter[] = [];
-
-    console.log('start retrieve bitstream');
-
     return this.bitstreamDataService.findShowableBitstreamsByItem(
       this.itemUUID,
       this.bundleName,
@@ -145,8 +145,7 @@ export class MediaSelectionBarComponent implements OnChanges {
         return bitstreamList.page;
       }),
       mergeMap((bitstream: Bitstream) => this.createMediaSelectionItem(bitstream)),
-      toArray(),
-      tap((data) => console.log('build selection list data', data))
+      toArray()
     );
   }
 
@@ -156,7 +155,6 @@ export class MediaSelectionBarComponent implements OnChanges {
    * @param item
    */
   emitSelectItem(item: MediaSelectionBarItem) {
-    console.log('emitSelectItem',item);
     this.selectItem.emit(item.sceneTimestamp);
   }
 
