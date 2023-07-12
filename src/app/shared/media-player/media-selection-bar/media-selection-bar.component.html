@@ -1,0 +1,49 @@
+<div class="thumbs-container h-100"
+     infiniteScroll
+     [fromRoot]="false"
+     [infiniteScrollDistance]="2.5"
+     [infiniteScrollThrottle]="0"
+     [infiniteScrollContainer]="'.thumbs'"
+     [scrollWindow]="false"
+     (scrolled)="onScrollDown()">
+  <ul class="thumbs px-1 h-100">
+    <li *ngFor="let selectionItem of (mediaSelectionItemList$ | async); let $index = index"
+        (click)="emitSelectItem(selectionItem)">
+      <div class="thumbs-item">
+        <img class="img-fluid" alt="no image"
+             [src]="selectionItem.thumbnail"/>
+      </div>
+    </li>
+  </ul>
+</div>
+<!--<div class="thumbs-container">-->
+<!--  <ul class="thumbs">-->
+<!--    <li class="thumbs-item">-->
+<!--      test-->
+<!--    </li>-->
+<!--    <li class="thumbs-item">-->
+<!--      test-->
+<!--    </li>-->
+<!--    <li class="thumbs-item">-->
+<!--      test-->
+<!--    </li>-->
+<!--    <li class="thumbs-item">-->
+<!--      test-->
+<!--    </li>-->
+<!--    <li class="thumbs-item">-->
+<!--      test-->
+<!--    </li>-->
+<!--    <li class="thumbs-item">-->
+<!--      test-->
+<!--    </li>-->
+<!--    <li class="thumbs-item">-->
+<!--      test-->
+<!--    </li>-->
+<!--    <li class="thumbs-item">-->
+<!--      test-->
+<!--    </li>-->
+<!--    <li class="thumbs-item">-->
+<!--      test-->
+<!--    </li>-->
+<!--  </ul>-->
+<!--</div>-->

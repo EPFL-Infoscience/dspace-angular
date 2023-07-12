@@ -107,8 +107,17 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
         this.initPlayer(item);
       }
     }
-
   }
+  /**
+   * Handle the selected timestamp by selection bar
+   * @param timestamp
+   */
+  setNewTimestamp(timestamp: number) {
+    console.log('setNewTimestamp ', timestamp);
+    if (this.isVideoPlayerInitialized$.value) {
+      this.videoPlayer.currentTime(timestamp);
+      }
+    }
 
   /**
    * Init videojs player with the given item as source
@@ -172,6 +181,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
       });
     }
   }
+
 
   /**
    * Dispose player on destroy
