@@ -2,23 +2,45 @@
   position: absolute;
   width: 100%;
   left: 0;
-  top: 100%;
+  top: calc(100% + 0.25rem);
   overflow-x: auto;
+  overflow-y: hidden;
   white-space: nowrap;
   padding: 0;
+  height: calc(107px + 0.25rem);
 
   &-item {
     display: inline-block;
-    width: 140px;
+    width: 240px;
     height: 100px;
     cursor: pointer;
     text-align: center;
-    background: orange;
-    transition: .3s ease;
+    position: relative;
+    overflow: hidden;
 
-    &:hover {
-      background: red;
+    img {
+      position: absolute;
+      inset: 0;
       transition: .3s ease;
+
+      &:hover {
+        transition: .3s ease;
+        transform: scale(1.2);
+      }
     }
   }
+}
+
+.thumbs::-webkit-scrollbar {
+  height: 7px;
+}
+
+.thumbs::-webkit-scrollbar-track {
+  background: #ccc;
+  border-radius: 50px;
+}
+
+.thumbs::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 50px;
 }
