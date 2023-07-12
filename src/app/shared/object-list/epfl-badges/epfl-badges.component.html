@@ -1,0 +1,3 @@
+<div class="d-flex gap-1">
+  <span *ngFor="let badge of badges" class="badge d-inline-block" [class]="'badge-' + badge.badgeClass">{{ (labelPrefix + badge.key) | translate }}</span>
+</div>

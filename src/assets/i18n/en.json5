@@ -4850,6 +4850,12 @@
 
   "mydspace.status.workspace": "Workspace",
 
+  "mydspace.status.epfl.workflowAdditionalInformation": "Additional information required",
+
+  "mydspace.status.epfl.workflowRejected": "Rejected",
+
+  "mydspace.status.epfl.newVersion": "New version",
+
   "mydspace.title": "MyDSpace",
 
   "mydspace.upload.upload-failed": "Error creating new workspace. Please verify the content uploaded before retry.",

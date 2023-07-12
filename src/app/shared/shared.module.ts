@@ -339,6 +339,7 @@ import { ChangeSubmitterService } from '../submission/change-submitter.service';
 import { ChangeSubmitterRestService } from '../core/submission/change-submitter-rest.service';
 import { ClaimedTaskActionsSendEmailComponent } from './mydspace-actions/claimed-task/email/claimed-task-actions-send-email.component';
 import { ChangeSubmitterButtonComponent } from './change-submitter-button/change-submitter-button.component';
+import { EpflBadgesComponent } from './object-list/epfl-badges/epfl-badges.component';
 
 const MODULES = [
   CommonModule,
@@ -482,6 +483,7 @@ const COMPONENTS = [
   PdfViewerComponent,
   AdditionalMetadataComponent,
   ChangeSubmitterButtonComponent,
+  EpflBadgesComponent,
 ];
 
 const ENTRY_COMPONENTS = [
@@ -611,7 +613,7 @@ const DIRECTIVES = [
     ...DIRECTIVES,
     TranslateModule,
     AdditionalMetadataComponent,
-  ]
+  ],
 })
 
 /**
