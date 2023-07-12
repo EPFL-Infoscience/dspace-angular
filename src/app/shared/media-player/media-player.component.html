@@ -14,6 +14,7 @@
     <ds-media-selection-bar *ngIf="isVideoPlayerInitialized$ | async"
                               [startUUID]="startUUID"
                               [itemUUID]="itemUUID"
+                              [currentItem]="currentItem$ | async"
                               (selectItem)="setNewTimestamp($event)"></ds-media-selection-bar>
 
   </div>

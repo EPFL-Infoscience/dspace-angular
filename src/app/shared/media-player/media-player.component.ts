@@ -71,6 +71,8 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.videoPlayer = false;
     this.audioPlayer = false;
+    console.log('startUUID - Pl' , this.startUUID);
+    console.log('itemUUID - Pl' , this.itemUUID);
     /* IMPORTANT
        Due to a problem occurring on SSR with the Videojs dependency, which use window object, the service can't be injected.
        So we need to instantiate the class directly based on current the platform */
