@@ -5,7 +5,7 @@ import {BehaviorSubject, Observable, of} from 'rxjs';
 import {buildPaginatedList, PaginatedList} from '../../../core/data/paginated-list.model';
 import {Bitstream} from '../../../core/shared/bitstream.model';
 import {getFirstCompletedRemoteData} from '../../../core/shared/operators';
-import {map, mergeMap, tap, toArray} from 'rxjs/operators';
+import {map, mergeMap, toArray} from 'rxjs/operators';
 import {followLink} from '../../utils/follow-link-config.model';
 import {isNotEmpty} from '../../empty.util';
 import {MediaSelectionBarItem} from './media-selection-bar-item.model';
