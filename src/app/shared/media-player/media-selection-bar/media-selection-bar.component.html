@@ -13,7 +13,7 @@
     <img class="img-fluid" alt="no image"
          [src]="selectionItem.thumbnail"/>
     <div class="thumbs-item-caption">
-      {{ selectionItem.sceneTimestamp | number:'1.0-0' }}
+      {{ selectionItem.sceneTimestamp * 1000 | date:'H:mm:ss':'UTC'}}
     </div>
   </div>
 </div>
