@@ -199,7 +199,6 @@ describe('MyDSpaceConfigurationService', () => {
 
       expect(list$).toBeObservable(cold('(b|)', {
         b: [
-          MyDSpaceConfigurationValueType.SupervisedItems,
           MyDSpaceConfigurationValueType.Workflow
         ]
       }));
@@ -214,7 +213,6 @@ describe('MyDSpaceConfigurationService', () => {
 
       expect(list$).toBeObservable(cold('(b|)', {
         b: [
-          MyDSpaceConfigurationValueType.SupervisedItems,
           MyDSpaceConfigurationValueType.Workflow
         ]
       }));
@@ -231,7 +229,6 @@ describe('MyDSpaceConfigurationService', () => {
         b: [
           MyDSpaceConfigurationValueType.Workspace,
           MyDSpaceConfigurationValueType.OtherWorkspace,
-          MyDSpaceConfigurationValueType.SupervisedItems,
           MyDSpaceConfigurationValueType.Workflow
         ]
       }));
