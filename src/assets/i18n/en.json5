@@ -6656,6 +6656,8 @@
 
   "submission.sections.submit.progressbar.describe.ctb-metadata": "Common file attributes - set for each file unless differently specified",
 
+  "submission.sections.submit.progressbar.describe.ctb-bitstream-metadata": "Common file attributes - set for each file unless differently specified",
+
 
 
   "submission.sections.detect-duplicate.clear-decision": "Undo",
@@ -7074,11 +7076,17 @@
 
   "submission.sections.submit.progressbar.describe.publication": "Publication basic information",
 
+  "submission.sections.submit.progressbar.describe.basic_information": "Basic information",
+
   "submission.sections.submit.progressbar.describe.publication_bibliographic_details": "Publication bibliographic details",
 
   "submission.sections.submit.progressbar.describe.publication_indexing": "Publication indexing",
 
   "submission.sections.submit.progressbar.describe.publication_references": "Publication references",
+
+  "submission.sections.submit.progressbar.describe.product_type": "Type",
+
+  "submission.sections.submit.progressbar.describe.patent_type": "Type",
 
   "submission.sections.submit.progressbar.describe.rp": "Researcher basic information",
 
@@ -8106,6 +8114,8 @@
   "submission.sections.submit.progressbar.describe.archival_materials_references": "Archival Materials Contextual References",
 
   "submission.sections.submit.progressbar.describe.fond": "Fond Details",
+
+  "submission.sections.submit.progressbar.describe.lookup": "Lookup",
 
   "submission.sections.submit.progressbar.describe.place": "Place Details",
 
