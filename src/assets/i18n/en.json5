@@ -4840,15 +4840,15 @@
 
   "mydspace.show.otherworkspace": "Other Workspace Submissions",
 
-  "mydspace.status.archived": "Archived",
+  "mydspace.status.archived": "Published",
 
   "mydspace.status.validation": "Validation",
 
   "mydspace.status.waiting-for-controller": "Waiting for controller",
 
-  "mydspace.status.workflow": "Workflow",
+  "mydspace.status.workflow": "Pending Validation",
 
-  "mydspace.status.workspace": "Workspace",
+  "mydspace.status.workspace": "Draft",
 
   "mydspace.status.epfl.workflowAdditionalInformation": "Additional information required",
 
