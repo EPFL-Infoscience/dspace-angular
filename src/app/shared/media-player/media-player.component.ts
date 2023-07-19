@@ -27,17 +27,17 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   /**
    * A boolean representing whether audio player is initialized or not
    */
-  public isAudioPlayerInitialized$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public isAudioPlayerInitialized$ = new BehaviorSubject<boolean>(false);
 
   /**
    * A boolean representing whether video player is initialized or not
    */
-  public isVideoPlayerInitialized$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public isVideoPlayerInitialized$ = new BehaviorSubject<boolean>(false);
 
   /**
    * A boolean representing whether the playing media is a video or not
    */
-  public isVideo$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  public isVideo$ = new BehaviorSubject<boolean>(true);
 
   /**
    * The instance of videojs for video media
@@ -52,12 +52,12 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   /**
    * A boolean representing whether if is CSR or not
    */
-  public isPlatformBrowser: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public isPlatformBrowser = new BehaviorSubject<boolean>(false);
 
   /**
    * The playing media item
    */
-  public currentItem$: BehaviorSubject<MediaViewerItem> = new BehaviorSubject<MediaViewerItem>(null);
+  public currentItem$ = new BehaviorSubject<MediaViewerItem>(null);
 
   /**
    * The instance for the VideojsService
@@ -95,7 +95,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
    */
   setNewMediaItem(item: MediaViewerItem) {
     this.currentItem$.next(item);
-    this.isVideo$.next(this.checkContentType(item));
+    this.isVideo$.next(this.mediaIsVideo(item));
     if (this.isVideo$.value) {
       if (this.isVideoPlayerInitialized$.value) {
         this.changePlayingItem(item);
@@ -152,9 +152,9 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private checkContentType(currentMedia: MediaViewerItem) {
-    //TODO: update check format existence
-    return currentMedia?.format === 'video';
+  private mediaIsVideo(currentMedia: MediaViewerItem) {
+    const bitstreamVideoFormat = currentMedia?.bitstream?.firstMetadataValue('bitstream.viewer.provider');
+    return bitstreamVideoFormat === 'video-streaming';
   }
 
   /**
