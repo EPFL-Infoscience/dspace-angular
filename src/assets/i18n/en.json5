@@ -4531,6 +4531,10 @@
 
   "mydspace.results.head": "Your submissions",
 
+  "mydspace.results.in-workflow-since": "In workflow since:",
+
+  "mydspace.results.in-workflow-for": "In workflow for:",
+
   "mydspace.results.no-abstract": "No Abstract",
 
   "mydspace.results.no-authors": "No Authors",
@@ -4556,8 +4560,6 @@
   "mydspace.show.workspace": "Your Submissions",
 
   "mydspace.show.otherworkspace": "Other Workspace Submissions",
-
-  "mydspace.show.inworkflowsince": "In workflow Since",
 
   "mydspace.status.archived": "Archived",
 

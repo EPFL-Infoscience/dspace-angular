@@ -15,7 +15,7 @@
       <ds-truncatable [id]="item.id">
         <h3 [innerHTML]="dsoTitle" [ngClass]="{'lead': true,'text-muted': !item.firstMetadataValue('dc.title')}"></h3>
         <div *ngIf="item.hasMetadata('epfl.workflow.startDateTime') && item.hasMetadata('dc.date.accessioned')">
-          In workflow for: {{getDateForArchivedItem(item.firstMetadataValue('epfl.workflow.startDateTime'), item.firstMetadataValue('dc.date.accessioned'))}}
+          {{'mydspace.results.in-workflow-for' | translate}} {{getDateForArchivedItem(item.firstMetadataValue('epfl.workflow.startDateTime'), item.firstMetadataValue('dc.date.accessioned'))}}
         </div>
         <div>
       <span class="text-muted">
