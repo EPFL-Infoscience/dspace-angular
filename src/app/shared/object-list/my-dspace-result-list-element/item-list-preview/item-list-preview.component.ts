@@ -9,6 +9,7 @@ import { SearchResult } from '../../../search/models/search-result.model';
 import { APP_CONFIG, AppConfig } from '../../../../../config/app-config.interface';
 import { DSONameService } from '../../../../core/breadcrumbs/dso-name.service';
 import { DuplicateMatchMetadataDetailConfig } from '../../../../submission/sections/detect-duplicate/models/duplicate-detail-metadata.model';
+import * as moment from 'moment';
 
 /**
  * This component show metadata for the given item object in the list view.
@@ -62,6 +63,16 @@ export class ItemListPreviewComponent implements OnInit {
   ngOnInit(): void {
     this.showThumbnails = this.appConfig.browseBy.showThumbnails;
     this.dsoTitle = this.dsoNameService.getName(this.item);
+  }
+
+
+  getDateForArchivedItem(itemStartDate, dateAccessioned) {
+    const itemStartDateConverted: number = moment(itemStartDate, 'DD-MM-YYYY HH:mm:ss').valueOf();
+    const dateAccessionedConverted: number = moment(dateAccessioned, 'DD-MM-YYYY HH:mm:ss').valueOf();
+    const diff: moment.Duration =  moment.duration(dateAccessionedConverted - itemStartDateConverted);
+    const days: number = Math.floor(diff.asDays());
+    const hours: number =  Math.floor(moment.duration(diff.asMilliseconds() - days * 24 * 60 * 60 * 1000).asHours());
+    return `${days} d ${hours} h`;
   }
 
 

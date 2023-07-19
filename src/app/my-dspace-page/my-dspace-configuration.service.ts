@@ -23,8 +23,7 @@ import {Context} from '../core/shared/context.model';
 export const MyDSpaceConfigurationToContextMap = new Map([
   [MyDSpaceConfigurationValueType.Workspace, Context.Workspace],
   [MyDSpaceConfigurationValueType.OtherWorkspace, Context.OtherWorkspace],
-  [MyDSpaceConfigurationValueType.Workflow, Context.Workflow],
-  [MyDSpaceConfigurationValueType.InWorkflowSince, Context.InWorkflowSince]
+  [MyDSpaceConfigurationValueType.Workflow, Context.Workflow]
 ]);
 
 
@@ -112,7 +111,6 @@ export class MyDSpaceConfigurationService extends SearchConfigurationService {
         if (isSubmitter) {
           availableConf.push(MyDSpaceConfigurationValueType.Workspace);
           availableConf.push(MyDSpaceConfigurationValueType.OtherWorkspace);
-          availableConf.push(MyDSpaceConfigurationValueType.InWorkflowSince);
         }
         if (isController || isAdmin) {
           availableConf.push(MyDSpaceConfigurationValueType.Workflow);
