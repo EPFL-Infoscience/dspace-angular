@@ -7557,6 +7557,8 @@
 
   "person.page.orcid.unlink.error": "An error occurred while disconnecting between the profile and the ORCID registry. Try again",
 
+  "person.page.orcid.integration-service.link": "EPFL ORCID integration service",
+
   "person.orcid.sync.setting": "ORCID Synchronization settings",
 
   "person.orcid.registry.queue": "ORCID Registry Queue",
