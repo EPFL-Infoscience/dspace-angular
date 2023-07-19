@@ -159,6 +159,11 @@ describe('OrcidAuthService', () => {
     name: 'orcid.scope',
     values: ['/authenticate', '/read-limited']
   } as ConfigurationProperty;
+  const orcidEpflIntegrationUrl = {
+    uuid: 'orcid.epfl-integration-url',
+    name: 'orcid.epfl-integration-url',
+    values: ['orcid.epfl-integration-url']
+  } as ConfigurationProperty;
 
   beforeEach(() => {
     scheduler = getTestScheduler();
@@ -191,6 +196,18 @@ describe('OrcidAuthService', () => {
 
     it('should return true when item has no metadata', () => {
       const result = service.isLinkedToOrcid(mockItemUnlinkedToOrcid);
+      expect(result).toBeFalse();
+    });
+  });
+
+  describe('hasOrcidIdentifier', () => {
+    it('should return true when item has metadata', () => {
+      const result = service.hasOrcidIdentifier(mockItemLinkedToOrcid);
+      expect(result).toBeTrue();
+    });
+
+    it('should return true when item has no metadata', () => {
+      const result = service.hasOrcidIdentifier(mockItemUnlinkedToOrcid);
       expect(result).toBeFalse();
     });
   });
