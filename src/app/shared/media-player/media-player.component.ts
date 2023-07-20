@@ -27,17 +27,17 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   /**
    * A boolean representing whether audio player is initialized or not
    */
-  public isAudioPlayerInitialized$ = new BehaviorSubject<boolean>(false);
+  public isAudioPlayerInitialized$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   /**
    * A boolean representing whether video player is initialized or not
    */
-  public isVideoPlayerInitialized$ = new BehaviorSubject<boolean>(false);
+  public isVideoPlayerInitialized$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   /**
    * A boolean representing whether the playing media is a video or not
    */
-  public isVideo$ = new BehaviorSubject<boolean>(true);
+  public isVideo$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   /**
    * The instance of videojs for video media
@@ -52,12 +52,12 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   /**
    * A boolean representing whether if is CSR or not
    */
-  public isPlatformBrowser = new BehaviorSubject<boolean>(false);
+  public isPlatformBrowser: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   /**
    * The playing media item
    */
-  public currentItem$ = new BehaviorSubject<MediaViewerItem>(null);
+  public currentItem$: BehaviorSubject<MediaViewerItem> = new BehaviorSubject<MediaViewerItem>(null);
 
   /**
    * The instance for the VideojsService
