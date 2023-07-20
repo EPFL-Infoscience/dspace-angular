@@ -51,6 +51,6 @@ export class TagComponent extends RenderingTypeStructuredModelComponent implemen
   * @params initChipsValues values to be rendered in chip items
   */
   private initChips(initChipsValues: string[]): void {
-    this.chips = new Chips(initChipsValues,'value');
+    this.chips = this.initRenderingChips(initChipsValues);
   }
 }

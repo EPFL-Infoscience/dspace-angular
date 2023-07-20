@@ -13,6 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ConfidenceType } from '../../../core/shared/confidence-type';
 import { SortablejsModule } from 'ngx-sortablejs';
 import { environment } from '../../../../environments/environment';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ChipsComponent test suite', () => {
 
@@ -29,6 +30,7 @@ describe('ChipsComponent test suite', () => {
     TestBed.configureTestingModule({
       imports: [
         NgbModule,
+        RouterTestingModule,
         SortablejsModule.forRoot({ animation: 150 }),
         TranslateModule.forRoot()
       ],
@@ -259,6 +261,24 @@ describe('ChipsComponent test suite', () => {
 
       chip = { item: { 'dc.title': { authority: ''}}} as any;
       expect(chipsComp.getWillBeReferencedContent(chip, metadata)).toEqual(null);
+    });
+
+  });
+
+  describe('getHref', () => {
+    beforeEach(() => {
+      chips = new Chips([]);
+      chipsFixture = TestBed.createComponent(ChipsComponent);
+      chipsComp = chipsFixture.componentInstance; // TruncatableComponent test instance
+      chipsComp.chips = chips;
+      chipsFixture.detectChanges();
+    });
+
+    it('should return the value of the reference if present, null otherwise', () => {
+      const href = '/browse/subject?value=dspace';
+      expect(chipsComp.getHrefRoot(href)).toEqual('/browse/subject');
+
+      expect(chipsComp.getHrefQueryParams(href)).toEqual({value: 'dspace'});
     });
 
   });

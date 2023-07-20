@@ -42,6 +42,7 @@ import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-boots
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { DsDynamicRelationGroupModalComponent } from './builder/ds-dynamic-form-ui/models/relation-group/modal/dynamic-relation-group-modal.components';
 import { DsDynamicRelationInlineGroupComponent } from './builder/ds-dynamic-form-ui/models/relation-inline-group/dynamic-relation-inline-group.components';
+import { MarkdownModule } from './builder/ds-dynamic-form-ui/models/markdown/dynamic-markdown.module';
 
 const COMPONENTS = [
   CustomSwitchComponent,
@@ -95,6 +96,7 @@ const DIRECTIVES = [
     NgbDatepickerModule,
     NgbTimepickerModule,
     CdkTreeModule,
+    MarkdownModule
   ],
   exports: [
     ...COMPONENTS,

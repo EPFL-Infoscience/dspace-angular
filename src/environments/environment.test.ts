@@ -2,7 +2,9 @@
 import { BuildConfig } from 'src/config/build-config.interface';
 import { RestRequestMethod } from '../app/core/data/rest-request-method';
 import { NotificationAnimationsType } from '../app/shared/notifications/models/notification-animations-type';
-import { AdvancedAttachmentElementType } from '../config/advanced-attachment-rendering.config';
+import {
+  AdvancedAttachmentElementType
+} from '../config/advanced-attachment-rendering.config';
 
 export const environment: BuildConfig = {
   production: false,
@@ -400,13 +402,22 @@ export const environment: BuildConfig = {
     },
     metadataBox: {
       defaultMetadataLabelColStyle: 'col-3',
-      defaultMetadataValueColStyle: 'col-9'
+      defaultMetadataValueColStyle: 'col-9',
+      loadMore :{
+        first: 3,
+        last: 1
+      }
     }
   },
   layout: {
     navbar: {
       // If true, show the "Community and Collections" link in the navbar; otherwise, show it in the admin sidebar
-      showCommunityCollection: true,
+      showCommunityCollection: true
+    },
+    search: {
+      filters: {
+        datepicker: ['filterName1']
+      }
     }
   },
   security: {

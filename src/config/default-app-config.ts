@@ -572,14 +572,23 @@ export class DefaultAppConfig implements AppConfig {
     },
     metadataBox: {
       defaultMetadataLabelColStyle: 'col-3',
-      defaultMetadataValueColStyle: 'col-9'
-    }
+      defaultMetadataValueColStyle: 'col-9',
+      loadMore: {
+        first: 5,
+        last: 1,
+      }
+    },
   };
 
   layout: LayoutConfig = {
     navbar: {
       // If true, show the "Community and Collections" link in the navbar; otherwise, show it in the admin sidebar
-      showCommunityCollection: true,
+      showCommunityCollection: true
+    },
+    search: {
+      filters: {
+        datepicker: []
+      }
     }
   };
 
@@ -616,6 +625,11 @@ export class DefaultAppConfig implements AppConfig {
       'cris.cms.home-header',
       'cris.cms.home-news',
       'cris.cms.footer',
+      'cris.cms.grid-component-badge',
+      'cris.cms.grid-component-title',
+      'cris.cms.grid-component-subtitle',
+      'cris.cms.grid-component-abstract',
+      'cris.cms.grid-component-link'
     ]
   };
 
@@ -681,6 +695,7 @@ export class DefaultAppConfig implements AppConfig {
   };
 
   advancedAttachmentRendering: AdvancedAttachmentRenderingConfig = {
+    showViewerOnSameItemPage: false,
     pagination: {
       enabled: true,
       elementsPerPage: 2,
@@ -713,7 +728,7 @@ export class DefaultAppConfig implements AppConfig {
         name: 'checksum',
         type: AdvancedAttachmentElementType.Attribute,
       }
-    ]
+    ],
   };
 
   searchResult: SearchResultConfig = {

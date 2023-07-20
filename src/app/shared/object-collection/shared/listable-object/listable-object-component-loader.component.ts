@@ -97,6 +97,11 @@ export class ListableObjectComponentLoaderComponent implements OnInit, OnChanges
   @Input() customData: any;
 
   /**
+   * Pass custom style to the component
+   */
+  @Input() configStyle = '';
+
+  /**
    * Directive hook used to place the dynamic child component
    */
   @ViewChild(ListableObjectDirective, { static: true }) listableObjectDirective: ListableObjectDirective;
@@ -156,6 +161,7 @@ export class ListableObjectComponentLoaderComponent implements OnInit, OnChanges
     'value',
     'hideBadges',
     'contentChange',
+    'configStyle'
   ];
 
   constructor(private cdr: ChangeDetectorRef, private themeService: ThemeService) {

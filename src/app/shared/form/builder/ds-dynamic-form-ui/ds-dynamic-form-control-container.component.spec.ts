@@ -82,6 +82,8 @@ import { FormBuilderService } from '../form-builder.service';
 import { NgxMaskModule } from 'ngx-mask';
 import { APP_CONFIG } from '../../../../../config/app-config.interface';
 import { environment } from '../../../../../environments/environment';
+import { DynamicMarkdownModel } from './models/markdown/dynamic-markdown.model';
+import { DsDynamicMarkdownComponent } from './models/markdown/dynamic-markdown.component';
 
 function getMockDsDynamicTypeBindRelationService(): DsDynamicTypeBindRelationService {
   return jasmine.createSpyObj('DsDynamicTypeBindRelationService', {
@@ -203,7 +205,14 @@ describe('DsDynamicFormControlContainerComponent test suite', () => {
       submissionId: '1234',
       hasSelectableMetadata: false
     }),
-    new DynamicQualdropModel({ id: 'combobox', readOnly: false, required: false })
+    new DynamicQualdropModel({ id: 'combobox', readOnly: false, required: false }),
+    new DynamicMarkdownModel({
+      id: 'markdown',
+      metadataFields: [],
+      repeatable: false,
+      submissionId: '1234',
+      hasSelectableMetadata: false
+    }),
   ];
   const testModel = formModel[8];
   let formGroup: FormGroup;
@@ -395,6 +404,7 @@ describe('DsDynamicFormControlContainerComponent test suite', () => {
     expect(testFn(formModel[24])).toEqual(DsDynamicLookupComponent);
     expect(testFn(formModel[25])).toEqual(DsDynamicLookupComponent);
     expect(testFn(formModel[26])).toEqual(DsDynamicFormGroupComponent);
+    expect(testFn(formModel[27])).toEqual(DsDynamicMarkdownComponent);
   });
 
 });

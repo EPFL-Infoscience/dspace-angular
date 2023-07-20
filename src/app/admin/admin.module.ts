@@ -11,6 +11,7 @@ import { AdminSidebarSectionComponent } from './admin-sidebar/admin-sidebar-sect
 import { ExpandableAdminSidebarSectionComponent } from './admin-sidebar/expandable-admin-sidebar-section/expandable-admin-sidebar-section.component';
 import { AdminEditUserAgreementComponent } from './admin-edit-user-agreement/admin-edit-user-agreement.component';
 import { EditCmsMetadataComponent } from './edit-cms-metadata/edit-cms-metadata.component';
+import { MarkdownEditorModule } from '../shared/markdown-editor/markdown-editor.module';
 import { BatchImportPageComponent } from './admin-import-batch-page/batch-import-page.component';
 import { UploadModule } from '../shared/upload/upload.module';
 
@@ -30,6 +31,7 @@ const ENTRY_COMPONENTS = [
     AdminWorkflowModuleModule.withEntryComponents(),
     SharedModule,
     UploadModule,
+    MarkdownEditorModule
   ],
   declarations: [
     AdminCurationTasksComponent,

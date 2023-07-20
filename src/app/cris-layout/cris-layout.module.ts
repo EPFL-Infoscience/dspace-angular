@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
-import { MetricsModule } from './../shared/metric/metrics.module';
+import { MetricsModule } from '../shared/metric/metrics.module';
 
 import { CrisLayoutLoaderDirective } from './directives/cris-layout-loader.directive';
 import { CrisLayoutComponent } from './cris-layout.component';
@@ -70,6 +70,9 @@ import {
   CrisLayoutIIIFViewerBoxComponent
 } from './cris-layout-matrix/cris-layout-box-container/boxes/iiif-viewer/cris-layout-iiif-viewer-box.component';
 import {
+  CrisLayoutIIIFToolbarBoxComponent
+} from './cris-layout-matrix/cris-layout-box-container/boxes/iiif-toolbar/cris-layout-iiif-toolbar-box.component';
+import {
   MetricRowComponent
 } from './cris-layout-matrix/cris-layout-box-container/boxes/metrics/metric-row/metric-row.component';
 import { ContextMenuModule } from '../shared/context-menu/context-menu.module';
@@ -94,15 +97,42 @@ import {
 import {
   MetadataRenderComponent
 } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/row/metadata-container/metadata-render/metadata-render.component';
+import {
+  MapComponent
+} from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/map/map.component';
+import { GooglemapsModule } from '../shared/googlemaps/googlemaps.module';
+import { LoadMoreService } from './services/load-more.service';
 import { MiradorViewerModule } from '../item-page/mirador-viewer/mirador-viewer.module';
 import { ComcolModule } from '../shared/comcol/comcol.module';
 import { SearchModule } from '../shared/search/search.module';
+import { HierarchyComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/hierarchy/hierarchy.component';
+import {
+  HtmlComponent
+} from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/html/html.component';
+import {
+  BrowseComponent
+} from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/browse/browse.component';
+import {
+  TagBrowseComponent
+} from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/tag-browse/tag-browse.component';
+import {
+  MarkdownComponent
+} from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/markdown/markdown.component';
+import {
+  SearchComponent
+} from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/search/search.component';
+import {
+  TagSearchComponent
+} from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/tag-search/tag-search.component';
+import { MarkdownViewerModule } from '../shared/markdown-viewer/markdown-viewer.module';
 import {
   AdvancedAttachmentComponent
 } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/advanced-attachment.component';
 import {
   BitstreamAttachmentComponent
 } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/bitstream-attachment/bitstream-attachment.component';
+import { ItemSharedModule } from '../item-page/item-shared.module';
+import { ViewersSharedModule } from '../item-page/viewer-provider/viewers/viewers-shared.module';
 import {
   AttachmentRenderComponent
 } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/bitstream-attachment/attachment-render/attachment-render.component';
@@ -110,6 +140,10 @@ import {
   AttachmentRenderingModule
 } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/bitstream-attachment/attachment-render/attachment-rendering.module';
 import { FormModule } from '../shared/form/form.module';
+import {
+  CrisLayoutMediaBoxComponent
+} from './cris-layout-matrix/cris-layout-box-container/boxes/media-box/cris-layout-media-box.component';
+import { MediaPlayerModule } from '../shared/media-player/media-player.module';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -117,9 +151,11 @@ const ENTRY_COMPONENTS = [
   CrisLayoutHorizontalComponent,
   CrisLayoutMetadataBoxComponent,
   TextComponent,
+  HtmlComponent,
   HeadingComponent,
   CrisLayoutRelationBoxComponent,
   CrisLayoutIIIFViewerBoxComponent,
+  CrisLayoutIIIFToolbarBoxComponent,
   LongtextComponent,
   DateComponent,
   LinkComponent,
@@ -127,13 +163,21 @@ const ENTRY_COMPONENTS = [
   CrisrefComponent,
   ThumbnailComponent,
   AttachmentComponent,
+  HierarchyComponent,
   CrisLayoutMetricsBoxComponent,
   TableComponent,
   InlineComponent,
   OrcidComponent,
   ValuepairComponent,
   TagComponent,
-  AdvancedAttachmentComponent
+  MapComponent,
+  BrowseComponent,
+  TagBrowseComponent,
+  MarkdownComponent,
+  SearchComponent,
+  TagSearchComponent,
+  AdvancedAttachmentComponent,
+  CrisLayoutMediaBoxComponent
 ];
 
 @NgModule({
@@ -158,21 +202,28 @@ const ENTRY_COMPONENTS = [
     RowComponent,
     MetadataContainerComponent,
     MetadataRenderComponent,
+    MarkdownComponent,
     BitstreamAttachmentComponent,
     AttachmentRenderComponent,
   ],
+  providers:[ LoadMoreService, NgbActiveModal ],
   imports: [
     CommonModule,
     SharedModule,
     SearchModule.withEntryComponents(),
+    GooglemapsModule,
     MyDSpacePageModule,
     ContextMenuModule.withEntryComponents(),
     NgbAccordionModule,
     ComcolModule,
     MiradorViewerModule,
+    MarkdownViewerModule,
+    ItemSharedModule,
+    ViewersSharedModule,
     MetricsModule,
     AttachmentRenderingModule,
-    FormModule
+    FormModule,
+    MediaPlayerModule
   ],
   exports: [
     CrisLayoutComponent,

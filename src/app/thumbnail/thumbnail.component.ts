@@ -54,6 +54,11 @@ export class ThumbnailComponent implements OnChanges {
   @Input() limitWidth? = true;
 
   /**
+   * Keep image aspect ratio, add padding and do not crop the image
+   */
+  @Input() keepAspectRatio? = false;
+
+  /**
    * Whether the thumbnail is currently loading
    * Start out as true to avoid flashing the alt text while a thumbnail is being loaded.
    */

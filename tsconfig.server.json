@@ -5,6 +5,7 @@
     "target": "es2016",
     "types": [
       "node",
+      "googlemaps",
       "grecaptcha"
     ]
   },

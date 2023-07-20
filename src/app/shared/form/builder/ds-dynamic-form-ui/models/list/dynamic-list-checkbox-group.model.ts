@@ -14,6 +14,7 @@ import { hasValue } from '../../../../../empty.util';
 export interface DynamicListCheckboxGroupModelConfig extends DynamicFormGroupModelConfig {
   vocabularyOptions: VocabularyOptions;
   groupLength?: number;
+  openType?: boolean;
   repeatable: boolean;
   value?: any;
   typeBindRelations?: DynamicFormControlRelation[];
@@ -29,6 +30,7 @@ export class DynamicListCheckboxGroupModel extends DynamicCheckboxGroupModel {
   @serializable() _value: VocabularyEntry[];
   @serializable() typeBindRelations: DynamicFormControlRelation[];
   @serializable() toggleSecurityVisibility = false;
+  @serializable() openType: boolean;
   @serializable() hint: string;
   @serializable() required: boolean;
 
@@ -42,6 +44,7 @@ export class DynamicListCheckboxGroupModel extends DynamicCheckboxGroupModel {
     this.groupLength = config.groupLength || 5;
     this._value = [];
     this.repeatable = config.repeatable;
+    this.openType = config.openType;
     this.hint = config.hint;
     this.required = config.required;
 

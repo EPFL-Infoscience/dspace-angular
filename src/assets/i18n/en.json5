@@ -1771,6 +1771,29 @@
   "curation-task.task.citationpage.label":  "Generate Citation Page",
 
 
+  "curation-task.task.migratedocviewer.label":  "Migrate the previously generated doc. viewer resources",
+
+  "curation-task.task.iiifmigrate.label":  "Migrate the previously generated IIIF resources",
+
+  "curation-task.task.avuploader.label":  "Process video resources",
+
+  "curation-task.task.avuploader.primary.label":  "Process video resources and hide non primary items",
+
+  "curation-task.task.audiouploader.label":  "Process audio resources",
+
+  "curation-task.task.audiouploader.primary.label":  "Process audio resources and hide non primary items",
+
+  "curation-task.task.avclean.label":  "Clean audio/video resources",
+
+  "curation-task.task.generatesubtitles.label":  "Generate subtitles for audio/video resources",
+
+  "curation-task.task.hidecovers.label":  "Hide custom audio/video thumbnails from item page",
+
+  "curation-task.task.avforbiddownload.label":  "Forbid Download on audio/video resources",
+
+  "curation-task.task.avallowdownload.label":  "Allow Download on audio/video resources",
+
+
   "cris-layout.toggle.open": "Open section",
 
   "cris-layout.toggle.close": "Close section",
@@ -1800,6 +1823,8 @@
   "cris-layout.advanced-attachment.requestACopy": "Request a copy",
 
   "cris-layout.advanced-attachment.viewMore": "View More",
+
+  "cris-layout.advanced-attachment.view-pdf": "Open PDF",
 
   "cris-layout.attachment.viewMore": "View More",
 
@@ -2070,6 +2095,8 @@
 
   "explore.counters-section.project_funding" : "Projects",
 
+  "explore.grid-section.seeAll" : "See all",
+
   "explore.facet-section.title" : "Discover",
 
   "explore.index.all" : "All",
@@ -2313,6 +2340,12 @@
 
   "form.add": "Add more",
 
+  "form.other-option": "(Other): ",
+
+  "form.other-option.add-button": "Add",
+
+  "form.other-option.invalid": "Entry \"{{ entry }}\" already exists",
+
   "form.add-help": "Click here to add the current entry and to add another one",
 
   "form.cancel": "Cancel",
@@ -2436,6 +2469,13 @@
   "grant-request-copy.success": "Successfully granted item request",
 
 
+  "grid.component.badge": "Paths",
+  "grid.component.title": "Discovering...",
+  "grid.component.subtitle": "...new ways to explore our digital libraries.",
+  "grid.component.abstract": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  "grid.component.link": "/explore/paths",
+
+
   "health.breadcrumbs": "Health",
 
   "health-page.heading" : "Health",
@@ -2488,6 +2528,8 @@
   "home.top-level-communities.head": "Communities in DSpace Cris",
 
   "home.top-level-communities.help": "Search for a collection",
+
+  "home.top-section.view-results": "View all results",
 
 
 
@@ -3576,6 +3618,8 @@
 
   "iiifviewer.fullscreen.notice": "Use full screen for better viewing.",
 
+  "iiifviewer.page.back": "Back to item's page",
+
   "iiif.listelement.badge": "Image Media",
 
   "iiif.page.titleprefix": "Image: ",
@@ -3585,6 +3629,16 @@
   "iiif.page.issue": "Issue: ",
 
   "iiif.page.description": "Description: ",
+
+  "iiiftoolbar.mirador": "Open in Mirador",
+
+  "iiiftoolbar.iiif.dropdown": "IIIF",
+
+  "iiiftoolbar.iiif.open-manifest": "Open Manifest",
+
+  "iiiftoolbar.iiif.copy-clipboard": "Copy to clipboard",
+
+  "iiiftoolbar.iiif.copy-clipboard-notification": "IIIF manifest has been copied to clipboard",
 
 
   "loading.bitstream": "Loading bitstream...",
@@ -3724,6 +3778,16 @@
   "menu.section.browse_community_by_issue_date": "By Issue Date",
 
   "menu.section.browse_community_by_title": "By Title",
+
+  "menu.section.research": "Research",
+
+  "menu.section.archive": "Archive",
+
+  "menu.section.archive.sectionfonds": "Fonds",
+
+  "menu.section.archive.sectionaggregations": "Collections",
+
+  "menu.section.archive.sectiondocuments": "Archive Materials & Inscriptions",
 
   "menu.section.explore_infrastructure": "Infrastructure",
 
@@ -4736,6 +4800,7 @@
 
   "publication.search.title": "Publication Search",
 
+  "product.page.titleprefix": "Product: ",
 
   "media-viewer.next": "Next",
 
@@ -4743,6 +4808,7 @@
 
   "media-viewer.playlist": "Playlist",
 
+  "media-viewer.play": "Play",
 
   "register-email.title": "New user registration",
 
@@ -5351,6 +5417,8 @@
   "researchoutputs.search.results.head": "Publications Search Results",
 
   "orgunit.search.results.head": "Organizations Search Results",
+
+  "homePageTopItems.search.results.head": "Home Page Items Results",
 
   "search.results.no-results": "Your search returned no results. Having trouble finding what you're looking for? Try putting",
 
@@ -6618,6 +6686,14 @@
 
 
 
+  "viewer.provider.iiif.breadcrumbs": "Mirador Viewer",
+
+  "viewer.provider.media.breadcrumbs": "Player",
+
+  "viewer.provider.pdf.breadcrumbs": "PDF Viewer",
+
+  "viewer.provider.title": "Viewer",
+
   "vocabulary.import-external.preview.title.Product": "Product Preview",
 
   "vocabulary.import-external.preview.title.Equipment": "Equipment Preview",
@@ -6651,6 +6727,10 @@
   "vocabulary.import-external.preview.import.success": "Entity created successfully.",
 
   "vocabulary-treeview.header": "Hierarchical tree view",
+
+  "vocabulary-treeview.header.affiliation": "Affiliation",
+
+  "vocabulary-treeview.header.hierarchy": "Hierarchy",
 
   "vocabulary-treeview.load-more": "Load more",
 
@@ -7055,6 +7135,148 @@
 
   "authority-confidence.search-label":"Search",
 
+  "crisref.metadata.view.first" : "View first",
+
+  "crisref.metadata.view.last" : "View last",
+
+  "cris-layout.rendering.more" : "more",
+
+  "cris-layout.rendering.more.withlast" : "more",
+
+  "cris-layout.rendering.more.tooltip" : "click to see all",
+
+  "cris-layout.rendering.collapse" : "collapse",
+
+  "family.listelement.badge": "Family",
+
+  "place.listelement.badge": "Place",
+
+  "archivalmaterials.listelement.badge": "Archival Materials",
+
+  "fond.listelement.badge": "Fond",
+
+  "journalfond.listelement.badge": "Journal Fond",
+
+  "aggregation.listelement.badge": "Aggregation",
+  "news.listelement.badge": "News",
+  "staticpage.listelement.badge": "Page",
+  "path.listelement.badge": "Path",
+  "opera.listelement.badge": "Opera",
+  "coin.listelement.badge": "Coin",
+  "scientificmaterial.listelement.badge": "Scientific Material",
+
+  "picture.listelement.badge": "Picture",
+  "menu.section.explore_sectionfonds" : "Fonds",
+  "menu.section.explore_sectionjournalfonds" : "Journal Fonds",
+
+  "menu.section.explore_sectionaggregations" : "Collections",
+  "menu.section.explore_sectiondocuments" : "Documents & Other materials",
+  "explore.counters-section.fonds" : "Fonds",
+  "explore.counters-section.journalfonds" : "Journal Fonds",
+  "explore.counters-section.aggregations" : "Collections",
+  "explore.counters-section.documents" : "Documents & Other materials",
+
+  "explore.index.titleF" : "Title",
+  "explore.index.typeF" : "Type",
+  "explore.index.dateissuedF" : "Date",
+  "explore.index.subjectF" : "Subject",
+  "explore.index.titleJF" : "Title",
+  "explore.index.typeJF" : "Type",
+  "explore.index.dateissuedJF" : "Date",
+  "explore.index.subjectJF" : "Subject",
+  "explore.index.titleA" : "Title",
+  "explore.index.typeA" : "Type",
+  "explore.index.dateissuedA" : "Date",
+  "explore.index.subjectA" : "Subject",
+  "explore.index.path" : "Path",
+  "explore.index.fond" : "Fond",
+  "explore.index.journalfond" : "Journal Fond",
+  "explore.index.aggregation" : "Collection",
+
+  "explore.search-section.sectiondocuments.title" : "Search Documents & Other materials",
+
+  "explore.search-section.sectionfonds.title" : "Search Fonds",
+
+  "explore.search-section.sectionjournalfonds.title" : "Search Journal fonds",
+
+  "explore.search-section.sectionaggregations.title" : "Search Collections",
+
+  "explore.sectiondocuments.breadcrumbs": "Documents & Other materials",
+
+  "explore.sectionfonds.breadcrumbs": "Fonds",
+  "explore.sectionjournalfonds.breadcrumbs": "Journal Fonds",
+  "explore.sectionaggregations.breadcrumbs": "Collections",
+  "documents.search.results.head": "Documents & Other materials Search Results",
+  "fonds.search.results.head": "Fonds Search Results",
+  "journalfonds.search.results.head": "Journal Fonds Search Results",
+  "aggregations.search.results.head": "Collections Search Results",
+  "search.filters.filter.path.head": "Path",
+  "search.filters.filter.path.placeholder": "Path name",
+  "search.filters.filter.path.label": "Search Path name",
+  "search.filters.applied.f.path": "Path",
+  "search.filters.filter.fond.head": "Fond",
+  "search.filters.filter.fond.placeholder": "Fond name",
+  "search.filters.filter.fond.label": "Search Fond name",
+  "search.filters.applied.f.fond": "Fond",
+  "search.filters.filter.journalfond.head": "Journal Fond",
+  "search.filters.filter.journalfond.placeholder": "Journal Fond name",
+  "search.filters.filter.journalfond.label": "Search Journal Fond name",
+  "search.filters.applied.f.journalfond": "Journal Fond",
+  "search.filters.filter.aggregation.head": "Collection",
+  "search.filters.filter.aggregation.placeholder": "Collection name",
+  "search.filters.filter.aggregation.label": "Search Collection name",
+  "search.filters.applied.f.aggregation": "Collection",
+  "submission.sections.submit.progressbar.describe.archival_materials": "Archival Materials Basic Information",
+
+  "submission.sections.submit.progressbar.describe.archival_materials_indexing": "Archival Materials Indexing Information",
+  "submission.sections.submit.progressbar.describe.archival_materials_references": "Archival Materials Contextual References",
+
+  "submission.sections.submit.progressbar.describe.fond": "Fond Details",
+
+  "submission.sections.submit.progressbar.describe.place": "Place Details",
+
+  "submission.sections.submit.progressbar.describe.family": "Family Details",
+
+  "submission.sections.submit.progressbar.describe.aggregation": "Aggregation Details",
+
+  "submission.sections.submit.progressbar.describe.journal_fond": "Journal Fond Details",
+
+  "submission.sections.submit.progressbar.describe.journal_fond-glamjournalfond-history": "Journal Fond History",
+
+  "submission.sections.submit.progressbar.describe.journal_fond-glamjournalfond-relation-person": "Journal Fond Person",
+
+  "submission.sections.submit.progressbar.describe.journal_fond-glamjournalfond-relation-journalfond": "Journal Fond Relation",
+
+  "submission.sections.submit.progressbar.describe.path": "Path Details",
+
+  "submission.sections.submit.progressbar.describe.opera": "Opera Details",
+
+  "submission.sections.submit.progressbar.describe.coin": "Coin Details",
+
+  "submission.sections.submit.progressbar.describe.picture": "Picture Details",
+
+  "submission.sections.submit.progressbar.describe.news": "News Details",
+
+  "submission.sections.submit.progressbar.describe.staticpage": "Page Details",
+
+  "submission.sections.submit.progressbar.describe.staticpage-url": "Page URL",
+
+  "submission.sections.submit.progressbar.describe.journal_materials": "Journal Issue Basic Information",
+
+  "submission.sections.submit.progressbar.describe.journal_materials_indexing": "Journal Issue Indexing Information",
+
+  "submission.sections.submit.progressbar.describe.journal_materials_references": "Journal Issue Contextual References",
+
+  "submission.sections.submit.progressbar.describe.scientificmaterial": "Scientific Material Basic Information",
+
+  "submission.sections.submit.progressbar.describe.scientificmaterial_indexing": "Scientific Material Indexing Information",
+
+  "submission.sections.submit.progressbar.describe.scientificmaterial_references": "Scientific Material Contextual References",
+
+  "submission.sections.submit.progressbar.describe.journal_issue": "Journal Issue Details",
+
+  "map.coordinates-invalid": "Coordinates are not valid",
+
   "curation-task.task.hocr.label": "Extract text (HOCR) from images",
 
   "curation-task.task.ocrfilter.label": "Consolidate hOCR for fulltext indexing",
@@ -7090,6 +7312,7 @@
   "curation-task.task.undopdfiiif.label": "Undo PDF 2 IIIF Images",
 
   "curation-task.task.rebuildpdftoc.label": "Rebuild the PDF ToC",
+
 
   "listable-notification-object.default-message": "This object couldn't be retrieved",
 
@@ -7139,4 +7362,11 @@
   "admin.system-wide-alert.breadcrumbs": "System-wide Alerts",
 
   "admin.system-wide-alert.title": "System-wide Alerts",
+
+
+  "vocabulary-treeview.header.fondboxtree": "Fond Tree",
+
+  "vocabulary-treeview.header.journalfondboxtree": "Journal Fond Tree",
+
+  "vocabulary-treeview.header.aggregationboxtree": "Collection Tree"
 }

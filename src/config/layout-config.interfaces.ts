@@ -21,6 +21,7 @@ export interface CrisRefConfig extends Config {
 export interface CrisLayoutMetadataBoxConfig extends Config {
   defaultMetadataLabelColStyle: string;
   defaultMetadataValueColStyle: string;
+  loadMore: CrisLoadMoreConfig;
 }
 
 export interface CrisLayoutTypeConfig {
@@ -41,6 +42,11 @@ export interface CrisRefStyleMetadata extends Config {
   default: string;
 }
 
+export interface CrisLoadMoreConfig extends Config {
+  first: number;
+  last: number;
+}
+
 export interface CrisLayoutConfig extends Config {
   urn: UrnConfig[];
   crisRef: CrisRefConfig[];
@@ -51,9 +57,18 @@ export interface CrisLayoutConfig extends Config {
 
 export interface LayoutConfig extends Config {
   navbar: NavbarConfig;
+  search: SearchLayoutConfig;
 }
 
 export interface SuggestionConfig extends Config {
   source: string;
   collectionId: string;
+}
+
+export interface SearchLayoutConfig {
+  filters: SearchFiltersConfig;
+}
+
+export interface SearchFiltersConfig {
+  datepicker: string[];
 }

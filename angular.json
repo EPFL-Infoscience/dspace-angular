@@ -46,7 +46,12 @@
             "aot": true,
             "assets": [
               "src/assets",
-              "src/robots.txt"
+              "src/robots.txt",
+              {
+                "glob": "**/*",
+                "input": "node_modules/ng2-pdfjs-viewer/pdfjs",
+                "output": "/assets/pdfjs"
+              }
             ],
             "styles": [
               "src/styles/startup.scss",
@@ -100,7 +105,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "3mb",
-                  "maximumError": "6mb"
+                  "maximumError": "7mb"
                 },
                 {
                   "type": "anyComponentStyle",

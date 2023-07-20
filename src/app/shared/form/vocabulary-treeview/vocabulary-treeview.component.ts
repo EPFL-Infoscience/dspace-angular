@@ -4,7 +4,6 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 
 import { VocabularyEntryDetail } from '../../../core/submission/vocabularies/models/vocabulary-entry-detail.model';
@@ -16,9 +15,9 @@ import { PageInfo } from '../../../core/shared/page-info.model';
 import { VocabularyEntry } from '../../../core/submission/vocabularies/models/vocabulary-entry.model';
 import { VocabularyTreeFlattener } from './vocabulary-tree-flattener';
 import { VocabularyTreeFlatDataSource } from './vocabulary-tree-flat-data-source';
-import { CoreState } from '../../../core/core-state.model';
 import { lowerCase } from 'lodash/string';
 import { FormFieldMetadataValueObject } from '../builder/models/form-field-metadata-value.model';
+import { Metadata } from '../../../core/shared/metadata.utils';
 
 /**
  * Component that show a hierarchical vocabulary in a tree view
@@ -44,6 +43,26 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
    * The vocabulary entry already selected, if any
    */
   @Input() selectedItem: any = null;
+
+  /**
+   * The i18n key suffix to use for header title
+   */
+  @Input() vocabularyHeader: string = null;
+
+  /**
+   * The boolean to check whether it is in used in a modal view or not
+   */
+  @Input() isModalView = false;
+
+  /**
+   * The boolean to check whether search enabled
+   */
+  @Input() enabledSearch = true;
+
+  /**
+   * The boolean to check the component used in public mode
+   */
+  @Input() publicModeOnly = false;
 
   /**
    * Contain a descriptive message for this vocabulary retrieved from i18n files
@@ -86,6 +105,11 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
   loading: Observable<boolean>;
 
   /**
+   * Position of the Icon before/after the element
+   */
+  iconPosition = 'before';
+
+  /**
    * An event fired when a vocabulary entry is selected.
    * Event's payload equals to {@link VocabularyEntryDetail} selected.
    */
@@ -105,14 +129,13 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
    * Initialize instance variables
    *
    * @param {NgbActiveModal} activeModal
+   * @param {Router} router
    * @param {VocabularyTreeviewService} vocabularyTreeviewService
-   * @param {Store<CoreState>} store
    * @param {TranslateService} translate
    */
   constructor(
     public activeModal: NgbActiveModal,
     private vocabularyTreeviewService: VocabularyTreeviewService,
-    private store: Store<CoreState>,
     private translate: TranslateService
   ) {
     this.treeFlattener = new VocabularyTreeFlattener(this.transformer, this.getLevel,
@@ -211,7 +234,8 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
 
     this.loading = this.vocabularyTreeviewService.isLoading();
 
-    this.vocabularyTreeviewService.initialize(this.vocabularyOptions, new PageInfo(), null);
+    const entryId: string = (this.selectedItem) ? this.getEntryId(this.selectedItem) : null;
+    this.vocabularyTreeviewService.initialize(this.vocabularyOptions, new PageInfo(), entryId, this.publicModeOnly);
   }
 
   /**
@@ -243,9 +267,18 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
    * Emit a new select Event
    */
   onSelect(entry: VocabularyEntryDetail) {
-    const value = new FormFieldMetadataValueObject(entry.value, null, entry.securityLevel, entry.id, entry.display);
-    this.select.emit(value);
-    this.activeModal.close(value);
+    if (!this.publicModeOnly) {
+      const value = new FormFieldMetadataValueObject(entry.value, null, entry.securityLevel, entry.id, entry.display);
+      this.select.emit(value);
+      this.activeModal.close(value);
+    }
+  }
+
+  /**
+   * Method called to check the Item Authority Validation
+   */
+  metadataValidItemAuthorityCheck(id: string) {
+    return Metadata.hasValidItemAuthority(id);
   }
 
   /**

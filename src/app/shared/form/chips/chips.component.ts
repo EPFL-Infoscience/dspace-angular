@@ -1,4 +1,14 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnChanges,
+  Output, PLATFORM_ID,
+  SimpleChanges,
+} from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import isObject from 'lodash/isObject';
@@ -11,6 +21,7 @@ import { Options } from 'sortablejs';
 import { BehaviorSubject, forkJoin } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { isNotEmpty } from '../../empty.util';
+import { Router, UrlTree } from '@angular/router';
 
 const TOOLTIP_TEXT_LIMIT = 21;
 @Component({
@@ -34,10 +45,18 @@ export class ChipsComponent implements OnChanges {
   dragged = -1;
   tipText$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
 
+  /**
+   * Whether a platform id represents a browser platform.
+   */
+  isPlatformBrowser: boolean;
+
   constructor(
+    @Inject(PLATFORM_ID) protected platformId: string,
     private cdr: ChangeDetectorRef,
     private dragService: DragService,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private router: Router
+  ) {
 
     this.options = {
       animation: 300,
@@ -54,9 +73,15 @@ export class ChipsComponent implements OnChanges {
     }
   }
 
+  ngOnInit(): void {
+    this.isPlatformBrowser = isPlatformBrowser(this.platformId);
+  }
+
   chipsSelected(event: Event, index: number) {
-    event.preventDefault();
-    this.selected.emit(index);
+    if (!this.chips.getChips()[index].hasHref()) {
+      event.preventDefault();
+      this.selected.emit(index);
+    }
   }
 
   removeChips(event: Event, index: number) {
@@ -168,5 +193,11 @@ export class ChipsComponent implements OnChanges {
     }
     return text;
   }
-
+  getHrefRoot(url) {
+    return url.split('?')[0];
+  }
+  getHrefQueryParams(url) {
+    const tree: UrlTree = this.router.parseUrl(url);
+    return tree.queryParams;
+  }
 }

@@ -1,5 +1,15 @@
 .limit-width {
   max-width: var(--ds-thumbnail-max-width);
+  margin: 0 auto !important;
+  float: none !important;
+}
+
+.keep-aspect-ratio {
+  display: block;
+  max-height: var(--ds-thumbnail-max-height);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
 }
 
 img {
