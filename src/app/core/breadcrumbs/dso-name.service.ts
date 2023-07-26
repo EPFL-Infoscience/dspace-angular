@@ -90,8 +90,8 @@ export class DSONameService {
         return familyName || givenName;
       }
       return `${familyName}, ${givenName}`;
-    } else if (entityType === 'OrgUnit') {
-      return this.firstMetadataValue(object, dso, 'organization.legalName');
+    // } else if (entityType === 'OrgUnit') {
+    //   return this.firstMetadataValue(object, dso, 'organization.legalName');
     }
     return this.firstMetadataValue(object, dso, 'dc.title') || dso.name || this.translateService.instant('dso.name.untitled');
   }
