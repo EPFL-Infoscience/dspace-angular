@@ -1,14 +1,22 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { isNotEmpty } from '../../shared/empty.util';
+import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
+import {map, startWith, switchMap} from 'rxjs/operators';
+import {isNotEmpty} from '../../shared/empty.util';
 
-import { EditItemDataService } from '../../core/submission/edititem-data.service';
-import { getAllSucceededRemoteDataPayload, getPaginatedListPayload } from '../../core/shared/operators';
-import { AuthService, LOGIN_ROUTE } from '../../core/auth/auth.service';
-import { EditItemMode } from '../../core/submission/models/edititem-mode.model';
+import {EditItemDataService} from '../../core/submission/edititem-data.service';
+import {
+  getAllSucceededRemoteDataPayload,
+  getFirstCompletedRemoteData,
+  getPaginatedListPayload
+} from '../../core/shared/operators';
+import {AuthService, LOGIN_ROUTE} from '../../core/auth/auth.service';
+import {EditItemMode} from '../../core/submission/models/edititem-mode.model';
+import {FeatureID} from "../../core/data/feature-authorization/feature-id";
+import {AuthorizationDataService} from "../../core/data/feature-authorization/authorization-data.service";
+import {DSpaceObjectDataService} from "../../core/data/dspace-object-data.service";
+import {DSpaceObject} from "../../core/shared/dspace-object.model";
 
 /**
  * Prevent unauthorized activating and loading of routes
@@ -22,7 +30,9 @@ export class EditItemRelationsGuard implements CanActivate {
    */
   constructor(private router: Router,
     private editItemService: EditItemDataService,
-    private authService: AuthService
+    private authService: AuthService,
+    private authorizationService: AuthorizationDataService,
+    private dSpaceObjectDataService: DSpaceObjectDataService,
   ) {
   }
 
@@ -47,18 +57,35 @@ export class EditItemRelationsGuard implements CanActivate {
 
   private handleEditable(itemId: string, url: string): Observable<boolean | UrlTree> {
     // redirect to sign in page if user is not authenticated
-    return this.editItemService.searchEditModesById(itemId).pipe(
+  debugger;
+    const editModes = this.editItemService.searchEditModesById(itemId).pipe(
       getAllSucceededRemoteDataPayload(),
-      getPaginatedListPayload(),
-      map((editModes: EditItemMode[]) => {
-        if (isNotEmpty(editModes) && editModes.length > 0) {
-          return true;
-        } else {
-          this.authService.setRedirectUrl(url);
-          this.authService.removeToken();
-          return this.router.createUrlTree([LOGIN_ROUTE]);
-        }
-      }),
-    );
+      getPaginatedListPayload());
+
+
+    const authorized = this.dSpaceObjectDataService.findById(itemId)
+      .pipe(
+        getFirstCompletedRemoteData(),
+        switchMap((rd) => {
+          if (rd.hasSucceeded) {
+            return this.authorizationService.isAuthorized(FeatureID.CanManageRelationships, rd.payload.self)
+          }
+          else {
+            return of(false);
+          }}));
+
+
+    return combineLatest([editModes, authorized])
+      .pipe(
+        map(([editModes, isAuthorized] : [EditItemMode[], boolean]) => {
+          if (isAuthorized || (isNotEmpty(editModes) && editModes.length > 0)) {
+            return true;
+          } else {
+            this.authService.setRedirectUrl(url);
+            this.authService.removeToken();
+            return this.router.createUrlTree([LOGIN_ROUTE]);
+          }
+        }),
+      );
   }
 }

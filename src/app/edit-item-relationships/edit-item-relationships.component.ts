@@ -237,8 +237,8 @@ export class EditItemRelationshipsComponent implements OnInit, OnDestroy {
       take(1),
       tap((relationships: Relationship[]) => {
         const relations = relationships
-          .filter((relation) => !!relation.leftwardValue && relation.leftwardValue.toLowerCase().includes('is' + this.relationshipType));
-        const hiddenRelationships = relationships.filter(filteredRelationship => filteredRelationship.leftwardValue.toLowerCase().includes('hidden'));
+          .filter((relation) => !!relation.leftwardValue && relation.leftwardValue?.toLowerCase().includes('is' + this.relationshipType));
+        const hiddenRelationships = relationships.filter(filteredRelationship => filteredRelationship.leftwardValue?.toLowerCase().includes('hidden'));
         this.hasHiddenRelationship$.next(hiddenRelationships.length > 0);
         this.relationshipResults$.next(relations);
 
@@ -292,7 +292,7 @@ export class EditItemRelationshipsComponent implements OnInit, OnDestroy {
   manageRelationship(event: ManageRelationshipEvent): void {
     if (event.action === ManageRelationshipEventType.Select || event.action === ManageRelationshipEventType.Hide) {
       const relType = event.action === ManageRelationshipEventType.Select ? 'select' : 'hidden';
-      const relationshipType = this.relTypes.find((type) => type.leftwardType.toLowerCase().includes(relType) && type.leftwardType.toLowerCase().includes('is' + this.relationshipType));
+      const relationshipType = this.relTypes.find((type) => type.leftwardType?.toLowerCase().includes(relType) && type.leftwardType?.toLowerCase().includes('is' + this.relationshipType));
 
       if (!event.relationship) {
         this.addRelationship(relationshipType, event.item, event.action).subscribe();
