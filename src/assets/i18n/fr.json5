@@ -3489,6 +3489,51 @@
   "curation-task.task.citationpage.label":  "Generate Citation Page",
 
 
+  // "curation-task.task.migratedocviewer.label":  "Migrate the previously generated doc. viewer resources",
+  // TODO New key - Add a translation
+  "curation-task.task.migratedocviewer.label":  "Migrate the previously generated doc. viewer resources",
+
+  // "curation-task.task.iiifmigrate.label":  "Migrate the previously generated IIIF resources",
+  // TODO New key - Add a translation
+  "curation-task.task.iiifmigrate.label":  "Migrate the previously generated IIIF resources",
+
+  // "curation-task.task.avuploader.label":  "Process video resources",
+  // TODO New key - Add a translation
+  "curation-task.task.avuploader.label":  "Process video resources",
+
+  // "curation-task.task.avuploader.primary.label":  "Process video resources and hide non primary items",
+  // TODO New key - Add a translation
+  "curation-task.task.avuploader.primary.label":  "Process video resources and hide non primary items",
+
+  // "curation-task.task.audiouploader.label":  "Process audio resources",
+  // TODO New key - Add a translation
+  "curation-task.task.audiouploader.label":  "Process audio resources",
+
+  // "curation-task.task.audiouploader.primary.label":  "Process audio resources and hide non primary items",
+  // TODO New key - Add a translation
+  "curation-task.task.audiouploader.primary.label":  "Process audio resources and hide non primary items",
+
+  // "curation-task.task.avclean.label":  "Clean audio/video resources",
+  // TODO New key - Add a translation
+  "curation-task.task.avclean.label":  "Clean audio/video resources",
+
+  // "curation-task.task.generatesubtitles.label":  "Generate subtitles for audio/video resources",
+  // TODO New key - Add a translation
+  "curation-task.task.generatesubtitles.label":  "Generate subtitles for audio/video resources",
+
+  // "curation-task.task.hidecovers.label":  "Hide custom audio/video thumbnails from item page",
+  // TODO New key - Add a translation
+  "curation-task.task.hidecovers.label":  "Hide custom audio/video thumbnails from item page",
+
+  // "curation-task.task.avforbiddownload.label":  "Forbid Download on audio/video resources",
+  // TODO New key - Add a translation
+  "curation-task.task.avforbiddownload.label":  "Forbid Download on audio/video resources",
+
+  // "curation-task.task.avallowdownload.label":  "Allow Download on audio/video resources",
+  // TODO New key - Add a translation
+  "curation-task.task.avallowdownload.label":  "Allow Download on audio/video resources",
+
+
   // "cris-layout.toggle.open": "Open section",
   // TODO New key - Add a translation
   "cris-layout.toggle.open": "Open section",
@@ -8295,7 +8340,8 @@
   // TODO New key - Add a translation
   "mydspace.show.otherworkspace": "Other Workspace Submissions",
 
-  // "mydspace.status.archived": "Archived",
+  // "mydspace.status.archived": "Published",
+  // TODO Source message changed - Revise the translation
   "mydspace.status.archived": "Archivés",
 
   // "mydspace.status.validation": "Validation",
@@ -8304,11 +8350,25 @@
   // "mydspace.status.waiting-for-controller": "Waiting for controller",
   "mydspace.status.waiting-for-controller": "En attente d'assignation",
 
-  // "mydspace.status.workflow": "Workflow",
+  // "mydspace.status.workflow": "Pending Validation",
+  // TODO Source message changed - Revise the translation
   "mydspace.status.workflow": "En traitement",
 
-  // "mydspace.status.workspace": "Workspace",
+  // "mydspace.status.workspace": "Draft",
+  // TODO Source message changed - Revise the translation
   "mydspace.status.workspace": "Dépôts en cours",
+
+  // "mydspace.status.epfl.workflowAdditionalInformation": "Additional information required",
+  // TODO New key - Add a translation
+  "mydspace.status.epfl.workflowAdditionalInformation": "Additional information required",
+
+  // "mydspace.status.epfl.workflowRejected": "Rejected",
+  // TODO New key - Add a translation
+  "mydspace.status.epfl.workflowRejected": "Rejected",
+
+  // "mydspace.status.epfl.newVersion": "New version",
+  // TODO New key - Add a translation
+  "mydspace.status.epfl.newVersion": "New version",
 
   // "mydspace.title": "MyDSpace",
   "mydspace.title": "Mon compte DSpace",
@@ -8397,6 +8457,10 @@
   // "nav.subscriptions" : "Subscriptions",
   // TODO New key - Add a translation
   "nav.subscriptions" : "Subscriptions",
+
+  // "nav.userStatistics" : "Profile Stats",
+  // TODO New key - Add a translation
+  "nav.userStatistics" : "Profile Stats",
 
   // "none.listelement.badge": "Item",
   "none.listelement.badge": "Item",
@@ -9461,6 +9525,9 @@
   // "media-viewer.playlist": "Playlist",
   "media-viewer.playlist": "Liste de lecture",
 
+  // "media-viewer.play": "Play",
+  // TODO New key - Add a translation
+  "media-viewer.play": "Play",
 
   // "register-email.title": "New user registration",
   "register-email.title": "Inscription d'un nouvel utilisateur",
@@ -11452,6 +11519,14 @@
   // TODO New key - Add a translation
   "submission.sections.submit.progressbar.describe.ctb-metadata": "Common file attributes - set for each file unless differently specified",
 
+  // "submission.sections.submit.progressbar.describe.orgunit-editor": "Delegated head of units",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.orgunit-editor": "Delegated head of units",
+
+  // "submission.sections.submit.progressbar.describe.ctb-bitstream-metadata": "Common file attributes - set for each file unless differently specified",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.ctb-bitstream-metadata": "Common file attributes - set for each file unless differently specified",
+
 
 
   // "submission.sections.detect-duplicate.clear-decision": "Undo",
@@ -12147,6 +12222,10 @@
   // TODO New key - Add a translation
   "submission.sections.submit.progressbar.describe.publication": "Publication basic information",
 
+  // "submission.sections.submit.progressbar.describe.basic_information": "Basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.basic_information": "Basic information",
+
   // "submission.sections.submit.progressbar.describe.publication_bibliographic_details": "Publication bibliographic details",
   // TODO New key - Add a translation
   "submission.sections.submit.progressbar.describe.publication_bibliographic_details": "Publication bibliographic details",
@@ -12158,6 +12237,14 @@
   // "submission.sections.submit.progressbar.describe.publication_references": "Publication references",
   // TODO New key - Add a translation
   "submission.sections.submit.progressbar.describe.publication_references": "Publication references",
+
+  // "submission.sections.submit.progressbar.describe.product_type": "Type",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.product_type": "Type",
+
+  // "submission.sections.submit.progressbar.describe.patent_type": "Type",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.patent_type": "Type",
 
   // "submission.sections.submit.progressbar.describe.rp": "Researcher basic information",
   // TODO New key - Add a translation
@@ -12958,6 +13045,10 @@
   // "viewer.provider.iiif.breadcrumbs": "Mirador Viewer",
   // TODO New key - Add a translation
   "viewer.provider.iiif.breadcrumbs": "Mirador Viewer",
+
+  // "viewer.provider.media.breadcrumbs": "Player",
+  // TODO New key - Add a translation
+  "viewer.provider.media.breadcrumbs": "Player",
 
   // "viewer.provider.pdf.breadcrumbs": "PDF Viewer",
   // TODO New key - Add a translation
@@ -14060,6 +14151,10 @@
   // "submission.sections.submit.progressbar.describe.fond": "Fond Details",
   // TODO New key - Add a translation
   "submission.sections.submit.progressbar.describe.fond": "Fond Details",
+
+  // "submission.sections.submit.progressbar.describe.lookup": "Lookup",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.lookup": "Lookup",
 
   // "submission.sections.submit.progressbar.describe.place": "Place Details",
   // TODO New key - Add a translation
