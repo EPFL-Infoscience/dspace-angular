@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { NgbAccordionModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
-import { MetricsModule } from './../shared/metric/metrics.module';
+import { MetricsModule } from '../shared/metric/metrics.module';
 
 import { CrisLayoutLoaderDirective } from './directives/cris-layout-loader.directive';
 import { CrisLayoutComponent } from './cris-layout.component';
@@ -139,6 +139,11 @@ import {
 import {
   AttachmentRenderingModule
 } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/bitstream-attachment/attachment-render/attachment-rendering.module';
+import { FormModule } from '../shared/form/form.module';
+import {
+  CrisLayoutMediaBoxComponent
+} from './cris-layout-matrix/cris-layout-box-container/boxes/media-box/cris-layout-media-box.component';
+import { MediaPlayerModule } from '../shared/media-player/media-player.module';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -171,7 +176,8 @@ const ENTRY_COMPONENTS = [
   MarkdownComponent,
   SearchComponent,
   TagSearchComponent,
-  AdvancedAttachmentComponent
+  AdvancedAttachmentComponent,
+  CrisLayoutMediaBoxComponent
 ];
 
 @NgModule({
@@ -216,7 +222,9 @@ const ENTRY_COMPONENTS = [
     ItemSharedModule,
     ViewersSharedModule,
     MetricsModule,
-    AttachmentRenderingModule
+    AttachmentRenderingModule,
+    FormModule,
+    MediaPlayerModule
   ],
   exports: [
     CrisLayoutComponent,

@@ -44,6 +44,8 @@ export class WorkspaceItemSearchResultListElementComponent extends SearchResultL
    */
   derivedSearchResult$: Observable<ItemSearchResult>;
 
+  item$: Observable<Item>;
+
   submitterEmail = new BehaviorSubject<string>('');
 
   /**
@@ -78,7 +80,9 @@ export class WorkspaceItemSearchResultListElementComponent extends SearchResultL
 
   private deriveSearchResult() {
     this.linkService.resolveLink(this.object.indexableObject, followLink('item'));
-    this.derivedSearchResult$ = this.object.indexableObject.item.pipe(
+    const itemObject$ = this.object.indexableObject.item.pipe(shareReplay());
+    this.item$ = itemObject$.pipe(getFirstSucceededRemoteDataPayload());
+    this.derivedSearchResult$ = itemObject$.pipe(
       getFirstSucceededRemoteDataPayload(),
       map((item: Item) => {
         const result = new ItemSearchResult();

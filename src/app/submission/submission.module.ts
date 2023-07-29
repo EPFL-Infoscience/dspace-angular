@@ -64,10 +64,15 @@ import { PublisherPolicyComponent } from './sections/sherpa-policies/publisher-p
 import {
   PublicationInformationComponent
 } from './sections/sherpa-policies/publication-information/publication-information.component';
+import { UploadModule } from '../shared/upload/upload.module';
 import {
   MetadataInformationComponent
 } from './sections/sherpa-policies/metadata-information/metadata-information.component';
+import { SectionFormOperationsService } from './sections/form/section-form-operations.service';
+import { SubmissionSectionIdentifiersComponent } from './sections/identifiers/section-identifiers.component';
 import { SubmissionSectionCorrectionComponent } from './sections/correction/section-correction.component';
+import { MyDspaceSearchModule } from '../my-dspace-page/my-dspace-search.module';
+import { MyDSpaceActionsModule } from '../shared/mydspace-actions/mydspace-actions.module';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -99,6 +104,7 @@ const DECLARATIONS = [
   SubmissionSectionUploadFileComponent,
   SubmissionSectionUploadFileEditComponent,
   SubmissionSectionUploadFileViewComponent,
+  SubmissionSectionIdentifiersComponent,
   SubmissionImportExternalComponent,
   ThemedSubmissionImportExternalComponent,
   SubmissionImportExternalSearchbarComponent,
@@ -119,20 +125,27 @@ const DECLARATIONS = [
     StoreModule.forFeature('submission', submissionReducers, storeModuleConfig as StoreConfig<SubmissionState, Action>),
     EffectsModule.forFeature(submissionEffects),
     JournalEntitiesModule.withEntryComponents(),
+    MyDspaceSearchModule.withEntryComponents(),
     ResearchEntitiesModule.withEntryComponents(),
     FormModule,
     NgbModalModule,
     NgbCollapseModule,
-    NgbAccordionModule
+    NgbAccordionModule,
+    UploadModule,
+    MyDSpaceActionsModule,
   ],
   declarations: DECLARATIONS,
-  exports: DECLARATIONS,
+  exports: [
+    ...DECLARATIONS,
+    FormModule,
+  ],
   providers: [
     SectionUploadService,
     SectionsService,
     SubmissionUploadsConfigDataService,
     SubmissionAccessesConfigDataService,
     SectionAccessesService,
+    SectionFormOperationsService,
     DetectDuplicateService
   ]
 })

@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { LinkService } from '../../../../core/cache/builders/link.service';
 import { Item } from '../../../../core/shared/item.model';
 
@@ -39,6 +39,8 @@ export class WorkflowItemSearchResultListElementComponent extends SearchResultLi
    */
   derivedSearchResult$: Observable<ItemSearchResult>;
 
+  item$: Observable<Item>;
+
   /**
    * Represent item's status
    */
@@ -69,13 +71,16 @@ export class WorkflowItemSearchResultListElementComponent extends SearchResultLi
 
   private deriveSearchResult() {
     this.linkService.resolveLink(this.object.indexableObject, followLink('item'));
-    this.derivedSearchResult$ = this.object.indexableObject.item.pipe(
+    const itemObject$ = this.object.indexableObject.item.pipe(shareReplay());
+    this.item$ = itemObject$.pipe(getFirstSucceededRemoteDataPayload());
+    this.derivedSearchResult$ = itemObject$.pipe(
       getFirstSucceededRemoteDataPayload(),
       map((item: Item) => {
         const result = new ItemSearchResult();
         result.indexableObject = item;
         result.hitHighlights = this.object.hitHighlights;
         return result;
-      }));
+      }),
+    );
   }
 }

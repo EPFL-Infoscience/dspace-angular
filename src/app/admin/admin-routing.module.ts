@@ -95,6 +95,12 @@ import { EndUserAgreementCurrentUserGuard } from '../core/end-user-agreement/end
         canActivate: [SiteAdministratorGuard, EndUserAgreementCurrentUserGuard],
         data: { title: 'admin.language-files.title', breadcrumbKey: 'admin.language-labels' }
       },
+      {
+        path: 'system-wide-alert',
+        resolve: { breadcrumb: I18nBreadcrumbResolver },
+        loadChildren: () => import('../system-wide-alert/system-wide-alert.module').then((m) => m.SystemWideAlertModule),
+        data: {title: 'admin.system-wide-alert.title', breadcrumbKey: 'admin.system-wide-alert'}
+      },
     ])
   ],
   providers: [
