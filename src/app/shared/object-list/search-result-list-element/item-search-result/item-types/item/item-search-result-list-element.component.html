@@ -25,6 +25,9 @@
              [innerHTML]="dsoTitle"></a>
           <span *ngIf="linkType == linkTypes.None" class="lead item-list-title dont-break-out"
                 [innerHTML]="dsoTitle"></span>
+          <div *ngIf="dso.hasMetadata('epfl.workflow.startDateTime')">
+            {{'mydspace.results.in-workflow-since' | translate}} {{getDateForItem(dso.firstMetadataValue('epfl.workflow.startDateTime'))}}
+          </div>
           <span class="text-muted">
             <ds-truncatable-part [id]="dso.id" [minLines]="1">
               <ng-container *ngIf="dso.firstMetadataValue('dc.publisher') || dso.firstMetadataValue('dc.date.issued')">
