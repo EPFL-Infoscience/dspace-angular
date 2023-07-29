@@ -6662,6 +6662,8 @@
 
   "submission.sections.submit.progressbar.describe.orgunit-editor": "Delegated head of units",
 
+  "submission.sections.submit.progressbar.describe.notes-for-reviewer": "Notes for reviewer",
+
   "submission.sections.submit.progressbar.describe.ctb-bitstream-metadata": "Common file attributes - set for each file unless differently specified",
 
 
