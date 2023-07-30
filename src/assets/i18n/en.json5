@@ -7062,7 +7062,27 @@
 
   "submission.sections.submit.progressbar.describe.funding": "Funding basic information",
 
+  "submission.sections.submit.progressbar.describe.conf_details": "Conference details",
+
+  "submission.sections.submit.progressbar.describe.book_details": "Book details",
+
   "submission.sections.submit.progressbar.describe.journal": "Journal basic information",
+
+  "submission.sections.submit.progressbar.describe.related_works": "Related works",
+
+  "submission.sections.submit.progressbar.describe.involved": "Involved organizations",
+
+  "submission.sections.submit.progressbar.describe.thesis_awards": "Thesis Awards",
+
+  "submission.sections.submit.progressbar.describe.grants": "Grants",
+
+  "submission.sections.submit.progressbar.describe.publishing_information": "Publishing Information",
+
+  "submission.sections.submit.progressbar.describe.additional_fields": "Additional Fields",
+
+  "submission.sections.submit.progressbar.describe.journal_details": "Journal details",
+
+  "submission.sections.submit.progressbar.describe.publication_type": "Type",
 
   "submission.sections.submit.progressbar.describe.orgunit": "Org Unit basic information",
 
