@@ -6666,6 +6666,8 @@
 
   "submission.sections.submit.progressbar.describe.ctb-bitstream-metadata": "Common file attributes - set for each file unless differently specified",
 
+  "submission.sections.submit.progressbar.describe.content" : "Content",
+  "submission.sections.submit.progressbar.upload-content" : "Attachment(s)",
 
 
   "submission.sections.detect-duplicate.clear-decision": "Undo",
@@ -8035,6 +8037,8 @@
   "cris-layout.rendering.collapse" : "collapse",
 
   "family.listelement.badge": "Family",
+
+  "content.listelement.badge": "Content",
 
   "place.listelement.badge": "Place",
 
