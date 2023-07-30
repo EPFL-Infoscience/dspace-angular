@@ -25,7 +25,7 @@
              [innerHTML]="dsoTitle"></a>
           <span *ngIf="linkType == linkTypes.None" class="lead item-list-title dont-break-out"
                 [innerHTML]="dsoTitle"></span>
-          <div *ngIf="dso.hasMetadata('epfl.workflow.startDateTime')">
+          <div *ngIf="!dso.isArchived && dso.hasMetadata('epfl.workflow.startDateTime')">
             {{'mydspace.results.in-workflow-since' | translate}} {{getDateForItem(dso.firstMetadataValue('epfl.workflow.startDateTime'))}}
           </div>
           <span class="text-muted">

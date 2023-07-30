@@ -75,7 +75,7 @@ export class ItemListPreviewComponent implements OnInit {
   getDateForArchivedItem(itemStartDate: string, dateAccessioned: string) {
     const itemStartDateConverted: Date = parseISO(itemStartDate);
     const dateAccessionedConverted: Date = parseISO(dateAccessioned);
-    const days: number = Math.floor(differenceInDays(dateAccessionedConverted, itemStartDateConverted));
+    const days: number = Math.max(0, Math.floor(differenceInDays(dateAccessionedConverted, itemStartDateConverted)));
     const remainingMilliseconds: number = differenceInMilliseconds(dateAccessionedConverted, itemStartDateConverted) - days * 24 * 60 * 60 * 1000;
     const hours: number = Math.max(0, Math.floor(remainingMilliseconds / (60 * 60 * 1000)));
     return `${days} d ${hours} h`;
