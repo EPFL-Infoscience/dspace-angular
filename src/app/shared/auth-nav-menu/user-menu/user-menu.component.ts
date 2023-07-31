@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import { EPerson } from '../../../core/eperson/models/eperson.model';
@@ -8,7 +8,16 @@ import { AppState } from '../../../app.reducer';
 import { isAuthenticationLoading } from '../../../core/auth/selectors';
 import { MYDSPACE_ROUTE } from '../../../my-dspace-page/my-dspace-page.component';
 import { AuthService } from '../../../core/auth/auth.service';
-import { getProfileModuleRoute, getSubscriptionsModuleRoute } from '../../../app-routing-paths';
+import {
+  getProfileModuleRoute,
+  getStatisticsModuleRoute,
+  getSubscriptionsModuleRoute,
+} from '../../../app-routing-paths';
+import { map, mergeMap } from 'rxjs/operators';
+import { URLCombiner } from '../../../core/url-combiner/url-combiner';
+import { followLink } from '../../utils/follow-link-config.model';
+import { getFirstSucceededRemoteDataPayload } from '../../../core/shared/operators';
+import { ResearcherProfileDataService } from '../../../core/profile/researcher-profile-data.service';
 
 /**
  * This component represents the user nav menu.
@@ -37,6 +46,10 @@ export class UserMenuComponent implements OnInit {
    */
   public user$: Observable<EPerson>;
 
+  public userId$: Observable<string>;
+
+  private researcherProfileId$: Observable<string>;
+
   /**
    * The mydspace page route.
    * @type {string}
@@ -53,8 +66,13 @@ export class UserMenuComponent implements OnInit {
    */
   public subscriptionsRoute = getSubscriptionsModuleRoute();
 
-  constructor(private store: Store<AppState>,
-              private authService: AuthService) {
+  public userStatisticsRoute: string;
+
+  constructor(
+    private store: Store<AppState>,
+    private authService: AuthService,
+    private researcherProfileService: ResearcherProfileDataService,
+  ) {
   }
 
   /**
@@ -67,6 +85,22 @@ export class UserMenuComponent implements OnInit {
 
     // set user
     this.user$ = this.authService.getAuthenticatedUserFromStore();
+
+    this.userId$ = this.user$.pipe(
+      // tap(console.info),
+      map((user) => user.uuid),
+    );
+
+    this.researcherProfileId$ = this.userId$.pipe(
+      switchMap((uuid) => this.researcherProfileService.findById(uuid, false, true, followLink('item'))),
+      getFirstSucceededRemoteDataPayload(),
+      mergeMap((researcherProfile) => this.researcherProfileService.findRelatedItemId(researcherProfile)),
+    );
+
+    this.researcherProfileId$.subscribe((uuid) => {
+      this.userStatisticsRoute = new URLCombiner(getStatisticsModuleRoute(), 'items', uuid).toString();
+      console.log('USR', this.userStatisticsRoute);
+    });
 
   }
 }

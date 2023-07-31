@@ -164,8 +164,8 @@ export class RelationshipsItemsActionsComponent implements OnInit, OnDestroy {
       relation.leftItem.pipe(
         getFirstSucceededRemoteDataPayload(),
       ).subscribe((item: Item) => {
-        if (relation.leftwardValue.toLowerCase().includes('select') &&
-          relation.leftwardValue.toLowerCase().includes('is' + relationshipType) &&
+        if (relation.leftwardValue?.toLowerCase().includes('select') &&
+          relation.leftwardValue?.toLowerCase().includes('is' + relationshipType) &&
           this.object.uuid === item.uuid
         ) {
           this.isSelected.next(relation);
@@ -188,8 +188,8 @@ export class RelationshipsItemsActionsComponent implements OnInit, OnDestroy {
       relation.leftItem.pipe(
         getFirstSucceededRemoteDataPayload(),
       ).subscribe((item: Item) => {
-        if (relation.leftwardValue.toLowerCase().includes('hidden') &&
-          relation.leftwardValue.toLowerCase().includes('is' + relationshipType) &&
+        if (relation.leftwardValue?.toLowerCase().includes('hidden') &&
+          relation.leftwardValue?.toLowerCase().includes('is' + relationshipType) &&
           this.object.uuid === item.uuid
         ) {
           this.isHidden.next(relation);
