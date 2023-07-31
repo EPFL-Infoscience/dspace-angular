@@ -7,6 +7,7 @@ import { getCollectionPageRoute } from './collection-page/collection-page-routin
 import { getItemModuleRoute, getItemPageRoute } from './item-page/item-page-routing-paths';
 import { hasValue } from './shared/empty.util';
 import { URLCombiner } from './core/url-combiner/url-combiner';
+import { Bitstream } from './core/shared/bitstream.model';
 
 export const BITSTREAM_MODULE_PATH = 'bitstreams';
 
@@ -91,6 +92,8 @@ export function getDSORoute(dso: DSpaceObject): string {
         return getCollectionPageRoute(dso.uuid);
       case Item.type.value:
         return getItemPageRoute(dso as Item);
+      case Bitstream.type.value:
+        return getBitstreamDownloadRoute(dso as Bitstream);
     }
   }
 }

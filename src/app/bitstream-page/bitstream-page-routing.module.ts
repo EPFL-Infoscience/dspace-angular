@@ -46,6 +46,7 @@ const EDIT_BITSTREAM_AUTHORIZATIONS_PATH = ':id/authorizations';
         resolve: {
           bitstream: BitstreamPageResolver
         },
+        canActivate: [AuthenticatedGuard]
       },
       {
         path: EDIT_BITSTREAM_PATH,
