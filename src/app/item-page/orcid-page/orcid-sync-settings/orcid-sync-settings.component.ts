@@ -54,16 +54,16 @@ export class OrcidSyncSettingsComponent implements OnInit {
    * The synchronization options for publications
    */
   syncPublicationOptions: { value: string, label: string }[];
-
-  /**
+/*
+  /!**
    * The synchronization options for funding
-   */
+   *!/
   syncFundingOptions: { value: string, label: string }[];
 
-  /**
+  /!**
    * The profile synchronization options
-   */
-  syncProfileOptions: { value: string, label: string, checked: boolean }[];
+   *!/
+  syncProfileOptions: { value: string, label: string, checked: boolean }[];*/
 
   /**
    * An event emitted when settings are updated
@@ -98,7 +98,7 @@ export class OrcidSyncSettingsComponent implements OnInit {
         };
       });
 
-    this.syncFundingOptions = ['DISABLED', 'ALL']
+    /*this.syncFundingOptions = ['DISABLED', 'ALL']
       .map((value) => {
         return {
           label: this.messagePrefix + '.sync-fundings.' + value.toLowerCase(),
@@ -115,11 +115,11 @@ export class OrcidSyncSettingsComponent implements OnInit {
           value: value,
           checked: syncProfilePreferences.includes(value)
         };
-      });
+      });*/
 
     this.currentSyncMode = this.getCurrentPreference('dspace.orcid.sync-mode', ['BATCH', 'MANUAL'], 'MANUAL');
     this.currentSyncPublications = this.getCurrentPreference('dspace.orcid.sync-publications', ['DISABLED', 'ALL'], 'DISABLED');
-    this.currentSyncFunding = this.getCurrentPreference('dspace.orcid.sync-fundings', ['DISABLED', 'ALL'], 'DISABLED');
+    //this.currentSyncFunding = this.getCurrentPreference('dspace.orcid.sync-fundings', ['DISABLED', 'ALL'], 'DISABLED');
   }
 
   /**
@@ -131,14 +131,14 @@ export class OrcidSyncSettingsComponent implements OnInit {
     const operations: Operation[] = [];
     this.fillOperationsFor(operations, '/orcid/mode', form.value.syncMode);
     this.fillOperationsFor(operations, '/orcid/publications', form.value.syncPublications);
-    this.fillOperationsFor(operations, '/orcid/fundings', form.value.syncFundings);
+    //this.fillOperationsFor(operations, '/orcid/fundings', form.value.syncFundings);
 
-    const syncProfileValue = this.syncProfileOptions
+    /*const syncProfileValue = this.syncProfileOptions
       .map((syncProfileOption => syncProfileOption.value))
       .filter((value) => form.value['syncProfile_' + value])
       .join(',');
 
-    this.fillOperationsFor(operations, '/orcid/profile', syncProfileValue);
+    this.fillOperationsFor(operations, '/orcid/profile', syncProfileValue);*/
 
     if (operations.length === 0) {
       return;
