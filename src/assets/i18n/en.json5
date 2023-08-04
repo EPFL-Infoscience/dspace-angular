@@ -4780,7 +4780,7 @@
   "metric-badges.download": "<span class=\"fa fa-download\" title=\"Downloads\">&nbsp;</span>",
 
 
-  "mydspace.breadcrumbs": "MyDSpace",
+  "mydspace.breadcrumbs": "MyInfoscience",
 
   "mydspace.description": "",
 
@@ -4868,7 +4868,7 @@
 
   "mydspace.status.epfl.newVersion": "New version",
 
-  "mydspace.title": "MyDSpace",
+  "mydspace.title": "MyInfoscience",
 
   "mydspace.upload.upload-failed": "Error creating new workspace. Please verify the content uploaded before retry.",
 
@@ -4902,7 +4902,7 @@
 
   "nav.main.description": "Main navigation bar",
 
-  "nav.mydspace": "MyDSpace",
+  "nav.mydspace": "MyInfoscience",
 
   "nav.profile": "Profile",
 
