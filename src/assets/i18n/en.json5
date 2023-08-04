@@ -1616,6 +1616,12 @@
 
   "context-menu.actions.edit-item.btn.FULLAUTH": "Edit all details (as Author)",
 
+  "context-menu.actions.edit-item.btn.THEMATIC-AREA-CURATOR": "Manage thematic collections",
+
+  "context-menu.actions.edit-item.btn.THEMATIC-AREA-CURATOR-DELEGATE": "Manage thematic collections",
+
+  "context-menu.actions.edit-item.btn.EDIT-THEMATIC-AREA-CURATOR-DELEGATE": "Edit collection details",
+
   "context-menu.actions.edit-item.btn.OWNER": "Edit",
 
   "context-menu.actions.edit-item.btn.DIRECTOR": "Edit",
@@ -2815,6 +2821,8 @@
   "funding.listelement.badge" : "Funding",
 
   "funding.page.titleprefix" : "Funding:",
+
+  "virtualcollection.page.titleprefix" : "Virtual Collection",
 
 
 
@@ -7070,6 +7078,12 @@
 
   "submission.sections.submit.progressbar.describe.related_works": "Related works",
 
+  "submission.sections.submit.progressbar.describe.virtual-collection": "Collection Data",
+
+  "submission.sections.submit.progressbar.describe.virtual-collection-bind": "Manage Thematic Collections",
+
+  "submission.sections.submit.progressbar.describe.virtual-collection-delegate-curators": "Delegated Collection Curators",
+
   "submission.sections.submit.progressbar.describe.involved": "Involved organizations",
 
   "submission.sections.submit.progressbar.describe.thesis_awards": "Thesis Awards",
@@ -8077,6 +8091,9 @@
   "scientificmaterial.listelement.badge": "Scientific Material",
 
   "picture.listelement.badge": "Picture",
+
+  "virtualcollection.listelement.badge": "Virtual Collection",
+
   "menu.section.explore_sectionfonds" : "Fonds",
   "menu.section.explore_sectionjournalfonds" : "Journal Fonds",
 
