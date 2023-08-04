@@ -16,6 +16,7 @@ import { WorkflowStatisticsPageComponent } from './workflow-statistics-page/work
 import { LoginStatisticsPageComponent } from './login-statistics-page/login-statistics-page.component';
 import { StatisticsLoginGuard } from '../core/data/feature-authorization/feature-authorization-guard/statistics-login.guard';
 import { StatisticsWorkflowGuard } from '../core/data/feature-authorization/feature-authorization-guard/statistics-workflow.guard';
+import {ItemStatisticsGuard} from "./guard/item-statistics.guard";
 
 @NgModule({
   imports: [
@@ -83,7 +84,7 @@ import { StatisticsWorkflowGuard } from '../core/data/feature-authorization/feat
           breadcrumbKey: 'statistics'
         },
         component: ThemedItemStatisticsPageComponent,
-        canActivate: [StatisticsAdministratorGuard]
+        canActivate: [ItemStatisticsGuard]
       },
       {
         path: `collections/:id`,
