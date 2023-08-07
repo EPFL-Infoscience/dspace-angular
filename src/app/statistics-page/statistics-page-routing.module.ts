@@ -16,6 +16,7 @@ import { WorkflowStatisticsPageComponent } from './workflow-statistics-page/work
 import { LoginStatisticsPageComponent } from './login-statistics-page/login-statistics-page.component';
 import { StatisticsLoginGuard } from '../core/data/feature-authorization/feature-authorization-guard/statistics-login.guard';
 import { StatisticsWorkflowGuard } from '../core/data/feature-authorization/feature-authorization-guard/statistics-workflow.guard';
+import {SearchStatisticsPageComponent} from "./search-statistics-page/search-statistics-page.component";
 
 @NgModule({
   imports: [
@@ -68,6 +69,23 @@ import { StatisticsWorkflowGuard } from '../core/data/feature-authorization/feat
             {
               path: '',
               component: WorkflowStatisticsPageComponent,
+            }
+          ],
+          canActivate: [StatisticsWorkflowGuard]
+        },
+        {
+          path: 'search',
+          resolve: {
+            breadcrumb: I18nBreadcrumbResolver
+          },
+          data: {
+            title: 'statistics.search.title',
+            breadcrumbKey: 'statistics.search',
+          },
+          children: [
+            {
+              path: '',
+              component: SearchStatisticsPageComponent,
             }
           ],
           canActivate: [StatisticsWorkflowGuard]

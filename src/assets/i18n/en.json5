@@ -4608,6 +4608,8 @@
 
   "menu.section.statistics.login": "Login",
 
+  "menu.section.statistics.search": "Search",
+
   "menu.section.statistics.site": "Site",
 
   "menu.section.statistics_task": "Statistics Task",
@@ -4718,6 +4720,24 @@
   "statistics.login.page.no-data-found": "No data found",
 
   "statistics.login.title statistics.workflow.title" : "Login Statistics",
+
+  "statistics.search.breadcrumbs": "Search report",
+
+  "statistics.search.page.header": "Search report",
+
+  "statistics.search.page.startDate": "Start date",
+
+  "statistics.search.page.endDate": "End date",
+
+  "statistics.search.page.reset": "Reset",
+
+  "statistics.search.page.total-searches-count": "Total searches count",
+
+  "statistics.search.page.query": "Search",
+
+  "statistics.search.page.query.count": "Count",
+
+  "statistics.search.page.top-searches.header": "Top searches",
 
   "manage.relations": "Manage Relations",
 
