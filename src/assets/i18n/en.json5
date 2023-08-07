@@ -7102,6 +7102,8 @@
 
   "submission.sections.submit.progressbar.describe.virtual-collection-bind": "Manage Thematic Collections",
 
+  "submission.sections.submit.progressbar.describe.virtual-collection-admin": "Administrative Data",
+
   "submission.sections.submit.progressbar.describe.virtual-collection-delegate-curators": "Delegated Collection Curators",
 
   "submission.sections.submit.progressbar.describe.involved": "Involved organizations",
