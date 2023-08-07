@@ -16,7 +16,8 @@ import { WorkflowStatisticsPageComponent } from './workflow-statistics-page/work
 import { LoginStatisticsPageComponent } from './login-statistics-page/login-statistics-page.component';
 import { StatisticsLoginGuard } from '../core/data/feature-authorization/feature-authorization-guard/statistics-login.guard';
 import { StatisticsWorkflowGuard } from '../core/data/feature-authorization/feature-authorization-guard/statistics-workflow.guard';
-import {SearchStatisticsPageComponent} from "./search-statistics-page/search-statistics-page.component";
+import {SearchStatisticsPageComponent} from './search-statistics-page/search-statistics-page.component';
+import {ItemStatisticsGuard} from './guard/item-statistics.guard';
 
 @NgModule({
   imports: [
@@ -101,7 +102,7 @@ import {SearchStatisticsPageComponent} from "./search-statistics-page/search-sta
           breadcrumbKey: 'statistics'
         },
         component: ThemedItemStatisticsPageComponent,
-        canActivate: [StatisticsAdministratorGuard]
+        canActivate: [ItemStatisticsGuard]
       },
       {
         path: `collections/:id`,

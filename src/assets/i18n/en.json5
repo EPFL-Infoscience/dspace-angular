@@ -1616,6 +1616,12 @@
 
   "context-menu.actions.edit-item.btn.FULLAUTH": "Edit all details (as Author)",
 
+  "context-menu.actions.edit-item.btn.THEMATIC-AREA-CURATOR": "Manage thematic collections",
+
+  "context-menu.actions.edit-item.btn.THEMATIC-AREA-CURATOR-DELEGATE": "Manage thematic collections",
+
+  "context-menu.actions.edit-item.btn.EDIT-THEMATIC-AREA-CURATOR-DELEGATE": "Edit collection details",
+
   "context-menu.actions.edit-item.btn.OWNER": "Edit",
 
   "context-menu.actions.edit-item.btn.DIRECTOR": "Edit",
@@ -2815,6 +2821,8 @@
   "funding.listelement.badge" : "Funding",
 
   "funding.page.titleprefix" : "Funding:",
+
+  "virtualcollection.page.titleprefix" : "Virtual Collection",
 
 
 
@@ -4792,7 +4800,7 @@
   "metric-badges.download": "<span class=\"fa fa-download\" title=\"Downloads\">&nbsp;</span>",
 
 
-  "mydspace.breadcrumbs": "MyDSpace",
+  "mydspace.breadcrumbs": "MyInfoscience",
 
   "mydspace.description": "",
 
@@ -4831,6 +4839,10 @@
   "mydspace.new-submission-external-short": "Import metadata",
 
   "mydspace.results.head": "Your submissions",
+
+  "mydspace.results.in-workflow-since": "In workflow since:",
+
+  "mydspace.results.in-workflow-for": "In workflow for:",
 
   "mydspace.results.no-abstract": "No Abstract",
 
@@ -4876,7 +4888,7 @@
 
   "mydspace.status.epfl.newVersion": "New version",
 
-  "mydspace.title": "MyDSpace",
+  "mydspace.title": "MyInfoscience",
 
   "mydspace.upload.upload-failed": "Error creating new workspace. Please verify the content uploaded before retry.",
 
@@ -4910,7 +4922,7 @@
 
   "nav.main.description": "Main navigation bar",
 
-  "nav.mydspace": "MyDSpace",
+  "nav.mydspace": "MyInfoscience",
 
   "nav.profile": "Profile",
 
@@ -6676,8 +6688,14 @@
 
   "submission.sections.submit.progressbar.describe.ctb-metadata": "Common file attributes - set for each file unless differently specified",
 
+  "submission.sections.submit.progressbar.describe.orgunit-editor": "Delegated head of units",
+
+  "submission.sections.submit.progressbar.describe.notes-for-reviewer": "Notes for reviewer",
+
   "submission.sections.submit.progressbar.describe.ctb-bitstream-metadata": "Common file attributes - set for each file unless differently specified",
 
+  "submission.sections.submit.progressbar.describe.content" : "Content",
+  "submission.sections.submit.progressbar.upload-content" : "Attachment(s)",
 
 
   "submission.sections.detect-duplicate.clear-decision": "Undo",
@@ -7072,7 +7090,33 @@
 
   "submission.sections.submit.progressbar.describe.funding": "Funding basic information",
 
+  "submission.sections.submit.progressbar.describe.conf_details": "Conference details",
+
+  "submission.sections.submit.progressbar.describe.book_details": "Book details",
+
   "submission.sections.submit.progressbar.describe.journal": "Journal basic information",
+
+  "submission.sections.submit.progressbar.describe.related_works": "Related works",
+
+  "submission.sections.submit.progressbar.describe.virtual-collection": "Collection Data",
+
+  "submission.sections.submit.progressbar.describe.virtual-collection-bind": "Manage Thematic Collections",
+
+  "submission.sections.submit.progressbar.describe.virtual-collection-delegate-curators": "Delegated Collection Curators",
+
+  "submission.sections.submit.progressbar.describe.involved": "Involved organizations",
+
+  "submission.sections.submit.progressbar.describe.thesis_awards": "Thesis Awards",
+
+  "submission.sections.submit.progressbar.describe.grants": "Grants",
+
+  "submission.sections.submit.progressbar.describe.publishing_information": "Publishing Information",
+
+  "submission.sections.submit.progressbar.describe.additional_fields": "Additional Fields",
+
+  "submission.sections.submit.progressbar.describe.journal_details": "Journal details",
+
+  "submission.sections.submit.progressbar.describe.publication_type": "Type",
 
   "submission.sections.submit.progressbar.describe.orgunit": "Org Unit basic information",
 
@@ -8048,6 +8092,8 @@
 
   "family.listelement.badge": "Family",
 
+  "content.listelement.badge": "Content",
+
   "place.listelement.badge": "Place",
 
   "archivalmaterials.listelement.badge": "Archival Materials",
@@ -8065,6 +8111,9 @@
   "scientificmaterial.listelement.badge": "Scientific Material",
 
   "picture.listelement.badge": "Picture",
+
+  "virtualcollection.listelement.badge": "Virtual Collection",
+
   "menu.section.explore_sectionfonds" : "Fonds",
   "menu.section.explore_sectionjournalfonds" : "Journal Fonds",
 
