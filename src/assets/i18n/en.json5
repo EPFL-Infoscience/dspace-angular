@@ -1628,6 +1628,8 @@
 
   "context-menu.actions.edit-item.btn.DIRECTOR": "Edit",
 
+  "context-menu.actions.edit-item.btn.DELEGATE": "Edit",
+
   "context-menu.actions.edit-item.btn.INVESTIGATOR": "Edit",
 
   "context-menu.actions.request-correction.btn": "Request a correction",
@@ -4737,6 +4739,10 @@
 
   "statistics.search.page.startDate": "Start date",
 
+  "statistics.table.mainReports.header.community": "Community",
+
+  "statistics.table.mainReports.header.collection": "Collection",
+
   "statistics.search.page.endDate": "End date",
 
   "statistics.search.page.reset": "Reset",
@@ -7123,6 +7129,8 @@
   "submission.sections.submit.progressbar.describe.publication_type": "Type",
 
   "submission.sections.submit.progressbar.describe.orgunit": "Org Unit basic information",
+
+  "submission.sections.submit.progressbar.describe.orgunit-director": "Org Unit basic information",
 
   "submission.sections.submit.progressbar.describe.owner": "Owner",
 
