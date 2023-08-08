@@ -1620,6 +1620,8 @@
 
   "context-menu.actions.edit-item.btn.THEMATIC-AREA-CURATOR-DELEGATE": "Manage thematic collections",
 
+  "context-menu.actions.edit-item.btn.CURATOR": "Manage thematic collections",
+
   "context-menu.actions.edit-item.btn.EDIT-THEMATIC-AREA-CURATOR-DELEGATE": "Edit collection details",
 
   "context-menu.actions.edit-item.btn.OWNER": "Edit",
