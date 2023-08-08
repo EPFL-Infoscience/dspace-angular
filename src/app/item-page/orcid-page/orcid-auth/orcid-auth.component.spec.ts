@@ -116,7 +116,9 @@ describe('OrcidAuthComponent test suite', () => {
       getOrcidAuthorizationScopes: jasmine.createSpy('getOrcidAuthorizationScopes'),
       getOrcidAuthorizationScopesByItem: jasmine.createSpy('getOrcidAuthorizationScopesByItem'),
       getOrcidAuthorizeUrl: jasmine.createSpy('getOrcidAuthorizeUrl'),
+      getOrcidEpflIntegrationUrl: jasmine.createSpy('getOrcidEpflIntegrationUrl'),
       isLinkedToOrcid: jasmine.createSpy('isLinkedToOrcid'),
+      hasOrcidIdentifier: jasmine.createSpy('hasOrcidIdentifier'),
       onlyAdminCanDisconnectProfileFromOrcid: jasmine.createSpy('onlyAdminCanDisconnectProfileFromOrcid'),
       ownerCanDisconnectProfileFromOrcid: jasmine.createSpy('ownerCanDisconnectProfileFromOrcid'),
       unlinkOrcidByItem: jasmine.createSpy('unlinkOrcidByItem')
@@ -152,11 +154,12 @@ describe('OrcidAuthComponent test suite', () => {
     orcidAuthService.getOrcidAuthorizationScopes.and.returnValue(of(orcidScopes));
   }));
 
-  describe('when orcid profile is not linked', () => {
+  describe('when orcid profile is not linked and orcid metadata is set', () => {
     beforeEach(waitForAsync(() => {
       comp.item = mockItemUnlinkedToOrcid;
       orcidAuthService.getOrcidAuthorizationScopesByItem.and.returnValue([]);
       orcidAuthService.isLinkedToOrcid.and.returnValue(false);
+      orcidAuthService.hasOrcidIdentifier.and.returnValue(true);
       orcidAuthService.onlyAdminCanDisconnectProfileFromOrcid.and.returnValue(of(false));
       orcidAuthService.ownerCanDisconnectProfileFromOrcid.and.returnValue(of(true));
       orcidAuthService.getOrcidAuthorizeUrl.and.returnValue(of('oarcidUrl'));
@@ -166,8 +169,10 @@ describe('OrcidAuthComponent test suite', () => {
     it('should create', fakeAsync(() => {
       const orcidLinked = fixture.debugElement.query(By.css('[data-test="orcidLinked"]'));
       const orcidNotLinked = fixture.debugElement.query(By.css('[data-test="orcidNotLinked"]'));
+      const hasEmptyOrcid = fixture.debugElement.query(By.css('[data-test="hasEmptyOrcid"]'));
       expect(orcidLinked).toBeFalsy();
       expect(orcidNotLinked).toBeTruthy();
+      expect(hasEmptyOrcid).toBeFalsy();
     }));
 
     it('should change location on link', () => {
@@ -176,6 +181,38 @@ describe('OrcidAuthComponent test suite', () => {
       scheduler.flush();
 
       expect(nativeWindowRef.nativeWindow.location.href).toBe('oarcidUrl');
+    });
+
+  });
+
+  describe('when orcid profile is not linked and orcid metadata is not set', () => {
+    beforeEach(waitForAsync(() => {
+      comp.item = mockItemUnlinkedToOrcid;
+      orcidAuthService.getOrcidAuthorizationScopesByItem.and.returnValue([]);
+      orcidAuthService.isLinkedToOrcid.and.returnValue(false);
+      orcidAuthService.hasOrcidIdentifier.and.returnValue(false);
+      orcidAuthService.onlyAdminCanDisconnectProfileFromOrcid.and.returnValue(of(false));
+      orcidAuthService.ownerCanDisconnectProfileFromOrcid.and.returnValue(of(true));
+      orcidAuthService.getOrcidAuthorizeUrl.and.returnValue(of('oarcidUrl'));
+      orcidAuthService.getOrcidEpflIntegrationUrl.and.returnValue(of('integrationUrl'));
+      fixture.detectChanges();
+    }));
+
+    it('should create', fakeAsync(() => {
+      const orcidLinked = fixture.debugElement.query(By.css('[data-test="orcidLinked"]'));
+      const orcidNotLinked = fixture.debugElement.query(By.css('[data-test="orcidNotLinked"]'));
+      const hasEmptyOrcid = fixture.debugElement.query(By.css('[data-test="hasEmptyOrcid"]'));
+      expect(orcidLinked).toBeFalsy();
+      expect(orcidNotLinked).toBeFalsy();
+      expect(hasEmptyOrcid).toBeTruthy();
+    }));
+
+    it('should change location on link', () => {
+      nativeWindowRef = (comp as any)._window;
+      scheduler.schedule(() => comp.epflOrcidIntegrationRedirect());
+      scheduler.flush();
+
+      expect(nativeWindowRef.nativeWindow.location.href).toBe('integrationUrl');
     });
 
   });
