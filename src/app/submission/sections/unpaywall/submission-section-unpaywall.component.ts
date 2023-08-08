@@ -174,7 +174,7 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
   }
 
   private getDoiMetadataValue(value: SubmissionObjectEntry): string {
-    return value.sections[value.definition]?.data?.[DOI_METADATA]?.[0]?.value;
+    return value.sections.lookup?.data?.[DOI_METADATA]?.[0]?.value;
   }
 
   private hideCurrentSection(): void {
