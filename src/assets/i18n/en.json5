@@ -1616,11 +1616,11 @@
 
   "context-menu.actions.edit-item.btn.FULLAUTH": "Edit all details (as Author)",
 
-  "context-menu.actions.edit-item.btn.THEMATIC-AREA-CURATOR": "Manage thematic collections",
+  "context-menu.actions.edit-item.btn.THEMATIC-AREA-CURATOR": "Manage thematic collection",
 
-  "context-menu.actions.edit-item.btn.THEMATIC-AREA-CURATOR-DELEGATE": "Manage thematic collections",
+  "context-menu.actions.edit-item.btn.THEMATIC-AREA-CURATOR-DELEGATE": "Manage thematic collection",
 
-  "context-menu.actions.edit-item.btn.CURATOR": "Manage thematic collections",
+  "context-menu.actions.edit-item.btn.CURATOR": "Manage thematic collection (as Curator)",
 
   "context-menu.actions.edit-item.btn.EDIT-THEMATIC-AREA-CURATOR-DELEGATE": "Edit collection details",
 
