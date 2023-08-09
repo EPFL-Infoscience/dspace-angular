@@ -16,6 +16,8 @@ import { WorkflowStatisticsPageComponent } from './workflow-statistics-page/work
 import { LoginStatisticsPageComponent } from './login-statistics-page/login-statistics-page.component';
 import { StatisticsLoginGuard } from '../core/data/feature-authorization/feature-authorization-guard/statistics-login.guard';
 import { StatisticsWorkflowGuard } from '../core/data/feature-authorization/feature-authorization-guard/statistics-workflow.guard';
+import {SearchStatisticsPageComponent} from './search-statistics-page/search-statistics-page.component';
+import {ItemStatisticsGuard} from './guard/item-statistics.guard';
 
 @NgModule({
   imports: [
@@ -73,6 +75,23 @@ import { StatisticsWorkflowGuard } from '../core/data/feature-authorization/feat
           canActivate: [StatisticsWorkflowGuard]
         },
         {
+          path: 'search',
+          resolve: {
+            breadcrumb: I18nBreadcrumbResolver
+          },
+          data: {
+            title: 'statistics.search.title',
+            breadcrumbKey: 'statistics.search',
+          },
+          children: [
+            {
+              path: '',
+              component: SearchStatisticsPageComponent,
+            }
+          ],
+          canActivate: [StatisticsWorkflowGuard]
+        },
+        {
           path: `items/:id`,
           resolve: {
             scope: StatisticsItemPageResolver,
@@ -83,7 +102,7 @@ import { StatisticsWorkflowGuard } from '../core/data/feature-authorization/feat
           breadcrumbKey: 'statistics'
         },
         component: ThemedItemStatisticsPageComponent,
-        canActivate: [StatisticsAdministratorGuard]
+        canActivate: [ItemStatisticsGuard]
       },
       {
         path: `collections/:id`,
@@ -96,7 +115,7 @@ import { StatisticsWorkflowGuard } from '../core/data/feature-authorization/feat
           breadcrumbKey: 'statistics'
         },
         component: ThemedCollectionStatisticsPageComponent,
-        canActivate: [StatisticsAdministratorGuard]
+        canActivate: [ItemStatisticsGuard]
       },
       {
         path: `communities/:id`,
@@ -109,7 +128,7 @@ import { StatisticsWorkflowGuard } from '../core/data/feature-authorization/feat
           breadcrumbKey: 'statistics'
         },
         component: ThemedCommunityStatisticsPageComponent,
-        canActivate: [StatisticsAdministratorGuard]
+        canActivate: [ItemStatisticsGuard]
       },
     ]
     )
