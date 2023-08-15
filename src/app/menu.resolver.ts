@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import {ActivatedRoute, ActivatedRouteSnapshot, Params, Resolve, RouterStateSnapshot} from '@angular/router';
 import { combineLatest as observableCombineLatest, Observable } from 'rxjs';
 import { MenuID } from './shared/menu/menu-id.model';
 import { MenuState } from './shared/menu/menu-state.model';
@@ -102,7 +102,7 @@ export class MenuResolver implements Resolve<boolean> {
 
     /* Communities & Collections tree */
     const CommunityCollectionMenuItem = {
-      id: `browse_global_communities_and_collections`,
+      id: `browse_global_communities_and_collectiorgunitons`,
       active: false,
       visible: environment.layout.navbar.showCommunityCollection,
       index: 0,
@@ -116,6 +116,10 @@ export class MenuResolver implements Resolve<boolean> {
     if (environment.layout.navbar.showCommunityCollection) {
       menuList.push(CommunityCollectionMenuItem);
     }
+
+    this.createResearchMenu();
+    this.createEducationMenu();
+    this.createInnovationMenu();
 
     // Read the different Browse-By types from config and add them to the browse menu
     this.sectionDataService.findVisibleSections().pipe(
@@ -170,6 +174,121 @@ export class MenuResolver implements Resolve<boolean> {
 
     this.createStatisticsMenu();
     return this.waitForMenu$(MenuID.PUBLIC);
+  }
+
+  createResearchMenu() {
+    this.activatedRouteLastChild = this.getActivatedRoute(this.route);
+
+    const menuList = [
+      {
+        id: 'research_schools_and_colleges',
+        parentID: 'research',
+        active: false,
+        visible: true,
+        model: {
+          type: MenuItemType.LINK,
+          text: 'menu.section.research.schools_and_colleges',
+          link: '/search',
+          queryParams: {
+            'configuration': 'schoolsAndColleges'
+          } as Params
+        } as LinkMenuItemModel
+      },
+      {
+        id: 'research_centers_and_platforms',
+        parentID: 'research',
+        active: false,
+        visible: true,
+        model: {
+          type: MenuItemType.LINK,
+          text: 'menu.section.research.research_centers_and_platforms',
+          link: '/search',
+          queryParams: {
+              'configuration': 'researchCentersAndPlatforms'
+          } as Params
+        } as LinkMenuItemModel
+      },
+      {
+        id: 'research',
+        active: false,
+        visible: true,
+        index: 1,
+        model: {
+          type: MenuItemType.TEXT,
+          text: 'menu.section.research'
+        } as TextMenuItemModel,
+      }];
+
+    menuList.forEach((menuSection) => this.menuService.addSection(MenuID.PUBLIC, Object.assign(menuSection, {
+      shouldPersistOnRouteChange: true
+    })));
+  }
+
+  createEducationMenu() {
+    this.activatedRouteLastChild = this.getActivatedRoute(this.route);
+
+    const menuList = [
+      {
+      id: 'doctoral_schools',
+      parentID: 'education',
+      active: false,
+      visible: true,
+      model: {
+        type: MenuItemType.LINK,
+        text: 'menu.section.education.doctoral_schools',
+        link: '/search',
+        queryParams: {
+          'configuration': 'doctoralSchools'
+        } as Params
+      } as LinkMenuItemModel
+    },
+    {
+      id: 'sections',
+      parentID: 'education',
+      active: false,
+      visible: true,
+      model: {
+        type: MenuItemType.LINK,
+        text: 'menu.section.education.sections',
+        link: '/search',
+        queryParams: {
+          'configuration': 'sections'
+        } as Params
+      } as LinkMenuItemModel
+    },
+    {
+      id: 'education',
+      active: false,
+      visible: true,
+      index: 1,
+      model: {
+        type: MenuItemType.TEXT,
+        text: 'menu.section.education'
+      } as TextMenuItemModel,
+    }];
+
+    menuList.forEach((menuSection) => this.menuService.addSection(MenuID.PUBLIC, Object.assign(menuSection, {
+      shouldPersistOnRouteChange: true
+    })));
+  }
+
+  createInnovationMenu() {
+    this.menuService.addSection(MenuID.PUBLIC,
+      Object.assign({
+        id: 'innovation',
+        active: false,
+        visible: true,
+        model: {
+          type: MenuItemType.LINK,
+          text: 'menu.section.innovation',
+          link: '/search',
+          queryParams: {
+            'configuration': 'patent'
+          } as Params
+        } as LinkMenuItemModel
+      }, {
+        shouldPersistOnRouteChange: true
+      }));
   }
 
   createStatisticsMenu() {
