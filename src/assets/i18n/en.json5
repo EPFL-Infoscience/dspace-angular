@@ -1710,6 +1710,10 @@
 
   "RELATION.OrgUnit.people.search.results.head" : "People",
 
+  "RELATION.OrgUnit.theses.search.results.head" : "Theses",
+
+  "RELATION.OrgUnit.sectiontheses.search.results.head" : "Teaching materials and student works",
+
   "deduplication.breadcrumbs": "Deduplication",
 
   "deduplication.title": "Deduplication",
@@ -4480,6 +4484,20 @@
 
   "menu.section.communities_and_collections": "Communities & Collections",
 
+  "menu.section.education": "Education",
+
+  "menu.section.education.doctoral_schools": "Doctoral Schools",
+
+  "menu.section.education.sections": "Sections",
+
+  "menu.section.research.schools_and_colleges": "Schools & Colleges",
+
+  "menu.section.research.research_centers_and_platforms": "Research Centers & Platforms",
+
+  "menu.section.innovation": "Innovation",
+
+  "menu.section.all_of_dspace": "All of DSpace",
+
 
 
   "menu.section.control_panel": "Control Panel",
@@ -6215,6 +6233,16 @@
   "orgunit.search.results.head": "Organizations Search Results",
 
   "homePageTopItems.search.results.head": "Home Page Items Results",
+
+  "schoolsAndColleges.search.results.head": "Schools & Colleges Search Result",
+
+  "researchCentersAndPlatforms.search.results.head": "Research Centers & Platforms Search Result",
+
+  "doctoralSchools.search.results.head": "Doctoral Schools Search Result",
+
+  "sections.search.results.head": "Sections Search Result",
+
+  "patent.search.results.head": "Patent Search Result",
 
   "search.results.no-results": "Your search returned no results. Having trouble finding what you're looking for? Try putting",
 
