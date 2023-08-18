@@ -1793,6 +1793,8 @@
 
   "curation-task.task.avallowdownload.label":  "Allow Download on audio/video resources",
 
+  "curation-task.task.avupdatemanifest.label":  "Regenerate AV manifest for URL update",
+
 
   "cris-layout.toggle.open": "Open section",
 

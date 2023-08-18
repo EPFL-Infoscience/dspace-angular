@@ -2723,6 +2723,8 @@
 
   "curation-task.task.avallowdownload.label":  "Consenti il download dei file audio/video",
 
+  "curation-task.task.avupdatemanifest.label":  "Rigenera il manifest AV per aggiornare le URL",
+
 
   // "cris-layout.toggle.open": "Open section",
   "cris-layout.toggle.open": "Apri sezione",
