@@ -1795,6 +1795,8 @@
 
   "curation-task.task.avupdatemanifest.label":  "Regenerate AV manifest for URL update",
 
+  "curation-task.task.avmigrate.label":  "Migrate the AV resources generated for a previous version",
+
 
   "cris-layout.toggle.open": "Open section",
 
