@@ -10,6 +10,7 @@ import { APP_CONFIG, AppConfig } from '../../../../../config/app-config.interfac
 import { DSONameService } from '../../../../core/breadcrumbs/dso-name.service';
 import { WorkflowItem } from '../../../../core/submission/models/workflowitem.model';
 import { DuplicateMatchMetadataDetailConfig } from '../../../../submission/sections/detect-duplicate/models/duplicate-detail-metadata.model';
+import { parseISO, differenceInDays, differenceInMilliseconds } from 'date-fns';
 
 /**
  * This component show metadata for the given item object in the list view.
@@ -68,6 +69,16 @@ export class ItemListPreviewComponent implements OnInit {
   ngOnInit(): void {
     this.showThumbnails = this.appConfig.browseBy.showThumbnails;
     this.dsoTitle = this.dsoNameService.getHitHighlights(this.object, this.item);
+  }
+
+
+  getDateForArchivedItem(itemStartDate: string, dateAccessioned: string) {
+    const itemStartDateConverted: Date = parseISO(itemStartDate);
+    const dateAccessionedConverted: Date = parseISO(dateAccessioned);
+    const days: number = Math.max(0, Math.floor(differenceInDays(dateAccessionedConverted, itemStartDateConverted)));
+    const remainingMilliseconds: number = differenceInMilliseconds(dateAccessionedConverted, itemStartDateConverted) - days * 24 * 60 * 60 * 1000;
+    const hours: number = Math.max(0, Math.floor(remainingMilliseconds / (60 * 60 * 1000)));
+    return `${days} d ${hours} h`;
   }
 
 

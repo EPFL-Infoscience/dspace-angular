@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 
-import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
-import {map, startWith, switchMap} from 'rxjs/operators';
+import {combineLatest, Observable, of} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
 import {isNotEmpty} from '../../shared/empty.util';
 
 import {EditItemDataService} from '../../core/submission/edititem-data.service';
@@ -16,7 +16,6 @@ import {EditItemMode} from '../../core/submission/models/edititem-mode.model';
 import {FeatureID} from "../../core/data/feature-authorization/feature-id";
 import {AuthorizationDataService} from "../../core/data/feature-authorization/authorization-data.service";
 import {DSpaceObjectDataService} from "../../core/data/dspace-object-data.service";
-import {DSpaceObject} from "../../core/shared/dspace-object.model";
 
 /**
  * Prevent unauthorized activating and loading of routes
@@ -57,7 +56,6 @@ export class EditItemRelationsGuard implements CanActivate {
 
   private handleEditable(itemId: string, url: string): Observable<boolean | UrlTree> {
     // redirect to sign in page if user is not authenticated
-  debugger;
     const editModes = this.editItemService.searchEditModesById(itemId).pipe(
       getAllSucceededRemoteDataPayload(),
       getPaginatedListPayload());
