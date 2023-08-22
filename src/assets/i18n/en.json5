@@ -6450,6 +6450,31 @@
 
   "statistics.table.publicationsReports.title.TopItems": "Most viewed",
 
+  "statistics.table.publicationsReports.header.item": "Item",
+
+  "statistics.table.publicationsReports.header.bitstream": "File",
+
+  "statistics.table.publicationsReports.header.views": "Views",
+
+  "statistics.table.rppublicationsReports.header.item": "Item",
+
+  "statistics.table.rppublicationsReports.header.bitstream": "File",
+
+  "statistics.table.rppublicationsReports.header.views": "Views",
+
+  "statistics.table.rpprojectsReports.header.item": "Item",
+
+  "statistics.table.rpprojectsReports.header.bitstream": "File",
+
+  "statistics.table.rpprojectsReports.header.views": "Views",
+
+  "statistics.table.projectsReports.header.views": "Views",
+
+  "statistics.table.projectsReports.header.item": "Item",
+
+  "statistics.table.projectsReports.header.bitstream": "File",
+
+
   "statistics.table.publicationsReports.title.TopCities": "Top cities",
 
   "statistics.table.publicationsReports.title.TopCountries": "Top countries",
@@ -6473,6 +6498,22 @@
   "statistics.table.projectsReports.title.TotalDownloads": "Downloads",
 
   "statistics.table.projectsReports.title.TotalVisitsAndDownloads": "Items and file visits",
+
+  "statistics.table.personPublicationsReports.title.TopItems": "Views",
+
+  "statistics.table.personPublicationsReports.title.TopDownloads": "Downloads",
+
+  "statistics.table.personPublicationsReports.title.TotalVisits": "Total visits",
+
+  "statistics.table.personPublicationsReports.title.TotalVisitsPerMonth": "Total visits per month",
+
+  "statistics.table.personPublicationsReports.title.TopCities": "Top cities",
+
+  "statistics.table.personPublicationsReports.header.item": "Item",
+
+  "statistics.table.personPublicationsReports.header.bitstream": "File",
+
+  "statistics.table.personPublicationsReports.header.views": "Views",
 
   "statistics.table.rppublicationsReports.title.TotalVisits": "Total visits",
 
@@ -6513,6 +6554,8 @@
   "statistics.categories.publicationsReports.tab": "Publications reports",
 
   "statistics.categories.rppublicationsReports.tab": "Researchers publication reports",
+
+  "statistics.categories.personPublicationsReports.tab": "Publications reports",
 
   "statistics.categories.downloadReports.tab": "Downloads reports",
 
