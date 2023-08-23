@@ -192,7 +192,9 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
   }
 
   getFileUrl(): string {
-    return (JSON.parse(this.section$?.getValue()?.jsonRecord) as UnpaywallApi)?.best_oa_location?.url;
+    const jsonRecord = this.section$?.getValue()?.jsonRecord;
+
+    return jsonRecord !== undefined ? (JSON.parse(jsonRecord) as UnpaywallApi)?.best_oa_location?.url : '';
   }
 
   private uploadFile(file: File): Observable<void> {
