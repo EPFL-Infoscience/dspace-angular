@@ -4794,6 +4794,8 @@
 
   "metric-badges.scopusCitation": "Scopus© Citations",
 
+  "metric-badges.unpaywall-api": "Unpaywall",
+
   "metric-badges.scopus-author-citation-count": "Scopus© Citations",
 
   "metric-badges.scopus-author-coauthor-count": "<span class=\"fa fa-users\" title=\"Scopus© Coauthors\">&nbsp;</span>",
@@ -7455,7 +7457,7 @@
 
   "submission.sections.unpaywall.import": "Import from unpaywall",
 
-  "submission.sections.unpaywall.status.successful": "You can import from unpaywall",
+  "submission.sections.unpaywall.status.successful": "You can import above linked file from unpaywall",
 
   "submission.sections.unpaywall.status.not-found": "Can't find record using Unpaywall api",
 
