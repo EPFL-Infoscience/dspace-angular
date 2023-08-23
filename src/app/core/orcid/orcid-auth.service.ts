@@ -37,6 +37,16 @@ export class OrcidAuthService {
   }
 
   /**
+   * Check if the given item has person.identifier.orcid metadata value
+   *
+   * @param item the item to check
+   * @returns the check result
+   */
+  public hasOrcidIdentifier(item: Item): boolean {
+    return item.hasMetadata('person.identifier.orcid');
+  }
+
+  /**
    * Returns true if only the admin users can disconnect a researcher profile from ORCID.
    *
    * @returns the check result
@@ -114,6 +124,17 @@ export class OrcidAuthService {
         return authorizeUrl.values[0] + '?client_id=' + clientId.values[0]   + '&redirect_uri=' + redirectUri + '&response_type=code&scope='
           + scopes.values.join(' ');
       }));
+  }
+
+  /**
+   * Return the url to epfl orcid integration
+   */
+  public getOrcidEpflIntegrationUrl(): Observable<string> {
+    return this.configurationService.findByPropertyName('orcid.epfl-integration-url')
+      .pipe(
+        getFirstSucceededRemoteDataPayload(),
+        map(url => url.values[0])
+      );
   }
 
   /**

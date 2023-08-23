@@ -16,7 +16,8 @@ import { WorkflowStatisticsPageComponent } from './workflow-statistics-page/work
 import { LoginStatisticsPageComponent } from './login-statistics-page/login-statistics-page.component';
 import { StatisticsLoginGuard } from '../core/data/feature-authorization/feature-authorization-guard/statistics-login.guard';
 import { StatisticsWorkflowGuard } from '../core/data/feature-authorization/feature-authorization-guard/statistics-workflow.guard';
-import {ItemStatisticsGuard} from "./guard/item-statistics.guard";
+import {SearchStatisticsPageComponent} from './search-statistics-page/search-statistics-page.component';
+import {ItemStatisticsGuard} from './guard/item-statistics.guard';
 
 @NgModule({
   imports: [
@@ -74,6 +75,23 @@ import {ItemStatisticsGuard} from "./guard/item-statistics.guard";
           canActivate: [StatisticsWorkflowGuard]
         },
         {
+          path: 'search',
+          resolve: {
+            breadcrumb: I18nBreadcrumbResolver
+          },
+          data: {
+            title: 'statistics.search.title',
+            breadcrumbKey: 'statistics.search',
+          },
+          children: [
+            {
+              path: '',
+              component: SearchStatisticsPageComponent,
+            }
+          ],
+          canActivate: [StatisticsWorkflowGuard]
+        },
+        {
           path: `items/:id`,
           resolve: {
             scope: StatisticsItemPageResolver,
@@ -97,7 +115,7 @@ import {ItemStatisticsGuard} from "./guard/item-statistics.guard";
           breadcrumbKey: 'statistics'
         },
         component: ThemedCollectionStatisticsPageComponent,
-        canActivate: [StatisticsAdministratorGuard]
+        canActivate: [ItemStatisticsGuard]
       },
       {
         path: `communities/:id`,
@@ -110,7 +128,7 @@ import {ItemStatisticsGuard} from "./guard/item-statistics.guard";
           breadcrumbKey: 'statistics'
         },
         component: ThemedCommunityStatisticsPageComponent,
-        canActivate: [StatisticsAdministratorGuard]
+        canActivate: [ItemStatisticsGuard]
       },
     ]
     )
