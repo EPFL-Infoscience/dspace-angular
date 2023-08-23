@@ -150,3 +150,4 @@ export const STATISTICS_PAGE_PATH = 'statistics';
 export function getStatisticsModuleRoute() {
   return `/${STATISTICS_PAGE_PATH}`;
 }
+export const BUNDLE_PATH = 'bundle';
