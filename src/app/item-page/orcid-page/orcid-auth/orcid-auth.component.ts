@@ -49,6 +49,11 @@ export class OrcidAuthComponent implements OnInit, OnChanges {
   private isOrcidLinked$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   /**
+   * A boolean representing if orcid profile is linked
+   */
+  private hasOrcidIdentifier$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  /**
    * A boolean representing if only admin can disconnect orcid profile
    */
   private onlyAdminCanDisconnectProfileFromOrcid$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -123,6 +128,13 @@ export class OrcidAuthComponent implements OnInit, OnChanges {
     return this.isOrcidLinked$.asObservable();
   }
 
+  /**
+   * Return a boolean representing if person.identifier.orcid metadata is set
+   */
+  hasOrcidIdentifier(): Observable<boolean> {
+    return this.hasOrcidIdentifier$.asObservable();
+  }
+
   getOrcidNotLinkedMessage(): Observable<string> {
     const orcid = this.item.firstMetadataValue('person.identifier.orcid');
     if (orcid) {
@@ -173,12 +185,21 @@ export class OrcidAuthComponent implements OnInit, OnChanges {
       getFirstCompletedRemoteData()
     ).subscribe((remoteData: RemoteData<ResearcherProfile>) => {
       this.unlinkProcessing.next(false);
-      if (remoteData.isSuccess) {
+      if (remoteData.hasSucceeded) {
         this.notificationsService.success(this.translateService.get('person.page.orcid.unlink.success'));
         this.unlink.emit();
       } else {
         this.notificationsService.error(this.translateService.get('person.page.orcid.unlink.error'));
       }
+    });
+  }
+
+  /**
+   * Redirect to orcid integration service
+   */
+  epflOrcidIntegrationRedirect(): void {
+    this.orcidAuthService.getOrcidEpflIntegrationUrl().subscribe((authorizeUrl) => {
+      this._window.nativeWindow.location.href = authorizeUrl;
     });
   }
 
@@ -201,6 +222,8 @@ export class OrcidAuthComponent implements OnInit, OnChanges {
     });
 
     this.isOrcidLinked$.next(this.orcidAuthService.isLinkedToOrcid(this.item));
+
+    this.hasOrcidIdentifier$.next(this.orcidAuthService.hasOrcidIdentifier(this.item));
   }
 
   private setMissingOrcidAuthorizations(): void {

@@ -71,6 +71,8 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.videoPlayer = false;
     this.audioPlayer = false;
+    console.log('startUUID - Pl' , this.startUUID);
+    console.log('itemUUID - Pl' , this.itemUUID);
     /* IMPORTANT
        Due to a problem occurring on SSR with the Videojs dependency, which use window object, the service can't be injected.
        So we need to instantiate the class directly based on current the platform */
@@ -93,7 +95,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
    */
   setNewMediaItem(item: MediaViewerItem) {
     this.currentItem$.next(item);
-    this.isVideo$.next(this.checkContentType(item));
+    this.isVideo$.next(this.mediaIsVideo(item));
     if (this.isVideo$.value) {
       if (this.isVideoPlayerInitialized$.value) {
         this.changePlayingItem(item);
@@ -107,8 +109,16 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
         this.initPlayer(item);
       }
     }
-
   }
+  /**
+   * Handle the selected timestamp by selection bar
+   * @param timestamp
+   */
+  setNewTimestamp(timestamp: number) {
+    if (this.isVideoPlayerInitialized$.value) {
+      this.videoPlayer.currentTime(timestamp);
+      }
+    }
 
   /**
    * Init videojs player with the given item as source
@@ -142,9 +152,9 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private checkContentType(currentMedia: MediaViewerItem) {
-    //TODO: update check format existence
-    return currentMedia?.format === 'video';
+  private mediaIsVideo(currentMedia: MediaViewerItem) {
+    const bitstreamVideoFormat = currentMedia?.bitstream?.firstMetadataValue('bitstream.viewer.provider');
+    return bitstreamVideoFormat === 'video-streaming';
   }
 
   /**
@@ -172,6 +182,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
       });
     }
   }
+
 
   /**
    * Dispose player on destroy
