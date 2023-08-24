@@ -33,6 +33,7 @@ import {
 } from './advanced-attachment-rendering.config';
 import { AttachmentRenderingConfig } from './attachment-rendering.config';
 import { SearchResultConfig } from './search-result-config.interface';
+import {VirtualCollectionConfig} from './virtual-collection-config.interface';
 
 export class DefaultAppConfig implements AppConfig {
   production = false;
@@ -67,6 +68,10 @@ export class DefaultAppConfig implements AppConfig {
     port: 8080,
     // NOTE: Space is capitalized because 'namespace' is a reserved string in TypeScript
     nameSpace: '/',
+  };
+
+  virtualCollection: VirtualCollectionConfig = {
+    uuid: 'dummy',
   };
 
   actuators: ActuatorsConfig = {
