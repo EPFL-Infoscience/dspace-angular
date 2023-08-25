@@ -949,7 +949,7 @@
 
   "browse.back.all-results": "All browse results",
 
-  "browse.comcol.by.author": "By Author",
+  "browse.comcol.by.author": "Authors",
 
   "browse.comcol.by.dateissued": "By Issue Date",
 
@@ -957,17 +957,19 @@
 
   "browse.comcol.by.pjtitle": "By Title",
 
-  "browse.comcol.by.rodept": "By Department",
+  "browse.comcol.by.rodept": "Units",
 
   "browse.comcol.by.rpdept": "By Department",
 
   "browse.comcol.by.rpname": "By Name",
 
-  "browse.comcol.by.subject": "By Subject",
+  "browse.comcol.by.subject": "Domains",
 
   "browse.comcol.by.title": "By Title",
 
-  "browse.comcol.by.type": "By Type",
+  "browse.comcol.by.type": "Types",
+
+  "browse.comcol.by.journal": "Journals",
 
 
   "browse.comcol.head": "Browse",
@@ -987,6 +989,8 @@
   "browse.metadata.ouname" : "Name",
 
   "browse.metadata.pjtitle" : "Title",
+
+  "browse.metadata.journal" : "Journal",
 
   "browse.metadata.rodept": "Department",
 
@@ -1668,6 +1672,12 @@
 
   "context-menu.actions.edit-item-relationships.btn.projects": "Manage Projects",
 
+  "context-menu.actions.edit-item-relationships.btn.institutes": "Manage Institutes",
+
+  "context-menu.actions.edit-item-relationships.btn.publications_school_college": "Manage Publications",
+
+  "context-menu.actions.edit-item-relationships.btn.labs_research_groups": "Manage Labs and Research Groups",
+
   "context-menu.actions.orcid-view": "Open ORCID setting page",
 
   "context-menu.actions.statistics.btn": "Statistics",
@@ -1719,6 +1729,10 @@
   "RELATION.Project.researchoutputs.search.results.head" : "Publications",
 
   "RELATION.OrgUnit.people.search.results.head" : "People",
+
+  "RELATION.OrgUnit.theses.search.results.head" : "Theses",
+
+  "RELATION.OrgUnit.sectiontheses.search.results.head" : "Teaching materials and student works",
 
   "deduplication.breadcrumbs": "Deduplication",
 
@@ -4495,6 +4509,24 @@
 
   "menu.section.communities_and_collections": "Communities & Collections",
 
+  "menu.section.education": "Education",
+
+  "menu.section.education.doctoral_schools": "Doctoral Schools",
+
+  "menu.section.education.sections": "Sections",
+
+  "menu.section.research.schools_and_colleges": "Schools & Colleges",
+
+  "menu.section.research.research_centers_and_platforms": "Research Centers & Platforms",
+
+  "menu.section.innovation": "Innovation",
+
+  "menu.section.browse_by": "Browse by",
+
+  "menu.section.virtual_collection": "Virtual Collections",
+
+  "menu.section.all_of_dspace": "All of DSpace",
+
 
 
   "menu.section.control_panel": "Control Panel",
@@ -6264,6 +6296,16 @@
   "orgunit.search.results.head": "Organizations Search Results",
 
   "homePageTopItems.search.results.head": "Home Page Items Results",
+
+  "schoolsAndColleges.search.results.head": "Schools & Colleges Search Result",
+
+  "researchCentersAndPlatforms.search.results.head": "Research Centers & Platforms Search Result",
+
+  "doctoralSchools.search.results.head": "Doctoral Schools Search Result",
+
+  "sections.search.results.head": "Sections Search Result",
+
+  "patent.search.results.head": "Patent Search Result",
 
   "search.results.no-results": "Your search returned no results. Having trouble finding what you're looking for? Try putting",
 
@@ -8226,6 +8268,7 @@
 
   "menu.section.explore_sectionfonds" : "Fonds",
   "menu.section.explore_sectionjournalfonds" : "Journal Fonds",
+  "menu.section.explore_advancedsearch" : "Advanced Search",
 
   "menu.section.explore_sectionaggregations" : "Collections",
   "menu.section.explore_sectiondocuments" : "Documents & Other materials",
