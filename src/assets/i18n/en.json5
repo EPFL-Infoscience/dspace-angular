@@ -4746,6 +4746,14 @@
 
   "statistics.table.mainReports.header.collection": "Collection",
 
+  "statistics.table.publicationsReports.header.item": "Publication",
+
+  "statistics.table.publicationsReports.header.views": "Views",
+
+  "statistics.table.projectsReports.header.item": "Project",
+
+  "statistics.table.projectsReports.header.views": "Views",
+
   "statistics.search.page.endDate": "End date",
 
   "statistics.search.page.reset": "Reset",
