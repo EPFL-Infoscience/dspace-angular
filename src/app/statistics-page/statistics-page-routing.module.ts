@@ -115,7 +115,7 @@ import {ItemStatisticsGuard} from './guard/item-statistics.guard';
           breadcrumbKey: 'statistics'
         },
         component: ThemedCollectionStatisticsPageComponent,
-        canActivate: [StatisticsAdministratorGuard]
+        canActivate: [ItemStatisticsGuard]
       },
       {
         path: `communities/:id`,
@@ -128,7 +128,7 @@ import {ItemStatisticsGuard} from './guard/item-statistics.guard';
           breadcrumbKey: 'statistics'
         },
         component: ThemedCommunityStatisticsPageComponent,
-        canActivate: [StatisticsAdministratorGuard]
+        canActivate: [ItemStatisticsGuard]
       },
     ]
     )

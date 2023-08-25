@@ -236,8 +236,9 @@ import {
 import { ProductDatasetSchemaType } from './metadata/schema-json-ld/schema-types/product/product-dataset-schema-type';
 import { PersonSchemaType } from './metadata/schema-json-ld/schema-types/Person/person-schema-type';
 import {SearchStatisticsDataService} from './statistics/search-statistics-data.service';
-import {SearchStatistics} from './statistics/models/search-statistics.model';
 import {ItemRequest} from './shared/item-request.model';
+import {SearchStatistics} from "./statistics/models/search-statistics.model";
+import { UnpaywallItemService } from "./data/unpaywall-item.service";
 
 /**
  * When not in production, endpoint responses can be mocked for testing purposes
@@ -274,6 +275,7 @@ const PROVIDERS = [
   HALEndpointService,
   HostWindowService,
   ItemDataService,
+  UnpaywallItemService,
   MetadataService,
   SchemaJsonLDService,
   ObjectCacheService,

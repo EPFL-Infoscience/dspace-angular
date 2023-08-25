@@ -24,11 +24,11 @@ export class ItemStatisticsGuard implements CanActivate {
   }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
     const url = state.url;
-    return this.handleEditable(route.params.id, url);
+    return this.handleAuthorization(route.params.id, url);
   }
 
-  private handleEditable(itemId: string, url: string): Observable<boolean | UrlTree> {
-    const authorized = this.dSpaceObjectDataService.findById(itemId)
+  private handleAuthorization(dsoId: string, url: string): Observable<boolean | UrlTree> {
+    const authorized = this.dSpaceObjectDataService.findById(dsoId)
       .pipe(
         getFirstCompletedRemoteData(),
         switchMap((rd) => {

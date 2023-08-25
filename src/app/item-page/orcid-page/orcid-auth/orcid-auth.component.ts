@@ -185,7 +185,7 @@ export class OrcidAuthComponent implements OnInit, OnChanges {
       getFirstCompletedRemoteData()
     ).subscribe((remoteData: RemoteData<ResearcherProfile>) => {
       this.unlinkProcessing.next(false);
-      if (remoteData.isSuccess) {
+      if (remoteData.hasSucceeded) {
         this.notificationsService.success(this.translateService.get('person.page.orcid.unlink.success'));
         this.unlink.emit();
       } else {

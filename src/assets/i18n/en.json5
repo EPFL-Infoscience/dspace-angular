@@ -1616,17 +1616,19 @@
 
   "context-menu.actions.edit-item.btn.FULLAUTH": "Edit all details (as Author)",
 
-  "context-menu.actions.edit-item.btn.THEMATIC-AREA-CURATOR": "Manage thematic collections",
+  "context-menu.actions.edit-item.btn.THEMATIC-AREA-CURATOR": "Manage thematic collection",
 
-  "context-menu.actions.edit-item.btn.THEMATIC-AREA-CURATOR-DELEGATE": "Manage thematic collections",
+  "context-menu.actions.edit-item.btn.THEMATIC-AREA-CURATOR-DELEGATE": "Manage thematic collection",
 
-  "context-menu.actions.edit-item.btn.CURATOR": "Manage thematic collections",
+  "context-menu.actions.edit-item.btn.CURATOR": "Manage thematic collection (as Curator)",
 
   "context-menu.actions.edit-item.btn.EDIT-THEMATIC-AREA-CURATOR-DELEGATE": "Edit collection details",
 
   "context-menu.actions.edit-item.btn.OWNER": "Edit",
 
   "context-menu.actions.edit-item.btn.DIRECTOR": "Edit",
+
+  "context-menu.actions.edit-item.btn.DELEGATE": "Edit",
 
   "context-menu.actions.edit-item.btn.INVESTIGATOR": "Edit",
 
@@ -2804,6 +2806,8 @@
 
   "form.other-information.dc_relation_issn": "ISSN",
 
+  "form.other-information.variant": "Variant name of",
+
   "form.remove": "Remove",
 
   "form.save": "Save",
@@ -3572,6 +3576,7 @@
 
   "item.page.metric.label.check": "Check",
 
+  "item.page.metric.label.unpaywall-api": "Unpaywall",
 
   "item.page.metric.label.download": "Downloads",
 
@@ -4737,6 +4742,10 @@
 
   "statistics.search.page.startDate": "Start date",
 
+  "statistics.table.mainReports.header.community": "Community",
+
+  "statistics.table.mainReports.header.collection": "Collection",
+
   "statistics.search.page.endDate": "End date",
 
   "statistics.search.page.reset": "Reset",
@@ -4784,6 +4793,8 @@
 
 
   "metric-badges.scopusCitation": "Scopus© Citations",
+
+  "metric-badges.unpaywall-api": "Unpaywall",
 
   "metric-badges.scopus-author-citation-count": "Scopus© Citations",
 
@@ -6442,6 +6453,31 @@
 
   "statistics.table.publicationsReports.title.TopItems": "Most viewed",
 
+  "statistics.table.publicationsReports.header.item": "Item",
+
+  "statistics.table.publicationsReports.header.bitstream": "File",
+
+  "statistics.table.publicationsReports.header.views": "Views",
+
+  "statistics.table.rppublicationsReports.header.item": "Item",
+
+  "statistics.table.rppublicationsReports.header.bitstream": "File",
+
+  "statistics.table.rppublicationsReports.header.views": "Views",
+
+  "statistics.table.rpprojectsReports.header.item": "Item",
+
+  "statistics.table.rpprojectsReports.header.bitstream": "File",
+
+  "statistics.table.rpprojectsReports.header.views": "Views",
+
+  "statistics.table.projectsReports.header.views": "Views",
+
+  "statistics.table.projectsReports.header.item": "Item",
+
+  "statistics.table.projectsReports.header.bitstream": "File",
+
+
   "statistics.table.publicationsReports.title.TopCities": "Top cities",
 
   "statistics.table.publicationsReports.title.TopCountries": "Top countries",
@@ -6465,6 +6501,22 @@
   "statistics.table.projectsReports.title.TotalDownloads": "Downloads",
 
   "statistics.table.projectsReports.title.TotalVisitsAndDownloads": "Items and file visits",
+
+  "statistics.table.personPublicationsReports.title.TopItems": "Views",
+
+  "statistics.table.personPublicationsReports.title.TopDownloads": "Downloads",
+
+  "statistics.table.personPublicationsReports.title.TotalVisits": "Total visits",
+
+  "statistics.table.personPublicationsReports.title.TotalVisitsPerMonth": "Total visits per month",
+
+  "statistics.table.personPublicationsReports.title.TopCities": "Top cities",
+
+  "statistics.table.personPublicationsReports.header.item": "Item",
+
+  "statistics.table.personPublicationsReports.header.bitstream": "File",
+
+  "statistics.table.personPublicationsReports.header.views": "Views",
 
   "statistics.table.rppublicationsReports.title.TotalVisits": "Total visits",
 
@@ -6506,6 +6558,8 @@
 
   "statistics.categories.rppublicationsReports.tab": "Researchers publication reports",
 
+  "statistics.categories.personPublicationsReports.tab": "Publications reports",
+
   "statistics.categories.downloadReports.tab": "Downloads reports",
 
   "statistics.categories.top20reports.tab": "Top 20",
@@ -6515,6 +6569,18 @@
   "submission.edit.breadcrumbs": "Edit Submission",
 
   "submission.edit.title": "Edit Submission",
+
+  "submission.unpaywall.versions.title": "Open Access version of {item.title} reported by <a href=\"https://unpaywall.org/\">Unpaywall</a>",
+
+  "submission.unpaywall.versions.back": "Back to item's page",
+
+  "submission.unpaywall.versions.breadcrumbs": "Unpaywall versions",
+
+  "submission.unpaywall.versions.submittedVersion": "Submitted",
+
+  "submission.unpaywall.versions.acceptedVersion": "Accepted",
+
+  "submission.unpaywall.versions.publishedVersion": "Published",
 
   "submission.general.cancel": "Cancel",
 
@@ -7124,6 +7190,8 @@
 
   "submission.sections.submit.progressbar.describe.orgunit": "Org Unit basic information",
 
+  "submission.sections.submit.progressbar.describe.orgunit-director": "Org Unit basic information",
+
   "submission.sections.submit.progressbar.describe.owner": "Owner",
 
   "submission.sections.submit.progressbar.describe.patent": "Patent basic information",
@@ -7382,6 +7450,20 @@
   "submission.sections.sherpa.record.information.uri": "URI",
 
   "submission.sections.sherpa.error.message": "There was an error retrieving sherpa informations",
+
+
+
+  "submission.sections.unpaywall.refresh": "Refresh",
+
+  "submission.sections.unpaywall.import": "Import from unpaywall",
+
+  "submission.sections.unpaywall.status.successful": "You can import above linked file from unpaywall",
+
+  "submission.sections.unpaywall.status.not-found": "Can't find record using Unpaywall api",
+
+  "submission.sections.unpaywall.status.pending": "Unpaywall api request is initialized",
+
+  "submission.sections.submit.progressbar.unpaywall": "Unpaywall",
 
 
 
@@ -7768,9 +7850,23 @@
 
   "workspace-item.view.title": "Workspace View",
 
+  "workspace-item.delete.breadcrumbs": "Workspace Delete",
+
+  "workspace-item.delete.header": "Delete workspace item",
+
+  "workspace-item.delete.button.confirm": "Delete",
+
+  "workspace-item.delete.button.cancel": "Cancel",
+
+  "workspace-item.delete.notification.success.title": "Deleted",
+
+  "workspace-item.delete.title": "This workspace item was successfully deleted",
+
+  "workspace-item.delete.notification.error.title": "Something went wrong",
+
+  "workspace-item.delete.notification.error.content": "The workspace item could not be deleted",
 
   "workflow-item.advanced.title": "Advanced workflow",
-
 
   "workflow-item.selectrevieweraction.notification.success.title": "Selected reviewer",
 
