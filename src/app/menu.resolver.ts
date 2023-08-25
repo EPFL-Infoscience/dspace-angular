@@ -199,7 +199,7 @@ export class MenuResolver implements Resolve<boolean> {
         id: 'research',
         active: false,
         visible: true,
-        index: 1,
+        index: 2,
         model: {
           type: MenuItemType.TEXT,
           text: 'menu.section.research'
@@ -247,7 +247,7 @@ export class MenuResolver implements Resolve<boolean> {
       id: 'education',
       active: false,
       visible: true,
-      index: 1,
+      index: 3,
       model: {
         type: MenuItemType.TEXT,
         text: 'menu.section.education'
@@ -265,6 +265,7 @@ export class MenuResolver implements Resolve<boolean> {
         id: 'innovation',
         active: false,
         visible: true,
+        index: 4,
         model: {
           type: MenuItemType.LINK,
           text: 'menu.section.innovation',
@@ -348,7 +349,7 @@ export class MenuResolver implements Resolve<boolean> {
             id: 'statistics',
             active: false,
             visible: true,
-            index: 1,
+            index: 10,
             model: {
               type: MenuItemType.TEXT,
               text: 'menu.section.statistics'
@@ -369,6 +370,7 @@ export class MenuResolver implements Resolve<boolean> {
         id: 'browse_by',
         active: false,
         visible: true,
+        index: 5,
         model: {
           type: MenuItemType.TEXT,
           text: 'menu.section.browse_by'
@@ -413,7 +415,8 @@ export class MenuResolver implements Resolve<boolean> {
             visible: true,
             model: {
               type: MenuItemType.LINK,
-              text: 'By ' + page.id,
+              // text: 'By ' + page.id,
+              text: 'browse.comcol.by.' + page.id,
               link: '/browse/' + page.id,
             } as LinkMenuItemModel
           }, {

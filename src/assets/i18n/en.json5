@@ -949,7 +949,7 @@
 
   "browse.back.all-results": "All browse results",
 
-  "browse.comcol.by.author": "By Author",
+  "browse.comcol.by.author": "Authors",
 
   "browse.comcol.by.dateissued": "By Issue Date",
 
@@ -957,17 +957,19 @@
 
   "browse.comcol.by.pjtitle": "By Title",
 
-  "browse.comcol.by.rodept": "By Department",
+  "browse.comcol.by.rodept": "Units",
 
   "browse.comcol.by.rpdept": "By Department",
 
   "browse.comcol.by.rpname": "By Name",
 
-  "browse.comcol.by.subject": "By Subject",
+  "browse.comcol.by.subject": "Domains",
 
   "browse.comcol.by.title": "By Title",
 
-  "browse.comcol.by.type": "By Type",
+  "browse.comcol.by.type": "Types",
+
+  "browse.comcol.by.journal": "Journals",
 
 
   "browse.comcol.head": "Browse",
@@ -987,6 +989,8 @@
   "browse.metadata.ouname" : "Name",
 
   "browse.metadata.pjtitle" : "Title",
+
+  "browse.metadata.journal" : "Journal",
 
   "browse.metadata.rodept": "Department",
 
@@ -1667,6 +1671,12 @@
   "context-menu.actions.edit-item-relationships.btn.people": "Manage People",
 
   "context-menu.actions.edit-item-relationships.btn.projects": "Manage Projects",
+
+  "context-menu.actions.edit-item-relationships.btn.institutes": "Manage Institutes",
+
+  "context-menu.actions.edit-item-relationships.btn.publications_school_college": "Manage Publications",
+
+  "context-menu.actions.edit-item-relationships.btn.labs_research_groups": "Manage Labs and Research Groups",
 
   "context-menu.actions.orcid-view": "Open ORCID setting page",
 
@@ -4513,7 +4523,7 @@
 
   "menu.section.browse_by": "Browse by",
 
-  "menu.section.virtual_collection": "Collections",
+  "menu.section.virtual_collection": "Virtual Collections",
 
   "menu.section.all_of_dspace": "All of DSpace",
 
