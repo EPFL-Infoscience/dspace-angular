@@ -54,7 +54,14 @@ export class SearchLabelComponent implements OnInit {
     return this.appliedFilters.pipe(
       map((filters) => {
         const field: string = Object.keys(filters).find((f) => f === this.key);
-        const newValues = hasValue(filters[field]) ? filters[field].filter((v) => v !== this.value) : null;
+        const filterIndex = hasValue(filters[field]) ? filters[field].indexOf(this.value) : -1;
+        const newValues = filterIndex > -1 ? [...filters[field]] : [];
+        if (filterIndex > -1){
+          newValues.splice(filterIndex, 1);
+        }
+        if (filterIndex > 0 && newValues[filterIndex-1].endsWith('authority')){
+          newValues.splice(filterIndex - 1, 1);
+        }
         const page = this.paginationService.getPageParam(this.searchConfigurationService.paginationID);
         return {
           [field]: isNotEmpty(newValues) ? newValues : null,
@@ -93,5 +100,9 @@ export class SearchLabelComponent implements OnInit {
 
   getStrippedValue(val) {
     return stripOperatorFromFilterValue(val);
+  }
+
+  isNotAuthorityFilter(){
+    return !this.value.endsWith('authority');
   }
 }

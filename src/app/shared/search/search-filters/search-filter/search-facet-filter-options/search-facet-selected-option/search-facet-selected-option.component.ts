@@ -114,4 +114,9 @@ export class SearchFacetSelectedOptionComponent implements OnInit, OnDestroy {
       this.sub.unsubscribe();
     }
   }
+
+  isNotAuthorityFilter(){
+    return !hasValue(this.selectedValue.authorityKey);
+  }
+
 }
