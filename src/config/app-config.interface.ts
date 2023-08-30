@@ -30,10 +30,12 @@ import { FollowAuthorityMetadata } from './search-follow-metadata.interface';
 import { AdvancedAttachmentRenderingConfig } from './advanced-attachment-rendering.config';
 import { AttachmentRenderingConfig } from './attachment-rendering.config';
 import { SearchResultConfig } from './search-result-config.interface';
+import {VirtualCollectionConfig} from './virtual-collection-config.interface';
 
 interface AppConfig extends Config {
   ui: UIServerConfig;
   rest: ServerConfig;
+  virtualCollection: VirtualCollectionConfig;
   production: boolean;
   cache: CacheConfig;
   auth?: AuthConfig;

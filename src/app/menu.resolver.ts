@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import {Inject, Injectable} from '@angular/core';
+import {ActivatedRoute, ActivatedRouteSnapshot, Params, Resolve, RouterStateSnapshot} from '@angular/router';
 import { combineLatest as observableCombineLatest, Observable } from 'rxjs';
 import { MenuID } from './shared/menu/menu-id.model';
 import { MenuState } from './shared/menu/menu-state.model';
@@ -45,10 +45,11 @@ import {
 import {
   ExportBatchSelectorComponent
 } from './shared/dso-selector/modal-wrappers/export-batch-selector/export-batch-selector.component';
-import { environment } from '../environments/environment';
 import { SectionDataService } from './core/layout/section-data.service';
 import { Section } from './core/layout/models/section.model';
 import { NOTIFICATIONS_RECITER_SUGGESTION_PATH } from './admin/admin-notifications/admin-notifications-routing-paths';
+import { BrowseService } from './core/browse/browse.service';
+import {APP_CONFIG, AppConfig} from '../config/app-config.interface';
 
 /**
  * Creates all of the app's menus
@@ -67,6 +68,8 @@ export class MenuResolver implements Resolve<boolean> {
     protected modalService: NgbModal,
     protected scriptDataService: ScriptDataService,
     protected sectionDataService: SectionDataService,
+    protected browseService: BrowseService,
+    @Inject(APP_CONFIG) protected appConfig: AppConfig
   ) {
   }
 
@@ -100,22 +103,9 @@ export class MenuResolver implements Resolve<boolean> {
   createPublicMenu$(): Observable<boolean> {
     const menuList: any[] = [];
 
-    /* Communities & Collections tree */
-    const CommunityCollectionMenuItem = {
-      id: `browse_global_communities_and_collections`,
-      active: false,
-      visible: environment.layout.navbar.showCommunityCollection,
-      index: 0,
-      model: {
-        type: MenuItemType.LINK,
-        text: `menu.section.communities_and_collections`,
-        link: `/community-list`
-      } as LinkMenuItemModel
-    };
-
-    if (environment.layout.navbar.showCommunityCollection) {
-      menuList.push(CommunityCollectionMenuItem);
-    }
+    this.createResearchMenu();
+    this.createEducationMenu();
+    this.createInnovationMenu();
 
     // Read the different Browse-By types from config and add them to the browse menu
     this.sectionDataService.findVisibleSections().pipe(
@@ -169,7 +159,124 @@ export class MenuResolver implements Resolve<boolean> {
     });
 
     this.createStatisticsMenu();
+    this.createBrowseByMenu();
     return this.waitForMenu$(MenuID.PUBLIC);
+  }
+
+  createResearchMenu() {
+    this.activatedRouteLastChild = this.getActivatedRoute(this.route);
+
+    const menuList = [
+      {
+        id: 'research_schools_and_colleges',
+        parentID: 'research',
+        active: false,
+        visible: true,
+        model: {
+          type: MenuItemType.LINK,
+          text: 'menu.section.research.schools_and_colleges',
+          link: '/search',
+          queryParams: {
+            'configuration': 'schoolsAndColleges'
+          } as Params
+        } as LinkMenuItemModel
+      },
+      {
+        id: 'research_centers_and_platforms',
+        parentID: 'research',
+        active: false,
+        visible: true,
+        model: {
+          type: MenuItemType.LINK,
+          text: 'menu.section.research.research_centers_and_platforms',
+          link: '/search',
+          queryParams: {
+              'configuration': 'researchCentersAndPlatforms'
+          } as Params
+        } as LinkMenuItemModel
+      },
+      {
+        id: 'research',
+        active: false,
+        visible: true,
+        index: 2,
+        model: {
+          type: MenuItemType.TEXT,
+          text: 'menu.section.research'
+        } as TextMenuItemModel,
+      }];
+
+    menuList.forEach((menuSection) => this.menuService.addSection(MenuID.PUBLIC, Object.assign(menuSection, {
+      shouldPersistOnRouteChange: true
+    })));
+  }
+
+  createEducationMenu() {
+    this.activatedRouteLastChild = this.getActivatedRoute(this.route);
+
+    const menuList = [
+      {
+      id: 'doctoral_schools',
+      parentID: 'education',
+      active: false,
+      visible: true,
+      model: {
+        type: MenuItemType.LINK,
+        text: 'menu.section.education.doctoral_schools',
+        link: '/search',
+        queryParams: {
+          'configuration': 'doctoralSchools'
+        } as Params
+      } as LinkMenuItemModel
+    },
+    {
+      id: 'sections',
+      parentID: 'education',
+      active: false,
+      visible: true,
+      model: {
+        type: MenuItemType.LINK,
+        text: 'menu.section.education.sections',
+        link: '/search',
+        queryParams: {
+          'configuration': 'sections'
+        } as Params
+      } as LinkMenuItemModel
+    },
+    {
+      id: 'education',
+      active: false,
+      visible: true,
+      index: 3,
+      model: {
+        type: MenuItemType.TEXT,
+        text: 'menu.section.education'
+      } as TextMenuItemModel,
+    }];
+
+    menuList.forEach((menuSection) => this.menuService.addSection(MenuID.PUBLIC, Object.assign(menuSection, {
+      shouldPersistOnRouteChange: true
+    })));
+  }
+
+  createInnovationMenu() {
+    this.menuService.addSection(MenuID.PUBLIC,
+      Object.assign({
+        id: 'innovation',
+        active: false,
+        visible: true,
+        index: 4,
+        model: {
+          type: MenuItemType.LINK,
+          text: 'menu.section.innovation',
+          link: '/search',
+          queryParams: {
+            'configuration': 'patent'
+          } as Params
+        } as LinkMenuItemModel
+      }, {
+        shouldPersistOnRouteChange: true
+      }));
   }
 
   createStatisticsMenu() {
@@ -242,7 +349,7 @@ export class MenuResolver implements Resolve<boolean> {
             id: 'statistics',
             active: false,
             visible: true,
-            index: 1,
+            index: 10,
             model: {
               type: MenuItemType.TEXT,
               text: 'menu.section.statistics'
@@ -254,6 +361,69 @@ export class MenuResolver implements Resolve<boolean> {
         shouldPersistOnRouteChange: true
       })));
     });
+  }
+
+  createBrowseByMenu() {
+    this.browseService.getBrowseDefinitions().subscribe((valArray) => {
+
+      this.menuService.addSection(MenuID.PUBLIC, Object.assign({
+        id: 'browse_by',
+        active: false,
+        visible: true,
+        index: 5,
+        model: {
+          type: MenuItemType.TEXT,
+          text: 'menu.section.browse_by'
+        } as TextMenuItemModel,
+      }, {
+        shouldPersistOnRouteChange: true
+      }));
+
+      this.menuService.addSection(MenuID.PUBLIC, Object.assign({
+        id: `browse_global_communities_and_collectiorgunitons`,
+        parentID: 'browse_by',
+        active: false,
+        visible: true,
+        model: {
+          type: MenuItemType.LINK,
+          text: `menu.section.communities_and_collections`,
+          link: `/community-list`
+        } as LinkMenuItemModel
+      }, {
+        shouldPersistOnRouteChange: true
+      }));
+
+      this.menuService.addSection(MenuID.PUBLIC, Object.assign({
+        id: `virtual_collection`,
+        parentID: 'browse_by',
+        active: false,
+        visible: true,
+        model: {
+          type: MenuItemType.LINK,
+          text: `menu.section.virtual_collection`,
+          link: `/collections/` + this.appConfig.virtualCollection.uuid
+        } as LinkMenuItemModel
+      }, {
+        shouldPersistOnRouteChange: true
+      }));
+
+      valArray.payload.page.forEach((page) => this.menuService.addSection(MenuID.PUBLIC, Object.assign(
+          {
+            id: page.id,
+            parentID: 'browse_by',
+            active: false,
+            visible: true,
+            model: {
+              type: MenuItemType.LINK,
+              // text: 'By ' + page.id,
+              text: 'browse.comcol.by.' + page.id,
+              link: '/browse/' + page.id,
+            } as LinkMenuItemModel
+          }, {
+        shouldPersistOnRouteChange: true
+      })));
+    } );
+
   }
   /**
    * Initialize all menu sections and items for {@link MenuID.ADMIN}
