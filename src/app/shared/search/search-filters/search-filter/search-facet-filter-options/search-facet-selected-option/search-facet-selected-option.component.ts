@@ -116,7 +116,7 @@ export class SearchFacetSelectedOptionComponent implements OnInit, OnDestroy {
   }
 
   isNotAuthorityFilter(){
-    return !hasValue(this.selectedValue.authorityKey);
+    return !hasValue(this.selectedValue.authorityKey) || this.selectedValue.authorityKey.includes(':');
   }
 
 }

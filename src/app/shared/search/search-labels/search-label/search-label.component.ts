@@ -59,7 +59,7 @@ export class SearchLabelComponent implements OnInit {
         if (filterIndex > -1){
           newValues.splice(filterIndex, 1);
         }
-        if (filterIndex > 0 && newValues[filterIndex-1].endsWith('authority')){
+        if (filterIndex > 0 && !this.value.includes(':') && newValues[filterIndex - 1].endsWith('authority')){
           newValues.splice(filterIndex - 1, 1);
         }
         const page = this.paginationService.getPageParam(this.searchConfigurationService.paginationID);
@@ -103,6 +103,6 @@ export class SearchLabelComponent implements OnInit {
   }
 
   isNotAuthorityFilter(){
-    return !this.value.endsWith('authority');
+    return !this.value.endsWith('authority') || this.value.includes(':');
   }
 }
