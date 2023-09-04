@@ -6124,11 +6124,11 @@
 
   "search.filters.filter.objectpeople.label": "Search people",
 
-  "search.filters.filter.organization.head": "Organization",
+  "search.filters.filter.organization.head": "Units or Labs",
 
-  "search.filters.filter.organization.placeholder": "Organization",
+  "search.filters.filter.organization.placeholder": "Units or Labs",
 
-  "search.filters.filter.organization.label": "Search organization",
+  "search.filters.filter.organization.label": "Search Units or Labs",
 
   "search.filters.filter.organizationAddressCountry.head": "Country",
 
@@ -6148,11 +6148,11 @@
 
   "search.filters.filter.organizationFoundingDate.label": "Search date founded",
 
-  "search.filters.filter.original_bundle_oaire_licenseCondition.head": "File License",
+  "search.filters.filter.original_bundle_oaire_licenseCondition.head": "Licenses",
 
-  "search.filters.filter.original_bundle_oaire_licenseCondition.placeholder": "File License",
+  "search.filters.filter.original_bundle_oaire_licenseCondition.placeholder": "Licenses",
 
-  "search.filters.filter.original_bundle_oaire_licenseCondition.label": "Search file license",
+  "search.filters.filter.original_bundle_oaire_licenseCondition.label": "Search Licenses",
 
   "search.filters.filter.original_bundle_datacite_available.head": "Embargo",
 
@@ -6214,17 +6214,17 @@
 
   "search.filters.filter.unit.placeholder": "Unit",
 
-  "search.filters.filter.author_editor.head": "Authors, Contributors, Editors",
+  "search.filters.filter.author_editor.head": "Authors",
 
-  "search.filters.filter.author_editor.label": "Search Authors, Contributors, Editors",
+  "search.filters.filter.author_editor.label": "Search Authors",
 
-  "search.filters.filter.author_editor.placeholder": "Authors, Contributors, Editors",
+  "search.filters.filter.author_editor.placeholder": "Authors",
 
-  "search.filters.filter.source.head": "Journals, Sources, Series",
+  "search.filters.filter.source.head": "Published in",
 
-  "search.filters.filter.source.label": "Search Journals, Sources, Series",
+  "search.filters.filter.source.label": "Search Published in",
 
-  "search.filters.filter.source.placeholder": "Journals, Sources, Series",
+  "search.filters.filter.source.placeholder": "Published in",
 
   "search.filters.filter.ouActive.head": "Active Status",
 
@@ -6232,11 +6232,11 @@
 
   "search.filters.filter.ouActive.placeholder": "Active Status",
 
-  "search.filters.filter.researcherActive.head": "Active Status",
+  "search.filters.filter.researcherActive.head": "EPFL Members",
 
-  "search.filters.filter.researcherActive.label": "Search Active Status",
+  "search.filters.filter.researcherActive.label": "Search EPFL Members",
 
-  "search.filters.filter.researcherActive.placeholder": "Active Status",
+  "search.filters.filter.researcherActive.placeholder": "EPFL Members",
 
   "search.filters.filter.epflResourceType.head": "Resources Types",
 
