@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 import { Observable, of as observableOf } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, switchMap} from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SubmissionRestService } from '../../../core/submission/submission-rest.service';
@@ -12,8 +12,6 @@ import { WorkflowAction } from '../../../core/tasks/models/workflow-action-objec
 import { RemoteData } from '../../../core/data/remote-data';
 import { ClaimedTask } from '../../../core/tasks/models/claimed-task-object.model';
 import {
-  getFirstSucceededRemoteDataPayload,
-  getFirstSucceededRemoteData,
   getFirstCompletedRemoteData
 } from '../../../core/shared/operators';
 import { ClaimedTaskDataService } from '../../../core/tasks/claimed-task-data.service';
@@ -22,7 +20,6 @@ import { followLink } from '../../../shared/utils/follow-link-config.model';
 import { createFailedRemoteDataObject } from '../../../shared/remote-data.utils';
 import { of } from 'rxjs/internal/observable/of';
 import {RequestService} from '../../../core/data/request.service';
-import {SubmissionObjectEntry} from "../../objects/submission-objects.reducer";
 /**
  * This component represents submission form footer bar.
  */
