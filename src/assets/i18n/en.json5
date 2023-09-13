@@ -2533,7 +2533,7 @@
 
   "explore.index.isPublicationOfProject" : "Project's publication",
 
-  "explore.index.itemidentifier" : "Identifier",
+  "explore.index.itemidentifier" : "Identifier (DOI, ArXivID, ISBN…)",
 
   "explore.index.jobTitle" : "Job title",
 
@@ -2613,7 +2613,7 @@
 
   "explore.index.role" : "Job Title",
 
-  "explore.index.personIdentifier" : "Identifier (DOI, ArXivID, ISBN…)",
+  "explore.index.personIdentifier" : "Identifier",
 
   "explore.index.datacite_rights" : "Access rights",
 
