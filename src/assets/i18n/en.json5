@@ -6130,6 +6130,12 @@
 
   "search.filters.filter.organization.label": "Search Units or Labs",
 
+  "search.filters.filter.parentOrganization.head": "Parent Unit",
+
+  "search.filters.filter.parentOrganization.placeholder": "Parent Unit",
+
+  "search.filters.filter.parentOrganization.label": "Search Parent Unit",
+
   "search.filters.filter.organizationAddressCountry.head": "Country",
 
   "search.filters.filter.organizationAddressCountry.placeholder": "Country",
