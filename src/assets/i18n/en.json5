@@ -2481,6 +2481,8 @@
 
   "explore.index.dc.date.accessioned" : "Recent Additions",
 
+  "explore.index.dc.date.created" : "Date Created",
+
   "explore.index.dc.title" : "Title",
 
   "explore.index.doi" : "DOI",
@@ -2586,6 +2588,8 @@
   "explore.index.publisher" : "Publisher",
 
   "explore.index.dateAccessioned" : "Date accessioned",
+
+  "explore.index.dateCreated" : "Date created",
 
   "explore.index.publishedIn" : "Published in (journal or book)",
 
@@ -6389,13 +6393,13 @@
 
   "sorting.oairecerif.author.affiliation.DESC": "Unit Descending",
 
-  "sorting.dc.date.accessioned.ASC": "Accessioned Date Ascending",
+  "sorting.dc.date.created.ASC": "Date Created Ascending",
 
-  "sorting.dc.date.accessioned.DESC": "Accessioned Date Descending",
+  "sorting.dc.date.created.DESC": "Date Created Descending",
 
-  "sorting.lastModified.ASC": "Last modified Ascending",
+  "sorting.dc.date.modified.ASC": "Date Modified Ascending",
 
-  "sorting.lastModified.DESC": "Last modified Descending",
+  "sorting.dc.date.modified.DESC": "Date Modified Descending",
 
   "sorting.ownerselection.ASC": "Owner Relevance Ascending",
 
