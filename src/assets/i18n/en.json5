@@ -1793,6 +1793,10 @@
 
   "curation-task.task.avallowdownload.label":  "Allow Download on audio/video resources",
 
+  "curation-task.task.avupdatemanifest.label":  "Regenerate AV manifest for URL update",
+
+  "curation-task.task.avmigrate.label":  "Migrate the AV resources generated for a previous version",
+
 
   "cris-layout.toggle.open": "Open section",
 
@@ -6473,6 +6477,20 @@
 
 
 
+  "submission.sections.unpaywall.refresh": "Refresh",
+
+  "submission.sections.unpaywall.import": "Import from unpaywall",
+
+  "submission.sections.unpaywall.status.successful": "You can import from unpaywall",
+
+  "submission.sections.unpaywall.status.not-found": "Can't find record using Unpaywall api",
+
+  "submission.sections.unpaywall.status.pending": "Unpaywall api request is initialized",
+
+  "submission.sections.submit.progressbar.unpaywall": "Unpaywall",
+
+
+
   "submission.submit.breadcrumbs": "New submission",
 
   "submission.submit.title": "New submission",
@@ -6809,9 +6827,23 @@
 
   "workspace-item.view.title": "Workspace View",
 
+  "workspace-item.delete.breadcrumbs": "Workspace Delete",
+
+  "workspace-item.delete.header": "Delete workspace item",
+
+  "workspace-item.delete.button.confirm": "Delete",
+
+  "workspace-item.delete.button.cancel": "Cancel",
+
+  "workspace-item.delete.notification.success.title": "Deleted",
+
+  "workspace-item.delete.title": "This workspace item was successfully deleted",
+
+  "workspace-item.delete.notification.error.title": "Something went wrong",
+
+  "workspace-item.delete.notification.error.content": "The workspace item could not be deleted",
 
   "workflow-item.advanced.title": "Advanced workflow",
-
 
   "workflow-item.selectrevieweraction.notification.success.title": "Selected reviewer",
 
