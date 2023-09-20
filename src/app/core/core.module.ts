@@ -3,15 +3,12 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
-import { DynamicFormLayoutService, DynamicFormService, DynamicFormValidationService } from '@ng-dynamic-forms/core';
 import { EffectsModule } from '@ngrx/effects';
 
 import { Action, StoreConfig, StoreModule } from '@ngrx/store';
 import { MyDSpaceGuard } from '../my-dspace-page/my-dspace.guard';
 
 import { isNotEmpty } from '../shared/empty.util';
-import { FormBuilderService } from '../shared/form/builder/form-builder.service';
-import { FormService } from '../shared/form/form.service';
 import { HostWindowService } from '../shared/host-window.service';
 import { MenuService } from '../shared/menu/menu.service';
 import { EndpointMockingRestService } from '../shared/mocks/dspace-rest/endpoint-mocking-rest.service';
@@ -24,10 +21,7 @@ import { NotificationsService } from '../shared/notifications/notifications.serv
 import { SelectableListService } from '../shared/object-list/selectable-list/selectable-list.service';
 import { ObjectSelectService } from '../shared/object-select/object-select.service';
 import { PaginationComponentOptions } from '../shared/pagination/pagination-component-options.model';
-import { CSSVariableService } from '../shared/sass-helper/sass-helper.service';
 import { SidebarService } from '../shared/sidebar/sidebar.service';
-import { UploaderService } from '../shared/uploader/uploader.service';
-import { SectionFormOperationsService } from '../submission/sections/form/section-form-operations.service';
 import { AuthenticatedGuard } from './auth/authenticated.guard';
 import { AuthStatus } from './auth/models/auth-status.model';
 import { BrowseService } from './browse/browse.service';
@@ -140,9 +134,6 @@ import {
 import { Registration } from './shared/registration.model';
 import { MetadataSchemaDataService } from './data/metadata-schema-data.service';
 import { MetadataFieldDataService } from './data/metadata-field-data.service';
-import {
-  DsDynamicTypeBindRelationService
-} from '../shared/form/builder/ds-dynamic-form-ui/ds-dynamic-type-bind-relation.service';
 import { TabDataService } from './layout/tab-data.service';
 import { CrisLayoutTab } from './layout/models/tab.model';
 import { CrisLayoutBox } from './layout/models/box.model';
@@ -155,7 +146,6 @@ import { VocabularyEntry } from './submission/vocabularies/models/vocabulary-ent
 import { Vocabulary } from './submission/vocabularies/models/vocabulary.model';
 import { VocabularyEntryDetail } from './submission/vocabularies/models/vocabulary-entry-detail.model';
 import { VocabularyService } from './submission/vocabularies/vocabulary.service';
-import { VocabularyTreeviewService } from '../shared/vocabulary-treeview/vocabulary-treeview.service';
 import { ConfigurationDataService } from './data/configuration-data.service';
 import { ConfigurationProperty } from './shared/configuration-property.model';
 import { ReloadGuard } from './reload/reload.guard';
@@ -192,6 +182,9 @@ import { SequenceService } from './shared/sequence.service';
 import { CoreState } from './core-state.model';
 import { GroupDataService } from './eperson/group-data.service';
 import { SubmissionAccessesModel } from './config/models/config-submission-accesses.model';
+import { RatingAdvancedWorkflowInfo } from './tasks/models/rating-advanced-workflow-info.model';
+import { AdvancedWorkflowInfo } from './tasks/models/advanced-workflow-info.model';
+import { SelectReviewerAdvancedWorkflowInfo } from './tasks/models/select-reviewer-advanced-workflow-info.model';
 import { AccessStatusObject } from '../shared/object-list/access-status-badge/access-status.model';
 import { AccessStatusDataService } from './data/access-status-data.service';
 import { LinkHeadService } from './services/link-head.service';
@@ -205,7 +198,9 @@ import { OrcidHistory } from './orcid/model/orcid-history.model';
 import { OrcidAuthService } from './orcid/orcid-auth.service';
 import { VocabularyDataService } from './submission/vocabularies/vocabulary.data.service';
 import { VocabularyEntryDetailsDataService } from './submission/vocabularies/vocabulary-entry-details.data.service';
+import { IdentifierData } from '../shared/object-list/identifier-data/identifier-data.model';
 import { Subscription } from '../shared/subscriptions/models/subscription.model';
+import { SupervisionOrderDataService } from './supervision-order/supervision-order-data.service';
 import { WorkflowStepStatisticsDataService } from './statistics/workflow-step-statistics-data.service';
 import { WorkflowStepStatistics } from './statistics/models/workflow-step-statistics.model';
 import { WorkflowOwnerStatisticsDataService } from './statistics/workflow-owner-statistics-data.service';
@@ -240,6 +235,10 @@ import {
 } from './metadata/schema-json-ld/schema-types/product/product-creative-work-schema-type';
 import { ProductDatasetSchemaType } from './metadata/schema-json-ld/schema-types/product/product-dataset-schema-type';
 import { PersonSchemaType } from './metadata/schema-json-ld/schema-types/Person/person-schema-type';
+import {SearchStatisticsDataService} from './statistics/search-statistics-data.service';
+import {ItemRequest} from './shared/item-request.model';
+import {SearchStatistics} from "./statistics/models/search-statistics.model";
+import { UnpaywallItemService } from "./data/unpaywall-item.service";
 
 /**
  * When not in production, endpoint responses can be mocked for testing purposes
@@ -271,17 +270,12 @@ const PROVIDERS = [
   DSOResponseParsingService,
   { provide: MOCK_RESPONSE_MAP, useValue: mockResponseMap },
   { provide: DspaceRestService, useFactory: restServiceFactory, deps: [MOCK_RESPONSE_MAP, HttpClient] },
-  DynamicFormLayoutService,
-  DynamicFormService,
-  DynamicFormValidationService,
-  FormBuilderService,
-  SectionFormOperationsService,
-  FormService,
   EPersonDataService,
   LinkHeadService,
   HALEndpointService,
   HostWindowService,
   ItemDataService,
+  UnpaywallItemService,
   MetadataService,
   SchemaJsonLDService,
   ObjectCacheService,
@@ -307,19 +301,16 @@ const PROVIDERS = [
   SubmissionResponseParsingService,
   SubmissionJsonPatchOperationsService,
   JsonPatchOperationsBuilder,
-  UploaderService,
   UUIDService,
   NotificationsService,
   WorkspaceitemDataService,
   WorkflowItemDataService,
-  UploaderService,
   DSpaceObjectDataService,
   ConfigurationDataService,
   DSOChangeAnalyzer,
   DefaultChangeAnalyzer,
   ArrayMoveChangeAnalyzer,
   ObjectSelectService,
-  CSSVariableService,
   MenuService,
   ObjectUpdatesService,
   SearchService,
@@ -330,7 +321,6 @@ const PROVIDERS = [
   ClaimedTaskDataService,
   PoolTaskDataService,
   BitstreamDataService,
-  DsDynamicTypeBindRelationService,
   EntityTypeDataService,
   ContentSourceResponseParsingService,
   ItemTemplateDataService,
@@ -370,7 +360,6 @@ const PROVIDERS = [
   VocabularyService,
   VocabularyDataService,
   VocabularyEntryDetailsDataService,
-  VocabularyTreeviewService,
   ItemExportFormatService,
   SectionDataService,
   EditItemDataService,
@@ -383,8 +372,10 @@ const PROVIDERS = [
   OrcidAuthService,
   OrcidQueueDataService,
   OrcidHistoryDataService,
+  SupervisionOrderDataService,
   WorkflowStepStatisticsDataService,
   WorkflowOwnerStatisticsDataService,
+  SearchStatisticsDataService,
   LoginStatisticsService,
 ];
 
@@ -445,6 +436,9 @@ export const models =
     Version,
     VersionHistory,
     WorkflowAction,
+    AdvancedWorkflowInfo,
+    RatingAdvancedWorkflowInfo,
+    SelectReviewerAdvancedWorkflowInfo,
     TemplateItem,
     Feature,
     Authorization,
@@ -478,7 +472,10 @@ export const models =
     ResearcherProfile,
     OrcidQueue,
     OrcidHistory,
+    AccessStatusObject,
+    IdentifierData,
     Subscription,
+    SearchStatistics,
     WorkflowStepStatistics,
     WorkflowOwnerStatistics,
     LoginStatistics,
@@ -487,6 +484,7 @@ export const models =
     SetObject,
     MergeObject,
     SubmissionFieldsObject,
+    ItemRequest
   ];
 
 @NgModule({

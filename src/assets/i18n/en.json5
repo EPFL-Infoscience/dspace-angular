@@ -238,6 +238,7 @@
   "admin.registries.bitstream-formats.table.mimetype": "MIME Type",
 
   "admin.registries.bitstream-formats.table.name": "Name",
+  "admin.registries.bitstream-formats.table.id" : "ID",
 
   "admin.registries.bitstream-formats.table.return": "Back",
 
@@ -292,6 +293,7 @@
   "admin.registries.schema.fields.table.delete": "Delete selected",
 
   "admin.registries.schema.fields.table.field": "Field",
+  "admin.registries.schema.fields.table.id" : "ID",
 
   "admin.registries.schema.fields.table.scopenote": "Scope Note",
 
@@ -650,7 +652,11 @@
 
   "admin.access-control.groups.form.return": "Back",
 
+  "admin.access-control.groups.form.tooltip.editGroupPage": "On this page, you can modify the properties and members of a group. In the top section, you can edit the group name and description, unless this is an admin group for a collection or community, in which case the group name and description are auto-generated and cannot be edited. In the following sections, you can edit group membership. See [the wiki](https://wiki.lyrasis.org/display/DSDOC7x/Create+or+manage+a+user+group) for more details.",
 
+  "admin.access-control.groups.form.tooltip.editGroup.addEpeople": "To add or remove an EPerson to/from this group, either click the 'Browse All' button or use the search bar below to search for users (use the dropdown to the left of the search bar to choose whether to search by metadata or by email). Then click the plus icon for each user you wish to add in the list below, or the trash can icon for each user you wish to remove. The list below may have several pages: use the page controls below the list to navigate to the next pages. Once you are ready, save your changes by clicking the 'Save' button in the top section.",
+
+  "admin.access-control.groups.form.tooltip.editGroup.addSubgroups": "To add or remove a Subgroup to/from this group, either click the 'Browse All' button or use the search bar below to search for users. Then click the plus icon for each user you wish to add in the list below, or the trash can icon for each user you wish to remove. The list below may have several pages: use the page controls below the list to navigate to the next pages. Once you are ready, save your changes by clicking the 'Save' button in the top section.",
 
   "admin.notifications.openairebroker.breadcrumbs": "OpenAIRE Broker",
 
@@ -698,9 +704,15 @@
 
   "admin.workflow.item.workflow": "Workflow",
 
+  "admin.workflow.item.workspace": "Workspace",
+
   "admin.workflow.item.delete": "Delete",
 
   "admin.workflow.item.send-back": "Send back",
+
+  "admin.workflow.item.policies": "Policies",
+
+  "admin.workflow.item.supervision": "Supervision",
 
 
 
@@ -741,6 +753,70 @@
   "admin.metadata-import.page.validateOnly": "Validate Only",
 
   "admin.metadata-import.page.validateOnly.hint": "When selected, the uploaded CSV will be validated. You will receive a report of detected changes, but no changes will be saved.",
+
+  "advanced-workflow-action.rating.form.rating.label": "Rating",
+
+  "advanced-workflow-action.rating.form.rating.error": "You must rate the item",
+
+  "advanced-workflow-action.rating.form.review.label": "Review",
+
+  "advanced-workflow-action.rating.form.review.error": "You must enter a review to submit this rating",
+
+  "advanced-workflow-action.rating.description": "Please select a rating below",
+
+  "advanced-workflow-action.rating.description-requiredDescription": "Please select a rating below and also add a review",
+
+
+  "advanced-workflow-action.select-reviewer.description-single": "Please select a single reviewer below before submitting",
+
+  "advanced-workflow-action.select-reviewer.description-multiple": "Please select one or more reviewers below before submitting",
+
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.head": "EPeople",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.search.head": "Add EPeople",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.button.see-all": "Browse All",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.headMembers": "Current Members",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.search.scope.metadata": "Metadata",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.search.scope.email": "E-mail (exact)",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.search.button": "Search",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.id": "ID",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.name": "Name",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.identity": "Identity",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.email": "Email",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.netid": "NetID",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.edit": "Remove / Add",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.edit.buttons.remove": "Remove member with name \"{{name}}\"",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.success.addMember": "Successfully added member: \"{{name}}\"",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.failure.addMember": "Failed to add member: \"{{name}}\"",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.success.deleteMember": "Successfully deleted member: \"{{name}}\"",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.failure.deleteMember": "Failed to delete member: \"{{name}}\"",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.edit.buttons.add": "Add member with name \"{{name}}\"",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.failure.noActiveGroup": "No current active group, submit a name first.",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.no-members-yet": "No members in group yet, search and add.",
+
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.no-items": "No EPeople found in that search",
+
+  "advanced-workflow-action.select-reviewer.no-reviewer-selected.error": "No reviewer selected.",
 
   "admin.batch-import.page.validateOnly.hint": "When selected, the uploaded ZIP will be validated. You will receive a report of detected changes, but no changes will be saved.",
 
@@ -873,7 +949,7 @@
 
   "browse.back.all-results": "All browse results",
 
-  "browse.comcol.by.author": "By Author",
+  "browse.comcol.by.author": "Authors",
 
   "browse.comcol.by.dateissued": "By Issue Date",
 
@@ -881,18 +957,21 @@
 
   "browse.comcol.by.pjtitle": "By Title",
 
-  "browse.comcol.by.rodept": "By Department",
+  "browse.comcol.by.rodept": "Units",
 
   "browse.comcol.by.rpdept": "By Department",
 
   "browse.comcol.by.rpname": "By Name",
 
-  "browse.comcol.by.subject": "By Subject",
+  "browse.comcol.by.subject": "Domains",
 
   "browse.comcol.by.title": "By Title",
 
-  "browse.comcol.by.type": "By Type",
+  "browse.comcol.by.type": "Types",
 
+  "browse.comcol.by.journal": "Journals",
+
+  "browse.comcol.by.vctitle": "By Title",
 
   "browse.comcol.head": "Browse",
 
@@ -911,6 +990,8 @@
   "browse.metadata.ouname" : "Name",
 
   "browse.metadata.pjtitle" : "Title",
+
+  "browse.metadata.journal" : "Journal",
 
   "browse.metadata.rodept": "Department",
 
@@ -1007,6 +1088,9 @@
   "browse.title.page": "Browsing {{ collection }} by {{ field }} {{ value }}",
 
 
+  "search.browse.item-back": "Back to Results",
+
+
 
   "bulk-import.abort-on-error" : "Abort on first error",
 
@@ -1035,6 +1119,12 @@
   "chips.remove": "Remove chip",
 
   "chart.load-more": "Load more results",
+
+  "claimed-approved-search-result-list-element.title": "Approved",
+
+  "claimed-declined-search-result-list-element.title": "Rejected, sent back to submitter",
+
+  "claimed-declined-task-search-result-list-element.title": "Declined, sent back to Review Manager's workflow",
 
 
   "collection.create.head": "Create a Collection",
@@ -1477,6 +1567,12 @@
 
   "comcol-role.edit.epflreviewer.description": "EPFL Reviewers are able to edit the incoming submissions, and then accept or reject. Custom email messages can be sent to the submitter to ask for more details.",
 
+  "comcol-role.edit.scorereviewers.name": "Score Reviewers",
+
+  "comcol-role.edit.scorereviewers.description": "Reviewers are able to give a score to incoming submissions, this will define whether the submission will be rejected or not.",
+
+
+
   "community.form.abstract": "Short Description",
 
   "community.form.description": "Introductory text (HTML)",
@@ -1525,9 +1621,19 @@
 
   "context-menu.actions.edit-item.btn.FULLAUTH": "Edit all details (as Author)",
 
+  "context-menu.actions.edit-item.btn.THEMATIC-AREA-CURATOR": "Manage thematic collection",
+
+  "context-menu.actions.edit-item.btn.THEMATIC-AREA-CURATOR-DELEGATE": "Manage thematic collection",
+
+  "context-menu.actions.edit-item.btn.CURATOR": "Manage thematic collection (as Curator)",
+
+  "context-menu.actions.edit-item.btn.EDIT-THEMATIC-AREA-CURATOR-DELEGATE": "Edit collection details",
+
   "context-menu.actions.edit-item.btn.OWNER": "Edit",
 
   "context-menu.actions.edit-item.btn.DIRECTOR": "Edit",
+
+  "context-menu.actions.edit-item.btn.DELEGATE": "Edit",
 
   "context-menu.actions.edit-item.btn.INVESTIGATOR": "Edit",
 
@@ -1566,6 +1672,12 @@
   "context-menu.actions.edit-item-relationships.btn.people": "Manage People",
 
   "context-menu.actions.edit-item-relationships.btn.projects": "Manage Projects",
+
+  "context-menu.actions.edit-item-relationships.btn.institutes": "Manage Institutes",
+
+  "context-menu.actions.edit-item-relationships.btn.publications_school_college": "Manage Publications",
+
+  "context-menu.actions.edit-item-relationships.btn.labs_research_groups": "Manage Labs and Research Groups",
 
   "context-menu.actions.orcid-view": "Open ORCID setting page",
 
@@ -1618,6 +1730,10 @@
   "RELATION.Project.researchoutputs.search.results.head" : "Publications",
 
   "RELATION.OrgUnit.people.search.results.head" : "People",
+
+  "RELATION.OrgUnit.theses.search.results.head" : "Theses",
+
+  "RELATION.OrgUnit.sectiontheses.search.results.head" : "Teaching materials and student works",
 
   "deduplication.breadcrumbs": "Deduplication",
 
@@ -1900,15 +2016,21 @@
 
   "cookies.consent.app.required.title": "(always required)",
 
-  "cookies.consent.app.title.add-this": "AddThis",
+  "cookies.consent.app.disable-all.description": "Use this switch to enable or disable all services.",
 
-  "cookies.consent.app.description.add-this" : "Allows us to enable sharing via AddThis",
+  "cookies.consent.app.disable-all.title": "Enable or disable all services",
 
   "cookies.consent.update": "There were changes since your last visit, please update your consent.",
 
   "cookies.consent.close": "Close",
 
   "cookies.consent.decline": "Decline",
+
+  "cookies.consent.ok": "That's ok",
+
+  "cookies.consent.save": "Save",
+
+  "cookies.consent.content-notice.title": "Cookie Consent",
 
   "cookies.consent.content-notice.description": "We collect and process your personal information for the following purposes: <strong>Authentication, Preferences, Acknowledgement and Statistics</strong>. <br/> To learn more, please read our {privacyPolicy}.",
 
@@ -1924,7 +2046,9 @@
 
   "cookies.consent.content-modal.title": "Information that we collect",
 
+  "cookies.consent.content-modal.services": "services",
 
+  "cookies.consent.content-modal.service": "service",
 
   "cookies.consent.app.title.authentication": "Authentication",
 
@@ -1954,7 +2078,6 @@
   "cookies.consent.app.description.google-recaptcha": "We use google reCAPTCHA service during registration and password recovery",
 
 
-
   "cookies.consent.purpose.functional": "Functional",
 
   "cookies.consent.purpose.statistical": "Statistical",
@@ -1965,6 +2088,29 @@
 
 
   "curation-task.task.citationpage.label":  "Generate Citation Page",
+
+
+  "curation-task.task.migratedocviewer.label":  "Migrate the previously generated doc. viewer resources",
+
+  "curation-task.task.iiifmigrate.label":  "Migrate the previously generated IIIF resources",
+
+  "curation-task.task.avuploader.label":  "Process video resources",
+
+  "curation-task.task.avuploader.primary.label":  "Process video resources and hide non primary items",
+
+  "curation-task.task.audiouploader.label":  "Process audio resources",
+
+  "curation-task.task.audiouploader.primary.label":  "Process audio resources and hide non primary items",
+
+  "curation-task.task.avclean.label":  "Clean audio/video resources",
+
+  "curation-task.task.generatesubtitles.label":  "Generate subtitles for audio/video resources",
+
+  "curation-task.task.hidecovers.label":  "Hide custom audio/video thumbnails from item page",
+
+  "curation-task.task.avforbiddownload.label":  "Forbid Download on audio/video resources",
+
+  "curation-task.task.avallowdownload.label":  "Allow Download on audio/video resources",
 
 
   "cris-layout.toggle.open": "Open section",
@@ -2043,6 +2189,10 @@
 
   "curation-task.task.replacesinglewithaip.label": "Replace Single Object with AIP",
 
+  "curation-task.task.register-doi.label": "Register DOI",
+
+
+
   "curation.form.task-select.label": "Task:",
 
   "curation.form.submit": "Start",
@@ -2087,6 +2237,8 @@
 
   "dso-selector.create.community.head": "New community",
 
+  "dso-selector.create.community.or-divider": "or",
+
   "dso-selector.create.community.sub-level": "Create a new community in",
 
   "dso-selector.create.community.top-level": "Create a new top-level community",
@@ -2127,6 +2279,8 @@
 
   "dso-selector.set-scope.community.button": "Search all of DSpace",
 
+  "dso-selector.set-scope.community.or-divider": "or",
+
   "dso-selector.set-scope.community.input-header": "Search for a community or collection",
 
   "dso-selector.claim.item.head": "Profile tips",
@@ -2138,6 +2292,34 @@
   "dso-selector.claim.item.create-from-scratch": "Create a new one",
 
   "dso-selector.export-item.sub-level": "Export to excel items in",
+
+  "dso-selector.results-could-not-be-retrieved": "Something went wrong, please refresh again ↻",
+
+  "supervision-group-selector.header": "Supervision Group Selector",
+
+  "supervision-group-selector.select.type-of-order.label": "Select a type of Order",
+
+  "supervision-group-selector.select.type-of-order.option.none": "NONE",
+
+  "supervision-group-selector.select.type-of-order.option.editor": "EDITOR",
+
+  "supervision-group-selector.select.type-of-order.option.observer": "OBSERVER",
+
+  "supervision-group-selector.select.group.label": "Select a Group",
+
+  "supervision-group-selector.button.cancel": "Cancel",
+
+  "supervision-group-selector.button.save": "Save",
+
+  "supervision-group-selector.select.type-of-order.error": "Please select a type of order",
+
+  "supervision-group-selector.select.group.error": "Please select a group",
+
+  "supervision-group-selector.notification.create.success.title": "Successfully created supervision order for group {{ name }}",
+
+  "supervision-group-selector.notification.create.failure.title": "Error",
+
+  "supervision-group-selector.notification.create.already-existing" : "A supervision order already exists on this item for selected group",
 
   "confirmation-modal.export-metadata.header": "Export metadata for {{ dsoName }}",
 
@@ -2171,7 +2353,7 @@
 
   "confirmation-modal.delete-profile.confirm": "Delete",
 
-  "confirmation-modal.delete-subscription.header": "Delete Subscription for \"{{ dsoName }}\"",
+  "confirmation-modal.delete-subscription.header": "Delete Subscription",
 
   "confirmation-modal.delete-subscription.info": "Are you sure you want to delete subscription for \"{{ dsoName }}\"",
 
@@ -2526,7 +2708,7 @@
 
   "forgot-email.form.email.error.required": "Please fill in an email address",
 
-  "forgot-email.form.email.error.pattern": "Please fill in a valid email address",
+  "forgot-email.form.email.error.not-email-form": "Please fill in a valid email address",
 
   "forgot-email.form.email.hint": "An email will be sent to this address with a further instructions.",
 
@@ -2639,6 +2821,8 @@
 
   "form.other-information.dc_relation_issn": "ISSN",
 
+  "form.other-information.variant": "Variant name of",
+
   "form.remove": "Remove",
 
   "form.save": "Save",
@@ -2658,6 +2842,8 @@
   "funding.listelement.badge" : "Funding",
 
   "funding.page.titleprefix" : "Funding:",
+
+  "virtualcollection.page.titleprefix" : "Virtual Collection",
 
 
 
@@ -2949,6 +3135,48 @@
 
   "item.edit.tabs.item-mapper.title": "Item Edit - Collection Mapper",
 
+  "item.edit.identifiers.doi.status.UNKNOWN": "Unknown",
+
+  "item.edit.identifiers.doi.status.TO_BE_REGISTERED": "Queued for registration",
+
+  "item.edit.identifiers.doi.status.TO_BE_RESERVED": "Queued for reservation",
+
+  "item.edit.identifiers.doi.status.IS_REGISTERED": "Registered",
+
+  "item.edit.identifiers.doi.status.IS_RESERVED": "Reserved",
+
+  "item.edit.identifiers.doi.status.UPDATE_RESERVED": "Reserved (update queued)",
+
+  "item.edit.identifiers.doi.status.UPDATE_REGISTERED": "Registered (update queued)",
+
+  "item.edit.identifiers.doi.status.UPDATE_BEFORE_REGISTRATION": "Queued for update and registration",
+
+  "item.edit.identifiers.doi.status.TO_BE_DELETED": "Queued for deletion",
+
+  "item.edit.identifiers.doi.status.DELETED": "Deleted",
+
+  "item.edit.identifiers.doi.status.PENDING": "Pending (not registered)",
+
+  "item.edit.identifiers.doi.status.MINTED": "Minted (not registered)",
+
+  "item.edit.tabs.status.buttons.register-doi.label": "Register a new or pending DOI",
+
+  "item.edit.tabs.status.buttons.register-doi.button": "Register DOI...",
+
+  "item.edit.register-doi.header": "Register a new or pending DOI",
+
+  "item.edit.register-doi.description": "Review any pending identifiers and item metadata below and click Confirm to proceed with DOI registration, or Cancel to back out",
+
+  "item.edit.register-doi.confirm": "Confirm",
+
+  "item.edit.register-doi.cancel": "Cancel",
+
+  "item.edit.register-doi.success": "DOI queued for registration successfully.",
+
+  "item.edit.register-doi.error": "Error registering DOI",
+
+  "item.edit.register-doi.to-update": "The following DOI has already been minted and will be queued for registration online",
+
   "item.edit.item-mapper.buttons.add": "Map item to selected collections",
 
   "item.edit.item-mapper.buttons.remove": "Remove item's mapping for selected collections",
@@ -2991,6 +3219,10 @@
 
   "item.edit.metadata.discard-button": "Discard",
 
+  "item.edit.metadata.edit.buttons.confirm": "Confirm",
+
+  "item.edit.metadata.edit.buttons.drag": "Drag to reorder",
+
   "item.edit.metadata.edit.buttons.edit": "Edit",
 
   "item.edit.metadata.edit.buttons.remove": "Remove",
@@ -2998,6 +3230,8 @@
   "item.edit.metadata.edit.buttons.undo": "Undo changes",
 
   "item.edit.metadata.edit.buttons.unedit": "Stop editing",
+
+  "item.edit.metadata.edit.buttons.virtual": "This is a virtual metadata value, i.e. a value inherited from a related entity. It can’t be modified directly. Add or remove the corresponding relationship in the \"Relationships\" tab",
 
   "item.edit.metadata.empty": "The item currently doesn't contain any metadata. Click Add to start adding a metadata value.",
 
@@ -3010,6 +3244,8 @@
   "item.edit.metadata.headers.security": "Security level",
 
   "item.edit.metadata.headers.value": "Value",
+
+  "item.edit.metadata.metadatafield.error": "An error occurred validating the metadata field",
 
   "item.edit.metadata.metadatafield.invalid": "Please choose a valid metadata field",
 
@@ -3032,6 +3268,8 @@
   "item.edit.metadata.notifications.saved.title": "Metadata saved",
 
   "item.edit.metadata.reinstate-button": "Undo",
+
+  "item.edit.metadata.reset-order-button": "Undo reorder",
 
   "item.edit.metadata.save-button": "Save",
 
@@ -3177,7 +3415,7 @@
 
   "item.edit.tabs.status.buttons.mappedCollections.label": "Manage mapped collections",
 
-  "item.edit.tabs.status.buttons.move.button": "Move...",
+  "item.edit.tabs.status.buttons.move.button": "Move this Item to a different Collection",
 
   "item.edit.tabs.status.buttons.move.label": "Move item to another collection",
 
@@ -3195,7 +3433,7 @@
 
   "item.edit.tabs.status.buttons.unauthorized": "You're not authorized to perform this action",
 
-  "item.edit.tabs.status.buttons.withdraw.button": "Withdraw...",
+  "item.edit.tabs.status.buttons.withdraw.button": "Withdraw this item",
 
   "item.edit.tabs.status.buttons.withdraw.label": "Withdraw item from the repository",
 
@@ -3285,6 +3523,22 @@
 
   "item.truncatable-part.show-less": "Collapse",
 
+  "workflow-item.search.result.delete-supervision.modal.header": "Delete Supervision Order",
+
+  "workflow-item.search.result.delete-supervision.modal.info": "Are you sure you want to delete Supervision Order",
+
+  "workflow-item.search.result.delete-supervision.modal.cancel": "Cancel",
+
+  "workflow-item.search.result.delete-supervision.modal.confirm": "Delete",
+
+  "workflow-item.search.result.notification.deleted.success": "Successfully deleted supervision order \"{{name}}\"",
+
+  "workflow-item.search.result.notification.deleted.failure": "Failed to delete supervision order \"{{name}}\"",
+
+  "workflow-item.search.result.list.element.supervised-by": "Supervised by:",
+
+  "workflow-item.search.result.list.element.supervised.remove-tooltip": "Remove supervision group",
+
 
 
   "item.page.abstract": "Abstract",
@@ -3337,6 +3591,7 @@
 
   "item.page.metric.label.check": "Check",
 
+  "item.page.metric.label.unpaywall-api": "Unpaywall",
 
   "item.page.metric.label.download": "Downloads",
 
@@ -3673,6 +3928,62 @@
   "bulk-export-url.process.title": "Bulk Export URL",
 
   "mydspace.export-url": "Export URL",
+
+  "itemtemplate.edit.metadata.add-button": "Add",
+
+  "itemtemplate.edit.metadata.discard-button": "Discard",
+
+  "itemtemplate.edit.metadata.edit.buttons.confirm": "Confirm",
+
+  "itemtemplate.edit.metadata.edit.buttons.drag": "Drag to reorder",
+
+  "itemtemplate.edit.metadata.edit.buttons.edit": "Edit",
+
+  "itemtemplate.edit.metadata.edit.buttons.remove": "Remove",
+
+  "itemtemplate.edit.metadata.edit.buttons.undo": "Undo changes",
+
+  "itemtemplate.edit.metadata.edit.buttons.unedit": "Stop editing",
+
+  "itemtemplate.edit.metadata.empty": "The item template currently doesn't contain any metadata. Click Add to start adding a metadata value.",
+
+  "itemtemplate.edit.metadata.headers.edit": "Edit",
+
+  "itemtemplate.edit.metadata.headers.field": "Field",
+
+  "itemtemplate.edit.metadata.headers.language": "Lang",
+
+  "itemtemplate.edit.metadata.headers.value": "Value",
+
+  "itemtemplate.edit.metadata.metadatafield.error": "An error occurred validating the metadata field",
+
+  "itemtemplate.edit.metadata.metadatafield.invalid": "Please choose a valid metadata field",
+
+  "itemtemplate.edit.metadata.notifications.discarded.content": "Your changes were discarded. To reinstate your changes click the 'Undo' button",
+
+  "itemtemplate.edit.metadata.notifications.discarded.title": "Changed discarded",
+
+  "itemtemplate.edit.metadata.notifications.error.title": "An error occurred",
+
+  "itemtemplate.edit.metadata.notifications.invalid.content": "Your changes were not saved. Please make sure all fields are valid before you save.",
+
+  "itemtemplate.edit.metadata.notifications.invalid.title": "Metadata invalid",
+
+  "itemtemplate.edit.metadata.notifications.outdated.content": "The item template you're currently working on has been changed by another user. Your current changes are discarded to prevent conflicts",
+
+  "itemtemplate.edit.metadata.notifications.outdated.title": "Changed outdated",
+
+  "itemtemplate.edit.metadata.notifications.saved.content": "Your changes to this item template's metadata were saved.",
+
+  "itemtemplate.edit.metadata.notifications.saved.title": "Metadata saved",
+
+  "itemtemplate.edit.metadata.reinstate-button": "Undo",
+
+  "itemtemplate.edit.metadata.reset-order-button": "Undo reorder",
+
+  "itemtemplate.edit.metadata.save-button": "Save",
+
+
 
   "journal.listelement.badge": "Journal",
 
@@ -4199,6 +4510,24 @@
 
   "menu.section.communities_and_collections": "Communities & Collections",
 
+  "menu.section.education": "Education",
+
+  "menu.section.education.doctoral_schools": "Doctoral Schools",
+
+  "menu.section.education.sections": "Sections",
+
+  "menu.section.research.schools_and_colleges": "Schools & Colleges",
+
+  "menu.section.research.research_centers_and_platforms": "Research Centers & Platforms",
+
+  "menu.section.innovation": "Innovation",
+
+  "menu.section.browse_by": "Browse by",
+
+  "menu.section.virtual_collection": "Virtual Collections",
+
+  "menu.section.all_of_dspace": "All of DSpace",
+
 
 
   "menu.section.control_panel": "Control Panel",
@@ -4327,6 +4656,8 @@
 
   "menu.section.statistics.login": "Login",
 
+  "menu.section.statistics.search": "Search",
+
   "menu.section.statistics.site": "Site",
 
   "menu.section.statistics_task": "Statistics Task",
@@ -4438,6 +4769,36 @@
 
   "statistics.login.title statistics.workflow.title" : "Login Statistics",
 
+  "statistics.search.breadcrumbs": "Search report",
+
+  "statistics.search.page.header": "Search report",
+
+  "statistics.search.page.startDate": "Start date",
+
+  "statistics.table.mainReports.header.community": "Community",
+
+  "statistics.table.mainReports.header.collection": "Collection",
+
+  "statistics.table.publicationsReports.header.item": "Publication",
+
+  "statistics.table.publicationsReports.header.views": "Views",
+
+  "statistics.table.projectsReports.header.item": "Project",
+
+  "statistics.table.projectsReports.header.views": "Views",
+
+  "statistics.search.page.endDate": "End date",
+
+  "statistics.search.page.reset": "Reset",
+
+  "statistics.search.page.total-searches-count": "Total searches count",
+
+  "statistics.search.page.query": "Search",
+
+  "statistics.search.page.query.count": "Count",
+
+  "statistics.search.page.top-searches.header": "Top searches",
+
   "manage.relations": "Manage Relations",
 
   "menu.section.toggle.access_control": "Toggle Access Control section",
@@ -4474,6 +4835,8 @@
 
   "metric-badges.scopusCitation": "Scopus© Citations",
 
+  "metric-badges.unpaywall-api": "Unpaywall",
+
   "metric-badges.scopus-author-citation-count": "Scopus© Citations",
 
   "metric-badges.scopus-author-coauthor-count": "<span class=\"fa fa-users\" title=\"Scopus© Coauthors\">&nbsp;</span>",
@@ -4491,7 +4854,7 @@
   "metric-badges.download": "<span class=\"fa fa-download\" title=\"Downloads\">&nbsp;</span>",
 
 
-  "mydspace.breadcrumbs": "MyDSpace",
+  "mydspace.breadcrumbs": "MyInfoscience",
 
   "mydspace.description": "",
 
@@ -4531,6 +4894,10 @@
 
   "mydspace.results.head": "Your submissions",
 
+  "mydspace.results.in-workflow-since": "In workflow since:",
+
+  "mydspace.results.in-workflow-for": "In workflow for:",
+
   "mydspace.results.no-abstract": "No Abstract",
 
   "mydspace.results.no-authors": "No Authors",
@@ -4555,19 +4922,27 @@
 
   "mydspace.show.workspace": "Your Submissions",
 
+  "mydspace.show.supervisedWorkspace": "Supervised items",
+
   "mydspace.show.otherworkspace": "Other Workspace Submissions",
 
-  "mydspace.status.archived": "Archived",
+  "mydspace.status.archived": "Published",
 
   "mydspace.status.validation": "Validation",
 
   "mydspace.status.waiting-for-controller": "Waiting for controller",
 
-  "mydspace.status.workflow": "Workflow",
+  "mydspace.status.workflow": "Pending Validation",
 
-  "mydspace.status.workspace": "Workspace",
+  "mydspace.status.workspace": "Draft",
 
-  "mydspace.title": "MyDSpace",
+  "mydspace.status.epfl.workflowAdditionalInformation": "Additional information required",
+
+  "mydspace.status.epfl.workflowRejected": "Rejected",
+
+  "mydspace.status.epfl.newVersion": "New version",
+
+  "mydspace.title": "MyInfoscience",
 
   "mydspace.upload.upload-failed": "Error creating new workspace. Please verify the content uploaded before retry.",
 
@@ -4589,6 +4964,8 @@
 
   "nav.community-browse.header": "By Community",
 
+  "nav.context-help-toggle": "Toggle context help",
+
   "nav.language": "Language switch",
 
   "nav.login": "Log In",
@@ -4599,7 +4976,7 @@
 
   "nav.main.description": "Main navigation bar",
 
-  "nav.mydspace": "MyDSpace",
+  "nav.mydspace": "MyInfoscience",
 
   "nav.profile": "Profile",
 
@@ -4608,6 +4985,8 @@
   "nav.statistics.header": "Statistics",
 
   "nav.stop-impersonating": "Stop impersonating EPerson",
+
+  "nav.subscriptions" : "Subscriptions",
 
   "nav.toggle" : "Toggle navigation",
 
@@ -5211,6 +5590,7 @@
 
   "media-viewer.playlist": "Playlist",
 
+  "media-viewer.play": "Play",
 
   "register-email.title": "New user registration",
 
@@ -5272,7 +5652,9 @@
 
   "register-page.registration.email.error.required": "Please fill in an email address",
 
-  "register-page.registration.email.error.pattern": "Please fill in a valid email address",
+  "register-page.registration.email.error.not-email-form": "Please fill in a valid email address.",
+
+  "register-page.registration.email.error.not-valid-domain": "Use email with allowed domains: {{ domains }}",
 
   "register-page.registration.email.hint": "This address will be verified and used as your login name.",
 
@@ -5289,6 +5671,8 @@
   "register-page.registration.error.recaptcha": "Error when trying to authenticate with recaptcha",
 
   "register-page.registration.google-recaptcha.must-accept-cookies": "In order to register you must accept the <b>Registration and Password recovery</b> (Google reCaptcha) cookies.",
+  "register-page.registration.error.maildomain": "This email address is not on the list of domains who can register. Allowed domains are {{ domains }}",
+
 
   "register-page.registration.google-recaptcha.open-cookie-settings": "Open cookie settings",
 
@@ -5297,6 +5681,7 @@
   "register-page.registration.google-recaptcha.notification.message.error": "An error occurred during reCaptcha verification",
 
   "register-page.registration.google-recaptcha.notification.message.expired": "Verification expired. Please verify again.",
+  "register-page.registration.info.maildomain": "Accounts can be registered for mail addresses of the domains",
 
   "relationships.add.error.relationship-type.content": "No suitable match could be found for relationship type {{ type }} between the two items",
 
@@ -5517,6 +5902,8 @@
   "search.filters.applied.f.birthDate.max": "End birth date",
 
   "search.filters.applied.f.birthDate.min": "Start birth date",
+
+  "search.filters.applied.f.supervisedBy": "Supervised by",
 
   "search.filters.applied.f.withdrawn": "Withdrawn",
 
@@ -5807,6 +6194,14 @@
 
   "search.filters.filter.submitter.label": "Search submitter",
 
+  "search.filters.filter.show-tree": "Browse {{ name }} tree",
+
+  "search.filters.filter.supervisedBy.head": "Supervised By",
+
+  "search.filters.filter.supervisedBy.placeholder": "Supervised By",
+
+  "search.filters.filter.supervisedBy.label": "Search Supervised By",
+
   "search.filters.filter.types.head": "Type",
 
   "search.filters.filter.types.label": "Search Type",
@@ -5902,6 +6297,16 @@
   "orgunit.search.results.head": "Organizations Search Results",
 
   "homePageTopItems.search.results.head": "Home Page Items Results",
+
+  "schoolsAndColleges.search.results.head": "Schools & Colleges Search Result",
+
+  "researchCentersAndPlatforms.search.results.head": "Research Centers & Platforms Search Result",
+
+  "doctoralSchools.search.results.head": "Doctoral Schools Search Result",
+
+  "sections.search.results.head": "Sections Search Result",
+
+  "patent.search.results.head": "Patent Search Result",
 
   "search.results.no-results": "Your search returned no results. Having trouble finding what you're looking for? Try putting",
 
@@ -6099,6 +6504,31 @@
 
   "statistics.table.publicationsReports.title.TopItems": "Most viewed",
 
+  "statistics.table.publicationsReports.header.item": "Item",
+
+  "statistics.table.publicationsReports.header.bitstream": "File",
+
+  "statistics.table.publicationsReports.header.views": "Views",
+
+  "statistics.table.rppublicationsReports.header.item": "Item",
+
+  "statistics.table.rppublicationsReports.header.bitstream": "File",
+
+  "statistics.table.rppublicationsReports.header.views": "Views",
+
+  "statistics.table.rpprojectsReports.header.item": "Item",
+
+  "statistics.table.rpprojectsReports.header.bitstream": "File",
+
+  "statistics.table.rpprojectsReports.header.views": "Views",
+
+  "statistics.table.projectsReports.header.views": "Views",
+
+  "statistics.table.projectsReports.header.item": "Item",
+
+  "statistics.table.projectsReports.header.bitstream": "File",
+
+
   "statistics.table.publicationsReports.title.TopCities": "Top cities",
 
   "statistics.table.publicationsReports.title.TopCountries": "Top countries",
@@ -6122,6 +6552,24 @@
   "statistics.table.projectsReports.title.TotalDownloads": "Downloads",
 
   "statistics.table.projectsReports.title.TotalVisitsAndDownloads": "Items and file visits",
+
+  "statistics.table.personPublicationsReports.title.TopItems": "Views",
+
+  "statistics.table.personPublicationsReports.title.TopDownloads": "Downloads",
+
+  "statistics.table.personPublicationsReports.title.TotalVisits": "Total visits",
+
+  "statistics.table.personPublicationsReports.title.TotalVisitsPerMonth": "Total visits per month",
+
+  "statistics.table.personPublicationsReports.title.TopCities": "Top cities",
+
+  "statistics.table.personPublicationsReports.header.item": "Item",
+
+  "statistics.table.personPublicationsReports.header.bitstream": "File",
+
+  "statistics.table.personPublicationsReports.header.views": "Views",
+
+  "statistics.table.personPublicationsReports.header.downloads": "Downloads",
 
   "statistics.table.rppublicationsReports.title.TotalVisits": "Total visits",
 
@@ -6163,6 +6611,8 @@
 
   "statistics.categories.rppublicationsReports.tab": "Researchers publication reports",
 
+  "statistics.categories.personPublicationsReports.tab": "Publications reports",
+
   "statistics.categories.downloadReports.tab": "Downloads reports",
 
   "statistics.categories.top20reports.tab": "Top 20",
@@ -6172,6 +6622,18 @@
   "submission.edit.breadcrumbs": "Edit Submission",
 
   "submission.edit.title": "Edit Submission",
+
+  "submission.unpaywall.versions.title": "Open Access version of {item.title} reported by <a href=\"https://unpaywall.org/\">Unpaywall</a>",
+
+  "submission.unpaywall.versions.back": "Back to item's page",
+
+  "submission.unpaywall.versions.breadcrumbs": "Unpaywall versions",
+
+  "submission.unpaywall.versions.submittedVersion": "Submitted",
+
+  "submission.unpaywall.versions.acceptedVersion": "Accepted",
+
+  "submission.unpaywall.versions.publishedVersion": "Published",
 
   "submission.general.cancel": "Cancel",
 
@@ -6250,6 +6712,8 @@
   "submission.import-external.source.cinii": "CiNii",
 
   "submission.import-external.source.crossref": "CrossRef",
+
+  "submission.import-external.source.datacite": "DataCite",
 
   "submission.import-external.source.scielo": "SciELO",
 
@@ -6345,8 +6809,14 @@
 
   "submission.sections.submit.progressbar.describe.ctb-metadata": "Common file attributes - set for each file unless differently specified",
 
+  "submission.sections.submit.progressbar.describe.orgunit-editor": "Delegated head of units",
+
+  "submission.sections.submit.progressbar.describe.notes-for-reviewer": "Notes for reviewer",
+
   "submission.sections.submit.progressbar.describe.ctb-bitstream-metadata": "Common file attributes - set for each file unless differently specified",
 
+  "submission.sections.submit.progressbar.describe.content" : "Content",
+  "submission.sections.submit.progressbar.upload-content" : "Attachment(s)",
 
 
   "submission.sections.detect-duplicate.clear-decision": "Undo",
@@ -6552,6 +7022,8 @@
 
   "submission.sections.describe.relationship-lookup.search-tab.tab-title.isFundingAgencyOfProject": "Funder of the Project",
 
+  "submission.sections.describe.relationship-lookup.search-tab.tab-title.isPublicationOfAuthor": "Publication of the Author",
+
   "submission.sections.describe.relationship-lookup.selection-tab.title.openAIREFunding": "Funding OpenAIRE API",
 
   "submission.sections.describe.relationship-lookup.selection-tab.title.isProjectOfPublication": "Project",
@@ -6595,6 +7067,8 @@
   "submission.sections.describe.relationship-lookup.title.isFundingOfPublication": "Funding",
 
   "submission.sections.describe.relationship-lookup.title.isChildOrgUnitOf": "Parent Organizational Unit",
+
+  "submission.sections.describe.relationship-lookup.title.isPublicationOfAuthor": "Publication",
 
   "submission.sections.describe.relationship-lookup.search-tab.toggle-dropdown": "Toggle dropdown",
 
@@ -6713,7 +7187,17 @@
 
   "submission.sections.general.sections_not_valid": "There are incomplete sections.",
 
+  "submission.sections.identifiers.info": "The following identifiers will be created for your item:",
 
+  "submission.sections.identifiers.no_handle": "No handles have been minted for this item.",
+
+  "submission.sections.identifiers.no_doi": "No DOIs have been minted for this item.",
+
+  "submission.sections.identifiers.handle_label": "Handle: ",
+
+  "submission.sections.identifiers.doi_label": "DOI: ",
+
+  "submission.sections.identifiers.otherIdentifiers_label": "Other identifiers: ",
 
   "submission.sections.submit.progressbar.accessCondition": "Item access conditions",
 
@@ -6727,9 +7211,39 @@
 
   "submission.sections.submit.progressbar.describe.funding": "Funding basic information",
 
+  "submission.sections.submit.progressbar.describe.conf_details": "Conference details",
+
+  "submission.sections.submit.progressbar.describe.book_details": "Book details",
+
   "submission.sections.submit.progressbar.describe.journal": "Journal basic information",
 
+  "submission.sections.submit.progressbar.describe.related_works": "Related works",
+
+  "submission.sections.submit.progressbar.describe.virtual-collection": "Collection Data",
+
+  "submission.sections.submit.progressbar.describe.virtual-collection-bind": "Manage Thematic Collections",
+
+  "submission.sections.submit.progressbar.describe.virtual-collection-admin": "Administrative Data",
+
+  "submission.sections.submit.progressbar.describe.virtual-collection-delegate-curators": "Delegated Collection Curators",
+
+  "submission.sections.submit.progressbar.describe.involved": "Involved organizations",
+
+  "submission.sections.submit.progressbar.describe.thesis_awards": "Thesis Awards",
+
+  "submission.sections.submit.progressbar.describe.grants": "Grants",
+
+  "submission.sections.submit.progressbar.describe.publishing_information": "Publishing Information",
+
+  "submission.sections.submit.progressbar.describe.additional_fields": "Additional Fields",
+
+  "submission.sections.submit.progressbar.describe.journal_details": "Journal details",
+
+  "submission.sections.submit.progressbar.describe.publication_type": "Type",
+
   "submission.sections.submit.progressbar.describe.orgunit": "Org Unit basic information",
+
+  "submission.sections.submit.progressbar.describe.orgunit-director": "Org Unit basic information",
 
   "submission.sections.submit.progressbar.describe.owner": "Owner",
 
@@ -6774,6 +7288,8 @@
   "submission.sections.submit.progressbar.describe.steptwo": "Describe",
 
   "submission.sections.submit.progressbar.detect-duplicate": "Potential duplicates",
+
+  "submission.sections.submit.progressbar.identifiers": "Identifiers",
 
   "submission.sections.submit.progressbar.license": "Deposit license",
 
@@ -6877,7 +7393,7 @@
 
   "submission.sections.upload.header.policy.default.withlist": "Please note that uploaded files in the {{collectionName}} collection will be accessible, in addition to what is explicitly decided for the single file, with the following group(s):",
 
-  "submission.sections.upload.info": "Here you will find all the files currently in the item. You can update the file metadata and access conditions or <strong>upload additional files just dragging & dropping them everywhere in the page</strong>",
+  "submission.sections.upload.info": "Here you will find all the files currently in the item. You can update the file metadata and access conditions or <strong>upload additional files by dragging & dropping them anywhere on the page.</strong>",
 
   "submission.sections.upload.no-entry": "No",
 
@@ -6990,6 +7506,20 @@
 
 
 
+  "submission.sections.unpaywall.refresh": "Refresh",
+
+  "submission.sections.unpaywall.import": "Import from unpaywall",
+
+  "submission.sections.unpaywall.status.successful": "You can import above linked file from unpaywall",
+
+  "submission.sections.unpaywall.status.not-found": "Can't find record using Unpaywall api",
+
+  "submission.sections.unpaywall.status.pending": "Unpaywall api request is initialized",
+
+  "submission.sections.submit.progressbar.unpaywall": "Unpaywall",
+
+
+
   "submission.submit.breadcrumbs": "New submission",
 
   "submission.submit.title": "New submission",
@@ -7034,6 +7564,16 @@
 
   "submission.workflow.email-template.workflowcustomemail_template2": "Data correction needed",
 
+  "submission.workflow.generic.submit_select_reviewer": "Select Reviewer",
+
+  "submission.workflow.generic.submit_select_reviewer-help": "",
+
+
+  "submission.workflow.generic.submit_score": "Rate",
+
+  "submission.workflow.generic.submit_score-help": "",
+
+
   "submission.workflow.tasks.claimed.approve": "Approve",
 
   "submission.workflow.tasks.claimed.approve_help": "If you have reviewed the item and it is suitable for inclusion in the collection, select \"Approve\".",
@@ -7041,6 +7581,10 @@
   "submission.workflow.tasks.claimed.edit": "Edit",
 
   "submission.workflow.tasks.claimed.edit_help": "Select this option to change the item's metadata.",
+
+  "submission.workflow.tasks.claimed.decline": "Decline",
+
+  "submission.workflow.tasks.claimed.decline_help": "",
 
   "submission.workflow.tasks.claimed.reject.reason.info": "Please enter your reason for rejecting the submission into the box below, indicating whether the submitter may fix a problem and resubmit.",
 
@@ -7105,7 +7649,6 @@
   "submission.workspace.generic.view-help": "Select this option to view the item's metadata.",
 
 
-
   "subscriptions.title": "Subscriptions",
 
   "subscriptions.item": "Subscriptions for items",
@@ -7124,6 +7667,44 @@
 
   "subscriptions.frequency.W": "Weekly",
 
+  "subscriptions.tooltip": "Subscribe",
+
+  "subscriptions.modal.title": "Subscriptions",
+
+  "subscriptions.modal.type-frequency": "Type and frequency",
+
+  "subscriptions.modal.close": "Close",
+
+  "subscriptions.modal.delete-info": "To remove this subscription, please visit the \"Subscriptions\" page under your user profile",
+
+  "subscriptions.modal.new-subscription-form.type.content": "Content",
+
+  "subscriptions.modal.new-subscription-form.type.content+statistics": "Content and Statistics",
+
+  "subscriptions.modal.new-subscription-form.type.statistics": "Statistics",
+
+  "subscriptions.modal.new-subscription-form.frequency.D": "Daily",
+
+  "subscriptions.modal.new-subscription-form.frequency.W": "Weekly",
+
+  "subscriptions.modal.new-subscription-form.frequency.M": "Monthly",
+
+  "subscriptions.modal.new-subscription-form.submit": "Submit",
+
+  "subscriptions.modal.new-subscription-form.processing": "Processing...",
+
+  "subscriptions.modal.create.success": "Subscribed to {{ type }} successfully.",
+
+  "subscriptions.modal.delete.success": "Subscription deleted successfully",
+
+  "subscriptions.modal.update.success": "Subscription to {{ type }} updated successfully",
+
+  "subscriptions.modal.create.error": "An error occurs during the subscription creation",
+
+  "subscriptions.modal.delete.error": "An error occurs during the subscription delete",
+
+  "subscriptions.modal.update.error": "An error occurs during the subscription update",
+
   "subscriptions.table.dso": "Subject",
 
   "subscriptions.table.subscription_type": "Subscription Type",
@@ -7132,8 +7713,15 @@
 
   "subscriptions.table.action": "Action",
 
-  "subscriptions.table.empty.message": "You have not subscribed any notification yet. To subscribe notification about an object please use the contextual menu in the object detail view",
+  "subscriptions.table.edit": "Edit",
 
+  "subscriptions.table.delete": "Delete",
+
+  "subscriptions.table.not-available": "Not available",
+
+  "subscriptions.table.not-available-message": "The subscribed item has been deleted, or you don't currently have the permission to view it",
+
+  "subscriptions.table.empty.message": "You do not have any subscriptions at this time. To subscribe to email updates for a Community or Collection, use the subscription button on the object's page.",
 
 
   "thumbnail.default.alt": "Thumbnail Image",
@@ -7179,6 +7767,8 @@
 
 
   "viewer.provider.iiif.breadcrumbs": "Mirador Viewer",
+
+  "viewer.provider.media.breadcrumbs": "Player",
 
   "viewer.provider.pdf.breadcrumbs": "PDF Viewer",
 
@@ -7234,7 +7824,7 @@
 
   "vocabulary-treeview.tree.description.srsc": "Research Subject Categories",
 
-
+  "vocabulary-treeview.info": "Select a subject to add as search filter",
 
   "uploader.browse": "browse",
 
@@ -7258,11 +7848,15 @@
 
   "otherworkspace.search.results.head": "Workspace submissions",
 
+  "supervisedWorkspace.search.results.head": "Supervised Items",
+
   "workspace.search.results.head": "Your submissions",
 
   "workflowAdmin.search.results.head": "Administer Workflow",
 
   "workflow.search.results.head": "Workflow tasks",
+
+  "supervision.search.results.head": "Workflow and Workspace tasks",
 
 
 
@@ -7308,6 +7902,57 @@
   "workspace-item.view.breadcrumbs": "Workspace View",
 
   "workspace-item.view.title": "Workspace View",
+
+  "workspace-item.delete.breadcrumbs": "Workspace Delete",
+
+  "workspace-item.delete.header": "Delete workspace item",
+
+  "workspace-item.delete.button.confirm": "Delete",
+
+  "workspace-item.delete.button.cancel": "Cancel",
+
+  "workspace-item.delete.notification.success.title": "Deleted",
+
+  "workspace-item.delete.title": "This workspace item was successfully deleted",
+
+  "workspace-item.delete.notification.error.title": "Something went wrong",
+
+  "workspace-item.delete.notification.error.content": "The workspace item could not be deleted",
+
+  "workflow-item.advanced.title": "Advanced workflow",
+
+  "workflow-item.selectrevieweraction.notification.success.title": "Selected reviewer",
+
+  "workflow-item.selectrevieweraction.notification.success.content": "The reviewer for this workflow item has been successfully selected",
+
+  "workflow-item.selectrevieweraction.notification.error.title": "Something went wrong",
+
+  "workflow-item.selectrevieweraction.notification.error.content": "Couldn't select the reviewer for this workflow item",
+
+  "workflow-item.selectrevieweraction.title": "Select Reviewer",
+
+  "workflow-item.selectrevieweraction.header": "Select Reviewer",
+
+  "workflow-item.selectrevieweraction.button.cancel": "Cancel",
+
+  "workflow-item.selectrevieweraction.button.confirm": "Confirm",
+
+
+  "workflow-item.scorereviewaction.notification.success.title": "Rating review",
+
+  "workflow-item.scorereviewaction.notification.success.content": "The rating for this item workflow item has been successfully submitted",
+
+  "workflow-item.scorereviewaction.notification.error.title": "Something went wrong",
+
+  "workflow-item.scorereviewaction.notification.error.content": "Couldn't rate this item",
+
+  "workflow-item.scorereviewaction.title": "Rate this item",
+
+  "workflow-item.scorereviewaction.header": "Rate this item",
+
+  "workflow-item.scorereviewaction.button.cancel": "Cancel",
+
+  "workflow-item.scorereviewaction.button.confirm": "Confirm",
 
   "idle-modal.header": "Session will expire soon",
 
@@ -7557,6 +8202,8 @@
 
   "person.page.orcid.unlink.error": "An error occurred while disconnecting between the profile and the ORCID registry. Try again",
 
+  "person.page.orcid.integration-service.link": "EPFL ORCID integration service",
+
   "person.orcid.sync.setting": "ORCID Synchronization settings",
 
   "person.orcid.registry.queue": "ORCID Registry Queue",
@@ -7600,6 +8247,8 @@
 
   "family.listelement.badge": "Family",
 
+  "content.listelement.badge": "Content",
+
   "place.listelement.badge": "Place",
 
   "archivalmaterials.listelement.badge": "Archival Materials",
@@ -7617,8 +8266,12 @@
   "scientificmaterial.listelement.badge": "Scientific Material",
 
   "picture.listelement.badge": "Picture",
+
+  "virtualcollection.listelement.badge": "Virtual Collection",
+
   "menu.section.explore_sectionfonds" : "Fonds",
   "menu.section.explore_sectionjournalfonds" : "Journal Fonds",
+  "menu.section.explore_advancedsearch" : "Advanced Search",
 
   "menu.section.explore_sectionaggregations" : "Collections",
   "menu.section.explore_sectiondocuments" : "Documents & Other materials",
@@ -7768,6 +8421,57 @@
   "curation-task.task.undopdfiiif.label": "Undo PDF 2 IIIF Images",
 
   "curation-task.task.rebuildpdftoc.label": "Rebuild the PDF ToC",
+
+
+  "listable-notification-object.default-message": "This object couldn't be retrieved",
+
+
+  "system-wide-alert-banner.retrieval.error": "Something went wrong retrieving the system-wide alert banner",
+
+  "system-wide-alert-banner.countdown.prefix": "In",
+
+  "system-wide-alert-banner.countdown.days": "{{days}} day(s),",
+
+  "system-wide-alert-banner.countdown.hours": "{{hours}} hour(s) and",
+
+  "system-wide-alert-banner.countdown.minutes": "{{minutes}} minute(s):",
+
+  "menu.section.system-wide-alert": "System-wide Alert",
+
+  "system-wide-alert.form.header": "System-wide Alert",
+
+  "system-wide-alert-form.retrieval.error": "Something went wrong retrieving the system-wide alert",
+
+  "system-wide-alert.form.cancel": "Cancel",
+
+  "system-wide-alert.form.save": "Save",
+
+  "system-wide-alert.form.label.active": "ACTIVE",
+
+  "system-wide-alert.form.label.inactive": "INACTIVE",
+
+  "system-wide-alert.form.error.message": "The system wide alert must have a message",
+
+  "system-wide-alert.form.label.message": "Alert message",
+
+  "system-wide-alert.form.label.countdownTo.enable": "Enable a countdown timer",
+
+  "system-wide-alert.form.label.countdownTo.hint": "Hint: Set a countdown timer. When enabled, a date can be set in the future and the system-wide alert banner will perform a countdown to the set date. When this timer ends, it will disappear from the alert. The server will NOT be automatically stopped.",
+
+  "system-wide-alert.form.label.preview": "System-wide alert preview",
+
+  "system-wide-alert.form.update.success": "The system-wide alert was successfully updated",
+
+  "system-wide-alert.form.update.error": "Something went wrong when updating the system-wide alert",
+
+  "system-wide-alert.form.create.success": "The system-wide alert was successfully created",
+
+  "system-wide-alert.form.create.error": "Something went wrong when creating the system-wide alert",
+
+  "admin.system-wide-alert.breadcrumbs": "System-wide Alerts",
+
+  "admin.system-wide-alert.title": "System-wide Alerts",
+
 
   "vocabulary-treeview.header.fondboxtree": "Fond Tree",
 

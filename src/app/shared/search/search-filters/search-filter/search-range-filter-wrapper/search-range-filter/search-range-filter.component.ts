@@ -1,5 +1,5 @@
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, from, Observable, of, Subscription, switchMap } from 'rxjs';
+import { map, take, withLatestFrom } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { RemoteDataBuildService } from '../../../../../../core/cache/builders/remote-data-build.service';
@@ -14,11 +14,11 @@ import {
   SearchFilterService
 } from '../../../../../../core/shared/search/search-filter.service';
 import { SearchService } from '../../../../../../core/shared/search/search.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import * as moment from 'moment';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SEARCH_CONFIG_SERVICE } from '../../../../../../my-dspace-page/my-dspace-page.component';
 import { SearchConfigurationService } from '../../../../../../core/shared/search/search-configuration.service';
-import { hasValue } from '../../../../../empty.util';
+import { hasValue, isNotEmpty } from '../../../../../empty.util';
+import { yearFromString } from 'src/app/shared/date.util';
 
 /**
  * The suffix for a range filters' minimum in the frontend URL
@@ -51,7 +51,7 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
   /**
    * The date formats that are possible to appear in a date filter
    */
-  protected readonly dateFormats = ['YYYY', 'YYYY-MM', 'YYYY-MM-DD'];
+  protected readonly dateFormats = ['yyyy', 'yyyy-MM', 'yyyy-MM-DD'];
 
   /**
    * Fallback minimum for the range
@@ -73,11 +73,6 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
    */
   sub: Subscription;
 
-  /**
-   * Whether the sider is being controlled by the keyboard.
-   * Supresses any changes until the key is released.
-   */
-  keyboardControl: boolean;
 
   constructor(
     protected searchService: SearchService,
@@ -110,7 +105,7 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
    * @param minmax
    * @protected
    */
-  protected initRange(minmax: [string, string]) {
+  protected initRange(minmax: [string | null, string | null]) {
     this.range = minmax;
   }
 
@@ -119,7 +114,7 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
    * @protected
    */
   protected initMax() {
-    this.max = moment(this.filterConfig.maxValue, this.dateFormats).year() || this.max;
+    this.max = yearFromString(this.filterConfig.maxValue) || this.max;
   }
 
   /**
@@ -127,7 +122,7 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
    * @protected
    */
   protected initMin() {
-    this.min = moment(this.filterConfig.minValue, this.dateFormats).year() || this.min;
+    this.min = yearFromString(this.filterConfig.minValue) || this.min;
   }
 
   /**
@@ -138,9 +133,9 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
     return this.route.queryParamMap
       .pipe(
         map(paramMaps => [
-          paramMaps.get(this.filterConfig.paramName + RANGE_FILTER_MIN_SUFFIX) || `${this.min}`,
-          paramMaps.get(this.filterConfig.paramName + RANGE_FILTER_MAX_SUFFIX) || `${this.max}`
-        ])
+          paramMaps.get(this.filterConfig.paramName + RANGE_FILTER_MIN_SUFFIX) ?? `${this.min}`,
+          paramMaps.get(this.filterConfig.paramName + RANGE_FILTER_MAX_SUFFIX) ?? `${this.max}`
+        ]),
       );
   }
 
@@ -148,21 +143,9 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
    * Submits new custom range values to the range filter from the widget
    */
   onSubmit() {
-    if (this.keyboardControl) {
-      return;  // don't submit if a key is being held down
-    }
-
     const newMin = this.range[0] !== this.min ? [this.range[0]] : null;
     const newMax = this.range[1] !== this.max ? [this.range[1]] : null;
     this.search(newMin, newMax);
-  }
-
-  startKeyboardControl(): void {
-    this.keyboardControl = true;
-  }
-
-  stopKeyboardControl(): void {
-    this.keyboardControl = false;
   }
 
   /**
@@ -182,15 +165,26 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
    * @protected
    */
   protected search(minDate, maxDate) {
-    this.router.navigate(this.getSearchLinkParts(), {
-      queryParams:
-        {
-          [this.filterConfig.paramName + RANGE_FILTER_MIN_SUFFIX]: minDate,
-          [this.filterConfig.paramName + RANGE_FILTER_MAX_SUFFIX]: maxDate
-        },
-      queryParamsHandling: 'merge'
-    });
-    this.filter = '';
+    of(
+      {
+        ...this.getFilterParam(minDate, RANGE_FILTER_MIN_SUFFIX),
+        ...this.getFilterParam(maxDate, RANGE_FILTER_MAX_SUFFIX)
+      }
+    ).pipe(
+      withLatestFrom(this.route.queryParams),
+      map(([newParams, queryParams]) => Object.assign({}, queryParams, newParams)),
+      map(params =>
+        Object.keys(params)
+          .filter((k) => hasValue(params[k]) && isNotEmpty(params[k]))
+          .reduce((a, k) => ({ ...a, [k]: params[k] }), {})
+      ),
+      switchMap(queryParams => from(this.router.navigate(this.getSearchLinkParts(), { queryParams }))),
+      take(1)
+    ).subscribe(() => this.filter = '');
+  }
+
+  private getFilterParam(date, filterSuffix: string): Params | null {
+    return { [this.filterConfig.paramName + filterSuffix]: date };
   }
 
   /**

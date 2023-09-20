@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { RequestService } from '../../core/data/request.service';
 import { map, shareReplay } from 'rxjs/operators';
 import { HALEndpointService } from '../../core/shared/hal-endpoint.service';
-import { UploaderOptions } from '../../shared/uploader/uploader-options.model';
+import { UploaderOptions } from '../../shared/upload/uploader/uploader-options.model';
 import { AuthService } from '../../core/auth/auth.service';
 
 interface Endpoint {

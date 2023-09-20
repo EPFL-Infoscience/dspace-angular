@@ -7,6 +7,7 @@ import { getCollectionPageRoute } from './collection-page/collection-page-routin
 import { getItemModuleRoute, getItemPageRoute } from './item-page/item-page-routing-paths';
 import { hasValue } from './shared/empty.util';
 import { URLCombiner } from './core/url-combiner/url-combiner';
+import { Bitstream } from './core/shared/bitstream.model';
 
 export const BITSTREAM_MODULE_PATH = 'bitstreams';
 
@@ -91,6 +92,8 @@ export function getDSORoute(dso: DSpaceObject): string {
         return getCollectionPageRoute(dso.uuid);
       case Item.type.value:
         return getItemPageRoute(dso as Item);
+      case Bitstream.type.value:
+        return getBitstreamDownloadRoute(dso as Bitstream);
     }
   }
 }
@@ -133,20 +136,18 @@ export function getRequestCopyModulePath() {
 
 export const HEALTH_PAGE_PATH = 'health';
 
-export const EDIT_ITEM_PATH = 'edit-items';
-
-export function getEditItemPageRoute() {
-  return `/${EDIT_ITEM_PATH}`;
-}
-
+export const SUBSCRIPTIONS_MODULE_PATH = 'subscriptions';
 export function getSubscriptionsModuleRoute() {
   return `/${SUBSCRIPTIONS_MODULE_PATH}`;
 }
 
-export const SUBSCRIPTIONS_MODULE_PATH = 'subscriptions';
+export const EDIT_ITEM_PATH = 'edit-items';
+export function getEditItemPageRoute() {
+  return `/${EDIT_ITEM_PATH}`;
+}
 
 export const STATISTICS_PAGE_PATH = 'statistics';
-
 export function getStatisticsModuleRoute() {
   return `/${STATISTICS_PAGE_PATH}`;
 }
+export const BUNDLE_PATH = 'bundle';

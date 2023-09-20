@@ -7,9 +7,15 @@
         </div>
 
         <div class="submission-form-header-item mb-3 mb-sm-0 flex-sm-grow-1 flex-md-grow-0">
-            <ds-submission-form-collection [currentCollectionId]="collectionId" [currentDefinition]="definitionId"
-                [submissionId]="submissionId" [entityType]="entityType" (collectionChange)="onCollectionChange($event)">
+          <ng-container *ngIf="!isSectionHidden">
+            <ds-submission-form-collection [currentCollectionId]="collectionId"
+                                           [currentDefinition]="definitionId"
+                                           [entityType]="entityType"
+                                           [submissionId]="submissionId"
+                                           [isReadonly]="isSectionReadonly"
+                                           (collectionChange)="onCollectionChange($event)">
             </ds-submission-form-collection>
+          </ng-container>
         </div>
         <div class="submission-form-header-item text-right">
             <ds-submission-form-section-add [collectionId]="collectionId" [submissionId]="submissionId">
