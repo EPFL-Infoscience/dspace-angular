@@ -7,7 +7,7 @@ import { SectionsService } from '../sections.service';
 import { BehaviorSubject, forkJoin, interval, mergeMap, Observable, of, Subject, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SubmissionState } from '../../submission.reducers';
-import { distinctUntilChanged, filter, map, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { SubmissionObjectEntry } from '../../objects/submission-objects.reducer';
 import { UpdateSectionVisibilityAction } from '../../objects/submission-objects.actions';
 import {
@@ -112,6 +112,11 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
           this.resourceService.download(fileUrl),
           this.halService.getEndpoint(this.submissionService.getSubmissionObjectLinkName())
         ]).pipe(
+          catchError(() => {
+            this.notificationsService.error(null, this.translate.get('submission.sections.upload.file-download-failed'));
+            this.loading$.next(false);
+            return of(null);
+          }),
           takeUntil(this.unsubscribe$),
           map(([fileBlob, endpoint]) => {
             const file = new File([fileBlob], fileName);
