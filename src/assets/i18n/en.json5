@@ -6487,6 +6487,8 @@
 
   "submission.sections.unpaywall.status.pending": "Unpaywall api request is initialized",
 
+  "submission.sections.unpaywall.status.no-file": "There are no files to be imported",
+
   "submission.sections.submit.progressbar.unpaywall": "Unpaywall",
 
 
