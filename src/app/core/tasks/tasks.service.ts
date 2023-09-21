@@ -122,7 +122,7 @@ export abstract class TasksService<T extends CacheableObject> extends Identifiab
     const hrefObs = this.searchData.getSearchByHref(searchMethod, options, ...linksToFollow);
     return hrefObs.pipe(
       find((href: string) => hasValue(href)),
-      mergeMap((href) => this.findByHref(href, false, true).pipe(
+      mergeMap((href) => this.findByHref(href, false, true, ...linksToFollow).pipe(
         getAllCompletedRemoteData(),
         tap(() => this.requestService.setStaleByHrefSubstring(href)))
       )
