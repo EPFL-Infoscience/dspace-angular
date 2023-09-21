@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/c
 import { ComponentFixture, inject, TestBed, waitForAsync, } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   DynamicFormArrayGroupModel,
   DynamicFormArrayModel,
@@ -386,6 +386,14 @@ describe('FormComponent test suite', () => {
 
       expect(formComp.formGroup.reset).toHaveBeenCalled();
     });
+
+    it('should emit removeArrayItem Event when an scrollable dropdown field has been cleaned', inject([FormBuilderService], (service: FormBuilderService) => {
+      spyOn(formComp.removeArrayItem, 'emit');
+
+      formComp.clearScrollableDropdown(new Event('click'), formComp.formModel[0] as DynamicFormControlModel);
+
+      expect(formComp.removeArrayItem.emit).toHaveBeenCalled();
+    }));
   });
 
   describe('', () => {
@@ -441,14 +449,6 @@ describe('FormComponent test suite', () => {
       expect(formComp.removeArrayItem.emit).toHaveBeenCalled();
     }));
 
-    it('should emit removeArrayItem Event when an scrollable dropdown field has been cleaned', inject([FormBuilderService], (service: FormBuilderService) => {
-      spyOn(formComp.removeArrayItem, 'emit');
-      spyOn(formComp.formGroup, 'get').and.returnValue(new FormControl(0, []));
-
-      formComp.clearScrollableDropdown(new Event('click'), formComp.formModel[0] as DynamicFormControlModel);
-
-      expect(formComp.removeArrayItem.emit).toHaveBeenCalled();
-    }));
   });
 
   describe('isArrayGroupEmpty', () => {

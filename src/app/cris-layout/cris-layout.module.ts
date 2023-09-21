@@ -140,6 +140,7 @@ import {
   AttachmentRenderingModule
 } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/bitstream-attachment/attachment-render/attachment-rendering.module';
 import { FormModule } from '../shared/form/form.module';
+import { CrisLayoutCollectionBoxComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/cris-layout-collection-box/cris-layout-collection-box.component';
 import {
   CrisLayoutMediaBoxComponent
 } from './cris-layout-matrix/cris-layout-box-container/boxes/media-box/cris-layout-media-box.component';
@@ -150,6 +151,7 @@ const ENTRY_COMPONENTS = [
   CrisLayoutVerticalComponent,
   CrisLayoutHorizontalComponent,
   CrisLayoutMetadataBoxComponent,
+  CrisLayoutCollectionBoxComponent,
   TextComponent,
   HtmlComponent,
   HeadingComponent,
@@ -177,7 +179,7 @@ const ENTRY_COMPONENTS = [
   SearchComponent,
   TagSearchComponent,
   AdvancedAttachmentComponent,
-  CrisLayoutMediaBoxComponent
+  CrisLayoutMediaBoxComponent,
 ];
 
 @NgModule({
@@ -223,7 +225,7 @@ const ENTRY_COMPONENTS = [
     MetricsModule,
     AttachmentRenderingModule,
     FormModule,
-    MediaPlayerModule
+    MediaPlayerModule,
   ],
   exports: [
     CrisLayoutComponent,
