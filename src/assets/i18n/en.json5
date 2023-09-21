@@ -6380,6 +6380,8 @@
 
   "submission.sections.upload.upload-failed": "Upload failed",
 
+  "submission.sections.upload.file-download-failed": "An unexpected error occurred while importing file from Unpaywall, please try again later, if the problem persists, contact system administrator",
+
   "submission.sections.upload.upload-successful": "Upload successful",
 
   "submission.sections.custom-url.label.previous-urls": "Previous Urls",

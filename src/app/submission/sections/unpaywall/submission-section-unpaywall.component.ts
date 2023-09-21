@@ -107,7 +107,7 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
       this.loading$.next(true);
       const fileUrl = this.getFileUrl();
       if (fileUrl) {
-        const fileName = fileUrl.split('/').pop();
+        const fileName = this.getFilenameFromUrl(fileUrl);
         forkJoin([
           this.resourceService.download(fileUrl),
           this.halService.getEndpoint(this.submissionService.getSubmissionObjectLinkName())
@@ -235,6 +235,15 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
 
   protected getSectionStatus(): Observable<boolean> {
     return of(true);
+  }
+
+  private getFilenameFromUrl(url: string): string {
+    let splitUrl = url.split('/');
+    return !url.includes('/pdf')
+      ? splitUrl.pop()
+      : url.endsWith('/pdf')
+        ? splitUrl[splitUrl.length - 2] + '.pdf'
+        : splitUrl.pop() + '.pdf';
   }
 
 }
