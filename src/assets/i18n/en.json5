@@ -6393,9 +6393,9 @@
 
   "sorting.oairecerif.author.affiliation.DESC": "Unit Descending",
 
-  "sorting.dc.date.created.ASC": "Date Created Ascending",
+  "sorting.dc.date.accessioned.ASC": "Date Accessioned Ascending",
 
-  "sorting.dc.date.created.DESC": "Date Created Descending",
+  "sorting.dc.date.accessioned.DESC": "Date Accessioned Descending",
 
   "sorting.dc.date.modified.ASC": "Date Modified Ascending",
 
