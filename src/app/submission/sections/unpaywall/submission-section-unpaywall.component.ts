@@ -30,7 +30,6 @@ import { SubmissionService } from '../../submission.service';
 import { HttpXsrfTokenExtractor } from '@angular/common/http';
 import { XSRF_REQUEST_HEADER } from '../../../core/xsrf/xsrf.interceptor';
 import { WorkspaceItem } from '../../../core/submission/models/workspaceitem.model';
-import { normalizeSectionData } from '../../../core/submission/submission-response-parsing.service';
 import { hasValue, isEmpty, isNotEmpty } from '../../../shared/empty.util';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import parseSectionErrors from '../../utils/parseSectionErrors';
@@ -303,7 +302,6 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
     const errorsList = parseSectionErrors(errors);
     if (sections && isNotEmpty(sections)) {
       Object.keys(sections).forEach((sectionId) => {
-        const sectionData = normalizeSectionData(sections[sectionId]);
         const sectionErrors = errorsList[sectionId];
         this.sectionService.isSectionType(this.submissionId, sectionId, SectionsType.Upload)
           .pipe(takeUntil(this.unsubscribe$))
