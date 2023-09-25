@@ -4,5 +4,7 @@
 export interface UnpaywallApi {
   best_oa_location: {
     url: string;
+    license: string;
+    version: string;
   }
 }
