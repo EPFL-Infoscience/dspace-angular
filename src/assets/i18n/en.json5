@@ -6391,6 +6391,10 @@
 
   "sorting.dc.date.issued.DESC": "Date Issued Descending",
 
+  "sorting.dc.date.created.ASC": "Date Created Ascending",
+
+  "sorting.dc.date.created.DESC": "Date Created Descending",
+
   "sorting.dc.type.ASC": "Type Ascending",
 
   "sorting.dc.type.DESC": "Type Descending",
