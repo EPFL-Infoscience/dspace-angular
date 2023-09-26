@@ -111,6 +111,9 @@ export class SearchFacetOptionComponent implements OnInit, OnDestroy {
       [this.filterConfig.paramName]: [...selectedValues.map((facetValue: FacetValue) => getFacetValueForType(facetValue, this.filterConfig)), this.getFacetValue()],
       [page]: 1
     };
+    if (this.getFacetValue().endsWith('authority') && !this.getFacetValue().includes(':')){
+      this.addQueryParams[this.filterConfig.paramName].push(this.filterValue.value + ',equals');
+    }
   }
 
   /**

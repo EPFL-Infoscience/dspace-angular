@@ -949,7 +949,7 @@
 
   "browse.back.all-results": "All browse results",
 
-  "browse.comcol.by.author": "By Author",
+  "browse.comcol.by.author": "Authors",
 
   "browse.comcol.by.dateissued": "By Issue Date",
 
@@ -957,18 +957,21 @@
 
   "browse.comcol.by.pjtitle": "By Title",
 
-  "browse.comcol.by.rodept": "By Department",
+  "browse.comcol.by.rodept": "Units",
 
   "browse.comcol.by.rpdept": "By Department",
 
   "browse.comcol.by.rpname": "By Name",
 
-  "browse.comcol.by.subject": "By Subject",
+  "browse.comcol.by.subject": "Domains",
 
   "browse.comcol.by.title": "By Title",
 
-  "browse.comcol.by.type": "By Type",
+  "browse.comcol.by.type": "Types",
 
+  "browse.comcol.by.journal": "Journals",
+
+  "browse.comcol.by.vctitle": "By Title",
 
   "browse.comcol.head": "Browse",
 
@@ -987,6 +990,8 @@
   "browse.metadata.ouname" : "Name",
 
   "browse.metadata.pjtitle" : "Title",
+
+  "browse.metadata.journal" : "Journal",
 
   "browse.metadata.rodept": "Department",
 
@@ -1668,6 +1673,12 @@
 
   "context-menu.actions.edit-item-relationships.btn.projects": "Manage Projects",
 
+  "context-menu.actions.edit-item-relationships.btn.institutes": "Manage Institutes",
+
+  "context-menu.actions.edit-item-relationships.btn.publications_school_college": "Manage Publications",
+
+  "context-menu.actions.edit-item-relationships.btn.labs_research_groups": "Manage Labs and Research Groups",
+
   "context-menu.actions.orcid-view": "Open ORCID setting page",
 
   "context-menu.actions.statistics.btn": "Statistics",
@@ -1719,6 +1730,10 @@
   "RELATION.Project.researchoutputs.search.results.head" : "Publications",
 
   "RELATION.OrgUnit.people.search.results.head" : "People",
+
+  "RELATION.OrgUnit.theses.search.results.head" : "Theses",
+
+  "RELATION.OrgUnit.sectiontheses.search.results.head" : "Teaching materials and student works",
 
   "deduplication.breadcrumbs": "Deduplication",
 
@@ -2466,6 +2481,8 @@
 
   "explore.index.dc.date.accessioned" : "Recent Additions",
 
+  "explore.index.dc.date.created" : "Date Created",
+
   "explore.index.dc.title" : "Title",
 
   "explore.index.doi" : "DOI",
@@ -2571,6 +2588,8 @@
   "explore.index.publisher" : "Publisher",
 
   "explore.index.dateAccessioned" : "Date accessioned",
+
+  "explore.index.dateCreated" : "Date created",
 
   "explore.index.publishedIn" : "Published in (journal or book)",
 
@@ -4495,6 +4514,24 @@
 
   "menu.section.communities_and_collections": "Communities & Collections",
 
+  "menu.section.education": "Education",
+
+  "menu.section.education.doctoral_schools": "Doctoral Schools",
+
+  "menu.section.education.sections": "Sections",
+
+  "menu.section.research.schools_and_colleges": "Schools & Colleges",
+
+  "menu.section.research.research_centers_and_platforms": "Research Centers & Platforms",
+
+  "menu.section.innovation": "Innovation",
+
+  "menu.section.browse_by": "Browse by",
+
+  "menu.section.virtual_collection": "Virtual Collections",
+
+  "menu.section.all_of_dspace": "All of DSpace",
+
 
 
   "menu.section.control_panel": "Control Panel",
@@ -4745,6 +4782,14 @@
   "statistics.table.mainReports.header.community": "Community",
 
   "statistics.table.mainReports.header.collection": "Collection",
+
+  "statistics.table.publicationsReports.header.item": "Publication",
+
+  "statistics.table.publicationsReports.header.views": "Views",
+
+  "statistics.table.projectsReports.header.item": "Project",
+
+  "statistics.table.projectsReports.header.views": "Views",
 
   "statistics.search.page.endDate": "End date",
 
@@ -6083,11 +6128,17 @@
 
   "search.filters.filter.objectpeople.label": "Search people",
 
-  "search.filters.filter.organization.head": "Organization",
+  "search.filters.filter.organization.head": "Units or Labs",
 
-  "search.filters.filter.organization.placeholder": "Organization",
+  "search.filters.filter.organization.placeholder": "Units or Labs",
 
-  "search.filters.filter.organization.label": "Search organization",
+  "search.filters.filter.organization.label": "Search Units or Labs",
+
+  "search.filters.filter.parentOrganization.head": "Parent Unit",
+
+  "search.filters.filter.parentOrganization.placeholder": "Parent Unit",
+
+  "search.filters.filter.parentOrganization.label": "Search Parent Unit",
 
   "search.filters.filter.organizationAddressCountry.head": "Country",
 
@@ -6107,11 +6158,11 @@
 
   "search.filters.filter.organizationFoundingDate.label": "Search date founded",
 
-  "search.filters.filter.original_bundle_oaire_licenseCondition.head": "File License",
+  "search.filters.filter.original_bundle_oaire_licenseCondition.head": "Licenses",
 
-  "search.filters.filter.original_bundle_oaire_licenseCondition.placeholder": "File License",
+  "search.filters.filter.original_bundle_oaire_licenseCondition.placeholder": "Licenses",
 
-  "search.filters.filter.original_bundle_oaire_licenseCondition.label": "Search file license",
+  "search.filters.filter.original_bundle_oaire_licenseCondition.label": "Search Licenses",
 
   "search.filters.filter.original_bundle_datacite_available.head": "Embargo",
 
@@ -6173,17 +6224,17 @@
 
   "search.filters.filter.unit.placeholder": "Unit",
 
-  "search.filters.filter.author_editor.head": "Authors, Contributors, Editors",
+  "search.filters.filter.author_editor.head": "Authors",
 
-  "search.filters.filter.author_editor.label": "Search Authors, Contributors, Editors",
+  "search.filters.filter.author_editor.label": "Search Authors",
 
-  "search.filters.filter.author_editor.placeholder": "Authors, Contributors, Editors",
+  "search.filters.filter.author_editor.placeholder": "Authors",
 
-  "search.filters.filter.source.head": "Journals, Sources, Series",
+  "search.filters.filter.source.head": "Published in",
 
-  "search.filters.filter.source.label": "Search Journals, Sources, Series",
+  "search.filters.filter.source.label": "Search Published in",
 
-  "search.filters.filter.source.placeholder": "Journals, Sources, Series",
+  "search.filters.filter.source.placeholder": "Published in",
 
   "search.filters.filter.ouActive.head": "Active Status",
 
@@ -6191,11 +6242,11 @@
 
   "search.filters.filter.ouActive.placeholder": "Active Status",
 
-  "search.filters.filter.researcherActive.head": "Active Status",
+  "search.filters.filter.researcherActive.head": "EPFL Members",
 
-  "search.filters.filter.researcherActive.label": "Search Active Status",
+  "search.filters.filter.researcherActive.label": "Search EPFL Members",
 
-  "search.filters.filter.researcherActive.placeholder": "Active Status",
+  "search.filters.filter.researcherActive.placeholder": "EPFL Members",
 
   "search.filters.filter.epflResourceType.head": "Resources Types",
 
@@ -6256,6 +6307,16 @@
   "orgunit.search.results.head": "Organizations Search Results",
 
   "homePageTopItems.search.results.head": "Home Page Items Results",
+
+  "schoolsAndColleges.search.results.head": "Schools & Colleges Search Result",
+
+  "researchCentersAndPlatforms.search.results.head": "Research Centers & Platforms Search Result",
+
+  "doctoralSchools.search.results.head": "Doctoral Schools Search Result",
+
+  "sections.search.results.head": "Sections Search Result",
+
+  "patent.search.results.head": "Patent Search Result",
 
   "search.results.no-results": "Your search returned no results. Having trouble finding what you're looking for? Try putting",
 
@@ -6330,6 +6391,10 @@
 
   "sorting.dc.date.issued.DESC": "Date Issued Descending",
 
+  "sorting.dc.date.created.ASC": "Date Created Ascending",
+
+  "sorting.dc.date.created.DESC": "Date Created Descending",
+
   "sorting.dc.type.ASC": "Type Ascending",
 
   "sorting.dc.type.DESC": "Type Descending",
@@ -6338,13 +6403,13 @@
 
   "sorting.oairecerif.author.affiliation.DESC": "Unit Descending",
 
-  "sorting.dc.date.accessioned.ASC": "Accessioned Date Ascending",
+  "sorting.dc.date.accessioned.ASC": "Date Accessioned Ascending",
 
-  "sorting.dc.date.accessioned.DESC": "Accessioned Date Descending",
+  "sorting.dc.date.accessioned.DESC": "Date Accessioned Descending",
 
-  "sorting.lastModified.ASC": "Last modified Ascending",
+  "sorting.dc.date.modified.ASC": "Date Modified Ascending",
 
-  "sorting.lastModified.DESC": "Last modified Descending",
+  "sorting.dc.date.modified.DESC": "Date Modified Descending",
 
   "sorting.ownerselection.ASC": "Owner Relevance Ascending",
 
@@ -6518,6 +6583,8 @@
 
   "statistics.table.personPublicationsReports.header.views": "Views",
 
+  "statistics.table.personPublicationsReports.header.downloads": "Downloads",
+
   "statistics.table.rppublicationsReports.title.TotalVisits": "Total visits",
 
   "statistics.table.rppublicationsReports.title.TopItems": "Most viewed",
@@ -6642,7 +6709,7 @@
 
   "submission.import-external.page.noentity": "An entity type must be selected in order to use this page. Select it using the 'Import metadata from an external source' button in 'MyDspace' page.",
 
-  "submission.import-external.back-to-my-dspace": "Back to MyDSpace",
+  "submission.import-external.back-to-my-dspace": "Back to MyInfoscience",
 
   "submission.import-external.search.placeholder": "Search the external source",
 
@@ -8218,6 +8285,7 @@
 
   "menu.section.explore_sectionfonds" : "Fonds",
   "menu.section.explore_sectionjournalfonds" : "Journal Fonds",
+  "menu.section.explore_advancedsearch" : "Advanced Search",
 
   "menu.section.explore_sectionaggregations" : "Collections",
   "menu.section.explore_sectiondocuments" : "Documents & Other materials",

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <h3 id="header" class="border-bottom pb-2">{{'reciter.suggestion.title'| translate}}</h3>
+      <h3 id="header" class="border-bottom pb-2">{{'reciter.suggestion.title'| translate}} ({{source}})</h3>
 
       <ds-loading class="container" *ngIf="(isTargetsLoading() | async)" message="{{'reciter.suggestion.loading' | translate}}"></ds-loading>
       <ds-pagination *ngIf="!(isTargetsLoading() | async)"
