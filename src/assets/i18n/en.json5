@@ -6705,7 +6705,7 @@
 
   "submission.import-external.page.noentity": "An entity type must be selected in order to use this page. Select it using the 'Import metadata from an external source' button in 'MyDspace' page.",
 
-  "submission.import-external.back-to-my-dspace": "Back to MyDSpace",
+  "submission.import-external.back-to-my-dspace": "Back to MyInfoscience",
 
   "submission.import-external.search.placeholder": "Search the external source",
 
