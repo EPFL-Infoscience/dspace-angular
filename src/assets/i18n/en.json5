@@ -8307,6 +8307,7 @@
   "explore.index.dateissuedA" : "Date",
   "explore.index.subjectA" : "Subject",
   "explore.index.path" : "Path",
+  "explore.index.parentOrganization" : "Parent Unit",
   "explore.index.fond" : "Fond",
   "explore.index.journalfond" : "Journal Fond",
   "explore.index.aggregation" : "Collection",
