@@ -2942,6 +2942,59 @@
   "curation-task.task.citationpage.label":  "Generate Citation Page",
 
 
+  // "curation-task.task.migratedocviewer.label":  "Migrate the previously generated doc. viewer resources",
+  // TODO New key - Add a translation
+  "curation-task.task.migratedocviewer.label":  "Migrate the previously generated doc. viewer resources",
+
+  // "curation-task.task.iiifmigrate.label":  "Migrate the previously generated IIIF resources",
+  // TODO New key - Add a translation
+  "curation-task.task.iiifmigrate.label":  "Migrate the previously generated IIIF resources",
+
+  // "curation-task.task.avuploader.label":  "Process video resources",
+  // TODO New key - Add a translation
+  "curation-task.task.avuploader.label":  "Process video resources",
+
+  // "curation-task.task.avuploader.primary.label":  "Process video resources and hide non primary items",
+  // TODO New key - Add a translation
+  "curation-task.task.avuploader.primary.label":  "Process video resources and hide non primary items",
+
+  // "curation-task.task.audiouploader.label":  "Process audio resources",
+  // TODO New key - Add a translation
+  "curation-task.task.audiouploader.label":  "Process audio resources",
+
+  // "curation-task.task.audiouploader.primary.label":  "Process audio resources and hide non primary items",
+  // TODO New key - Add a translation
+  "curation-task.task.audiouploader.primary.label":  "Process audio resources and hide non primary items",
+
+  // "curation-task.task.avclean.label":  "Clean audio/video resources",
+  // TODO New key - Add a translation
+  "curation-task.task.avclean.label":  "Clean audio/video resources",
+
+  // "curation-task.task.generatesubtitles.label":  "Generate subtitles for audio/video resources",
+  // TODO New key - Add a translation
+  "curation-task.task.generatesubtitles.label":  "Generate subtitles for audio/video resources",
+
+  // "curation-task.task.hidecovers.label":  "Hide custom audio/video thumbnails from item page",
+  // TODO New key - Add a translation
+  "curation-task.task.hidecovers.label":  "Hide custom audio/video thumbnails from item page",
+
+  // "curation-task.task.avforbiddownload.label":  "Forbid Download on audio/video resources",
+  // TODO New key - Add a translation
+  "curation-task.task.avforbiddownload.label":  "Forbid Download on audio/video resources",
+
+  // "curation-task.task.avallowdownload.label":  "Allow Download on audio/video resources",
+  // TODO New key - Add a translation
+  "curation-task.task.avallowdownload.label":  "Allow Download on audio/video resources",
+
+  // "curation-task.task.avupdatemanifest.label":  "Regenerate AV manifest for URL update",
+  // TODO New key - Add a translation
+  "curation-task.task.avupdatemanifest.label":  "Regenerate AV manifest for URL update",
+
+  // "curation-task.task.avmigrate.label":  "Migrate the AV resources generated for a previous version",
+  // TODO New key - Add a translation
+  "curation-task.task.avmigrate.label":  "Migrate the AV resources generated for a previous version",
+
+
   // "cris-layout.toggle.open": "Open section",
   // TODO New key - Add a translation
   "cris-layout.toggle.open": "Open section",
@@ -5309,6 +5362,9 @@
   // TODO New key - Add a translation
   "item.page.metric.label.check": "Check",
 
+  // "item.page.metric.label.unpaywall-api": "Unpaywall",
+  // TODO New key - Add a translation
+  "item.page.metric.label.unpaywall-api": "Unpaywall",
 
   // "item.page.metric.label.download": "Downloads",
   // TODO New key - Add a translation
@@ -8143,6 +8199,9 @@
   // "media-viewer.playlist": "Playlist",
   "media-viewer.playlist": "Liosta-cluich",
 
+  // "media-viewer.play": "Play",
+  // TODO New key - Add a translation
+  "media-viewer.play": "Play",
 
   // "register-email.title": "New user registration",
   "register-email.title": "Clàradh neach-cleachdaidh ùr",
@@ -9664,6 +9723,30 @@
   // "submission.edit.title": "Edit Submission",
   "submission.edit.title": "Deasaich Cur-a-steach",
 
+  // "submission.unpaywall.versions.title": "Open Access version of {item.title} reported by <a href=\"https://unpaywall.org/\">Unpaywall</a>",
+  // TODO New key - Add a translation
+  "submission.unpaywall.versions.title": "Open Access version of {item.title} reported by <a href=\"https://unpaywall.org/\">Unpaywall</a>",
+
+  // "submission.unpaywall.versions.back": "Back to item's page",
+  // TODO New key - Add a translation
+  "submission.unpaywall.versions.back": "Back to item's page",
+
+  // "submission.unpaywall.versions.breadcrumbs": "Unpaywall versions",
+  // TODO New key - Add a translation
+  "submission.unpaywall.versions.breadcrumbs": "Unpaywall versions",
+
+  // "submission.unpaywall.versions.submittedVersion": "Submitted",
+  // TODO New key - Add a translation
+  "submission.unpaywall.versions.submittedVersion": "Submitted",
+
+  // "submission.unpaywall.versions.acceptedVersion": "Accepted",
+  // TODO New key - Add a translation
+  "submission.unpaywall.versions.acceptedVersion": "Accepted",
+
+  // "submission.unpaywall.versions.publishedVersion": "Published",
+  // TODO New key - Add a translation
+  "submission.unpaywall.versions.publishedVersion": "Published",
+
   // "submission.general.cancel": "Cancel",
   "submission.general.cancel": "Cansail",
 
@@ -11044,6 +11127,32 @@
 
 
 
+  // "submission.sections.unpaywall.refresh": "Refresh",
+  // TODO New key - Add a translation
+  "submission.sections.unpaywall.refresh": "Refresh",
+
+  // "submission.sections.unpaywall.import": "Import from unpaywall",
+  // TODO New key - Add a translation
+  "submission.sections.unpaywall.import": "Import from unpaywall",
+
+  // "submission.sections.unpaywall.status.successful": "You can import from unpaywall",
+  // TODO New key - Add a translation
+  "submission.sections.unpaywall.status.successful": "You can import from unpaywall",
+
+  // "submission.sections.unpaywall.status.not-found": "Can't find record using Unpaywall api",
+  // TODO New key - Add a translation
+  "submission.sections.unpaywall.status.not-found": "Can't find record using Unpaywall api",
+
+  // "submission.sections.unpaywall.status.pending": "Unpaywall api request is initialized",
+  // TODO New key - Add a translation
+  "submission.sections.unpaywall.status.pending": "Unpaywall api request is initialized",
+
+  // "submission.sections.submit.progressbar.unpaywall": "Unpaywall",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.unpaywall": "Unpaywall",
+
+
+
   // "submission.submit.breadcrumbs": "New submission",
   "submission.submit.breadcrumbs": "Cur-a-steach ùr",
 
@@ -11386,6 +11495,10 @@
   // "viewer.provider.iiif.breadcrumbs": "Mirador Viewer",
   // TODO New key - Add a translation
   "viewer.provider.iiif.breadcrumbs": "Mirador Viewer",
+
+  // "viewer.provider.media.breadcrumbs": "Player",
+  // TODO New key - Add a translation
+  "viewer.provider.media.breadcrumbs": "Player",
 
   // "viewer.provider.pdf.breadcrumbs": "PDF Viewer",
   // TODO New key - Add a translation
@@ -12765,9 +12878,9 @@
   // TODO New key - Add a translation
   "admin.system-wide-alert.breadcrumbs": "System-wide Alerts",
 
-  // "admin.system-wide-alert.title": "System-wide Alerts"
+  // "admin.system-wide-alert.title": "System-wide Alerts",
   // TODO New key - Add a translation
-  "admin.system-wide-alert.title": "System-wide Alerts"
+  "admin.system-wide-alert.title": "System-wide Alerts",
 
 
   // "vocabulary-treeview.header.fondboxtree": "Fond Tree",
