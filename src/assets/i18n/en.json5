@@ -7576,7 +7576,11 @@
 
   "submission.workflow.email-template.workflowcustomemail_template1": "Additional information required",
 
+  "submission.workflow.email-template.workflowcustomemail_template1_fr": "Additional information required (French version)",
+
   "submission.workflow.email-template.workflowcustomemail_template2": "Data correction needed",
+
+  "submission.workflow.email-template.workflowcustomemail_template2_fr": "Data correction needed (French version)",
 
   "submission.workflow.generic.submit_select_reviewer": "Select Reviewer",
 
