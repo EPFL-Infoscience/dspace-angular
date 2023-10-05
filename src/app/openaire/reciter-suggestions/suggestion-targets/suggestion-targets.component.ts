@@ -69,7 +69,7 @@ export class SuggestionTargetsComponent implements OnInit {
    * Component initialization.
    */
   ngOnInit(): void {
-    this.targets$ = this.suggestionTargetsStateService.getReciterSuggestionTargets();
+    this.targets$ = this.suggestionTargetsStateService.getReciterSuggestionTargets(this.source);
     this.totalElements$ = this.suggestionTargetsStateService.getReciterSuggestionTargetsTotals();
   }
 
