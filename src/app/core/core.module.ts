@@ -232,7 +232,7 @@ import {
 import { ProductDatasetSchemaType } from './metadata/schema-json-ld/schema-types/product/product-dataset-schema-type';
 import { PersonSchemaType } from './metadata/schema-json-ld/schema-types/Person/person-schema-type';
 import {ItemRequest} from './shared/item-request.model';
-import { UnpaywallItemService } from "./data/unpaywall-item.service";
+import { UnpaywallItemService } from './data/unpaywall-item.service';
 
 /**
  * When not in production, endpoint responses can be mocked for testing purposes
