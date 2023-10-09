@@ -2535,7 +2535,7 @@
 
   "explore.index.isPublicationOfProject" : "Project's publication",
 
-  "explore.index.itemidentifier" : "Item identifier",
+  "explore.index.itemidentifier" : "Identifier (DOI, ArXivID, ISBN…)",
 
   "explore.index.jobTitle" : "Job title",
 
@@ -2565,7 +2565,7 @@
 
   "explore.index.projectOrgUnits" : "Organizations",
 
-  "explore.index.personOrgUnits" : "Organizations",
+  "explore.index.personOrgUnits" : "Institution / Unit",
 
   "explore.index.pjtitle" : "Title",
 
@@ -2618,6 +2618,8 @@
   "explore.index.role" : "Job Title",
 
   "explore.index.personIdentifier" : "Identifier",
+
+  "explore.index.datacite_rights" : "Access rights",
 
   "explore.index.original_bundle_oaire_licenseCondition": "License condition",
 
