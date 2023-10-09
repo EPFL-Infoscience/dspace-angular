@@ -23,15 +23,16 @@ export function getFacetValueForTypeAndLabel(facetValue: FacetValue, searchFilte
 }
 
 function _createValue(paramName: string, facetValueLinks, value, authorityKey) {
+  if (authorityKey) {
+    return addOperatorToFilterValue(authorityKey, 'authority');
+  }
+
   const regex = new RegExp(`[?|&]${escapeRegExp(encodeURIComponent(paramName))}=(${escapeRegExp(encodeURIComponent(value))}[^&]*)`, 'g');
   if (isNotEmpty(facetValueLinks)) {
     const values = regex.exec(facetValueLinks.search.href);
     if (isNotEmpty(values)) {
       return decodeURIComponent(values[1]);
     }
-  }
-  if (authorityKey) {
-    return addOperatorToFilterValue(authorityKey, 'authority');
   }
 
   return addOperatorToFilterValue(value, 'equals');

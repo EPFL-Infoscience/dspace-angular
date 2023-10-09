@@ -2481,6 +2481,8 @@
 
   "explore.index.dc.date.accessioned" : "Recent Additions",
 
+  "explore.index.dc.date.created" : "Date Created",
+
   "explore.index.dc.title" : "Title",
 
   "explore.index.doi" : "DOI",
@@ -2533,7 +2535,7 @@
 
   "explore.index.isPublicationOfProject" : "Project's publication",
 
-  "explore.index.itemidentifier" : "Item identifier",
+  "explore.index.itemidentifier" : "Identifier (DOI, ArXivID, ISBN…)",
 
   "explore.index.jobTitle" : "Job title",
 
@@ -2563,7 +2565,7 @@
 
   "explore.index.projectOrgUnits" : "Organizations",
 
-  "explore.index.personOrgUnits" : "Organizations",
+  "explore.index.personOrgUnits" : "Institution / Unit",
 
   "explore.index.pjtitle" : "Title",
 
@@ -2586,6 +2588,8 @@
   "explore.index.publisher" : "Publisher",
 
   "explore.index.dateAccessioned" : "Date accessioned",
+
+  "explore.index.dateCreated" : "Date created",
 
   "explore.index.publishedIn" : "Published in (journal or book)",
 
@@ -2614,6 +2618,8 @@
   "explore.index.role" : "Job Title",
 
   "explore.index.personIdentifier" : "Identifier",
+
+  "explore.index.datacite_rights" : "Access rights",
 
   "explore.index.original_bundle_oaire_licenseCondition": "License condition",
 
@@ -6124,11 +6130,17 @@
 
   "search.filters.filter.objectpeople.label": "Search people",
 
-  "search.filters.filter.organization.head": "Organization",
+  "search.filters.filter.organization.head": "Units or Labs",
 
-  "search.filters.filter.organization.placeholder": "Organization",
+  "search.filters.filter.organization.placeholder": "Units or Labs",
 
-  "search.filters.filter.organization.label": "Search organization",
+  "search.filters.filter.organization.label": "Search Units or Labs",
+
+  "search.filters.filter.parentOrganization.head": "Parent Unit",
+
+  "search.filters.filter.parentOrganization.placeholder": "Parent Unit",
+
+  "search.filters.filter.parentOrganization.label": "Search Parent Unit",
 
   "search.filters.filter.organizationAddressCountry.head": "Country",
 
@@ -6148,11 +6160,11 @@
 
   "search.filters.filter.organizationFoundingDate.label": "Search date founded",
 
-  "search.filters.filter.original_bundle_oaire_licenseCondition.head": "File License",
+  "search.filters.filter.original_bundle_oaire_licenseCondition.head": "Licenses",
 
-  "search.filters.filter.original_bundle_oaire_licenseCondition.placeholder": "File License",
+  "search.filters.filter.original_bundle_oaire_licenseCondition.placeholder": "Licenses",
 
-  "search.filters.filter.original_bundle_oaire_licenseCondition.label": "Search file license",
+  "search.filters.filter.original_bundle_oaire_licenseCondition.label": "Search Licenses",
 
   "search.filters.filter.original_bundle_datacite_available.head": "Embargo",
 
@@ -6214,17 +6226,17 @@
 
   "search.filters.filter.unit.placeholder": "Unit",
 
-  "search.filters.filter.author_editor.head": "Authors, Contributors, Editors",
+  "search.filters.filter.author_editor.head": "Authors",
 
-  "search.filters.filter.author_editor.label": "Search Authors, Contributors, Editors",
+  "search.filters.filter.author_editor.label": "Search Authors",
 
-  "search.filters.filter.author_editor.placeholder": "Authors, Contributors, Editors",
+  "search.filters.filter.author_editor.placeholder": "Authors",
 
-  "search.filters.filter.source.head": "Journals, Sources, Series",
+  "search.filters.filter.source.head": "Published in",
 
-  "search.filters.filter.source.label": "Search Journals, Sources, Series",
+  "search.filters.filter.source.label": "Search Published in",
 
-  "search.filters.filter.source.placeholder": "Journals, Sources, Series",
+  "search.filters.filter.source.placeholder": "Published in",
 
   "search.filters.filter.ouActive.head": "Active Status",
 
@@ -6232,11 +6244,11 @@
 
   "search.filters.filter.ouActive.placeholder": "Active Status",
 
-  "search.filters.filter.researcherActive.head": "Active Status",
+  "search.filters.filter.researcherActive.head": "EPFL Members",
 
-  "search.filters.filter.researcherActive.label": "Search Active Status",
+  "search.filters.filter.researcherActive.label": "Search EPFL Members",
 
-  "search.filters.filter.researcherActive.placeholder": "Active Status",
+  "search.filters.filter.researcherActive.placeholder": "EPFL Members",
 
   "search.filters.filter.epflResourceType.head": "Resources Types",
 
@@ -6381,6 +6393,10 @@
 
   "sorting.dc.date.issued.DESC": "Date Issued Descending",
 
+  "sorting.dc.date.created.ASC": "Date Created Ascending",
+
+  "sorting.dc.date.created.DESC": "Date Created Descending",
+
   "sorting.dc.type.ASC": "Type Ascending",
 
   "sorting.dc.type.DESC": "Type Descending",
@@ -6389,13 +6405,13 @@
 
   "sorting.oairecerif.author.affiliation.DESC": "Unit Descending",
 
-  "sorting.dc.date.accessioned.ASC": "Accessioned Date Ascending",
+  "sorting.dc.date.accessioned.ASC": "Date Accessioned Ascending",
 
-  "sorting.dc.date.accessioned.DESC": "Accessioned Date Descending",
+  "sorting.dc.date.accessioned.DESC": "Date Accessioned Descending",
 
-  "sorting.lastModified.ASC": "Last modified Ascending",
+  "sorting.dc.date.modified.ASC": "Date Modified Ascending",
 
-  "sorting.lastModified.DESC": "Last modified Descending",
+  "sorting.dc.date.modified.DESC": "Date Modified Descending",
 
   "sorting.ownerselection.ASC": "Owner Relevance Ascending",
 
@@ -6569,6 +6585,8 @@
 
   "statistics.table.personPublicationsReports.header.views": "Views",
 
+  "statistics.table.personPublicationsReports.header.downloads": "Downloads",
+
   "statistics.table.rppublicationsReports.title.TotalVisits": "Total visits",
 
   "statistics.table.rppublicationsReports.title.TopItems": "Most viewed",
@@ -6693,7 +6711,7 @@
 
   "submission.import-external.page.noentity": "An entity type must be selected in order to use this page. Select it using the 'Import metadata from an external source' button in 'MyDspace' page.",
 
-  "submission.import-external.back-to-my-dspace": "Back to MyDSpace",
+  "submission.import-external.back-to-my-dspace": "Back to MyInfoscience",
 
   "submission.import-external.search.placeholder": "Search the external source",
 
@@ -7560,7 +7578,11 @@
 
   "submission.workflow.email-template.workflowcustomemail_template1": "Additional information required",
 
+  "submission.workflow.email-template.workflowcustomemail_template1_fr": "Additional information required (French version)",
+
   "submission.workflow.email-template.workflowcustomemail_template2": "Data correction needed",
+
+  "submission.workflow.email-template.workflowcustomemail_template2_fr": "Data correction needed (French version)",
 
   "submission.workflow.generic.submit_select_reviewer": "Select Reviewer",
 
@@ -8291,6 +8313,7 @@
   "explore.index.dateissuedA" : "Date",
   "explore.index.subjectA" : "Subject",
   "explore.index.path" : "Path",
+  "explore.index.parentOrganization" : "Parent Unit",
   "explore.index.fond" : "Fond",
   "explore.index.journalfond" : "Journal Fond",
   "explore.index.aggregation" : "Collection",
