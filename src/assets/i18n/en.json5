@@ -6391,6 +6391,10 @@
 
   "sorting.dc.date.issued.DESC": "Date Issued Descending",
 
+  "sorting.dc.date.created.ASC": "Date Created Ascending",
+
+  "sorting.dc.date.created.DESC": "Date Created Descending",
+
   "sorting.dc.type.ASC": "Type Ascending",
 
   "sorting.dc.type.DESC": "Type Descending",
@@ -6705,7 +6709,7 @@
 
   "submission.import-external.page.noentity": "An entity type must be selected in order to use this page. Select it using the 'Import metadata from an external source' button in 'MyDspace' page.",
 
-  "submission.import-external.back-to-my-dspace": "Back to MyDSpace",
+  "submission.import-external.back-to-my-dspace": "Back to MyInfoscience",
 
   "submission.import-external.search.placeholder": "Search the external source",
 
@@ -7572,7 +7576,11 @@
 
   "submission.workflow.email-template.workflowcustomemail_template1": "Additional information required",
 
+  "submission.workflow.email-template.workflowcustomemail_template1_fr": "Additional information required (French version)",
+
   "submission.workflow.email-template.workflowcustomemail_template2": "Data correction needed",
+
+  "submission.workflow.email-template.workflowcustomemail_template2_fr": "Data correction needed (French version)",
 
   "submission.workflow.generic.submit_select_reviewer": "Select Reviewer",
 
@@ -8303,6 +8311,7 @@
   "explore.index.dateissuedA" : "Date",
   "explore.index.subjectA" : "Subject",
   "explore.index.path" : "Path",
+  "explore.index.parentOrganization" : "Parent Unit",
   "explore.index.fond" : "Fond",
   "explore.index.journalfond" : "Journal Fond",
   "explore.index.aggregation" : "Collection",
