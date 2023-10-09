@@ -67,10 +67,6 @@ export class ProfilePageMetadataFormComponent implements OnInit {
         required: 'This field is required'
       },
     }),
-    new DynamicInputModel({
-      id: 'phone',
-      name: 'eperson.phone'
-    }),
     new DynamicSelectModel<string>({
       id: 'language',
       name: 'eperson.language'
