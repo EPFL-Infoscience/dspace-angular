@@ -1,18 +1,19 @@
 import { Component, Inject, OnInit } from '@angular/core';
 
-import { BehaviorSubject, of as observableOf } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { BehaviorSubject, merge, Observable, of as observableOf } from 'rxjs';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
 import { FieldRenderingType, MetadataBoxFieldRendering } from '../metadata-box.decorator';
 import { BitstreamDataService } from '../../../../../../../core/data/bitstream-data.service';
-import { hasValue, isEmpty, isNotEmpty } from '../../../../../../../shared/empty.util';
+import { hasValue, isNotEmpty } from '../../../../../../../shared/empty.util';
 import { Bitstream } from '../../../../../../../core/shared/bitstream.model';
 import { BitstreamRenderingModelComponent } from '../bitstream-rendering-model';
 import { Item } from '../../../../../../../core/shared/item.model';
 import { LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { getFirstCompletedRemoteData } from '../../../../../../../core/shared/operators';
 import { PaginatedList } from '../../../../../../../core/data/paginated-list.model';
+import { RemoteData } from '../../../../../../../core/data/remote-data';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -61,27 +62,10 @@ export class ThumbnailComponent extends BitstreamRenderingModelComponent impleme
    */
   ngOnInit(): void {
     this.setDefaultImage();
+    // Gets bitstreams configured to be thumbnails
     this.getBitstreamsByItem().pipe(
       map((bitstreamList: PaginatedList<Bitstream>) => bitstreamList.page),
-      switchMap((filteredBitstreams: Bitstream[]) => {
-        if (filteredBitstreams.length === 0) {
-          return observableOf(null);
-        }
-        if (isEmpty(filteredBitstreams[0]?.thumbnail)) {
-          return observableOf(null);
-        }
-
-        return filteredBitstreams[0].thumbnail.pipe(
-          getFirstCompletedRemoteData(),
-          map((thumbnailRD) => {
-            if (thumbnailRD.hasSucceeded && isNotEmpty(thumbnailRD.payload)) {
-              return thumbnailRD.payload;
-            } else {
-              return null;
-            }
-          })
-        );
-      }),
+      switchMap((filteredBitstreams: Bitstream[]) => this.getFirstAvailableThumbnailOrNull(filteredBitstreams)),
       take(1)
     ).subscribe((thumbnail: Bitstream) => {
       if (isNotEmpty(thumbnail)) {
@@ -91,18 +75,54 @@ export class ThumbnailComponent extends BitstreamRenderingModelComponent impleme
     });
   }
 
+  private getFirstAvailableThumbnailOrNull(bitstreams: Bitstream[]): Observable<Bitstream> {
+    return merge(
+      ...bitstreams.map(bitstream => this.resolveThumbnail(bitstream.thumbnail)),
+      observableOf(null)
+    )
+      .pipe(
+        take(1)
+      );
+  }
+
+  private resolveThumbnail(thumbnail: Observable<RemoteData<Bitstream>>): Observable<Bitstream> {
+    return thumbnail.pipe(
+      getFirstCompletedRemoteData(),
+      map((thumbnailRD) => {
+        if (thumbnailRD.hasSucceeded && isNotEmpty(thumbnailRD.payload)) {
+          return thumbnailRD.payload;
+        } else {
+          return null;
+        }
+      }),
+      filter(hasValue),
+    );
+  }
+
   /**
    * Set the default image src depending on item entity type
    */
   setDefaultImage(): void {
     const eType = this.item.firstMetadataValue('dspace.entity.type');
     this.default = 'assets/images/person-placeholder.svg';
-    if (hasValue(eType) && eType.toUpperCase() === 'PROJECT') {
+    if (this.isProject(eType)) {
       this.default = 'assets/images/project-placeholder.svg';
-    } else if (hasValue(eType) && eType.toUpperCase() === 'ORGUNIT') {
+    } else if (this.isOrgUnit(eType)) {
       this.default = 'assets/images/orgunit-placeholder.svg';
-    } else if (hasValue(eType) && eType.toUpperCase() === 'PUBLICATION') {
+    } else if (this.isPublication(eType)) {
       this.default = 'assets/images/publication-placeholder.svg';
     }
+  }
+
+  private isProject(eType: string) {
+    return hasValue(eType) && eType.toUpperCase() === 'PROJECT';
+  }
+
+  private isOrgUnit(eType: string) {
+    return hasValue(eType) && eType.toUpperCase() === 'ORGUNIT';
+  }
+
+  private isPublication(eType: string): boolean {
+    return hasValue(eType) && eType.toUpperCase() === 'PUBLICATION';
   }
 }
