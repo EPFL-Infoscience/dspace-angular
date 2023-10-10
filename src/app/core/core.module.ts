@@ -472,7 +472,7 @@ export const models =
     WorkflowOwnerStatistics,
     LoginStatistics,
     Metric,
-    ItemRequest
+    ItemRequest,
   ];
 
 @NgModule({
