@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { Bitstream } from '../core/shared/bitstream.model';
-import { hasNoValue, hasValue } from '../shared/empty.util';
+import { hasValue } from '../shared/empty.util';
 import { RemoteData } from '../core/data/remote-data';
 import { BehaviorSubject, of as observableOf } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -10,8 +10,6 @@ import { AuthService } from '../core/auth/auth.service';
 import { FileService } from '../core/shared/file.service';
 import { Item } from '../core/shared/item.model';
 import { ItemDataService } from '../core/data/item-data.service';
-import { followLink } from '../shared/utils/follow-link-config.model';
-import { getFirstSucceededRemoteDataPayload } from '../core/shared/operators';
 
 /**
  * This component renders a given Bitstream as a thumbnail.
@@ -86,24 +84,10 @@ export class ThumbnailComponent implements OnChanges {
    * Use a default image if no actual image is available.
    */
   ngOnChanges(): void {
-    if (hasNoValue(this.thumbnail) && hasNoValue(this.item)) {
-      return;
-    }
-
     const src = this.contentHref;
     if (hasValue(src)) {
       this.setSrc(src);
-    } else if (this.item) {
-      this.itemService.findByHref(this.item._links.self.href, true, true, followLink('thumbnail')).pipe(
-        getFirstSucceededRemoteDataPayload(),
-        switchMap((item) => item.thumbnail),
-        getFirstSucceededRemoteDataPayload(),
-      ).subscribe((thumbnail) => {
-        if (hasValue(thumbnail)) {
-          this.setSrc(thumbnail._links.content.href);
-        }
-      });
-    } else if (this.defaultImage) {
+    } else if (hasValue(this.defaultImage)) {
       this.setSrc(this.defaultImage);
     }
   }
