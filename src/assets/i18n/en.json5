@@ -2535,7 +2535,7 @@
 
   "explore.index.isPublicationOfProject" : "Project's publication",
 
-  "explore.index.itemidentifier" : "Item identifier",
+  "explore.index.itemidentifier" : "Identifier (DOI, ArXivID, ISBN…)",
 
   "explore.index.jobTitle" : "Job title",
 
@@ -2565,7 +2565,7 @@
 
   "explore.index.projectOrgUnits" : "Organizations",
 
-  "explore.index.personOrgUnits" : "Organizations",
+  "explore.index.personOrgUnits" : "Institution / Unit",
 
   "explore.index.pjtitle" : "Title",
 
@@ -2618,6 +2618,8 @@
   "explore.index.role" : "Job Title",
 
   "explore.index.personIdentifier" : "Identifier",
+
+  "explore.index.datacite_rights" : "Access rights",
 
   "explore.index.original_bundle_oaire_licenseCondition": "License condition",
 
@@ -5949,6 +5951,8 @@
 
   "search.filters.applied.charts.default.title": "Search Output",
 
+  "search.filters.applied.charts.site.title": "Search Output",
+
   "search.filters.applied.charts.RELATION.Person.researchoutputs.title": "Research Output",
 
   "search.filters.applied.charts.RELATION.Person.editedresearchoutputs.title": "Research Output",
@@ -6293,6 +6297,8 @@
   "search.results.head": "Search Results",
 
   "default.search.results.head": "Search Results",
+
+  "site.search.results.head": "Search Results",
 
   "default-relationships.search.results.head": "Search Results",
 
