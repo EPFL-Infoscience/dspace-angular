@@ -379,9 +379,7 @@ export class MenuResolver implements Resolve<boolean> {
         shouldPersistOnRouteChange: true
       }));
 
-      // 'Communitites & Collections' and 'Virtual Collections' commented out since they are currently irrelevant
-
-      /*this.menuService.addSection(MenuID.PUBLIC, Object.assign({
+      this.menuService.addSection(MenuID.PUBLIC, Object.assign({
         id: `browse_global_communities_and_collectiorgunitons`,
         parentID: 'browse_by',
         active: false,
@@ -393,9 +391,9 @@ export class MenuResolver implements Resolve<boolean> {
         } as LinkMenuItemModel
       }, {
         shouldPersistOnRouteChange: true
-      }));*/
+      }));
 
-      /*this.menuService.addSection(MenuID.PUBLIC, Object.assign({
+      this.menuService.addSection(MenuID.PUBLIC, Object.assign({
         id: `virtual_collection`,
         parentID: 'browse_by',
         active: false,
@@ -407,7 +405,7 @@ export class MenuResolver implements Resolve<boolean> {
         } as LinkMenuItemModel
       }, {
         shouldPersistOnRouteChange: true
-      }));*/
+      }));
 
       valArray.payload.page.forEach((page) => this.menuService.addSection(MenuID.PUBLIC, Object.assign(
           {
