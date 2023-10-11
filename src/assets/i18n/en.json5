@@ -969,6 +969,8 @@
 
   "browse.comcol.by.type": "Types",
 
+  "browse.comcol.by.conference": "Conferences",
+
   "browse.comcol.by.journal": "Journals",
 
   "browse.comcol.by.vctitle": "By Title",
@@ -993,17 +995,19 @@
 
   "browse.metadata.journal" : "Journal",
 
-  "browse.metadata.rodept": "Department",
+  "browse.metadata.rodept": "Unit",
 
   "browse.metadata.rpdept": "Department",
 
   "browse.metadata.rpname": "Name",
 
-  "browse.metadata.subject": "Subject",
+  "browse.metadata.subject": "Domain",
 
   "browse.metadata.type": "Type",
 
   "browse.metadata.title": "Title",
+
+  "browse.metadata.conference": "Conference",
 
   "browse.metadata.author.breadcrumbs": "Browse by Author",
 
@@ -1030,6 +1034,8 @@
   "browse.metadata.type.breadcrumbs": "Browse by Type",
 
   "browse.metadata.title.breadcrumbs": "Browse by Title",
+
+  "browse.metadata.conference.breadcrumbs": "Browse by Conference",
 
   "pagination.next.button": "Next",
 
