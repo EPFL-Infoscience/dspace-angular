@@ -1023,13 +1023,13 @@
 
   "browse.metadata.pjtitle.breadcrumbs" : "Browse by Title",
 
-  "browse.metadata.rodept.breadcrumbs": "Browse by Department",
+  "browse.metadata.rodept.breadcrumbs": "Browse by Unit",
 
   "browse.metadata.rpdept.breadcrumbs" : "Browse by Department",
 
   "browse.metadata.rpname.breadcrumbs": "Browse by Name",
 
-  "browse.metadata.subject.breadcrumbs": "Browse by Subject",
+  "browse.metadata.subject.breadcrumbs": "Browse by Domain",
 
   "browse.metadata.type.breadcrumbs": "Browse by Type",
 
