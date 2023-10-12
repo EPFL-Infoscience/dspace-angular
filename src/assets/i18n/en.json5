@@ -7427,6 +7427,10 @@
 
   "submission.sections.upload.upload-successful": "Upload successful",
 
+  "mydspace.export-url.successful": "URL is copied",
+
+  "mydspace.export-url.failed": "Export URL failed",
+
   "submission.sections.upload.license-condition": "License condition",
 
   "submission.sections.upload.file-type": "File type",
