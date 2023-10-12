@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy } from '@angular/core';
-import { Observable, Subscription, switchMap } from 'rxjs';
+import { Observable, Subscription} from 'rxjs';
 import { SearchOptions } from '../../models/search-options.model';
 import { ItemExportFormatService } from '../../../../core/itemexportformat/item-export-format.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationsService } from '../../../notifications/notifications.service';
-import { take } from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'ds-item-export-url',
@@ -18,28 +18,28 @@ export class ItemExportUrlComponent implements OnDestroy {
 
   private sub?: Subscription;
 
+  public href: string;
+
   constructor(
     private itemExportFormatService: ItemExportFormatService,
     private translate: TranslateService,
     private notificationsService: NotificationsService,
+    private router: Router
   ) {}
+  ngOnInit() {
+    this.href = this.router.url;
+  }
 
-  exportUrl() {
-    this.sub = this.searchOptions$.pipe(
-      switchMap((searchOptions) => {
-        return this.itemExportFormatService.doExportMulti(
-          '',
-          // @ts-ignore
-          {id: 'epfl-publications'},
-          searchOptions,
-        );
-      }),
-    ).subscribe((processId) => {
-      const title$ = this.translate.get('bulk-export-url.process.title');
-      title$.pipe(take(1)).subscribe((title: string) => {
-        this.notificationsService.process(processId.toString(), 5000, title);
-      });
-    });
+  public getAbsoluteLink() {
+    return window.location.href;
+  }
+
+  public onClipboardCopy(successful: boolean): void {
+    if (successful) {
+      this.notificationsService.success(null, this.translate.get('mydspace.export-url.successful'));
+    } else {
+      this.notificationsService.error(null, this.translate.get('mydspace.export-url.failed'));
+    }
   }
 
   ngOnDestroy(): void {
