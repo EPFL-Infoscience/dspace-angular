@@ -132,4 +132,5 @@ export interface CarouselSection extends SectionComponent {
   carouselHeightPx: number;
   captionStyle: string;
   titleStyle: string;
+  bundle: string;
 }
