@@ -1735,6 +1735,8 @@
 
   "RELATION.OrgUnit.sectiontheses.search.results.head" : "Teaching materials and student works",
 
+  "RELATION.VirtualCollection.publications.search.results.head" : "Publications",
+
   "deduplication.breadcrumbs": "Deduplication",
 
   "deduplication.title": "Deduplication",
