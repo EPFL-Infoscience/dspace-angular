@@ -1741,6 +1741,8 @@
 
   "RELATION.OrgUnit.sectiontheses.search.results.head" : "Teaching materials and student works",
 
+  "RELATION.VirtualCollection.publications.search.results.head" : "Publications",
+
   "deduplication.breadcrumbs": "Deduplication",
 
   "deduplication.title": "Deduplication",
@@ -5957,6 +5959,8 @@
 
   "search.filters.applied.charts.default.title": "Search Output",
 
+  "search.filters.applied.charts.site.title": "Search Output",
+
   "search.filters.applied.charts.RELATION.Person.researchoutputs.title": "Research Output",
 
   "search.filters.applied.charts.RELATION.Person.editedresearchoutputs.title": "Research Output",
@@ -6301,6 +6305,8 @@
   "search.results.head": "Search Results",
 
   "default.search.results.head": "Search Results",
+
+  "site.search.results.head": "Search Results",
 
   "default-relationships.search.results.head": "Search Results",
 
@@ -7428,6 +7434,10 @@
   "submission.sections.upload.upload-failed": "Upload failed",
 
   "submission.sections.upload.upload-successful": "Upload successful",
+
+  "mydspace.export-url.successful": "URL is copied",
+
+  "mydspace.export-url.failed": "Export URL failed",
 
   "submission.sections.upload.license-condition": "License condition",
 
