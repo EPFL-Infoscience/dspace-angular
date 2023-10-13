@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 import { Observable, of as observableOf } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap} from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SubmissionRestService } from '../../../core/submission/submission-rest.service';
@@ -12,8 +12,6 @@ import { WorkflowAction } from '../../../core/tasks/models/workflow-action-objec
 import { RemoteData } from '../../../core/data/remote-data';
 import { ClaimedTask } from '../../../core/tasks/models/claimed-task-object.model';
 import {
-  getFirstSucceededRemoteDataPayload,
-  getFirstSucceededRemoteData,
   getFirstCompletedRemoteData
 } from '../../../core/shared/operators';
 import { ClaimedTaskDataService } from '../../../core/tasks/claimed-task-data.service';
@@ -21,6 +19,7 @@ import { LinkService } from '../../../core/cache/builders/link.service';
 import { followLink } from '../../../shared/utils/follow-link-config.model';
 import { createFailedRemoteDataObject } from '../../../shared/remote-data.utils';
 import { of } from 'rxjs/internal/observable/of';
+import {RequestService} from '../../../core/data/request.service';
 /**
  * This component represents submission form footer bar.
  */
@@ -100,6 +99,7 @@ export class SubmissionFormFooterComponent implements OnInit, OnChanges {
   constructor(
     private modalService: NgbModal,
     private restService: SubmissionRestService,
+    private requestService: RequestService,
     private submissionService: SubmissionService,
     protected linkService: LinkService,
     private claimedTaskDataService: ClaimedTaskDataService) {
@@ -154,6 +154,7 @@ export class SubmissionFormFooterComponent implements OnInit, OnChanges {
    * Dispatch a submission save action
    */
   save(event) {
+    this.addStale();
     this.submissionService.dispatchSave(this.submissionId, true);
   }
 
@@ -161,7 +162,18 @@ export class SubmissionFormFooterComponent implements OnInit, OnChanges {
    * Dispatch a submission save for later action
    */
   saveLater(event) {
+    this.addStale();
     this.submissionService.dispatchSaveForLater(this.submissionId);
+  }
+
+  private addStale() {
+    this.submissionService.getSubmissionSections(this.submissionId)
+      .subscribe(value  => {
+        if (value.find((element) => element.id === 'virtual-collection-bind') != null) {
+          this.requestService.setStaleByHrefSubstring('RELATION.VirtualCollection.publication&scope='
+            + this.submissionId.substring(0, this.submissionId.indexOf(':')));
+        }
+      });
   }
 
   /**
