@@ -6122,11 +6122,11 @@
 
   "search.filters.filter.projectOrgUnits.placeholder" : "Organizations",
 
-  "search.filters.filter.personOrgUnits.head" : "Organizations",
+  "search.filters.filter.personOrgUnits.head" : "Units or Labs",
 
-  "search.filters.filter.personOrgUnits.label" : "Search organizations",
+  "search.filters.filter.personOrgUnits.label" : "Search Units or Labs",
 
-  "search.filters.filter.personOrgUnits.placeholder" : "Organizations",
+  "search.filters.filter.personOrgUnits.placeholder" : "Units or Labs",
 
   "search.filters.filter.namedresourcetype.head": "Status",
 
@@ -6140,11 +6140,17 @@
 
   "search.filters.filter.objectpeople.label": "Search people",
 
-  "search.filters.filter.organization.head": "Units or Labs",
+  "search.filters.filter.organization.head": "Collaborations",
 
-  "search.filters.filter.organization.placeholder": "Units or Labs",
+  "search.filters.filter.organization.placeholder": "Collaborations",
 
-  "search.filters.filter.organization.label": "Search Units or Labs",
+  "search.filters.filter.organization.label": "Search Collaborations",
+
+  "search.filters.filter.unitOrLab.head": "Units or Labs",
+
+  "search.filters.filter.unitOrLab.placeholder": "Units or Labs",
+
+  "search.filters.filter.unitOrLab.label": "Search Units or Labs",
 
   "search.filters.filter.parentOrganization.head": "Parent Unit",
 
