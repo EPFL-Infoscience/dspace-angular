@@ -407,6 +407,10 @@ export class DefaultAppConfig implements AppConfig {
     // },
 
     {
+      name: 'epfl',
+      extends: 'dspace',
+    },
+    {
       // The default dspace theme
       name: 'dspace',
       // Whenever this theme is active, the following tags will be injected into the <head> of the page.
@@ -454,7 +458,7 @@ export class DefaultAppConfig implements AppConfig {
             'href': 'https://fonts.googleapis.com/icon?family=Material+Icons',
           }
         },
-      ]
+      ],
     },
   ];
   // The default bundles that should always be displayed when you edit or add a bundle even when no bundle has been
