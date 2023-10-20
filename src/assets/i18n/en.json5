@@ -2819,11 +2819,11 @@
 
   "form.no-value": "No value entered",
 
-  "form.other-information.oairecerif_author_affiliation": "Affiliation",
+  "form.other-information.oairecerif_author_affiliation": "Institution",
 
   "form.other-information.oairecerif_editor_affiliation": "Affiliation",
 
-  "form.other-information.oairecerif_affiliation_orgunit": "Affiliation",
+  "form.other-information.oairecerif_affiliation_orgunit": "Unit or Lab",
 
   "form.other-information.person_identifier_orcid": "ORCID iD",
 
