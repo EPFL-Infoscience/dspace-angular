@@ -737,7 +737,9 @@ export class DefaultAppConfig implements AppConfig {
   };
 
   searchResult: SearchResultConfig = {
-    additionalMetadataFields: []
+    additionalMetadataFields: [],
+    authorMetadata: ['dc.contributor.author', 'dc.creator', 'dc.contributor.*'],
   };
 
+  breadcrumbCharLimit = 10;
 }

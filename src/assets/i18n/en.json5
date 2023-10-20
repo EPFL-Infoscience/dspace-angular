@@ -1847,7 +1847,7 @@
 
   "curation-task.task.profileformats.label": "Profile Bitstream Formats",
 
-   "curation-task.task.registerdoi.label": "Mint DOI",
+  "curation-task.task.registerdoi.label": "Mint DOI",
 
   "curation-task.task.requiredmetadata.label": "Check for Required Metadata",
 
@@ -1923,7 +1923,9 @@
 
   "dso-selector.error.title": "An error occurred searching for a {{ type }}",
 
-  "dso-selector.export-metadata.dspaceobject.head": "Export metadata from",
+  "dso-selector.export-metadata-csv.dspaceobject.head": "Export metadata from",
+
+  "dso-selector.export-metadata-xls.dspaceobject.head": "Export metadata from",
 
   "dso-selector.export-batch.dspaceobject.head": "Export Batch (ZIP) from",
 
@@ -1989,11 +1991,21 @@
 
   "confirmation-modal.export-metadata.header": "Export metadata for {{ dsoName }}",
 
-  "confirmation-modal.export-metadata.info": "Are you sure you want to export metadata for {{ dsoName }}",
+  "confirmation-modal.export-metadata-csv.header": "Export metadata for {{ dsoName }}",
 
-  "confirmation-modal.export-metadata.cancel": "Cancel",
+  "confirmation-modal.export-metadata-csv.info": "Are you sure you want to export metadata for {{ dsoName }}",
 
-  "confirmation-modal.export-metadata.confirm": "Export",
+  "confirmation-modal.export-metadata-csv.cancel": "Cancel",
+
+  "confirmation-modal.export-metadata-csv.confirm": "Export",
+
+  "confirmation-modal.export-metadata-xls.header": "Export metadata for {{ dsoName }}",
+
+  "confirmation-modal.export-metadata-xls.info": "Are you sure you want to export metadata for {{ dsoName }}",
+
+  "confirmation-modal.export-metadata-xls.cancel": "Cancel",
+
+  "confirmation-modal.export-metadata-xls.confirm": "Export",
 
   "confirmation-modal.export-batch.header": "Export batch (ZIP) for {{ dsoName }}",
 
@@ -3856,6 +3868,10 @@
 
   "menu.section.export_metadata": "Metadata",
 
+  "menu.section.export_metadata_csv": "Metadata CSV",
+
+  "menu.section.export_metadata_xls": "Metadata XLS",
+
   "menu.section.export_batch": "Batch Export (ZIP)",
 
   "menu.section.import_from_excel": "Import from excel",
@@ -4963,11 +4979,9 @@
 
   "repository.image.logo": "Repository logo",
 
-  "repository.title.prefix": "DSpace Cris Angular :: ",
+  "repository.title": "{{ repositoryName }}",
 
-
-  "repository.title.prefixDSpace": "DSpace Angular ::",
-
+  "repository.title.prefix": "{{ repositoryName }} Angular :: ",
 
   "resource-policies.add.button": "Add",
 
@@ -5579,6 +5593,10 @@
 
   "statistics.table.mainReports.title.TopCities": "Top city views",
 
+  "form.other-information.oairecerif-author-affiliation" : "Affiliation",
+
+  "form.other-information.oairecerif-editor-affiliation" : "Affiliation",
+
   "statistics.table.downloadReports.title.TotalVisits": "Most downloaded",
 
   "statistics.table.downloadReports.title.TopItems": "Most downloaded",
@@ -5959,7 +5977,7 @@
 
   "submission.sections.describe.relationship-lookup.external-source.import-button-title.none": "Import remote item",
 
-    "submission.sections.describe.relationship-lookup.external-source.import-modal.isProjectOfPublication.added.new-entity": "New Entity Added!",
+  "submission.sections.describe.relationship-lookup.external-source.import-modal.isProjectOfPublication.added.new-entity": "New Entity Added!",
 
   "submission.sections.describe.relationship-lookup.external-source.import-modal.isProjectOfPublication.title": "Project",
 
@@ -6485,7 +6503,7 @@
 
   "submission.sections.license.required": "You must accept the license",
 
-  "submission.sections.license.notgranted":  "You must accept the license",
+  "submission.sections.license.notgranted":  "",
 
 
   "submission.sections.sherpa.publication.information": "Publication information",
@@ -7360,6 +7378,8 @@
 
   "map.coordinates-invalid": "Coordinates are not valid",
 
+  "statistics-page.export-map-as-image": "Export map",
+
   "curation-task.task.hocr.label": "Extract text (HOCR) from images",
 
   "curation-task.task.ocrfilter.label": "Consolidate hOCR for fulltext indexing",
@@ -7395,7 +7415,6 @@
   "curation-task.task.undopdfiiif.label": "Undo PDF 2 IIIF Images",
 
   "curation-task.task.rebuildpdftoc.label": "Rebuild the PDF ToC",
-
 
   "listable-notification-object.default-message": "This object couldn't be retrieved",
 
@@ -7445,6 +7464,10 @@
   "admin.system-wide-alert.breadcrumbs": "System-wide Alerts",
 
   "admin.system-wide-alert.title": "System-wide Alerts",
+
+  "external-login.form.email": "Enter the email",
+
+  "external-login.form.or-divider": "or",
 
   "external-login.confirmation.header": "Information needed to complete the login process",
 
@@ -7509,5 +7532,5 @@
 
   "vocabulary-treeview.header.journalfondboxtree": "Journal Fond Tree",
 
-  "vocabulary-treeview.header.aggregationboxtree": "Collection Tree"
+  "vocabulary-treeview.header.aggregationboxtree": "Collection Tree",
 }
