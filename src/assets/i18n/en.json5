@@ -2823,6 +2823,8 @@
 
   "form.other-information.oairecerif_editor_affiliation": "Affiliation",
 
+  "form.other-information.oairecerif_affiliation_orgunit": "Affiliation",
+
   "form.other-information.person_identifier_orcid": "ORCID iD",
 
   "form.other-information.institution-affiliation-name": "Affiliation(s)",
