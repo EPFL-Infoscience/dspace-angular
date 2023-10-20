@@ -67,7 +67,7 @@ import {
   SearchRangeFilterWrapperComponent
 } from './search-filters/search-filter/search-range-filter-wrapper/search-range-filter-wrapper.component';
 import { ItemExportUrlComponent } from './item-export/item-export-url/item-export-url.component';
-import { ClipboardModule } from "@angular/cdk/clipboard";
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 const COMPONENTS = [
   SearchComponent,

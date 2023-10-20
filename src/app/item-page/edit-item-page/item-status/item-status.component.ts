@@ -1,9 +1,9 @@
-import {ChangeDetectionStrategy, Component, OnInit, TemplateRef} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import { fadeIn, fadeInOut } from '../../../shared/animations/fade';
 import { Item } from '../../../core/shared/item.model';
 import { ActivatedRoute } from '@angular/router';
 import { ItemOperation } from '../item-operation/itemOperation.model';
-import { distinctUntilChanged, first, map, mergeMap, switchMap, take, tap, toArray } from 'rxjs/operators';
+import { distinctUntilChanged, first, map, mergeMap, switchMap, tap, toArray } from 'rxjs/operators';
 import { BehaviorSubject, combineLatest, Observable, of, Subscription } from 'rxjs';
 import { RemoteData } from '../../../core/data/remote-data';
 import { getItemEditRoute, getItemPageRoute } from '../../item-page-routing-paths';
@@ -17,8 +17,6 @@ import { ConfigurationProperty } from '../../../core/shared/configuration-proper
 import { ConfigurationDataService } from '../../../core/data/configuration-data.service';
 import { IdentifierData } from '../../../shared/object-list/identifier-data/identifier-data.model';
 import { OrcidAuthService } from '../../../core/orcid/orcid-auth.service';
-import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap/modal/modal-config';
-import { EPerson } from '../../../core/eperson/models/eperson.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ChangeSubmitterService } from '../../../submission/change-submitter.service';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
