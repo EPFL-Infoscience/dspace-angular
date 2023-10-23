@@ -67,6 +67,7 @@ import {
   SearchRangeFilterWrapperComponent
 } from './search-filters/search-filter/search-range-filter-wrapper/search-range-filter-wrapper.component';
 import { ItemExportUrlComponent } from './item-export/item-export-url/item-export-url.component';
+import { ClipboardModule } from "@angular/cdk/clipboard";
 
 const COMPONENTS = [
   SearchComponent,
@@ -128,15 +129,16 @@ export const MODELS = [
   declarations: [
     ...COMPONENTS
   ],
-  imports: [
-    CommonModule,
-    TranslateModule.forChild({
-      missingTranslationHandler: { provide: MissingTranslationHandler, useClass: MissingTranslationHelper },
-      useDefaultLang: true
-    }),
-    SharedModule.withEntryComponents(),
-    NouisliderModule,
-  ],
+    imports: [
+        CommonModule,
+        TranslateModule.forChild({
+            missingTranslationHandler: {provide: MissingTranslationHandler, useClass: MissingTranslationHelper},
+            useDefaultLang: true
+        }),
+        SharedModule.withEntryComponents(),
+        NouisliderModule,
+        ClipboardModule,
+    ],
   exports: [
     ...COMPONENTS
   ]

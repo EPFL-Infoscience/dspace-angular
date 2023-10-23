@@ -116,8 +116,8 @@ export class ChangeSubmitterButtonComponent implements OnInit {
             this.translate.instant('submission.workflow.generic.change-submitter.notification.error.content'));
         }
       });
+      this.currentSubmitterEmail = (submitter as EPerson).email;
     }, () => { void(0); });
-
   }
 
   checkCollectionAuthorization(featureId: FeatureID): Observable<boolean> {
