@@ -1,18 +1,16 @@
-import { Bitstream } from './../../../core/shared/bitstream.model';
-import { MergeObject } from './../../../core/deduplication/models/merge-object.model';
-import { Item } from './../../../core/shared/item.model';
-import {
-  ItemsMetadataField,
-} from './../../interfaces/deduplication-merge.models';
-import { WorkflowItem } from './../../../core/submission/models/workflowitem.model';
-import { SubmitDataResponseDefinitionObject } from './../../../core/shared/submit-data-response-definition.model';
-import { Collection } from './../../../core/shared/collection.model';
-import { FeatureID } from './../../../core/data/feature-authorization/feature-id';
-import { AuthorizationDataService } from './../../../core/data/feature-authorization/authorization-data.service';
-import { hasValue } from './../../../shared/empty.util';
-import { MetadataMap, MetadataValue } from './../../../core/shared/metadata.models';
+import { Bitstream } from '../../../core/shared/bitstream.model';
+import { MergeObject } from '../../../core/deduplication/models/merge-object.model';
+import { Item } from '../../../core/shared/item.model';
+import { ItemsMetadataField } from '../../interfaces/deduplication-merge.models';
+import { WorkflowItem } from '../../../core/submission/models/workflowitem.model';
+import { SubmitDataResponseDefinitionObject } from '../../../core/shared/submit-data-response-definition.model';
+import { Collection } from '../../../core/shared/collection.model';
+import { FeatureID } from '../../../core/data/feature-authorization/feature-id';
+import { AuthorizationDataService } from '../../../core/data/feature-authorization/authorization-data.service';
+import { hasValue } from '../../../shared/empty.util';
+import { MetadataMap, MetadataValue } from '../../../core/shared/metadata.models';
 import { TranslateService } from '@ngx-translate/core';
-import { NotificationsService } from './../../../shared/notifications/notifications.service';
+import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   Component,
@@ -25,17 +23,17 @@ import {
 } from '@angular/core';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { SetObject } from '../../../core/deduplication/models/set.model';
-import { DeduplicationStateService } from './../../deduplication-state.service';
+import { DeduplicationStateService } from '../../deduplication-state.service';
 import { map, take, concatMap, switchMap } from 'rxjs/operators';
 import { NgbAccordion, NgbModal, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { DeduplicationSetsService } from './../deduplication-sets.service';
-import { NoContent } from './../../../core/shared/NoContent.model';
-import { RemoteData } from './../../../core/data/remote-data';
+import { DeduplicationSetsService } from '../deduplication-sets.service';
+import { NoContent } from '../../../core/shared/NoContent.model';
+import { RemoteData } from '../../../core/data/remote-data';
 import { isEqual, isNull } from 'lodash';
-import { getFirstCompletedRemoteData, getRemoteDataPayload } from './../../../core/shared/operators';
-import { ConfigObject } from './../../../core/config/models/config.model';
+import { getFirstCompletedRemoteData, getRemoteDataPayload } from '../../../core/shared/operators';
+import { ConfigObject } from '../../../core/config/models/config.model';
 import { CookieService } from '../../../core/services/cookie.service';
-import { SelectedItemData } from './../../interfaces/deduplication-sets.models';
+import { SelectedItemData } from '../../interfaces/deduplication-sets.models';
 import { DeduplicationItemsService } from '../../deduplication-merge/deduplication-items.service';
 import { getEntityPageRoute } from '../../../item-page/item-page-routing-paths';
 import { GetBitstreamsPipe } from '../../pipes/ds-get-bitstreams.pipe';
