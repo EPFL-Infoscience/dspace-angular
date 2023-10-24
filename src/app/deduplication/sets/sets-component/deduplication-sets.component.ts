@@ -99,7 +99,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
   public totalRemainingElements = 0;
 
   /**
-   * Role of the logged in user.
+   * Role of the logged-in user.
    * @type {Observable<boolean>}
    */
   public isAdmin$: Observable<boolean>;
@@ -129,7 +129,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
   /**
    * Remove element modal's submit button text.
    */
-  delteBtnText = 'deduplication.sets.modal.delete.submit';
+  deleteBtnText = 'deduplication.sets.modal.delete.submit';
 
   /**
    * List of opened accordion's indexes
@@ -204,7 +204,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
    * @param key The key to get its value
    * @returns {string}
    */
-  getFirstMetadtaValue(items: Item[], key: string): string {
+  getFirstMetadataValue(items: Item[], key: string): string {
     if (items.length > 0) {
       const item = items[0];
       if (hasValue(item) && hasValue(item.metadata)) {
@@ -257,7 +257,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
   ) {
     this.confirmModalText = {
       title: element === 'set' ? this.removeSetText : this.removeSetItemText,
-      btnText: this.delteBtnText,
+      btnText: this.deleteBtnText,
       titleClass: 'text-danger',
       btnClass: 'btn-danger',
     };
@@ -311,7 +311,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
   }
 
   /**
-   * Checks if there are at least 2 selected items and performes the deletion of the set.
+   * Checks if there are at least 2 selected items and performs the deletion of the set.
    * @param content The modal content
    * @param setId The id of the set to which the items belong to.
    * @param setChecksum The checksum of the set.
@@ -553,11 +553,11 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
    * @param event - event of changing panel state(open/ close)
    */
   onPanelChange(event: NgbPanelChangeEvent) {
-    const acticeIndex = this.openedAccordions.findIndex(x => isEqual(x, event.panelId));
-    if (event.nextState && acticeIndex < 0) {
+    const activeIndex = this.openedAccordions.findIndex(x => isEqual(x, event.panelId));
+    if (event.nextState && activeIndex < 0) {
       this.openedAccordions.push(event.panelId);
-    } else if (!event.nextState && acticeIndex > -1) {
-      this.openedAccordions.splice(acticeIndex, 1);
+    } else if (!event.nextState && activeIndex > -1) {
+      this.openedAccordions.splice(activeIndex, 1);
     }
   }
 
@@ -592,7 +592,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
   }
 
   /**
-   * Removes items (case of no deduplicaton).
+   * Removes items (case of no deduplication).
    * @param itemId The id of the item to be deleted
    */
   private removeOnNoDuplicate(itemId: string, setChecksum: string, set: SetObject) {
@@ -784,7 +784,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
   }
 
   /**
-   * Returns if the logged in user is an Admin.
+   * Returns if the logged-in user is an Admin.
    * @returns {Observable<boolean>}
    */
   isCurrentUserAdmin(): Observable<boolean> {
