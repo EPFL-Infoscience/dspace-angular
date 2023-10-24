@@ -255,7 +255,7 @@
                       "
                       placement="bottom"
                       class="btn btn-outline-danger btn-sm mt-1"
-                      *ngIf="isAdmin$ | async"
+                      *ngIf="(isAdmin$ || isCurator$) | async"
                       (click)="
                         $event.preventDefault();
                         confirmDelete(content, set.id, 'set', set.setChecksum)

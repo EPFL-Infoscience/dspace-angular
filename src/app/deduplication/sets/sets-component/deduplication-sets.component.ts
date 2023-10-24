@@ -103,6 +103,12 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
   public isAdmin$: Observable<boolean>;
 
   /**
+   * Role of the logged-in user.
+   * @type {Observable<boolean>}
+   */
+  public isCurator$: Observable<boolean>;
+
+  /**
    * Stores the checked items per set.
    * @type {Map<string, SelectedItemData[]>}
    */
@@ -165,6 +171,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
     this.totalElements$ =
       this.deduplicationStateService.getDeduplicationSetsTotals();
     this.isAdmin$ = this.isCurrentUserAdmin();
+    this.isCurator$ = this.isCurrentUserCurator();
     this.chd.detectChanges();
   }
 
@@ -794,6 +801,16 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
   isCurrentUserAdmin(): Observable<boolean> {
     return this.authorizationService
       .isAuthorized(FeatureID.AdministratorOf, undefined, undefined)
+      .pipe(take(1));
+  }
+
+  /**
+   * Returns if the logged-in user is an Admin.
+   * @returns {Observable<boolean>}
+   */
+  isCurrentUserCurator(): Observable<boolean> {
+    return this.authorizationService
+      .isAuthorized(FeatureID.CuratorOf, undefined, undefined)
       .pipe(take(1));
   }
   //#endregion
