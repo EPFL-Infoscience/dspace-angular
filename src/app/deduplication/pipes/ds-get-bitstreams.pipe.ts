@@ -1,4 +1,3 @@
-import { isEqual } from 'lodash';
 import { Pipe, PipeTransform } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Observable, of, switchMap } from 'rxjs';

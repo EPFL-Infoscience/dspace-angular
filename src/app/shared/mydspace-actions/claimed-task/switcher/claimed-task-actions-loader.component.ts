@@ -97,7 +97,7 @@ export class ClaimedTaskActionsLoaderComponent implements OnInit, OnDestroy, OnC
       this.componentInstance.item = this.item;
       this.componentInstance.object = this.object;
       this.componentInstance.disabled = this.disabled;
-      this.componentInstance.workflowitem = this.workflowitem;;
+      this.componentInstance.workflowitem = this.workflowitem;
       if (hasValue(this.componentInstance.processCompleted)) {
         this.subs.push(this.componentInstance.processCompleted.subscribe((result) => this.processCompleted.emit(result)));
       }
