@@ -34,6 +34,7 @@ import {
 import { AttachmentRenderingConfig } from './attachment-rendering.config';
 import { SearchResultConfig } from './search-result-config.interface';
 import {VirtualCollectionConfig} from './virtual-collection-config.interface';
+import {EpflUnpaywallMetadata} from './epfl-unpaywall-metadata';
 
 export class DefaultAppConfig implements AppConfig {
   production = false;
@@ -731,4 +732,21 @@ export class DefaultAppConfig implements AppConfig {
     additionalMetadataFields: []
   };
 
+  epflUnpaywallMetadata: EpflUnpaywallMetadata = {
+    oaire_licenseCondition: {
+      cc_by: 'CC BY',
+      cc_by_sa: 'CC BY-SA',
+      cc_by_nd: 'CC BY-ND',
+      cc_by_nc: 'CC BY-NC',
+      cc_by_nc_sa: 'CC BY-NC-SA',
+      cc_by_nc_nd: 'CC BY-NC-ND',
+      cc_0: 'CC0',
+      pdm: 'PDM',
+    },
+    oaire_version: {
+      submittedVersion: 'http://purl.org/coar/version/c_71e4c1898caa6e32',
+      acceptedVersion: 'http://purl.org/coar/version/c_ab4af688f83e57aa',
+      publishedVersion: 'http://purl.org/coar/version/c_970fb48d4fbd8a85',
+    }
+  };
 }
