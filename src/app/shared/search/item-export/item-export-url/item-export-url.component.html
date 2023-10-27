@@ -1,4 +1,5 @@
-<a (click)="exportUrl()"
+<a [cdkCopyToClipboard]="getAbsoluteLink()"
+   (cdkCopyToClipboardCopied)="onClipboardCopy($event)"
    id="export-url"
    class="btn btn-outline-primary"
    target="_blank"

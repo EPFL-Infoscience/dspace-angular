@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { TranslateService } from '@ngx-translate/core';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import {catchError, concatMap, map, switchMap, tap} from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import {
@@ -34,7 +34,7 @@ export class SuggestionTargetsEffects {
    */
   retrieveTargetsBySource$ = createEffect(() => this.actions$.pipe(
     ofType(SuggestionTargetActionTypes.RETRIEVE_TARGETS_BY_SOURCE),
-    switchMap((action: RetrieveTargetsBySourceAction) => {
+    concatMap((action: RetrieveTargetsBySourceAction) => {
       return this.suggestionsService.getTargets(
         action.payload.source,
         action.payload.elementsPerPage,
