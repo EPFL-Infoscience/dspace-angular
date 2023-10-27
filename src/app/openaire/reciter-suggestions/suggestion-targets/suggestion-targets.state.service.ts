@@ -40,8 +40,9 @@ export class SuggestionTargetsStateService {
    * @return Observable<OpenaireReciterSuggestionTarget>
    *    The list of Reciter Suggestion Targets.
    */
-  public getReciterSuggestionTargets(): Observable<OpenaireSuggestionTarget[]> {
-    return this.store.pipe(select(reciterSuggestionTargetObjectSelector()));
+  public getReciterSuggestionTargets(source: string): Observable<OpenaireSuggestionTarget[]> {
+    return this.store.pipe(select(reciterSuggestionTargetObjectSelector()),
+        map(targets => targets.filter(t => t.source === source)));
   }
 
   /**

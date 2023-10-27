@@ -5,7 +5,7 @@ import { ComponentFixture, fakeAsync, flush, TestBed, waitForAsync } from '@angu
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { of as observableOf } from 'rxjs';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { cold } from 'jasmine-marbles';
 
 import { MyDSpacePageComponent, SEARCH_CONFIG_SERVICE } from './my-dspace-page.component';

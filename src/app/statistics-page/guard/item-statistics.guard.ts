@@ -1,15 +1,13 @@
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from "@angular/router";
-import {Observable, of, switchMap} from "rxjs";
-import {Injectable} from "@angular/core";
-import {DSpaceObjectDataService} from "../../core/data/dspace-object-data.service";
-import {AuthorizationDataService} from "../../core/data/feature-authorization/authorization-data.service";
-import {getFirstCompletedRemoteData} from "../../core/shared/operators";
-import {RemoteData} from "../../core/data/remote-data";
-import {DSpaceObject} from "../../core/shared/dspace-object.model";
-import {FeatureID} from "../../core/data/feature-authorization/feature-id";
-import {map} from "rxjs/operators";
-import {AuthService} from "../../core/auth/auth.service";
-import {FORBIDDEN_PATH} from "../../app-routing-paths";
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
+import {Observable, of, switchMap} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {DSpaceObjectDataService} from '../../core/data/dspace-object-data.service';
+import {AuthorizationDataService} from '../../core/data/feature-authorization/authorization-data.service';
+import {getFirstCompletedRemoteData} from '../../core/shared/operators';
+import {FeatureID} from '../../core/data/feature-authorization/feature-id';
+import {map} from 'rxjs/operators';
+import {AuthService} from '../../core/auth/auth.service';
+import {FORBIDDEN_PATH} from '../../app-routing-paths';
 
 
 @Injectable({
@@ -33,11 +31,11 @@ export class ItemStatisticsGuard implements CanActivate {
         getFirstCompletedRemoteData(),
         switchMap((rd) => {
           if (rd.hasSucceeded) {
-            return this.authorizationService.isAuthorized(FeatureID.CanViewUsageStatistics, rd.payload.self)
-          }
-          else {
+            return this.authorizationService.isAuthorized(FeatureID.CanViewUsageStatistics, rd.payload.self);
+          } else {
             return of(false);
-          }}));
+          }
+}));
 
     return authorized.pipe(
       map((authorized: boolean) => {
@@ -48,6 +46,6 @@ export class ItemStatisticsGuard implements CanActivate {
         this.authService.removeToken();
         return this.router.createUrlTree([FORBIDDEN_PATH]);
       })
-    )
+    );
   }
 }

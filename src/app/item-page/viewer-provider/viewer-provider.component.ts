@@ -8,7 +8,7 @@ import {
   ViewerProviderDsoInterface
 } from './viewer-provider-dso.interface';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { ViewerProviderDirective } from './directives/viewer-provider.directive';
 import { AuthService } from '../../core/auth/auth.service';
 import { Bitstream } from '../../core/shared/bitstream.model';
