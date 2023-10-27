@@ -163,9 +163,9 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
             place = data.files.length.toString();
           }
           this.operationsBuilder.add(pathCombiner.getPath(['files', place,'metadata/oaire.licenseCondition']),
-            [this.getFileVersion()], true);
-          this.operationsBuilder.add(pathCombiner.getPath(['files', place,'metadata/oaire.version']),
             [this.getFileLicense()], true);
+          this.operationsBuilder.add(pathCombiner.getPath(['files', place,'metadata/oaire.version']),
+            [this.getFileVersion()], true);
           this.submissionService.dispatchSaveSection(this.submissionId, sectionId);
         })
       );
