@@ -134,7 +134,7 @@ export class MenuResolver implements Resolve<boolean> {
             });
             parentMenu = {
               ...parentMenu,
-              index: 1,
+              index: 4,
               model: {
                 type: MenuItemType.TEXT,
                 text: `menu.section.explore_${section.id}`
