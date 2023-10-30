@@ -13,6 +13,8 @@ import { createSuccessfulRemoteDataObject } from '../remote-data.utils';
 import { buildPaginatedList } from '../../core/data/paginated-list.model';
 import { PageInfo } from '../../core/shared/page-info.model';
 import { followLink } from '../utils/follow-link-config.model';
+import { Router } from '@angular/router';
+import { RouterStub } from '../testing/router.stub';
 
 describe('BrowseMostElementsComponent', () => {
   let component: BrowseMostElementsComponent;
@@ -70,6 +72,7 @@ describe('BrowseMostElementsComponent', () => {
         { provide: APP_CONFIG, useValue: mockConfig },
         { provide: SearchService, useValue: mockSearchService },
         { provide: ChangeDetectorRef, useValue: {} },
+        { provide: Router, useValue: new RouterStub() },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA], // Ignore unknown Angular elements
     }).compileComponents();
