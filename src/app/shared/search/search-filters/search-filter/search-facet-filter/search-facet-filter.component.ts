@@ -227,7 +227,7 @@ export class SearchFacetFilterComponent implements OnInit, OnDestroy {
     if (isNotEmpty(data)) {
       this.searchOptions$.pipe(take(1)).subscribe(
         (options) => {
-          this.filterSearchResults = this.searchService.getFacetValuesFor(this.filterConfig, 1, options, data.toLowerCase())
+          this.filterSearchResults = this.searchService.getFacetValuesFor(this.filterConfig, 1, options, data)
             .pipe(
               getFirstSucceededRemoteData(),
               map(

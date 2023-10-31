@@ -31,6 +31,7 @@ import { AdvancedAttachmentRenderingConfig } from './advanced-attachment-renderi
 import { AttachmentRenderingConfig } from './attachment-rendering.config';
 import { SearchResultConfig } from './search-result-config.interface';
 import {VirtualCollectionConfig} from './virtual-collection-config.interface';
+import {EpflUnpaywallMetadata} from './epfl-unpaywall-metadata';
 
 interface AppConfig extends Config {
   ui: UIServerConfig;
@@ -68,6 +69,7 @@ interface AppConfig extends Config {
   attachmentRendering: AttachmentRenderingConfig;
   advancedAttachmentRendering: AdvancedAttachmentRenderingConfig;
   searchResult: SearchResultConfig;
+  epflUnpaywallMetadata: EpflUnpaywallMetadata;
 }
 
 /**

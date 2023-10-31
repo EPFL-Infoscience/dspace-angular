@@ -969,6 +969,8 @@
 
   "browse.comcol.by.type": "Types",
 
+  "browse.comcol.by.conference": "Conferences",
+
   "browse.comcol.by.journal": "Journals",
 
   "browse.comcol.by.vctitle": "By Title",
@@ -993,17 +995,19 @@
 
   "browse.metadata.journal" : "Journal",
 
-  "browse.metadata.rodept": "Department",
+  "browse.metadata.rodept": "Unit",
 
   "browse.metadata.rpdept": "Department",
 
   "browse.metadata.rpname": "Name",
 
-  "browse.metadata.subject": "Subject",
+  "browse.metadata.subject": "Domain",
 
   "browse.metadata.type": "Type",
 
   "browse.metadata.title": "Title",
+
+  "browse.metadata.conference": "Conference",
 
   "browse.metadata.author.breadcrumbs": "Browse by Author",
 
@@ -1019,17 +1023,19 @@
 
   "browse.metadata.pjtitle.breadcrumbs" : "Browse by Title",
 
-  "browse.metadata.rodept.breadcrumbs": "Browse by Department",
+  "browse.metadata.rodept.breadcrumbs": "Browse by Unit",
 
   "browse.metadata.rpdept.breadcrumbs" : "Browse by Department",
 
   "browse.metadata.rpname.breadcrumbs": "Browse by Name",
 
-  "browse.metadata.subject.breadcrumbs": "Browse by Subject",
+  "browse.metadata.subject.breadcrumbs": "Browse by Domain",
 
   "browse.metadata.type.breadcrumbs": "Browse by Type",
 
   "browse.metadata.title.breadcrumbs": "Browse by Title",
+
+  "browse.metadata.conference.breadcrumbs": "Browse by Conference",
 
   "pagination.next.button": "Next",
 
@@ -1734,6 +1740,8 @@
   "RELATION.OrgUnit.theses.search.results.head" : "Theses",
 
   "RELATION.OrgUnit.sectiontheses.search.results.head" : "Teaching materials and student works",
+
+  "RELATION.VirtualCollection.publications.search.results.head" : "Publications",
 
   "deduplication.breadcrumbs": "Deduplication",
 
@@ -2535,7 +2543,7 @@
 
   "explore.index.isPublicationOfProject" : "Project's publication",
 
-  "explore.index.itemidentifier" : "Item identifier",
+  "explore.index.itemidentifier" : "Identifier (DOI, ArXivID, ISBN…)",
 
   "explore.index.jobTitle" : "Job title",
 
@@ -2565,7 +2573,7 @@
 
   "explore.index.projectOrgUnits" : "Organizations",
 
-  "explore.index.personOrgUnits" : "Organizations",
+  "explore.index.personOrgUnits" : "Institution / Unit",
 
   "explore.index.pjtitle" : "Title",
 
@@ -2618,6 +2626,8 @@
   "explore.index.role" : "Job Title",
 
   "explore.index.personIdentifier" : "Identifier",
+
+  "explore.index.datacite_rights" : "Access rights",
 
   "explore.index.original_bundle_oaire_licenseCondition": "License condition",
 
@@ -2809,9 +2819,11 @@
 
   "form.no-value": "No value entered",
 
-  "form.other-information.oairecerif_author_affiliation": "Affiliation",
+  "form.other-information.oairecerif_author_affiliation": "Institution",
 
   "form.other-information.oairecerif_editor_affiliation": "Affiliation",
+
+  "form.other-information.oairecerif_affiliation_orgunit": "Unit or Lab",
 
   "form.other-information.person_identifier_orcid": "ORCID iD",
 
@@ -5949,6 +5961,8 @@
 
   "search.filters.applied.charts.default.title": "Search Output",
 
+  "search.filters.applied.charts.site.title": "Search Output",
+
   "search.filters.applied.charts.RELATION.Person.researchoutputs.title": "Research Output",
 
   "search.filters.applied.charts.RELATION.Person.editedresearchoutputs.title": "Research Output",
@@ -6110,11 +6124,11 @@
 
   "search.filters.filter.projectOrgUnits.placeholder" : "Organizations",
 
-  "search.filters.filter.personOrgUnits.head" : "Organizations",
+  "search.filters.filter.personOrgUnits.head" : "Units or Labs",
 
-  "search.filters.filter.personOrgUnits.label" : "Search organizations",
+  "search.filters.filter.personOrgUnits.label" : "Search Units or Labs",
 
-  "search.filters.filter.personOrgUnits.placeholder" : "Organizations",
+  "search.filters.filter.personOrgUnits.placeholder" : "Units or Labs",
 
   "search.filters.filter.namedresourcetype.head": "Status",
 
@@ -6128,11 +6142,17 @@
 
   "search.filters.filter.objectpeople.label": "Search people",
 
-  "search.filters.filter.organization.head": "Units or Labs",
+  "search.filters.filter.organization.head": "Collaborations",
 
-  "search.filters.filter.organization.placeholder": "Units or Labs",
+  "search.filters.filter.organization.placeholder": "Collaborations",
 
-  "search.filters.filter.organization.label": "Search Units or Labs",
+  "search.filters.filter.organization.label": "Search Collaborations",
+
+  "search.filters.filter.unitOrLab.head": "Units or Labs",
+
+  "search.filters.filter.unitOrLab.placeholder": "Units or Labs",
+
+  "search.filters.filter.unitOrLab.label": "Search Units or Labs",
 
   "search.filters.filter.parentOrganization.head": "Parent Unit",
 
@@ -6293,6 +6313,8 @@
   "search.results.head": "Search Results",
 
   "default.search.results.head": "Search Results",
+
+  "site.search.results.head": "Search Results",
 
   "default-relationships.search.results.head": "Search Results",
 
@@ -7420,6 +7442,10 @@
   "submission.sections.upload.upload-failed": "Upload failed",
 
   "submission.sections.upload.upload-successful": "Upload successful",
+
+  "mydspace.export-url.successful": "URL is copied",
+
+  "mydspace.export-url.failed": "Export URL failed",
 
   "submission.sections.upload.license-condition": "License condition",
 

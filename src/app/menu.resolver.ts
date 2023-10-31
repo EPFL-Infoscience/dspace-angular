@@ -134,7 +134,7 @@ export class MenuResolver implements Resolve<boolean> {
             });
             parentMenu = {
               ...parentMenu,
-              index: 1,
+              index: 4,
               model: {
                 type: MenuItemType.TEXT,
                 text: `menu.section.explore_${section.id}`
@@ -380,28 +380,30 @@ export class MenuResolver implements Resolve<boolean> {
       }));
 
       this.menuService.addSection(MenuID.PUBLIC, Object.assign({
-        id: `browse_global_communities_and_collectiorgunitons`,
+        id: `virtual_collection`,
         parentID: 'browse_by',
         active: false,
         visible: true,
+        index: 6,
         model: {
           type: MenuItemType.LINK,
-          text: `menu.section.communities_and_collections`,
-          link: `/community-list`
+          text: `menu.section.virtual_collection`,
+          link: `/collections/` + this.appConfig.virtualCollection.uuid
         } as LinkMenuItemModel
       }, {
         shouldPersistOnRouteChange: true
       }));
 
       this.menuService.addSection(MenuID.PUBLIC, Object.assign({
-        id: `virtual_collection`,
+        id: `browse_global_communities_and_collectiorgunitons`,
         parentID: 'browse_by',
         active: false,
         visible: true,
+        index: 7,
         model: {
           type: MenuItemType.LINK,
-          text: `menu.section.virtual_collection`,
-          link: `/collections/` + this.appConfig.virtualCollection.uuid
+          text: `menu.section.communities_and_collections`,
+          link: `/community-list`
         } as LinkMenuItemModel
       }, {
         shouldPersistOnRouteChange: true

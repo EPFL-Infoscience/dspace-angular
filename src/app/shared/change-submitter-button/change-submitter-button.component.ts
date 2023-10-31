@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { getFirstSucceededRemoteDataPayload } from '../../core/shared/operators';
-import { map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
+import { map, shareReplay, switchMap, take } from 'rxjs/operators';
 import { Collection } from '../../core/shared/collection.model';
 import { FeatureID } from '../../core/data/feature-authorization/feature-id';
 import { ChangeSubmitterService } from '../../submission/change-submitter.service';
@@ -116,8 +116,8 @@ export class ChangeSubmitterButtonComponent implements OnInit {
             this.translate.instant('submission.workflow.generic.change-submitter.notification.error.content'));
         }
       });
+      this.currentSubmitterEmail = (submitter as EPerson).email;
     }, () => { void(0); });
-
   }
 
   checkCollectionAuthorization(featureId: FeatureID): Observable<boolean> {

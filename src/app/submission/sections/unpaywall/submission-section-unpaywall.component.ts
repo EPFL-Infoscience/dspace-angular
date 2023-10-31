@@ -4,10 +4,19 @@ import { SectionsType } from '../sections-type';
 import { SectionModelComponent } from '../models/section.model';
 import { SectionDataObject } from '../models/section-data.model';
 import { SectionsService } from '../sections.service';
-import { BehaviorSubject, forkJoin, interval, mergeMap, Observable, of, Subject, Subscription } from 'rxjs';
+import {
+  BehaviorSubject,
+  forkJoin,
+  interval,
+  mergeMap,
+  Observable,
+  of,
+  Subject,
+  Subscription
+} from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SubmissionState } from '../../submission.reducers';
-import { distinctUntilChanged, filter, map, switchMap, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, switchMap, take, takeUntil } from 'rxjs/operators';
 import { SubmissionObjectEntry } from '../../objects/submission-objects.reducer';
 import { UpdateSectionVisibilityAction } from '../../objects/submission-objects.actions';
 import {
@@ -21,7 +30,6 @@ import { SubmissionService } from '../../submission.service';
 import { HttpXsrfTokenExtractor } from '@angular/common/http';
 import { XSRF_REQUEST_HEADER } from '../../../core/xsrf/xsrf.interceptor';
 import { WorkspaceItem } from '../../../core/submission/models/workspaceitem.model';
-import { normalizeSectionData } from '../../../core/submission/submission-response-parsing.service';
 import { hasValue, isEmpty, isNotEmpty } from '../../../shared/empty.util';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import parseSectionErrors from '../../utils/parseSectionErrors';
@@ -38,6 +46,10 @@ import { RestRequestMethod } from '../../../core/data/rest-request-method';
 import { Operation } from 'fast-json-patch';
 import { ResourceService } from '../../../core/services/resource.service';
 import { UnpaywallApi } from './models/unpaywall-api';
+import { SubmissionRestService } from '../../../core/submission/submission-rest.service';
+import {APP_CONFIG, AppConfig } from '../../../../config/app-config.interface';
+import { JsonPatchOperationsBuilder } from '../../../core/json-patch/builder/json-patch-operations-builder';
+import { WorkspaceitemSectionUploadObject } from '../../../core/submission/models/workspaceitem-section-upload.model';
 
 const DOI_METADATA = 'dc.identifier.doi';
 const API_CHECK_INTERVAL = 3000;
@@ -61,8 +73,10 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
   private checkIntervalSubscription: Subscription;
   readonly uploader = new FileUploader({ autoUpload: false });
 
+
   constructor(
     protected sectionService: SectionsService,
+    protected operationsBuilder: JsonPatchOperationsBuilder,
     private store: Store<SubmissionState>,
     private halService: HALEndpointService,
     private authService: AuthService,
@@ -72,9 +86,11 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
     private translate: TranslateService,
     private resourceService: ResourceService,
     private restApi: DspaceRestService,
+    protected restService: SubmissionRestService,
     @Inject('collectionIdProvider') public injectedCollectionId: string,
     @Inject('sectionDataProvider') public injectedSectionData: SectionDataObject,
-    @Inject('submissionIdProvider') public injectedSubmissionId: string
+    @Inject('submissionIdProvider') public injectedSubmissionId: string,
+    @Inject(APP_CONFIG) protected appConfig: AppConfig
   ) {
     super(
       injectedCollectionId,
@@ -123,10 +139,36 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
             });
             return file;
           }),
-          mergeMap((file) => this.uploadFile(file))
-        ).subscribe(() => this.loading$.next(false));
+          mergeMap((file) => this.uploadFile(file)),
+          mergeMap(() => this.addFileMetadata())
+        ).subscribe(() => {
+          this.loading$.next(false);
+        });
+
       }
     }
+  }
+
+  private addFileMetadata() {
+
+    const sectionId = 'upload-publication';
+    const pathCombiner: JsonPatchOperationPathCombiner = new JsonPatchOperationPathCombiner('sections', sectionId);
+
+    return this.sectionService.getSectionData(this.submissionId, sectionId, SectionsType.Upload)
+      .pipe(
+        take(1),
+        map((data: WorkspaceitemSectionUploadObject) => {
+          let place = '0';
+          if (data.files.length != null) {
+            place = data.files.length.toString();
+          }
+          this.operationsBuilder.add(pathCombiner.getPath(['files', place,'metadata/oaire.licenseCondition']),
+            [this.getFileLicense()], true);
+          this.operationsBuilder.add(pathCombiner.getPath(['files', place,'metadata/oaire.version']),
+            [this.getFileVersion()], true);
+          this.submissionService.dispatchSaveSection(this.submissionId, sectionId);
+        })
+      );
   }
 
   private startApiCheck(refreshRequired = false): void {
@@ -197,6 +239,51 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
     return jsonRecord !== undefined ? (JSON.parse(jsonRecord) as UnpaywallApi)?.best_oa_location?.url : '';
   }
 
+  private getFileLicense(): string {
+    const jsonRecord = this.section$?.getValue()?.jsonRecord;
+
+    const license = jsonRecord !== undefined ? (JSON.parse(jsonRecord) as UnpaywallApi)?.best_oa_location?.license : '';
+
+    switch (license) {
+      case 'cc-by':
+        return this.appConfig.epflUnpaywallMetadata.oaire_licenseCondition.cc_by;
+      case 'cc-by-sa':
+        return this.appConfig.epflUnpaywallMetadata.oaire_licenseCondition.cc_by_sa;
+      case 'cc-by-nd':
+        return this.appConfig.epflUnpaywallMetadata.oaire_licenseCondition.cc_by_nd;
+      case 'cc-by-nc':
+        return this.appConfig.epflUnpaywallMetadata.oaire_licenseCondition.cc_by_nc;
+      case 'cc-by-nc-sa':
+        return this.appConfig.epflUnpaywallMetadata.oaire_licenseCondition.cc_by_nc_sa;
+      case 'cc-by-nc-nd':
+        return this.appConfig.epflUnpaywallMetadata.oaire_licenseCondition.cc_by_nc_nd;
+      case 'cc-0':
+        return this.appConfig.epflUnpaywallMetadata.oaire_licenseCondition.cc_0;
+      case 'pdm':
+        return this.appConfig.epflUnpaywallMetadata.oaire_licenseCondition.pdm;
+      default:
+        return '';
+    }
+
+  }
+
+  private getFileVersion(): string {
+    const jsonRecord = this.section$?.getValue()?.jsonRecord;
+
+    const version = jsonRecord !== undefined ? (JSON.parse(jsonRecord) as UnpaywallApi)?.best_oa_location?.version : '';
+
+    switch (version) {
+      case 'submittedVersion':
+        return this.appConfig.epflUnpaywallMetadata.oaire_version.submittedVersion;
+      case 'acceptedVersion':
+        return this.appConfig.epflUnpaywallMetadata.oaire_version.acceptedVersion;
+      case 'publishedVersion':
+        return this.appConfig.epflUnpaywallMetadata.oaire_version.publishedVersion;
+      default:
+        return '';
+    }
+  }
+
   private uploadFile(file: File): Observable<void> {
     const onSuccessItem$ = new BehaviorSubject<WorkspaceItem>(null);
     onSuccessItem$.pipe(
@@ -215,13 +302,11 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
     const errorsList = parseSectionErrors(errors);
     if (sections && isNotEmpty(sections)) {
       Object.keys(sections).forEach((sectionId) => {
-        const sectionData = normalizeSectionData(sections[sectionId]);
         const sectionErrors = errorsList[sectionId];
         this.sectionService.isSectionType(this.submissionId, sectionId, SectionsType.Upload)
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe((isUpload) => {
             if (isUpload) {
-              this.sectionService.updateSectionData(this.submissionId, sectionId, sectionData, sectionErrors, sectionErrors);
               if ((isEmpty(sectionErrors))) {
                 this.notificationsService
                   .success(null, this.translate.get('submission.sections.upload.upload-successful'));
