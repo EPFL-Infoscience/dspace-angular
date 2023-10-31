@@ -23,4 +23,5 @@ export class SectionsServiceStub {
   getShownSectionErrors = jasmine.createSpy('getShownSectionErrors');
   getSectionServerErrors = jasmine.createSpy('getSectionServerErrors');
   getIsInformational = jasmine.createSpy('getIsInformational');
+  isSectionHidden = jasmine.createSpy('isSectionHidden');
 }

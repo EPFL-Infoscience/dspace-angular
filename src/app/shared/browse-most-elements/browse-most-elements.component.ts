@@ -1,13 +1,13 @@
-import { followLink } from './../utils/follow-link-config.model';
-import { CollectionElementLinkType } from './../object-collection/collection-element-link.type';
-import { isEqual } from 'lodash';
-import { ViewMode } from './../../core/shared/view-mode.model';
+import { followLink } from '../utils/follow-link-config.model';
+import { CollectionElementLinkType } from '../object-collection/collection-element-link.type';
+import isEqual from 'lodash/isEqual';
+import { ViewMode } from '../../core/shared/view-mode.model';
 import {  Router } from '@angular/router';
 import {
   LayoutModeEnum,
   TopSection,
-} from './../../core/layout/models/section.model';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+} from '../../core/layout/models/section.model';
+import { ChangeDetectorRef, Component, Inject, Input, OnInit } from '@angular/core';
 import { SearchService } from '../../core/shared/search/search.service';
 import { PaginatedSearchOptions } from '../search/models/paginated-search-options.model';
 import { DSpaceObject } from '../../core/shared/dspace-object.model';
@@ -16,13 +16,16 @@ import { Context } from '../../core/shared/context.model';
 import { RemoteData } from '../../core/data/remote-data';
 import { PaginatedList } from '../../core/data/paginated-list.model';
 import { getFirstCompletedRemoteData } from '../../core/shared/operators';
+import { APP_CONFIG, AppConfig } from '../../../config/app-config.interface';
 
 @Component({
   selector: 'ds-browse-most-elements',
   styleUrls: ['./browse-most-elements.component.scss'],
-  templateUrl: './browse-most-elements.component.html',
+  templateUrl: './browse-most-elements.component.html'
 })
+
 export class BrowseMostElementsComponent implements OnInit {
+
   @Input() paginatedSearchOptions: PaginatedSearchOptions;
 
   @Input() context: Context;
@@ -48,27 +51,22 @@ export class BrowseMostElementsComponent implements OnInit {
   public collectionElementLinkTypeEnum = CollectionElementLinkType;
 
   constructor(
+    @Inject(APP_CONFIG) protected appConfig: AppConfig,
     private searchService: SearchService,
-    private cdr: ChangeDetectorRef,
     private router: Router,
-  ) {
-    /* */
+    private cdr: ChangeDetectorRef) {
+
   }
 
   ngOnInit() {
-    this.getSearchResults();
-  }
-
-  private getSearchResults() {
-    this.searchService
-      .search(this.paginatedSearchOptions, null, true, true, followLink('thumbnail'))
-      .pipe(getFirstCompletedRemoteData())
-      .subscribe(
-        (response: RemoteData<PaginatedList<SearchResult<DSpaceObject>>>) => {
-          this.searchResults = response as any;
-          this.cdr.detectChanges();
-        }
-      );
+    const showThumbnails = this.showThumbnails ?? this.appConfig.browseBy.showThumbnails;
+    const followLinks = showThumbnails ? [followLink('thumbnail')] : [];
+    this.searchService.search(this.paginatedSearchOptions, null, true, true, ...followLinks).pipe(
+      getFirstCompletedRemoteData(),
+    ).subscribe((response: RemoteData<PaginatedList<SearchResult<DSpaceObject>>>) => {
+      this.searchResults = response as any;
+      this.cdr.detectChanges();
+    });
   }
 
   async showAllResults() {

@@ -256,6 +256,7 @@
   "admin.registries.metadata.schemas.table.name": "Name",
 
   "admin.registries.metadata.schemas.table.namespace": "Namespace",
+  "admin.registries.metadata.schemas.table.download": "Download",
 
   "admin.registries.metadata.title": "Metadata Registry",
 
@@ -1832,13 +1833,21 @@
 
   "cris-layout.attachment.viewMore": "View More",
 
+  "cris-layout.rendering.collections.owning-collection.label": "Owning collection",
+
+  "cris-layout.rendering.collections.mapped-collection.label": "Mapped collections",
+
+  "cris-layout.rendering.collections.loading": "Loading...",
+
+  "cris-layout.rendering.collections.load-more": "Load more",
+
   "curation-task.task.checklinks.label":  "Check Links in Metadata",
 
   "curation-task.task.noop.label": "NOOP",
 
   "curation-task.task.profileformats.label": "Profile Bitstream Formats",
 
-   "curation-task.task.registerdoi.label": "Mint DOI",
+  "curation-task.task.registerdoi.label": "Mint DOI",
 
   "curation-task.task.requiredmetadata.label": "Check for Required Metadata",
 
@@ -1914,7 +1923,9 @@
 
   "dso-selector.error.title": "An error occurred searching for a {{ type }}",
 
-  "dso-selector.export-metadata.dspaceobject.head": "Export metadata from",
+  "dso-selector.export-metadata-csv.dspaceobject.head": "Export metadata from",
+
+  "dso-selector.export-metadata-xls.dspaceobject.head": "Export metadata from",
 
   "dso-selector.export-batch.dspaceobject.head": "Export Batch (ZIP) from",
 
@@ -1980,11 +1991,21 @@
 
   "confirmation-modal.export-metadata.header": "Export metadata for {{ dsoName }}",
 
-  "confirmation-modal.export-metadata.info": "Are you sure you want to export metadata for {{ dsoName }}",
+  "confirmation-modal.export-metadata-csv.header": "Export metadata for {{ dsoName }}",
 
-  "confirmation-modal.export-metadata.cancel": "Cancel",
+  "confirmation-modal.export-metadata-csv.info": "Are you sure you want to export metadata for {{ dsoName }}",
 
-  "confirmation-modal.export-metadata.confirm": "Export",
+  "confirmation-modal.export-metadata-csv.cancel": "Cancel",
+
+  "confirmation-modal.export-metadata-csv.confirm": "Export",
+
+  "confirmation-modal.export-metadata-xls.header": "Export metadata for {{ dsoName }}",
+
+  "confirmation-modal.export-metadata-xls.info": "Are you sure you want to export metadata for {{ dsoName }}",
+
+  "confirmation-modal.export-metadata-xls.cancel": "Cancel",
+
+  "confirmation-modal.export-metadata-xls.confirm": "Export",
 
   "confirmation-modal.export-batch.header": "Export batch (ZIP) for {{ dsoName }}",
 
@@ -2026,6 +2047,13 @@
 
   "confirmation-modal.pending-changes.confirm": "Leave",
 
+  "confirmation-modal.review-account-info.header": "Save the changes",
+
+  "confirmation-modal.review-account-info.info": "Continue to update your profile",
+
+  "confirmation-modal.review-account-info.cancel": "Cancel",
+
+  "confirmation-modal.review-account-info.confirm": "Save",
 
   "dataset.listelement.badge" : "Dataset",
 
@@ -2257,7 +2285,7 @@
   "explore.researcherprofiles.breadcrumbs": "People",
 
   "explore.title": "Explore section",
-
+  "export-schema.process.title": "Metadata Schema Export",
 
   "feed.description": "Syndication feed",
 
@@ -3170,6 +3198,7 @@
 
   "item.page.metric.label.check": "Check",
 
+  "item.page.metric.label.unpaywall-api": "Unpaywall",
 
   "item.page.metric.label.download": "Downloads",
 
@@ -3336,6 +3365,16 @@
   "item.preview.oairecerif.fundingParent" : "Funding Program / Call",
 
   "item.preview.oairecerif.oamandate" : "OA Mandate",
+
+  "item.preview.oairecerif.identifier.url": "Link",
+
+  "item.preview.organization.identifier.ror": "ROR ID",
+
+  "item.preview.organization.foundingDate": "Founding Date",
+
+  "item.preview.organization.address.addressCountry": "Country",
+
+  "item.preview.organization.parentOrganization": "Parent Organization",
 
   "item.preview.person.familyName": "Surname:",
 
@@ -3839,11 +3878,13 @@
 
   "menu.section.export_metadata": "Metadata",
 
+  "menu.section.export_metadata_csv": "Metadata CSV",
+
+  "menu.section.export_metadata_xls": "Metadata XLS",
+
   "menu.section.export_batch": "Batch Export (ZIP)",
 
   "menu.section.import_from_excel": "Import from excel",
-
-  "menu.section.export_batch": "Batch Export (ZIP)",
 
   "menu.section.export_to_excel": "Export to excel",
 
@@ -4226,8 +4267,6 @@
   "nav.toggle" : "Toggle navigation",
 
   "nav.user.description" : "User profile bar",
-
-  "nav.subscriptions" : "Subscriptions",
 
   "none.listelement.badge": "Item",
 
@@ -4950,11 +4989,9 @@
 
   "repository.image.logo": "Repository logo",
 
-  "repository.title.prefix": "DSpace Cris Angular :: ",
+  "repository.title": "{{ repositoryName }}",
 
-
-  "repository.title.prefixDSpace": "DSpace Angular ::",
-
+  "repository.title.prefix": "{{ repositoryName }} Angular :: ",
 
   "resource-policies.add.button": "Add",
 
@@ -5155,6 +5192,8 @@
 
   "search.filters.applied.charts.default.title": "Search Output",
 
+  "search.filters.applied.charts.site.title": "Search Output",
+
   "search.filters.applied.charts.RELATION.Person.researchoutputs.title": "Research Output",
 
   "search.filters.applied.charts.RELATION.Project.fundings.title": "Fundings",
@@ -5268,6 +5307,8 @@
 
   "search.filters.filter.investigators.head": "Researcher",
 
+  "search.filters.filter.investigators.label": "Researcher",
+
   "search.filters.filter.investigators.placeholder": "Researcher",
 
   "search.filters.filter.jobTitle.head": "Job Title",
@@ -5289,6 +5330,8 @@
   "search.filters.filter.language.placeholder": "Language",
 
   "search.filters.filter.projectOrgUnits.head" : "Organizations",
+
+  "search.filters.filter.projectOrgUnits.label" : "Organizations",
 
   "search.filters.filter.projectOrgUnits.placeholder" : "Organizations",
 
@@ -5409,6 +5452,8 @@
   "search.results.head": "Search Results",
 
   "default.search.results.head": "Search Results",
+
+  "site.search.results.head": "Search Results",
 
   "default-relationships.search.results.head": "Search Results",
 
@@ -5558,6 +5603,10 @@
 
   "statistics.table.mainReports.title.TopCities": "Top city views",
 
+  "form.other-information.oairecerif-author-affiliation" : "Affiliation",
+
+  "form.other-information.oairecerif-editor-affiliation" : "Affiliation",
+
   "statistics.table.downloadReports.title.TotalVisits": "Most downloaded",
 
   "statistics.table.downloadReports.title.TopItems": "Most downloaded",
@@ -5668,11 +5717,47 @@
 
   "statistics.categories.downloadReports.tab": "Downloads reports",
 
+  "statistics.categories.itemReports.tab": "Item views reports",
+
+  "statistics.table.itemReports.header.continent" : "Continent",
+
+  "statistics.table.itemReports.header.views" : "Views",
+
+  "statistics.table.itemReports.header.city" : "City",
+
+  "statistics.table.itemReports.header.item" : "Item",
+
+  "statistics.table.mainReports.header.community" : "Community",
+
+  "statistics.table.mainReports.header.collection" : "Collection",
+
+  "statistics.table.itemReports.title.TopContinents" : "Top region views",
+
+  "statistics.table.itemReports.title.TopCities" : "Top cities views",
+
+  "statistics.table.itemReports.title.TopItems" : "Most viewed",
+
+  "statistics.table.itemReports.title.TopCategories" : "Top categories",
+
+  "statistics.table.itemReports.title.TotalVisitsPerMonth" : "Top views per month",
+
   "statistics.reports.title": "Reports",
 
   "submission.edit.breadcrumbs": "Edit Submission",
 
   "submission.edit.title": "Edit Submission",
+
+  "submission.unpaywall.versions.title": "Open Access version of {item.title} reported by <a href=\"https://unpaywall.org/\">Unpaywall</a>",
+
+  "submission.unpaywall.versions.back": "Back to item's page",
+
+  "submission.unpaywall.versions.breadcrumbs": "Unpaywall versions",
+
+  "submission.unpaywall.versions.submittedVersion": "Submitted",
+
+  "submission.unpaywall.versions.acceptedVersion": "Accepted",
+
+  "submission.unpaywall.versions.publishedVersion": "Published",
 
   "submission.general.cancel": "Cancel",
 
@@ -5790,6 +5875,8 @@
 
   "submission.import-external.source.openaireTitle": "OpenAIRE by Title",
 
+  "submission.import-external.source.rorOrgUnits": "ROR",
+
   "submission.import-external.preview.title.Equipment": "Equipment Preview",
 
   "submission.import-external.preview.title.Event": "Event Preview",
@@ -5902,7 +5989,7 @@
 
   "submission.sections.describe.relationship-lookup.external-source.import-button-title.none": "Import remote item",
 
-    "submission.sections.describe.relationship-lookup.external-source.import-modal.isProjectOfPublication.added.new-entity": "New Entity Added!",
+  "submission.sections.describe.relationship-lookup.external-source.import-modal.isProjectOfPublication.added.new-entity": "New Entity Added!",
 
   "submission.sections.describe.relationship-lookup.external-source.import-modal.isProjectOfPublication.title": "Project",
 
@@ -6418,11 +6505,19 @@
 
   "submission.sections.accesses.form.until-placeholder": "Until",
 
+  "access.condition.value.openaccess": "Open Access",
+
+  "access.condition.value.embargo": "Embargo",
+
+  "access.condition.value.administrator": "Administrator Only",
+
+  "access.condition.value.lease": "Lease",
+
   "submission.sections.license.granted-label": "I confirm the license above",
 
   "submission.sections.license.required": "You must accept the license",
 
-  "submission.sections.license.notgranted":  "You must accept the license",
+  "submission.sections.license.notgranted":  "",
 
 
   "submission.sections.sherpa.publication.information": "Publication information",
@@ -7299,6 +7394,8 @@
 
   "map.coordinates-invalid": "Coordinates are not valid",
 
+  "statistics-page.export-map-as-image": "Export map",
+
   "curation-task.task.hocr.label": "Extract text (HOCR) from images",
 
   "curation-task.task.ocrfilter.label": "Consolidate hOCR for fulltext indexing",
@@ -7334,7 +7431,6 @@
   "curation-task.task.undopdfiiif.label": "Undo PDF 2 IIIF Images",
 
   "curation-task.task.rebuildpdftoc.label": "Rebuild the PDF ToC",
-
 
   "listable-notification-object.default-message": "This object couldn't be retrieved",
 
@@ -7385,10 +7481,72 @@
 
   "admin.system-wide-alert.title": "System-wide Alerts",
 
+  "external-login.form.email": "Enter the email",
+
+  "external-login.form.or-divider": "or",
+
+  "external-login.confirmation.header": "Information needed to complete the login process",
+
+  "external-login.noEmail.informationText": "The information received from {{authMethod}} are not sufficient to complete the login process. Please provide the missing information below, or login via a different method to associate your {{authMethod}} to an existing account.",
+
+  "external-login.haveEmail.informationText": "It seems that you have not yet an account in this system. If this is the case, please confirm the data received from {{authMethod}} and a new account will be created for you. Otherwise, if you already have an account in the system, please update the email address to match the one already in use in the system or login via a different method to associate your {{authMethod}} to your existing account.",
+
+  "external-login.confirm-email.header": "Confirm or update email",
+
+  "external-login.confirmation.email-required": "Email is required.",
+
+  "external-login.confirmation.email-invalid": "Invalid email format.",
+
+  "external-login.confirm.button.label": "Confirm this email",
+
+  "external-login.confirm-email-sent.header": "Confirmation email sent",
+
+  "external-login.confirm-email-sent.info": " We have sent an email to the provided address to validate your input. <br /> Please follow the instructions in the email to complete the login process.",
+
+  "external-login.provide-email.header": "Provide email",
+
+  "external-login.provide-email.button.label": "Send Verification link",
+
+  "external-login-validation.review-account-info.header": "Review your account information",
+
+  "external-login-validation.review-account-info.info": "The information received from ORCID differs from the one recorded in your profile. <br /> Please review them and decide if you want to update any of them. After saving you will be redirected to your profile page.",
+
+  "external-login-validation.review-account-info.table.header.information": "Information",
+
+  "external-login-validation.review-account-info.table.header.received-value": "Received value",
+
+  "external-login-validation.review-account-info.table.header.current-value": "Current value",
+
+  "external-login-validation.review-account-info.table.header.action": "Override",
+
+  "on-label": "ON",
+
+  "off-label": "OFF",
+
+  "review-account-info.merge-data.notification.success": "Your account information has been updated successfully",
+
+  "review-account-info.merge-data.notification.error": "Something went wrong while updating your account information",
+
+  "review-account-info.alert.error.content": "Something went wrong. Please try again later.",
+
+  "external-login-page.provide-email.notifications.error": "Something went wrong.Email address was omitted or the operation is not valid.",
+
+  "external-login.error.notification": "There was an error while processing your request. Please try again later.",
+
+  "external-login.connect-to-existing-account.label": "Connect to an existing user",
+
+  "external-login.modal.label.close": "Close",
+
+  "external-login-page.provide-email.create-account.notifications.error.header": "Something went wrong",
+
+  "external-login-page.provide-email.create-account.notifications.error.content": "Please check again your email address and try again.",
+
+  "external-login-page.confirm-email.create-account.notifications.error.no-netId": "Something went wrong with this email account. Try again or use a different method to login.",
+
 
   "vocabulary-treeview.header.fondboxtree": "Fond Tree",
 
   "vocabulary-treeview.header.journalfondboxtree": "Journal Fond Tree",
 
-  "vocabulary-treeview.header.aggregationboxtree": "Collection Tree"
+  "vocabulary-treeview.header.aggregationboxtree": "Collection Tree",
 }

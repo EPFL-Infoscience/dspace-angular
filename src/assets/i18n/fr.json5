@@ -427,6 +427,9 @@
 
   // "admin.registries.metadata.schemas.table.namespace": "Namespace",
   "admin.registries.metadata.schemas.table.namespace": "Espace de nommage",
+  // "admin.registries.metadata.schemas.table.download": "Download",
+  // TODO New key - Add a translation
+  "admin.registries.metadata.schemas.table.download": "Download",
 
   // "admin.registries.metadata.title": "Metadata Registry",
   "admin.registries.metadata.title": "Registre de métadonnées",
@@ -2898,6 +2901,59 @@
   "curation-task.task.citationpage.label":  "Generate Citation Page",
 
 
+  // "curation-task.task.migratedocviewer.label":  "Migrate the previously generated doc. viewer resources",
+  // TODO New key - Add a translation
+  "curation-task.task.migratedocviewer.label":  "Migrate the previously generated doc. viewer resources",
+
+  // "curation-task.task.iiifmigrate.label":  "Migrate the previously generated IIIF resources",
+  // TODO New key - Add a translation
+  "curation-task.task.iiifmigrate.label":  "Migrate the previously generated IIIF resources",
+
+  // "curation-task.task.avuploader.label":  "Process video resources",
+  // TODO New key - Add a translation
+  "curation-task.task.avuploader.label":  "Process video resources",
+
+  // "curation-task.task.avuploader.primary.label":  "Process video resources and hide non primary items",
+  // TODO New key - Add a translation
+  "curation-task.task.avuploader.primary.label":  "Process video resources and hide non primary items",
+
+  // "curation-task.task.audiouploader.label":  "Process audio resources",
+  // TODO New key - Add a translation
+  "curation-task.task.audiouploader.label":  "Process audio resources",
+
+  // "curation-task.task.audiouploader.primary.label":  "Process audio resources and hide non primary items",
+  // TODO New key - Add a translation
+  "curation-task.task.audiouploader.primary.label":  "Process audio resources and hide non primary items",
+
+  // "curation-task.task.avclean.label":  "Clean audio/video resources",
+  // TODO New key - Add a translation
+  "curation-task.task.avclean.label":  "Clean audio/video resources",
+
+  // "curation-task.task.generatesubtitles.label":  "Generate subtitles for audio/video resources",
+  // TODO New key - Add a translation
+  "curation-task.task.generatesubtitles.label":  "Generate subtitles for audio/video resources",
+
+  // "curation-task.task.hidecovers.label":  "Hide custom audio/video thumbnails from item page",
+  // TODO New key - Add a translation
+  "curation-task.task.hidecovers.label":  "Hide custom audio/video thumbnails from item page",
+
+  // "curation-task.task.avforbiddownload.label":  "Forbid Download on audio/video resources",
+  // TODO New key - Add a translation
+  "curation-task.task.avforbiddownload.label":  "Forbid Download on audio/video resources",
+
+  // "curation-task.task.avallowdownload.label":  "Allow Download on audio/video resources",
+  // TODO New key - Add a translation
+  "curation-task.task.avallowdownload.label":  "Allow Download on audio/video resources",
+
+  // "curation-task.task.avupdatemanifest.label":  "Regenerate AV manifest for URL update",
+  // TODO New key - Add a translation
+  "curation-task.task.avupdatemanifest.label":  "Regenerate AV manifest for URL update",
+
+  // "curation-task.task.avmigrate.label":  "Migrate the AV resources generated for a previous version",
+  // TODO New key - Add a translation
+  "curation-task.task.avmigrate.label":  "Migrate the AV resources generated for a previous version",
+
+
   // "cris-layout.toggle.open": "Open section",
   // TODO New key - Add a translation
   "cris-layout.toggle.open": "Open section",
@@ -2965,6 +3021,22 @@
   // "cris-layout.attachment.viewMore": "View More",
   // TODO New key - Add a translation
   "cris-layout.attachment.viewMore": "View More",
+
+  // "cris-layout.rendering.collections.owning-collection.label": "Owning collection",
+  // TODO New key - Add a translation
+  "cris-layout.rendering.collections.owning-collection.label": "Owning collection",
+
+  // "cris-layout.rendering.collections.mapped-collection.label": "Mapped collections",
+  // TODO New key - Add a translation
+  "cris-layout.rendering.collections.mapped-collection.label": "Mapped collections",
+
+  // "cris-layout.rendering.collections.loading": "Loading...",
+  // TODO New key - Add a translation
+  "cris-layout.rendering.collections.loading": "Loading...",
+
+  // "cris-layout.rendering.collections.load-more": "Load more",
+  // TODO New key - Add a translation
+  "cris-layout.rendering.collections.load-more": "Load more",
 
   // "curation-task.task.checklinks.label":  "Check Links in Metadata",
   "curation-task.task.checklinks.label":  "Vérification des liens dans les métadonnées",
@@ -3735,7 +3807,9 @@
   // "explore.title": "Explore section",
   // TODO New key - Add a translation
   "explore.title": "Explore section",
-
+  // "export-schema.process.title": "Metadata Schema Export",
+  // TODO New key - Add a translation
+  "export-schema.process.title": "Metadata Schema Export",
 
   // "feed.description": "Syndication feed",
   // TODO New key - Add a translation
@@ -5219,6 +5293,9 @@
   // TODO New key - Add a translation
   "item.page.metric.label.check": "Check",
 
+  // "item.page.metric.label.unpaywall-api": "Unpaywall",
+  // TODO New key - Add a translation
+  "item.page.metric.label.unpaywall-api": "Unpaywall",
 
   // "item.page.metric.label.download": "Downloads",
   // TODO New key - Add a translation
@@ -6368,9 +6445,6 @@
   // TODO New key - Add a translation
   "menu.section.import_from_excel": "Import from excel",
 
-  // "menu.section.export_batch": "Batch Export (ZIP)",
-  "menu.section.export_batch": "Exporter en lot (ZIP)",
-
   // "menu.section.export_to_excel": "Export to excel",
   // TODO New key - Add a translation
   "menu.section.export_to_excel": "Export to excel",
@@ -7024,10 +7098,6 @@
   // "nav.user.description" : "User profile bar",
   // TODO New key - Add a translation
   "nav.user.description" : "User profile bar",
-
-  // "nav.subscriptions" : "Subscriptions",
-  // TODO New key - Add a translation
-  "nav.subscriptions" : "Subscriptions",
 
   // "none.listelement.badge": "Item",
   "none.listelement.badge": "Item",
@@ -8069,6 +8139,9 @@
   // "media-viewer.playlist": "Playlist",
   "media-viewer.playlist": "Liste de lecture",
 
+  // "media-viewer.play": "Play",
+  // TODO New key - Add a translation
+  "media-viewer.play": "Play",
 
   // "register-email.title": "New user registration",
   "register-email.title": "Inscription d'un nouvel utilisateur",
@@ -8290,14 +8363,11 @@
   // "repository.image.logo": "Repository logo",
   "repository.image.logo": "Logo du dépôt",
 
-  // "repository.title.prefix": "DSpace Cris Angular :: ",
-  // TODO New key - Add a translation
-  "repository.title.prefix": "DSpace Cris Angular :: ",
+  // "repository.title": "{{ repositoryName }}",
+  "repository.title": "{{ repositoryName }}",
 
-
-  // "repository.title.prefixDSpace": "DSpace Angular ::",
-  "repository.title.prefixDSpace": "DSpace Angular :: ",
-
+  // "repository.title.prefix": "{{ repositoryName }} Angular :: ",
+  "repository.title.prefix": "{{ repositoryName }} Angular :: ",
 
   // "resource-policies.add.button": "Add",
   "resource-policies.add.button": "Ajouter",
@@ -8812,6 +8882,10 @@
   // TODO New key - Add a translation
   "search.filters.filter.investigators.head": "Researcher",
 
+  // "search.filters.filter.investigators.label": "Researcher",
+  // TODO New key - Add a translation
+  "search.filters.filter.investigators.label": "Researcher",
+
   // "search.filters.filter.investigators.placeholder": "Researcher",
   // TODO New key - Add a translation
   "search.filters.filter.investigators.placeholder": "Researcher",
@@ -8849,6 +8923,10 @@
   // "search.filters.filter.projectOrgUnits.head" : "Organizations",
   // TODO New key - Add a translation
   "search.filters.filter.projectOrgUnits.head" : "Organizations",
+
+  // "search.filters.filter.projectOrgUnits.label" : "Organizations",
+  // TODO New key - Add a translation
+  "search.filters.filter.projectOrgUnits.label" : "Organizations",
 
   // "search.filters.filter.projectOrgUnits.placeholder" : "Organizations",
   // TODO New key - Add a translation
@@ -9519,6 +9597,54 @@
   // TODO New key - Add a translation
   "statistics.categories.downloadReports.tab": "Downloads reports",
 
+  // "statistics.categories.itemReports.tab": "Item views reports",
+  // TODO New key - Add a translation
+  "statistics.categories.itemReports.tab": "Item views reports",
+
+  // "statistics.table.itemReports.header.continent" : "Continent",
+  // TODO New key - Add a translation
+  "statistics.table.itemReports.header.continent" : "Continent",
+
+  // "statistics.table.itemReports.header.views" : "Views",
+  // TODO New key - Add a translation
+  "statistics.table.itemReports.header.views" : "Views",
+
+  // "statistics.table.itemReports.header.city" : "City",
+  // TODO New key - Add a translation
+  "statistics.table.itemReports.header.city" : "City",
+
+  // "statistics.table.itemReports.header.item" : "Item",
+  // TODO New key - Add a translation
+  "statistics.table.itemReports.header.item" : "Item",
+
+  // "statistics.table.mainReports.header.community" : "Community",
+  // TODO New key - Add a translation
+  "statistics.table.mainReports.header.community" : "Community",
+
+  // "statistics.table.mainReports.header.collection" : "Collection",
+  // TODO New key - Add a translation
+  "statistics.table.mainReports.header.collection" : "Collection",
+
+  // "statistics.table.itemReports.title.TopContinents" : "Top region views",
+  // TODO New key - Add a translation
+  "statistics.table.itemReports.title.TopContinents" : "Top region views",
+
+  // "statistics.table.itemReports.title.TopCities" : "Top cities views",
+  // TODO New key - Add a translation
+  "statistics.table.itemReports.title.TopCities" : "Top cities views",
+
+  // "statistics.table.itemReports.title.TopItems" : "Most viewed",
+  // TODO New key - Add a translation
+  "statistics.table.itemReports.title.TopItems" : "Most viewed",
+
+  // "statistics.table.itemReports.title.TopCategories" : "Top categories",
+  // TODO New key - Add a translation
+  "statistics.table.itemReports.title.TopCategories" : "Top categories",
+
+  // "statistics.table.itemReports.title.TotalVisitsPerMonth" : "Top views per month",
+  // TODO New key - Add a translation
+  "statistics.table.itemReports.title.TotalVisitsPerMonth" : "Top views per month",
+
   // "statistics.reports.title": "Reports",
   // TODO New key - Add a translation
   "statistics.reports.title": "Reports",
@@ -9528,6 +9654,30 @@
 
   // "submission.edit.title": "Edit Submission",
   "submission.edit.title": "Éditer la soumission",
+
+  // "submission.unpaywall.versions.title": "Open Access version of {item.title} reported by <a href=\"https://unpaywall.org/\">Unpaywall</a>",
+  // TODO New key - Add a translation
+  "submission.unpaywall.versions.title": "Open Access version of {item.title} reported by <a href=\"https://unpaywall.org/\">Unpaywall</a>",
+
+  // "submission.unpaywall.versions.back": "Back to item's page",
+  // TODO New key - Add a translation
+  "submission.unpaywall.versions.back": "Back to item's page",
+
+  // "submission.unpaywall.versions.breadcrumbs": "Unpaywall versions",
+  // TODO New key - Add a translation
+  "submission.unpaywall.versions.breadcrumbs": "Unpaywall versions",
+
+  // "submission.unpaywall.versions.submittedVersion": "Submitted",
+  // TODO New key - Add a translation
+  "submission.unpaywall.versions.submittedVersion": "Submitted",
+
+  // "submission.unpaywall.versions.acceptedVersion": "Accepted",
+  // TODO New key - Add a translation
+  "submission.unpaywall.versions.acceptedVersion": "Accepted",
+
+  // "submission.unpaywall.versions.publishedVersion": "Published",
+  // TODO New key - Add a translation
+  "submission.unpaywall.versions.publishedVersion": "Published",
 
   // "submission.general.cancel": "Cancel",
   "submission.general.cancel": "Annuler",
@@ -10846,6 +10996,32 @@
 
 
 
+  // "submission.sections.unpaywall.refresh": "Refresh",
+  // TODO New key - Add a translation
+  "submission.sections.unpaywall.refresh": "Refresh",
+
+  // "submission.sections.unpaywall.import": "Import from unpaywall",
+  // TODO New key - Add a translation
+  "submission.sections.unpaywall.import": "Import from unpaywall",
+
+  // "submission.sections.unpaywall.status.successful": "You can import from unpaywall",
+  // TODO New key - Add a translation
+  "submission.sections.unpaywall.status.successful": "You can import from unpaywall",
+
+  // "submission.sections.unpaywall.status.not-found": "Can't find record using Unpaywall api",
+  // TODO New key - Add a translation
+  "submission.sections.unpaywall.status.not-found": "Can't find record using Unpaywall api",
+
+  // "submission.sections.unpaywall.status.pending": "Unpaywall api request is initialized",
+  // TODO New key - Add a translation
+  "submission.sections.unpaywall.status.pending": "Unpaywall api request is initialized",
+
+  // "submission.sections.submit.progressbar.unpaywall": "Unpaywall",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.unpaywall": "Unpaywall",
+
+
+
   // "submission.submit.breadcrumbs": "New submission",
   "submission.submit.breadcrumbs": "Nouvelle soumission",
 
@@ -11187,6 +11363,10 @@
   // TODO New key - Add a translation
   "viewer.provider.iiif.breadcrumbs": "Mirador Viewer",
 
+  // "viewer.provider.media.breadcrumbs": "Player",
+  // TODO New key - Add a translation
+  "viewer.provider.media.breadcrumbs": "Player",
+
   // "viewer.provider.pdf.breadcrumbs": "PDF Viewer",
   // TODO New key - Add a translation
   "viewer.provider.pdf.breadcrumbs": "PDF Viewer",
@@ -11409,11 +11589,41 @@
   // "workspace-item.view.title": "Workspace View",
   "workspace-item.view.title": "Vue du tableau de suivi",
 
+  // "workspace-item.delete.breadcrumbs": "Workspace Delete",
+  // TODO New key - Add a translation
+  "workspace-item.delete.breadcrumbs": "Workspace Delete",
+
+  // "workspace-item.delete.header": "Delete workspace item",
+  // TODO New key - Add a translation
+  "workspace-item.delete.header": "Delete workspace item",
+
+  // "workspace-item.delete.button.confirm": "Delete",
+  // TODO New key - Add a translation
+  "workspace-item.delete.button.confirm": "Delete",
+
+  // "workspace-item.delete.button.cancel": "Cancel",
+  // TODO New key - Add a translation
+  "workspace-item.delete.button.cancel": "Cancel",
+
+  // "workspace-item.delete.notification.success.title": "Deleted",
+  // TODO New key - Add a translation
+  "workspace-item.delete.notification.success.title": "Deleted",
+
+  // "workspace-item.delete.title": "This workspace item was successfully deleted",
+  // TODO New key - Add a translation
+  "workspace-item.delete.title": "This workspace item was successfully deleted",
+
+  // "workspace-item.delete.notification.error.title": "Something went wrong",
+  // TODO New key - Add a translation
+  "workspace-item.delete.notification.error.title": "Something went wrong",
+
+  // "workspace-item.delete.notification.error.content": "The workspace item could not be deleted",
+  // TODO New key - Add a translation
+  "workspace-item.delete.notification.error.content": "The workspace item could not be deleted",
 
   // "workflow-item.advanced.title": "Advanced workflow",
   // TODO New key - Add a translation
   "workflow-item.advanced.title": "Advanced workflow",
-
 
   // "workflow-item.selectrevieweraction.notification.success.title": "Selected reviewer",
   // TODO New key - Add a translation
