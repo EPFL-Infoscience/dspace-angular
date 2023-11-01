@@ -113,7 +113,8 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
           this.halService.getEndpoint(this.submissionService.getSubmissionObjectLinkName())
         ]).pipe(
           catchError(() => {
-            this.notificationsService.error(null, this.translate.get('submission.sections.upload.file-download-failed'));
+            this.translate.get('submission.sections.upload.file-download-failed')
+              .subscribe(errorMessage => this.notificationsService.error(null, errorMessage + fileUrl));
             this.loading$.next(false);
             return of(null);
           }),
