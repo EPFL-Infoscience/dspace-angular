@@ -66,6 +66,10 @@ export class ClaimedTaskActionsRejectComponent extends ClaimedTaskActionsAbstrac
    */
   submitTask() {
     this.modalRef.close('Send Button');
+    console.log(window.location.href);
+    if (!window.location.href.includes('/mydspace')) {
+      this.router.navigate(['/mydspace']);
+    }
     super.submitTask();
   }
 

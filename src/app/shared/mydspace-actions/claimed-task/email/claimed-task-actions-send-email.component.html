@@ -49,7 +49,7 @@
     <button type="button" id="email_modal_cancel" class="btn btn-secondary" (click)="d()">
       {{'submission.workflow.tasks.email.modal.btn.dismiss' | translate}}
     </button>
-    <button type="button" id="email_modal_send" class="btn btn-success" (click)="c()"
+    <button type="button" id="email_modal_send" class="btn btn-success" (click)="redirectIfNeeded(); c()"
             [disabled]="emailForm.form.invalid">
       <i class="fas fa-envelope"></i> {{'submission.workflow.tasks.email.modal.btn.send' | translate}}
     </button>
