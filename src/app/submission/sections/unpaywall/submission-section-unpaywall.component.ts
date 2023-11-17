@@ -7,7 +7,7 @@ import { SectionsService } from '../sections.service';
 import { BehaviorSubject, forkJoin, interval, mergeMap, Observable, of, Subject, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SubmissionState } from '../../submission.reducers';
-import { distinctUntilChanged, filter, map, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { SubmissionObjectEntry } from '../../objects/submission-objects.reducer';
 import { UpdateSectionVisibilityAction } from '../../objects/submission-objects.actions';
 import {
@@ -107,11 +107,17 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
       this.loading$.next(true);
       const fileUrl = this.getFileUrl();
       if (fileUrl) {
-        const fileName = fileUrl.split('/').pop();
+        const fileName = this.getFilenameFromUrl(fileUrl);
         forkJoin([
           this.resourceService.download(fileUrl),
           this.halService.getEndpoint(this.submissionService.getSubmissionObjectLinkName())
         ]).pipe(
+          catchError(() => {
+            this.translate.get('submission.sections.upload.file-download-failed')
+              .subscribe(errorMessage => this.notificationsService.error(null, errorMessage + fileUrl));
+            this.loading$.next(false);
+            return of(null);
+          }),
           takeUntil(this.unsubscribe$),
           map(([fileBlob, endpoint]) => {
             const file = new File([fileBlob], fileName);
@@ -235,6 +241,15 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
 
   protected getSectionStatus(): Observable<boolean> {
     return of(true);
+  }
+
+  private getFilenameFromUrl(url: string): string {
+    let splitUrl = url.split('/');
+    return !url.includes('/pdf')
+      ? splitUrl.pop()
+      : url.endsWith('/pdf')
+        ? splitUrl[splitUrl.length - 2] + '.pdf'
+        : splitUrl.pop() + '.pdf';
   }
 
 }

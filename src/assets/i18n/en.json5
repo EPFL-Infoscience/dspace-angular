@@ -6474,6 +6474,8 @@
 
   "submission.sections.upload.upload-failed": "Upload failed",
 
+  "submission.sections.upload.file-download-failed": "The automatic download fails. This could be due to mechanisms in the external system that prevent access by our crawler, please use the link below to retrieve the file and attach it manually to the record if appropriate: ",
+
   "submission.sections.upload.upload-successful": "Upload successful",
 
   "submission.sections.custom-url.label.previous-urls": "Previous Urls",
@@ -6588,6 +6590,8 @@
   "submission.sections.unpaywall.status.not-found": "Can't find record using Unpaywall api",
 
   "submission.sections.unpaywall.status.pending": "Unpaywall api request is initialized",
+
+  "submission.sections.unpaywall.status.no-file": "There are no files to be imported",
 
   "submission.sections.submit.progressbar.unpaywall": "Unpaywall",
 
