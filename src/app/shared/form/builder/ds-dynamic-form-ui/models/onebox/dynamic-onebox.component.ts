@@ -244,7 +244,6 @@ export class DsDynamicOneboxComponent extends DsDynamicVocabularyComponent imple
       modalRef.componentInstance.vocabularyOptions = this.model.vocabularyOptions;
       modalRef.componentInstance.preloadLevel = preloadLevel;
       modalRef.componentInstance.selectedItems = this.currentValue ? [this.currentValue.value] : [];
-      modalRef.componentInstance.isModalView = true;
       modalRef.result.then((result: FormFieldMetadataValueObject) => {
         if (result) {
           this.currentValue = result;

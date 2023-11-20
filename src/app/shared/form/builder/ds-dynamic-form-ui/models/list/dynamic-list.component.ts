@@ -240,7 +240,7 @@ export class DsDynamicListComponent extends DynamicFormControlComponent implemen
       } else {
         const otherOption = this.createVocabularyObject(this.otherListEntry, this.otherListEntry, undefined);
         this.optionsList.push(otherOption);
-        const listGroup = this.group.controls[this.model.id] as FormGroup;
+        const listGroup = this.group.controls[this.model.id] as UntypedFormGroup;
         // Make a list of available options (checkbox/radio) and split in groups of 'model.groupLength'
         this.listingAvailableOptions(listGroup, this.optionsList);
       }

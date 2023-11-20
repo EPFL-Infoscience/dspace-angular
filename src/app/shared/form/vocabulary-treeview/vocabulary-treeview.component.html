@@ -1,4 +1,4 @@
-<ds-alert [content]="'vocabulary-treeview.info' | translate" [type]="'alert-info'"></ds-alert>
+<ds-alert *ngIf="enabledSearch" [content]="'vocabulary-treeview.info' | translate" [type]="'alert-info'"></ds-alert>
 <div *ngIf="enabledSearch" class="treeview-header row" data-test="search-field">
   <div class="col-12 d-flex">
     <div class="input-group">

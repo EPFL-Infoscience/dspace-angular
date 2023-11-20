@@ -17,10 +17,6 @@ import { FormFieldMetadataValueObject } from '../builder/models/form-field-metad
 import { VocabularyOptions } from '../../../core/submission/vocabularies/models/vocabulary-options.model';
 import { PageInfo } from '../../../core/shared/page-info.model';
 import { VocabularyEntry } from '../../../core/submission/vocabularies/models/vocabulary-entry.model';
-import { AuthTokenInfo } from '../../../core/auth/models/auth-token-info.model';
-import { authReducer } from '../../../core/auth/auth.reducer';
-import { storeModuleConfig } from '../../../app.reducer';
-import { By } from '@angular/platform-browser';
 import { VocabularyService } from '../../../core/submission/vocabularies/vocabulary.service';
 
 describe('VocabularyTreeviewComponent test suite', () => {
@@ -121,6 +117,7 @@ describe('VocabularyTreeviewComponent test suite', () => {
       comp = fixture.componentInstance;
       compAsAny = comp;
       comp.vocabularyOptions = vocabularyOptions;
+      comp.selectedItem = null;
       comp.selectedItems = [];
     });
 
@@ -136,10 +133,11 @@ describe('VocabularyTreeviewComponent test suite', () => {
       currentValue.otherInformation = {
         id: 'entryID'
       };
+      comp.selectedItem = currentValue;
       comp.selectedItems = [currentValue.value];
       fixture.detectChanges();
       expect(comp.dataSource.data).toEqual([]);
-      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['entryID'], null);
+      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['testValue'], 'entryID', null);
     });
 
     it('should should init component properly with init value as VocabularyEntry', () => {
@@ -148,10 +146,11 @@ describe('VocabularyTreeviewComponent test suite', () => {
       currentValue.otherInformation = {
         id: 'entryID'
       };
+      comp.selectedItem = currentValue;
       comp.selectedItems = [currentValue.value];
       fixture.detectChanges();
       expect(comp.dataSource.data).toEqual([]);
-      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['entryID'], null);
+      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['testValue'], 'entryID', null);
     });
 
     it('should should init component properly with init value as VocabularyEntry and publicModeOnly enabled', () => {
@@ -164,7 +163,7 @@ describe('VocabularyTreeviewComponent test suite', () => {
       comp.selectedItem = currentValue;
       fixture.detectChanges();
       expect(comp.dataSource.data).toEqual([]);
-      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), '['entryID'], true);
+      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['testValue'], 'entryID', true);
     });
 
     it('should call loadMore function', () => {
@@ -233,18 +232,6 @@ describe('VocabularyTreeviewComponent test suite', () => {
       expect(comp.storedNodeMap).toEqual(emptyNodeMap);
       expect(comp.nodeMap).toEqual(nodeMap);
       expect(comp.searchText).toEqual('');
-    });
-
-    it('should not show active button', () => {
-      comp.isModalView = false;
-      fixture.detectChanges();
-      expect(fixture.debugElement.query(By.css('[data-test="active-button"]'))).toBeFalsy();
-    });
-
-    it('should show active button', () => {
-      comp.isModalView = true;
-      fixture.detectChanges();
-      expect(fixture.debugElement.query(By.css('[data-test="active-button"]'))).toBeTruthy();
     });
 
     it('should not show search field', () => {

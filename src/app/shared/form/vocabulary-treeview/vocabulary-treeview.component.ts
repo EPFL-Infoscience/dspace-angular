@@ -4,7 +4,6 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, OnChanges, S
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { lowerCase } from 'lodash/string';
 
 import { VocabularyEntryDetail } from '../../../core/submission/vocabularies/models/vocabulary-entry-detail.model';
 import { hasValue, isEmpty, isNotEmpty } from '../../empty.util';
@@ -40,6 +39,11 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit, OnChanges
    * Representing how many tree level load at initialization
    */
   @Input() preloadLevel = 2;
+
+  /**
+   * The vocabulary entry already selected, if any
+   */
+  @Input() selectedItem: any = null;
 
   /**
    * The vocabulary entries already selected, if any
@@ -332,7 +336,6 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit, OnChanges
     );
     this.select.emit(userVocabularyEntry);
   }
-
 
   /**
    * Unsubscribe from all subscriptions
