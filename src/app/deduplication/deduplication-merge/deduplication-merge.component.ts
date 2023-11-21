@@ -851,13 +851,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   private getItemBitstreams() {
     if (this.itemsToCompare && this.itemsToCompare.length > 0) {
       this.itemsToCompare.map((item) => {
-        this.getBitstreamsPipe
-          .transform(item.object)?.pipe(
-            concatMap((res$: Observable<Bitstream[]>) =>
-              res$.pipe(map((bitstreams: Bitstream[]) => bitstreams))
-            )
-          )
-          .subscribe((bitstreams: Bitstream[]) => {
+        this.getBitstreamsPipe.transform(item.object)?.subscribe((bitstreams: Bitstream[]) => {
             const linksPerItem = bitstreams.map((b) => b._links.self.href);
             linksPerItem.forEach((link) => {
               if (!this.bitstreamList.includes(link)) {
