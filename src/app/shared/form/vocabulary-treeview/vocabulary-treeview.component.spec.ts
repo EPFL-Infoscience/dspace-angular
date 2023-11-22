@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, NO_ERRORS_SCHEMA } from '@angular/core';
+import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { By } from '@angular/platform-browser';
@@ -18,13 +18,13 @@ import { VocabularyOptions } from '../../../core/submission/vocabularies/models/
 import { PageInfo } from '../../../core/shared/page-info.model';
 import { VocabularyEntry } from '../../../core/submission/vocabularies/models/vocabulary-entry.model';
 import { VocabularyService } from '../../../core/submission/vocabularies/vocabulary.service';
+import { VocabularyEntry } from '../../../core/submission/vocabularies/models/vocabulary-entry.model';
 
 describe('VocabularyTreeviewComponent test suite', () => {
 
   let comp: VocabularyTreeviewComponent;
   let compAsAny: any;
   let fixture: ComponentFixture<VocabularyTreeviewComponent>;
-  let initialState;
   let de;
 
   const item = new VocabularyEntryDetail();
@@ -77,7 +77,6 @@ describe('VocabularyTreeviewComponent test suite', () => {
         { provide: VocabularyTreeviewService, useValue: vocabularyTreeviewServiceStub },
         { provide: VocabularyService, useValue: vocabularyServiceStub },
         { provide: NgbActiveModal, useValue: modalStub },
-        ChangeDetectorRef,
         VocabularyTreeviewComponent
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -133,11 +132,10 @@ describe('VocabularyTreeviewComponent test suite', () => {
       currentValue.otherInformation = {
         id: 'entryID'
       };
-      comp.selectedItem = currentValue;
-      comp.selectedItems = [currentValue.value];
+      comp.selectedItems = [currentValue];
       fixture.detectChanges();
       expect(comp.dataSource.data).toEqual([]);
-      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['testValue'], 'entryID', null);
+      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['entryID'], 'entryID');
     });
 
     it('should should init component properly with init value as VocabularyEntry', () => {
@@ -146,11 +144,20 @@ describe('VocabularyTreeviewComponent test suite', () => {
       currentValue.otherInformation = {
         id: 'entryID'
       };
-      comp.selectedItem = currentValue;
-      comp.selectedItems = [currentValue.value];
+      comp.selectedItems = [currentValue];
       fixture.detectChanges();
       expect(comp.dataSource.data).toEqual([]);
-      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['testValue'], 'entryID', null);
+      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['entryID'], 'entryID');
+    });
+
+    it('should should init component properly with init value as VocabularyEntryDetail', () => {
+      const currentValue = new VocabularyEntryDetail();
+      currentValue.value = 'testValue';
+      currentValue.id = 'entryID';
+      comp.selectedItems = [currentValue];
+      fixture.detectChanges();
+      expect(comp.dataSource.data).toEqual([]);
+      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['entryID'], 'entryID');
     });
 
     it('should should init component properly with init value as VocabularyEntry and publicModeOnly enabled', () => {
