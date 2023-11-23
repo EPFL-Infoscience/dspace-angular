@@ -40,11 +40,6 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit, OnChanges
   @Input() preloadLevel = 2;
 
   /**
-   * The vocabulary entry already selected, if any
-   */
-  @Input() selectedItem: any = null;
-
-  /**
    * Contain a descriptive message for the tree
    */
   @Input() description = '';
@@ -236,7 +231,7 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit, OnChanges
     this.loading = this.vocabularyTreeviewService.isLoading();
 
     const entryId: string = (this.selectedItems?.length > 0) ? this.getEntryId(this.selectedItems[0]) : null;
-    this.vocabularyTreeviewService.initialize(this.vocabularyOptions, new PageInfo(), this.getSelectedEntryIds(), entryId);
+    this.vocabularyTreeviewService.initialize(this.vocabularyOptions, new PageInfo(), this.getSelectedEntryIds(), entryId, this.publicModeOnly);
   }
 
   /**
