@@ -16,7 +16,6 @@ import { TreeviewFlatNode, TreeviewNode } from './vocabulary-treeview-node.model
 import { FormFieldMetadataValueObject } from '../builder/models/form-field-metadata-value.model';
 import { VocabularyOptions } from '../../../core/submission/vocabularies/models/vocabulary-options.model';
 import { PageInfo } from '../../../core/shared/page-info.model';
-import { VocabularyEntry } from '../../../core/submission/vocabularies/models/vocabulary-entry.model';
 import { VocabularyService } from '../../../core/submission/vocabularies/vocabulary.service';
 import { VocabularyEntry } from '../../../core/submission/vocabularies/models/vocabulary-entry.model';
 
@@ -116,8 +115,13 @@ describe('VocabularyTreeviewComponent test suite', () => {
       comp = fixture.componentInstance;
       compAsAny = comp;
       comp.vocabularyOptions = vocabularyOptions;
-      comp.selectedItem = null;
       comp.selectedItems = [];
+    });
+
+    afterEach(() => {
+      fixture.destroy();
+      comp = null;
+      compAsAny = null;
     });
 
     it('should should init component properly', () => {
@@ -135,7 +139,7 @@ describe('VocabularyTreeviewComponent test suite', () => {
       comp.selectedItems = [currentValue];
       fixture.detectChanges();
       expect(comp.dataSource.data).toEqual([]);
-      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['entryID'], 'entryID');
+      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['entryID'], 'entryID', false);
     });
 
     it('should should init component properly with init value as VocabularyEntry', () => {
@@ -147,7 +151,7 @@ describe('VocabularyTreeviewComponent test suite', () => {
       comp.selectedItems = [currentValue];
       fixture.detectChanges();
       expect(comp.dataSource.data).toEqual([]);
-      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['entryID'], 'entryID');
+      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['entryID'], 'entryID', false);
     });
 
     it('should should init component properly with init value as VocabularyEntryDetail', () => {
@@ -157,7 +161,7 @@ describe('VocabularyTreeviewComponent test suite', () => {
       comp.selectedItems = [currentValue];
       fixture.detectChanges();
       expect(comp.dataSource.data).toEqual([]);
-      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['entryID'], 'entryID');
+      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['entryID'], 'entryID', false);
     });
 
     it('should should init component properly with init value as VocabularyEntry and publicModeOnly enabled', () => {
@@ -167,10 +171,10 @@ describe('VocabularyTreeviewComponent test suite', () => {
       currentValue.otherInformation = {
         id: 'entryID'
       };
-      comp.selectedItem = currentValue;
+      comp.selectedItems = [currentValue];
       fixture.detectChanges();
       expect(comp.dataSource.data).toEqual([]);
-      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['testValue'], 'entryID', true);
+      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['entryID'], 'entryID', true);
     });
 
     it('should call loadMore function', () => {
@@ -265,20 +269,29 @@ describe('VocabularyTreeviewComponent test suite', () => {
         {
           'item': {
             'id': 'srsc:SCB11',
+            'otherInformation': {
+              'id': 'srsc:SCB11'
+            },
             'display': 'HUMANITIES and RELIGION'
-          }
+          } as any
         } as TreeviewNode,
         {
           'item': {
             'id': 'srsc:SCB12',
+            'otherInformation': {
+              'id': 'srsc:SCB11'
+            },
             'display': 'LAW/JURISPRUDENCE'
-          }
+          } as any
         } as TreeviewNode,
         {
           'item': {
             'id': 'srsc:SCB13',
+            'otherInformation': {
+              'id': 'srsc:SCB11'
+            },
             'display': 'SOCIAL SCIENCES'
-          }
+          } as any
         } as TreeviewNode,
       ]));
       fixture = TestBed.createComponent(VocabularyTreeviewComponent);

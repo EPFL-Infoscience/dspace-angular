@@ -239,7 +239,7 @@ describe('VocabularyTreeviewService test suite', () => {
           b: createSuccessfulRemoteDataObject(item)
         })
       );
-      scheduler.schedule(() => service.initialize(vocabularyOptions, pageInfo, 'root2', true));
+      scheduler.schedule(() => service.initialize(vocabularyOptions, pageInfo, ['root2'], 'root2', true));
       scheduler.flush();
 
       expect(serviceAsAny.vocabularyName).toEqual(vocabularyOptions.name);
