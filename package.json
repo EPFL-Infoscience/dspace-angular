@@ -67,7 +67,7 @@
     "roarr": "7.15.1",
     "video.js": "^7.21.4",
     "webdriver-manager": "^12.1.8",
-    "webpack": "^5.69.1",
+    "webpack": "5.76.1",
     "ts-node": "10.2.1"
   },
   "dependencies": {
