@@ -19,7 +19,7 @@ import { HALEndpointService } from '../../../core/shared/hal-endpoint.service';
 import { AuthService } from '../../../core/auth/auth.service';
 import { SubmissionService } from '../../submission.service';
 import { HttpXsrfTokenExtractor } from '@angular/common/http';
-import { XSRF_REQUEST_HEADER } from '../../../core/xsrf/xsrf.interceptor';
+import { XSRF_REQUEST_HEADER } from '../../../core/xsrf/xsrf.constants';
 import { WorkspaceItem } from '../../../core/submission/models/workspaceitem.model';
 import { normalizeSectionData } from '../../../core/submission/submission-response-parsing.service';
 import { hasValue, isEmpty, isNotEmpty } from '../../../shared/empty.util';
