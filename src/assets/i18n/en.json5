@@ -1811,31 +1811,31 @@
   "curation-task.task.citationpage.label": "Generate Citation Page",
 
 
-  "curation-task.task.migratedocviewer.label":  "Migrate the previously generated doc. viewer resources",
+  "curation-task.task.migratedocviewer.label": "Migrate the previously generated doc. viewer resources",
 
-  "curation-task.task.iiifmigrate.label":  "Migrate the previously generated IIIF resources",
+  "curation-task.task.iiifmigrate.label": "Migrate the previously generated IIIF resources",
 
-  "curation-task.task.avuploader.label":  "Process video resources",
+  "curation-task.task.avuploader.label": "Process video resources",
 
-  "curation-task.task.avuploader.primary.label":  "Process video resources and hide non primary items",
+  "curation-task.task.avuploader.primary.label": "Process video resources and hide non primary items",
 
-  "curation-task.task.audiouploader.label":  "Process audio resources",
+  "curation-task.task.audiouploader.label": "Process audio resources",
 
-  "curation-task.task.audiouploader.primary.label":  "Process audio resources and hide non primary items",
+  "curation-task.task.audiouploader.primary.label": "Process audio resources and hide non primary items",
 
-  "curation-task.task.avclean.label":  "Clean audio/video resources",
+  "curation-task.task.avclean.label": "Clean audio/video resources",
 
-  "curation-task.task.generatesubtitles.label":  "Generate subtitles for audio/video resources",
+  "curation-task.task.generatesubtitles.label": "Generate subtitles for audio/video resources",
 
-  "curation-task.task.hidecovers.label":  "Hide custom audio/video thumbnails from item page",
+  "curation-task.task.hidecovers.label": "Hide custom audio/video thumbnails from item page",
 
-  "curation-task.task.avforbiddownload.label":  "Forbid Download on audio/video resources",
+  "curation-task.task.avforbiddownload.label": "Forbid Download on audio/video resources",
 
-  "curation-task.task.avallowdownload.label":  "Allow Download on audio/video resources",
+  "curation-task.task.avallowdownload.label": "Allow Download on audio/video resources",
 
-  "curation-task.task.avupdatemanifest.label":  "Regenerate AV manifest for URL update",
+  "curation-task.task.avupdatemanifest.label": "Regenerate AV manifest for URL update",
 
-  "curation-task.task.avmigrate.label":  "Migrate the AV resources generated for a previous version",
+  "curation-task.task.avmigrate.label": "Migrate the AV resources generated for a previous version",
 
 
   "cris-layout.toggle.open": "Open section",
@@ -2177,7 +2177,7 @@
 
   "explore.counters-section.project_funding": "Projects",
 
-  "explore.grid-section.seeAll" : "See all",
+  "explore.grid-section.seeAll": "See all",
 
   "explore.facet-section.title": "Discover",
 
@@ -7203,17 +7203,17 @@
 
   "authority-confidence.search-label": "Search",
 
-  "crisref.metadata.view.first" : "View first",
+  "crisref.metadata.view.first": "View first",
 
-  "crisref.metadata.view.last" : "View last",
+  "crisref.metadata.view.last": "View last",
 
-  "cris-layout.rendering.more" : "more",
+  "cris-layout.rendering.more": "more",
 
-  "cris-layout.rendering.more.withlast" : "more",
+  "cris-layout.rendering.more.withlast": "more",
 
-  "cris-layout.rendering.more.tooltip" : "click to see all",
+  "cris-layout.rendering.more.tooltip": "click to see all",
 
-  "cris-layout.rendering.collapse" : "collapse",
+  "cris-layout.rendering.collapse": "collapse",
 
   "family.listelement.badge": "Family",
 
@@ -7234,40 +7234,40 @@
   "scientificmaterial.listelement.badge": "Scientific Material",
 
   "picture.listelement.badge": "Picture",
-  "menu.section.explore_sectionfonds" : "Fonds",
-  "menu.section.explore_sectionjournalfonds" : "Journal Fonds",
+  "menu.section.explore_sectionfonds": "Fonds",
+  "menu.section.explore_sectionjournalfonds": "Journal Fonds",
 
-  "menu.section.explore_sectionaggregations" : "Collections",
-  "menu.section.explore_sectiondocuments" : "Documents & Other materials",
-  "explore.counters-section.fonds" : "Fonds",
-  "explore.counters-section.journalfonds" : "Journal Fonds",
-  "explore.counters-section.aggregations" : "Collections",
-  "explore.counters-section.documents" : "Documents & Other materials",
+  "menu.section.explore_sectionaggregations": "Collections",
+  "menu.section.explore_sectiondocuments": "Documents & Other materials",
+  "explore.counters-section.fonds": "Fonds",
+  "explore.counters-section.journalfonds": "Journal Fonds",
+  "explore.counters-section.aggregations": "Collections",
+  "explore.counters-section.documents": "Documents & Other materials",
 
-  "explore.index.titleF" : "Title",
-  "explore.index.typeF" : "Type",
-  "explore.index.dateissuedF" : "Date",
-  "explore.index.subjectF" : "Subject",
-  "explore.index.titleJF" : "Title",
-  "explore.index.typeJF" : "Type",
-  "explore.index.dateissuedJF" : "Date",
-  "explore.index.subjectJF" : "Subject",
-  "explore.index.titleA" : "Title",
-  "explore.index.typeA" : "Type",
-  "explore.index.dateissuedA" : "Date",
-  "explore.index.subjectA" : "Subject",
-  "explore.index.path" : "Path",
-  "explore.index.fond" : "Fond",
-  "explore.index.journalfond" : "Journal Fond",
-  "explore.index.aggregation" : "Collection",
+  "explore.index.titleF": "Title",
+  "explore.index.typeF": "Type",
+  "explore.index.dateissuedF": "Date",
+  "explore.index.subjectF": "Subject",
+  "explore.index.titleJF": "Title",
+  "explore.index.typeJF": "Type",
+  "explore.index.dateissuedJF": "Date",
+  "explore.index.subjectJF": "Subject",
+  "explore.index.titleA": "Title",
+  "explore.index.typeA": "Type",
+  "explore.index.dateissuedA": "Date",
+  "explore.index.subjectA": "Subject",
+  "explore.index.path": "Path",
+  "explore.index.fond": "Fond",
+  "explore.index.journalfond": "Journal Fond",
+  "explore.index.aggregation": "Collection",
 
-  "explore.search-section.sectiondocuments.title" : "Search Documents & Other materials",
+  "explore.search-section.sectiondocuments.title": "Search Documents & Other materials",
 
-  "explore.search-section.sectionfonds.title" : "Search Fonds",
+  "explore.search-section.sectionfonds.title": "Search Fonds",
 
-  "explore.search-section.sectionjournalfonds.title" : "Search Journal fonds",
+  "explore.search-section.sectionjournalfonds.title": "Search Journal fonds",
 
-  "explore.search-section.sectionaggregations.title" : "Search Collections",
+  "explore.search-section.sectionaggregations.title": "Search Collections",
 
   "explore.sectiondocuments.breadcrumbs": "Documents & Other materials",
 

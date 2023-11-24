@@ -2623,43 +2623,43 @@
 
 
   // "curation-task.task.migratedocviewer.label":  "Migrate the previously generated doc. viewer resources",
-  "curation-task.task.migratedocviewer.label":  "Migra le risorse del doc. viewer generate su una versione precedente",
+  "curation-task.task.migratedocviewer.label": "Migra le risorse del doc. viewer generate su una versione precedente",
 
   // "curation-task.task.iiifmigrate.label":  "Migrate the previously generated IIIF resources",
-  "curation-task.task.iiifmigrate.label":  "Migra le risorse IIIF generate su una versione precedente",
+  "curation-task.task.iiifmigrate.label": "Migra le risorse IIIF generate su una versione precedente",
 
   // "curation-task.task.avuploader.label":  "Process video resources",
-  "curation-task.task.avuploader.label":  "Processa le risorse video",
+  "curation-task.task.avuploader.label": "Processa le risorse video",
 
   // "curation-task.task.avuploader.primary.label":  "Process video resources and hide non primary items",
-  "curation-task.task.avuploader.primary.label":  "Processa le risorse video e nascondi i bitstream non primary",
+  "curation-task.task.avuploader.primary.label": "Processa le risorse video e nascondi i bitstream non primary",
 
   // "curation-task.task.audiouploader.label":  "Process audio resources",
-  "curation-task.task.audiouploader.label":  "Processa le risorse audio",
+  "curation-task.task.audiouploader.label": "Processa le risorse audio",
 
   // "curation-task.task.audiouploader.primary.label":  "Process audio resources and hide non primary items",
-  "curation-task.task.audiouploader.primary.label":  "Processa le risorse audio e nascondi i bitstream non primary",
+  "curation-task.task.audiouploader.primary.label": "Processa le risorse audio e nascondi i bitstream non primary",
 
   // "curation-task.task.avclean.label":  "Clean audio/video resources",
-  "curation-task.task.avclean.label":  "Ripulisci le risorse audio/video",
+  "curation-task.task.avclean.label": "Ripulisci le risorse audio/video",
 
   // "curation-task.task.generatesubtitles.label":  "Generate subtitles for audio/video resources",
-  "curation-task.task.generatesubtitles.label":  "Genera i sottotitoli per le risorse audio/video",
+  "curation-task.task.generatesubtitles.label": "Genera i sottotitoli per le risorse audio/video",
 
   // "curation-task.task.hidecovers.label":  "Hide custom audio/video thumbnails from item page",
-  "curation-task.task.hidecovers.label":  "Nascondi le thumbnail custom dei file audio/video",
+  "curation-task.task.hidecovers.label": "Nascondi le thumbnail custom dei file audio/video",
 
   // "curation-task.task.avforbiddownload.label":  "Forbid Download on audio/video resources",
-  "curation-task.task.avforbiddownload.label":  "Disabilita il download dei file audio/video",
+  "curation-task.task.avforbiddownload.label": "Disabilita il download dei file audio/video",
 
   // "curation-task.task.avallowdownload.label":  "Allow Download on audio/video resources",
-  "curation-task.task.avallowdownload.label":  "Consenti il download dei file audio/video",
+  "curation-task.task.avallowdownload.label": "Consenti il download dei file audio/video",
 
   // "curation-task.task.avupdatemanifest.label":  "Regenerate AV manifest for URL update",
-  "curation-task.task.avupdatemanifest.label":  "Rigenera il manifest AV per aggiornare le URL",
+  "curation-task.task.avupdatemanifest.label": "Rigenera il manifest AV per aggiornare le URL",
 
   // "curation-task.task.avmigrate.label":  "Migrate the AV resources generated for a previous version",
-  "curation-task.task.avmigrate.label":  "Migra le risorse AV generate su una versione precedente",
+  "curation-task.task.avmigrate.label": "Migra le risorse AV generate su una versione precedente",
 
 
   // "cris-layout.toggle.open": "Open section",
@@ -3147,7 +3147,7 @@
 
   // "explore.grid-section.seeAll" : "See all",
   // TODO New key - Add a translation
-  "explore.grid-section.seeAll" : "See all",
+  "explore.grid-section.seeAll": "See all",
 
   // "explore.facet-section.title" : "Discover",
   "explore.facet-section.title": "Scopri",
@@ -10769,27 +10769,27 @@
 
   // "crisref.metadata.view.first" : "View first",
   // TODO New key - Add a translation
-  "crisref.metadata.view.first" : "View first",
+  "crisref.metadata.view.first": "View first",
 
   // "crisref.metadata.view.last" : "View last",
   // TODO New key - Add a translation
-  "crisref.metadata.view.last" : "View last",
+  "crisref.metadata.view.last": "View last",
 
   // "cris-layout.rendering.more" : "more",
   // TODO New key - Add a translation
-  "cris-layout.rendering.more" : "more",
+  "cris-layout.rendering.more": "more",
 
   // "cris-layout.rendering.more.withlast" : "more",
   // TODO New key - Add a translation
-  "cris-layout.rendering.more.withlast" : "more",
+  "cris-layout.rendering.more.withlast": "more",
 
   // "cris-layout.rendering.more.tooltip" : "click to see all",
   // TODO New key - Add a translation
-  "cris-layout.rendering.more.tooltip" : "click to see all",
+  "cris-layout.rendering.more.tooltip": "click to see all",
 
   // "cris-layout.rendering.collapse" : "collapse",
   // TODO New key - Add a translation
-  "cris-layout.rendering.collapse" : "collapse",
+  "cris-layout.rendering.collapse": "collapse",
 
   // "family.listelement.badge": "Family",
   // TODO New key - Add a translation
@@ -10838,94 +10838,94 @@
   "picture.listelement.badge": "Picture",
   // "menu.section.explore_sectionfonds" : "Fonds",
   // TODO New key - Add a translation
-  "menu.section.explore_sectionfonds" : "Fonds",
+  "menu.section.explore_sectionfonds": "Fonds",
   // "menu.section.explore_sectionjournalfonds" : "Journal Fonds",
   // TODO New key - Add a translation
-  "menu.section.explore_sectionjournalfonds" : "Journal Fonds",
+  "menu.section.explore_sectionjournalfonds": "Journal Fonds",
 
   // "menu.section.explore_sectionaggregations" : "Collections",
   // TODO New key - Add a translation
-  "menu.section.explore_sectionaggregations" : "Collections",
+  "menu.section.explore_sectionaggregations": "Collections",
   // "menu.section.explore_sectiondocuments" : "Documents & Other materials",
   // TODO New key - Add a translation
-  "menu.section.explore_sectiondocuments" : "Documents & Other materials",
+  "menu.section.explore_sectiondocuments": "Documents & Other materials",
   // "explore.counters-section.fonds" : "Fonds",
   // TODO New key - Add a translation
-  "explore.counters-section.fonds" : "Fonds",
+  "explore.counters-section.fonds": "Fonds",
   // "explore.counters-section.journalfonds" : "Journal Fonds",
   // TODO New key - Add a translation
-  "explore.counters-section.journalfonds" : "Journal Fonds",
+  "explore.counters-section.journalfonds": "Journal Fonds",
   // "explore.counters-section.aggregations" : "Collections",
   // TODO New key - Add a translation
-  "explore.counters-section.aggregations" : "Collections",
+  "explore.counters-section.aggregations": "Collections",
   // "explore.counters-section.documents" : "Documents & Other materials",
   // TODO New key - Add a translation
-  "explore.counters-section.documents" : "Documents & Other materials",
+  "explore.counters-section.documents": "Documents & Other materials",
 
   // "explore.index.titleF" : "Title",
   // TODO New key - Add a translation
-  "explore.index.titleF" : "Title",
+  "explore.index.titleF": "Title",
   // "explore.index.typeF" : "Type",
   // TODO New key - Add a translation
-  "explore.index.typeF" : "Type",
+  "explore.index.typeF": "Type",
   // "explore.index.dateissuedF" : "Date",
   // TODO New key - Add a translation
-  "explore.index.dateissuedF" : "Date",
+  "explore.index.dateissuedF": "Date",
   // "explore.index.subjectF" : "Subject",
   // TODO New key - Add a translation
-  "explore.index.subjectF" : "Subject",
+  "explore.index.subjectF": "Subject",
   // "explore.index.titleJF" : "Title",
   // TODO New key - Add a translation
-  "explore.index.titleJF" : "Title",
+  "explore.index.titleJF": "Title",
   // "explore.index.typeJF" : "Type",
   // TODO New key - Add a translation
-  "explore.index.typeJF" : "Type",
+  "explore.index.typeJF": "Type",
   // "explore.index.dateissuedJF" : "Date",
   // TODO New key - Add a translation
-  "explore.index.dateissuedJF" : "Date",
+  "explore.index.dateissuedJF": "Date",
   // "explore.index.subjectJF" : "Subject",
   // TODO New key - Add a translation
-  "explore.index.subjectJF" : "Subject",
+  "explore.index.subjectJF": "Subject",
   // "explore.index.titleA" : "Title",
   // TODO New key - Add a translation
-  "explore.index.titleA" : "Title",
+  "explore.index.titleA": "Title",
   // "explore.index.typeA" : "Type",
   // TODO New key - Add a translation
-  "explore.index.typeA" : "Type",
+  "explore.index.typeA": "Type",
   // "explore.index.dateissuedA" : "Date",
   // TODO New key - Add a translation
-  "explore.index.dateissuedA" : "Date",
+  "explore.index.dateissuedA": "Date",
   // "explore.index.subjectA" : "Subject",
   // TODO New key - Add a translation
-  "explore.index.subjectA" : "Subject",
+  "explore.index.subjectA": "Subject",
   // "explore.index.path" : "Path",
   // TODO New key - Add a translation
-  "explore.index.path" : "Path",
+  "explore.index.path": "Path",
   // "explore.index.fond" : "Fond",
   // TODO New key - Add a translation
-  "explore.index.fond" : "Fond",
+  "explore.index.fond": "Fond",
   // "explore.index.journalfond" : "Journal Fond",
   // TODO New key - Add a translation
-  "explore.index.journalfond" : "Journal Fond",
+  "explore.index.journalfond": "Journal Fond",
   // "explore.index.aggregation" : "Collection",
   // TODO New key - Add a translation
-  "explore.index.aggregation" : "Collection",
+  "explore.index.aggregation": "Collection",
 
   // "explore.search-section.sectiondocuments.title" : "Search Documents & Other materials",
   // TODO New key - Add a translation
-  "explore.search-section.sectiondocuments.title" : "Search Documents & Other materials",
+  "explore.search-section.sectiondocuments.title": "Search Documents & Other materials",
 
   // "explore.search-section.sectionfonds.title" : "Search Fonds",
   // TODO New key - Add a translation
-  "explore.search-section.sectionfonds.title" : "Search Fonds",
+  "explore.search-section.sectionfonds.title": "Search Fonds",
 
   // "explore.search-section.sectionjournalfonds.title" : "Search Journal fonds",
   // TODO New key - Add a translation
-  "explore.search-section.sectionjournalfonds.title" : "Search Journal fonds",
+  "explore.search-section.sectionjournalfonds.title": "Search Journal fonds",
 
   // "explore.search-section.sectionaggregations.title" : "Search Collections",
   // TODO New key - Add a translation
-  "explore.search-section.sectionaggregations.title" : "Search Collections",
+  "explore.search-section.sectionaggregations.title": "Search Collections",
 
   // "explore.sectiondocuments.breadcrumbs": "Documents & Other materials",
   // TODO New key - Add a translation
@@ -11357,7 +11357,7 @@
 
   // "vocabulary-treeview.header.aggregationboxtree": "Collection Tree"
   // TODO New key - Add a translation
-  "vocabulary-treeview.header.aggregationboxtree": "Collection Tree"
+  "vocabulary-treeview.header.aggregationboxtree": "Collection Tree",
 
 
 }

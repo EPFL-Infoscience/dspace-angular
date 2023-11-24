@@ -2783,55 +2783,55 @@
 
   // "curation-task.task.migratedocviewer.label":  "Migrate the previously generated doc. viewer resources",
   // TODO New key - Add a translation
-  "curation-task.task.migratedocviewer.label":  "Migrate the previously generated doc. viewer resources",
+  "curation-task.task.migratedocviewer.label": "Migrate the previously generated doc. viewer resources",
 
   // "curation-task.task.iiifmigrate.label":  "Migrate the previously generated IIIF resources",
   // TODO New key - Add a translation
-  "curation-task.task.iiifmigrate.label":  "Migrate the previously generated IIIF resources",
+  "curation-task.task.iiifmigrate.label": "Migrate the previously generated IIIF resources",
 
   // "curation-task.task.avuploader.label":  "Process video resources",
   // TODO New key - Add a translation
-  "curation-task.task.avuploader.label":  "Process video resources",
+  "curation-task.task.avuploader.label": "Process video resources",
 
   // "curation-task.task.avuploader.primary.label":  "Process video resources and hide non primary items",
   // TODO New key - Add a translation
-  "curation-task.task.avuploader.primary.label":  "Process video resources and hide non primary items",
+  "curation-task.task.avuploader.primary.label": "Process video resources and hide non primary items",
 
   // "curation-task.task.audiouploader.label":  "Process audio resources",
   // TODO New key - Add a translation
-  "curation-task.task.audiouploader.label":  "Process audio resources",
+  "curation-task.task.audiouploader.label": "Process audio resources",
 
   // "curation-task.task.audiouploader.primary.label":  "Process audio resources and hide non primary items",
   // TODO New key - Add a translation
-  "curation-task.task.audiouploader.primary.label":  "Process audio resources and hide non primary items",
+  "curation-task.task.audiouploader.primary.label": "Process audio resources and hide non primary items",
 
   // "curation-task.task.avclean.label":  "Clean audio/video resources",
   // TODO New key - Add a translation
-  "curation-task.task.avclean.label":  "Clean audio/video resources",
+  "curation-task.task.avclean.label": "Clean audio/video resources",
 
   // "curation-task.task.generatesubtitles.label":  "Generate subtitles for audio/video resources",
   // TODO New key - Add a translation
-  "curation-task.task.generatesubtitles.label":  "Generate subtitles for audio/video resources",
+  "curation-task.task.generatesubtitles.label": "Generate subtitles for audio/video resources",
 
   // "curation-task.task.hidecovers.label":  "Hide custom audio/video thumbnails from item page",
   // TODO New key - Add a translation
-  "curation-task.task.hidecovers.label":  "Hide custom audio/video thumbnails from item page",
+  "curation-task.task.hidecovers.label": "Hide custom audio/video thumbnails from item page",
 
   // "curation-task.task.avforbiddownload.label":  "Forbid Download on audio/video resources",
   // TODO New key - Add a translation
-  "curation-task.task.avforbiddownload.label":  "Forbid Download on audio/video resources",
+  "curation-task.task.avforbiddownload.label": "Forbid Download on audio/video resources",
 
   // "curation-task.task.avallowdownload.label":  "Allow Download on audio/video resources",
   // TODO New key - Add a translation
-  "curation-task.task.avallowdownload.label":  "Allow Download on audio/video resources",
+  "curation-task.task.avallowdownload.label": "Allow Download on audio/video resources",
 
   // "curation-task.task.avupdatemanifest.label":  "Regenerate AV manifest for URL update",
   // TODO New key - Add a translation
-  "curation-task.task.avupdatemanifest.label":  "Regenerate AV manifest for URL update",
+  "curation-task.task.avupdatemanifest.label": "Regenerate AV manifest for URL update",
 
   // "curation-task.task.avmigrate.label":  "Migrate the AV resources generated for a previous version",
   // TODO New key - Add a translation
-  "curation-task.task.avmigrate.label":  "Migrate the AV resources generated for a previous version",
+  "curation-task.task.avmigrate.label": "Migrate the AV resources generated for a previous version",
 
 
   // "cris-layout.toggle.open": "Open section",
@@ -3282,7 +3282,7 @@
 
   // "error.validation.fundingInvestigatorOrLeadOrganizationRequired" : "At least one investigator or one lead organization is required",
   // TODO New key - Add a translation
-  "error.validation.fundingInvestigatorOrLeadOrganizationRequired" : "At least one investigator or one lead organization is required",
+  "error.validation.fundingInvestigatorOrLeadOrganizationRequired": "At least one investigator or one lead organization is required",
 
   // "error.validation.notRepeatable": "This field is not repeatable, please choose only one value and discard the others.",
   // TODO New key - Add a translation
@@ -3290,67 +3290,67 @@
 
   // "event.listelement.badge" : "Event",
   // TODO New key - Add a translation
-  "event.listelement.badge" : "Event",
+  "event.listelement.badge": "Event",
 
   // "explore.browse-section.title" : "Browse",
   // TODO New key - Add a translation
-  "explore.browse-section.title" : "Browse",
+  "explore.browse-section.title": "Browse",
 
   // "explore.counters-section.rprofiles" : "People",
   // TODO New key - Add a translation
-  "explore.counters-section.rprofiles" : "People",
+  "explore.counters-section.rprofiles": "People",
 
   // "explore.counters-section.publications" : "Research outputs",
   // TODO New key - Add a translation
-  "explore.counters-section.publications" : "Research outputs",
+  "explore.counters-section.publications": "Research outputs",
 
   // "explore.counters-section.project_funding" : "Projects",
   // TODO New key - Add a translation
-  "explore.counters-section.project_funding" : "Projects",
+  "explore.counters-section.project_funding": "Projects",
 
   // "explore.grid-section.seeAll" : "See all",
   // TODO New key - Add a translation
-  "explore.grid-section.seeAll" : "See all",
+  "explore.grid-section.seeAll": "See all",
 
   // "explore.facet-section.title" : "Discover",
   // TODO New key - Add a translation
-  "explore.facet-section.title" : "Discover",
+  "explore.facet-section.title": "Discover",
 
   // "explore.index.all" : "All",
   // TODO New key - Add a translation
-  "explore.index.all" : "All",
+  "explore.index.all": "All",
 
   // "explore.index.author" : "Author",
   // TODO New key - Add a translation
-  "explore.index.author" : "Author",
+  "explore.index.author": "Author",
 
   // "explore.index.graphitemtype" : "Graph by type",
   // TODO New key - Add a translation
-  "explore.index.graphitemtype" : "Graph by type",
+  "explore.index.graphitemtype": "Graph by type",
 
   // "explore.index.graphpubldate" : "Graph by date",
   // TODO New key - Add a translation
-  "explore.index.graphpubldate" : "Graph by date",
+  "explore.index.graphpubldate": "Graph by date",
 
   // "explore.index.birthDate" : "Birthday",
   // TODO New key - Add a translation
-  "explore.index.birthDate" : "Birthday",
+  "explore.index.birthDate": "Birthday",
 
   // "explore.index.metric.view" : "Most viewed",
   // TODO New key - Add a translation
-  "explore.index.metric.view" : "Most viewed",
+  "explore.index.metric.view": "Most viewed",
 
   // "explore.index.metric.download" : "Most downloaded",
   // TODO New key - Add a translation
-  "explore.index.metric.download" : "Most downloaded",
+  "explore.index.metric.download": "Most downloaded",
 
   // "explore.index.metric.scopus.citation" : "Most cited",
   // TODO New key - Add a translation
-  "explore.index.metric.scopus.citation" : "Most cited",
+  "explore.index.metric.scopus.citation": "Most cited",
 
   // "explore.index.chart.pie.itemtype_filter" : "Item Type",
   // TODO New key - Add a translation
-  "explore.index.chart.pie.itemtype_filter" : "Item Type",
+  "explore.index.chart.pie.itemtype_filter": "Item Type",
 
   // "explore.index.chart.bar.dateIssued.year": "Year",
   // TODO New key - Add a translation
@@ -3359,75 +3359,75 @@
 
   // "explore.index.dateIssued" : "Date issued",
   // TODO New key - Add a translation
-  "explore.index.dateIssued" : "Date issued",
+  "explore.index.dateIssued": "Date issued",
 
   // "explore.index.dateissued" : "Date issued",
   // TODO New key - Add a translation
-  "explore.index.dateissued" : "Date issued",
+  "explore.index.dateissued": "Date issued",
 
   // "explore.index.dc.date.accessioned" : "Recent Additions",
   // TODO New key - Add a translation
-  "explore.index.dc.date.accessioned" : "Recent Additions",
+  "explore.index.dc.date.accessioned": "Recent Additions",
 
   // "explore.index.dc.title" : "Title",
   // TODO New key - Add a translation
-  "explore.index.dc.title" : "Title",
+  "explore.index.dc.title": "Title",
 
   // "explore.index.editor" : "Editor",
   // TODO New key - Add a translation
-  "explore.index.editor" : "Editor",
+  "explore.index.editor": "Editor",
 
   // "explore.index.eqtitle" : "Title",
   // TODO New key - Add a translation
-  "explore.index.eqtitle" : "Title",
+  "explore.index.eqtitle": "Title",
 
   // "explore.index.eqowner" : "Researcher",
   // TODO New key - Add a translation
-  "explore.index.eqowner" : "Researcher",
+  "explore.index.eqowner": "Researcher",
 
   // "explore.index.eqorgunit" : "Organization",
   // TODO New key - Add a translation
-  "explore.index.eqorgunit" : "Organization",
+  "explore.index.eqorgunit": "Organization",
 
   // "explore.index.entityType" : "Entity type",
   // TODO New key - Add a translation
-  "explore.index.entityType" : "Entity type",
+  "explore.index.entityType": "Entity type",
 
   // "explore.index.familyName" : "Family name",
   // TODO New key - Add a translation
-  "explore.index.familyName" : "Family name",
+  "explore.index.familyName": "Family name",
 
   // "explore.index.funding" : "Funding",
   // TODO New key - Add a translation
-  "explore.index.funding" : "Funding",
+  "explore.index.funding": "Funding",
 
   // "explore.index.givenName" : "Given name",
   // TODO New key - Add a translation
-  "explore.index.givenName" : "Given name",
+  "explore.index.givenName": "Given name",
 
   // "explore.index.has_content_in_original_bundle" : "Has content in original bundle",
   // TODO New key - Add a translation
-  "explore.index.has_content_in_original_bundle" : "Has content in original bundle",
+  "explore.index.has_content_in_original_bundle": "Has content in original bundle",
 
   // "explore.index.investigators" : "Researchers",
   // TODO New key - Add a translation
-  "explore.index.investigators" : "Researchers",
+  "explore.index.investigators": "Researchers",
 
   // "explore.index.isAuthorOfPublication" : "Publication's author",
   // TODO New key - Add a translation
-  "explore.index.isAuthorOfPublication" : "Publication's author",
+  "explore.index.isAuthorOfPublication": "Publication's author",
 
   // "explore.index.isJournalOfPublication" : "Publication's journal",
   // TODO New key - Add a translation
-  "explore.index.isJournalOfPublication" : "Publication's journal",
+  "explore.index.isJournalOfPublication": "Publication's journal",
 
   // "explore.index.isOrgUnitOfPerson" : "Person's organization",
   // TODO New key - Add a translation
-  "explore.index.isOrgUnitOfPerson" : "Person's organization",
+  "explore.index.isOrgUnitOfPerson": "Person's organization",
 
   // "explore.index.isOrgUnitOfProject" : "Project's organization",
   // TODO New key - Add a translation
-  "explore.index.isOrgUnitOfProject" : "Project's organization",
+  "explore.index.isOrgUnitOfProject": "Project's organization",
 
   // "error.validation.metadata.name.max-length": "This field may not contain more than 32 characters", (Auto-Translated)
   "error.validation.metadata.name.max-length": "Este campo pode não conter mais de 32 caracteres",
@@ -11041,5 +11041,5 @@
 
   // "vocabulary-treeview.header.aggregationboxtree": "Collection Tree"
   // TODO New key - Add a translation
-  "vocabulary-treeview.header.aggregationboxtree": "Collection Tree"
+  "vocabulary-treeview.header.aggregationboxtree": "Collection Tree",
 }
