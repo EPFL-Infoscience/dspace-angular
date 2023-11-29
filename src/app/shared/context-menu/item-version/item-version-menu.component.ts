@@ -30,11 +30,6 @@ export class ItemVersionMenuComponent extends ContextMenuEntryComponent implemen
   canShow$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   /**
-   * EPerson id of the logged user
-   */
-  epersonId: string;
-
-  /**
    * DSpaceObject that is being viewed
    */
   dso: DSpaceObject;

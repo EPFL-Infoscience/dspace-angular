@@ -30,6 +30,8 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ItemSharedModule } from '../item-shared.module';
 import { CookieService } from '../../core/services/cookie.service';
+import { UUIDService } from '../../core/shared/uuid.service';
+import { getMockUUIDService } from '../../shared/mocks/uuid.service.mock';
 
 describe('ItemVersionsComponent', () => {
   let component: ItemVersionsComponent;
@@ -158,6 +160,7 @@ describe('ItemVersionsComponent', () => {
         {provide: ConfigurationDataService, useValue: configurationServiceSpy},
         {provide: CookieService, useValue: cookieServiceSpy},
         { provide: Router, useValue: routerSpy },
+        { provide: UUIDService, useValue: getMockUUIDService() }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();

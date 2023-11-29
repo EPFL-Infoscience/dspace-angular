@@ -468,6 +468,9 @@
 
   // "admin.registries.metadata.schemas.table.namespace": "Namespace",
   "admin.registries.metadata.schemas.table.namespace": "Espace de nommage",
+  // "admin.registries.metadata.schemas.table.download": "Download",
+  // TODO New key - Add a translation
+  "admin.registries.metadata.schemas.table.download": "Download",
 
   // "admin.registries.metadata.title": "Metadata Registry",
   "admin.registries.metadata.title": "Registre de métadonnées",
@@ -3586,6 +3589,14 @@
   // TODO New key - Add a translation
   "curation-task.task.avallowdownload.label":  "Allow Download on audio/video resources",
 
+  // "curation-task.task.avupdatemanifest.label":  "Regenerate AV manifest for URL update",
+  // TODO New key - Add a translation
+  "curation-task.task.avupdatemanifest.label":  "Regenerate AV manifest for URL update",
+
+  // "curation-task.task.avmigrate.label":  "Migrate the AV resources generated for a previous version",
+  // TODO New key - Add a translation
+  "curation-task.task.avmigrate.label":  "Migrate the AV resources generated for a previous version",
+
 
   // "cris-layout.toggle.open": "Open section",
   // TODO New key - Add a translation
@@ -3674,6 +3685,22 @@
   // "cris-layout.attachment.previewPdf": "Preview PDF",
   // TODO New key - Add a translation
   "cris-layout.attachment.previewPdf": "Preview PDF",
+
+  // "cris-layout.rendering.collections.owning-collection.label": "Owning collection",
+  // TODO New key - Add a translation
+  "cris-layout.rendering.collections.owning-collection.label": "Owning collection",
+
+  // "cris-layout.rendering.collections.mapped-collection.label": "Mapped collections",
+  // TODO New key - Add a translation
+  "cris-layout.rendering.collections.mapped-collection.label": "Mapped collections",
+
+  // "cris-layout.rendering.collections.loading": "Loading...",
+  // TODO New key - Add a translation
+  "cris-layout.rendering.collections.loading": "Loading...",
+
+  // "cris-layout.rendering.collections.load-more": "Load more",
+  // TODO New key - Add a translation
+  "cris-layout.rendering.collections.load-more": "Load more",
 
   // "curation-task.task.checklinks.label":  "Check Links in Metadata",
   "curation-task.task.checklinks.label":  "Vérification des liens dans les métadonnées",
@@ -4620,6 +4647,9 @@
   // "explore.link-section.orgunits": "Our units",
   // TODO New key - Add a translation
   "explore.link-section.orgunits": "Our units",
+  // "export-schema.process.title": "Metadata Schema Export",
+  // TODO New key - Add a translation
+  "export-schema.process.title": "Metadata Schema Export",
 
   // "feed.description": "Syndication feed",
   // TODO New key - Add a translation
@@ -10518,6 +10548,10 @@
   // TODO New key - Add a translation
   "search.filters.filter.investigators.head": "Researcher",
 
+  // "search.filters.filter.investigators.label": "Researcher",
+  // TODO New key - Add a translation
+  "search.filters.filter.investigators.label": "Researcher",
+
   // "search.filters.filter.investigators.placeholder": "Researcher",
   // TODO New key - Add a translation
   "search.filters.filter.investigators.placeholder": "Researcher",
@@ -10567,6 +10601,10 @@
   // "search.filters.filter.projectOrgUnits.head" : "Organizations",
   // TODO New key - Add a translation
   "search.filters.filter.projectOrgUnits.head" : "Organizations",
+
+  // "search.filters.filter.projectOrgUnits.label" : "Organizations",
+  // TODO New key - Add a translation
+  "search.filters.filter.projectOrgUnits.label" : "Organizations",
 
   // "search.filters.filter.projectOrgUnits.placeholder" : "Organizations",
   // TODO New key - Add a translation
@@ -11529,6 +11567,54 @@
   // "statistics.categories.top20reports.tab": "Top 20",
   // TODO New key - Add a translation
   "statistics.categories.top20reports.tab": "Top 20",
+
+  // "statistics.categories.itemReports.tab": "Item views reports",
+  // TODO New key - Add a translation
+  "statistics.categories.itemReports.tab": "Item views reports",
+
+  // "statistics.table.itemReports.header.continent" : "Continent",
+  // TODO New key - Add a translation
+  "statistics.table.itemReports.header.continent" : "Continent",
+
+  // "statistics.table.itemReports.header.views" : "Views",
+  // TODO New key - Add a translation
+  "statistics.table.itemReports.header.views" : "Views",
+
+  // "statistics.table.itemReports.header.city" : "City",
+  // TODO New key - Add a translation
+  "statistics.table.itemReports.header.city" : "City",
+
+  // "statistics.table.itemReports.header.item" : "Item",
+  // TODO New key - Add a translation
+  "statistics.table.itemReports.header.item" : "Item",
+
+  // "statistics.table.mainReports.header.community" : "Community",
+  // TODO New key - Add a translation
+  "statistics.table.mainReports.header.community" : "Community",
+
+  // "statistics.table.mainReports.header.collection" : "Collection",
+  // TODO New key - Add a translation
+  "statistics.table.mainReports.header.collection" : "Collection",
+
+  // "statistics.table.itemReports.title.TopContinents" : "Top region views",
+  // TODO New key - Add a translation
+  "statistics.table.itemReports.title.TopContinents" : "Top region views",
+
+  // "statistics.table.itemReports.title.TopCities" : "Top cities views",
+  // TODO New key - Add a translation
+  "statistics.table.itemReports.title.TopCities" : "Top cities views",
+
+  // "statistics.table.itemReports.title.TopItems" : "Most viewed",
+  // TODO New key - Add a translation
+  "statistics.table.itemReports.title.TopItems" : "Most viewed",
+
+  // "statistics.table.itemReports.title.TopCategories" : "Top categories",
+  // TODO New key - Add a translation
+  "statistics.table.itemReports.title.TopCategories" : "Top categories",
+
+  // "statistics.table.itemReports.title.TotalVisitsPerMonth" : "Top views per month",
+  // TODO New key - Add a translation
+  "statistics.table.itemReports.title.TotalVisitsPerMonth" : "Top views per month",
 
   // "statistics.reports.title": "Reports",
   // TODO New key - Add a translation

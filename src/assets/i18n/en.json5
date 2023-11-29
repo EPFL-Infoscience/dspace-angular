@@ -277,6 +277,7 @@
   "admin.registries.metadata.schemas.table.name": "Name",
 
   "admin.registries.metadata.schemas.table.namespace": "Namespace",
+  "admin.registries.metadata.schemas.table.download": "Download",
 
   "admin.registries.metadata.title": "Metadata Registry",
 
@@ -2120,6 +2121,10 @@
 
   "curation-task.task.avallowdownload.label":  "Allow Download on audio/video resources",
 
+  "curation-task.task.avupdatemanifest.label":  "Regenerate AV manifest for URL update",
+
+  "curation-task.task.avmigrate.label":  "Migrate the AV resources generated for a previous version",
+
 
   "cris-layout.toggle.open": "Open section",
 
@@ -2164,6 +2169,14 @@
   "cris-layout.attachment.viewMore": "View More",
 
   "cris-layout.attachment.previewPdf": "Preview PDF",
+
+  "cris-layout.rendering.collections.owning-collection.label": "Owning collection",
+
+  "cris-layout.rendering.collections.mapped-collection.label": "Mapped collections",
+
+  "cris-layout.rendering.collections.loading": "Loading...",
+
+  "cris-layout.rendering.collections.load-more": "Load more",
 
   "curation-task.task.checklinks.label":  "Check Links in Metadata",
 
@@ -2680,6 +2693,7 @@
   "explore.link-section.researchers": "Our researchers",
 
   "explore.link-section.orgunits": "Our units",
+  "export-schema.process.title": "Metadata Schema Export",
 
   "feed.description": "Syndication feed",
   "mydspace.feed.description": "RSS Feed of my records",
@@ -6094,6 +6108,8 @@
 
   "search.filters.filter.investigators.head": "Researcher",
 
+  "search.filters.filter.investigators.label": "Researcher",
+
   "search.filters.filter.investigators.placeholder": "Researcher",
 
   "search.filters.filter.journal.head" : "Journal",
@@ -6121,6 +6137,8 @@
   "search.filters.filter.language.placeholder": "Language",
 
   "search.filters.filter.projectOrgUnits.head" : "Organizations",
+
+  "search.filters.filter.projectOrgUnits.label" : "Organizations",
 
   "search.filters.filter.projectOrgUnits.placeholder" : "Organizations",
 
@@ -6652,6 +6670,30 @@
   "statistics.categories.downloadReports.tab": "Downloads reports",
 
   "statistics.categories.top20reports.tab": "Top 20",
+
+  "statistics.categories.itemReports.tab": "Item views reports",
+
+  "statistics.table.itemReports.header.continent" : "Continent",
+
+  "statistics.table.itemReports.header.views" : "Views",
+
+  "statistics.table.itemReports.header.city" : "City",
+
+  "statistics.table.itemReports.header.item" : "Item",
+
+  "statistics.table.mainReports.header.community" : "Community",
+
+  "statistics.table.mainReports.header.collection" : "Collection",
+
+  "statistics.table.itemReports.title.TopContinents" : "Top region views",
+
+  "statistics.table.itemReports.title.TopCities" : "Top cities views",
+
+  "statistics.table.itemReports.title.TopItems" : "Most viewed",
+
+  "statistics.table.itemReports.title.TopCategories" : "Top categories",
+
+  "statistics.table.itemReports.title.TotalVisitsPerMonth" : "Top views per month",
 
   "statistics.reports.title": "Reports",
 
