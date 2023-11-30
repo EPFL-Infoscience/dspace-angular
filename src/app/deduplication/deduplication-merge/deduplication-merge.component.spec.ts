@@ -1,16 +1,16 @@
-import { RouterMock } from './../../shared/mocks/router.mock';
+import { RouterMock } from '../../shared/mocks/router.mock';
 import { SubmissionFieldsObject } from '../../core/deduplication/models/submission-fields.model';
-import { itemsToCompare, mockSubmissionRepeatableFieldsObject } from './../../shared/mocks/deduplication.mock';
-import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
+import { itemsToCompare, mockSubmissionRepeatableFieldsObject } from '../../shared/mocks/deduplication.mock';
+import { ConfigurationProperty } from '../../core/shared/configuration-property.model';
 import { TranslateModule } from '@ngx-translate/core';
-import { ConfigurationDataService } from './../../core/data/configuration-data.service';
+import { ConfigurationDataService } from '../../core/data/configuration-data.service';
 import { DeduplicationItemsService } from './deduplication-items.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CookieService } from '../../core/services/cookie.service';
 import { CookieServiceMock } from '../../shared/mocks/cookie.service.mock';
 
 import { DeduplicationMergeComponent } from './deduplication-merge.component';
-import { GetBitstreamsPipe } from './../pipes/ds-get-bitstreams.pipe';
+import { GetBitstreamsPipe } from '../pipes/ds-get-bitstreams.pipe';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
 import { ActivatedRoute, Params, Router } from '@angular/router';

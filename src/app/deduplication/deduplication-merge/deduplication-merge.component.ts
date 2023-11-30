@@ -1,30 +1,31 @@
-import { MergeObject } from './../../core/deduplication/models/merge-object.model';
-import { NestedMetadataObject, StoreIdentifiersToMerge } from './../interfaces/deduplication-merge.models';
-import { isEqual } from 'lodash';
-import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
-import { getFirstSucceededRemoteDataPayload } from './../../core/shared/operators';
-import { ConfigurationDataService } from './../../core/data/configuration-data.service';
-import { ShowDifferencesComponent } from './../show-differences/show-differences.component';
-import { NgbAccordion, NgbModal, NgbModalOptions, NgbModalRef, } from '@ng-bootstrap/ng-bootstrap';
-import { Bitstream } from './../../core/shared/bitstream.model';
-import { MetadataValue } from './../../core/shared/metadata.models';
-import { Item } from './../../core/shared/item.model';
-import { Observable } from 'rxjs/internal/Observable';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChildren, } from '@angular/core';
-import { DeduplicationItemsService } from './deduplication-items.service';
-import { concatMap, debounceTime, finalize, map } from 'rxjs/operators';
-import { hasValue } from '../../shared/empty.util';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CookieService } from '../../core/services/cookie.service';
-import { forkJoin, fromEvent } from 'rxjs';
+import { MergeObject } from '../../core/deduplication/models/merge-object.model';
 import {
   ItemContainer,
   ItemData,
   ItemMetadataSource,
   ItemsMetadataField,
   MetadataMapObject,
+  NestedMetadataObject,
   SetIdentifiers,
+  StoreIdentifiersToMerge
 } from '../interfaces/deduplication-merge.models';
+import { isEqual } from 'lodash';
+import { ConfigurationProperty } from '../../core/shared/configuration-property.model';
+import { getFirstSucceededRemoteDataPayload } from '../../core/shared/operators';
+import { ConfigurationDataService } from '../../core/data/configuration-data.service';
+import { ShowDifferencesComponent } from '../show-differences/show-differences.component';
+import { NgbAccordion, NgbModal, NgbModalOptions, NgbModalRef, } from '@ng-bootstrap/ng-bootstrap';
+import { Bitstream } from '../../core/shared/bitstream.model';
+import { MetadataValue } from '../../core/shared/metadata.models';
+import { Item } from '../../core/shared/item.model';
+import { Observable } from 'rxjs/internal/Observable';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChildren, } from '@angular/core';
+import { DeduplicationItemsService } from './deduplication-items.service';
+import { debounceTime, finalize, map } from 'rxjs/operators';
+import { hasValue } from '../../shared/empty.util';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CookieService } from '../../core/services/cookie.service';
+import { forkJoin, fromEvent } from 'rxjs';
 import { ItemsMetadataValues } from '../interfaces/deduplication-differences.models';
 import { DeduplicationMergeResultComponent } from '../deduplication-merge-result/deduplication-merge-result.component';
 import { Location } from '@angular/common';

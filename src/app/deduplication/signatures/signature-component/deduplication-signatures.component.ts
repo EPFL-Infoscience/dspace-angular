@@ -1,7 +1,7 @@
-import { DeduplicationStateService } from './../../deduplication-state.service';
-import { SignatureObject } from './../../../core/deduplication/models/signature.model';
+import { DeduplicationStateService } from '../../deduplication-state.service';
+import { SignatureObject } from '../../../core/deduplication/models/signature.model';
 
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { floor } from 'lodash';
 

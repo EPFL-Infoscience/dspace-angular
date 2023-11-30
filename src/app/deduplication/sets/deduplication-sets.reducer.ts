@@ -1,9 +1,9 @@
 import { isEqual } from 'lodash';
-import { hasValue } from './../../shared/empty.util';
+import { hasValue } from '../../shared/empty.util';
 import { SetObject } from '../../core/deduplication/models/set.model';
 import {
-  DeduplicationSetsActionTypes,
   DeduplicationSetsActions,
+  DeduplicationSetsActionTypes,
   DeleteSetAction,
   RemoveItemPerSetAction,
 } from './deduplication-sets.actions';
