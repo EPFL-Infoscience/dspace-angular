@@ -1,24 +1,8 @@
 import { Config } from './config.interface';
-
+import { EpflUnpaywallMetadataOaireLicenseCondition } from './epfl-unpaywall-metadata-oaire-licance-condition';
+import { EpflUnpaywallMetadataOaireVersion } from './epfl-unpaywall-metadata-oaire-version';
 
 export class EpflUnpaywallMetadata implements Config {
   oaire_licenseCondition: EpflUnpaywallMetadataOaireLicenseCondition;
   oaire_version: EpflUnpaywallMetadataOaireVersion;
-}
-
-export class EpflUnpaywallMetadataOaireLicenseCondition implements Config {
-  cc_by: string;
-  cc_by_sa: string;
-  cc_by_nd: string;
-  cc_by_nc: string;
-  cc_by_nc_sa: string;
-  cc_by_nc_nd: string;
-  cc_0: string;
-  pdm: string;
-}
-
-export class EpflUnpaywallMetadataOaireVersion implements Config {
-  submittedVersion: string;
-  acceptedVersion: string;
-  publishedVersion: string;
 }

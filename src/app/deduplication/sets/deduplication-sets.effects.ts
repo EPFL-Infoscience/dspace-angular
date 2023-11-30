@@ -1,9 +1,9 @@
-import { isEqual } from 'lodash';
-import { Item } from './../../core/shared/item.model';
-import { getAllSucceededRemoteListPayload } from './../../core/shared/operators';
-import { SetObject } from './../../core/deduplication/models/set.model';
-import { PaginatedList } from './../../core/data/paginated-list.model';
-import { NotificationsService } from './../../shared/notifications/notifications.service';
+import isEqual from 'lodash/isEqual';
+import { Item } from '../../core/shared/item.model';
+import { getAllSucceededRemoteListPayload } from '../../core/shared/operators';
+import { SetObject } from '../../core/deduplication/models/set.model';
+import { PaginatedList } from '../../core/data/paginated-list.model';
+import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of as observableOf } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
