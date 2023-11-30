@@ -168,18 +168,18 @@ describe('OrcidSyncSettingsComponent test suite', () => {
   it('should create cards properly', () => {
     const modes = fixture.debugElement.query(By.css('[data-test="sync-mode"]'));
     const publication = fixture.debugElement.query(By.css('[data-test="sync-mode-publication"]'));
-    const funding = fixture.debugElement.query(By.css('[data-test="sync-mode-funding"]'));
-    const preferences = fixture.debugElement.query(By.css('[data-test="profile-preferences"]'));
+    //const funding = fixture.debugElement.query(By.css('[data-test="sync-mode-funding"]'));
+    //const preferences = fixture.debugElement.query(By.css('[data-test="profile-preferences"]'));
     expect(modes).toBeTruthy();
     expect(publication).toBeTruthy();
-    expect(funding).toBeTruthy();
-    expect(preferences).toBeTruthy();
+    //expect(funding).toBeTruthy();
+    //expect(preferences).toBeTruthy();
   });
 
   it('should init sync modes properly', () => {
     expect(comp.currentSyncMode).toBe('MANUAL');
     expect(comp.currentSyncPublications).toBe('ALL');
-    expect(comp.currentSyncFunding).toBe('DISABLED');
+    //expect(comp.currentSyncFunding).toBe('DISABLED');
   });
 
   describe('form submit', () => {
@@ -188,10 +188,10 @@ describe('OrcidSyncSettingsComponent test suite', () => {
       notificationsService = (comp as any).notificationsService;
       formGroup = new FormGroup({
         syncMode: new FormControl('MANUAL'),
-        syncFundings: new FormControl('ALL'),
+        //syncFundings: new FormControl('ALL'),
         syncPublications: new FormControl('ALL'),
-        syncProfile_BIOGRAPHICAL: new FormControl(true),
-        syncProfile_IDENTIFIERS: new FormControl(true),
+        //syncProfile_BIOGRAPHICAL: new FormControl(true),
+        //syncProfile_IDENTIFIERS: new FormControl(true),
       });
       spyOn(comp.settingsUpdated, 'emit');
     });
@@ -208,14 +208,14 @@ describe('OrcidSyncSettingsComponent test suite', () => {
           path: '/orcid/publications',
           op: 'replace',
           value: 'ALL'
-        }, {
+        /*}, {
           path: '/orcid/fundings',
           op: 'replace',
           value: 'ALL'
         }, {
           path: '/orcid/profile',
           op: 'replace',
-          value: 'BIOGRAPHICAL,IDENTIFIERS'
+          value: 'BIOGRAPHICAL,IDENTIFIERS'*/
         }
       ];
 

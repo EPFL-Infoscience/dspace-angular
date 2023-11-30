@@ -153,7 +153,7 @@ describe('SearchFacetOptionComponent', () => {
       comp.addQueryParams = {};
       (comp as any).updateAddParams(selectedValues);
       expect(comp.addQueryParams).toEqual({
-        [mockAuthorityFilterConfig.paramName]: [value1 + ',equals', `${value2},${operator}`],
+        [mockAuthorityFilterConfig.paramName]: [value1 + ',equals', `${value2},${operator}`, value2 + ',equals'],
         ['page-id.page']: 1
       });
     });

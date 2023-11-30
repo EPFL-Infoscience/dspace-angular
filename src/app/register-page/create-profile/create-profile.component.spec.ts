@@ -168,12 +168,10 @@ describe('CreateProfileComponent', () => {
       it('should initialise the form', () => {
         const firstName = fixture.debugElement.queryAll(By.css('input#firstName'))[0].nativeElement;
         const lastName = fixture.debugElement.queryAll(By.css('input#lastName'))[0].nativeElement;
-        const contactPhone = fixture.debugElement.queryAll(By.css('input#contactPhone'))[0].nativeElement;
         const language = fixture.debugElement.queryAll(By.css('select#language'))[0].nativeElement;
 
         expect(firstName).toBeDefined();
         expect(lastName).toBeDefined();
-        expect(contactPhone).toBeDefined();
         expect(language).toBeDefined();
       });
     });

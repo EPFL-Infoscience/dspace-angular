@@ -166,7 +166,7 @@ export class SubmissionFormFooterComponent implements OnInit, OnChanges {
     this.submissionService.dispatchSaveForLater(this.submissionId);
   }
 
-  private addStale() {
+  addStale() {
     this.submissionService.getSubmissionSections(this.submissionId)
       .subscribe(value  => {
         if (value.find((element) => element.id === 'virtual-collection-bind') != null) {
