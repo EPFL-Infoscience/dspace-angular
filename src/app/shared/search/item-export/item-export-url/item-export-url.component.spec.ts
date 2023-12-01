@@ -12,7 +12,7 @@ describe('ItemExportUrlComponent', () => {
   let translateService: TranslateService;
 
   const notificationService = jasmine.createSpyObj('notificationsService', {
-    success: jasmine.createSpy('success'),
+    success: jasmine.createSpy('success').and.stub(),
     error: jasmine.createSpy('error')
   });
 
@@ -41,10 +41,11 @@ describe('ItemExportUrlComponent', () => {
 
   it('should write to clipboard when button is clicked', function () {
     component.searchOptions$ = of({} as any);
+    spyOn(navigator.clipboard, 'writeText');
 
     const btn = fixture.nativeElement.querySelector('#export-url');
     btn.click();
 
-    expect(navigator.clipboard.readText()).toBeTruthy();
+    expect(navigator.clipboard.writeText).toHaveBeenCalled();
   });
 });
