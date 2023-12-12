@@ -84,19 +84,22 @@ export class OrcidQueueComponent implements OnInit, OnDestroy {
    * Retrieve queue list
    */
   updateList() {
-    this.subs.push(
-      this.paginationService.getCurrentPagination(this.paginationOptions.id, this.paginationOptions).pipe(
-        debounceTime(100),
-        distinctUntilChanged(),
-        tap(() => this.processing$.next(true)),
-        switchMap((config: PaginationComponentOptions) => this.orcidQueueService.searchByProfileItemId(this.item.id, config, false)),
-        getFirstCompletedRemoteData()
-      ).subscribe((result: RemoteData<PaginatedList<OrcidQueue>>) => {
-        this.processing$.next(false);
-        this.list$.next(result);
-        this.orcidQueueService.clearFindByProfileItemRequests();
-      })
-    );
+    this.paginationService.getCurrentPagination(this.paginationOptions.id, this.paginationOptions).pipe(
+      debounceTime(100),
+      distinctUntilChanged(),
+      tap(() => this.processing$.next(true))
+    ).subscribe((paginationOptions) => {
+      const search$: Observable<RemoteData<PaginatedList<OrcidQueue>>> =
+        this.orcidQueueService.searchByProfileItemId(this.item.id, paginationOptions, false);
+
+      this.subs.push(search$.pipe(getFirstCompletedRemoteData())
+        .subscribe((result: RemoteData<PaginatedList<OrcidQueue>>) => {
+            this.processing$.next(false);
+            this.list$.next(result);
+            this.orcidQueueService.clearFindByProfileItemRequests();
+        })
+      );
+    });
   }
 
   /**

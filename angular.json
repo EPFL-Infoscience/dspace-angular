@@ -69,6 +69,11 @@
                 "input": "src/themes/dspace/styles/theme.scss",
                 "inject": false,
                 "bundleName": "dspace-theme"
+              },
+              {
+                "input": "src/themes/epfl/styles/theme.scss",
+                "inject": false,
+                "bundleName": "epfl-theme"
               }
             ],
             "scripts": [],

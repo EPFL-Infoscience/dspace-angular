@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { getFirstSucceededRemoteDataPayload } from '../../core/shared/operators';
-import { map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
+import { map, shareReplay, switchMap, take } from 'rxjs/operators';
 import { Collection } from '../../core/shared/collection.model';
 import { FeatureID } from '../../core/data/feature-authorization/feature-id';
 import { ChangeSubmitterService } from '../../submission/change-submitter.service';
