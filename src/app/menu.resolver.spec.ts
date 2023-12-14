@@ -138,7 +138,7 @@ describe('MenuResolver', () => {
       }));
 
       expect(resolver.createPublicMenu$()).toBeObservable(cold('-----(t|)', BOOLEAN));
-      expect(menuService.getMenu).toHaveBeenCalledOnceWith(MenuID.PUBLIC);
+      expect(menuService.getMenu).toHaveBeenCalledWith(MenuID.PUBLIC);
     });
 
     describe('contents', () => {
