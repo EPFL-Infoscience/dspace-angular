@@ -75,8 +75,8 @@ export class EditItemRelationsGuard implements CanActivate {
 
     return combineLatest([editModes, authorized])
       .pipe(
-        map(([editModes, isAuthorized]: [EditItemMode[], boolean]) => {
-          if (isAuthorized || (isNotEmpty(editModes) && editModes.length > 0)) {
+        map(([editModes1, isAuthorized]: [EditItemMode[], boolean]) => {
+          if (isAuthorized || (isNotEmpty(editModes1) && editModes1.length > 0)) {
             return true;
           } else {
             this.authService.setRedirectUrl(url);

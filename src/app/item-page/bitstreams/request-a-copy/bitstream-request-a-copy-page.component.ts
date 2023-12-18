@@ -46,6 +46,8 @@ export class BitstreamRequestACopyPageComponent implements OnInit, OnDestroy {
 
   AlertTypeEnum = AlertType;
 
+  protected readonly AlertType = AlertType;
+
   constructor(private location: Location,
               private translateService: TranslateService,
               private route: ActivatedRoute,
@@ -212,6 +214,4 @@ export class BitstreamRequestACopyPageComponent implements OnInit, OnDestroy {
   getBitstreamLink() {
     return [getBitstreamDownloadRoute(this.bitstream)];
   }
-
-  protected readonly AlertType = AlertType;
 }

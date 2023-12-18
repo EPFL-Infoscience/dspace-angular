@@ -245,13 +245,15 @@ export class GroupFormComponent implements OnInit, OnDestroy {
             this.groupBeingEdited = activeGroup;
 
             if (linkedObject?.name) {
-              if (!this.formGroup.controls.groupCommunity) {this.formBuilderService.insertFormGroupControl(1, this.formGroup, this.formModel, this.groupCommunity);
-              this.formGroup.patchValue({
-                groupName: activeGroup.name,
-                groupCommunity: linkedObject?.name ?? '',
-                groupDescription: activeGroup.firstMetadataValue('dc.description'),
-                groupIsClosed: activeGroup.firstMetadataValue('epfl.group.closed') === 'true',
-              });}
+              if (!this.formGroup.controls.groupCommunity) {
+                this.formBuilderService.insertFormGroupControl(1, this.formGroup, this.formModel, this.groupCommunity);
+                this.formGroup.patchValue({
+                  groupName: activeGroup.name,
+                  groupCommunity: linkedObject?.name ?? '',
+                  groupDescription: activeGroup.firstMetadataValue('dc.description'),
+                  groupIsClosed: activeGroup.firstMetadataValue('epfl.group.closed') === 'true',
+                });
+              }
             } else {
               this.formModel = [
                 this.groupName,

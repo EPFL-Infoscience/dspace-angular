@@ -4071,7 +4071,7 @@
 
   // "explore.counters-section.publicationsoa" : "Research outputs (Open Access)",
   // TODO New key - Add a translation
-  "explore.counters-section.publicationsoa" : "Research outputs (Open Access)",
+  "explore.counters-section.publicationsoa": "Research outputs (Open Access)",
 
   // "explore.counters-section.project_funding" : "Projects",
   // TODO New key - Add a translation
@@ -4087,15 +4087,15 @@
 
   // "explore.index.all" : "All (incl. fulltext)",
   // TODO New key - Add a translation
-  "explore.index.all" : "All (incl. fulltext)",
+  "explore.index.all": "All (incl. fulltext)",
 
   // "explore.index.epflAll" : "All (without fulltext)",
   // TODO New key - Add a translation
-  "explore.index.epflAll" : "All (without fulltext)",
+  "explore.index.epflAll": "All (without fulltext)",
 
   // "explore.index.source" : "Journals, Sources, Series",
   // TODO New key - Add a translation
-  "explore.index.source" : "Journals, Sources, Series",
+  "explore.index.source": "Journals, Sources, Series",
 
   // "explore.index.author" : "Author",
   // TODO New key - Add a translation
@@ -4152,7 +4152,7 @@
 
   // "explore.index.doi" : "DOI",
   // TODO New key - Add a translation
-  "explore.index.doi" : "DOI",
+  "explore.index.doi": "DOI",
 
   // "explore.index.editor" : "Editor",
   // TODO New key - Add a translation
@@ -4260,7 +4260,7 @@
 
   // "explore.index.journal" : "Journal",
   // TODO New key - Add a translation
-  "explore.index.journal" : "Journal",
+  "explore.index.journal": "Journal",
 
   // "explore.index.knowsLanguage" : "Knows languages",
   // TODO New key - Add a translation
@@ -4268,7 +4268,7 @@
 
   // "explore.index.orcid" : "ORCID",
   // TODO New key - Add a translation
-  "explore.index.orcid" : "ORCID",
+  "explore.index.orcid": "ORCID",
 
   // "explore.index.organization" : "Organization",
   // TODO New key - Add a translation
@@ -4300,7 +4300,7 @@
 
   // "explore.index.original_bundle_mime_type" : "File type",
   // TODO New key - Add a translation
-  "explore.index.original_bundle_mime_type" : "File type",
+  "explore.index.original_bundle_mime_type": "File type",
 
   // "explore.index.ouname" : "Name",
   // TODO New key - Add a translation
@@ -4348,71 +4348,71 @@
 
   // "explore.index.author_editor" : "Author, Contributor, Editor",
   // TODO New key - Add a translation
-  "explore.index.author_editor" : "Author, Contributor, Editor",
+  "explore.index.author_editor": "Author, Contributor, Editor",
 
   // "explore.index.publisher" : "Publisher",
   // TODO New key - Add a translation
-  "explore.index.publisher" : "Publisher",
+  "explore.index.publisher": "Publisher",
 
   // "explore.index.dateAccessioned" : "Date accessioned",
   // TODO New key - Add a translation
-  "explore.index.dateAccessioned" : "Date accessioned",
+  "explore.index.dateAccessioned": "Date accessioned",
 
   // "explore.index.publishedIn" : "Published in (journal or book)",
   // TODO New key - Add a translation
-  "explore.index.publishedIn" : "Published in (journal or book)",
+  "explore.index.publishedIn": "Published in (journal or book)",
 
   // "explore.index.abstract" : "Abstract",
   // TODO New key - Add a translation
-  "explore.index.abstract" : "Abstract",
+  "explore.index.abstract": "Abstract",
 
   // "explore.index.fulltext" : "Full text",
   // TODO New key - Add a translation
-  "explore.index.fulltext" : "Full text",
+  "explore.index.fulltext": "Full text",
 
   // "explore.index.types" : "Document type",
   // TODO New key - Add a translation
-  "explore.index.types" : "Document type",
+  "explore.index.types": "Document type",
 
   // "explore.index.fundername" : "Funder name",
   // TODO New key - Add a translation
-  "explore.index.fundername" : "Funder name",
+  "explore.index.fundername": "Funder name",
 
   // "explore.index.name" : "Name",
   // TODO New key - Add a translation
-  "explore.index.name" : "Name",
+  "explore.index.name": "Name",
 
   // "explore.index.identifier" : "Identifier",
   // TODO New key - Add a translation
-  "explore.index.identifier" : "Identifier",
+  "explore.index.identifier": "Identifier",
 
   // "explore.index.researcherActive" : "Is active",
   // TODO New key - Add a translation
-  "explore.index.researcherActive" : "Is active",
+  "explore.index.researcherActive": "Is active",
 
   // "explore.index.ouTitle" : "Unit name",
   // TODO New key - Add a translation
-  "explore.index.ouTitle" : "Unit name",
+  "explore.index.ouTitle": "Unit name",
 
   // "explore.index.ouDirector" : "Head of unit",
   // TODO New key - Add a translation
-  "explore.index.ouDirector" : "Head of unit",
+  "explore.index.ouDirector": "Head of unit",
 
   // "explore.index.ouActive" : "Is active",
   // TODO New key - Add a translation
-  "explore.index.ouActive" : "Is active",
+  "explore.index.ouActive": "Is active",
 
   // "explore.index.fundingname" : "Funding",
   // TODO New key - Add a translation
-  "explore.index.fundingname" : "Funding",
+  "explore.index.fundingname": "Funding",
 
   // "explore.index.role" : "Job Title",
   // TODO New key - Add a translation
-  "explore.index.role" : "Job Title",
+  "explore.index.role": "Job Title",
 
   // "explore.index.personIdentifier" : "Identifier",
   // TODO New key - Add a translation
-  "explore.index.personIdentifier" : "Identifier",
+  "explore.index.personIdentifier": "Identifier",
 
   // "explore.index.original_bundle_oaire_licenseCondition": "License condition",
   // TODO New key - Add a translation
@@ -4420,7 +4420,7 @@
 
   // "explore.index.original_bundle_datacite_rights":  "Availability",
   // TODO New key - Add a translation
-  "explore.index.original_bundle_datacite_rights":  "Availability",
+  "explore.index.original_bundle_datacite_rights": "Availability",
 
   // "explore.index.original_bundle_datacite_available": "File Availability",
   // TODO New key - Add a translation
@@ -6133,7 +6133,7 @@
 
   // "item.preview.dc.relation.journal" : "Journal",
   // TODO New key - Add a translation
-  "item.preview.dc.relation.journal" : "Journal",
+  "item.preview.dc.relation.journal": "Journal",
 
   // "item.preview.dc.identifier.uri": "Identifier:",
   "item.preview.dc.identifier.uri": "Identificador:",
@@ -8695,7 +8695,7 @@
 
   // "reciter.suggestion.type.pubmed" : "Publications",
   // TODO New key - Add a translation
-  "reciter.suggestion.type.pubmed" : "Publications",
+  "reciter.suggestion.type.pubmed": "Publications",
 
   // "reciter.suggestion.type.orcidWorks": "Publications",
   // TODO New key - Add a translation
@@ -9032,7 +9032,7 @@
 
   // "audit.overview.table.details" : "Details",
   // TODO New key - Add a translation
-  "audit.overview.table.details" : "Details",
+  "audit.overview.table.details": "Details",
 
   // "audit.overview.table.timestamp" : "Time",
   // TODO New key - Add a translation
@@ -10143,15 +10143,15 @@
 
   // "search.filters.filter.journal.head" : "Journal",
   // TODO New key - Add a translation
-  "search.filters.filter.journal.head" : "Journal",
+  "search.filters.filter.journal.head": "Journal",
 
   // "search.filters.filter.journal.label" : "Journal",
   // TODO New key - Add a translation
-  "search.filters.filter.journal.label" : "Journal",
+  "search.filters.filter.journal.label": "Journal",
 
   // "search.filters.filter.journal.placeholder" : "Journal",
   // TODO New key - Add a translation
-  "search.filters.filter.journal.placeholder" : "Journal",
+  "search.filters.filter.journal.placeholder": "Journal",
 
   // "search.filters.filter.jobTitle.head": "Job Title",
   "search.filters.filter.jobTitle.head": "Lloc de treball",

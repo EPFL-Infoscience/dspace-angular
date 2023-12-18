@@ -849,7 +849,7 @@
 
   "audit.overview.table.eperson": "EPerson",
 
-  "audit.overview.table.details" : "Details",
+  "audit.overview.table.details": "Details",
 
   "audit.overview.table.timestamp": "Time",
 
@@ -1045,7 +1045,7 @@
 
   "browse.metadata.pjtitle": "Title",
 
-  "browse.metadata.journal" : "Journal",
+  "browse.metadata.journal": "Journal",
 
   "browse.metadata.rodept": "Unit",
 
@@ -1790,11 +1790,11 @@
 
   "RELATION.OrgUnit.people.search.results.head": "People",
 
-  "RELATION.OrgUnit.theses.search.results.head" : "Theses",
+  "RELATION.OrgUnit.theses.search.results.head": "Theses",
 
-  "RELATION.OrgUnit.sectiontheses.search.results.head" : "Teaching materials and student works",
+  "RELATION.OrgUnit.sectiontheses.search.results.head": "Teaching materials and student works",
 
-  "RELATION.VirtualCollection.publications.search.results.head" : "Publications",
+  "RELATION.VirtualCollection.publications.search.results.head": "Publications",
 
   "deduplication.breadcrumbs": "Deduplication",
 
@@ -2535,7 +2535,7 @@
 
   "explore.counters-section.publications": "Research outputs",
 
-  "explore.counters-section.publicationsoa" : "Research outputs (Open Access)",
+  "explore.counters-section.publicationsoa": "Research outputs (Open Access)",
 
   "explore.counters-section.project_funding": "Projects",
 
@@ -2545,9 +2545,9 @@
 
   "explore.index.all": "All (incl. fulltext)",
 
-  "explore.index.epflAll" : "All (without fulltext)",
+  "explore.index.epflAll": "All (without fulltext)",
 
-  "explore.index.source" : "Journals, Sources, Series",
+  "explore.index.source": "Journals, Sources, Series",
 
   "explore.index.author": "Author",
 
@@ -2574,11 +2574,11 @@
 
   "explore.index.dc.date.accessioned": "Recent Additions",
 
-  "explore.index.dc.date.created" : "Date Created",
+  "explore.index.dc.date.created": "Date Created",
 
   "explore.index.dc.title": "Title",
 
-  "explore.index.doi" : "DOI",
+  "explore.index.doi": "DOI",
 
   "explore.index.editor": "Editor",
 
@@ -2632,11 +2632,11 @@
 
   "explore.index.jobTitle": "Job title",
 
-  "explore.index.journal" : "Journal",
+  "explore.index.journal": "Journal",
 
   "explore.index.knowsLanguage": "Knows languages",
 
-  "explore.index.orcid" : "ORCID",
+  "explore.index.orcid": "ORCID",
 
   "explore.index.organization": "Organization",
 
@@ -2652,7 +2652,7 @@
 
   "explore.index.original_bundle_filenames": "Original bundle filenames",
 
-  "explore.index.original_bundle_mime_type" : "File type",
+  "explore.index.original_bundle_mime_type": "File type",
 
   "explore.index.ouname": "Name",
 
@@ -2676,47 +2676,47 @@
 
   "explore.index.type": "Type",
 
-  "explore.index.author_editor" : "Author, Contributor, Editor",
+  "explore.index.author_editor": "Author, Contributor, Editor",
 
-  "explore.index.publisher" : "Publisher",
+  "explore.index.publisher": "Publisher",
 
-  "explore.index.dateAccessioned" : "Date accessioned",
+  "explore.index.dateAccessioned": "Date accessioned",
 
-  "explore.index.dateCreated" : "Date created",
+  "explore.index.dateCreated": "Date created",
 
-  "explore.index.publishedIn" : "Published in (journal or book)",
+  "explore.index.publishedIn": "Published in (journal or book)",
 
-  "explore.index.abstract" : "Abstract",
+  "explore.index.abstract": "Abstract",
 
-  "explore.index.fulltext" : "Full text",
+  "explore.index.fulltext": "Full text",
 
-  "explore.index.types" : "Document type",
+  "explore.index.types": "Document type",
 
-  "explore.index.fundername" : "Funder name",
+  "explore.index.fundername": "Funder name",
 
-  "explore.index.name" : "Name",
+  "explore.index.name": "Name",
 
-  "explore.index.identifier" : "Identifier",
+  "explore.index.identifier": "Identifier",
 
-  "explore.index.researcherActive" : "Is active",
+  "explore.index.researcherActive": "Is active",
 
-  "explore.index.ouTitle" : "Unit name",
+  "explore.index.ouTitle": "Unit name",
 
-  "explore.index.ouDirector" : "Head of unit",
+  "explore.index.ouDirector": "Head of unit",
 
-  "explore.index.ouActive" : "Is active",
+  "explore.index.ouActive": "Is active",
 
-  "explore.index.fundingname" : "Funding",
+  "explore.index.fundingname": "Funding",
 
-  "explore.index.role" : "Job Title",
+  "explore.index.role": "Job Title",
 
-  "explore.index.personIdentifier" : "Identifier",
+  "explore.index.personIdentifier": "Identifier",
 
-  "explore.index.datacite_rights" : "Access rights",
+  "explore.index.datacite_rights": "Access rights",
 
   "explore.index.original_bundle_oaire_licenseCondition": "License condition",
 
-  "explore.index.original_bundle_datacite_rights":  "Availability",
+  "explore.index.original_bundle_datacite_rights": "Availability",
 
   "explore.index.original_bundle_datacite_available": "File Availability",
 
@@ -2953,7 +2953,7 @@
 
   "funding.page.titleprefix": "Funding:",
 
-  "virtualcollection.page.titleprefix" : "Virtual Collection",
+  "virtualcollection.page.titleprefix": "Virtual Collection",
 
 
 
@@ -3766,7 +3766,7 @@
 
   "item.preview.dc.relation.ispartofseries": "Serie",
 
-  "item.preview.dc.relation.journal" : "Journal",
+  "item.preview.dc.relation.journal": "Journal",
 
   "item.preview.dc.identifier.uri": "Identifier:",
 
@@ -4954,7 +4954,7 @@
 
   "nav.user.description": "User profile bar",
 
-  "nav.userStatistics" : "Profile Stats",
+  "nav.userStatistics": "Profile Stats",
 
   "none.listelement.badge": "Item",
 
@@ -5144,7 +5144,7 @@
 
   "reciter.suggestion.type.oaire": "Publications",
 
-  "reciter.suggestion.type.pubmed" : "Publications",
+  "reciter.suggestion.type.pubmed": "Publications",
 
   "reciter.suggestion.type.orcidWorks": "Publications",
 
@@ -5987,11 +5987,11 @@
 
   "search.filters.filter.investigators.placeholder": "Researcher",
 
-  "search.filters.filter.journal.head" : "Journal",
+  "search.filters.filter.journal.head": "Journal",
 
-  "search.filters.filter.journal.label" : "Journal",
+  "search.filters.filter.journal.label": "Journal",
 
-  "search.filters.filter.journal.placeholder" : "Journal",
+  "search.filters.filter.journal.placeholder": "Journal",
 
   "search.filters.filter.jobTitle.head": "Job Title",
 
@@ -6880,8 +6880,8 @@
 
   "submission.sections.submit.progressbar.describe.ctb-bitstream-metadata": "Common file attributes - set for each file unless differently specified",
 
-  "submission.sections.submit.progressbar.describe.content" : "Content",
-  "submission.sections.submit.progressbar.upload-content" : "Attachment(s)",
+  "submission.sections.submit.progressbar.describe.content": "Content",
+  "submission.sections.submit.progressbar.upload-content": "Attachment(s)",
 
 
   "submission.sections.detect-duplicate.clear-decision": "Undo",
@@ -8360,7 +8360,7 @@
 
   "menu.section.explore_sectionfonds": "Fonds",
   "menu.section.explore_sectionjournalfonds": "Journal Fonds",
-  "menu.section.explore_advancedsearch" : "Advanced Search",
+  "menu.section.explore_advancedsearch": "Advanced Search",
 
   "menu.section.explore_sectionaggregations": "Collections",
   "menu.section.explore_sectiondocuments": "Documents & Other materials",
@@ -8382,7 +8382,7 @@
   "explore.index.dateissuedA": "Date",
   "explore.index.subjectA": "Subject",
   "explore.index.path": "Path",
-  "explore.index.parentOrganization" : "Parent Unit",
+  "explore.index.parentOrganization": "Parent Unit",
   "explore.index.fond": "Fond",
   "explore.index.journalfond": "Journal Fond",
   "explore.index.aggregation": "Collection",

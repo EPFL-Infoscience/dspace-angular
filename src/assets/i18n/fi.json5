@@ -2609,39 +2609,39 @@
 
   // "RELATION.Person.researchoutputs.search.results.head" : "Research Outputs",
   // TODO New key - Add a translation
-  "RELATION.Person.researchoutputs.search.results.head" : "Research Outputs",
+  "RELATION.Person.researchoutputs.search.results.head": "Research Outputs",
 
   // "RELATION.Person.projects.search.results.head" : "Projects",
   // TODO New key - Add a translation
-  "RELATION.Person.projects.search.results.head" : "Projects",
+  "RELATION.Person.projects.search.results.head": "Projects",
 
   // "RELATION.OrgUnit.organizations.search.results.head" : "Organizations",
   // TODO New key - Add a translation
-  "RELATION.OrgUnit.organizations.search.results.head" : "Organizations",
+  "RELATION.OrgUnit.organizations.search.results.head": "Organizations",
 
   // "RELATION.OrgUnit.rppublications.search.results.head" : "Researchers Publications",
   // TODO New key - Add a translation
-  "RELATION.OrgUnit.rppublications.search.results.head" : "Researchers Publications",
+  "RELATION.OrgUnit.rppublications.search.results.head": "Researchers Publications",
 
   // "RELATION.OrgUnit.publications.search.results.head" : "Publications",
   // TODO New key - Add a translation
-  "RELATION.OrgUnit.publications.search.results.head" : "Publications",
+  "RELATION.OrgUnit.publications.search.results.head": "Publications",
 
   // "RELATION.OrgUnit.rpprojects.search.results.head" : "Researchers Projects",
   // TODO New key - Add a translation
-  "RELATION.OrgUnit.rpprojects.search.results.head" : "Researchers Projects",
+  "RELATION.OrgUnit.rpprojects.search.results.head": "Researchers Projects",
 
   // "RELATION.OrgUnit.projects.search.results.head" : "Projects",
   // TODO New key - Add a translation
-  "RELATION.OrgUnit.projects.search.results.head" : "Projects",
+  "RELATION.OrgUnit.projects.search.results.head": "Projects",
 
   // "RELATION.Project.researchoutputs.search.results.head" : "Publications",
   // TODO New key - Add a translation
-  "RELATION.Project.researchoutputs.search.results.head" : "Publications",
+  "RELATION.Project.researchoutputs.search.results.head": "Publications",
 
   // "RELATION.OrgUnit.people.search.results.head" : "People",
   // TODO New key - Add a translation
-  "RELATION.OrgUnit.people.search.results.head" : "People",
+  "RELATION.OrgUnit.people.search.results.head": "People",
 
   // "deduplication.breadcrumbs": "Deduplication",
   // TODO New key - Add a translation
@@ -3861,7 +3861,7 @@
 
   // "explore.counters-section.publicationsoa" : "Research outputs (Open Access)",
   // TODO New key - Add a translation
-  "explore.counters-section.publicationsoa" : "Research outputs (Open Access)",
+  "explore.counters-section.publicationsoa": "Research outputs (Open Access)",
 
   // "explore.counters-section.project_funding" : "Projects",
   // TODO New key - Add a translation
@@ -3877,7 +3877,7 @@
 
   // "explore.index.all" : "All (incl. fulltext)",
   // TODO New key - Add a translation
-  "explore.index.all" : "All (incl. fulltext)",
+  "explore.index.all": "All (incl. fulltext)",
 
   // "explore.index.epflAll" : "All (without fulltext)",
   // TODO New key - Add a translation
@@ -3885,7 +3885,7 @@
 
   // "explore.index.source" : "Journals, Sources, Series",
   // TODO New key - Add a translation
-  "explore.index.source" : "Journals, Sources, Series",
+  "explore.index.source": "Journals, Sources, Series",
 
   // "explore.index.author" : "Author",
   // TODO New key - Add a translation
@@ -3942,7 +3942,7 @@
 
   // "explore.index.doi" : "DOI",
   // TODO New key - Add a translation
-  "explore.index.doi" : "DOI",
+  "explore.index.doi": "DOI",
 
   // "explore.index.editor" : "Editor",
   // TODO New key - Add a translation
@@ -3998,75 +3998,75 @@
 
   // "explore.index.isOrgUnitOfProject" : "Project's organization",
   // TODO New key - Add a translation
-  "explore.index.isOrgUnitOfProject" : "Project's organization",
+  "explore.index.isOrgUnitOfProject": "Project's organization",
 
   // "explore.index.isOrgUnitOfPublication" : "Publication's organization",
   // TODO New key - Add a translation
-  "explore.index.isOrgUnitOfPublication" : "Publication's organization",
+  "explore.index.isOrgUnitOfPublication": "Publication's organization",
 
   // "explore.index.isPersonOfOrgUnit" : "Organization's person",
   // TODO New key - Add a translation
-  "explore.index.isPersonOfOrgUnit" : "Organization's person",
+  "explore.index.isPersonOfOrgUnit": "Organization's person",
 
   // "explore.index.isPersonOfProject" : "Project's person",
   // TODO New key - Add a translation
-  "explore.index.isPersonOfProject" : "Project's person",
+  "explore.index.isPersonOfProject": "Project's person",
 
   // "explore.index.isProjectOfOrgUnit" : "Organization's project",
   // TODO New key - Add a translation
-  "explore.index.isProjectOfOrgUnit" : "Organization's project",
+  "explore.index.isProjectOfOrgUnit": "Organization's project",
 
   // "explore.index.isProjectOfPerson" : "Person's project",
   // TODO New key - Add a translation
-  "explore.index.isProjectOfPerson" : "Person's project",
+  "explore.index.isProjectOfPerson": "Person's project",
 
   // "explore.index.isProjectOfPublication" : "Publication's project",
   // TODO New key - Add a translation
-  "explore.index.isProjectOfPublication" : "Publication's project",
+  "explore.index.isProjectOfPublication": "Publication's project",
 
   // "explore.index.isPublicationOfAuthor" : "Author's publication",
   // TODO New key - Add a translation
-  "explore.index.isPublicationOfAuthor" : "Author's publication",
+  "explore.index.isPublicationOfAuthor": "Author's publication",
 
   // "explore.index.isPublicationOfJournalIssue" : "Journal issue's publication",
   // TODO New key - Add a translation
-  "explore.index.isPublicationOfJournalIssue" : "Journal issue's publication",
+  "explore.index.isPublicationOfJournalIssue": "Journal issue's publication",
 
   // "explore.index.isPublicationOfOrgUnit" : "Organization's publication",
   // TODO New key - Add a translation
-  "explore.index.isPublicationOfOrgUnit" : "Organization's publication",
+  "explore.index.isPublicationOfOrgUnit": "Organization's publication",
 
   // "explore.index.isPublicationOfProject" : "Project's publication",
   // TODO New key - Add a translation
-  "explore.index.isPublicationOfProject" : "Project's publication",
+  "explore.index.isPublicationOfProject": "Project's publication",
 
   // "explore.index.itemidentifier" : "Item identifier",
   // TODO New key - Add a translation
-  "explore.index.itemidentifier" : "Item identifier",
+  "explore.index.itemidentifier": "Item identifier",
 
   // "explore.index.jobTitle" : "Job title",
   // TODO New key - Add a translation
-  "explore.index.jobTitle" : "Job title",
+  "explore.index.jobTitle": "Job title",
 
   // "explore.index.journal" : "Journal",
   // TODO New key - Add a translation
-  "explore.index.journal" : "Journal",
+  "explore.index.journal": "Journal",
 
   // "explore.index.knowsLanguage" : "Knows languages",
   // TODO New key - Add a translation
-  "explore.index.knowsLanguage" : "Knows languages",
+  "explore.index.knowsLanguage": "Knows languages",
 
   // "explore.index.orcid" : "ORCID",
   // TODO New key - Add a translation
-  "explore.index.orcid" : "ORCID",
+  "explore.index.orcid": "ORCID",
 
   // "explore.index.organization" : "Organization",
   // TODO New key - Add a translation
-  "explore.index.organization" : "Organization",
+  "explore.index.organization": "Organization",
 
   // "explore.index.organizationAddressCountry" : "Organization address country",
   // TODO New key - Add a translation
-  "explore.index.organizationAddressCountry" : "Organization address country",
+  "explore.index.organizationAddressCountry": "Organization address country",
   // "error.validation.metadata.name.invalid-pattern": "This field cannot contain dots, commas or spaces. Please use the Element & Qualifier fields instead",
   "error.validation.metadata.name.invalid-pattern": "Kenttään ei voi syöttää pisteitä, pilkkuja tai välilyöntejä. Käytä tämän kentän sijasta  Elementti- ja Tarkenne-kenttiä.",
 
@@ -4089,119 +4089,119 @@
   "error.validation.metadata.qualifier.max-length": "Kenttään voi laittaa vain 64 merkkiä",
   // "explore.index.original_bundle_mime_type" : "File type",
   // TODO New key - Add a translation
-  "explore.index.original_bundle_mime_type" : "File type",
+  "explore.index.original_bundle_mime_type": "File type",
 
   // "explore.index.ouname" : "Name",
   // TODO New key - Add a translation
-  "explore.index.ouname" : "Name",
+  "explore.index.ouname": "Name",
 
   // "explore.index.projectOrgUnits" : "Organizations",
   // TODO New key - Add a translation
-  "explore.index.projectOrgUnits" : "Organizations",
+  "explore.index.projectOrgUnits": "Organizations",
 
   // "explore.index.personOrgUnits" : "Organizations",
   // TODO New key - Add a translation
-  "explore.index.personOrgUnits" : "Organizations",
+  "explore.index.personOrgUnits": "Organizations",
 
   // "explore.index.pjtitle" : "Title",
   // TODO New key - Add a translation
-  "explore.index.pjtitle" : "Title",
+  "explore.index.pjtitle": "Title",
 
   // "explore.index.projectinvestigators" : "Project investigators",
   // TODO New key - Add a translation
-  "explore.index.projectinvestigators" : "Project investigators",
+  "explore.index.projectinvestigators": "Project investigators",
 
   // "explore.index.rodept" : "Department",
   // TODO New key - Add a translation
-  "explore.index.rodept" : "Department",
+  "explore.index.rodept": "Department",
 
   // "explore.index.rpdept" : "Department",
   // TODO New key - Add a translation
-  "explore.index.rpdept" : "Department",
+  "explore.index.rpdept": "Department",
 
   // "explore.index.rpname" : "Name",
   // TODO New key - Add a translation
-  "explore.index.rpname" : "Name",
+  "explore.index.rpname": "Name",
 
   // "explore.index.subject" : "Subject",
   // TODO New key - Add a translation
-  "explore.index.subject" : "Subject",
+  "explore.index.subject": "Subject",
 
   // "explore.index.title" : "Title",
   // TODO New key - Add a translation
-  "explore.index.title" : "Title",
+  "explore.index.title": "Title",
 
   // "explore.index.type" : "Type",
   // TODO New key - Add a translation
-  "explore.index.type" : "Type",
+  "explore.index.type": "Type",
 
   // "explore.index.author_editor" : "Author, Contributor, Editor",
   // TODO New key - Add a translation
-  "explore.index.author_editor" : "Author, Contributor, Editor",
+  "explore.index.author_editor": "Author, Contributor, Editor",
 
   // "explore.index.publisher" : "Publisher",
   // TODO New key - Add a translation
-  "explore.index.publisher" : "Publisher",
+  "explore.index.publisher": "Publisher",
 
   // "explore.index.dateAccessioned" : "Date accessioned",
   // TODO New key - Add a translation
-  "explore.index.dateAccessioned" : "Date accessioned",
+  "explore.index.dateAccessioned": "Date accessioned",
 
   // "explore.index.publishedIn" : "Published in (journal or book)",
   // TODO New key - Add a translation
-  "explore.index.publishedIn" : "Published in (journal or book)",
+  "explore.index.publishedIn": "Published in (journal or book)",
 
   // "explore.index.abstract" : "Abstract",
   // TODO New key - Add a translation
-  "explore.index.abstract" : "Abstract",
+  "explore.index.abstract": "Abstract",
 
   // "explore.index.fulltext" : "Full text",
   // TODO New key - Add a translation
-  "explore.index.fulltext" : "Full text",
+  "explore.index.fulltext": "Full text",
 
   // "explore.index.types" : "Document type",
   // TODO New key - Add a translation
-  "explore.index.types" : "Document type",
+  "explore.index.types": "Document type",
 
   // "explore.index.fundername" : "Funder name",
   // TODO New key - Add a translation
-  "explore.index.fundername" : "Funder name",
+  "explore.index.fundername": "Funder name",
 
   // "explore.index.name" : "Name",
   // TODO New key - Add a translation
-  "explore.index.name" : "Name",
+  "explore.index.name": "Name",
 
   // "explore.index.identifier" : "Identifier",
   // TODO New key - Add a translation
-  "explore.index.identifier" : "Identifier",
+  "explore.index.identifier": "Identifier",
 
   // "explore.index.researcherActive" : "Is active",
   // TODO New key - Add a translation
-  "explore.index.researcherActive" : "Is active",
+  "explore.index.researcherActive": "Is active",
 
   // "explore.index.ouTitle" : "Unit name",
   // TODO New key - Add a translation
-  "explore.index.ouTitle" : "Unit name",
+  "explore.index.ouTitle": "Unit name",
 
   // "explore.index.ouDirector" : "Head of unit",
   // TODO New key - Add a translation
-  "explore.index.ouDirector" : "Head of unit",
+  "explore.index.ouDirector": "Head of unit",
 
   // "explore.index.ouActive" : "Is active",
   // TODO New key - Add a translation
-  "explore.index.ouActive" : "Is active",
+  "explore.index.ouActive": "Is active",
 
   // "explore.index.fundingname" : "Funding",
   // TODO New key - Add a translation
-  "explore.index.fundingname" : "Funding",
+  "explore.index.fundingname": "Funding",
 
   // "explore.index.role" : "Job Title",
   // TODO New key - Add a translation
-  "explore.index.role" : "Job Title",
+  "explore.index.role": "Job Title",
 
   // "explore.index.personIdentifier" : "Identifier",
   // TODO New key - Add a translation
-  "explore.index.personIdentifier" : "Identifier",
+  "explore.index.personIdentifier": "Identifier",
 
   // "explore.index.original_bundle_oaire_licenseCondition": "License condition",
   // TODO New key - Add a translation
@@ -4209,7 +4209,7 @@
 
   // "explore.index.original_bundle_datacite_rights":  "Availability",
   // TODO New key - Add a translation
-  "explore.index.original_bundle_datacite_rights":  "Availability",
+  "explore.index.original_bundle_datacite_rights": "Availability",
 
   // "explore.index.original_bundle_datacite_available": "File Availability",
   // TODO New key - Add a translation
@@ -5752,7 +5752,7 @@
 
   // "item.preview.dc.relation.journal" : "Journal",
   // TODO New key - Add a translation
-  "item.preview.dc.relation.journal" : "Journal",
+  "item.preview.dc.relation.journal": "Journal",
 
   // "item.preview.dc.identifier.uri": "Identifier:",
   "item.preview.dc.identifier.uri": "Tunnus:",
@@ -7793,7 +7793,7 @@
 
   // "reciter.suggestion.type.pubmed" : "Publications",
   // TODO New key - Add a translation
-  "reciter.suggestion.type.pubmed" : "Publications",
+  "reciter.suggestion.type.pubmed": "Publications",
 
   // "reciter.suggestion.type.orcidWorks": "Publications",
   // TODO New key - Add a translation
@@ -8083,39 +8083,39 @@
 
   // "audit.overview.table.id" : "Audit ID",
   // TODO New key - Add a translation
-  "audit.overview.table.id" : "Audit ID",
+  "audit.overview.table.id": "Audit ID",
 
   // "audit.overview.table.objectUUID" : "Object ID",
   // TODO New key - Add a translation
-  "audit.overview.table.objectUUID" : "Object ID",
+  "audit.overview.table.objectUUID": "Object ID",
 
   // "audit.overview.table.objectType" : "Object Type",
   // TODO New key - Add a translation
-  "audit.overview.table.objectType" : "Object Type",
+  "audit.overview.table.objectType": "Object Type",
 
   // "audit.overview.table.subjectUUID" : "Subject ID",
   // TODO New key - Add a translation
-  "audit.overview.table.subjectUUID" : "Subject ID",
+  "audit.overview.table.subjectUUID": "Subject ID",
 
   // "audit.overview.table.subjectType" : "Subject Type",
   // TODO New key - Add a translation
-  "audit.overview.table.subjectType" : "Subject Type",
+  "audit.overview.table.subjectType": "Subject Type",
 
   // "audit.overview.table.entityType" : "Audit Type",
   // TODO New key - Add a translation
-  "audit.overview.table.entityType" : "Audit Type",
+  "audit.overview.table.entityType": "Audit Type",
 
   // "audit.overview.table.eperson" : "EPerson",
   // TODO New key - Add a translation
-  "audit.overview.table.eperson" : "EPerson",
+  "audit.overview.table.eperson": "EPerson",
 
   // "audit.overview.table.details" : "Details",
   // TODO New key - Add a translation
-  "audit.overview.table.details" : "Details",
+  "audit.overview.table.details": "Details",
 
   // "audit.overview.table.timestamp" : "Time",
   // TODO New key - Add a translation
-  "audit.overview.table.timestamp" : "Time",
+  "audit.overview.table.timestamp": "Time",
 
   // "audit.overview.breadcrumbs": "Audit Logs Overview",
   // TODO New key - Add a translation
@@ -8128,35 +8128,35 @@
 
   // "audit.detail.title" : "Audit Detail",
   // TODO New key - Add a translation
-  "audit.detail.title" : "Audit Detail",
+  "audit.detail.title": "Audit Detail",
 
   // "audit.detail.id" : "Audit Id",
   // TODO New key - Add a translation
-  "audit.detail.id" : "Audit Id",
+  "audit.detail.id": "Audit Id",
 
   // "audit.detail.subjectUUID" : "Subject ID",
   // TODO New key - Add a translation
-  "audit.detail.subjectUUID" : "Subject ID",
+  "audit.detail.subjectUUID": "Subject ID",
 
   // "audit.detail.subjectType" : "Subject Type",
   // TODO New key - Add a translation
-  "audit.detail.subjectType" : "Subject Type",
+  "audit.detail.subjectType": "Subject Type",
 
   // "audit.detail.eventType" : "Audit Type",
   // TODO New key - Add a translation
-  "audit.detail.eventType" : "Audit Type",
+  "audit.detail.eventType": "Audit Type",
 
   // "audit.detail.eperson" : "EPerson",
   // TODO New key - Add a translation
-  "audit.detail.eperson" : "EPerson",
+  "audit.detail.eperson": "EPerson",
 
   // "audit.detail.timeStamp" : "Time",
   // TODO New key - Add a translation
-  "audit.detail.timeStamp" : "Time",
+  "audit.detail.timeStamp": "Time",
 
   // "audit.detail.back" : "All Audit Logs",
   // TODO New key - Add a translation
-  "audit.detail.back" : "All Audit Logs",
+  "audit.detail.back": "All Audit Logs",
 
   // "audit.detail.back.subject": "Subject Audit Logs",
   // TODO New key - Add a translation
@@ -8938,31 +8938,31 @@
 
   // "search.filters.applied.charts.chart.bar.dateIssued.year.tab" : "Date Issued",
   // TODO New key - Add a translation
-  "search.filters.applied.charts.chart.bar.dateIssued.year.tab" : "Date Issued",
+  "search.filters.applied.charts.chart.bar.dateIssued.year.tab": "Date Issued",
 
   // "search.filters.applied.charts.chart.pie.more-value" : "More",
   // TODO New key - Add a translation
-  "search.filters.applied.charts.chart.pie.more-value" : "More",
+  "search.filters.applied.charts.chart.pie.more-value": "More",
 
   // "search.filters.applied.charts.chart.pie.itemtype_filter.tab" : "Item Type",
   // TODO New key - Add a translation
-  "search.filters.applied.charts.chart.pie.itemtype_filter.tab" : "Item Type",
+  "search.filters.applied.charts.chart.pie.itemtype_filter.tab": "Item Type",
 
   // "search.filters.applied.charts.graphitemtype.tab" : "Visualization by Type",
   // TODO New key - Add a translation
-  "search.filters.applied.charts.graphitemtype.tab" : "Visualization by Type",
+  "search.filters.applied.charts.graphitemtype.tab": "Visualization by Type",
 
   // "search.filters.applied.charts.graphpubldate.tab" : "Visualization by Date",
   // TODO New key - Add a translation
-  "search.filters.applied.charts.graphpubldate.tab" : "Visualization by Date",
+  "search.filters.applied.charts.graphpubldate.tab": "Visualization by Date",
 
   // "search.filters.applied.charts.graphpubldateltr.tab" : "Visualization Demo LTR",
   // TODO New key - Add a translation
-  "search.filters.applied.charts.graphpubldateltr.tab" : "Visualization Demo LTR",
+  "search.filters.applied.charts.graphpubldateltr.tab": "Visualization Demo LTR",
 
   // "search.filters.applied.charts.graphpubldatetrl.tab" : "Visualization Demo RTL",
   // TODO New key - Add a translation
-  "search.filters.applied.charts.graphpubldatetrl.tab" : "Visualization Demo RTL",
+  "search.filters.applied.charts.graphpubldatetrl.tab": "Visualization Demo RTL",
 
   // "search.filters.applied.charts.default.title": "Search Output",
   // TODO New key - Add a translation
@@ -9184,15 +9184,15 @@
 
   // "search.filters.filter.journal.head" : "Journal",
   // TODO New key - Add a translation
-  "search.filters.filter.journal.head" : "Journal",
+  "search.filters.filter.journal.head": "Journal",
 
   // "search.filters.filter.journal.label" : "Journal",
   // TODO New key - Add a translation
-  "search.filters.filter.journal.label" : "Journal",
+  "search.filters.filter.journal.label": "Journal",
 
   // "search.filters.filter.journal.placeholder" : "Journal",
   // TODO New key - Add a translation
-  "search.filters.filter.journal.placeholder" : "Journal",
+  "search.filters.filter.journal.placeholder": "Journal",
 
   // "search.filters.filter.jobTitle.head": "Job Title",
   "search.filters.filter.jobTitle.head": "Tehtävänimike",
@@ -9580,27 +9580,27 @@
 
   // "sorting.metric.view.ASC" : "Views Ascending",
   // TODO New key - Add a translation
-  "sorting.metric.view.ASC" : "Views Ascending",
+  "sorting.metric.view.ASC": "Views Ascending",
 
   // "sorting.metric.view.DESC" : "Views Descending",
   // TODO New key - Add a translation
-  "sorting.metric.view.DESC" : "Views Descending",
+  "sorting.metric.view.DESC": "Views Descending",
 
   // "sorting.metric.download.ASC" : "Downloads Ascending",
   // TODO New key - Add a translation
-  "sorting.metric.download.ASC" : "Downloads Ascending",
+  "sorting.metric.download.ASC": "Downloads Ascending",
 
   // "sorting.metric.download.DESC" : "Downloads Descending",
   // TODO New key - Add a translation
-  "sorting.metric.download.DESC" : "Downloads Descending",
+  "sorting.metric.download.DESC": "Downloads Descending",
 
   // "sorting.metric.scopusCitation.ASC" : "Citations Ascending",
   // TODO New key - Add a translation
-  "sorting.metric.scopusCitation.ASC" : "Citations Ascending",
+  "sorting.metric.scopusCitation.ASC": "Citations Ascending",
 
   // "sorting.metric.scopusCitation.DESC" : "Citations Descending",
   // TODO New key - Add a translation
-  "sorting.metric.scopusCitation.DESC" : "Citations Descending",
+  "sorting.metric.scopusCitation.DESC": "Citations Descending",
 
   // "sorting.score.ASC": "Least Relevant",
   "sorting.score.ASC": "Vähiten relevantti",
@@ -9935,47 +9935,47 @@
 
   // "statistics.table.itemReports.header.continent" : "Continent",
   // TODO New key - Add a translation
-  "statistics.table.itemReports.header.continent" : "Continent",
+  "statistics.table.itemReports.header.continent": "Continent",
 
   // "statistics.table.itemReports.header.views" : "Views",
   // TODO New key - Add a translation
-  "statistics.table.itemReports.header.views" : "Views",
+  "statistics.table.itemReports.header.views": "Views",
 
   // "statistics.table.itemReports.header.city" : "City",
   // TODO New key - Add a translation
-  "statistics.table.itemReports.header.city" : "City",
+  "statistics.table.itemReports.header.city": "City",
 
   // "statistics.table.itemReports.header.item" : "Item",
   // TODO New key - Add a translation
-  "statistics.table.itemReports.header.item" : "Item",
+  "statistics.table.itemReports.header.item": "Item",
 
   // "statistics.table.mainReports.header.community" : "Community",
   // TODO New key - Add a translation
-  "statistics.table.mainReports.header.community" : "Community",
+  "statistics.table.mainReports.header.community": "Community",
 
   // "statistics.table.mainReports.header.collection" : "Collection",
   // TODO New key - Add a translation
-  "statistics.table.mainReports.header.collection" : "Collection",
+  "statistics.table.mainReports.header.collection": "Collection",
 
   // "statistics.table.itemReports.title.TopContinents" : "Top region views",
   // TODO New key - Add a translation
-  "statistics.table.itemReports.title.TopContinents" : "Top region views",
+  "statistics.table.itemReports.title.TopContinents": "Top region views",
 
   // "statistics.table.itemReports.title.TopCities" : "Top cities views",
   // TODO New key - Add a translation
-  "statistics.table.itemReports.title.TopCities" : "Top cities views",
+  "statistics.table.itemReports.title.TopCities": "Top cities views",
 
   // "statistics.table.itemReports.title.TopItems" : "Most viewed",
   // TODO New key - Add a translation
-  "statistics.table.itemReports.title.TopItems" : "Most viewed",
+  "statistics.table.itemReports.title.TopItems": "Most viewed",
 
   // "statistics.table.itemReports.title.TopCategories" : "Top categories",
   // TODO New key - Add a translation
-  "statistics.table.itemReports.title.TopCategories" : "Top categories",
+  "statistics.table.itemReports.title.TopCategories": "Top categories",
 
   // "statistics.table.itemReports.title.TotalVisitsPerMonth" : "Top views per month",
   // TODO New key - Add a translation
-  "statistics.table.itemReports.title.TotalVisitsPerMonth" : "Top views per month",
+  "statistics.table.itemReports.title.TotalVisitsPerMonth": "Top views per month",
 
   // "statistics.reports.title": "Reports",
   // TODO New key - Add a translation
