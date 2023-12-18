@@ -51,6 +51,7 @@ import {
 import { SectionDataService } from './core/layout/section-data.service';
 import { Section } from './core/layout/models/section.model';
 import { NOTIFICATIONS_RECITER_SUGGESTION_PATH } from './admin/admin-notifications/admin-notifications-routing-paths';
+import { environment } from '../environments/environment';
 import { BrowseService } from './core/browse/browse.service';
 import { APP_CONFIG, AppConfig } from '../config/app-config.interface';
 

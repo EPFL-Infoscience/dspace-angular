@@ -1,7 +1,6 @@
 <ng-container *ngIf="derivedSearchResult$ | async">
     <div class="row">
         <div [ngClass]="showThumbnails ? 'offset-3 offset-xl-2  pl-3' : ''" class="d-flex gap-1 mb-1">
-            <ds-mydspace-item-status [status]="status"></ds-mydspace-item-status>
             <ds-epfl-badges [item]="item$ | async" [isWorkflowItem]="true"></ds-epfl-badges>
         </div>
     </div>

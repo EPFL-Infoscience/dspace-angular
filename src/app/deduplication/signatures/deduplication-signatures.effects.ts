@@ -1,8 +1,8 @@
-import { FindListOptions } from './../../core/data/find-list-options.model';
-import { SortDirection, SortOptions } from './../../core/cache/models/sort-options.model';
+import { FindListOptions } from '../../core/data/find-list-options.model';
+import { SortDirection, SortOptions } from '../../core/cache/models/sort-options.model';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { TranslateService } from '@ngx-translate/core';
 import { catchError, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { of as observableOf } from 'rxjs';
@@ -27,7 +27,7 @@ export class DeduplicationSignaturesEffects {
   /**
    * Retrieve all deduplication signatures managing pagination and errors.
    */
-  @Effect() retrieveAllSignatures$ = this.actions$.pipe(
+  retrieveAllSignatures$ = createEffect(() => this.actions$.pipe(
     ofType(DeduplicationSignaturesActionTypes.RETRIEVE_ALL_SIGNATURES),
     withLatestFrom(this.store$),
     switchMap(([action, currentState]: [RetrieveAllSignaturesAction, any]) => {
@@ -48,16 +48,19 @@ export class DeduplicationSignaturesEffects {
         })
       );
     })
-  );
+  ));
 
   /**
    * Show a notification on error.
    */
-  @Effect({ dispatch: false }) retrieveAllSignaturesErrorAction$ = this.actions$.pipe(
-    ofType(DeduplicationSignaturesActionTypes.RETRIEVE_ALL_SIGNATURES_ERROR),
-    tap(() => {
-      this.notificationsService.error(null, this.translate.get('deduplication.signature.error.service.retrieve'));
-    })
+  retrieveAllSignaturesErrorAction$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(DeduplicationSignaturesActionTypes.RETRIEVE_ALL_SIGNATURES_ERROR),
+      tap(() => {
+        this.notificationsService.error(null, this.translate.get('deduplication.signature.error.service.retrieve'));
+      })
+    ),
+    { dispatch: false }
   );
 
   /**

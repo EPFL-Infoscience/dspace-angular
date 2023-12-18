@@ -20,7 +20,7 @@ import { DSONameService } from '../../../core/breadcrumbs/dso-name.service';
 import { Location } from '@angular/common';
 import { BitstreamDataService } from '../../../core/data/bitstream-data.service';
 import { getItemPageRoute } from '../../item-page-routing-paths';
-import { AlertType } from '../../../shared/alert/aletr-type';
+import { AlertType } from '../../../shared/alert/alert-type';
 
 @Component({
   selector: 'ds-bitstream-request-a-copy-page',

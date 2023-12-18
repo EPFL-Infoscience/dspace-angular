@@ -30,8 +30,8 @@ export class StatisticsService {
 
   /**
    * To track a page view
-   * @param dso: The dso which was viewed
-   * @param referrer: The referrer used by the client to reach the dso page
+   * @param dso The dso which was viewed
+   * @param referrer The referrer used by the client to reach the dso page
    */
   trackViewEvent(
     dso: DSpaceObject,
@@ -46,11 +46,11 @@ export class StatisticsService {
 
   /**
    * To track a search
-   * @param searchOptions: The query, scope, dsoType and configuration of the search. Filters from this object are ignored in favor of the filters parameter of this method.
-   * @param page: An object that describes the pagination status
-   * @param sort: An object that describes the sort status
-   * @param filters: An array of search filters used to filter the result set
-   * @param clickedObject: UUID of object clicked
+   * @param searchOptions The query, scope, dsoType and configuration of the search. Filters from this object are ignored in favor of the filters parameter of this method.
+   * @param page An object that describes the pagination status
+   * @param sort An object that describes the sort status
+   * @param filters An array of search filters used to filter the result set
+   * @param clickedObject UUID of object clicked
    */
   trackSearchEvent(
     searchOptions: SearchOptions,
