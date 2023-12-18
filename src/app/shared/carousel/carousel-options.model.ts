@@ -53,4 +53,9 @@ export interface CarouselOptions {
    * Classes to be applied to the title
    */
   titleStyle: string;
+
+  /**
+   * Classes to be applied to the bundle
+   */
+  bundle: string;
 }

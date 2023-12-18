@@ -53,7 +53,7 @@
 
           <ds-themed-twitter-section *ngSwitchCase="'twitter'"
                                      [sectionId]="sectionId"
-                                     [twitterSection]="sectionComponent"></ds-themed-twitter-section>
+                                     [twitterSection]="$any(sectionComponent)"></ds-themed-twitter-section>
 
         </div>
       </div>

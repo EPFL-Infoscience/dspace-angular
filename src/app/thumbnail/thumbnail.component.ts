@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Bitstream } from '../core/shared/bitstream.model';
 import { hasNoValue, hasValue } from '../shared/empty.util';
 import { RemoteData } from '../core/data/remote-data';
@@ -85,8 +85,9 @@ export class ThumbnailComponent implements OnChanges {
    * Resolve the thumbnail.
    * Use a default image if no actual image is available.
    */
-  ngOnChanges(): void {
+  ngOnChanges(changes: SimpleChanges): void {
     if (hasNoValue(this.thumbnail) && hasNoValue(this.item)) {
+      this.setSrc(this.defaultImage);
       return;
     }
 
