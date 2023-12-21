@@ -6871,6 +6871,9 @@
 
   "submission.sections.submit.progressbar.describe.publication-import": "Details",
 
+  "submission.sections.submit.progressbar.describe.article_type": "Type",
+
+  "submission.sections.submit.progressbar.describe.article_details": "Article details",
 
   "submission.sections.detect-duplicate.clear-decision": "Undo",
 
