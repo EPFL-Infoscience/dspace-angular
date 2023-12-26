@@ -16,11 +16,8 @@ export const SECTION_LICENSE_FORM_MODEL = [
     label: 'submission.sections.license.granted-label',
     required: true,
     value: false,
-    validators: {
-      required: null
-    },
+    validators: {},
     errorMessages: {
-      required: 'submission.sections.license.required',
       notgranted: 'submission.sections.license.notgranted'
     },
     type: 'CHECKBOX',
