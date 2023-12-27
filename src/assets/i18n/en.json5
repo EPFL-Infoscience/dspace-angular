@@ -6875,6 +6875,10 @@
 
   "submission.sections.submit.progressbar.describe.article_details": "Article details",
 
+  "submission.sections.submit.progressbar.describe.teaching_details": "Teaching materials details",
+
+  "submission.sections.submit.progressbar.describe.dataset_details": "Data set details",
+
   "submission.sections.detect-duplicate.clear-decision": "Undo",
 
   "submission.sections.detect-duplicate.clear-decision-help": "Click for clear the decision about this pontential duplicate",
