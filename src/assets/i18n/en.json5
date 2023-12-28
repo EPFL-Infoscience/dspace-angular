@@ -6879,6 +6879,18 @@
 
   "submission.sections.submit.progressbar.describe.dataset_details": "Data set details",
 
+  "submission.sections.submit.progressbar.describe.conference_details": "Conference details",
+
+  "submission.sections.submit.progressbar.describe.conference_event": "Conference event",
+
+  "submission.sections.submit.progressbar.describe.design_details": "Design details",
+
+  "submission.sections.submit.progressbar.describe.media_details": "Media details",
+
+  "submission.sections.submit.progressbar.describe.preprint_type": "Preprint type",
+
+  "submission.sections.submit.progressbar.describe.preprint_details": "Preprint details",
+
   "submission.sections.detect-duplicate.clear-decision": "Undo",
 
   "submission.sections.detect-duplicate.clear-decision-help": "Click for clear the decision about this pontential duplicate",
