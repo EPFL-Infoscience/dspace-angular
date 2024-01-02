@@ -1,5 +1,5 @@
-import {Inject, Injectable} from '@angular/core';
-import {ActivatedRoute, ActivatedRouteSnapshot, Params, Resolve, RouterStateSnapshot} from '@angular/router';
+import { Inject, Injectable } from '@angular/core';
+import { ActivatedRoute, ActivatedRouteSnapshot, Params, Resolve, RouterStateSnapshot } from '@angular/router';
 import { combineLatest as observableCombineLatest, Observable } from 'rxjs';
 import { MenuID } from './shared/menu/menu-id.model';
 import { MenuState } from './shared/menu/menu-state.model';
@@ -10,7 +10,7 @@ import { PaginatedList } from './core/data/paginated-list.model';
 import { RemoteData } from './core/data/remote-data';
 import { TextMenuItemModel } from './shared/menu/menu-item/models/text.model';
 import { MenuService } from './shared/menu/menu.service';
-import { filter, find, map, switchMap, take } from 'rxjs/operators';
+import { filter, find, map, switchMap, take, withLatestFrom } from 'rxjs/operators';
 import { hasValue } from './shared/empty.util';
 import { FeatureID } from './core/data/feature-authorization/feature-id';
 import {
@@ -49,7 +49,7 @@ import { SectionDataService } from './core/layout/section-data.service';
 import { Section } from './core/layout/models/section.model';
 import { NOTIFICATIONS_RECITER_SUGGESTION_PATH } from './admin/admin-notifications/admin-notifications-routing-paths';
 import { BrowseService } from './core/browse/browse.service';
-import {APP_CONFIG, AppConfig} from '../config/app-config.interface';
+import { APP_CONFIG, AppConfig } from '../config/app-config.interface';
 
 /**
  * Creates all of the app's menus
@@ -285,82 +285,98 @@ export class MenuResolver implements Resolve<boolean> {
       this.getAuthorizedUsageStatistics(),
       this.getAuthorizedLoginStatistics(),
       this.getAuthorizedWorkflowStatistics()
-    ]).pipe(take(1)).subscribe(([canViewUsage, canViewLogin, canViewWorkflow]) => {
-      const menuList = [];
-      if (canViewUsage || canViewLogin || canViewWorkflow) {
-        if (canViewUsage) {
-          menuList.push({
-            id: 'statistics_site',
-            parentID: 'statistics',
-            active: false,
-            visible: true,
-            model: {
-              type: MenuItemType.LINK,
-              text: 'menu.section.statistics.site',
-              link: '/statistics'
-            } as LinkMenuItemModel
-          });
-        }
-
-        if (canViewLogin) {
-          menuList.push({
-            id: 'statistics_login',
-            parentID: 'statistics',
-            active: false,
-            visible: true,
-            model: {
-              type: MenuItemType.LINK,
-              text: 'menu.section.statistics.login',
-              link: '/statistics/login'
-            } as LinkMenuItemModel
-          });
-        }
-
-        if (canViewWorkflow) {
-          menuList.push({
-            id: 'statistics_workflow',
-            parentID: 'statistics',
-            active: false,
-            visible: true,
-            model: {
-              type: MenuItemType.LINK,
-              text: 'menu.section.statistics.workflow',
-              link: '/statistics/workflow'
-            } as LinkMenuItemModel
-          });
-
-          menuList.push({
-            id: 'statistics_search',
-            parentID: 'statistics',
-            active: false,
-            visible: true,
-            model: {
-              type: MenuItemType.LINK,
-              text: 'menu.section.statistics.search',
-              link: '/statistics/search'
-            } as LinkMenuItemModel
-          });
-
-        }
-
-        // the parent menu should be added after the children
-        menuList.push(
-          {
-            id: 'statistics',
-            active: false,
-            visible: true,
-            index: 10,
-            model: {
-              type: MenuItemType.TEXT,
-              text: 'menu.section.statistics'
-            } as TextMenuItemModel,
+    ])
+      .pipe(
+        take(1),
+        withLatestFrom(this.menuService.getMenu(MenuID.PUBLIC))
+      )
+      .subscribe(([[canViewUsage, canViewLogin, canViewWorkflow], publicMenu]) => {
+        const menuList = [];
+        if (canViewUsage || canViewLogin || canViewWorkflow) {
+          if (canViewUsage) {
+            if (hasValue(publicMenu?.sections?.statistics_site)) {
+              this.menuService.removeSection(MenuID.PUBLIC, 'statistics_site');
+            }
+            menuList.push({
+              id: 'statistics_site',
+              parentID: 'statistics',
+              active: false,
+              visible: true,
+              model: {
+                type: MenuItemType.LINK,
+                text: 'menu.section.statistics.site',
+                link: '/statistics'
+              } as LinkMenuItemModel
+            });
           }
-        );
-      }
-      menuList.forEach((menuSection) => this.menuService.addSection(MenuID.PUBLIC, Object.assign(menuSection, {
-        shouldPersistOnRouteChange: true
-      })));
-    });
+
+          if (canViewLogin) {
+            if (hasValue(publicMenu?.sections?.statistics_login)) {
+              this.menuService.removeSection(MenuID.PUBLIC, 'statistics_login');
+            }
+            menuList.push({
+              id: 'statistics_login',
+              parentID: 'statistics',
+              active: false,
+              visible: true,
+              model: {
+                type: MenuItemType.LINK,
+                text: 'menu.section.statistics.login',
+                link: '/statistics/login'
+              } as LinkMenuItemModel
+            });
+          }
+
+          if (canViewWorkflow) {
+            if (hasValue(publicMenu?.sections?.statistics_workflow)) {
+              this.menuService.removeSection(MenuID.PUBLIC, 'statistics_workflow');
+            }
+            menuList.push({
+              id: 'statistics_workflow',
+              parentID: 'statistics',
+              active: false,
+              visible: true,
+              model: {
+                type: MenuItemType.LINK,
+                text: 'menu.section.statistics.workflow',
+                link: '/statistics/workflow'
+              } as LinkMenuItemModel
+            });
+
+            menuList.push({
+              id: 'statistics_search',
+              parentID: 'statistics',
+              active: false,
+              visible: true,
+              model: {
+                type: MenuItemType.LINK,
+                text: 'menu.section.statistics.search',
+                link: '/statistics/search'
+              } as LinkMenuItemModel
+            });
+          }
+
+          // the parent menu should be added after the children
+          if (hasValue(publicMenu?.sections?.statistics)) {
+            this.menuService.removeSection(MenuID.PUBLIC, 'statistics');
+          }
+          menuList.push(
+            {
+              id: 'statistics',
+              active: false,
+              visible: true,
+              index: 10,
+              model: {
+                type: MenuItemType.TEXT,
+                text: 'menu.section.statistics'
+              } as TextMenuItemModel,
+            }
+          );
+        }
+        menuList.forEach((menuSection) => this.menuService.addSection(MenuID.PUBLIC, Object.assign(menuSection, {
+          shouldPersistOnRouteChange: true
+        })));
+      });
   }
 
   createBrowseByMenu() {
