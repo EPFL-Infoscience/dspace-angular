@@ -6459,6 +6459,9 @@
 
   "sorting.organisation.address.foundingDate.DESC" : "Founding Date Descending",
 
+  "sorting.organisation.foundingDate.ASC": "Founding Date Ascending",
+
+  "sorting.organisation.foundingDate.DESC": "Founding Date Descending",
 
   "statistics.export.csv": "Export CSV",
 
@@ -7944,7 +7947,7 @@
 
   "supervision.search.results.head": "Workflow and Workspace tasks",
 
-
+  "researchoutputsoa.search.results.head": "Publications Search Results (Open Access)",
 
   "workflow-item.edit.breadcrumbs": "Edit workflowitem",
 
