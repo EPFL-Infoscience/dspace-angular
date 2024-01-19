@@ -239,6 +239,7 @@ import { ProductDatasetSchemaType } from './metadata/schema-json-ld/schema-types
 import { PersonSchemaType } from './metadata/schema-json-ld/schema-types/Person/person-schema-type';
 import { InternalLinkService } from './services/internal-link.service';
 import { UnpaywallItemService } from './data/unpaywall-item.service';
+import { InternalLinkService } from './services/internal-link.service';
 
 /**
  * When not in production, endpoint responses can be mocked for testing purposes
