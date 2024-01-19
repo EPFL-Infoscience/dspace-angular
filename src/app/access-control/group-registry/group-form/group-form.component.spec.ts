@@ -286,23 +286,36 @@ describe('GroupFormComponent', () => {
         const operations = [{
           op: 'add',
           path: '/metadata/dc.description',
-          value: 'testDescription'
+          value: groupDescription
         }, {
           op: 'replace',
           path: '/name',
           value: 'newGroupName'
+        }, {
+          op: 'replace',
+          path: '/metadata/epfl.group.closed/0/value',
+          value: groupIsClosed
         }];
         expect(groupsDataServiceStub.patch).toHaveBeenCalledWith(expected, operations);
       });
 
       it('should edit with description operations', () => {
         component.groupName.value = null;
+        component.groupIsClosed.value = false;
         component.onSubmit();
         fixture.detectChanges();
         const operations = [{
           op: 'add',
           path: '/metadata/dc.description',
-          value: 'testDescription'
+          value: groupDescription
+        }, {
+          op: 'replace',
+          path: '/name',
+          value: 'newGroupName'
+        }, {
+          op: 'replace',
+          path: '/metadata/epfl.group.closed/0/value',
+          value: groupIsClosed
         }];
         expect(groupsDataServiceStub.patch).toHaveBeenCalledWith(expected, operations);
       });
@@ -312,9 +325,17 @@ describe('GroupFormComponent', () => {
         component.onSubmit();
         fixture.detectChanges();
         const operations = [{
+          op: 'add',
+          path: '/metadata/dc.description',
+          value: groupDescription
+        }, {
           op: 'replace',
           path: '/name',
           value: 'newGroupName'
+        }, {
+          op: 'replace',
+          path: '/metadata/epfl.group.closed/0/value',
+          value: groupIsClosed
         }];
         expect(groupsDataServiceStub.patch).toHaveBeenCalledWith(expected, operations);
       });

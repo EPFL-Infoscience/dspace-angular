@@ -189,12 +189,12 @@ describe('ThumbnailComponent', () => {
             authorizationService.isAuthorized.and.returnValue(observableOf(false));
           });
 
-          it('should fall back to default', () => {
+          it('should add an authentication token to the thumbnail URL', () => {
             comp.errorHandler();
 
-            expect(setSrcSpy).toHaveBeenCalledWith(comp.defaultImage);
+            expect(setSrcSpy).toHaveBeenCalledWith(CONTENT + '?authentication-token=fake');
 
-            // We don't need to check authorization if we failed to retrieve the Bitstreamin the first place
+            // We don't need to check authorization if we failed to retrieve the Bitstream in the first place
             if (!(comp.thumbnail as RemoteData<Bitstream>)?.hasFailed) {
               expect(authorizationService.isAuthorized).toHaveBeenCalled();
             }

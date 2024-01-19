@@ -1,5 +1,4 @@
-import { Config } from './config.interface';
-
+import {Config} from './config.interface';
 
 export class EpflUnpaywallMetadataOaireVersion implements Config {
   submittedVersion: string;

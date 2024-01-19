@@ -235,7 +235,8 @@ describe('OpenaireBrokerEventsComponent test suite', () => {
       it('should call getOpenaireBrokerEvents on 200 response from REST', () => {
         const action = 'ACCEPTED';
         spyOn(compAsAny, 'getOpenaireBrokerEvents');
-        openaireBrokerEventRestServiceStub.patchEvent.and.returnValue(createSuccessfulRemoteDataObject$({}));
+        openaireBrokerEventRestServiceStub.patchEvent.and.returnValue(
+          createSuccessfulRemoteDataObject$({ title: 'title' } as OpenaireBrokerEventObject));
 
         scheduler.schedule(() => {
           comp.executeAction(action, getOpenAireBrokerEventData1());

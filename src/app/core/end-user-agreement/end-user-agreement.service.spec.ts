@@ -46,7 +46,8 @@ describe('EndUserAgreementService', () => {
     });
     ePersonService = jasmine.createSpyObj('ePersonService', {
       update: createSuccessfulRemoteDataObject$(userWithMetadata),
-      patch: createSuccessfulRemoteDataObject$({})
+      patch: createSuccessfulRemoteDataObject$({}),
+      getEPersonByEmail: createSuccessfulRemoteDataObject$(userWithMetadata)
     });
     configurationDataService = jasmine.createSpyObj('configurationDataService', {
       findByPropertyName: configurationPropertyMockRD$,
@@ -99,6 +100,7 @@ describe('EndUserAgreementService', () => {
       describe('and the user doesn\'t contain agreement metadata', () => {
         beforeEach(() => {
           (authService.getAuthenticatedUserFromStore as jasmine.Spy).and.returnValue(observableOf(userWithoutMetadata));
+          (ePersonService.getEPersonByEmail as jasmine.Spy).and.returnValue(createSuccessfulRemoteDataObject$(userWithoutMetadata));
         });
 
         it('hasCurrentUserOrCookieAcceptedAgreement should return false', (done) => {

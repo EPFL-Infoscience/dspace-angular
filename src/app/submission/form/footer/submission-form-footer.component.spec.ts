@@ -24,6 +24,7 @@ import { ClaimedTask } from '../../../core/tasks/models/claimed-task-object.mode
 import { createSuccessfulRemoteDataObject, createSuccessfulRemoteDataObject$ } from '../../../shared/remote-data.utils';
 import { WorkflowItem } from '../../../core/submission/models/workflowitem.model';
 import { WorkflowAction } from '../../../core/tasks/models/workflow-action-object.model';
+import { RequestService } from '../../../core/data/request.service';
 
 const submissionServiceStub: SubmissionServiceStub = new SubmissionServiceStub();
 
@@ -59,6 +60,7 @@ describe('SubmissionFormFooterComponent', () => {
         { provide: SubmissionRestService, useClass: SubmissionRestServiceStub },
         { provide: LinkService, useValue: getMockLinkService() },
         { provide: ClaimedTaskDataService, useValue: getMockLinkService() },
+        { provide: RequestService, useValue: {} as RequestService },
         ChangeDetectorRef,
         NgbModal,
         SubmissionFormFooterComponent
@@ -103,6 +105,7 @@ describe('SubmissionFormFooterComponent', () => {
       claimedTaskDataService.findByItem.and.returnValue(createSuccessfulRemoteDataObject$(claimedTaskMock));
       comp.submissionId = submissionId;
 
+      spyOn(comp, 'addStale').and.stub();
     });
 
     afterEach(() => {

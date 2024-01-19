@@ -146,7 +146,7 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
     }
   }
 
-  private addFileMetadata() {
+  addFileMetadata() {
 
     const sectionId = 'upload-publication';
     const pathCombiner: JsonPatchOperationPathCombiner = new JsonPatchOperationPathCombiner('sections', sectionId);
