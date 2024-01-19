@@ -4122,6 +4122,12 @@
 
   "layout.tab.header.OrgUnit.details": "Details",
 
+  "layout.tab.header.OrgUnit.collège.details": "Institutes",
+
+  "layout.tab.header.OrgUnit.faculté.details": "Institutes",
+
+  "layout.tab.header.OrgUnit.institut.details": "Labs and Research Groups",
+
   "layout.tab.header.OrgUnit.organizations": "Organizations",
 
   "layout.tab.header.OrgUnit.publications": "Publications",
@@ -6471,6 +6477,9 @@
 
   "sorting.organisation.address.foundingDate.DESC" : "Founding Date Descending",
 
+  "sorting.organisation.foundingDate.ASC": "Founding Date Ascending",
+
+  "sorting.organisation.foundingDate.DESC": "Founding Date Descending",
 
   "statistics.export.csv": "Export CSV",
 
@@ -6894,8 +6903,44 @@
   "submission.sections.submit.progressbar.describe.ctb-bitstream-metadata": "Common file attributes - set for each file unless differently specified",
 
   "submission.sections.submit.progressbar.describe.content" : "Content",
+
   "submission.sections.submit.progressbar.upload-content" : "Attachment(s)",
 
+  "submission.sections.submit.progressbar.describe.journalcontainer_details": "Details",
+
+  "submission.sections.submit.progressbar.describe.bookcontainer_details": "Additional details",
+
+  "submission.sections.submit.progressbar.describe.thesis_type": "Type",
+
+  "submission.sections.submit.progressbar.describe.thesis_details": "Details",
+
+  "submission.sections.submit.progressbar.describe.thesis_involved": "Thesis Involved",
+
+  "submission.sections.submit.progressbar.describe.alternative_identifiers": "Identifiers",
+
+  "submission.sections.submit.progressbar.describe.related_event": "Related event",
+
+  "submission.sections.submit.progressbar.describe.publication-import": "Details",
+
+  "submission.sections.submit.progressbar.describe.article_type": "Type",
+
+  "submission.sections.submit.progressbar.describe.article_details": "Article details",
+
+  "submission.sections.submit.progressbar.describe.teaching_details": "Teaching materials details",
+
+  "submission.sections.submit.progressbar.describe.dataset_details": "Data set details",
+
+  "submission.sections.submit.progressbar.describe.conference_details": "Conference details",
+
+  "submission.sections.submit.progressbar.describe.conference_event": "Conference event",
+
+  "submission.sections.submit.progressbar.describe.design_details": "Design details",
+
+  "submission.sections.submit.progressbar.describe.media_details": "Media details",
+
+  "submission.sections.submit.progressbar.describe.preprint_type": "Preprint type",
+
+  "submission.sections.submit.progressbar.describe.preprint_details": "Preprint details",
 
   "submission.sections.detect-duplicate.clear-decision": "Undo",
 
@@ -7944,7 +7989,7 @@
 
   "supervision.search.results.head": "Workflow and Workspace tasks",
 
-
+  "researchoutputsoa.search.results.head": "Publications Search Results (Open Access)",
 
   "workflow-item.edit.breadcrumbs": "Edit workflowitem",
 
