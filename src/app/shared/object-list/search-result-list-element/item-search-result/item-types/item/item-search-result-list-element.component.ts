@@ -8,7 +8,8 @@ import { SearchResultListElementComponent } from '../../../search-result-list-el
 import { Item } from '../../../../../../core/shared/item.model';
 import { getItemPageRoute } from '../../../../../../item-page/item-page-routing-paths';
 import { Context } from '../../../../../../core/shared/context.model';
-import {differenceInDays, differenceInMilliseconds, parseISO} from 'date-fns';
+import { differenceInDays, differenceInMilliseconds, parseISO } from 'date-fns';
+import { environment } from '../../../../../../../environments/environment';
 
 @listableObjectComponent('PublicationSearchResult', ViewMode.ListElement)
 @listableObjectComponent(ItemSearchResult, ViewMode.ListElement)
@@ -32,6 +33,8 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
    * Route to the item's page
    */
   itemPageRoute: string;
+
+  authorMetadata = environment.searchResult.authorMetadata;
 
   ngOnInit(): void {
     super.ngOnInit();

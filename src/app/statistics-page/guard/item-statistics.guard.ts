@@ -38,8 +38,8 @@ export class ItemStatisticsGuard implements CanActivate {
 }));
 
     return authorized.pipe(
-      map((authorized: boolean) => {
-        if (authorized) {
+      map((authorized1: boolean) => {
+        if (authorized1) {
           return true;
         }
         this.authService.setRedirectUrl(url);

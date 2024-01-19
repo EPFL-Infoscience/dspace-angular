@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 import { Bitstream } from '../../core/shared/bitstream.model';
 import { ItemData } from '../interfaces/deduplication-merge.models';
 

@@ -45,6 +45,13 @@ export class SubmissionSectionUploadFileViewComponent implements OnInit {
 
   public fileType = 'Type';
 
+  public fileFormat!: string;
+
+  public fileCheckSum!: {
+    checkSumAlgorithm: string;
+    value: string;
+  };
+
   /**
    * The bitstream's description key
    * @type {string}
@@ -61,6 +68,8 @@ export class SubmissionSectionUploadFileViewComponent implements OnInit {
       this.metadata[this.licenseCondition] = Metadata.all(this.fileData.metadata, 'oaire.licenseCondition');
       this.metadata[this.fileType] = Metadata.all(this.fileData.metadata, 'dc.type');
     }
+    this.fileCheckSum = this.fileData.checkSum;
+    this.fileFormat = this.fileData.format.shortDescription;
   }
 
   /**

@@ -11,7 +11,7 @@ import { combineLatest as observableCombineLatest, Observable, of as observableO
 import { getBitstreamDownloadRoute, getForbiddenRoute } from '../../../app-routing-paths';
 import { TranslateService } from '@ngx-translate/core';
 import { EPerson } from '../../../core/eperson/models/eperson.model';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ItemRequestDataService } from '../../../core/data/item-request-data.service';
 import { ItemRequest } from '../../../core/shared/item-request.model';
 import { Item } from '../../../core/shared/item.model';
@@ -20,7 +20,7 @@ import { DSONameService } from '../../../core/breadcrumbs/dso-name.service';
 import { Location } from '@angular/common';
 import { BitstreamDataService } from '../../../core/data/bitstream-data.service';
 import { getItemPageRoute } from '../../item-page-routing-paths';
-import { AlertType } from '../../../shared/alert/aletr-type';
+import { AlertType } from '../../../shared/alert/alert-type';
 
 @Component({
   selector: 'ds-bitstream-request-a-copy-page',
@@ -35,7 +35,7 @@ export class BitstreamRequestACopyPageComponent implements OnInit, OnDestroy {
 
   canDownload$: Observable<boolean>;
   private subs: Subscription[] = [];
-  requestCopyForm: FormGroup;
+  requestCopyForm: UntypedFormGroup;
 
   item: Item;
   itemName: string;
@@ -46,13 +46,15 @@ export class BitstreamRequestACopyPageComponent implements OnInit, OnDestroy {
 
   AlertTypeEnum = AlertType;
 
+  protected readonly AlertType = AlertType;
+
   constructor(private location: Location,
               private translateService: TranslateService,
               private route: ActivatedRoute,
               protected router: Router,
               private authorizationService: AuthorizationDataService,
               private auth: AuthService,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private itemRequestDataService: ItemRequestDataService,
               private notificationsService: NotificationsService,
               private dsoNameService: DSONameService,
@@ -62,15 +64,15 @@ export class BitstreamRequestACopyPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.requestCopyForm = this.formBuilder.group({
-      name: new FormControl('', {
+      name: new UntypedFormControl('', {
         validators: [Validators.required],
       }),
-      email: new FormControl('', {
+      email: new UntypedFormControl('', {
         validators: [Validators.required,
         Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]
       }),
-      allfiles: new FormControl(''),
-      message: new FormControl(''),
+      allfiles: new UntypedFormControl(''),
+      message: new UntypedFormControl(''),
     });
 
 
@@ -212,6 +214,4 @@ export class BitstreamRequestACopyPageComponent implements OnInit, OnDestroy {
   getBitstreamLink() {
     return [getBitstreamDownloadRoute(this.bitstream)];
   }
-
-  protected readonly AlertType = AlertType;
 }
