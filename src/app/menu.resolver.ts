@@ -346,6 +346,18 @@ export class MenuResolver implements Resolve<boolean> {
                 link: '/statistics/workflow'
               } as LinkMenuItemModel
             });
+
+            menuList.push({
+              id: 'statistics_search',
+              parentID: 'statistics',
+              active: false,
+              visible: true,
+              model: {
+                type: MenuItemType.LINK,
+                text: 'menu.section.statistics.search',
+                link: '/statistics/search'
+              } as LinkMenuItemModel
+            });
           }
 
           // the parent menu should be added after the children
