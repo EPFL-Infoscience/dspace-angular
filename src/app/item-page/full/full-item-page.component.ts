@@ -1,5 +1,5 @@
 import { filter, map } from 'rxjs/operators';
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -18,6 +18,9 @@ import { Location } from '@angular/common';
 import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
 import { PLACEHOLDER_PARENT_METADATA } from '../../shared/form/builder/ds-dynamic-form-ui/ds-dynamic-form-constants';
 
+import { ServerResponseService } from '../../core/services/server-response.service';
+import { SignpostingDataService } from '../../core/data/signposting-data.service';
+import { LinkHeadService } from '../../core/services/link-head.service';
 
 /**
  * This component renders a full item page.
@@ -44,13 +47,19 @@ export class FullItemPageComponent extends ItemPageComponent implements OnInit, 
 
   subs = [];
 
-  constructor(protected route: ActivatedRoute,
-              router: Router,
-              items: ItemDataService,
-              authService: AuthService,
-              authorizationService: AuthorizationDataService,
-              private _location: Location) {
-    super(route, router, items, authService, authorizationService);
+  constructor(
+    protected route: ActivatedRoute,
+    protected router: Router,
+    protected items: ItemDataService,
+    protected authService: AuthService,
+    protected authorizationService: AuthorizationDataService,
+    protected _location: Location,
+    protected responseService: ServerResponseService,
+    protected signpostingDataService: SignpostingDataService,
+    protected linkHeadService: LinkHeadService,
+    @Inject(PLATFORM_ID) protected platformId: string,
+  ) {
+    super(route, router, items, authService, authorizationService, responseService, signpostingDataService, linkHeadService, platformId);
   }
 
   /*** AoT inheritance fix, will hopefully be resolved in the near future **/

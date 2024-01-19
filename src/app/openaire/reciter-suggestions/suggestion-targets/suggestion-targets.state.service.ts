@@ -7,13 +7,15 @@ import { map } from 'rxjs/operators';
 import {
   getCurrentUserSuggestionTargetsSelector,
   getCurrentUserSuggestionTargetsVisitedSelector,
-  getreciterSuggestionTargetCurrentPageSelector,
-  getreciterSuggestionTargetTotalsSelector,
+  getReciterSuggestionTargetCurrentPageSelector,
+  getReciterSuggestionTargetTotalsSelector,
   isReciterSuggestionTargetLoadedSelector,
   isreciterSuggestionTargetProcessingSelector,
   reciterSuggestionTargetObjectSelector
 } from '../selectors';
-import { OpenaireSuggestionTarget } from '../../../core/openaire/reciter-suggestions/models/openaire-suggestion-target.model';
+import {
+  OpenaireSuggestionTarget
+} from '../../../core/openaire/reciter-suggestions/models/openaire-suggestion-target.model';
 import {
   ClearSuggestionTargetsAction,
   MarkUserSuggestionsAsVisitedAction,
@@ -41,7 +43,7 @@ export class SuggestionTargetsStateService {
    *    The list of Reciter Suggestion Targets.
    */
   public getReciterSuggestionTargets(source: string): Observable<OpenaireSuggestionTarget[]> {
-    return this.store.pipe(select(reciterSuggestionTargetObjectSelector()),
+    return this.store.pipe(select(reciterSuggestionTargetObjectSelector(source)),
         map(targets => targets.filter(t => t.source === source)));
   }
 
@@ -51,9 +53,9 @@ export class SuggestionTargetsStateService {
    * @return Observable<boolean>
    *    'true' if the targets are loading, 'false' otherwise.
    */
-  public isReciterSuggestionTargetsLoading(): Observable<boolean> {
+  public isReciterSuggestionTargetsLoading(source: string): Observable<boolean> {
     return this.store.pipe(
-      select(isReciterSuggestionTargetLoadedSelector),
+      select(isReciterSuggestionTargetLoadedSelector(source)),
       map((loaded: boolean) => !loaded)
     );
   }
@@ -64,8 +66,8 @@ export class SuggestionTargetsStateService {
    * @return Observable<boolean>
    *    'true' if the targets are loaded, 'false' otherwise.
    */
-  public isReciterSuggestionTargetsLoaded(): Observable<boolean> {
-    return this.store.pipe(select(isReciterSuggestionTargetLoadedSelector));
+  public isReciterSuggestionTargetsLoaded(source: string): Observable<boolean> {
+    return this.store.pipe(select(isReciterSuggestionTargetLoadedSelector(source)));
   }
 
   /**
@@ -74,8 +76,8 @@ export class SuggestionTargetsStateService {
    * @return Observable<boolean>
    *    'true' if there are operations running on the targets (ex.: a REST call), 'false' otherwise.
    */
-  public isReciterSuggestionTargetsProcessing(): Observable<boolean> {
-    return this.store.pipe(select(isreciterSuggestionTargetProcessingSelector));
+  public isReciterSuggestionTargetsProcessing(source: string): Observable<boolean> {
+    return this.store.pipe(select(isreciterSuggestionTargetProcessingSelector(source)));
   }
 
   /**
@@ -84,8 +86,8 @@ export class SuggestionTargetsStateService {
    * @return Observable<number>
    *    The number of the Reciter Suggestion Targets pages.
    */
-  public getReciterSuggestionTargetsTotalPages(): Observable<number> {
-    return this.store.pipe(select(getreciterSuggestionTargetTotalsSelector));
+  public getReciterSuggestionTargetsTotalPages(source: string): Observable<number> {
+    return this.store.pipe(select(getReciterSuggestionTargetTotalsSelector(source)));
   }
 
   /**
@@ -94,8 +96,8 @@ export class SuggestionTargetsStateService {
    * @return Observable<number>
    *    The number of the current Reciter Suggestion Targets page.
    */
-  public getReciterSuggestionTargetsCurrentPage(): Observable<number> {
-    return this.store.pipe(select(getreciterSuggestionTargetCurrentPageSelector));
+  public getReciterSuggestionTargetsCurrentPage(source: string): Observable<number> {
+    return this.store.pipe(select(getReciterSuggestionTargetCurrentPageSelector(source)));
   }
 
   /**
@@ -104,8 +106,8 @@ export class SuggestionTargetsStateService {
    * @return Observable<number>
    *    The number of the Reciter Suggestion Targets.
    */
-  public getReciterSuggestionTargetsTotals(): Observable<number> {
-    return this.store.pipe(select(getreciterSuggestionTargetTotalsSelector));
+  public getReciterSuggestionTargetsTotals(source: string): Observable<number> {
+    return this.store.pipe(select(getReciterSuggestionTargetTotalsSelector(source)));
   }
 
   /**
@@ -129,7 +131,7 @@ export class SuggestionTargetsStateService {
    *    The Reciter Suggestion Targets object.
    */
   public getCurrentUserSuggestionTargets(): Observable<OpenaireSuggestionTarget[]> {
-    return this.store.pipe(select(getCurrentUserSuggestionTargetsSelector));
+    return this.store.pipe(select(getCurrentUserSuggestionTargetsSelector()));
   }
 
   /**
@@ -139,7 +141,7 @@ export class SuggestionTargetsStateService {
    *    True if user already visited, false otherwise.
    */
   public hasUserVisitedSuggestions(): Observable<boolean> {
-    return this.store.pipe(select(getCurrentUserSuggestionTargetsVisitedSelector));
+    return this.store.pipe(select(getCurrentUserSuggestionTargetsVisitedSelector()));
   }
 
   /**
@@ -151,9 +153,12 @@ export class SuggestionTargetsStateService {
 
   /**
    * Dispatch an action to clear the Reciter Suggestion Targets state.
+   *
+   * @param source
+   *    the source of suggestion targets
    */
-  public dispatchClearSuggestionTargetsAction(): void {
-    this.store.dispatch(new ClearSuggestionTargetsAction());
+  public dispatchClearSuggestionTargetsAction(source: string): void {
+    this.store.dispatch(new ClearSuggestionTargetsAction(source));
   }
 
   /**
