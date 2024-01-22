@@ -121,6 +121,24 @@ export const mockUploadResponse2Errors = {
   ]
 };
 
+export const mockUploadResponse3Errors = {
+  errors: [
+    {
+      message: 'error.validation.required',
+      paths: [
+        '/sections/traditionalpageone/dc.title',
+        '/sections/traditionalpageone/dc.date.issued'
+      ]
+    },
+    {
+      message: 'error.validation.filerequired',
+      paths: [
+        '/sections/upload'
+      ]
+    }
+  ]
+};
+
 export const mockUploadResponse2ParsedErrors = {
   traditionalpageone: [
     { path: '/sections/traditionalpageone/dc.title', message: 'error.validation.required' },
@@ -128,6 +146,16 @@ export const mockUploadResponse2ParsedErrors = {
   ],
   upload: [
     { path: '/sections/upload', message: 'error.upload' }
+  ]
+};
+
+export const mockUploadResponse3ParsedErrors = {
+  traditionalpageone: [
+    { path: '/sections/traditionalpageone/dc.title', message: 'error.validation.required' },
+    { path: '/sections/traditionalpageone/dc.date.issued', message: 'error.validation.required' }
+  ],
+  upload: [
+    { path: '/sections/upload', message: 'error.validation.filerequired' }
   ]
 };
 
