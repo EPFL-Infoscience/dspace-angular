@@ -2925,6 +2925,12 @@
 
   "form.other-information.not-available": "Not available",
 
+  "form.other-information.ror_orgunit_id": "ROR ID",
+
+  "form.other-information.ror_orgunit_type": "ROR type",
+
+  "form.other-information.ror_orgunit_acronym": "ROR acronym",
+
   "form.other-information.dc_publisher": "Publisher",
 
   "form.other-information.dc_relation_issn": "ISSN",
@@ -6827,6 +6833,8 @@
 
   "submission.import-external.source.rorOrgUnits": "ROR",
 
+  "submission.import-external.source.ror": "ROR",
+
   "submission.import-external.preview.title.Equipment": "Equipment Preview",
 
   "submission.import-external.preview.title.Event": "Event Preview",
@@ -7321,8 +7329,6 @@
 
   "submission.sections.identifiers.otherIdentifiers_label": "Other identifiers: ",
 
-  "submission.sections.submit.progressbar.accessCondition": "Item access conditions",
-
   "submission.sections.submit.progressbar.CClicense": "Creative commons license",
 
   "submission.sections.submit.progressbar.custom-url": "Custom url",
@@ -7420,6 +7426,8 @@
   "submission.sections.submit.progressbar.upload": "Upload files",
 
   "submission.sections.submit.progressbar.sherpaPolicies": "Publisher open access policy information",
+
+  "submission.sections.submit.progressbar.correction": "Corrections",
 
   "submission.sections.submit.progressbar.upload-publication": "Upload files",
 
