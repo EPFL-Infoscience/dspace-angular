@@ -35,7 +35,7 @@ let fixture: ComponentFixture<WorkspaceitemActionsComponent>;
 
 let mockObject: WorkspaceItem;
 let notificationsServiceStub: NotificationsServiceStub;
-let authorizationService;
+let authorizationService: AuthorizationDataService;
 let authService;
 
 const mockDataService = jasmine.createSpyObj('WorkspaceitemDataService', {
@@ -180,7 +180,7 @@ describe('WorkspaceitemActionsComponent', () => {
         { provide: WorkspaceitemDataService, useValue: mockDataService },
         { provide: SearchService, useValue: searchService },
         { provide: RequestService, useValue: requestServce },
-        { provide: AuthorizationDataService, useValue: {} },
+        { provide: AuthorizationDataService, useValue: authorizationService },
         { provide: CollectionDataService, useValue: {} },
         { provide: ChangeSubmitterService, useValue: {} },
         { provide: AuthService, useValue:  authService },
