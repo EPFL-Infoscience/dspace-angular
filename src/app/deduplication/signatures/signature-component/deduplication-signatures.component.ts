@@ -1,9 +1,9 @@
-import { DeduplicationStateService } from './../../deduplication-state.service';
-import { SignatureObject } from './../../../core/deduplication/models/signature.model';
+import { DeduplicationStateService } from '../../deduplication-state.service';
+import { SignatureObject } from '../../../core/deduplication/models/signature.model';
 
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
-import { floor } from 'lodash';
+import floor from 'lodash/floor';
 
 /**
  * Component to display the deduplication signatures cards.

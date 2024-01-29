@@ -1,5 +1,5 @@
-import { isEqual } from 'lodash';
-import { hasValue } from './../../shared/empty.util';
+import isEqual from 'lodash/isEqual';
+import { hasValue } from '../../shared/empty.util';
 import { SetObject } from '../../core/deduplication/models/set.model';
 import {
   DeduplicationSetsActionTypes,

@@ -140,7 +140,7 @@ describe('ThumbnailComponent', () => {
       const img = fixture.debugElement.query(By.css('img.thumbnail-content'));
       img.nativeNode.onerror = null;
 
-      comp.ngOnChanges();
+      comp.ngOnChanges({});
       setSrcSpy = spyOn(comp, 'setSrc').and.callThrough();
     });
 
@@ -189,12 +189,12 @@ describe('ThumbnailComponent', () => {
             authorizationService.isAuthorized.and.returnValue(observableOf(false));
           });
 
-          it('should fall back to default', () => {
+          it('should add an authentication token to the thumbnail URL', () => {
             comp.errorHandler();
 
-            expect(setSrcSpy).toHaveBeenCalledWith(comp.defaultImage);
+            expect(setSrcSpy).toHaveBeenCalledWith(CONTENT + '?authentication-token=fake');
 
-            // We don't need to check authorization if we failed to retrieve the Bitstreamin the first place
+            // We don't need to check authorization if we failed to retrieve the Bitstream in the first place
             if (!(comp.thumbnail as RemoteData<Bitstream>)?.hasFailed) {
               expect(authorizationService.isAuthorized).toHaveBeenCalled();
             }
@@ -267,14 +267,14 @@ describe('ThumbnailComponent', () => {
 
     describe('if content can be loaded', () => {
       it('should display an image', () => {
-        comp.ngOnChanges();
+        comp.ngOnChanges({});
         fixture.detectChanges();
         const image: HTMLElement = fixture.debugElement.query(By.css('img')).nativeElement;
         expect(image.getAttribute('src')).toBe(thumbnail._links.content.href);
       });
 
       it('should include the alt text', () => {
-        comp.ngOnChanges();
+        comp.ngOnChanges({});
         fixture.detectChanges();
         const image: HTMLElement = fixture.debugElement.query(By.css('img')).nativeElement;
         expect(image.getAttribute('alt')).toBe('TRANSLATED ' + comp.alt);
@@ -307,14 +307,14 @@ describe('ThumbnailComponent', () => {
 
       describe('if content can be loaded', () => {
         it('should display an image', () => {
-          comp.ngOnChanges();
+          comp.ngOnChanges({});
           fixture.detectChanges();
           const image: HTMLElement = de.query(By.css('img')).nativeElement;
           expect(image.getAttribute('src')).toBe(thumbnail._links.content.href);
         });
 
         it('should display the alt text', () => {
-          comp.ngOnChanges();
+          comp.ngOnChanges({});
           fixture.detectChanges();
           const image: HTMLElement = de.query(By.css('img')).nativeElement;
           expect(image.getAttribute('alt')).toBe('TRANSLATED ' + comp.alt);
@@ -333,7 +333,7 @@ describe('ThumbnailComponent', () => {
 
       it('should show the default image', () => {
         comp.defaultImage = 'default/image.jpg';
-        comp.ngOnChanges();
+        comp.ngOnChanges({});
         expect(comp.src$.getValue()).toBe('default/image.jpg');
       });
     });

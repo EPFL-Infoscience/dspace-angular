@@ -7,7 +7,7 @@ import { SubmissionState } from '../../submission.reducers';
 import { SetDuplicateDecisionAction } from '../../objects/submission-objects.actions';
 import { submissionSectionDataFromIdSelector } from '../../selectors';
 import { WorkspaceitemSectionDetectDuplicateObject } from '../../../core/submission/models/workspaceitem-section-deduplication.model';
-import { isEmpty, isNotEmpty } from '../../../shared/empty.util';
+import { hasValue, isEmpty, isNotEmpty } from '../../../shared/empty.util';
 import { Observable } from 'rxjs';
 
 /**
@@ -62,7 +62,7 @@ export class DetectDuplicateService {
       map((item: WorkspaceitemSectionDetectDuplicateObject) => {
         const outputObject: WorkspaceitemSectionDetectDuplicateObject = {} as WorkspaceitemSectionDetectDuplicateObject;
         outputObject.matches = {};
-        if (item && item.matches) {
+        if (hasValue(item)) {
           Object.keys(item.matches)
             .filter((key) => {
               let output = false;

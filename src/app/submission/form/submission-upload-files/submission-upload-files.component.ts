@@ -61,6 +61,12 @@ export class SubmissionUploadFilesComponent implements OnChanges {
   public dropMsg = 'submission.sections.upload.drop-message';
 
   /**
+   * error message when file is required but not provided
+   * @type {string}
+   */
+  public fileRequiredErrorMessage = 'error.validation.filerequired';
+
+  /**
    * Array to track all subscriptions and unsubscribe them onDestroy
    * @type {Array}
    */
@@ -135,8 +141,8 @@ export class SubmissionUploadFilesComponent implements OnChanges {
                       .pipe(take(1))
                       .subscribe((isUpload) => {
                         if (isUpload) {
-                          // Look for errors on upload
-                          if ((isEmpty(sectionErrors))) {
+                          // Look for 'file required' errors on upload
+                          if (isEmpty(sectionErrors) || sectionErrors.every(error => error.message !== this.fileRequiredErrorMessage)) {
                             this.notificationsService.success(null, this.translate.get('submission.sections.upload.upload-successful'));
                           } else {
                             this.notificationsService.error(null, this.translate.get('submission.sections.upload.upload-failed'));
