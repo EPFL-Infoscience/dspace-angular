@@ -23,6 +23,7 @@ import { hasValue, hasValueOperator } from '../../empty.util';
 import { PaginationService } from '../../../core/pagination/pagination.service';
 import {
   getItemEditVersionhistoryRoute,
+  getItemFullPageRoute,
   getItemPageRoute,
   getItemVersionRoute
 } from '../../../item-page/item-page-routing-paths';
@@ -337,9 +338,21 @@ export class ItemVersionsComponent implements OnInit {
           } else {
             this.notificationsService.error(null, this.translateService.get(failureMessageKey, {'version': versionNumber}));
           }
+
           if (redirectToLatest) {
-            const path = getItemEditVersionhistoryRoute(newLatestVersionItem);
-            this.router.navigateByUrl(path);
+            this.isCurrentUserAdmin().pipe(
+              switchMap(isAdmin => {
+                let path = '';
+
+                if (isAdmin) {
+                  path = getItemEditVersionhistoryRoute(newLatestVersionItem);
+                } else {
+                  path = getItemFullPageRoute(newLatestVersionItem);
+                }
+                return this.router.navigateByUrl(path);
+              }),
+              take(1)
+            ).subscribe();
           }
         });
       }
@@ -471,7 +484,7 @@ export class ItemVersionsComponent implements OnInit {
   getWorkspaceId(versionItem): Observable<string> {
     return versionItem.pipe(
       getFirstSucceededRemoteDataPayload(),
-      map((item: Item) => item.uuid),
+      map((item: Item) => item?.uuid),
       switchMap((itemUuid: string) => this.workspaceItemDataService.findByItem(itemUuid, true)),
       getFirstCompletedRemoteData<WorkspaceItem>(),
       map((res: RemoteData<WorkspaceItem>) => res?.payload?.id ),
