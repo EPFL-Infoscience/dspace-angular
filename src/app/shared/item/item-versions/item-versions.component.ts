@@ -2,13 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Item } from '../../../core/shared/item.model';
 import { Version } from '../../../core/shared/version.model';
 import { RemoteData } from '../../../core/data/remote-data';
-import {
-  BehaviorSubject,
-  combineLatest,
-  Observable,
-  of,
-  Subscription,
-} from 'rxjs';
+import { BehaviorSubject, combineLatest, forkJoin, Observable, of, Subscription, } from 'rxjs';
 import { VersionHistory } from '../../../core/shared/version-history.model';
 import {
   getAllSucceededRemoteData,
@@ -48,6 +42,9 @@ import { WorkspaceItem } from '../../../core/submission/models/workspaceitem.mod
 import { WorkspaceitemDataService } from '../../../core/submission/workspaceitem-data.service';
 import { WorkflowItemDataService } from '../../../core/submission/workflowitem-data.service';
 import { ConfigurationDataService } from '../../../core/data/configuration-data.service';
+import { StoreIdentifiersToMerge } from 'src/app/deduplication/interfaces/deduplication-merge.models';
+import { CookieService } from '../../../core/services/cookie.service';
+import { AuthService } from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'ds-item-versions',
@@ -81,6 +78,24 @@ export class ItemVersionsComponent implements OnInit {
    * Whether or not to display the action buttons (delete/create/edit version)
    */
   @Input() displayActions: boolean;
+
+  /**
+   * Whether to display or not the checkboxes for selection
+   */
+  @Input() selectable = false;
+
+  /**
+   * Object of selected versions (only used when selectable is true)
+   */
+  selectedVersions: Record<string, Version> = {};
+
+  get compareButtonDisabled() {
+    return Object.values(this.selectedVersions).length < 2;
+  }
+
+  get showSelectionAlert() {
+    return Object.values(this.selectedVersions).length === 1;
+  }
 
   /**
    * Array of active subscriptions
@@ -167,20 +182,25 @@ export class ItemVersionsComponent implements OnInit {
   canCreateVersion$: Observable<boolean>;
   createVersionTitle$: Observable<string>;
 
-  constructor(private versionHistoryService: VersionHistoryDataService,
-              private versionService: VersionDataService,
-              private itemService: ItemDataService,
-              private paginationService: PaginationService,
-              private formBuilder: FormBuilder,
-              private modalService: NgbModal,
-              private notificationsService: NotificationsService,
-              private translateService: TranslateService,
-              private router: Router,
-              private itemVersionShared: ItemVersionsSharedService,
-              private authorizationService: AuthorizationDataService,
-              private workspaceItemDataService: WorkspaceitemDataService,
-              private workflowItemDataService: WorkflowItemDataService,
-              private configurationService: ConfigurationDataService,
+  isAuthenticated$ = this.authService.isAuthenticated();
+
+  constructor(
+    private versionHistoryService: VersionHistoryDataService,
+    private versionService: VersionDataService,
+    private itemService: ItemDataService,
+    private paginationService: PaginationService,
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal,
+    private notificationsService: NotificationsService,
+    private translateService: TranslateService,
+    private router: Router,
+    private itemVersionShared: ItemVersionsSharedService,
+    private authorizationService: AuthorizationDataService,
+    private workspaceItemDataService: WorkspaceitemDataService,
+    private workflowItemDataService: WorkflowItemDataService,
+    private configurationService: ConfigurationDataService,
+    private cookieService: CookieService,
+    private authService: AuthService,
   ) {
   }
 
@@ -198,6 +218,10 @@ export class ItemVersionsComponent implements OnInit {
    */
   isThisBeingEdited(version: Version): boolean {
     return version?.version === this.versionBeingEditedNumber;
+  }
+
+  isAllSelected(totalLength: number): boolean {
+    return Object.values(this.selectedVersions).filter(x => !!x).length === totalLength;
   }
 
   /**
@@ -526,6 +550,58 @@ export class ItemVersionsComponent implements OnInit {
         })
       );
     }
+  }
+
+  compare() {
+    const selectedVersionsObsList = Object.keys(this.selectedVersions).map((key) => {
+      return this.selectedVersions[key].item.pipe(getFirstCompletedRemoteData());
+    });
+
+    forkJoin(selectedVersionsObsList).pipe(take(1)).subscribe((items) => {
+        console.log('items', items);
+
+        const targetItemUUID = items.map((item) => item.payload.uuid);
+        const identifiersLinkList = items.map((item) => item.payload._links.self.href);
+
+        // storing items' href in order to get the item data from href
+        // because of their different types (in order to make the same call for all of them)
+        const storeObj: StoreIdentifiersToMerge = {
+          targetItemUUID: targetItemUUID[0],
+          identifiersLinkList,
+        };
+
+        this.cookieService.set(
+          `items-to-compare-identifiersLinkList`,
+          JSON.stringify(storeObj)
+        );
+
+        this.router.navigate(
+          ['admin/deduplication/compare'],
+          {queryParams: {justCompare: true}}
+        );
+      });
+  }
+
+  onSelectAll(event, versions: Version[]) {
+    const checked = (event.target as HTMLInputElement).checked; // true or false
+    if (checked) {
+      versions.forEach((version) => this.selectedVersions[version.id] = version);
+    } else {
+      versions.forEach((version) => delete this.selectedVersions[version.id]);
+    }
+  }
+
+  onSelect(event, version: Version) {
+    const checked = (event.target as HTMLInputElement).checked; // true or false
+    if (checked) {
+      this.selectedVersions[version.id] = version;
+    } else {
+      delete this.selectedVersions[version.id];
+    }
+  }
+
+  isSelected(version) {
+    return this.selectedVersions[version.id] !== undefined;
   }
 
   ngOnDestroy(): void {

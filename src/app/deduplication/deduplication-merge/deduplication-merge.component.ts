@@ -5,26 +5,14 @@ import { ConfigurationProperty } from './../../core/shared/configuration-propert
 import { getFirstSucceededRemoteDataPayload } from './../../core/shared/operators';
 import { ConfigurationDataService } from './../../core/data/configuration-data.service';
 import { ShowDifferencesComponent } from './../show-differences/show-differences.component';
-import {
-  NgbAccordion,
-  NgbModal,
-  NgbModalOptions,
-  NgbModalRef,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordion, NgbModal, NgbModalOptions, NgbModalRef, } from '@ng-bootstrap/ng-bootstrap';
 import { Bitstream } from './../../core/shared/bitstream.model';
 import { MetadataValue } from './../../core/shared/metadata.models';
 import { Item } from './../../core/shared/item.model';
 import { Observable } from 'rxjs/internal/Observable';
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ChangeDetectorRef,
-  ViewChildren,
-  QueryList,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChildren, } from '@angular/core';
 import { DeduplicationItemsService } from './deduplication-items.service';
-import { map, concatMap, finalize, debounceTime } from 'rxjs/operators';
+import { concatMap, debounceTime, finalize, map } from 'rxjs/operators';
 import { hasValue } from '../../shared/empty.util';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from '../../core/services/cookie.service';
@@ -149,6 +137,11 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   public repeatableFields: string[] = [];
 
   /**
+   * A flag to control if we are in the just compare mode or not
+   */
+  public justCompare = false;
+
+  /**
    * Stores all the parent keys with their nested metadata fields
    * @type {Map<string, string[]>}
    */
@@ -196,6 +189,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     this.signatureId = this.route.snapshot.params.signatureId;
     this.setChecksum = this.route.snapshot.params.setChecksum;
     this.setRule = this.route.snapshot.queryParams.rule;
+    this.justCompare = this.route.snapshot.queryParams.justCompare === 'true';
 
     if (hasValue(this.setChecksum)) {
       this.storedItemList = this.cookieService.get(
@@ -570,6 +564,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     this.modalRef.componentInstance.itemsToMerge = mergedItems;
     this.modalRef.componentInstance.targetItemId = this.targetItemId;
     this.modalRef.componentInstance.identifiers = setIdentifiers;
+    this.modalRef.componentInstance.justCompare = this.justCompare;
 
     // on modal close redirect to previous page
     this.modalRef.closed.subscribe((res) => {

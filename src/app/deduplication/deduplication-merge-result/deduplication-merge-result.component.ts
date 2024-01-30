@@ -4,11 +4,7 @@ import { DeduplicationStateService } from './../deduplication-state.service';
 import { DeduplicationItemsService } from './../deduplication-merge/deduplication-items.service';
 import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import {
-  ItemData,
-  MetadataMapObject,
-  SetIdentifiers,
-} from '../interfaces/deduplication-merge.models';
+import { ItemData, MetadataMapObject, SetIdentifiers, } from '../interfaces/deduplication-merge.models';
 import { isEqual } from 'lodash';
 import { hasValue } from '../../shared/empty.util';
 
@@ -53,6 +49,11 @@ export class DeduplicationMergeResultComponent {
    * @type {SetIdentifiers}
    */
   @Input() identifiers: SetIdentifiers | null;
+
+  /**
+   * A flag to control if we are in the just compare mode or not
+   */
+  @Input()  justCompare = false;
 
   /**
    * Confirmation modal template ref

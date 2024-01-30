@@ -1736,7 +1736,7 @@
 
   "deduplication.merge.label.title": "Merge Deduplications",
 
-  "deduplication.merge.label.title": "Merge Deduplications",
+  "deduplication.merge.label.just-compare-title": "Compare Deduplications",
 
   "deduplication.merge.message.no-data": "No data found",
 
@@ -1763,6 +1763,8 @@
   "deduplication.merge.table.bitstream.header.item-identifier-handle": "Handle:",
 
   "deduplication.merge.button.label.merge": "Preview & Merge",
+
+  "deduplication.merge.button.label.preview": "Preview",
 
   "deduplication.merge.button.label.collapse-all": "Collapse All",
 

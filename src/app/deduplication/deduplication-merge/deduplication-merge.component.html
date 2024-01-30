@@ -1,7 +1,12 @@
 <div class="container">
   <div class="row border-bottom mb-2 pb-1 justify-content-between">
     <h2 id="header">
-      {{ "deduplication.merge.label.title" | translate }}
+      {{
+        (justCompare
+          ? "deduplication.merge.label.just-compare-title"
+          : "deduplication.merge.label.title")
+        | translate
+      }}
     </h2>
     <button class="btn btn-outline-secondary btn-sm" (click)="goBack()">
       <i class="fa fa-arrow-left pr-1" aria-hidden="true"></i>
@@ -63,7 +68,12 @@
 
         <button class="btn btn-primary" (click)="openFinalResultsModal()">
           <i class="fas fa-tasks pr-1"></i>
-          {{ "deduplication.merge.button.label.merge" | translate }}
+          {{
+            (justCompare
+              ? "deduplication.merge.button.label.preview"
+              : "deduplication.merge.button.label.merge")
+            | translate
+          }}
         </button>
       </div>
       <!-- ACCORDION SECTION -->
