@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable} from 'rxjs';
 import { PaginatedList } from '../../core/data/paginated-list.model';
 import { PageInfo } from '../../core/shared/page-info.model';
 import { buildPaginatedList } from '../../core/data/paginated-list.model';
@@ -59,13 +59,12 @@ describe('GetBitstreamsPipe', () => {
   });
 
   it('should return bitstream', () => {
-    const result: Observable<Observable<Bitstream[]>> = pipe.transform(item);
-    result.subscribe((res: Observable<Bitstream[]>) => {
-      expect(res).toBeObservable(
+    const result: Observable<Bitstream[]> = pipe.transform(item);
+
+      expect(result).toBeObservable(
         cold('(a|)', {
           a: [bitstream1],
         })
       );
-    });
   });
 });

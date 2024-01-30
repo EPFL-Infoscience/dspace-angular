@@ -24,7 +24,7 @@ import {
   QueryList,
 } from '@angular/core';
 import { DeduplicationItemsService } from './deduplication-items.service';
-import { map, concatMap, finalize, debounceTime } from 'rxjs/operators';
+import { map,  finalize, debounceTime } from 'rxjs/operators';
 import { hasValue } from '../../shared/empty.util';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from '../../core/services/cookie.service';
