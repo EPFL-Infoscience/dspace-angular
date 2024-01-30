@@ -54,6 +54,7 @@ import { NOTIFICATIONS_RECITER_SUGGESTION_PATH } from './admin/admin-notificatio
 import { environment } from '../environments/environment';
 import { BrowseService } from './core/browse/browse.service';
 import { APP_CONFIG, AppConfig } from '../config/app-config.interface';
+import {ValueListBrowseDefinition} from "./core/shared/value-list-browse-definition.model";
 
 /**
  * Creates all of the app's menus
@@ -429,7 +430,8 @@ export class MenuResolver implements Resolve<boolean> {
         shouldPersistOnRouteChange: true
       }));
 
-      valArray.payload.page.forEach((page) => this.menuService.addSection(MenuID.PUBLIC, Object.assign(
+      valArray.payload.page.filter((page) => page instanceof ValueListBrowseDefinition)
+        .forEach((page) => this.menuService.addSection(MenuID.PUBLIC, Object.assign(
           {
             id: page.id,
             parentID: 'browse_by',
