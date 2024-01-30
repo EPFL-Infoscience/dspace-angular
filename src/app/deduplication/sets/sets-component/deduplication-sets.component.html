@@ -62,7 +62,7 @@
                       [ngClass]="[setIdx % 2 ? 'text-info' : 'text-light']"
                       class="font-22"
                     >
-                      {{ getFirstMetadtaValue(set.itemsList, "dc.title") }}
+                      {{ getFirstMetadataValue(set.itemsList, "dc.title") }}
                     </span>
                     <span
                       class="badge badge-info"
@@ -147,7 +147,7 @@
                     [ngClass]="[setIdx % 2 ? 'text-dark' : 'text-light']"
                   >
                     {{
-                      getFirstMetadtaValue(
+                      getFirstMetadataValue(
                         set.itemsList,
                         "dc.contributor.author"
                       )
@@ -164,7 +164,7 @@
                     [ngClass]="[setIdx % 2 ? 'text-dark' : 'text-light']"
                   >
                     {{
-                      getFirstMetadtaValue(set.itemsList, "dc.date.issued")
+                      getFirstMetadataValue(set.itemsList, "dc.date.issued")
                     }}</span
                   >
                 </div>
