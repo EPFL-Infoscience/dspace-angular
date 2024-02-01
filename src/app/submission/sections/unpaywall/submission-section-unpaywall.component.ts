@@ -156,7 +156,7 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
         take(1),
         map((data: WorkspaceitemSectionUploadObject) => {
           let place = '0';
-          if (data.files.length != null) {
+          if (data?.files?.length != null) {
             place = data.files.length.toString();
           }
           this.operationsBuilder.add(pathCombiner.getPath(['files', place,'metadata/oaire.licenseCondition']),
