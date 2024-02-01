@@ -13,9 +13,9 @@ import {
 } from '../../core/shared/operators';
 import {AuthService, LOGIN_ROUTE} from '../../core/auth/auth.service';
 import {EditItemMode} from '../../core/submission/models/edititem-mode.model';
-import {FeatureID} from "../../core/data/feature-authorization/feature-id";
-import {AuthorizationDataService} from "../../core/data/feature-authorization/authorization-data.service";
-import {DSpaceObjectDataService} from "../../core/data/dspace-object-data.service";
+import {FeatureID} from '../../core/data/feature-authorization/feature-id';
+import {AuthorizationDataService} from '../../core/data/feature-authorization/authorization-data.service';
+import {DSpaceObjectDataService} from '../../core/data/dspace-object-data.service';
 
 /**
  * Prevent unauthorized activating and loading of routes
@@ -66,17 +66,17 @@ export class EditItemRelationsGuard implements CanActivate {
         getFirstCompletedRemoteData(),
         switchMap((rd) => {
           if (rd.hasSucceeded) {
-            return this.authorizationService.isAuthorized(FeatureID.CanManageRelationships, rd.payload.self)
-          }
-          else {
+            return this.authorizationService.isAuthorized(FeatureID.CanManageRelationships, rd.payload.self);
+          } else {
             return of(false);
-          }}));
+          }
+}));
 
 
     return combineLatest([editModes, authorized])
       .pipe(
-        map(([editModes, isAuthorized] : [EditItemMode[], boolean]) => {
-          if (isAuthorized || (isNotEmpty(editModes) && editModes.length > 0)) {
+        map(([modes, isAuthorized]: [EditItemMode[], boolean]) => {
+          if (isAuthorized || (isNotEmpty(modes) && modes.length > 0)) {
             return true;
           } else {
             this.authService.setRedirectUrl(url);

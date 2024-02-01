@@ -102,7 +102,7 @@ export class ClaimedTaskDataService extends TasksService<ClaimedTask> {
     findOptions.searchParams = [
       new RequestParam('uuid', uuid)
     ];
-    return this.searchTask('findByItem', findOptions).pipe(getFirstSucceededRemoteData());
+    return this.searchTask('findByItem', findOptions, ...linksToFollow).pipe(getFirstSucceededRemoteData());
   }
 
 }

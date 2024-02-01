@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SearchService } from '../core/shared/search/search.service';
 import { expandSearchInput } from '../shared/animations/slide';
@@ -24,7 +24,7 @@ export class SearchNavbarComponent {
   // Search input field
   @ViewChild('searchInput') searchField: ElementRef;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private searchService: SearchService) {
+  constructor(private formBuilder: UntypedFormBuilder, private router: Router, private searchService: SearchService) {
     this.searchForm = this.formBuilder.group(({
       query: '',
     }));
@@ -61,6 +61,7 @@ export class SearchNavbarComponent {
    */
   onSubmit(data: any) {
     this.collapse();
+    data = { ...data, configuration: 'researchoutputs' };
     const queryParams = Object.assign({}, data);
     const linkToNavigateTo = [this.searchService.getSearchLink().replace('/', '')];
     this.searchForm.reset();

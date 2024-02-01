@@ -1,0 +1,49 @@
+// Add any global css for the theme here
+
+// imports the base global style
+@import '../../../styles/_global-styles.scss';
+
+.facet-filter,
+.setting-option {
+  background-color: var(--bs-light);
+  border-radius: var(--bs-border-radius);
+
+  &.p-3 {
+    // Needs !important because the original bootstrap class uses it
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  h5 {
+    font-size: 1.1rem
+  }
+}
+
+ds-metric-donuts a {
+  background-size: contain;
+}
+
+/*
+ * Override the color of the item list title to exclude them
+ * from the global link color
+ */
+a.item-list-title {
+  color: map-get($map: $theme-colors, $key: primary);
+
+  &:hover {
+    color: $link-hover-color;
+  }
+}
+
+/*
+ * Override the color of the search button to exclude from global primary color
+ */
+button.search-button {
+  background-color: $red;
+  border-color: $red;
+
+  &:hover {
+    background-color: $red-dark;
+    border-color: $red-dark;
+  }
+}

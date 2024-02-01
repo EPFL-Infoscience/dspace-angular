@@ -11,7 +11,7 @@ import { WorkflowItemDataService } from './../../core/submission/workflowitem-da
 import { SubmissionRestService } from './../../core/submission/submission-rest.service';
 import { ItemDataService } from './../../core/data/item-data.service';
 import { SubmissionRestServiceStub } from '../../shared/testing/submission-rest-service.stub';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { DeduplicationSetsRestService } from '../../core/deduplication/services/deduplication-sets-rest.service';
 import { createSuccessfulRemoteDataObject, createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';

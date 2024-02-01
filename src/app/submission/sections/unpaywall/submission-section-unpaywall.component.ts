@@ -4,19 +4,10 @@ import { SectionsType } from '../sections-type';
 import { SectionModelComponent } from '../models/section.model';
 import { SectionDataObject } from '../models/section-data.model';
 import { SectionsService } from '../sections.service';
-import {
-  BehaviorSubject,
-  forkJoin,
-  interval,
-  mergeMap,
-  Observable,
-  of,
-  Subject,
-  Subscription
-} from 'rxjs';
+import { BehaviorSubject, forkJoin, interval, mergeMap, Observable, of, Subject, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SubmissionState } from '../../submission.reducers';
-import { distinctUntilChanged, filter, map, switchMap, take, takeUntil } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, filter, map, switchMap, take, takeUntil } from 'rxjs/operators';
 import { SubmissionObjectEntry } from '../../objects/submission-objects.reducer';
 import { UpdateSectionVisibilityAction } from '../../objects/submission-objects.actions';
 import {
@@ -28,7 +19,7 @@ import { HALEndpointService } from '../../../core/shared/hal-endpoint.service';
 import { AuthService } from '../../../core/auth/auth.service';
 import { SubmissionService } from '../../submission.service';
 import { HttpXsrfTokenExtractor } from '@angular/common/http';
-import { XSRF_REQUEST_HEADER } from '../../../core/xsrf/xsrf.interceptor';
+import { XSRF_REQUEST_HEADER } from '../../../core/xsrf/xsrf.constants';
 import { WorkspaceItem } from '../../../core/submission/models/workspaceitem.model';
 import { hasValue, isEmpty, isNotEmpty } from '../../../shared/empty.util';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
@@ -47,7 +38,7 @@ import { Operation } from 'fast-json-patch';
 import { ResourceService } from '../../../core/services/resource.service';
 import { UnpaywallApi } from './models/unpaywall-api';
 import { SubmissionRestService } from '../../../core/submission/submission-rest.service';
-import {APP_CONFIG, AppConfig } from '../../../../config/app-config.interface';
+import { APP_CONFIG, AppConfig } from '../../../../config/app-config.interface';
 import { JsonPatchOperationsBuilder } from '../../../core/json-patch/builder/json-patch-operations-builder';
 import { WorkspaceitemSectionUploadObject } from '../../../core/submission/models/workspaceitem-section-upload.model';
 
@@ -123,11 +114,17 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
       this.loading$.next(true);
       const fileUrl = this.getFileUrl();
       if (fileUrl) {
-        const fileName = fileUrl.split('/').pop();
+        const fileName = this.getFilenameFromUrl(fileUrl);
         forkJoin([
           this.resourceService.download(fileUrl),
           this.halService.getEndpoint(this.submissionService.getSubmissionObjectLinkName())
         ]).pipe(
+          catchError(() => {
+            this.translate.get('submission.sections.upload.file-download-failed')
+              .subscribe(errorMessage => this.notificationsService.error(null, errorMessage + fileUrl));
+            this.loading$.next(false);
+            return of(null);
+          }),
           takeUntil(this.unsubscribe$),
           map(([fileBlob, endpoint]) => {
             const file = new File([fileBlob], fileName);
@@ -149,7 +146,7 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
     }
   }
 
-  private addFileMetadata() {
+  addFileMetadata() {
 
     const sectionId = 'upload-publication';
     const pathCombiner: JsonPatchOperationPathCombiner = new JsonPatchOperationPathCombiner('sections', sectionId);
@@ -163,9 +160,9 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
             place = data.files.length.toString();
           }
           this.operationsBuilder.add(pathCombiner.getPath(['files', place,'metadata/oaire.licenseCondition']),
-            [this.getFileVersion()], true);
-          this.operationsBuilder.add(pathCombiner.getPath(['files', place,'metadata/oaire.version']),
             [this.getFileLicense()], true);
+          this.operationsBuilder.add(pathCombiner.getPath(['files', place,'metadata/oaire.version']),
+            [this.getFileVersion()], true);
           this.submissionService.dispatchSaveSection(this.submissionId, sectionId);
         })
       );
@@ -322,6 +319,15 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
 
   protected getSectionStatus(): Observable<boolean> {
     return of(true);
+  }
+
+  private getFilenameFromUrl(url: string): string {
+    let splitUrl = url.split('/');
+    return !url.includes('/pdf')
+      ? splitUrl.pop()
+      : url.endsWith('/pdf')
+        ? splitUrl[splitUrl.length - 2] + '.pdf'
+        : splitUrl.pop() + '.pdf';
   }
 
 }

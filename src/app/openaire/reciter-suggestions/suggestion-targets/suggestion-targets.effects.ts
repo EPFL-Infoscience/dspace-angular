@@ -3,15 +3,15 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { TranslateService } from '@ngx-translate/core';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import {catchError, concatMap, map, switchMap, tap} from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import {
   AddTargetAction,
   AddUserSuggestionsAction,
   RefreshUserSuggestionsAction,
-  RetrieveAllTargetsErrorAction,
   RetrieveTargetsBySourceAction,
+  RetrieveTargetsBySourceErrorAction,
   SuggestionTargetActionTypes,
 } from './suggestion-targets.actions';
 import { PaginatedList } from '../../../core/data/paginated-list.model';
@@ -34,20 +34,20 @@ export class SuggestionTargetsEffects {
    */
   retrieveTargetsBySource$ = createEffect(() => this.actions$.pipe(
     ofType(SuggestionTargetActionTypes.RETRIEVE_TARGETS_BY_SOURCE),
-    switchMap((action: RetrieveTargetsBySourceAction) => {
+    concatMap((action: RetrieveTargetsBySourceAction) => {
       return this.suggestionsService.getTargets(
         action.payload.source,
         action.payload.elementsPerPage,
         action.payload.currentPage
       ).pipe(
         map((targets: PaginatedList<OpenaireSuggestionTarget>) =>
-          new AddTargetAction(targets.page, targets.totalPages, targets.currentPage, targets.totalElements)
+          new AddTargetAction(action.payload.source, targets.page, targets.totalPages, targets.currentPage, targets.totalElements)
         ),
         catchError((error: Error) => {
           if (error) {
             console.error(error.message);
           }
-          return of(new RetrieveAllTargetsErrorAction());
+          return of(new RetrieveTargetsBySourceErrorAction(action.payload.source));
         })
       );
     })

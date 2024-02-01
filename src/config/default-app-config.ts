@@ -12,7 +12,7 @@ import { MediaViewerConfig } from './media-viewer-config.interface';
 import { INotificationBoardOptions } from './notifications-config.interfaces';
 import { ServerConfig } from './server-config.interface';
 import { SubmissionConfig } from './submission-config.interface';
-import { ThemeConfig } from './theme.model';
+import { ThemeConfig } from './theme.config';
 import { UIServerConfig } from './ui-server-config.interface';
 import { BundleConfig } from './bundle-config.interface';
 import { ActuatorsConfig } from './actuators.config';
@@ -21,6 +21,7 @@ import { CommunityListConfig } from './community-list-config.interface';
 import { HomeConfig } from './homepage-config.interface';
 import { MarkdownConfig } from './markdown-config.interface';
 import { FilterVocabularyConfig } from './filter-vocabulary-config';
+import { DiscoverySortConfig } from './discovery-sort.config';
 import { AddToAnyPluginConfig } from './add-to-any-plugin-config';
 import { CmsMetadata } from './cms-metadata';
 import { CrisLayoutConfig, LayoutConfig, SuggestionConfig } from './layout-config.interfaces';
@@ -33,8 +34,8 @@ import {
 } from './advanced-attachment-rendering.config';
 import { AttachmentRenderingConfig } from './attachment-rendering.config';
 import { SearchResultConfig } from './search-result-config.interface';
-import {VirtualCollectionConfig} from './virtual-collection-config.interface';
-import {EpflUnpaywallMetadata} from './epfl-unpaywall-metadata';
+import { VirtualCollectionConfig } from './virtual-collection-config.interface';
+import { EpflUnpaywallMetadata } from './epfl-unpaywall-metadata';
 
 export class DefaultAppConfig implements AppConfig {
   production = false;
@@ -95,6 +96,8 @@ export class DefaultAppConfig implements AppConfig {
     // In-memory cache of server-side rendered content
     serverSide: {
       debug: false,
+      // Link header is used for signposting functionality
+      headers: ['Link'],
       // Cache specific to known bots.  Allows you to serve cached contents to bots only.
       // Defaults to caching 1,000 pages. Each page expires after 1 day
       botCache: {
@@ -282,13 +285,16 @@ export class DefaultAppConfig implements AppConfig {
     { code: 'pl', label: 'Polski', active: true },
     { code: 'pt-PT', label: 'Português', active: true },
     { code: 'pt-BR', label: 'Português do Brasil', active: true },
+    { code: 'sr-lat', label: 'Srpski (lat)', active: true},
     { code: 'fi', label: 'Suomi', active: true },
     { code: 'sv', label: 'Svenska', active: true },
     { code: 'tr', label: 'Türkçe', active: true },
+    { code: 'vi', label: 'Tiếng Việt', active: true },
     { code: 'kk', label: 'Қазақ', active: true },
     { code: 'bn', label: 'বাংলা', active: true },
     { code: 'hi', label: 'हिंदी', active: true},
     { code: 'el', label: 'Ελληνικά', active: true },
+    { code: 'sr-cyr', label: 'Српски', active: true},
     { code: 'uk', label: 'Yкраї́нська', active: true}
   ];
 
@@ -408,6 +414,10 @@ export class DefaultAppConfig implements AppConfig {
     // },
 
     {
+      name: 'epfl',
+      extends: 'dspace',
+    },
+    {
       // The default dspace theme
       name: 'dspace',
       // Whenever this theme is active, the following tags will be injected into the <head> of the page.
@@ -455,7 +465,7 @@ export class DefaultAppConfig implements AppConfig {
             'href': 'https://fonts.googleapis.com/icon?family=Material+Icons',
           }
         },
-      ]
+      ],
     },
   ];
   // The default bundles that should always be displayed when you edit or add a bundle even when no bundle has been
@@ -500,6 +510,12 @@ export class DefaultAppConfig implements AppConfig {
       enabled: false
     }
     ];
+
+  // Configuration that determines the metadata sorting of community and collection edition and creation when there are not a search query.
+  comcolSelectionSort: DiscoverySortConfig = {
+    sortField:'dc.title',
+    sortDirection:'ASC',
+  };
 
   crisLayout: CrisLayoutConfig = {
     urn: [
@@ -578,6 +594,11 @@ export class DefaultAppConfig implements AppConfig {
         last: 1,
       }
     },
+    collectionsBox: {
+      defaultCollectionsLabelColStyle: 'col-3 font-weight-bold',
+      defaultCollectionsValueColStyle: 'col-9',
+      isInline: true
+    }
   };
 
   layout: LayoutConfig = {
@@ -633,12 +654,10 @@ export class DefaultAppConfig implements AppConfig {
   addToAnyPlugin: AddToAnyPluginConfig = {
     scriptUrl: 'https://static.addtoany.com/menu/page.js',
     socialNetworksEnabled: false,
-    buttons: ['facebook', 'twitter', 'linkedin', 'email', 'copy_link'],
+    buttons: ['facebook', 'x', 'linkedin', 'email', 'copy_link'],
     showPlusButton: true,
     showCounters: true,
     title: 'DSpace CRIS 7 demo',
-    // link: 'https://dspacecris7.4science.cloud/',
-    // The link to be shown in the shared post, if different from document.location.origin
   };
 
   metricVisualizationConfig: MetricVisualizationConfig[] = [
@@ -729,7 +748,8 @@ export class DefaultAppConfig implements AppConfig {
   };
 
   searchResult: SearchResultConfig = {
-    additionalMetadataFields: []
+    additionalMetadataFields: [],
+    authorMetadata: ['dc.contributor.author', 'dc.creator', 'dc.contributor.*'],
   };
 
   epflUnpaywallMetadata: EpflUnpaywallMetadata = {

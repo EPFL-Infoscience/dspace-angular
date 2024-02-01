@@ -15,9 +15,10 @@ import { getFirstCompletedRemoteData } from '../../../core/shared/operators';
 import { hasValue } from '../../../shared/empty.util';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { PaginationComponentOptions } from '../../../shared/pagination/pagination-component-options.model';
-import { AlertType } from '../../../shared/alert/aletr-type';
+import { AlertType } from '../../../shared/alert/alert-type';
 import { Item } from '../../../core/shared/item.model';
 import { OrcidAuthService } from '../../../core/orcid/orcid-auth.service';
+import { UUIDService } from '../../../core/shared/uuid.service';
 
 @Component({
   selector: 'ds-orcid-queue',
@@ -35,7 +36,7 @@ export class OrcidQueueComponent implements OnInit, OnDestroy {
    * Pagination config used to display the list
    */
   public paginationOptions: PaginationComponentOptions = Object.assign(new PaginationComponentOptions(), {
-    id: 'oqp',
+    id: this.uuidService.generate(),
     pageSize: 5
   });
 
@@ -67,6 +68,7 @@ export class OrcidQueueComponent implements OnInit, OnDestroy {
               private paginationService: PaginationService,
               private notificationsService: NotificationsService,
               private orcidHistoryService: OrcidHistoryDataService,
+              private uuidService: UUIDService
   ) {
   }
 
@@ -84,19 +86,22 @@ export class OrcidQueueComponent implements OnInit, OnDestroy {
    * Retrieve queue list
    */
   updateList() {
-    this.subs.push(
-      this.paginationService.getCurrentPagination(this.paginationOptions.id, this.paginationOptions).pipe(
-        debounceTime(100),
-        distinctUntilChanged(),
-        tap(() => this.processing$.next(true)),
-        switchMap((config: PaginationComponentOptions) => this.orcidQueueService.searchByProfileItemId(this.item.id, config, false)),
-        getFirstCompletedRemoteData()
-      ).subscribe((result: RemoteData<PaginatedList<OrcidQueue>>) => {
-        this.processing$.next(false);
-        this.list$.next(result);
-        this.orcidQueueService.clearFindByProfileItemRequests();
-      })
-    );
+    this.paginationService.getCurrentPagination(this.paginationOptions.id, this.paginationOptions).pipe(
+      debounceTime(100),
+      distinctUntilChanged(),
+      tap(() => this.processing$.next(true))
+    ).subscribe((paginationOptions) => {
+      const search$: Observable<RemoteData<PaginatedList<OrcidQueue>>> =
+        this.orcidQueueService.searchByProfileItemId(this.item.id, paginationOptions, false);
+
+      this.subs.push(search$.pipe(getFirstCompletedRemoteData())
+        .subscribe((result: RemoteData<PaginatedList<OrcidQueue>>) => {
+            this.processing$.next(false);
+            this.list$.next(result);
+            this.orcidQueueService.clearFindByProfileItemRequests();
+        })
+      );
+    });
   }
 
   /**

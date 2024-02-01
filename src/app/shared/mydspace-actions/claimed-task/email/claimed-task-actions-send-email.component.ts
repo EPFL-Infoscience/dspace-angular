@@ -92,4 +92,10 @@ export class ClaimedTaskActionsSendEmailComponent extends ClaimedTaskActionsAbst
 
   }
 
+  redirectIfNeeded() {
+    if (!window.location.href.includes('/mydspace')) {
+      this.router.navigate(['/mydspace']);
+    }
+  }
+
 }
