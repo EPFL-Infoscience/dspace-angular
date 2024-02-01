@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { RouterStub } from '../../../testing/router.stub';
 import { SearchService } from '../../../../core/shared/search/search.service';
 import { RequestService } from '../../../../core/data/request.service';
+import { of as observableOf} from 'rxjs';
 
 let component: ClaimedTaskActionsEditMetadataComponent;
 let fixture: ComponentFixture<ClaimedTaskActionsEditMetadataComponent>;
@@ -27,7 +28,10 @@ const requestService = getMockRequestService();
 let mockPoolTaskDataService: PoolTaskDataService;
 
 describe('ClaimedTaskActionsEditMetadataComponent', () => {
-  const object = Object.assign(new ClaimedTask(), { id: 'claimed-task-1' });
+  const object = Object.assign(new ClaimedTask(), {
+    workflowitem: observableOf({ payload:{ id:'claimed-task-1'}})
+    }
+  );
   mockPoolTaskDataService = new PoolTaskDataService(null, null, null, null);
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -66,7 +70,7 @@ describe('ClaimedTaskActionsEditMetadataComponent', () => {
   it('should display edit button', () => {
     const btn = fixture.debugElement.query(By.css('.btn-primary'));
 
-    expect(btn).toBeDefined();
+    expect(btn).not.toBeNull();
   });
 
 });

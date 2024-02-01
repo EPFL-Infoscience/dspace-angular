@@ -1,0 +1,52 @@
+// DSpace works with CSS variables for its own components, and has a mapping of all bootstrap Sass
+// variables to CSS equivalents (see src/styles/_bootstrap_variables_mapping.scss). However Bootstrap
+// still uses Sass variables internally. So if you want to override bootstrap (or other sass
+// variables) you can do so here. Their CSS counterparts will include the changes you make here
+
+@import url('https://fonts.googleapis.com/css?family=Suisse+Intl,wght@0,200;0,300;0,400;0,600;0,700;0,800;1,200;1,300;1,400;1,600;1,700;1,800&display=swap');
+
+$font-family-sans-serif: 'SuisseIntl', Arial, sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+$navbar-dark-color: #FFFFFF;
+
+/* Reassign color vars to semantic color scheme */
+$blue: #2b4e72 !default;
+$green: #92C642 !default;
+$cyan: #207698 !default;
+$leman: #00A79F !default;
+$canard: #007480 !default;
+$yellow: #ec9433 !default;
+$red: #FF0000 !default;
+$red-dark: #B51F1F !default;
+$dark: #43515f !default;
+$black: #212121 !default;
+
+$gray-800: #343a40 !default;
+$gray-700: #495057 !default;
+$gray-600: #707070 !default;
+$gray-400: #ced4da !default;
+$gray-300: #C1C1C1 !default;
+$gray-200: #D5D5D5 !default;
+$gray-100: #E6E6E6 !default;
+$white: #FFFFFF !default;
+
+$body-color: $black !default;
+$body-bg: $white !default;
+
+$table-accent-bg: $gray-100 !default;
+$table-hover-bg: $gray-300 !default;
+
+$yiq-contrasted-threshold: 170 !default;
+
+$theme-colors: (
+  primary: $black,
+  secondary: $gray-600,
+  success: $green,
+  info: $canard,
+  warning: $yellow,
+  danger: $red,
+  light: $gray-100,
+  dark: $dark) !default;
+
+$link-color: darken($gray-600, 10%) !default;
+$link-hover-color: $red-dark !default;

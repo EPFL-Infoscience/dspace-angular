@@ -1,7 +1,6 @@
 <ng-container *ngVar="(actionRD$ | async)?.payload as workflowAction">
   <div class="space-children-mr" [ngClass]="{ 'mt-1 mb-3' : !workflowAction$, 'edit-metadata-page-buttons': !!workflowAction$ }">
     <ds-claimed-task-actions-loader *ngFor="let option of workflowAction?.options"
-                                    [disabled]="hasModifications"
                                     [item]="item"
                                     [option]="option"
                                     [object]="object"

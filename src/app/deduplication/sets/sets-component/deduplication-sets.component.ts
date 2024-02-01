@@ -1,18 +1,16 @@
-import { Bitstream } from './../../../core/shared/bitstream.model';
-import { MergeObject } from './../../../core/deduplication/models/merge-object.model';
-import { Item } from './../../../core/shared/item.model';
-import {
-  ItemsMetadataField,
-} from './../../interfaces/deduplication-merge.models';
-import { WorkflowItem } from './../../../core/submission/models/workflowitem.model';
-import { SubmitDataResponseDefinitionObject } from './../../../core/shared/submit-data-response-definition.model';
-import { Collection } from './../../../core/shared/collection.model';
-import { FeatureID } from './../../../core/data/feature-authorization/feature-id';
-import { AuthorizationDataService } from './../../../core/data/feature-authorization/authorization-data.service';
-import { hasValue } from './../../../shared/empty.util';
-import { MetadataMap, MetadataValue } from './../../../core/shared/metadata.models';
+import { Bitstream } from '../../../core/shared/bitstream.model';
+import { MergeObject } from '../../../core/deduplication/models/merge-object.model';
+import { Item } from '../../../core/shared/item.model';
+import { ItemsMetadataField } from '../../interfaces/deduplication-merge.models';
+import { WorkflowItem } from '../../../core/submission/models/workflowitem.model';
+import { SubmitDataResponseDefinitionObject } from '../../../core/shared/submit-data-response-definition.model';
+import { Collection } from '../../../core/shared/collection.model';
+import { FeatureID } from '../../../core/data/feature-authorization/feature-id';
+import { AuthorizationDataService } from '../../../core/data/feature-authorization/authorization-data.service';
+import { hasValue } from '../../../shared/empty.util';
+import { MetadataMap, MetadataValue } from '../../../core/shared/metadata.models';
 import { TranslateService } from '@ngx-translate/core';
-import { NotificationsService } from './../../../shared/notifications/notifications.service';
+import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   Component,
@@ -25,17 +23,18 @@ import {
 } from '@angular/core';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { SetObject } from '../../../core/deduplication/models/set.model';
-import { DeduplicationStateService } from './../../deduplication-state.service';
+import { DeduplicationStateService } from '../../deduplication-state.service';
 import { map, take, concatMap, switchMap } from 'rxjs/operators';
 import { NgbAccordion, NgbModal, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { DeduplicationSetsService } from './../deduplication-sets.service';
-import { NoContent } from './../../../core/shared/NoContent.model';
-import { RemoteData } from './../../../core/data/remote-data';
-import { isEqual, isNull } from 'lodash';
-import { getFirstCompletedRemoteData, getRemoteDataPayload } from './../../../core/shared/operators';
-import { ConfigObject } from './../../../core/config/models/config.model';
+import { DeduplicationSetsService } from '../deduplication-sets.service';
+import { NoContent } from '../../../core/shared/NoContent.model';
+import { RemoteData } from '../../../core/data/remote-data';
+import isEqual from 'lodash/isEqual';
+import isNull from 'lodash/isNull';
+import { getFirstCompletedRemoteData, getRemoteDataPayload } from '../../../core/shared/operators';
+import { ConfigObject } from '../../../core/config/models/config.model';
 import { CookieService } from '../../../core/services/cookie.service';
-import { SelectedItemData } from './../../interfaces/deduplication-sets.models';
+import { SelectedItemData } from '../../interfaces/deduplication-sets.models';
 import { DeduplicationItemsService } from '../../deduplication-merge/deduplication-items.service';
 import { getEntityPageRoute } from '../../../item-page/item-page-routing-paths';
 import { GetBitstreamsPipe } from '../../pipes/ds-get-bitstreams.pipe';
@@ -99,10 +98,16 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
   public totalRemainingElements = 0;
 
   /**
-   * Role of the logged in user.
+   * Role of the logged-in user.
    * @type {Observable<boolean>}
    */
   public isAdmin$: Observable<boolean>;
+
+  /**
+   * Role of the logged-in user.
+   * @type {Observable<boolean>}
+   */
+  public isCurator$: Observable<boolean>;
 
   /**
    * Stores the checked items per set.
@@ -129,7 +134,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
   /**
    * Remove element modal's submit button text.
    */
-  delteBtnText = 'deduplication.sets.modal.delete.submit';
+  deleteBtnText = 'deduplication.sets.modal.delete.submit';
 
   /**
    * List of opened accordion's indexes
@@ -167,6 +172,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
     this.totalElements$ =
       this.deduplicationStateService.getDeduplicationSetsTotals();
     this.isAdmin$ = this.isCurrentUserAdmin();
+    this.isCurator$ = this.isCurrentUserCurator();
     this.chd.detectChanges();
   }
 
@@ -204,7 +210,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
    * @param key The key to get its value
    * @returns {string}
    */
-  getFirstMetadtaValue(items: Item[], key: string): string {
+  getFirstMetadataValue(items: Item[], key: string): string {
     if (items.length > 0) {
       const item = items[0];
       if (hasValue(item) && hasValue(item.metadata)) {
@@ -235,7 +241,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
 
   /**
    * Returns the item's ids.
-   * @param setId The id of the set to which the items belong to.
+   * @param set The id set to which the items belong to.
    * @returns { Observable<string[]>}
    */
   getItemIds(set: SetObject): string[] {
@@ -247,6 +253,8 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
    * @param content The modal content
    * @param elementId itemId | setId (based on situation)
    * @param element 'item' | 'set' (identifier for the element to be deleted)
+   * @param setChecksum The checksum of the set.
+   * @param set The set to which the items belong to.
    */
   public confirmDelete(
     content,
@@ -257,7 +265,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
   ) {
     this.confirmModalText = {
       title: element === 'set' ? this.removeSetText : this.removeSetItemText,
-      btnText: this.delteBtnText,
+      btnText: this.deleteBtnText,
       titleClass: 'text-danger',
       btnClass: 'btn-danger',
     };
@@ -311,9 +319,9 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
   }
 
   /**
-   * Checks if there are at least 2 selected items and performes the deletion of the set.
+   * Checks if there are at least 2 selected items and performs the deletion of the set.
    * @param content The modal content
-   * @param setId The id of the set to which the items belong to.
+   * @param set The set to which the items belong to.
    * @param setChecksum The checksum of the set.
    */
   noDuplicatesAction(content, set: SetObject, setChecksum: string) {
@@ -443,15 +451,12 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
     this.modalService.open(content).dismissed.subscribe((result) => {
       if (isEqual(result, 'ok')) {
         this.mergeSub = this.getBitstreamsPipe.transform(item).pipe(
-          concatMap((res$: Observable<Bitstream[]>) =>
-            res$.pipe(map((bitstreams: Bitstream[]) => bitstreams))
-          ),
           switchMap(
             (bs: Bitstream[]) => {
               const metadataValues: ItemsMetadataField[] = [];
               const linksPerItem = bs.map((b) => b._links.self.href);
               // construct merge object
-              item.metadataAsList.forEach((el, index) => {
+              item.metadataAsList.forEach((el) => {
                 metadataValues.push({
                   metadataField: el.key,
                   sources: [
@@ -553,11 +558,11 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
    * @param event - event of changing panel state(open/ close)
    */
   onPanelChange(event: NgbPanelChangeEvent) {
-    const acticeIndex = this.openedAccordions.findIndex(x => isEqual(x, event.panelId));
-    if (event.nextState && acticeIndex < 0) {
+    const activeIndex = this.openedAccordions.findIndex(x => isEqual(x, event.panelId));
+    if (event.nextState && activeIndex < 0) {
       this.openedAccordions.push(event.panelId);
-    } else if (!event.nextState && acticeIndex > -1) {
-      this.openedAccordions.splice(acticeIndex, 1);
+    } else if (!event.nextState && activeIndex > -1) {
+      this.openedAccordions.splice(activeIndex, 1);
     }
   }
 
@@ -565,6 +570,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
   /**
    * Deletes the set and removes the set from the store.
    * @param setId The id of the set to which the items belong to.
+   * @param setChecksum The checksum of the set
    */
   private deleteSet(setId: string, setChecksum: string) {
     this.deduplicationSetsService
@@ -592,13 +598,15 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
   }
 
   /**
-   * Removes items (case of no deduplicaton).
+   * Removes items (case of no deduplication).
    * @param itemId The id of the item to be deleted
+   * @param setChecksum The checksum of the set
+   * @param set The set to which the item belongs to
    */
   private removeOnNoDuplicate(itemId: string, setChecksum: string, set: SetObject) {
     return this.deduplicationSetsService.removeItem(this.signatureId, itemId, setChecksum)
       .subscribe({
-        next: (value: RemoteData<NoContent>) => {
+        next: () => {
           // remove item from store
           this.deduplicationStateService.dispatchRemoveItemPerSets(
             this.signatureId,
@@ -627,7 +635,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
   /**
    * Deletes an item based on the item status.
    * @param itemId The id of the item to be deleted
-   * @param setId The id of the set to which the item belongs to
+   * @param set The set to which the item belongs to
    */
   private deleteItem(itemId: string, set: SetObject): void {
     const item = set.itemsList.find((x) => isEqual(x.id, itemId));
@@ -672,7 +680,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
               if (object instanceof WorkflowItem) {
                 //  WorkflowItem
                 this.deleteWorkflowItem(object.id).subscribe({
-                  next: (res: SubmitDataResponseDefinitionObject) => {
+                  next: () => {
                     this.dispatchRemoveItem(itemId, set, 'delete');
                     this.notificationsService.success(
                       null,
@@ -681,7 +689,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
                       )
                     );
                   },
-                  error: (err) => {
+                  error: () => {
                     this.notificationsService.error(
                       null,
                       this.translate.get(
@@ -695,7 +703,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
                 this.deduplicationSetsService
                   .deleteWorkspaceItemById((object[0] as ConfigObject).id)
                   .subscribe({
-                    next: (res) => {
+                    next: () => {
                       this.dispatchRemoveItem(itemId, set, 'delete');
                       this.notificationsService.success(
                         null,
@@ -704,7 +712,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
                         )
                       );
                     },
-                    error: (err) => {
+                    error: () => {
                       this.notificationsService.error(
                         null,
                         this.translate.get(
@@ -732,6 +740,7 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
    * Request to change the status of the sets' items.
    * @param itemId The id of the item to be removed
    * @param selectedSet The set to which the item belongs to
+   * @param deleteMode The modes of item deletion
    */
   dispatchRemoveItem(itemId: string, selectedSet: SetObject, deleteMode: 'delete' | 'no-duplication') {
     this.deduplicationStateService.dispatchRemoveItemPerSets(
@@ -784,12 +793,22 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
   }
 
   /**
-   * Returns if the logged in user is an Admin.
+   * Returns if the logged-in user is an Admin.
    * @returns {Observable<boolean>}
    */
   isCurrentUserAdmin(): Observable<boolean> {
     return this.authorizationService
       .isAuthorized(FeatureID.AdministratorOf, undefined, undefined)
+      .pipe(take(1));
+  }
+
+  /**
+   * Returns if the logged-in user is an Admin.
+   * @returns {Observable<boolean>}
+   */
+  isCurrentUserCurator(): Observable<boolean> {
+    return this.authorizationService
+      .isAuthorized(FeatureID.CuratorOf, undefined, undefined)
       .pipe(take(1));
   }
   //#endregion

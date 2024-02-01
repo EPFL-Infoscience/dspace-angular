@@ -19,7 +19,7 @@
         <select id="email_form_template_name" class="form-control" [(ngModel)]="email.templateName" name="template_name"
                 (change)="onTemplateChosen();"><!--formControlName="template_name" -->
           <option disabled selected [value]="null"></option>
-          <option *ngFor="let templateName of (templateList$ | async)" [value]="templateName">
+          <option *ngFor="let templateName of (templateList$ | async)" [value]="templateName" [hidden] = "templateName.endsWith('.old')">
             {{ 'submission.workflow.email-template.' + templateName | translate}}</option>
         </select>
         <p class="small form-text text-muted">{{ 'submission.workflow.tasks.email.modal.form.template.hint' | translate }}</p>

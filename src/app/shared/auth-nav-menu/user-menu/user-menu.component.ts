@@ -18,6 +18,7 @@ import { URLCombiner } from '../../../core/url-combiner/url-combiner';
 import { followLink } from '../../utils/follow-link-config.model';
 import { getFirstSucceededRemoteDataPayload } from '../../../core/shared/operators';
 import { ResearcherProfileDataService } from '../../../core/profile/researcher-profile-data.service';
+import { DSONameService } from '../../../core/breadcrumbs/dso-name.service';
 
 /**
  * This component represents the user nav menu.
@@ -69,9 +70,10 @@ export class UserMenuComponent implements OnInit {
   public userStatisticsRoute: string;
 
   constructor(
-    private store: Store<AppState>,
-    private authService: AuthService,
+    protected store: Store<AppState>,
+    protected authService: AuthService,
     private researcherProfileService: ResearcherProfileDataService,
+    public dsoNameService: DSONameService,
   ) {
   }
 

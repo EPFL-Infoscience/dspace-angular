@@ -54,6 +54,8 @@ import { ThemedSearchComponent } from './themed-search.component';
 import { ThemedSearchResultsComponent } from './search-results/themed-search-results.component';
 import { ThemedSearchSettingsComponent } from './search-settings/themed-search-settings.component';
 import { NouisliderModule } from 'ng2-nouislider';
+import { ThemedSearchFiltersComponent } from './search-filters/themed-search-filters.component';
+import { ThemedSearchSidebarComponent } from './search-sidebar/themed-search-sidebar.component';
 import { ItemExportComponent } from './item-export/item-export/item-export.component';
 import { ItemExportAlertComponent } from './item-export/item-export-alert/item-export-alert.component';
 import {
@@ -67,7 +69,7 @@ import {
   SearchRangeFilterWrapperComponent
 } from './search-filters/search-filter/search-range-filter-wrapper/search-range-filter-wrapper.component';
 import { ItemExportUrlComponent } from './item-export/item-export-url/item-export-url.component';
-import { ClipboardModule } from "@angular/cdk/clipboard";
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 const COMPONENTS = [
   SearchComponent,
@@ -96,6 +98,8 @@ const COMPONENTS = [
   ThemedConfigurationSearchPageComponent,
   ThemedSearchResultsComponent,
   ThemedSearchSettingsComponent,
+  ThemedSearchFiltersComponent,
+  ThemedSearchSidebarComponent,
   ItemExportListComponent,
   ItemExportComponent,
   ItemExportUrlComponent,

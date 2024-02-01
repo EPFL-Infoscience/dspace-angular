@@ -62,8 +62,11 @@ import {
 } from '../../../core/submission/models/workspaceitem-section-upload-file.model';
 import { RawRestResponse } from '../../../core/dspace-rest/raw-rest-response.model';
 import { SubmissionState } from '../../submission.reducers';
+import { JsonPatchOperationsBuilder} from '../../../core/json-patch/builder/json-patch-operations-builder';
+import { APP_CONFIG } from '../../../../config/app-config.interface';
+import { environment } from '../../../../environments/environment.test';
 
-describe('SubmissionSectionUnpaywallComponentComponent', () => {
+describe('SubmissionSectionUnpaywallComponent', () => {
   let component: SubmissionSectionUnpaywallComponent;
   let fixture: ComponentFixture<SubmissionSectionUnpaywallComponent>;
   let httpMock: HttpTestingController;
@@ -75,6 +78,7 @@ describe('SubmissionSectionUnpaywallComponentComponent', () => {
   let notificationsService: NotificationsService;
   let translate: TranslateService;
   let restApi: DspaceRestService;
+  let operationsBuilder: JsonPatchOperationsBuilder;
   let store: Store<SubmissionState>;
   const xsrfToken = 'mock-token';
 
@@ -140,6 +144,9 @@ describe('SubmissionSectionUnpaywallComponentComponent', () => {
         { provide: 'collectionIdProvider', useValue: mockSubmissionCollectionId },
         { provide: 'sectionDataProvider', useValue: {} },
         { provide: 'submissionIdProvider', useValue: mockSubmissionId },
+        { provide: JsonPatchOperationsBuilder,
+          useValue: jasmine.createSpyObj('operationsBuilder', [ 'add' ]) },
+        { provide: APP_CONFIG, useValue: environment }
       ],
       declarations: [SubmissionSectionUnpaywallComponent],
       schemas: [NO_ERRORS_SCHEMA]
@@ -159,7 +166,10 @@ describe('SubmissionSectionUnpaywallComponentComponent', () => {
     translate = TestBed.inject(TranslateService);
     restApi = TestBed.inject(DspaceRestService);
     store = TestBed.inject(Store);
+    operationsBuilder = TestBed.inject(JsonPatchOperationsBuilder);
     component = fixture.componentInstance;
+    spyOn(operationsBuilder, 'add').and.stub();
+    spyOn(component, 'addFileMetadata').and.returnValue(of(undefined));
     fixture.detectChanges();
   });
 
@@ -203,7 +213,7 @@ describe('SubmissionSectionUnpaywallComponentComponent', () => {
       spyOn(halService, 'getEndpoint').withArgs(submissionObjectName).and.returnValue(of(testEndpoint));
       spyOn(tokenExtractor, 'getToken').and.returnValue(xsrfToken);
       spyOn(component.uploader, 'uploadAll').and.callFake(() =>
-        component.uploader['_onSuccessItem'](new FileItem(component.uploader, new File([resource], 'test.txt'), {}), JSON.stringify(submissionObject), null, null));
+        (component.uploader as  any)._onSuccessItem(new FileItem(component.uploader, new File([resource], 'test.txt'), {}), JSON.stringify(submissionObject), null, null));
       spyOn(sectionService, 'isSectionType')
         .withArgs(mockSubmissionId, SectionsType.Unpaywall, SectionsType.Upload).and.returnValue(of(false))
         .withArgs(mockSubmissionId, SectionsType.Upload, SectionsType.Upload).and.returnValue(of(true));

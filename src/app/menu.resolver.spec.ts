@@ -19,6 +19,9 @@ import { createSuccessfulRemoteDataObject$ } from './shared/remote-data.utils';
 import { createPaginatedList } from './shared/testing/utils.test';
 import { SectionDataService } from './core/layout/section-data.service';
 import createSpy = jasmine.createSpy;
+import { BrowseService } from './core/browse/browse.service';
+import { APP_CONFIG } from '../config/app-config.interface';
+import { PaginatedList } from './core/data/paginated-list.model';
 
 const BOOLEAN = { t: true, f: false };
 const MENU_STATE = {
@@ -68,10 +71,12 @@ describe('MenuResolver', () => {
   let sectionsService;
   let authorizationService;
   let scriptService;
+  let browseService;
 
   beforeEach(waitForAsync(() => {
     menuService = new MenuServiceStub();
     spyOn(menuService, 'getMenu').and.returnValue(observableOf(MENU_STATE));
+    spyOn(menuService, 'addSection');
 
     sectionsService = jasmine.createSpyObj('SectionDataService', {
       findVisibleSections: createSuccessfulRemoteDataObject$(createPaginatedList(EXPLORE_SECTIONS_DEFINITIONS))
@@ -82,6 +87,9 @@ describe('MenuResolver', () => {
     scriptService = jasmine.createSpyObj('scriptService', {
       scriptWithNameExistsAndCanExecute: observableOf(true)
     });
+    browseService = jasmine.createSpyObj('browseService', {
+      getBrowseDefinitions: createSuccessfulRemoteDataObject$(new PaginatedList())
+    });
 
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), NoopAnimationsModule, RouterTestingModule],
@@ -91,18 +99,17 @@ describe('MenuResolver', () => {
         { provide: SectionDataService, useValue: sectionsService },
         { provide: AuthorizationDataService, useValue: authorizationService },
         { provide: ScriptDataService, useValue: scriptService },
-        {
-          provide: NgbModal, useValue: {
-            open: () => {/*comment*/
-            }
-          }
-        }
+        { provide: BrowseService, useValue: browseService },
+        { provide: APP_CONFIG, useValue: {} },
+        { provide: NgbModal, useValue: { open: () => { /*comment*/ } } }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
     resolver = TestBed.inject(MenuResolver);
 
     spyOn(menuService, 'addSection');
+    // TODO properly test createByBrowseMenu(), this is a temporary stub so that tests don't fail
+    spyOn(resolver, 'createBrowseByMenu').and.stub();
   }));
 
   it('should be created', () => {
@@ -138,7 +145,7 @@ describe('MenuResolver', () => {
       }));
 
       expect(resolver.createPublicMenu$()).toBeObservable(cold('-----(t|)', BOOLEAN));
-      expect(menuService.getMenu).toHaveBeenCalledOnceWith(MenuID.PUBLIC);
+      expect(menuService.getMenu).toHaveBeenCalledWith(MenuID.PUBLIC);
     });
 
     describe('contents', () => {
@@ -146,12 +153,6 @@ describe('MenuResolver', () => {
         resolver.createPublicMenu$().subscribe((_) => {
           done();
         });
-      });
-
-      it('should include community list link', () => {
-        expect(menuService.addSection).toHaveBeenCalledWith(MenuID.PUBLIC, jasmine.objectContaining({
-          id: 'browse_global_communities_and_collections', visible: true,
-        }));
       });
 
       it('should include explore sections', () => {

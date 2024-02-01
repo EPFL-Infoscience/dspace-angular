@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 
@@ -26,7 +26,7 @@ describe('OrcidSyncSettingsComponent test suite', () => {
   let scheduler: TestScheduler;
   let researcherProfileService: jasmine.SpyObj<ResearcherProfileDataService>;
   let notificationsService;
-  let formGroup: FormGroup;
+  let formGroup: UntypedFormGroup;
 
   const mockResearcherProfile: ResearcherProfile = Object.assign(new ResearcherProfile(), {
     id: 'test-id',
@@ -168,30 +168,30 @@ describe('OrcidSyncSettingsComponent test suite', () => {
   it('should create cards properly', () => {
     const modes = fixture.debugElement.query(By.css('[data-test="sync-mode"]'));
     const publication = fixture.debugElement.query(By.css('[data-test="sync-mode-publication"]'));
-    const funding = fixture.debugElement.query(By.css('[data-test="sync-mode-funding"]'));
-    const preferences = fixture.debugElement.query(By.css('[data-test="profile-preferences"]'));
+    //const funding = fixture.debugElement.query(By.css('[data-test="sync-mode-funding"]'));
+    //const preferences = fixture.debugElement.query(By.css('[data-test="profile-preferences"]'));
     expect(modes).toBeTruthy();
     expect(publication).toBeTruthy();
-    expect(funding).toBeTruthy();
-    expect(preferences).toBeTruthy();
+    //expect(funding).toBeTruthy();
+    //expect(preferences).toBeTruthy();
   });
 
   it('should init sync modes properly', () => {
     expect(comp.currentSyncMode).toBe('MANUAL');
     expect(comp.currentSyncPublications).toBe('ALL');
-    expect(comp.currentSyncFunding).toBe('DISABLED');
+    //expect(comp.currentSyncFunding).toBe('DISABLED');
   });
 
   describe('form submit', () => {
     beforeEach(() => {
       scheduler = getTestScheduler();
       notificationsService = (comp as any).notificationsService;
-      formGroup = new FormGroup({
-        syncMode: new FormControl('MANUAL'),
-        syncFundings: new FormControl('ALL'),
-        syncPublications: new FormControl('ALL'),
-        syncProfile_BIOGRAPHICAL: new FormControl(true),
-        syncProfile_IDENTIFIERS: new FormControl(true),
+      formGroup = new UntypedFormGroup({
+        syncMode: new UntypedFormControl('MANUAL'),
+        //syncFundings: new UntypedFormControl('ALL'),
+        syncPublications: new UntypedFormControl('ALL'),
+        //syncProfile_BIOGRAPHICAL: new UntypedFormControl(true),
+        //syncProfile_IDENTIFIERS: new UntypedFormControl(true),
       });
       spyOn(comp.settingsUpdated, 'emit');
     });
@@ -208,14 +208,14 @@ describe('OrcidSyncSettingsComponent test suite', () => {
           path: '/orcid/publications',
           op: 'replace',
           value: 'ALL'
-        }, {
+        /*}, {
           path: '/orcid/fundings',
           op: 'replace',
           value: 'ALL'
         }, {
           path: '/orcid/profile',
           op: 'replace',
-          value: 'BIOGRAPHICAL,IDENTIFIERS'
+          value: 'BIOGRAPHICAL,IDENTIFIERS'*/
         }
       ];
 

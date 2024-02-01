@@ -10,7 +10,7 @@ import { FormConfig } from './form-config.interfaces';
 import { LangConfig } from './lang-config.interface';
 import { ItemConfig } from './item-config.interface';
 import { CollectionPageConfig } from './collection-page-config.interface';
-import { ThemeConfig } from './theme.model';
+import { ThemeConfig } from './theme.config';
 import { AuthConfig } from './auth-config.interfaces';
 import { UIServerConfig } from './ui-server-config.interface';
 import { MediaViewerConfig } from './media-viewer-config.interface';
@@ -22,6 +22,7 @@ import { CommunityListConfig } from './community-list-config.interface';
 import { HomeConfig } from './homepage-config.interface';
 import { MarkdownConfig } from './markdown-config.interface';
 import { FilterVocabularyConfig } from './filter-vocabulary-config';
+import { DiscoverySortConfig } from './discovery-sort.config';
 import { CrisLayoutConfig, LayoutConfig, SuggestionConfig } from './layout-config.interfaces';
 import { MetadataSecurityConfig } from './metadata-security-config';
 import { CmsMetadata } from './cms-metadata';
@@ -31,6 +32,7 @@ import { AdvancedAttachmentRenderingConfig } from './advanced-attachment-renderi
 import { AttachmentRenderingConfig } from './attachment-rendering.config';
 import { SearchResultConfig } from './search-result-config.interface';
 import {VirtualCollectionConfig} from './virtual-collection-config.interface';
+import {EpflUnpaywallMetadata} from './epfl-unpaywall-metadata';
 
 interface AppConfig extends Config {
   ui: UIServerConfig;
@@ -57,6 +59,7 @@ interface AppConfig extends Config {
   info: InfoConfig;
   markdown: MarkdownConfig;
   vocabularies: FilterVocabularyConfig[];
+  comcolSelectionSort: DiscoverySortConfig;
   crisLayout: CrisLayoutConfig;
   layout: LayoutConfig;
   security: MetadataSecurityConfig;
@@ -68,6 +71,7 @@ interface AppConfig extends Config {
   attachmentRendering: AttachmentRenderingConfig;
   advancedAttachmentRendering: AdvancedAttachmentRenderingConfig;
   searchResult: SearchResultConfig;
+  epflUnpaywallMetadata: EpflUnpaywallMetadata;
 }
 
 /**
@@ -76,7 +80,7 @@ interface AppConfig extends Config {
  */
 const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG');
 
-const APP_CONFIG_STATE = makeStateKey('APP_CONFIG_STATE');
+const APP_CONFIG_STATE = makeStateKey<AppConfig>('APP_CONFIG_STATE');
 
 export {
   AppConfig,

@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 import { Pipe, PipeTransform } from '@angular/core';
 import { ItemData } from '../interfaces/deduplication-differences.models';
 

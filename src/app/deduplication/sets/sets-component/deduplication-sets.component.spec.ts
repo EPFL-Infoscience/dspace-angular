@@ -1,4 +1,3 @@
-import { Bitstream } from './../../../core/shared/bitstream.model';
 import { DSONameService } from './../../../core/breadcrumbs/dso-name.service';
 import { MergeObject } from './../../../core/deduplication/models/merge-object.model';
 import { ItemMock, MockOriginalBundle } from './../../../shared/mocks/item.mock';
@@ -16,9 +15,9 @@ import {
   NgbModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { NO_ERRORS_SCHEMA, Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed} from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Observable, of as observableOf } from 'rxjs';
+import { Observable,  of as observableOf} from 'rxjs';
 
 import { cold } from 'jasmine-marbles';
 import { CommonModule } from '@angular/common';
@@ -34,7 +33,6 @@ import { NotificationsServiceStub } from '../../../shared/testing/notifications-
 import { DeduplicationItemsService } from '../../deduplication-merge/deduplication-items.service';
 import { By } from '@angular/platform-browser';
 import { SetObject } from '../../../core/deduplication/models/set.model';
-import { map } from 'rxjs/operators';
 import { GetBitstreamsPipe } from '../../pipes/ds-get-bitstreams.pipe';
 import { GetItemStatusListPipe } from '../../pipes/get-item-status-list.pipe';
 
@@ -329,17 +327,6 @@ describe('DeduplicationSetsComponent test suite', () => {
     it('should open confirmation dialog', () => {
       expect(comp.confirmModalText.titleClass).toEqual('text-info');
       expect(modalService.open).toHaveBeenCalled();
-    });
-
-    it('should get item\'s bitstreams', () => {
-      const bitstreams: Observable<Observable<Bitstream[]>> = getBitstreamsPipe.transform(ItemMock);
-      bitstreams.pipe(
-        map((b: Observable<Bitstream[]>) => {
-          b.subscribe((res: Bitstream[]) => {
-            expect(res).not.toBeNull();
-          });
-        })
-      );
     });
 
     it('should merge data', () => {

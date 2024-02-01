@@ -47,7 +47,7 @@ describe('GenericItemPageFieldComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should display display the correct metadata value', () => {
+  it('should display the correct metadata value', () => {
     expect(fixture.nativeElement.innerHTML).toContain(mockValue);
   });
 });
