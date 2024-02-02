@@ -450,6 +450,9 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
     this.modalService.open(content).dismissed.subscribe((result) => {
       if (isEqual(result, 'ok')) {
         this.mergeSub = this.getBitstreamsPipe.transform(item).pipe(
+          concatMap((res$: Observable<Bitstream[]>) =>
+            res$.pipe(map((bitstreams: Bitstream[]) => bitstreams))
+          ),
           switchMap(
             (bs: Bitstream[]) => {
               const metadataValues: ItemsMetadataField[] = [];

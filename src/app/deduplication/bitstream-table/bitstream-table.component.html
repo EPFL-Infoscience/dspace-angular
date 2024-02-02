@@ -32,7 +32,7 @@
       <tr *ngIf="itemObj.object && itemObj.object | dsGetBitstreams | async">
         <ds-loading
           [showMessage]="false"
-          *ngIf="!(itemObj.object | dsGetBitstreams | async)"
+          *ngIf="!(itemObj.object | dsGetBitstreams | async | async)"
         >
         </ds-loading>
       </tr>
@@ -40,8 +40,8 @@
       <tr
         *ngIf="
           (itemObj.object &&
-            (itemObj.object | dsGetBitstreams | async)?.length == 0) ||
-            !(itemObj.object | dsGetBitstreams | async);
+            (itemObj.object | dsGetBitstreams | async | async)?.length == 0) ||
+            !(itemObj.object | dsGetBitstreams | async | async);
           else data
         "
       >
@@ -56,7 +56,11 @@
       </tr>
       <!--ROW DATA -->
       <ng-template #data>
-        <tr *ngFor="let bitstream of itemObj.object | dsGetBitstreams | async">
+        <tr
+          *ngFor="
+            let bitstream of itemObj.object | dsGetBitstreams | async | async
+          "
+        >
           <td *ngIf="selectable">
             <div class="custom-control custom-checkbox">
               <input

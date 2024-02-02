@@ -1,5 +1,4 @@
 import { FindListOptions } from '../../core/data/find-list-options.model';
-import isEqual from 'lodash/isEqual';
 import { SubmissionFieldsObject } from '../../core/deduplication/models/submission-fields.model';
 import { SubmissionFieldsRestService } from '../../core/deduplication/services/submission-fields-rest.service';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
@@ -15,6 +14,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { RequestParam } from '../../core/cache/models/request-param.model';
+import { isEqual } from 'lodash';
 
 @Injectable()
 export class DeduplicationItemsService {
