@@ -2,13 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Item } from '../../core/shared/item.model';
 import { Version } from '../../core/shared/version.model';
 import { RemoteData } from '../../core/data/remote-data';
-import {
-  BehaviorSubject,
-  combineLatest,
-  Observable,
-  of,
-  Subscription,
-} from 'rxjs';
+import { BehaviorSubject, combineLatest, forkJoin, Observable, of, Subscription, } from 'rxjs';
 import { VersionHistory } from '../../core/shared/version-history.model';
 import {
   getAllSucceededRemoteData,
@@ -51,8 +45,8 @@ import { WorkflowItemDataService } from '../../core/submission/workflowitem-data
 import { ConfigurationDataService } from '../../core/data/configuration-data.service';
 import { UUIDService } from '../../core/shared/uuid.service';
 import { StoreIdentifiersToMerge } from 'src/app/deduplication/interfaces/deduplication-merge.models';
-import { CookieService } from '../../../core/services/cookie.service';
-import { AuthService } from '../../../core/auth/auth.service';
+import { CookieService } from '../../core/services/cookie.service';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'ds-item-versions',
@@ -189,6 +183,8 @@ export class ItemVersionsComponent implements OnDestroy, OnInit {
 
   canCreateVersion$: Observable<boolean>;
   createVersionTitle$: Observable<string>;
+
+  isAuthenticated$ = this.authService.isAuthenticated();
 
   constructor(private versionHistoryService: VersionHistoryDataService,
               private versionService: VersionDataService,

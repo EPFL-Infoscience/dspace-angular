@@ -40,6 +40,11 @@ describe('ThumbnailComponent', () => {
         {
           value: 'doi:10.1392/dironix'
         }
+      ],
+      'dspace.entity.type': [
+        {
+          value: 'Person'
+        }
       ]
     },
     entityType: 'Person'
