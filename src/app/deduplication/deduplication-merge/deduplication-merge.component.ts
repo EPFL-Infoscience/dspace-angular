@@ -9,7 +9,7 @@ import {
   SetIdentifiers,
   StoreIdentifiersToMerge
 } from '../interfaces/deduplication-merge.models';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 import { ConfigurationProperty } from '../../core/shared/configuration-property.model';
 import { getFirstSucceededRemoteDataPayload } from '../../core/shared/operators';
 import { ConfigurationDataService } from '../../core/data/configuration-data.service';

@@ -16,7 +16,8 @@ import { catchError, concatMap, map, take } from 'rxjs/operators';
 import { DeduplicationSetsRestService } from '../../core/deduplication/services/deduplication-sets-rest.service';
 import { WorkflowItemDataService } from '../../core/submission/workflowitem-data.service';
 import { hasValue } from '../../shared/empty.util';
-import { isEqual, isNull } from 'lodash';
+import isEqual from 'lodash/isEqual';
+import isNull from 'lodash/isNull';
 
 @Injectable()
 export class DeduplicationSetsService {

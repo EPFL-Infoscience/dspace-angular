@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { isEqual } from 'lodash';
 import { Bitstream } from '../../core/shared/bitstream.model';
 import { ItemData } from '../interfaces/deduplication-merge.models';
+import isEqual from 'lodash/isEqual';
 
 @Component({
   selector: 'ds-bitstream-table',

@@ -19,7 +19,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { RemoteData } from '../../core/data/remote-data';
 import { By } from '@angular/platform-browser';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 describe('DeduplicationMergeComponent', () => {
   let component: DeduplicationMergeComponent;

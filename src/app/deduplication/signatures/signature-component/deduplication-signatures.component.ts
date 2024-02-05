@@ -3,7 +3,7 @@ import { SignatureObject } from '../../../core/deduplication/models/signature.mo
 
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { floor } from 'lodash';
+import floor from 'lodash/floor';
 
 /**
  * Component to display the deduplication signatures cards.

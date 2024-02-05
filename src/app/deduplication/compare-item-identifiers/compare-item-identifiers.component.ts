@@ -6,7 +6,7 @@ import { ItemDataService } from '../../core/data/item-data.service';
 import { WorkspaceitemDataService } from '../../core/submission/workspaceitem-data.service';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { ChangeDetectorRef, Component, TemplateRef } from '@angular/core';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 import { TranslateService } from '@ngx-translate/core';
 import { WorkflowItemDataService } from '../../core/submission/workflowitem-data.service';
 import { combineLatest, Observable, of } from 'rxjs';

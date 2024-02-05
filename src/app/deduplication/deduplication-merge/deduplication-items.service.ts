@@ -14,7 +14,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { RequestParam } from '../../core/cache/models/request-param.model';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 @Injectable()
 export class DeduplicationItemsService {
