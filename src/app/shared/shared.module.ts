@@ -352,6 +352,7 @@ import { ItemCollectionComponent } from './object-collection/shared/mydspace-ite
 import { ThemedItemListPreviewComponent } from './object-list/my-dspace-result-list-element/item-list-preview/themed-item-list-preview.component';
 import { ItemListPreviewComponent } from './object-list/my-dspace-result-list-element/item-list-preview/item-list-preview.component';
 import { MarkdownDirective } from './utils/markdown.directive';
+import { AngularOpenlayersModule } from 'ngx-openlayers';
 
 const MODULES = [
   CommonModule,
@@ -368,6 +369,7 @@ const MODULES = [
   RouterModule,
   DragDropModule,
   GoogleRecaptchaModule,
+  AngularOpenlayersModule,
   MenuModule,
   NgxPaginationModule,
   MetricsModule,
