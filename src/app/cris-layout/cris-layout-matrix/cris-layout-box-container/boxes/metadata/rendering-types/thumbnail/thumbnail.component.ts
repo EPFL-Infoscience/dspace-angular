@@ -103,6 +103,12 @@ export class ThumbnailComponent extends BitstreamRenderingModelComponent impleme
       this.default = 'assets/images/orgunit-placeholder.svg';
     } else if (hasValue(eType) && eType.toUpperCase() === 'PUBLICATION') {
       this.default = 'assets/images/publication-placeholder.svg';
-    }
+    } else if (hasValue(eType) && eType.toUpperCase() === 'PRODUCT') {
+      this.default = 'assets/images/product-placeholder.svg';
+    } else if (hasValue(eType) && eType.toUpperCase() === 'PATENT') {
+      this.default = 'assets/images/patent-placeholder.svg';
+    } else if (hasValue(eType) && eType.toUpperCase() === 'PERSON') {
+      this.default = 'assets/images/person-placeholder.svg';
+}
   }
 }
