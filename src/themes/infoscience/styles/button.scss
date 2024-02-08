@@ -1,0 +1,311 @@
+@charset 'utf-8';
+@use 'sass:color';
+
+// stylelint-disable selector-no-qualifying-type
+
+//
+// Base styles
+//
+
+.btn {
+    display: inline-block;
+    font-family: $btn-font-family;
+    font-weight: $btn-font-weight;
+    color: $body-color;
+    text-align: center;
+    text-decoration: if($link-decoration ==none, null, none);
+    white-space: $btn-white-space;
+    vertical-align: middle;
+    user-select: none;
+    background-color: transparent;
+    border: $btn-border-width solid transparent;
+    @include button-size($btn-padding-y, $btn-padding-x, $btn-font-size, $btn-line-height, $btn-border-radius);
+    @include transition($btn-transition);
+
+    @include hover() {
+        color: $body-color;
+        text-decoration: none;
+    }
+
+    &:focus,
+    &.focus {
+        outline: 0;
+        box-shadow: $btn-focus-box-shadow;
+    }
+
+    // Disabled comes first so active can properly restyle
+    &.disabled,
+    &:disabled {
+        opacity: $btn-disabled-opacity;
+        @include box-shadow(none);
+    }
+
+    &:not(:disabled):not(.disabled) {
+        cursor: if($enable-pointer-cursor-for-buttons, pointer, null);
+
+        &:active,
+        &.active {
+            @include box-shadow($btn-active-box-shadow);
+
+            &:focus {
+                @include box-shadow($btn-focus-box-shadow, $btn-active-box-shadow);
+            }
+        }
+    }
+}
+
+// Future-proof disabling of clicks on `<a>` elements
+a.btn.disabled,
+fieldset:disabled a.btn {
+    pointer-events: none;
+}
+
+
+//
+// Alternate buttons
+//
+
+@each $color, $value in $theme-colors {
+    .btn-#{$color} {
+        @include button-variant($value, $value);
+    }
+}
+
+@each $color, $value in $theme-colors {
+    .btn-outline-#{$color} {
+        @include button-outline-variant($value);
+    }
+}
+
+
+//
+// Link buttons
+//
+
+// Make a button look and behave like a link
+.btn-link {
+    font-weight: $font-weight-normal;
+    color: $link-color;
+    text-decoration: $link-decoration;
+
+    @include hover() {
+        color: $link-hover-color;
+        text-decoration: $link-hover-decoration;
+    }
+
+    &:focus,
+    &.focus {
+        text-decoration: $link-hover-decoration;
+    }
+
+    &:disabled,
+    &.disabled {
+        color: $btn-link-disabled-color;
+        pointer-events: none;
+    }
+
+    // No need for an active state here
+}
+
+
+//
+// Button Sizes
+//
+
+.btn-lg {
+    @include button-size($btn-padding-y-lg, $btn-padding-x-lg, $btn-font-size-lg, $btn-line-height-lg, $btn-border-radius-lg);
+}
+
+.btn-sm {
+    @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $btn-font-size-sm, $btn-line-height-sm, $btn-border-radius-sm);
+}
+
+
+//
+// Block button
+//
+
+.btn-block {
+    display: block;
+    width: 100%;
+
+    // Vertically space out multiple block buttons
+    +.btn-block {
+        margin-top: $btn-block-spacing-y;
+    }
+}
+
+// Specificity overrides
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+    &.btn-block {
+        width: 100%;
+    }
+}
+
+.btn,
+button,
+button.btn,
+input[type="button"] {
+
+    &:disabled,
+    &.disabled {
+        opacity: 1;
+    }
+
+    &:focus,
+    &:focus-visible,
+    &.focus {
+        outline-width: 2px !important;
+        outline-style: solid !important;
+        // It would be super nice to avoid the !important and extra long selectors, but we're stuck with old Bootstrap base styles and weird compilation behaviour. -ak
+        outline-offset: 2px;
+    }
+}
+
+.btn {
+    text-decoration: none;
+    white-space: normal;
+    transition:
+        background 0.15s,
+        color 0.15s,
+        border-color 0.15s;
+
+    @extend .focused !optional;
+
+    &:before {
+        content: none;
+    }
+}
+
+.btn-primary {
+    font-weight: $font-weight-bold;
+
+    &:hover,
+    &.hover {
+        background: $red-dark;
+        border-color: $red-dark;
+    }
+
+    &:focus,
+    &:focus-visible,
+    &.focus {
+        outline-color: $red-dark !important;
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+        // ugly ↓
+        // background: linear-gradient(to bottom, $red-dark 0%, $red 100%);
+        background: color.adjust($red-dark, $lightness: -10%);
+        border-color: color.adjust($red-dark, $lightness: -10%);
+    }
+
+    &:disabled,
+    &.disabled {
+        background: $gray-100;
+        border-color: $gray-300;
+        color: $gray-300;
+
+        .bg-dark & {
+            background: $black;
+            border-color: $gray-600;
+            color: $gray-600;
+        }
+    }
+}
+
+.btn-outline-secondary {
+    color: $dark;
+}
+
+.btn-secondary {
+    background: transparent;
+    border-color: $gray-300;
+    color: $black;
+
+    .bg-dark & {
+        border-color: $gray-600;
+        color: $white !important;
+    }
+
+    .bg-gray-100 & {
+        background-color: $body-bg;
+    }
+
+    &:hover,
+    &.hover {
+        background: $gray-100;
+        border-color: $gray-600;
+        color: $dark;
+
+        .bg-dark & {
+            background: transparent;
+            border-color: $gray-100;
+        }
+    }
+
+    &:focus,
+    &:focus-visible,
+    &.focus {
+        outline-color: $gray-600 !important;
+    }
+
+    .bg-dark &:focus,
+    .bg-dark &.focus {
+        border-color: $gray-100;
+
+        &:before {
+            border-color: $gray-100;
+        }
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+        background: linear-gradient(to bottom, $gray-100 0%, $white 100%);
+        border-color: $gray-300;
+        color: $black;
+        
+
+        .bg-dark & {
+            background: $gray-600;
+            border-color: $white;
+        }
+    }
+
+    &:disabled,
+    &.disabled {
+        background: transparent;
+        border-color: $gray-600;
+        color: $gray-600 !important;
+    }
+}
+
+.btn-light {
+
+    &,
+    &:hover {
+        border-color: gray('600');
+    }
+}
+
+.btn-circle {
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    background-color: $white;
+    border: none;
+    box-shadow: 0 0 0 2px rgba($black, 0.4);
+    line-height: 1;
+    color: rgba($black, 0.4);
+    transition: box-shadow 0.2s;
+    cursor: pointer;
+
+    @include hover {
+        box-shadow: 0 0 0 5px rgba($black, 0.6);
+        outline: 1rem solid transparent;
+        color: rgba($black, 0.6);
+    }
+}

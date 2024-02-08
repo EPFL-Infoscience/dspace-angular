@@ -74,6 +74,11 @@
                 "input": "src/themes/epfl/styles/theme.scss",
                 "inject": false,
                 "bundleName": "epfl-theme"
+              },
+              {
+                "input": "src/themes/infoscience/styles/theme.scss",
+                "inject": false,
+                "bundleName": "infoscience-theme"
               }
             ],
             "scripts": [],

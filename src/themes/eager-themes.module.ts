@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { EagerThemeModule as InfoscienceEagerThemeModule } from './infoscience/eager-theme.module';
 import { EagerThemeModule as EpflEagerThemeModule } from './epfl/eager-theme.module';
 import { EagerThemeModule as DSpaceEagerThemeModule } from './dspace/eager-theme.module';
 // import { EagerThemeModule as CustomEagerThemeModule } from './custom/eager-theme.module';
@@ -12,6 +13,7 @@ import { EagerThemeModule as DSpaceEagerThemeModule } from './dspace/eager-theme
  */
 @NgModule({
   imports: [
+    InfoscienceEagerThemeModule,
     EpflEagerThemeModule,
     DSpaceEagerThemeModule,
     // CustomEagerThemeModule,
