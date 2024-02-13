@@ -57,8 +57,6 @@ export class CrisItemPageTabResolver implements Resolve<RemoteData<PaginatedList
                 const mainTab = tabsRD.payload.page.length > 1
                   ? tabsRD.payload.page.filter((tab) => !tab.leading)[0]
                   : tabsRD.payload.page[0];
-                console.log('TabsRemoteData: ', tabsRD);
-                console.log('Main tab: ', mainTab);
                 if (!isValidTab) {
                   // If wrong tab is given redirect to 404 page
                   this.router.navigateByUrl(getPageNotFoundRoute(), { skipLocationChange: true, replaceUrl: false });
