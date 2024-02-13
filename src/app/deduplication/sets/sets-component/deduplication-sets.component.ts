@@ -29,7 +29,8 @@ import { NgbAccordion, NgbModal, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bo
 import { DeduplicationSetsService } from '../deduplication-sets.service';
 import { NoContent } from '../../../core/shared/NoContent.model';
 import { RemoteData } from '../../../core/data/remote-data';
-import { isEqual, isNull } from 'lodash';
+import isEqual from 'lodash/isEqual';
+import isNull from 'lodash/isNull';
 import { getFirstCompletedRemoteData, getRemoteDataPayload } from '../../../core/shared/operators';
 import { ConfigObject } from '../../../core/config/models/config.model';
 import { CookieService } from '../../../core/services/cookie.service';
@@ -450,9 +451,6 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
     this.modalService.open(content).dismissed.subscribe((result) => {
       if (isEqual(result, 'ok')) {
         this.mergeSub = this.getBitstreamsPipe.transform(item).pipe(
-          concatMap((res$: Observable<Bitstream[]>) =>
-            res$.pipe(map((bitstreams: Bitstream[]) => bitstreams))
-          ),
           switchMap(
             (bs: Bitstream[]) => {
               const metadataValues: ItemsMetadataField[] = [];

@@ -128,7 +128,7 @@ describe('TasksService', () => {
       scheduler.flush();
 
       expect((service as any).searchData.getSearchByHref).toHaveBeenCalledWith('method', options, followLinks as any);
-      expect(service.findByHref).toHaveBeenCalledWith('generatedHref', false, true);
+      expect(service.findByHref).toHaveBeenCalledWith('generatedHref', false, true, followLinks as any);
     });
   });
 

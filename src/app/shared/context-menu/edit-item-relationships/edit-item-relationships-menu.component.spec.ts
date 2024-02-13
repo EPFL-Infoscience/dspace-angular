@@ -18,6 +18,8 @@ import { NotificationsServiceStub } from '../../testing/notifications-service.st
 import { NotificationsService } from '../../notifications/notifications.service';
 import { CrisLayoutTab } from '../../../core/layout/models/tab.model';
 import { TAB } from '../../../core/layout/models/tab.resource-type';
+import { AuthorizationDataService } from '../../../core/data/feature-authorization/authorization-data.service';
+import { of as observableOf } from 'rxjs';
 
 describe('EditItemRelationshipsMenuComponent', () => {
   let component: EditItemRelationshipsMenuComponent;
@@ -25,6 +27,7 @@ describe('EditItemRelationshipsMenuComponent', () => {
   let fixture: ComponentFixture<EditItemRelationshipsMenuComponent>;
 
   let editItemDataService: any;
+  let authorizationService: AuthorizationDataService;
   let dso: DSpaceObject;
 
   const notificationService = new NotificationsServiceStub();
@@ -163,6 +166,9 @@ describe('EditItemRelationshipsMenuComponent', () => {
     editItemDataService = jasmine.createSpyObj('EditItemDataService', {
       searchEditModesById: jasmine.createSpy('searchEditModesById')
     });
+    authorizationService = jasmine.createSpyObj('authorizationService', {
+      isAuthorized: observableOf(true)
+    });
 
     TestBed.configureTestingModule({
       declarations: [EditItemRelationshipsMenuComponent],
@@ -181,6 +187,7 @@ describe('EditItemRelationshipsMenuComponent', () => {
         { provide: TabDataService, useValue: tabDataServiceMock },
         { provide: ComponentFixtureAutoDetect, useValue: true },
         { provide: NotificationsService, useValue: notificationService },
+        { provide: AuthorizationDataService, useValue: authorizationService },
       ]
     }).compileComponents();
   }));

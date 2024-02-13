@@ -62,7 +62,8 @@ describe('CarouselComponent', () => {
       carouselHeightPx: 50,
       aspectRatio: 1,
       captionStyle: '',
-      titleStyle: ''
+      titleStyle: '',
+      bundle: 'ORIGINAL'
     };
 
     const firstItemResult = Object.assign(new ItemSearchResult(), {

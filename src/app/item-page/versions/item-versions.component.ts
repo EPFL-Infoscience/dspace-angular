@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Item } from '../../core/shared/item.model';
 import { Version } from '../../core/shared/version.model';
 import { RemoteData } from '../../core/data/remote-data';
@@ -24,34 +24,36 @@ import { PaginatedList } from '../../core/data/paginated-list.model';
 import { PaginationComponentOptions } from '../../shared/pagination/pagination-component-options.model';
 import { VersionHistoryDataService } from '../../core/data/version-history-data.service';
 import { PaginatedSearchOptions } from '../../shared/search/models/paginated-search-options.model';
-import { AlertType } from '../../shared/alert/aletr-type';
+import { AlertType } from '../../shared/alert/alert-type';
 import { followLink } from '../../shared/utils/follow-link-config.model';
 import { hasValue, hasValueOperator } from '../../shared/empty.util';
 import { PaginationService } from '../../core/pagination/pagination.service';
 import {
-  getItemEditVersionhistoryRoute, getItemFullPageRoute,
+  getItemEditVersionhistoryRoute,
+  getItemFullPageRoute,
   getItemPageRoute,
   getItemVersionRoute
 } from '../item-page-routing-paths';
-import {FormBuilder} from '@angular/forms';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ItemVersionsSummaryModalComponent} from './item-versions-summary-modal/item-versions-summary-modal.component';
-import {NotificationsService} from '../../shared/notifications/notifications.service';
-import {TranslateService} from '@ngx-translate/core';
-import {ItemVersionsDeleteModalComponent} from './item-versions-delete-modal/item-versions-delete-modal.component';
-import {VersionDataService} from '../../core/data/version-data.service';
-import {ItemDataService} from '../../core/data/item-data.service';
-import {Router} from '@angular/router';
-import {AuthorizationDataService} from '../../core/data/feature-authorization/authorization-data.service';
-import {FeatureID} from '../../core/data/feature-authorization/feature-id';
-import {ItemVersionsSharedService} from './item-versions-shared.service';
-import {WorkspaceItem} from '../../core/submission/models/workspaceitem.model';
-import {WorkspaceitemDataService} from '../../core/submission/workspaceitem-data.service';
-import {WorkflowItemDataService} from '../../core/submission/workflowitem-data.service';
-import {ConfigurationDataService} from '../../core/data/configuration-data.service';
-import {StoreIdentifiersToMerge} from 'src/app/deduplication/interfaces/deduplication-merge.models';
-import {CookieService } from '../../core/services/cookie.service';
-import {AuthService } from '../../core/auth/auth.service';
+import { UntypedFormBuilder } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ItemVersionsSummaryModalComponent } from './item-versions-summary-modal/item-versions-summary-modal.component';
+import { NotificationsService } from '../../shared/notifications/notifications.service';
+import { TranslateService } from '@ngx-translate/core';
+import { ItemVersionsDeleteModalComponent } from './item-versions-delete-modal/item-versions-delete-modal.component';
+import { VersionDataService } from '../../core/data/version-data.service';
+import { ItemDataService } from '../../core/data/item-data.service';
+import { Router } from '@angular/router';
+import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
+import { FeatureID } from '../../core/data/feature-authorization/feature-id';
+import { ItemVersionsSharedService } from './item-versions-shared.service';
+import { WorkspaceItem } from '../../core/submission/models/workspaceitem.model';
+import { WorkspaceitemDataService } from '../../core/submission/workspaceitem-data.service';
+import { WorkflowItemDataService } from '../../core/submission/workflowitem-data.service';
+import { ConfigurationDataService } from '../../core/data/configuration-data.service';
+import { UUIDService } from '../../core/shared/uuid.service';
+import { StoreIdentifiersToMerge } from 'src/app/deduplication/interfaces/deduplication-merge.models';
+import { CookieService } from '../../core/services/cookie.service';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'ds-item-versions',
@@ -62,7 +64,7 @@ import {AuthService } from '../../core/auth/auth.service';
 /**
  * Component listing all available versions of the history the provided item is a part of
  */
-export class ItemVersionsComponent implements OnInit {
+export class ItemVersionsComponent implements OnDestroy, OnInit {
 
   /**
    * The item to display a version history for
@@ -157,7 +159,7 @@ export class ItemVersionsComponent implements OnInit {
    * Start at page 1 and always use the set page size
    */
   options = Object.assign(new PaginationComponentOptions(), {
-    id: 'ivo',
+    id: this.uuidService.generate(),
     currentPage: 1,
     pageSize: this.pageSize
   });
@@ -196,7 +198,7 @@ export class ItemVersionsComponent implements OnInit {
     private versionService: VersionDataService,
     private itemService: ItemDataService,
     private paginationService: PaginationService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private modalService: NgbModal,
     private notificationsService: NotificationsService,
     private translateService: TranslateService,
@@ -208,6 +210,7 @@ export class ItemVersionsComponent implements OnInit {
     private configurationService: ConfigurationDataService,
     private cookieService: CookieService,
     private authService: AuthService,
+    private uuidService: UUIDService
   ) {
   }
 

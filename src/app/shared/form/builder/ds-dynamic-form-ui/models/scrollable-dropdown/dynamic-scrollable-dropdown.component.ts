@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { Observable, of as observableOf, Subject, Subscription } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import {
 import { VocabularyEntry } from '../../../../../../core/submission/vocabularies/models/vocabulary-entry.model';
 import { DynamicScrollableDropdownModel } from './dynamic-scrollable-dropdown.model';
 import { PageInfo } from '../../../../../../core/shared/page-info.model';
-import { isEmpty } from '../../../../../empty.util';
+import { isEmpty, isNotEmpty } from '../../../../../empty.util';
 import { VocabularyService } from '../../../../../../core/submission/vocabularies/vocabulary.service';
 import { getFirstSucceededRemoteDataPayload } from '../../../../../../core/shared/operators';
 import { buildPaginatedList, PaginatedList } from '../../../../../../core/data/paginated-list.model';
@@ -33,7 +33,7 @@ import { RemoteData } from '../../../../../../core/data/remote-data';
 })
 export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyComponent implements OnInit, OnDestroy {
   @Input() bindId = true;
-  @Input() group: FormGroup;
+  @Input() group: UntypedFormGroup;
   @Input() model: DynamicScrollableDropdownModel;
 
   @Output() blur: EventEmitter<any> = new EventEmitter<any>();
@@ -131,6 +131,23 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
   }
 
   /**
+   * KeyDown handler to allow toggling the dropdown via keyboard
+   * @param event KeyboardEvent
+   * @param sdRef The reference of the NgbDropdown.
+   */
+  selectOnKeyDown(event: KeyboardEvent, sdRef: NgbDropdown) {
+    const keyName = event.key;
+
+    if (keyName === ' ' || keyName === 'Enter') {
+      event.preventDefault();
+      event.stopPropagation();
+      sdRef.toggle();
+    } else if (keyName === 'ArrowDown' || keyName === 'ArrowUp') {
+      this.openDropdown(sdRef);
+    }
+  }
+
+  /**
    * Loads any new entries
    */
   onScroll() {
@@ -222,11 +239,14 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
           list.pageInfo.totalElements,
           list.pageInfo.totalPages
         );
-        const currentValue: any = this.model.value;
-        if (currentValue?.display?.length > 0 && this.pageInfo.currentPage === this.pageInfo.totalPages) {
-          const presentObject = this.optionsList.filter(element => element.display === currentValue.display);
-          if (presentObject.length === 0) {
-            const object = this.createVocabularyObject(currentValue.display, currentValue.value, undefined);
+        // After all entries have been retrieved, if the component is an opendropdown then
+        // check if the current value is a custom value and add it to the list
+        const isLastPage = this.pageInfo.currentPage === this.pageInfo.totalPages;
+        const modelValue: any = this.model.value;
+        if (isLastPage && isNotEmpty(modelValue?.value)) {
+          const isCustomValue = isEmpty(this.optionsList.filter(element => element.value === modelValue.value));
+          if (isCustomValue) {
+            const object = this.createVocabularyObject(modelValue.display, modelValue.value, undefined);
             this.optionsList.push(object);
           }
         }
