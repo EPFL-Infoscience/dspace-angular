@@ -50,7 +50,7 @@ export class IdentifierComponent extends RenderingTypeValueModelComponent implem
 
   getIdentifierFromValue() {
     let identifier: MetadataLinkValue;
-    if (isNotEmpty(this.renderingSubType)) {
+    if (isNotEmpty(this.renderingSubType) && !this.resolver.checkLink(this.metadataValue.value)) {
       identifier = this.composeLink(this.metadataValue.value, this.renderingSubType);
     } else {
       // Check if the value is a link (http, https, ftp or ftps)
