@@ -20,10 +20,8 @@ import { AuthService } from '../../../core/auth/auth.service';
 import { SubmissionService } from '../../submission.service';
 import { HttpXsrfTokenExtractor } from '@angular/common/http';
 import { XSRF_REQUEST_HEADER } from '../../../core/xsrf/xsrf.constants';
-import { WorkspaceItem } from '../../../core/submission/models/workspaceitem.model';
-import { hasValue, isEmpty, isNotEmpty } from '../../../shared/empty.util';
+import { hasValue } from '../../../shared/empty.util';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
-import parseSectionErrors from '../../utils/parseSectionErrors';
 import { TranslateService } from '@ngx-translate/core';
 import { JsonPatchOperationPathCombiner } from '../../../core/json-patch/builder/json-patch-operation-path-combiner';
 import {
