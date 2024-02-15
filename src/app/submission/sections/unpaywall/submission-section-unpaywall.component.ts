@@ -14,7 +14,7 @@ import {
   WorkspaceitemSectionUnpaywallObject
 } from '../../../core/submission/models/workspaceitem-section-unpaywall-object';
 import { UnpaywallSectionStatus } from './models/unpaywall-section-status';
-import { FileUploader } from 'ng2-file-upload';
+import {FileItem, FileUploader} from 'ng2-file-upload';
 import { HALEndpointService } from '../../../core/shared/hal-endpoint.service';
 import { AuthService } from '../../../core/auth/auth.service';
 import { SubmissionService } from '../../submission.service';
@@ -281,40 +281,25 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
     }
   }
 
-  private uploadFile(file: File): Observable<void> {
-    const onSuccessItem$ = new BehaviorSubject<WorkspaceItem>(null);
+  private uploadFile(file: File): Observable<FileItem> {
+    const onSuccessItem$ = new BehaviorSubject<FileItem>(null);
     onSuccessItem$.pipe(
       filter(hasValue),
       takeUntil(this.unsubscribe$)
-    ).subscribe(workspaceItem => this.updateUploadSection(workspaceItem));
-    this.uploader.onSuccessItem = (item, response) => onSuccessItem$.next(JSON.parse(response) as WorkspaceItem);
+    ).subscribe(fileItem => this.updateUploadSection(fileItem));
+    this.uploader.onSuccessItem = (item, response) => onSuccessItem$.next(item);
     this.uploader.addToQueue([file]);
     this.uploader.uploadAll();
     return onSuccessItem$.asObservable().pipe(filter(hasValue));
   }
 
-  private updateUploadSection(workspaceItem: WorkspaceItem): void {
-    const sections = workspaceItem.sections;
-    const errors = workspaceItem.errors;
-    const errorsList = parseSectionErrors(errors);
-    if (sections && isNotEmpty(sections)) {
-      Object.keys(sections).forEach((sectionId) => {
-        const sectionErrors = errorsList[sectionId];
-        this.sectionService.isSectionType(this.submissionId, sectionId, SectionsType.Upload)
-          .pipe(takeUntil(this.unsubscribe$))
-          .subscribe((isUpload) => {
-            if (isUpload) {
-              if ((isEmpty(sectionErrors))) {
-                this.notificationsService
-                  .success(null, this.translate.get('submission.sections.upload.upload-successful'));
-              } else {
-                this.notificationsService.error(null, this.translate.get('submission.sections.upload.upload-failed'));
-              }
-            }
-          });
-      });
+  private updateUploadSection(fileItem: FileItem): void {
+    if (fileItem?.isSuccess && fileItem?.isUploaded) {
+        this.notificationsService
+          .success(null, this.translate.get('submission.sections.upload.upload-successful'));
+    } else {
+      this.notificationsService.error(null, this.translate.get('submission.sections.upload.upload-failed'));
     }
-    this.uploader.clearQueue();
   }
 
   protected getSectionStatus(): Observable<boolean> {
