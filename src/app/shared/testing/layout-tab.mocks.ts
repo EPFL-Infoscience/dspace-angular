@@ -975,6 +975,22 @@ export const tabDetailsTest: CrisLayoutTab = {
     }
   }
 };
+export const tabDetailsLeadingTest: CrisLayoutTab = {
+  'id': 395,
+  'shortname': 'details',
+  'header': 'Informations',
+  'entityType': 'OrgUnit',
+  'leading': true,
+  'priority': 0,
+  'security': 0,
+  'type': TAB,
+  'uuid': '123123123123',
+  '_links': {
+    'self': {
+      'href': 'http://localhost:8080/server/api/layout/tabs/395'
+    }
+  }
+};
 export const tabPublicationsTest: CrisLayoutTab = {
   'id': 396,
   'shortname': 'publications',
