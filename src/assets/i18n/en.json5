@@ -8741,6 +8741,7 @@
 
   "event.page.titleprefix": "Event: ",
   "patent.page.titleprefix": "Patent: ",
-  "explore.index.unitOrLab": "Units or Labs"
+  "explore.index.unitOrLab": "Units or Labs",
+  "browse.metadata.vctitle.breadcrumbs": "Browse by Title"
 }
 
