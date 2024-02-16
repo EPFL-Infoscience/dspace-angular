@@ -13,7 +13,7 @@
         <div *ngIf="item.isArchived && item.hasMetadata('epfl.workflow.startDateTime') && item.hasMetadata('dc.date.accessioned')">
           {{'mydspace.results.in-workflow-for' | translate}} {{getDateForArchivedItem(item.firstMetadataValue('epfl.workflow.startDateTime'), item.firstMetadataValue('dc.date.accessioned'))}}
         </div>
-        <div *ngIf="!item.isArchived && item.hasMetadata('epfl.workflow.startDateTime') && item.hasMetadata('dc.date.accessioned')">
+        <div *ngIf="!item.isArchived && item.hasMetadata('epfl.workflow.startDateTime')">
           {{'mydspace.results.in-workflow-since' | translate}} {{getDateForItem(item.firstMetadataValue('epfl.workflow.startDateTime'))}}
         </div>
         <div>
