@@ -80,4 +80,12 @@ export class ItemListPreviewComponent implements OnInit {
     const hours: number = Math.max(0, Math.floor(remainingMilliseconds / (60 * 60 * 1000)));
     return `${days} d ${hours} h`;
   }
+
+  getDateForItem(itemStartDate: string) {
+    const itemStartDateConverted: Date = parseISO(itemStartDate);
+    const days: number = Math.max(0, Math.floor(differenceInDays(Date.now(), itemStartDateConverted)));
+    const remainingMilliseconds: number = differenceInMilliseconds(Date.now(), itemStartDateConverted) - days * 24 * 60 * 60 * 1000;
+    const hours: number = Math.max(0, Math.floor(remainingMilliseconds / (60 * 60 * 1000)));
+    return `${days} d ${hours} h`;
+  }
 }
