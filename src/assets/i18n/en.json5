@@ -8738,5 +8738,10 @@
   "vocabulary-treeview.header.journalfondboxtree": "Journal Fond Tree",
 
   "vocabulary-treeview.header.aggregationboxtree": "Collection Tree",
+
+  "event.page.titleprefix": "Event: ",
+  "patent.page.titleprefix": "Patent: ",
+  "explore.index.unitOrLab": "Units or Labs",
+  "browse.metadata.vctitle.breadcrumbs": "Browse by Title"
 }
 
