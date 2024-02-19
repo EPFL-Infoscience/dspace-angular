@@ -3,7 +3,11 @@
   <div *ngSwitchCase="'text-key'">{{ ('explore.text-section.' + textRowSection.content) | translate }}</div>
   <div *ngSwitchCase="'text-raw'">{{ textRowSection.content }}</div>
   <div *ngSwitchCase="'text-metadata'" class="p-2 border rounded">
-    <ds-markdown-viewer data-test="ds-markdown-viewer" [value]="metadataValue(textRowSection.content)"></ds-markdown-viewer>
+<!--    <ds-markdown-viewer data-test="ds-markdown-viewer" [value]="metadataValue(textRowSection.content)"></ds-markdown-viewer>-->
+    <div *ngSwitchCase="'text-metadata'" [innerHTML]="metadataValue(textRowSection.content)" [class.text-section-home-news]="textRowSection.content === 'cris.cms.home-news'"></div>
+  </div>
+  <div *ngSwitchCase="'custom'">
+    <ng-container *ngTemplateOutlet="custom"></ng-container>
   </div>
   <div *ngSwitchCase="'submit-section'">
     <ng-container *dsShowOnlyForRole="[roleTypeEnum.Submitter]">
@@ -41,3 +45,6 @@
     </a>
   </div>
 </ng-template>
+
+<!-- Custom content type -->
+<ng-template #custom></ng-template>
