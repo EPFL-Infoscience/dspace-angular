@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Router, UrlTree} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
-import {CrisLayoutBox, LayoutField} from '../../../../../../../core/layout/models/box.model';
+import {LayoutField} from '../../../../../../../core/layout/models/box.model';
 import {Item} from '../../../../../../../core/shared/item.model';
 import {MetadataValue} from '../../../../../../../core/shared/metadata.models';
 import {ResolverStrategyService} from '../../../../../../services/resolver-strategy.service';
@@ -31,12 +31,11 @@ export class SearchComponent extends RenderingTypeValueModelComponent implements
     @Inject('itemProvider') public itemProvider: Item,
     @Inject('metadataValueProvider') public metadataValueProvider: MetadataValue,
     @Inject('renderingSubTypeProvider') public renderingSubTypeProvider: string,
-    @Inject('boxProvider') public boxProvider: CrisLayoutBox,
     protected resolver: ResolverStrategyService,
     protected translateService: TranslateService,
     private router: Router
   ) {
-    super(fieldProvider, itemProvider, metadataValueProvider, renderingSubTypeProvider, boxProvider, translateService);
+    super(fieldProvider, itemProvider, metadataValueProvider, renderingSubTypeProvider, translateService);
   }
 
   ngOnInit(): void {

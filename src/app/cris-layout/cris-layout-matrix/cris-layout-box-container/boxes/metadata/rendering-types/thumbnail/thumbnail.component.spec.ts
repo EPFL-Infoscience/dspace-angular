@@ -27,7 +27,6 @@ import {
   createSuccessfulRemoteDataObject$
 } from '../../../../../../../shared/remote-data.utils';
 import { createPaginatedList } from '../../../../../../../shared/testing/utils.test';
-import { CrisLayoutBox } from 'src/app/core/layout/models/box.model';
 
 describe('ThumbnailComponent', () => {
   let component: ThumbnailComponent;
@@ -78,16 +77,6 @@ describe('ThumbnailComponent', () => {
     }
   });
 
-  const boxProviderMock: CrisLayoutBox = Object.assign(new CrisLayoutBox(), {
-    'id': 1,
-    'shortname': 'researchoutput',
-    'header': 'Research Output',
-    'entityType': 'Person',
-    'collapsed': false,
-    'security': 0,
-    'boxType': 'researchoutput',
-  });
-
   const mockBitstreamDataService = jasmine.createSpyObj('BitstreamDataService', {
     findByItem: jasmine.createSpy('findByItem'),
   });
@@ -115,7 +104,6 @@ describe('ThumbnailComponent', () => {
         { provide: 'fieldProvider', useValue: fieldProvider },
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'renderingSubTypeProvider', useValue: '' },
-        { provide: 'boxProvider', useValue: boxProviderMock },
         { provide: BitstreamDataService, useValue: mockBitstreamDataService },
         { provide: AuthorizationDataService, useValue: mockAuthorizedService },
         { provide: ConfigurationDataService, useValue: {} },

@@ -14,7 +14,7 @@ import {
 import { AuthService } from '../../../../../../../core/auth/auth.service';
 import { RenderingTypeValueModelComponent } from '../rendering-type-value.model';
 import { Item } from '../../../../../../../core/shared/item.model';
-import { CrisLayoutBox, LayoutField } from '../../../../../../../core/layout/models/box.model';
+import { LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { MetadataValue } from '../../../../../../../core/shared/metadata.models';
 
 /**
@@ -39,12 +39,11 @@ export class ValuepairComponent extends RenderingTypeValueModelComponent impleme
     @Inject('itemProvider') public itemProvider: Item,
     @Inject('metadataValueProvider') public metadataValueProvider: MetadataValue,
     @Inject('renderingSubTypeProvider') public renderingSubTypeProvider: string,
-    @Inject('boxProvider') public boxProvider: CrisLayoutBox,
     protected translateService: TranslateService,
     protected vocabularyService: VocabularyService,
     protected authService: AuthService
   ) {
-    super(fieldProvider, itemProvider, metadataValueProvider, renderingSubTypeProvider, boxProvider, translateService);
+    super(fieldProvider, itemProvider, metadataValueProvider, renderingSubTypeProvider, translateService);
   }
 
   ngOnInit(): void {

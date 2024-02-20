@@ -9,7 +9,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { InlineComponent } from './inline.component';
 import { Item } from '../../../../../../../../core/shared/item.model';
 import { TranslateLoaderMock } from '../../../../../../../../shared/mocks/translate-loader.mock';
-import { CrisLayoutBox, LayoutField } from '../../../../../../../../core/layout/models/box.model';
+import { LayoutField } from '../../../../../../../../core/layout/models/box.model';
 import { TextComponent } from '../../text/text.component';
 import { DsDatePipe } from '../../../../../../../pipes/ds-date.pipe';
 import { MetadataRenderComponent } from '../../../row/metadata-container/metadata-render/metadata-render.component';
@@ -74,16 +74,6 @@ describe('Inline component when .first and .last is not in rendering configurati
     }
   }) as LayoutField;
 
-  const boxProviderMock: CrisLayoutBox = Object.assign(new CrisLayoutBox(), {
-    'id': 1,
-    'shortname': 'researchoutput',
-    'header': 'Research Output',
-    'entityType': 'Person',
-    'collapsed': false,
-    'security': 0,
-    'boxType': 'researchoutput',
-  });
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot({
@@ -96,7 +86,6 @@ describe('Inline component when .first and .last is not in rendering configurati
         { provide: 'fieldProvider', useValue: mockField },
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'renderingSubTypeProvider', useValue: '' },
-        { provide: 'boxProvider', useValue: boxProviderMock },
         LoadMoreService
       ],
       declarations: [
@@ -235,16 +224,6 @@ describe('Inline component when .first and .last is present in rendering configu
     }
   }) as LayoutField;
 
-  const boxProviderMock: CrisLayoutBox = Object.assign(new CrisLayoutBox(), {
-    'id': 1,
-    'shortname': 'researchoutput',
-    'header': 'Research Output',
-    'entityType': 'Person',
-    'collapsed': false,
-    'security': 0,
-    'boxType': 'researchoutput',
-  });
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot({
@@ -257,7 +236,6 @@ describe('Inline component when .first and .last is present in rendering configu
         { provide: 'fieldProvider', useValue: mockField },
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'renderingSubTypeProvider', useValue: '' },
-        { provide: 'boxProvider', useValue: boxProviderMock },
         LoadMoreService
       ],
       declarations: [

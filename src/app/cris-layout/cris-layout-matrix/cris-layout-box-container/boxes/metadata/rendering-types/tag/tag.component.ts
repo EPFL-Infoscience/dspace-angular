@@ -5,7 +5,7 @@ import { FieldRenderingType, MetadataBoxFieldRendering } from '../metadata-box.d
 import { Chips } from '../../../../../../../shared/form/chips/models/chips.model';
 import { TranslateService } from '@ngx-translate/core';
 import { RenderingTypeStructuredModelComponent } from '../rendering-type-structured.model';
-import { CrisLayoutBox, LayoutField } from '../../../../../../../core/layout/models/box.model';
+import { LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { Item } from '../../../../../../../core/shared/item.model';
 
 /**
@@ -29,10 +29,9 @@ export class TagComponent extends RenderingTypeStructuredModelComponent implemen
     @Inject('fieldProvider') public fieldProvider: LayoutField,
     @Inject('itemProvider') public itemProvider: Item,
     @Inject('renderingSubTypeProvider') public renderingSubTypeProvider: string,
-    @Inject('boxProvider') public boxProvider: CrisLayoutBox,
     protected translateService: TranslateService
   ) {
-    super(fieldProvider, itemProvider, renderingSubTypeProvider, boxProvider, translateService);
+    super(fieldProvider, itemProvider, renderingSubTypeProvider, translateService);
   }
 
  /**

@@ -7,7 +7,7 @@ import { getFirstCompletedRemoteData } from '../../../../../../../core/shared/op
 import { map } from 'rxjs/operators';
 import { RemoteData } from '../../../../../../../core/data/remote-data';
 import { Component, Inject } from '@angular/core';
-import { CrisLayoutBox, LayoutField } from '../../../../../../../core/layout/models/box.model';
+import { LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { Item } from '../../../../../../../core/shared/item.model';
 import { BitstreamDataService } from '../../../../../../../core/data/bitstream-data.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,11 +26,10 @@ export abstract class BitstreamAttachmentRenderingModelComponent extends Bitstre
     @Inject('fieldProvider') fieldProvider: LayoutField,
     @Inject('itemProvider') itemProvider: Item,
     @Inject('renderingSubTypeProvider') renderingSubTypeProvider: string,
-    @Inject('boxProvider') public boxProvider: CrisLayoutBox,
     bitstreamDataService: BitstreamDataService,
     translateService: TranslateService
   ) {
-    super(fieldProvider, itemProvider, renderingSubTypeProvider, boxProvider, bitstreamDataService, translateService);
+    super(fieldProvider, itemProvider, renderingSubTypeProvider, bitstreamDataService, translateService);
   }
 
   getBitstreamsByItem(options?: FindListOptions): Observable<PaginatedList<Bitstream>> {

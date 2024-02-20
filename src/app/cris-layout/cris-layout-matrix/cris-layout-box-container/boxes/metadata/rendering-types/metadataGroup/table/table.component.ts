@@ -4,7 +4,7 @@ import { MetadataGroupComponent } from '../metadata-group.component';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadMoreService } from '../../../../../../../services/load-more.service';
 import { Item } from '../../../../../../../../core/shared/item.model';
-import { CrisLayoutBox, LayoutField } from '../../../../../../../../../app/core/layout/models/box.model';
+import { LayoutField } from '../../../../../../../../../app/core/layout/models/box.model';
 
 /**
  * This component renders the table  metadata group fields
@@ -20,10 +20,9 @@ export class TableComponent extends MetadataGroupComponent {
     @Inject('fieldProvider') public fieldProvider: LayoutField,
     @Inject('itemProvider') public itemProvider: Item,
     @Inject('renderingSubTypeProvider') public renderingSubTypeProvider: string,
-    @Inject('boxProvider') public boxProvider: CrisLayoutBox,
     protected translateService: TranslateService,
     public loadMoreService: LoadMoreService
   ) {
-    super(fieldProvider, itemProvider, renderingSubTypeProvider, boxProvider, translateService, loadMoreService);
+    super(fieldProvider, itemProvider, renderingSubTypeProvider, translateService, loadMoreService);
   }
 }

@@ -7,7 +7,7 @@ import { hasValue } from '../../../../../../../shared/empty.util';
 import { MetadataLinkValue } from '../../../../../../models/cris-layout-metadata-link-value.model';
 import { RenderingTypeValueModelComponent } from '../rendering-type-value.model';
 import { Item } from '../../../../../../../core/shared/item.model';
-import { CrisLayoutBox, LayoutField } from '../../../../../../../core/layout/models/box.model';
+import { LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { MetadataValue } from '../../../../../../../core/shared/metadata.models';
 
 /**
@@ -43,10 +43,9 @@ export class LinkComponent extends RenderingTypeValueModelComponent implements O
     @Inject('itemProvider') public itemProvider: Item,
     @Inject('metadataValueProvider') public metadataValueProvider: MetadataValue,
     @Inject('renderingSubTypeProvider') public renderingSubTypeProvider: string,
-    @Inject('boxProvider') public boxProvider: CrisLayoutBox,
     protected translateService: TranslateService
   ) {
-    super(fieldProvider, itemProvider, metadataValueProvider, renderingSubTypeProvider, boxProvider, translateService);
+    super(fieldProvider, itemProvider, metadataValueProvider, renderingSubTypeProvider, translateService);
   }
 
   ngOnInit(): void {

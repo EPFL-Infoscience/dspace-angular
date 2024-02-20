@@ -18,7 +18,6 @@ describe('BitstreamAttachmentComponent', () => {
         {provide: 'fieldProvider', useValue: {}},
         {provide: 'itemProvider', useValue: {}},
         {provide: 'renderingSubTypeProvider', useValue: ''},
-        {provide: 'boxProvider', useValue: {}},
         {provide: BitstreamDataService, useValue: {}},
         {provide: TranslateService, useValue: {}},
       ],

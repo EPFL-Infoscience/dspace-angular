@@ -1,6 +1,6 @@
 import { RenderingTypeStructuredModelComponent } from '../rendering-type-structured.model';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { CrisLayoutBox, LayoutField } from '../../../../../../../core/layout/models/box.model';
+import { LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { Item } from '../../../../../../../core/shared/item.model';
 import { TranslateService } from '@ngx-translate/core';
 import { isNotEmpty } from '../../../../../../../shared/empty.util';
@@ -63,11 +63,10 @@ export abstract class MetadataGroupComponent extends RenderingTypeStructuredMode
     @Inject('fieldProvider') public fieldProvider: LayoutField,
     @Inject('itemProvider') public itemProvider: Item,
     @Inject('renderingSubTypeProvider') public renderingSubTypeProvider: string,
-    @Inject('boxProvider') public boxProvider: CrisLayoutBox,
     protected translateService: TranslateService,
     protected loadMoreService: LoadMoreService
   ) {
-    super(fieldProvider, itemProvider, renderingSubTypeProvider, boxProvider, translateService);
+    super(fieldProvider, itemProvider, renderingSubTypeProvider, translateService);
   }
 
   ngOnInit() {
