@@ -8,7 +8,7 @@ import { FieldRenderingType, MetadataBoxFieldRendering } from '../metadata-box.d
 import { BitstreamDataService } from '../../../../../../../core/data/bitstream-data.service';
 import { Bitstream } from '../../../../../../../core/shared/bitstream.model';
 import { Item } from '../../../../../../../core/shared/item.model';
-import { LayoutField } from '../../../../../../../core/layout/models/box.model';
+import { CrisLayoutBox, LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { environment } from '../../../../../../../../environments/environment';
 import { FindListOptions } from '../../../../../../../core/data/find-list-options.model';
 import { PaginatedList } from '../../../../../../../core/data/paginated-list.model';
@@ -49,10 +49,11 @@ export class AttachmentComponent extends BitstreamAttachmentRenderingModelCompon
     @Inject('fieldProvider') public fieldProvider: LayoutField,
     @Inject('itemProvider') public itemProvider: Item,
     @Inject('renderingSubTypeProvider') public renderingSubTypeProvider: string,
+    @Inject('boxProvider') public boxProvider: CrisLayoutBox,
     protected bitstreamDataService: BitstreamDataService,
     protected translateService: TranslateService
   ) {
-    super(fieldProvider, itemProvider, renderingSubTypeProvider, bitstreamDataService, translateService);
+    super(fieldProvider, itemProvider, renderingSubTypeProvider, boxProvider, bitstreamDataService, translateService);
   }
 
   /**

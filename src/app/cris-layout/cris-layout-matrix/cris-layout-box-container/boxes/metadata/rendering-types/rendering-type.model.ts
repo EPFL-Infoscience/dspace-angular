@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { hasValue } from '../../../../../../shared/empty.util';
 import { Item } from '../../../../../../core/shared/item.model';
 import { TranslateService } from '@ngx-translate/core';
-import { LayoutField } from '../../../../../../core/layout/models/box.model';
+import { CrisLayoutBox, LayoutField } from '../../../../../../core/layout/models/box.model';
 import { MetadataValue } from '../../../../../../core/shared/metadata.models';
 import { Chips } from '../../../../../../shared/form/chips/models/chips.model';
 
@@ -30,6 +30,12 @@ export abstract class RenderingTypeModelComponent {
    * contains the sub-type doi
    */
   @Input() renderingSubType: string;
+
+  /**
+   * Represents the rendering type of the box.
+   * It is used to retrieve the correct rendering component.
+   */
+  @Input() box: CrisLayoutBox;
 
   /**
    * Returns the value of the metadata to show

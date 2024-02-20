@@ -122,7 +122,7 @@ import { OrcidComponent } from './orcid.component';
 import { Item } from '../../../../../../../core/shared/item.model';
 import { TranslateLoaderMock } from '../../../../../../../shared/mocks/translate-loader.mock';
 import { DsDatePipe } from '../../../../../../pipes/ds-date.pipe';
-import { LayoutField } from '../../../../../../../core/layout/models/box.model';
+import { CrisLayoutBox, LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { MetadataValue } from '../../../../../../../core/shared/metadata.models';
 import { FieldRenderingType } from '../metadata-box.decorator';
 import { createSuccessfulRemoteDataObject$ } from '../../../../../../../shared/remote-data.utils';
@@ -172,6 +172,16 @@ describe('OrcidComponent', () => {
     'valuesInline': true
   };
 
+  const boxProviderMock: CrisLayoutBox = Object.assign(new CrisLayoutBox(), {
+    'id': 1,
+    'shortname': 'researchoutput',
+    'header': 'Research Output',
+    'entityType': 'Person',
+    'collapsed': false,
+    'security': 0,
+    'boxType': 'researchoutput',
+  });
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot({
@@ -185,6 +195,7 @@ describe('OrcidComponent', () => {
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'metadataValueProvider', useValue: metadataValue },
         { provide: 'renderingSubTypeProvider', useValue: '' },
+        { provide: 'boxProvider', useValue: boxProviderMock },
         { provide: ConfigurationDataService, useValue: configurationDataService}
       ],
       declarations: [OrcidComponent, DsDatePipe]

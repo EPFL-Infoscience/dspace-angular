@@ -7,7 +7,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { LongtextComponent } from './longtext.component';
 import { Item } from '../../../../../../../core/shared/item.model';
 import { TranslateLoaderMock } from '../../../../../../../shared/mocks/translate-loader.mock';
-import { LayoutField } from '../../../../../../../core/layout/models/box.model';
+import { CrisLayoutBox, LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { MetadataValue } from '../../../../../../../core/shared/metadata.models';
 
 describe('LongtextComponent', () => {
@@ -45,6 +45,16 @@ describe('LongtextComponent', () => {
     'valuesInline': true
   };
 
+  const boxProviderMock: CrisLayoutBox = Object.assign(new CrisLayoutBox(), {
+    'id': 1,
+    'shortname': 'researchoutput',
+    'header': 'Research Output',
+    'entityType': 'Person',
+    'collapsed': false,
+    'security': 0,
+    'boxType': 'researchoutput',
+  });
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot({
@@ -58,6 +68,7 @@ describe('LongtextComponent', () => {
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'metadataValueProvider', useValue: metadataValue },
         { provide: 'renderingSubTypeProvider', useValue: '' },
+        { provide: 'boxProvider', useValue: boxProviderMock }
       ],
       declarations: [LongtextComponent]
     })

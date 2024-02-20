@@ -7,7 +7,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TableComponent } from './table.component';
 import { Item } from '../../../../../../../../core/shared/item.model';
 import { TranslateLoaderMock } from '../../../../../../../../shared/mocks/translate-loader.mock';
-import { LayoutField } from '../../../../../../../../core/layout/models/box.model';
+import { CrisLayoutBox, LayoutField } from '../../../../../../../../core/layout/models/box.model';
 import { FieldRenderingType } from '../../metadata-box.decorator';
 import { MetadataRenderComponent } from '../../../row/metadata-container/metadata-render/metadata-render.component';
 import { DsDatePipe } from '../../../../../../../pipes/ds-date.pipe';
@@ -78,6 +78,15 @@ describe('TableComponent component when .first and .last is not in rendering con
     }
   }) as LayoutField;
 
+  const boxProviderMock: CrisLayoutBox = Object.assign(new CrisLayoutBox(), {
+    'id': 1,
+    'shortname': 'researchoutput',
+    'header': 'Research Output',
+    'entityType': 'Person',
+    'collapsed': false,
+    'security': 0,
+    'boxType': 'researchoutput',
+  });
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -91,6 +100,7 @@ describe('TableComponent component when .first and .last is not in rendering con
         { provide: 'fieldProvider', useValue: mockField },
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'renderingSubTypeProvider', useValue: '' },
+        { provide: 'boxProvider', useValue: boxProviderMock },
         LoadMoreService
       ],
       declarations: [
@@ -236,6 +246,16 @@ describe('TableComponent component when .first and .last is present in rendering
     }
   }) as LayoutField;
 
+  const boxProviderMock: CrisLayoutBox = Object.assign(new CrisLayoutBox(), {
+    'id': 1,
+    'shortname': 'researchoutput',
+    'header': 'Research Output',
+    'entityType': 'Person',
+    'collapsed': false,
+    'security': 0,
+    'boxType': 'researchoutput',
+  });
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot({
@@ -248,6 +268,7 @@ describe('TableComponent component when .first and .last is present in rendering
         { provide: 'fieldProvider', useValue: mockField },
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'renderingSubTypeProvider', useValue: '' },
+        { provide: 'boxProvider', useValue: boxProviderMock },
         LoadMoreService
       ],
       declarations: [

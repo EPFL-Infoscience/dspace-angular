@@ -10,7 +10,7 @@ import { hasValue, isEmpty, isNotEmpty } from '../../../../../../../shared/empty
 import { Bitstream } from '../../../../../../../core/shared/bitstream.model';
 import { BitstreamRenderingModelComponent } from '../bitstream-rendering-model';
 import { Item } from '../../../../../../../core/shared/item.model';
-import { LayoutField } from '../../../../../../../core/layout/models/box.model';
+import { CrisLayoutBox, LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { getFirstCompletedRemoteData } from '../../../../../../../core/shared/operators';
 import { PaginatedList } from '../../../../../../../core/data/paginated-list.model';
 
@@ -50,10 +50,11 @@ export class ThumbnailComponent extends BitstreamRenderingModelComponent impleme
     @Inject('fieldProvider') public fieldProvider: LayoutField,
     @Inject('itemProvider') public itemProvider: Item,
     @Inject('renderingSubTypeProvider') public renderingSubTypeProvider: string,
+    @Inject('boxProvider') public boxProvider: CrisLayoutBox,
     protected bitstreamDataService: BitstreamDataService,
     protected translateService: TranslateService
   ) {
-    super(fieldProvider, itemProvider, renderingSubTypeProvider, bitstreamDataService, translateService);
+    super(fieldProvider, itemProvider, renderingSubTypeProvider, boxProvider, bitstreamDataService, translateService);
   }
 
   /**

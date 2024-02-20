@@ -8,7 +8,7 @@ import { Item } from '../../../../../../../core/shared/item.model';
 import { EMPTY, of } from 'rxjs';
 import { AuthService } from '../../../../../../../core/auth/auth.service';
 import { AuthServiceStub } from '../../../../../../../shared/testing/auth-service.stub';
-import { LayoutField } from '../../../../../../../core/layout/models/box.model';
+import { CrisLayoutBox, LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { DsDatePipe } from '../../../../../../pipes/ds-date.pipe';
 
 const METADATA_KEY_1 = 'person.knowsLanguage';
@@ -70,6 +70,16 @@ describe('ValuepairComponent', () => {
     valuesInline: false
   };
 
+  const boxProviderMock: CrisLayoutBox = Object.assign(new CrisLayoutBox(), {
+    'id': 1,
+    'shortname': 'researchoutput',
+    'header': 'Research Output',
+    'entityType': 'Person',
+    'collapsed': false,
+    'security': 0,
+    'boxType': 'researchoutput',
+  });
+
   const vocabularyEntriesMock = (vocabularyName, value) => {
     switch (vocabularyName + '/' + value) {
       case 'common_iso_languages/it':
@@ -109,6 +119,7 @@ describe('ValuepairComponent', () => {
           { provide: 'itemProvider', useValue: testItem1 },
           { provide: 'metadataValueProvider', useValue: { value: 'it', authority: null } },
           { provide: 'renderingSubTypeProvider', useValue: VOCABULARY_NAME_1 },
+          { provide: 'boxProvider', useValue: boxProviderMock }
         ],
       }).compileComponents();
 
@@ -156,6 +167,7 @@ describe('ValuepairComponent', () => {
           { provide: 'itemProvider', useValue: testItem2 },
           { provide: 'metadataValueProvider', useValue: {value: undefined, authority: VOCABULARY_NAME_2 + ':asd' } },
           { provide: 'renderingSubTypeProvider', useValue: VOCABULARY_NAME_2 },
+          { provide: 'boxProvider', useValue: boxProviderMock },
         ],
       }).compileComponents();
 

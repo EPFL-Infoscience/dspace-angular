@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { FieldRenderingType, MetadataBoxFieldRendering } from '../../metadata-box.decorator';
 import { Item } from '../../../../../../../../core/shared/item.model';
-import { LayoutField } from '../../../../../../../../core/layout/models/box.model';
+import { CrisLayoutBox, LayoutField } from '../../../../../../../../core/layout/models/box.model';
 import { MetadataGroupComponent } from '../metadata-group.component';
 import { LoadMoreService } from '../../../../../../../services/load-more.service';
 
@@ -24,10 +24,11 @@ export class InlineComponent extends MetadataGroupComponent implements OnInit {
     @Inject('fieldProvider') public fieldProvider: LayoutField,
     @Inject('itemProvider') public itemProvider: Item,
     @Inject('renderingSubTypeProvider') public renderingSubTypeProvider: string,
+    @Inject('boxProvider') public boxProvider: CrisLayoutBox,
     protected translateService: TranslateService,
     public loadMoreService: LoadMoreService
   ) {
-    super(fieldProvider, itemProvider, renderingSubTypeProvider, translateService, loadMoreService);
+    super(fieldProvider, itemProvider, renderingSubTypeProvider, boxProvider, translateService, loadMoreService);
   }
 
 }

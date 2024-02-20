@@ -17,7 +17,7 @@ import {
   AuthorizationDataService
 } from '../../../../../../../core/data/feature-authorization/authorization-data.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { LayoutField } from '../../../../../../../core/layout/models/box.model';
+import { CrisLayoutBox, LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { FieldRenderingType } from '../metadata-box.decorator';
 import { FileSizePipe } from '../../../../../../../shared/utils/file-size-pipe';
 
@@ -137,6 +137,16 @@ describe('AdvancedAttachmentComponent', () => {
     isAuthorized: jasmine.createSpy('isAuthorized')
   });
 
+  const boxProviderMock: CrisLayoutBox = Object.assign(new CrisLayoutBox(), {
+    'id': 1,
+    'shortname': 'researchoutput',
+    'header': 'Research Output',
+    'entityType': 'Person',
+    'collapsed': false,
+    'security': 0,
+    'boxType': 'researchoutput',
+  });
+
   const getDefaultTestBedConf = () => {
     return {
       imports: [TranslateModule.forRoot({
@@ -152,6 +162,7 @@ describe('AdvancedAttachmentComponent', () => {
         { provide: 'fieldProvider', useValue: mockField },
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'renderingSubTypeProvider', useValue: '' },
+        { provide: 'boxProvider', useValue: boxProviderMock },
         { provide: BitstreamDataService, useValue: mockBitstreamDataService },
         { provide: AuthorizationDataService, useValue: mockAuthorizedService },
       ],

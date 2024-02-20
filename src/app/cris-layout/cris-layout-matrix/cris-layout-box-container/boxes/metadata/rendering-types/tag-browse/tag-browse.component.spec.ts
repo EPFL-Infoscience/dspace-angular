@@ -8,7 +8,7 @@ import { TagBrowseComponent } from './tag-browse.component';
 import { Item } from '../../../../../../../core/shared/item.model';
 import { TranslateLoaderMock } from '../../../../../../../shared/mocks/translate-loader.mock';
 import { DsDatePipe } from '../../../../../../pipes/ds-date.pipe';
-import { LayoutField } from '../../../../../../../core/layout/models/box.model';
+import { CrisLayoutBox, LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { MetadataValue } from '../../../../../../../core/shared/metadata.models';
 
 describe('TagBrowseComponent', () => {
@@ -46,6 +46,16 @@ describe('TagBrowseComponent', () => {
     'valuesInline': true
   };
 
+  const boxProviderMock: CrisLayoutBox = Object.assign(new CrisLayoutBox(), {
+    'id': 1,
+    'shortname': 'researchoutput',
+    'header': 'Research Output',
+    'entityType': 'Person',
+    'collapsed': false,
+    'security': 0,
+    'boxType': 'researchoutput',
+  });
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot({
@@ -59,6 +69,7 @@ describe('TagBrowseComponent', () => {
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'metadataValueProvider', useValue: metadataValue },
         { provide: 'renderingSubTypeProvider', useValue: '' },
+        { provide: 'boxProvider', useValue: boxProviderMock }
       ],
       declarations: [TagBrowseComponent, DsDatePipe]
     })

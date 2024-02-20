@@ -10,7 +10,7 @@ import { getFirstSucceededRemoteDataPayload } from '../../../../../../../core/sh
 import { ConfigurationProperty } from '../../../../../../../core/shared/configuration-property.model';
 import { RenderingTypeValueModelComponent } from '../rendering-type-value.model';
 import { Item } from '../../../../../../../core/shared/item.model';
-import { LayoutField } from '../../../../../../../core/layout/models/box.model';
+import { CrisLayoutBox, LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { MetadataValue } from '../../../../../../../core/shared/metadata.models';
 
 /**
@@ -32,10 +32,11 @@ export class OrcidComponent extends RenderingTypeValueModelComponent implements 
     @Inject('itemProvider') public itemProvider: Item,
     @Inject('metadataValueProvider') public metadataValueProvider: MetadataValue,
     @Inject('renderingSubTypeProvider') public renderingSubTypeProvider: string,
+    @Inject('boxProvider') public boxProvider: CrisLayoutBox,
     private configurationService: ConfigurationDataService,
     protected translateService: TranslateService
   ) {
-    super(fieldProvider, itemProvider, metadataValueProvider, renderingSubTypeProvider, translateService);
+    super(fieldProvider, itemProvider, metadataValueProvider, renderingSubTypeProvider, boxProvider, translateService);
   }
 
   ngOnInit() {

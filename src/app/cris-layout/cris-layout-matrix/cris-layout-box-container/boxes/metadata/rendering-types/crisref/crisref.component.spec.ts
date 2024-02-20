@@ -7,7 +7,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { CrisrefComponent } from './crisref.component';
 import { Item } from '../../../../../../../core/shared/item.model';
 import { TranslateLoaderMock } from '../../../../../../../shared/mocks/translate-loader.mock';
-import { LayoutField } from '../../../../../../../core/layout/models/box.model';
+import { CrisLayoutBox, LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { MetadataValue } from '../../../../../../../core/shared/metadata.models';
 import { FieldRenderingType } from '../metadata-box.decorator';
 import { of } from 'rxjs';
@@ -82,6 +82,16 @@ describe('CrisrefComponent', () => {
     'valuesInline': true
   };
 
+  const boxProviderMock: CrisLayoutBox = Object.assign(new CrisLayoutBox(), {
+    'id': 1,
+    'shortname': 'researchoutput',
+    'header': 'Research Output',
+    'entityType': 'Person',
+    'collapsed': false,
+    'security': 0,
+    'boxType': 'researchoutput',
+  });
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot({
@@ -95,6 +105,7 @@ describe('CrisrefComponent', () => {
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'metadataValueProvider', useValue: metadataValue },
         { provide: 'renderingSubTypeProvider', useValue: '' },
+        { provide: 'boxProvider', useValue: boxProviderMock },
         { provide: ItemDataService, useValue: itemService },
       ],
       declarations: [CrisrefComponent, MetadataLinkViewComponent]

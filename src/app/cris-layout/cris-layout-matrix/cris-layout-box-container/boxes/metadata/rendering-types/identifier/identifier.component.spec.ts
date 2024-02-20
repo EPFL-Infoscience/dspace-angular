@@ -7,7 +7,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { IdentifierComponent } from './identifier.component';
 import { Item } from '../../../../../../../core/shared/item.model';
 import { TranslateLoaderMock } from '../../../../../../../shared/mocks/translate-loader.mock';
-import { LayoutField } from '../../../../../../../core/layout/models/box.model';
+import { CrisLayoutBox, LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { MetadataValue } from '../../../../../../../core/shared/metadata.models';
 import { FieldRenderingType } from '../metadata-box.decorator';
 import { ResolverStrategyService } from '../../../../../../services/resolver-strategy.service';
@@ -70,6 +70,16 @@ describe('IdentifierComponent', () => {
     'valuesInline': true
   };
 
+  const boxProviderMock: CrisLayoutBox = Object.assign(new CrisLayoutBox(), {
+    'id': 1,
+    'shortname': 'researchoutput',
+    'header': 'Research Output',
+    'entityType': 'Person',
+    'collapsed': false,
+    'security': 0,
+    'boxType': 'researchoutput',
+  });
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot({
@@ -83,6 +93,7 @@ describe('IdentifierComponent', () => {
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'metadataValueProvider', useValue: doiMetadataValueWithoutSubType },
         { provide: 'renderingSubTypeProvider', useValue: '' },
+        { provide: 'boxProvider', useValue: boxProviderMock },
         { provide: ResolverStrategyService, useClass: ResolverStrategyService }
       ],
       declarations: [IdentifierComponent]

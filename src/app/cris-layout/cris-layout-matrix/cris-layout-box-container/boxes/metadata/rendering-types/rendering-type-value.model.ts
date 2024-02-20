@@ -2,7 +2,7 @@ import { Component, Inject, Input } from '@angular/core';
 import { Item } from '../../../../../../core/shared/item.model';
 import { RenderingTypeModelComponent } from './rendering-type.model';
 import { TranslateService } from '@ngx-translate/core';
-import { LayoutField } from '../../../../../../core/layout/models/box.model';
+import { CrisLayoutBox, LayoutField } from '../../../../../../core/layout/models/box.model';
 import { MetadataValue } from '../../../../../../core/shared/metadata.models';
 
 /**
@@ -24,6 +24,7 @@ export abstract class RenderingTypeValueModelComponent extends RenderingTypeMode
     @Inject('itemProvider') public itemProvider: Item,
     @Inject('metadataValueProvider') public metadataValueProvider: MetadataValue,
     @Inject('renderingSubTypeProvider') public renderingSubTypeProvider: string,
+    @Inject('boxProvider') public boxProvider: CrisLayoutBox,
     protected translateService: TranslateService
   ) {
     super(translateService);
@@ -31,6 +32,7 @@ export abstract class RenderingTypeValueModelComponent extends RenderingTypeMode
     this.item = itemProvider;
     this.metadataValue = metadataValueProvider;
     this.renderingSubType = renderingSubTypeProvider;
+    this.box = boxProvider;
   }
 
   /**
