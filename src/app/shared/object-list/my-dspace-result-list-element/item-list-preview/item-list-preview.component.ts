@@ -7,8 +7,10 @@ import { APP_CONFIG, AppConfig } from '../../../../../config/app-config.interfac
 import { DSONameService } from '../../../../core/breadcrumbs/dso-name.service';
 import { Context } from '../../../../core/shared/context.model';
 import { WorkflowItem } from '../../../../core/submission/models/workflowitem.model';
-import { DuplicateMatchMetadataDetailConfig } from '../../../../submission/sections/detect-duplicate/models/duplicate-detail-metadata.model';
-import { parseISO, differenceInDays, differenceInMilliseconds } from 'date-fns';
+import {
+  DuplicateMatchMetadataDetailConfig
+} from '../../../../submission/sections/detect-duplicate/models/duplicate-detail-metadata.model';
+import { differenceInDays, differenceInMilliseconds, parseISO } from 'date-fns';
 import { environment } from '../../../../../environments/environment';
 
 /**
@@ -43,6 +45,11 @@ export class ItemListPreviewComponent implements OnInit {
   @Input() showSubmitter = false;
 
   /**
+   * Whether to show the thumbnail preview
+   */
+  @Input() showThumbnails;
+
+  /**
    * An object representing the duplicate match
    */
   @Input() metadataList: DuplicateMatchMetadataDetailConfig[] = [];
@@ -51,11 +58,6 @@ export class ItemListPreviewComponent implements OnInit {
    * Represents the workflow of the item
    */
   @Input() workflowItem: WorkflowItem;
-
-  /**
-   * Display thumbnails if required by configuration
-   */
-  showThumbnails: boolean;
 
   dsoTitle: string;
 
@@ -68,7 +70,7 @@ export class ItemListPreviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.showThumbnails = this.appConfig.browseBy.showThumbnails;
+    this.showThumbnails = this.showThumbnails ?? this.appConfig.browseBy.showThumbnails;
     this.dsoTitle = this.dsoNameService.getHitHighlights(this.object, this.item);
   }
 
