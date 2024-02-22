@@ -33,7 +33,7 @@ describe('GmapComponent', () => {
   const mockField: LayoutField = {
     'metadata': 'organization.address.addressLocality',
     'label': 'Preferred name',
-    'rendering': 'GMAP',
+    'rendering': 'GOOGLEMAPS',
     'fieldType': 'METADATA',
     'style': null,
     'styleLabel': 'test-style-label',

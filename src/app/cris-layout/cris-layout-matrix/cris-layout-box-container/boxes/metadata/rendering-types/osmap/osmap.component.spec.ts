@@ -32,7 +32,7 @@ describe('OsmapComponent', () => {
   const mockField: LayoutField = {
     'metadata': 'organization.address.addressLocality',
     'label': 'Preferred name',
-    'rendering': 'OSMAP',
+    'rendering': 'OPENSTREETMAP',
     'fieldType': 'METADATA',
     'style': null,
     'styleLabel': 'test-style-label',
