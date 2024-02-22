@@ -237,6 +237,7 @@ describe('Inline component when .first and .last is present in rendering configu
         { provide: 'fieldProvider', useValue: mockField },
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'renderingSubTypeProvider', useValue: '' },
+        { provide: 'tabNameProvider', useValue: '' },
         LoadMoreService
       ],
       declarations: [
