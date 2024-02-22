@@ -86,7 +86,8 @@ describe('Inline component when .first and .last is not in rendering configurati
         { provide: 'fieldProvider', useValue: mockField },
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'renderingSubTypeProvider', useValue: '' },
-        LoadMoreService
+        LoadMoreService,
+        { provide: 'tabNameProvider', useValue: '' },
       ],
       declarations: [
         DsDatePipe,
