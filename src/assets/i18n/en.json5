@@ -7969,6 +7969,32 @@
 
   "vocabulary-treeview.tree.description.publication-coar-types": "Publication types",
 
+  "vocabulary-treeview.tree.description.default-type": "Types tree view",
+
+  "vocabulary-treeview.tree.description.book-coar-types": "Books and Book parts types",
+
+  "vocabulary-treeview.tree.description.article-coar-types": "Journal Articles types",
+
+  "vocabulary-treeview.tree.description.dataset-coar-types": "Datasets and Code types",
+
+  "vocabulary-treeview.tree.description.design-coar-types": "Design, Images, Video and Interactive resources types",
+
+  "vocabulary-treeview.tree.description.media-coar-types": "Media types",
+
+  "vocabulary-treeview.tree.description.patent-coar-types": "Patents types",
+
+  "vocabulary-treeview.tree.description.preprint-coar-types": "Preprints and Working Papers types",
+
+  "vocabulary-treeview.tree.description.product-coar-types": "Product types",
+
+  "vocabulary-treeview.tree.description.report-coar-types": "Report types",
+
+  "vocabulary-treeview.tree.description.student-coar-types": "Student types",
+
+  "vocabulary-treeview.tree.description.teaching-coar-types": "Teaching materials types",
+
+  "vocabulary-treeview.tree.description.thesis-coar-types": "Thesis types",
+
   "vocabulary-treeview.info": "Select a subject to add as search filter",
 
   "uploader.browse": "browse",
