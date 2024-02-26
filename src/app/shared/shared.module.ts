@@ -360,6 +360,7 @@ import { EpflBadgesComponent } from './object-list/epfl-badges/epfl-badges.compo
 import { ItemCollectionComponent } from './object-collection/shared/mydspace-item-collection/item-collection.component';
 import { ThemedItemListPreviewComponent } from './object-list/my-dspace-result-list-element/item-list-preview/themed-item-list-preview.component';
 import { ItemListPreviewComponent } from './object-list/my-dspace-result-list-element/item-list-preview/item-list-preview.component';
+import { MathDirective } from '../core/shared/math.directive';
 
 const MODULES = [
   CommonModule,
@@ -630,6 +631,7 @@ const DIRECTIVES = [
   HoverClassDirective,
   ContextHelpDirective,
   EntityIconDirective,
+  MathDirective
 ];
 
 @NgModule({
