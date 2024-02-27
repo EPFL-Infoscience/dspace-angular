@@ -22,7 +22,7 @@
             <ng-container *ngFor="let mdEntry of (metadata$ | async) | keyvalue">
               <tr *ngFor="let mdValue of mdEntry.value">
                 <td>{{mdEntry.key}}</td>
-                <td><ds-markdown-viewer [value]="mdValue.value"></ds-markdown-viewer></td>
+                <td>{{mdValue.value}}</td>
                 <td>{{mdValue.language}}</td>
               </tr>
             </ng-container>
