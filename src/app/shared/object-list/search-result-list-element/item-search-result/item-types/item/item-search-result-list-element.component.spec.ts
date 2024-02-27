@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ChangeDetectionStrategy, NO_ERRORS_SCHEMA } from '@angular/core';
-import { By } from '@angular/platform-browser';
+import { BrowserModule, By } from '@angular/platform-browser';
 import { of as observableOf } from 'rxjs';
 import { ItemSearchResultListElementComponent } from './item-search-result-list-element.component';
 import { Item } from '../../../../../../core/shared/item.model';
@@ -12,6 +12,10 @@ import { DSONameServiceMock, UNDEFINED_NAME } from '../../../../../mocks/dso-nam
 import { VarDirective } from '../../../../../utils/var.directive';
 import { APP_CONFIG } from '../../../../../../../config/app-config.interface';
 import { TranslateModule } from '@ngx-translate/core';
+import { MarkdownDirective } from '../../../../../utils/markdown.directive';
+import { MathService } from '../../../../../../core/shared/math.service';
+import { MathServiceMock } from '../../../../../testing/math-service.stub';
+
 
 let publicationListElementComponent: ItemSearchResultListElementComponent;
 let fixture: ComponentFixture<ItemSearchResultListElementComponent>;
@@ -177,24 +181,33 @@ const mockOrgUnit: ItemSearchResult = Object.assign(new ItemSearchResult(), {
 const environmentUseThumbs = {
   browseBy: {
     showThumbnails: true
+  },
+  markdown: {
+    enabled: false,
+    mathjax: false,
   }
 };
 
 const enviromentNoThumbs = {
   browseBy: {
     showThumbnails: false
+  },
+  markdown: {
+    enabled: false,
+    mathjax: false,
   }
 };
 
 describe('ItemSearchResultListElementComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      declarations: [ItemSearchResultListElementComponent, TruncatePipe, VarDirective],
+      imports: [BrowserModule, TranslateModule.forRoot()],
+      declarations: [ItemSearchResultListElementComponent, MarkdownDirective, TruncatePipe, VarDirective],
       providers: [
         { provide: TruncatableService, useValue: {} },
         { provide: DSONameService, useClass: DSONameServiceMock },
-        { provide: APP_CONFIG, useValue: environmentUseThumbs }
+        { provide: APP_CONFIG, useValue: environmentUseThumbs },
+        { provide: MathService, useValue: MathServiceMock },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(ItemSearchResultListElementComponent, {
@@ -209,137 +222,186 @@ describe('ItemSearchResultListElementComponent', () => {
   }));
 
   describe('with environment.browseBy.showThumbnails set to true', () => {
-    beforeEach(() => {
+    beforeEach(waitForAsync(() => {
       publicationListElementComponent.object = mockItemWithMetadata;
       fixture.detectChanges();
-    });
-    it('should set showThumbnails to true', () => {
-      expect(publicationListElementComponent.showThumbnails).toBeTrue();
+    }));
+
+    it('should set showThumbnails to true', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(publicationListElementComponent.showThumbnails).toBeTrue();
+        done();
+      });
     });
 
-    it('should add ds-thumbnail element', () => {
-      const thumbnailElement = fixture.debugElement.query(By.css('ds-thumbnail'));
-      expect(thumbnailElement).toBeTruthy();
+    it('should add ds-thumbnail element', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const thumbnailElement = fixture.debugElement.query(By.css('ds-thumbnail'));
+        expect(thumbnailElement).toBeTruthy();
+        done();
+      });
     });
   });
 
   describe('When the item has an author', () => {
-    beforeEach(() => {
+    beforeEach(waitForAsync(() => {
       publicationListElementComponent.object = mockItemWithMetadata;
       fixture.detectChanges();
-    });
+    }));
 
-    it('should show the author paragraph', () => {
-      const itemAuthorField = fixture.debugElement.query(By.css('span.item-list-authors'));
-      expect(itemAuthorField).not.toBeNull();
+    it('should show the author paragraph', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const itemAuthorField = fixture.debugElement.query(By.css('span.item-list-authors'));
+        expect(itemAuthorField).not.toBeNull();
+        done();
+      });
     });
   });
 
   describe('When the item has no author', () => {
-    beforeEach(() => {
+    beforeEach(waitForAsync(() => {
       publicationListElementComponent.object = mockItemWithoutMetadata;
       fixture.detectChanges();
-    });
+    }));
 
-    it('should not show the author paragraph', () => {
-      const itemAuthorField = fixture.debugElement.query(By.css('span.item-list-authors'));
-      expect(itemAuthorField).toBeNull();
+    it('should not show the author paragraph', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const itemAuthorField = fixture.debugElement.query(By.css('span.item-list-authors'));
+        expect(itemAuthorField).toBeNull();
+        done();
+      });
     });
   });
 
   describe('When the item has a publisher', () => {
-    beforeEach(() => {
+    beforeEach(waitForAsync(() => {
       publicationListElementComponent.object = mockItemWithMetadata;
       fixture.detectChanges();
-    });
+    }));
 
-    it('should show the publisher span', () => {
-      const publisherField = fixture.debugElement.query(By.css('span.item-list-publisher'));
-      expect(publisherField).not.toBeNull();
+    it('should show the publisher span', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const publisherField = fixture.debugElement.query(By.css('span.item-list-publisher'));
+        expect(publisherField).not.toBeNull();
+        done();
+      });
     });
   });
 
   describe('When the item has no publisher', () => {
-    beforeEach(() => {
+    beforeEach(waitForAsync(() => {
       publicationListElementComponent.object = mockItemWithoutMetadata;
       fixture.detectChanges();
-    });
+    }));
 
-    it('should not show the publisher span', () => {
-      const publisherField = fixture.debugElement.query(By.css('span.item-list-publisher'));
-      expect(publisherField).toBeNull();
+    it('should not show the publisher span', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const publisherField = fixture.debugElement.query(By.css('span.item-list-publisher'));
+        expect(publisherField).toBeNull();
+        done();
+      });
     });
   });
 
   describe('When the item has an issuedate', () => {
-    beforeEach(() => {
+    beforeEach(waitForAsync(() => {
       publicationListElementComponent.object = mockItemWithMetadata;
       fixture.detectChanges();
-    });
+    }));
 
-    it('should show the issuedate span', () => {
-      const dateField = fixture.debugElement.query(By.css('span.item-list-date'));
-      expect(dateField).not.toBeNull();
+    it('should show the issuedate span', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const dateField = fixture.debugElement.query(By.css('span.item-list-date'));
+        expect(dateField).not.toBeNull();
+        done();
+      });
     });
   });
 
   describe('When the item has no issuedate', () => {
-    beforeEach(() => {
+    beforeEach(waitForAsync(() => {
       publicationListElementComponent.object = mockItemWithoutMetadata;
       fixture.detectChanges();
-    });
+    }));
 
-    it('should not show the issuedate span', () => {
-      const dateField = fixture.debugElement.query(By.css('span.item-list-date'));
-      expect(dateField).toBeNull();
+    it('should not show the issuedate span', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const dateField = fixture.debugElement.query(By.css('span.item-list-date'));
+        expect(dateField).toBeNull();
+        done();
+      });
     });
   });
 
   describe('When the item has an abstract', () => {
-    beforeEach(() => {
+    beforeEach(waitForAsync(() => {
       publicationListElementComponent.object = mockItemWithMetadata;
       fixture.detectChanges();
-    });
+    }));
 
-    it('should show the abstract span', () => {
-      const abstractField = fixture.debugElement.query(By.css('div.item-list-abstract'));
-      expect(abstractField).not.toBeNull();
+    it('should show the abstract span', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const abstractField = fixture.debugElement.query(By.css('div.item-list-abstract'));
+        expect(abstractField).not.toBeNull();
+        done();
+      });
     });
   });
 
   describe('When the item has no abstract', () => {
-    beforeEach(() => {
+    beforeEach(waitForAsync(() => {
       publicationListElementComponent.object = mockItemWithoutMetadata;
       fixture.detectChanges();
-    });
+    }));
 
-    it('should not show the abstract span', () => {
-      const abstractField = fixture.debugElement.query(By.css('div.item-list-abstract'));
-      expect(abstractField).toBeNull();
+    it('should not show the abstract span', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const abstractField = fixture.debugElement.query(By.css('div.item-list-abstract'));
+        expect(abstractField).toBeNull();
+        done();
+      });
     });
   });
 
   describe('When the item has title', () => {
-    beforeEach(() => {
+    beforeEach(waitForAsync(() => {
       publicationListElementComponent.object = mockItemWithMetadata;
       fixture.detectChanges();
-    });
+    }));
 
-    it('should show highlighted title', () => {
-      const titleField = fixture.debugElement.query(By.css('.item-list-title'));
-      expect(titleField.nativeNode.innerHTML).toEqual(dcTitle);
+    it('should show highlighted title', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const titleField = fixture.debugElement.query(By.css('.item-list-title'));
+        expect(titleField.nativeNode.innerHTML).toEqual(dcTitle);
+        done();
+      });
     });
   });
 
   describe('When the item is Person and has title', () => {
-    beforeEach(() => {
+    beforeEach(waitForAsync(() => {
       publicationListElementComponent.object = mockPerson;
       fixture.detectChanges();
-    });
+    }));
 
-    it('should show highlighted title', () => {
-      const titleField = fixture.debugElement.query(By.css('.item-list-title'));
-      expect(titleField.nativeNode.innerHTML).toEqual('<em>Michel</em>');
+    it('should show highlighted title', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const titleField = fixture.debugElement.query(By.css('.item-list-title'));
+        expect(titleField.nativeNode.innerHTML).toEqual('<em>Michel</em>');
+        done();
+      });
     });
   });
 
@@ -349,9 +411,13 @@ describe('ItemSearchResultListElementComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should show highlighted title', () => {
-      const titleField = fixture.debugElement.query(By.css('.item-list-title'));
-      expect(titleField.nativeNode.innerHTML).toEqual('<em>Science</em>');
+    it('should show highlighted title', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const titleField = fixture.debugElement.query(By.css('.item-list-title'));
+        expect(titleField.nativeNode.innerHTML).toEqual('<em>Science</em>');
+        done();
+      });
     });
   });
 
@@ -361,9 +427,13 @@ describe('ItemSearchResultListElementComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should show the fallback untitled translation', () => {
-      const titleField = fixture.debugElement.query(By.css('.item-list-title'));
-      expect(titleField.nativeElement.textContent.trim()).toEqual(UNDEFINED_NAME);
+    it('should show the fallback untitled translation', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const titleField = fixture.debugElement.query(By.css('.item-list-title'));
+        expect(titleField.nativeElement.textContent.trim()).toEqual(UNDEFINED_NAME);
+        done();
+      });
     });
   });
 });
@@ -372,12 +442,13 @@ describe('ItemSearchResultListElementComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      declarations: [ItemSearchResultListElementComponent, TruncatePipe],
+      imports: [BrowserModule, TranslateModule.forRoot()],
+      declarations: [ItemSearchResultListElementComponent, MarkdownDirective, TruncatePipe],
       providers: [
         {provide: TruncatableService, useValue: {}},
         {provide: DSONameService, useClass: DSONameServiceMock},
-        { provide: APP_CONFIG, useValue: enviromentNoThumbs }
+        { provide: APP_CONFIG, useValue: enviromentNoThumbs },
+        { provide: MathService, useValue: MathServiceMock },
       ],
 
       schemas: [NO_ERRORS_SCHEMA]
@@ -398,9 +469,13 @@ describe('ItemSearchResultListElementComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should not add ds-thumbnail element', () => {
-      const thumbnailElement = fixture.debugElement.query(By.css('ds-thumbnail'));
-      expect(thumbnailElement).toBeFalsy();
+    it('should not add ds-thumbnail element', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const thumbnailElement = fixture.debugElement.query(By.css('ds-thumbnail'));
+        expect(thumbnailElement).toBeFalsy();
+        done();
+      });
     });
   });
 });

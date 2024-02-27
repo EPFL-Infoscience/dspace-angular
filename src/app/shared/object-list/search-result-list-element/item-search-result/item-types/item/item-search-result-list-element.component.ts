@@ -17,6 +17,7 @@ import { DSONameService } from '../../../../../../core/breadcrumbs/dso-name.serv
 import { APP_CONFIG, AppConfig } from '../../../../../../../config/app-config.interface';
 import { getFirstSucceededRemoteListPayload } from '../../../../../../core/shared/operators';
 import { map } from 'rxjs/operators';
+import { isNotEmpty } from '../../../../../empty.util';
 
 @listableObjectComponent('PublicationSearchResult', ViewMode.ListElement)
 @listableObjectComponent(ItemSearchResult, ViewMode.ListElement)
@@ -45,6 +46,11 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
 
   hasLoadedThirdPartyMetrics$: Observable<boolean>;
 
+  accessionedDate: string;
+  workflowStartDate: string;
+  itemDateTime: string;
+  itemArchivedDateTime: string;
+
   private thirdPartyMetrics = environment.info.metricsConsents.filter(metric => metric.enabled).map(metric => metric.key);
 
 
@@ -60,6 +66,18 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
   ngOnInit(): void {
     super.ngOnInit();
     this.itemPageRoute = getItemPageRoute(this.dso);
+    this.accessionedDate = this.dso.firstMetadataValue('dc.date.accessioned');
+    this.workflowStartDate = this.dso.firstMetadataValue('epfl.workflow.startDateTime');
+    if (isNotEmpty(this.workflowStartDate)) {
+      this.itemDateTime = this.getDateForItem(this.workflowStartDate);
+      if (isNotEmpty(this.accessionedDate)) {
+        this.itemArchivedDateTime = this.getDateForArchivedItem(
+          this.workflowStartDate,
+          this.accessionedDate
+        );
+      }
+    }
+
   }
 
   getDateForArchivedItem(itemStartDate: string, dateAccessioned: string) {
