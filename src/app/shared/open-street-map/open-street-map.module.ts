@@ -1,14 +1,18 @@
 import { NgModule } from '@angular/core';
 
 import { SharedModule } from '../shared.module';
-import { OpenStreetMapsComponent } from './open-street-maps.component';
+import { OpenStreetMapComponent } from './open-street-map.component';
+import { AngularOpenlayersModule } from 'ngx-openlayers';
 
 const COMPONENTS = [
-    OpenStreetMapsComponent
+    OpenStreetMapComponent
 ];
 
 @NgModule({
-  imports: [ SharedModule ],
+  imports: [
+    SharedModule,
+    AngularOpenlayersModule,
+  ],
   declarations: [...COMPONENTS],
   exports: [...COMPONENTS]
 })
@@ -16,4 +20,4 @@ const COMPONENTS = [
 /**
  * This module handles open street maps functionalities
  */
-export class OpenStreetMapsModule {}
+export class OpenStreetMapModule {}

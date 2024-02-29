@@ -860,11 +860,15 @@
 
   "errors.location.timeout": "Service timeout has been reached",
 
-  "osmap.location.zoomIn": "Zoom in",
+  "openstreetmap.location.zoomIn": "Zoom in",
 
-  "osmap.location.zoomOut": "Zoom out",
+  "openstreetmap.location.zoomOut": "Zoom out",
 
-  "osmap.location.currentLocation": "Current location",
+  "openstreetmap.location.center": "Center the map",
+
+  "location.error.invalid-coordinates": "Invalid coordinates",
+
+  "location.error.location-not-found": "Location not found",
 
   "auth.errors.invalid-user": "Invalid email address or password.",
 

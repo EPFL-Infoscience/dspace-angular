@@ -145,8 +145,8 @@ import {
   CrisLayoutMediaBoxComponent
 } from './cris-layout-matrix/cris-layout-box-container/boxes/media-box/cris-layout-media-box.component';
 import { MediaPlayerModule } from '../shared/media-player/media-player.module';
-import { OpenStreetMapsModule } from '../shared/open-street-maps/open-street-maps.module';
-import { OsmapComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/osmap/osmap.component';
+import { OpenStreetMapModule } from '../shared/open-street-map/open-street-map.module';
+import { OpenStreetMapRenderingComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/open-street-map/open-street-map-rendering.component';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -175,7 +175,7 @@ const ENTRY_COMPONENTS = [
   ValuepairComponent,
   TagComponent,
   GmapComponent,
-  OsmapComponent,
+  OpenStreetMapRenderingComponent,
   BrowseComponent,
   TagBrowseComponent,
   MarkdownComponent,
@@ -217,7 +217,7 @@ const ENTRY_COMPONENTS = [
     SharedModule,
     SearchModule.withEntryComponents(),
     GooglemapsModule,
-    OpenStreetMapsModule,
+    OpenStreetMapModule,
     MyDSpacePageModule,
     ContextMenuModule.withEntryComponents(),
     NgbAccordionModule,
