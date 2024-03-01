@@ -23,6 +23,9 @@ import { RemoteData } from '../../core/data/remote-data';
 import { ServerResponseService } from '../../core/services/server-response.service';
 import { SignpostingDataService } from '../../core/data/signposting-data.service';
 import { LinkHeadService } from '../../core/services/link-head.service';
+import { MarkdownDirective } from '../../shared/utils/markdown.directive';
+import { MathService } from '../../core/shared/math.service';
+import { MathServiceMock } from '../../shared/testing/math-service.stub';
 
 const mockItem: Item = Object.assign(new Item(), {
   bundles: createSuccessfulRemoteDataObject$(createPaginatedList([])),
@@ -112,7 +115,7 @@ describe('FullItemPageComponent', () => {
           useClass: TranslateLoaderMock
         }
       }), RouterTestingModule.withRoutes([]), BrowserAnimationsModule],
-      declarations: [FullItemPageComponent, TruncatePipe, VarDirective],
+      declarations: [FullItemPageComponent, MarkdownDirective, TruncatePipe, VarDirective],
       providers: [
         { provide: ActivatedRoute, useValue: routeStub },
         { provide: ItemDataService, useValue: {} },
@@ -122,6 +125,7 @@ describe('FullItemPageComponent', () => {
         { provide: ServerResponseService, useValue: serverResponseService },
         { provide: SignpostingDataService, useValue: signpostingDataService },
         { provide: LinkHeadService, useValue: linkHeadService },
+        { provide: MathService, useValue: MathServiceMock },
         { provide: PLATFORM_ID, useValue: 'server' }
       ],
       schemas: [NO_ERRORS_SCHEMA]
