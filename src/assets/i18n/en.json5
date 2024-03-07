@@ -870,6 +870,8 @@
 
   "location.error.location-not-found": "Location not found",
 
+  "location.error.api-error": "The service that retrieves the position on the map is currently not available.",
+
   "auth.errors.invalid-user": "Invalid email address or password.",
 
   "auth.messages.expired": "Your session has expired. Please log in again.",

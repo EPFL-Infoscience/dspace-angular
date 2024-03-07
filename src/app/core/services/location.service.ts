@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { map, take } from 'rxjs/operators';
+import { catchError, map, take } from 'rxjs/operators';
 import { hasValue } from '../../shared/empty.util';
 
 export interface LocationCoordinates {
@@ -19,6 +19,7 @@ export enum LocationErrorCodes {
   // define a `location.error.*` i18n label for each error code
   INVALID_COORDINATES = 'invalid-coordinates',
   LOCATION_NOT_FOUND = 'location-not-found',
+  API_ERROR = 'api-error',
 }
 
 const IS_COORDINATE_PAIR_REGEXP = /^\d+\.?\d*,\d+\.?\d*$/;
@@ -46,10 +47,14 @@ export class LocationService {
     let params = new HttpParams().append('q', address).append('format', NOMINATIM_RESPONSE_FORMAT);
 
     return this.http.get<Record<string,any>[]>(this.searchEndpoint, { params: params }).pipe(
+      catchError((err) => {
+        console.error('Location service', err);
+        throw Error(LocationErrorCodes.API_ERROR);
+      }),
       take(1),
       map((searchResults) => {
         if (searchResults.length > 1) {
-          console.warn(`Multiple locations found for address "${address}", showing top matches`, searchResults.slice(0,5));
+          console.warn('Location service', `Multiple locations found for address "${address}"`, 'Showing top matches', searchResults.slice(0,5));
         }
         if (searchResults.length > 0) {
           const firstMatch = searchResults[0];
@@ -63,8 +68,8 @@ export class LocationService {
           };
           return info;
         } else {
-          console.warn(`Location service: location "${address}" not found`);
-          throw new Error(LocationErrorCodes.LOCATION_NOT_FOUND);
+          console.warn('Location service', `Location "${address}" not found`);
+          throw Error(LocationErrorCodes.LOCATION_NOT_FOUND);
         }
       }),
     );
@@ -82,10 +87,13 @@ export class LocationService {
       .append('format', NOMINATIM_RESPONSE_FORMAT);
 
     return this.http.get<Record<string,any>>(this.reverseSearchEndpoint, { params: params }).pipe(
+      catchError((err) => {
+        throw Error(LocationErrorCodes.API_ERROR);
+      }),
       take(1),
       map((searchResults) => {
         if (hasValue(searchResults.error)) {
-          throw new Error(searchResults.error);
+          throw Error(searchResults.error);
         } else {
           return searchResults.display_name;
         }
@@ -140,8 +148,8 @@ export class LocationService {
       const longitude = parseFloat(coordinateArr[1]);
       return { latitude, longitude };
     } else {
-      console.warn(`Location service: invalid coordinates "${coordinates}"`);
-      throw new Error(LocationErrorCodes.INVALID_COORDINATES);
+      console.warn('Location service', `Invalid coordinates "${coordinates}"`);
+      throw Error(LocationErrorCodes.INVALID_COORDINATES);
     }
   }
 }

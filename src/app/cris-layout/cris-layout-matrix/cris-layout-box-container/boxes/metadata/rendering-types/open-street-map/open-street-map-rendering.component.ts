@@ -15,8 +15,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
 import { OpenStreetMapPointer } from '../../../../../../../shared/open-street-map/open-street-map.component';
 
-const LocationErrorCodeEnum = LocationErrorCodes;
-
 @Component({
   selector: 'ds-open-street-map-rendering',
   templateUrl: './open-street-map-rendering.component.html',
@@ -81,16 +79,21 @@ export class OpenStreetMapRenderingComponent extends RenderingTypeValueModelComp
             this.place.next(place);
           },
           error: (err) => {
+            // show the map centered on provided coordinates despite the possibility to retrieve a description for the place
             const place: LocationPlace = {
               coordinates: coordinates,
             };
             this.place.next(place);
-            console.warn(err.message);
+            if (err.message === LocationErrorCodes.API_ERROR) {
+              console.error(err.message);
+            } else {
+              console.warn(err.message);
+            }
           },
         });
       } else {
         console.error(`Invalid coordinates: "${position}"`);
-        this.invalidLocationErrorCode.next(LocationErrorCodeEnum.INVALID_COORDINATES);
+        this.invalidLocationErrorCode.next(LocationErrorCodes.INVALID_COORDINATES);
       }
 
     } else {
@@ -103,8 +106,12 @@ export class OpenStreetMapRenderingComponent extends RenderingTypeValueModelComp
           this.place.next(place);
         },
         error: (err) => {
-          this.invalidLocationErrorCode.next(LocationErrorCodeEnum.LOCATION_NOT_FOUND);
-          console.error(err.message);
+          this.invalidLocationErrorCode.next(err.message); // either LOCATION_NOT_FOUND or API_ERROR
+          if (err.message === LocationErrorCodes.API_ERROR) {
+            console.error(err.message);
+          } else {
+            console.warn(err.message);
+          }
         },
       });
     }
