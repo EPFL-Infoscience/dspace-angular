@@ -2508,6 +2508,8 @@
 
   "error.validation.pattern": "This input is restricted by the current pattern: {{ pattern }}.",
 
+  "error.validation.pattern.oaire.citation.conferenceDate": "This field only accept dates in the formats YYYY-MM-DD - YYYY-MM-DD or just YYYY",
+
   "error.validation.filerequired": "The file upload is mandatory",
 
   "error.validation.required": "This field is required",

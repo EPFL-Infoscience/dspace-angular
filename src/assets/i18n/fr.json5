@@ -4134,6 +4134,8 @@
   // "error.validation.pattern": "This input is restricted by the current pattern: {{ pattern }}.",
   "error.validation.pattern": "Cette entrée est invalide en vertu du modèle actuel : {{ pattern }}.",
 
+  "error.validation.pattern.oaire.citation.conferenceDate": "Ce champ n'accepte que les dates aux formats AAAA-MM-JJ - AAAA-MM-JJ ou simplement AAAA",
+
   // "error.validation.filerequired": "The file upload is mandatory",
   "error.validation.filerequired": "Le téléchargement de fichier est obligatoire",
 
