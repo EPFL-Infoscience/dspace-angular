@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { By } from '@angular/platform-browser';
+import { BrowserModule, By } from '@angular/platform-browser';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
@@ -9,6 +9,11 @@ import { Item } from '../../../../../../../core/shared/item.model';
 import { TranslateLoaderMock } from '../../../../../../../shared/mocks/translate-loader.mock';
 import { LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { MetadataValue } from '../../../../../../../core/shared/metadata.models';
+import { MarkdownDirective } from '../../../../../../../shared/utils/markdown.directive';
+import { APP_CONFIG } from '../../../../../../../../config/app-config.interface';
+import { environment } from '../../../../../../../../environments/environment';
+import { MathService } from '../../../../../../../core/shared/math.service';
+import { MathServiceMock } from '../../../../../../../shared/testing/math-service.stub';
 
 describe('LongtextComponent', () => {
   let component: LongtextComponent;
@@ -47,19 +52,33 @@ describe('LongtextComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot({
-        loader: {
-          provide: TranslateLoader,
-          useClass: TranslateLoaderMock
-        }
-      }), BrowserAnimationsModule],
+      imports: [
+        BrowserModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useClass: TranslateLoaderMock
+          }
+        }),
+        BrowserAnimationsModule
+      ],
       providers: [
         { provide: 'fieldProvider', useValue: mockField },
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'metadataValueProvider', useValue: metadataValue },
         { provide: 'renderingSubTypeProvider', useValue: '' },
+        { provide: MathService, useValue: MathServiceMock },
+        {
+          provide: APP_CONFIG,
+          useValue: Object.assign(environment, {
+            markdown: {
+              enabled: false,
+              mathjax: false,
+            }
+          })
+        },
       ],
-      declarations: [LongtextComponent]
+      declarations: [LongtextComponent, MarkdownDirective]
     })
       .compileComponents();
   }));
@@ -70,24 +89,39 @@ describe('LongtextComponent', () => {
     fixture.detectChanges();
   });
 
- it('should create', () => {
-    expect(component).toBeTruthy();
+  afterEach(() => {
+    component = null;
+    fixture = null;
+  });
+
+  it('should create', (done) => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(component).toBeTruthy();
+      done();
+    });
   });
 
   it('check metadata rendering', (done) => {
-    const formattedText = fixture.debugElement.query(By.css('[data-test="formatted-text"]')).nativeElement.innerHTML;
-    const breaklineCount = formattedText.match(/<br>/g)?.length;
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      const formattedText = fixture.debugElement.query(By.css('[data-test="formatted-text"]')).nativeElement.innerHTML;
+      const breaklineCount = formattedText.match(/<br>/g)?.length;
 
-    expect(breaklineCount).toBe(3);
-    expect(formattedText).toContain('&lt;b&gt;Lorem Ipsum&lt;/b&gt;');
+      expect(breaklineCount).toBe(3);
+      expect(formattedText).toContain('&lt;b&gt;Lorem Ipsum&lt;/b&gt;');
 
-    done();
+      done();
+    });
   });
 
   it('check value style', (done) => {
-    const spanValueFound = fixture.debugElement.queryAll(By.css('.test-style-value'));
-    expect(spanValueFound.length).toBe(1);
-    done();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      const spanValueFound = fixture.debugElement.queryAll(By.css('.test-style-value'));
+      expect(spanValueFound.length).toBe(1);
+      done();
+    });
   });
 
 });

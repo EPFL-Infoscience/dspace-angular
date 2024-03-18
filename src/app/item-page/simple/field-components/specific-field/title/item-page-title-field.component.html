@@ -3,6 +3,6 @@
     {{ type.toLowerCase() + '.page.titleprefix' | translate }}
   </div>
   <div class="d-flex justify-content-between">
-    <span class="dont-break-out">{{ dsoNameService.getName(item) }}</span>
+    <span class="dont-break-out" [dsMarkdown]="dsoNameService.getName(item)"></span>
   </div>
 </h1>

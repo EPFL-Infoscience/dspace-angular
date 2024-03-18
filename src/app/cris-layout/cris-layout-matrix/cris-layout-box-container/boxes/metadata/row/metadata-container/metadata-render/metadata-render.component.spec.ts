@@ -14,6 +14,9 @@ import { LayoutField } from '../../../../../../../../core/layout/models/box.mode
 import { TableComponent } from '../../../rendering-types/metadataGroup/table/table.component';
 import { LoadMoreService } from '../../../../../../../services/load-more.service';
 import { PLACEHOLDER_PARENT_METADATA } from '../../../../../../../../shared/form/builder/ds-dynamic-form-ui/ds-dynamic-form-constants';
+import { MarkdownDirective } from '../../../../../../../../shared/utils/markdown.directive';
+import { MathService } from '../../../../../../../../core/shared/math.service';
+import { MathServiceMock } from '../../../../../../../../shared/testing/math-service.stub';
 
 describe('MetadataRenderComponent', () => {
   let component: MetadataRenderComponent;
@@ -123,11 +126,13 @@ describe('MetadataRenderComponent', () => {
       ],
       providers: [
         Injector,
-        LoadMoreService
+        LoadMoreService,
+        { provide: MathService, useValue: MathServiceMock },
       ],
       declarations: [
         DsDatePipe,
         MetadataRenderComponent,
+        MarkdownDirective,
         TableComponent,
         TextComponent
       ],

@@ -6,7 +6,8 @@ import {
   INIT_FORM_VALUES,
   PARSER_OPTIONS,
   SECURITY_CONFIG,
-  SUBMISSION_ID
+  SUBMISSION_ID,
+  TRANSLATION_SERVICE
 } from './field-parser';
 import { DateFieldParser } from './date-field-parser';
 import { DropdownFieldParser } from './dropdown-field-parser';
@@ -28,7 +29,8 @@ const fieldParserDeps = [
   CONFIG_DATA,
   INIT_FORM_VALUES,
   PARSER_OPTIONS,
-  SECURITY_CONFIG
+  SECURITY_CONFIG,
+  TRANSLATION_SERVICE
 ];
 
 /**

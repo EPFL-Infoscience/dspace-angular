@@ -240,10 +240,12 @@ import {
 } from './metadata/schema-json-ld/schema-types/product/product-creative-work-schema-type';
 import { ProductDatasetSchemaType } from './metadata/schema-json-ld/schema-types/product/product-dataset-schema-type';
 import { PersonSchemaType } from './metadata/schema-json-ld/schema-types/Person/person-schema-type';
+import { InternalLinkService } from './services/internal-link.service';
+import { UnpaywallItemService } from './data/unpaywall-item.service';
 import { SearchStatisticsDataService } from './statistics/search-statistics-data.service';
 import { ItemRequest } from './shared/item-request.model';
 import { SearchStatistics } from './statistics/models/search-statistics.model';
-import { UnpaywallItemService } from './data/unpaywall-item.service';
+
 
 /**
  * When not in production, endpoint responses can be mocked for testing purposes
@@ -277,6 +279,7 @@ const PROVIDERS = [
   { provide: DspaceRestService, useFactory: restServiceFactory, deps: [MOCK_RESPONSE_MAP, HttpClient] },
   EPersonDataService,
   LinkHeadService,
+  InternalLinkService,
   HALEndpointService,
   HostWindowService,
   ItemDataService,
