@@ -36,7 +36,7 @@
 
   "error-page.description.404": "page not found",
 
-  "error-page.orcid.generic-error": "An error occurred during login via ORCID. Make sure you have shared your ORCID account email address with DSpace. If the error persists, contact the administrator",
+  "error-page.orcid.generic-error": "An error occurred during login via ORCID. Make sure you have shared your ORCID account email address with Infoscience. If the error persists, contact the administrator",
 
   "access-status.embargo.listelement.badge": "Embargo",
 
@@ -123,7 +123,7 @@
 
   "admin.institution.explore.header": "Explore Institutions",
 
-  "admin.institution.explore.entities": "Entities",
+  "admin.institution.explore.entities": "Resource Type",
 
   "admin.institution.explore.name": "Institution name",
 
@@ -1718,7 +1718,7 @@
 
   "context-menu.actions.edit-item-relationships.btn.fundings": "Manage Fundings",
 
-  "context-menu.actions.edit-item-relationships.btn.researchoutputs": "Manage Research Outputs",
+  "context-menu.actions.edit-item-relationships.btn.researchoutputs": "Manage items",
 
   "context-menu.actions.edit-item-relationships.btn.organizations": "Manage SubOrganizations",
 
@@ -1772,11 +1772,11 @@
 
   "context-menu.actions.subscription.notification.content": "Subscription Updated Successfully, click {{here}} to see subscrition summary.",
 
-  "RELATION.Person.researchoutputs.search.results.head": "Research Outputs",
+  "RELATION.Person.researchoutputs.search.results.head": "Scholarly Works",
 
   "RELATION.Person.projects.search.results.head": "Projects",
 
-  "RELATION.OrgUnit.organizations.search.results.head": "Organizations",
+  "RELATION.OrgUnit.organizations.search.results.head": "Units",
 
   "RELATION.OrgUnit.rppublications.search.results.head": "Researchers Publications",
 
@@ -2222,11 +2222,11 @@
 
   "cris-layout.advanced-attachment.label.not-present": "(not present)",
 
-  "cris-layout.advanced-attachment.view-pdf": "Open PDF",
+  "cris-layout.advanced-attachment.view-pdf": "Preview",
 
   "cris-layout.attachment.viewMore": "View More",
 
-  "cris-layout.attachment.previewPdf": "Preview PDF",
+  "cris-layout.attachment.previewPdf": "Preview",
 
   "cris-layout.rendering.collections.owning-collection.label": "Owning collection",
 
@@ -2350,7 +2350,7 @@
 
   "dso-selector.set-scope.community.head": "Select a search scope",
 
-  "dso-selector.set-scope.community.button": "Search all of DSpace",
+  "dso-selector.set-scope.community.button": "Search all",
 
   "dso-selector.set-scope.community.or-divider": "or",
 
@@ -2542,26 +2542,35 @@
 
   "event.listelement.badge": "Event",
 
+  "event.search.results.head": "Search Event",
 
   "explore.browse-section.title": "Browse",
 
   "explore.counters-section.rprofiles": "People",
 
-  "explore.counters-section.publications": "Research outputs",
+  "explore.counters-section.units": "Units",
 
-  "explore.counters-section.publicationsoa": "Research outputs (Open Access)",
+  "explore.counters-section.people": "Researchers",
+
+  "explore.counters-section.publications": "Scholarly Works",
+
+  "explore.counters-section.publicationsoa": "Open Access",
 
   "explore.counters-section.project_funding": "Projects",
 
   "explore.grid-section.seeAll": "See all",
 
-  "explore.facet-section.title": "Discover",
+  "explore.facet-section.title": "Explore",
 
-  "explore.index.all": "All (incl. fulltext)",
+  "explore.index.all": "All",
+
+  "explore.index.news": "What's new",
 
   "explore.index.epflAll": "All (without fulltext)",
 
-  "explore.index.source": "Journals, Sources, Series",
+  "explore.index.source": "Source",
+
+  "explore.index.container": "Published in",
 
   "explore.index.author": "Author",
 
@@ -2577,7 +2586,7 @@
 
   "explore.index.metric.scopus.citation": "Most cited",
 
-  "explore.index.chart.pie.itemtype_filter": "Item Type",
+  "explore.index.chart.pie.itemtype_filter": "Type",
 
   "explore.index.chart.bar.dateIssued.year": "Year",
 
@@ -2586,7 +2595,7 @@
 
   "explore.index.dateissued": "Date issued",
 
-  "explore.index.dc.date.accessioned": "Recent Additions",
+  "explore.index.dc.date.accessioned": "Recent Scholarly Works",
 
   "explore.index.dc.date.created": "Date Created",
 
@@ -2602,7 +2611,7 @@
 
   "explore.index.eqorgunit": "Organization",
 
-  "explore.index.entityType": "Entity type",
+  "explore.index.entityType": "Resource Type",
 
   "explore.index.familyName": "Family name",
 
@@ -2642,9 +2651,9 @@
 
   "explore.index.isPublicationOfProject": "Project's publication",
 
-  "explore.index.itemidentifier": "Identifier (DOI, ArXivID, ISBN…)",
+  "explore.index.itemidentifier": "Identifier (DOI, ISSN, ISBN…)",
 
-  "explore.index.jobTitle": "Job title",
+  "explore.index.jobTitle": "Position",
 
   "explore.index.journal": "Journal",
 
@@ -2652,7 +2661,7 @@
 
   "explore.index.orcid": "ORCID",
 
-  "explore.index.organization": "Organization",
+  "explore.index.organization": "Institution",
 
   "explore.index.organizationAddressCountry": "Organization address country",
 
@@ -2670,9 +2679,9 @@
 
   "explore.index.ouname": "Name",
 
-  "explore.index.projectOrgUnits": "Organizations",
+  "explore.index.projectOrgUnits": "Units",
 
-  "explore.index.personOrgUnits": "Institution / Unit",
+  "explore.index.personOrgUnits": "EPFL Unit",
 
   "explore.index.pjtitle": "Title",
 
@@ -2690,7 +2699,7 @@
 
   "explore.index.type": "Type",
 
-  "explore.index.author_editor": "Author, Contributor, Editor",
+  "explore.index.author_editor": "Author",
 
   "explore.index.publisher": "Publisher",
 
@@ -2698,13 +2707,13 @@
 
   "explore.index.dateCreated": "Date created",
 
-  "explore.index.publishedIn": "Published in (journal or book)",
+  "explore.index.publishedIn": "Published in",
 
   "explore.index.abstract": "Abstract",
 
   "explore.index.fulltext": "Full text",
 
-  "explore.index.types": "Document type",
+  "explore.index.types": "Type",
 
   "explore.index.fundername": "Funder name",
 
@@ -2712,23 +2721,23 @@
 
   "explore.index.identifier": "Identifier",
 
-  "explore.index.researcherActive": "Is active",
+  "explore.index.researcherActive": "EPFL member",
 
   "explore.index.ouTitle": "Unit name",
 
   "explore.index.ouDirector": "Head of unit",
 
-  "explore.index.ouActive": "Is active",
+  "explore.index.ouActive": "Unit status",
 
   "explore.index.fundingname": "Funding",
 
-  "explore.index.role": "Job Title",
+  "explore.index.role": "Position",
 
   "explore.index.personIdentifier": "Identifier",
 
-  "explore.index.datacite_rights": "Access rights",
+  "explore.index.datacite_rights": "Availability",
 
-  "explore.index.original_bundle_oaire_licenseCondition": "License condition",
+  "explore.index.original_bundle_oaire_licenseCondition": "License",
 
   "explore.index.original_bundle_datacite_rights": "Availability",
 
@@ -2740,13 +2749,13 @@
 
   "explore.search-section.fundings_and_projects.title": "Search Projects",
 
-  "explore.search-section.orgunits.title": "Search Organizations",
+  "explore.search-section.orgunits.title": "Search Units",
 
-  "explore.search-section.publications.title": "Search Research Outputs",
+  "explore.search-section.publications.title": "Search Scholarly Works",
 
-  "explore.search-section.researchoutputs.title": "Search Research Outputs",
+  "explore.search-section.researchoutputs.title": "Search Scholarly Works",
 
-  "explore.search-section.researchoutputsoa.title": "Search Research Outputs (Open Access)",
+  "explore.search-section.researchoutputsoa.title": "Search Scholarly Works (Open Access)",
 
   "explore.search-section.researcherprofiles.title": "Search People",
 
@@ -2762,13 +2771,13 @@
 
   "explore.fundings_and_projects.breadcrumbs": "Projects",
 
-  "explore.orgunits.breadcrumbs": "Organizations",
+  "explore.orgunits.breadcrumbs": "Units",
 
-  "explore.publications.breadcrumbs": "Research Outputs",
+  "explore.publications.breadcrumbs": "Scholarly Works",
 
-  "explore.researchoutputs.breadcrumbs": "Research Outputs",
+  "explore.researchoutputs.breadcrumbs": "Scholarly Works",
 
-  "explore.researchoutputsoa.breadcrumbs": "Research Outputs (Open Access)",
+  "explore.researchoutputsoa.breadcrumbs": "in Open Access",
 
   "explore.researcherprofiles.breadcrumbs": "People",
 
@@ -2809,7 +2818,15 @@
 
   "footer.link.end-user-agreement": "End User Agreement",
 
-  "footer.link.feedback": "Send Feedback",
+  "footer.link.accessibility": "Accessibility",
+
+  "footer.link.legalnotice": "Legal notice",
+
+  "footer.link.help": "Get help",
+
+  "footer.link.feedback": "Feedback",
+
+  "footer.text.follow-us": "Follow us on: ",
 
   "forgot-email.form.header": "Forgot Password",
 
@@ -2957,7 +2974,7 @@
 
   "form.save-help": "Save changes",
 
-  "form.search": "Search",
+  "form.search": "",
 
   "form.scrollable-input.search": "Search",
 
@@ -3073,7 +3090,7 @@
 
   "home.breadcrumbs": "Home",
 
-  "home.search-form.placeholder": "Search the repository ...",
+  "home.search-form.placeholder": "Your trusted repository for accessing EPFL's research output",
 
   "home.title": "Home",
 
@@ -4203,7 +4220,7 @@
 
   "layout.tab.header.OrgUnit.institut.details": "Labs and Research Groups",
 
-  "layout.tab.header.OrgUnit.organizations": "Organizations",
+  "layout.tab.header.OrgUnit.organizations": "Units",
 
   "layout.tab.header.OrgUnit.publications": "Publications",
 
@@ -4493,7 +4510,7 @@
 
   "login.form.forgot-password": "Have you forgotten your password?",
 
-  "login.form.header": "Please log in to DSpace",
+  "login.form.header": "Please log in Infoscience",
 
   "login.form.new-user": "New user? Click here to register.",
 
@@ -4511,7 +4528,7 @@
 
   "login.breadcrumbs": "Login",
 
-  "logout.form.header": "Log out from DSpace",
+  "logout.form.header": "Log out from Infoscience",
 
   "logout.form.submit": "Log out",
 
@@ -4551,8 +4568,9 @@
 
   "menu.header.image.logo": "Repository logo",
 
-  "menu.header.admin.description": "Management menu",
+  "menu.header.image.institutionlogo": "Logo EPFL, École polytechnique fédérale de Lausanne",
 
+  "menu.header.admin.description": "Management menu",
 
   "menu.section.notifications": "Notifications",
 
@@ -4594,15 +4612,15 @@
 
   "menu.section.explore_infrastructure": "Infrastructure",
 
-  "menu.section.explore_publications": "Research Outputs",
+  "menu.section.explore_publications": "Scholarly Works",
 
-  "menu.section.explore_researchoutputs": "Research Outputs",
+  "menu.section.explore_researchoutputs": "Scholarly Works",
 
-  "menu.section.explore_researchoutputsoa": "Research Outputs (Open Access)",
+  "menu.section.explore_researchoutputsoa": "in Open Access",
 
-  "menu.section.explore_researcherprofiles": "People",
+  "menu.section.explore_researcherprofiles": "Researcher Profiles",
 
-  "menu.section.explore_orgunits": "Organizations",
+  "menu.section.explore_orgunits": "By Unit",
 
   "menu.section.browse_global_by_srsc": "By Subject Category",
 
@@ -4632,7 +4650,7 @@
 
   "menu.section.virtual_collection": "Virtual Collections",
 
-  "menu.section.all_of_dspace": "All of DSpace",
+  "menu.section.all_of_dspace": "All",
 
 
 
@@ -4837,7 +4855,7 @@
   "metric-badges.download": "<span class=\"fa fa-download\" title=\"Downloads\">&nbsp;</span>",
 
 
-  "mydspace.breadcrumbs": "MyInfoscience",
+  "mydspace.breadcrumbs": "My dashboard",
 
   "mydspace.description": "",
 
@@ -4927,7 +4945,7 @@
 
   "mydspace.status.epfl.newVersion": "New version",
 
-  "mydspace.title": "MyInfoscience",
+  "mydspace.title": "My dashboard",
 
   "mydspace.upload.upload-failed": "Error creating new workspace. Please verify the content uploaded before retry.",
 
@@ -4946,7 +4964,7 @@
   "mydspace.notification.suggestion.page": "We found <b>{{count}} {{type}}</b> in the {{source}} that seems to be related to your profile. Please <a href='/suggestions/{{suggestionId}}'>review the suggestions.</a>",
 
 
-  "nav.browse.header": "All of DSpace",
+  "nav.browse.header": "All",
 
   "nav.community-browse.header": "By Community",
 
@@ -4962,11 +4980,11 @@
 
   "nav.main.description": "Main navigation bar",
 
-  "nav.mydspace": "MyInfoscience",
+  "nav.mydspace": "My dashboard",
 
   "nav.profile": "Profile",
 
-  "nav.search": "Search",
+  "nav.search": "",
 
   "nav.search.button": "Submit search",
 
@@ -5400,7 +5418,7 @@
 
   "profile.card.access-token.delete": "Revoke token",
 
-  "profile.card.access-token.no-token-generated": "You don't have personal access token. Generate a personal access token for quick access to the DSpace-CRIS API.",
+  "profile.card.access-token.no-token-generated": "You don't have personal access token. Generate a personal access token for quick access to the Infoscience API.",
 
   "profile.card.access-token.token-generated": "You have already generated a personal access token.",
 
@@ -5580,7 +5598,7 @@
 
   "register-page.registration.header": "New user registration",
 
-  "register-page.registration.info": "Register an account to subscribe to collections for email updates, and submit new items to DSpace.",
+  "register-page.registration.info": "Register an account to subscribe to collections for email updates, and submit new items to Infoscience.",
 
   "register-page.registration.email": "Email Address *",
 
@@ -5790,7 +5808,7 @@
 
   "search.breadcrumbs": "Search",
 
-  "search.search-form.placeholder": "Search the repository ...",
+  "search.search-form.placeholder": "Search inside ...",
 
   "search.filters.applied.f.author": "Author",
 
@@ -5802,7 +5820,7 @@
 
   "search.filters.applied.f.discoverable": "Non-discoverable",
 
-  "search.filters.applied.f.entityType": "Item Type",
+  "search.filters.applied.f.entityType": "Resources Type",
 
   "search.filters.applied.f.editor": "Editor",
 
@@ -5818,9 +5836,9 @@
 
   "search.filters.applied.f.namedresourcetype": "Status",
 
-  "search.filters.applied.f.personorgunits": "Organisation",
+  "search.filters.applied.f.personorgunits": "EPFL Units",
 
-  "search.filters.applied.f.personOrgUnits": "Organisation",
+  "search.filters.applied.f.personOrgUnits": "EPFL Units",
 
   "search.filters.applied.f.projectorgunits": "Organisation",
 
@@ -5838,7 +5856,7 @@
 
   "search.filters.applied.f.withdrawn": "Withdrawn",
 
-  "search.filters.applied.f.graphitemtype": "Item type",
+  "search.filters.applied.f.graphitemtype": " Resource Type",
 
   "search.filters.applied.f.graphpubldate": "Public date",
 
@@ -5864,7 +5882,7 @@
 
   "search.filters.applied.charts.chart.pie.more-value": "More",
 
-  "search.filters.applied.charts.chart.pie.itemtype_filter.tab": "Item Type",
+  "search.filters.applied.charts.chart.pie.itemtype_filter.tab": " Resources Type",
 
   "search.filters.applied.charts.graphitemtype.tab": "Visualization by Type",
 
@@ -5878,20 +5896,17 @@
 
   "search.filters.applied.charts.site.title": "Search Output",
 
-  "search.filters.applied.charts.RELATION.Person.researchoutputs.title": "Research Output",
+  "search.filters.applied.charts.RELATION.Person.researchoutputs.title": "Scholarly Works",
 
-  "search.filters.applied.charts.RELATION.Person.editedresearchoutputs.title": "Research Output",
+  "search.filters.applied.charts.RELATION.Person.editedresearchoutputs.title": "Scholarly Works",
 
   "search.filters.applied.charts.RELATION.Project.fundings.title": "Fundings",
 
-  "search.filters.applied.charts.RELATION.Project.researchoutputs.title": "Research Output",
+  "search.filters.applied.charts.RELATION.Project.researchoutputs.title": "Scholarly Works",
 
   "search.filters.applied.charts.no.data.found": "No data found",
 
   "search.filters.applied.charts.show.hide": "Show/Hide",
-
-
-
 
   "search.filters.filter.author.head": "Author",
 
@@ -5935,13 +5950,13 @@
 
   "search.filters.filter.creativeWorkPublisher.label": "Search publisher",
 
-  "search.filters.filter.dateIssued.head": "Publication Date",
+  "search.filters.filter.dateIssued.head": "Publication Year",
 
-  "search.filters.filter.dateIssued.max.placeholder": "Maximum Publication Date",
+  "search.filters.filter.dateIssued.max.placeholder": "Maximum Publication Year",
 
   "search.filters.filter.dateIssued.max.label": "End",
 
-  "search.filters.filter.dateIssued.min.placeholder": "Minimum Publication Date",
+  "search.filters.filter.dateIssued.min.placeholder": "Minimum Publication Year",
 
   "search.filters.filter.dateIssued.min.label": "Start",
 
@@ -5969,13 +5984,35 @@
 
   "search.filters.filter.editor.label": "Search editor",
 
+  "search.filters.filter.fundername.head": "Funder",
+
+  "search.filters.filter.fundername.placeholder": "Funder",
+
+  "search.filters.filter.fundername.label": "Search Funder",  
+
   "search.filters.filter.withdrawn.head": "Withdrawn",
 
-  "search.filters.filter.entityType.head": "Item Type",
+  "search.filters.filter.entityType.head": " Resource Type",
 
-  "search.filters.filter.entityType.placeholder": "Item Type",
+  "search.filters.filter.entityType.placeholder": "Resource Type",
 
-  "search.filters.filter.entityType.label": "Search item type",
+  "search.filters.filter.entityType.label": "Search Resource Type",
+
+  "search.filters.filter.eventPlace.head": "Event Place",
+
+  "search.filters.filter.eventPlace.placeholder": "Event Place",
+
+  "search.filters.filter.eventPlace.label": "Search Event Place",
+
+  "search.filters.filter.eventDate.head": "Event Date",
+
+  "search.filters.filter.eventDate.placeholder": "Event Date",
+
+  "search.filters.filter.eventDate.label": "Search Event Date",
+
+  "search.filters.filter.eventDate.min.label": "Start",
+
+  "search.filters.filter.eventDate.max.label": "End",
 
   "search.filters.filter.expand": "Expand filter",
 
@@ -6001,11 +6038,11 @@
 
   "search.filters.filter.has_content_in_original_bundle.head": "Has files",
 
-  "search.filters.filter.itemtype.head": "Type",
+  "search.filters.filter.itemtype.head": "Resource SubType",
 
-  "search.filters.filter.itemtype.placeholder": "Type",
+  "search.filters.filter.itemtype.placeholder": "Resource SubType",
 
-  "search.filters.filter.itemtype.label": "Search type",
+  "search.filters.filter.itemtype.label": "Search Resource SubType",
 
   "search.filters.filter.investigators.head": "Researcher",
 
@@ -6037,17 +6074,23 @@
 
   "search.filters.filter.language.placeholder": "Language",
 
-  "search.filters.filter.projectOrgUnits.head": "Organizations",
+  "search.filters.filter.projectOrgUnits.head": "Unit",
 
-  "search.filters.filter.projectOrgUnits.label": "Organizations",
+  "search.filters.filter.projectOrgUnits.label": "Unit",
 
-  "search.filters.filter.projectOrgUnits.placeholder": "Organizations",
+  "search.filters.filter.projectOrgUnits.placeholder": "Unit",
 
-  "search.filters.filter.personOrgUnits.head": "Units or Labs",
+  "search.filters.filter.personOrgUnits.head": "EPFL Unit",
 
-  "search.filters.filter.personOrgUnits.label": "Search Units or Labs",
+  "search.filters.filter.personOrgUnits.label": "Search EPFL Unit",
 
-  "search.filters.filter.personOrgUnits.placeholder": "Units or Labs",
+  "search.filters.filter.personOrgUnits.placeholder": "EPFL Unit",
+
+  "search.filters.filter.publisher.head": "Publisher",
+
+  "search.filters.filter.publisher.label": "Search Publisher",
+
+  "search.filters.filter.publisher.placeholder": "Publisher",
 
   "search.filters.filter.namedresourcetype.head": "Status",
 
@@ -6061,17 +6104,17 @@
 
   "search.filters.filter.objectpeople.label": "Search people",
 
-  "search.filters.filter.organization.head": "Collaborations",
+  "search.filters.filter.organization.head": "Institution",
 
-  "search.filters.filter.organization.placeholder": "Collaborations",
+  "search.filters.filter.organization.placeholder": "Institution",
 
-  "search.filters.filter.organization.label": "Search Collaborations",
+  "search.filters.filter.organization.label": "Search Institution",
 
-  "search.filters.filter.unitOrLab.head": "Units or Labs",
+  "search.filters.filter.unitOrLab.head": "Unit",
 
-  "search.filters.filter.unitOrLab.placeholder": "Units or Labs",
+  "search.filters.filter.unitOrLab.placeholder": "Unit",
 
-  "search.filters.filter.unitOrLab.label": "Search Units or Labs",
+  "search.filters.filter.unitOrLab.label": "Search Unit",
 
   "search.filters.filter.parentOrganization.head": "Parent Unit",
 
@@ -6097,11 +6140,11 @@
 
   "search.filters.filter.organizationFoundingDate.label": "Search date founded",
 
-  "search.filters.filter.original_bundle_oaire_licenseCondition.head": "Licenses",
+  "search.filters.filter.original_bundle_oaire_licenseCondition.head": "License",
 
-  "search.filters.filter.original_bundle_oaire_licenseCondition.placeholder": "Licenses",
+  "search.filters.filter.original_bundle_oaire_licenseCondition.placeholder": "License",
 
-  "search.filters.filter.original_bundle_oaire_licenseCondition.label": "Search Licenses",
+  "search.filters.filter.original_bundle_oaire_licenseCondition.label": "Search License",
 
   "search.filters.filter.original_bundle_datacite_available.head": "Embargo",
 
@@ -6120,6 +6163,12 @@
   "search.filters.filter.datacite_rights.placeholder": "Availability",
 
   "search.filters.filter.datacite_rights.label": "Search Availability",
+
+  "search.filters.filter.role.head": "Position",
+
+  "search.filters.filter.role.label": "Position",  
+
+  "search.filters.filter.role.placeholder": "Search Position",
 
   "search.filters.filter.scope.head": "Scope",
 
@@ -6163,17 +6212,23 @@
 
   "search.filters.filter.unit.placeholder": "Unit",
 
-  "search.filters.filter.author_editor.head": "Authors",
+  "search.filters.filter.author_editor.head": "Author",
 
-  "search.filters.filter.author_editor.label": "Search Authors",
+  "search.filters.filter.author_editor.label": "Search Author",
 
-  "search.filters.filter.author_editor.placeholder": "Authors",
+  "search.filters.filter.author_editor.placeholder": "Author",
 
-  "search.filters.filter.source.head": "Published in",
+  "search.filters.filter.source.head": "Source",
 
-  "search.filters.filter.source.label": "Search Published in",
+  "search.filters.filter.source.label": "Source",
 
-  "search.filters.filter.source.placeholder": "Published in",
+  "search.filters.filter.source.placeholder": "Source",
+
+  "search.filters.filter.container.head": "Published in",
+
+  "search.filters.filter.container.label": "Published in",
+
+  "search.filters.filter.container.placeholder": "Published in",
 
   "search.filters.filter.ouActive.head": "Active Status",
 
@@ -6183,16 +6238,15 @@
 
   "search.filters.filter.researcherActive.head": "EPFL Members",
 
-  "search.filters.filter.researcherActive.label": "Search EPFL Members",
+  "search.filters.filter.researcherActive.label": "Search EPFL Member",
 
-  "search.filters.filter.researcherActive.placeholder": "EPFL Members",
+  "search.filters.filter.researcherActive.placeholder": "EPFL Member",
 
-  "search.filters.filter.epflResourceType.head": "Resources Types",
+  "search.filters.filter.epflResourceType.head": "Type",
 
-  "search.filters.filter.epflResourceType.label": "Search Resources Types",
+  "search.filters.filter.epflResourceType.label": "Search Resource Type",
 
-  "search.filters.filter.epflResourceType.placeholder": "Resources Types",
-
+  "search.filters.filter.epflResourceType.placeholder": "Type",
 
   "search.filters.entityType.JournalIssue": "Journal Issue",
 
@@ -6228,11 +6282,11 @@
 
   "search.filters.search.submit": "Submit",
 
-  "search.form.search": "Search",
+  "search.form.search": "",
 
   "search.form.search_dspace": "All repository",
 
-  "search.form.scope.all": "All of DSpace",
+  "search.form.scope.all": "All",
 
   "search.results.head": "Search Results",
 
@@ -6248,9 +6302,9 @@
 
   "project_funding.search.results.head": "Projects Search Results",
 
-  "researchoutputs.search.results.head": "Publications Search Results",
+  "researchoutputs.search.results.head": "Search Results",
 
-  "orgunit.search.results.head": "Organizations Search Results",
+  "orgunit.search.results.head": "Units Search Results",
 
   "homePageTopItems.search.results.head": "Home Page Items Results",
 
@@ -6785,11 +6839,11 @@
 
   "submission.import-external.title.Product": "Import a product from an external source",
 
-  "submission.import-external.page.hint": "Enter a query above to find items from the web to import in to DSpace.",
+  "submission.import-external.page.hint": "Enter a query above to find items from the web to import in to Infoscience.",
 
   "submission.import-external.page.noentity": "An entity type must be selected in order to use this page. Select it using the 'Import metadata from an external source' button in 'MyDspace' page.",
 
-  "submission.import-external.back-to-my-dspace": "Back to MyInfoscience",
+  "submission.import-external.back-to-my-dspace": "Back to My dashboard",
 
   "submission.import-external.search.placeholder": "Search the external source",
 
@@ -7369,7 +7423,7 @@
 
   "submission.sections.submit.progressbar.describe.virtual-collection-delegate-curators": "Delegated Collection Curators",
 
-  "submission.sections.submit.progressbar.describe.involved": "Involved organizations",
+  "submission.sections.submit.progressbar.describe.involved": "Involved Units",
 
   "submission.sections.submit.progressbar.describe.thesis_awards": "Thesis Awards",
 
@@ -7559,7 +7613,7 @@
 
   "mydspace.export-url.failed": "Export URL failed",
 
-  "submission.sections.upload.license-condition": "License condition",
+  "submission.sections.upload.license-condition": "License",
 
   "submission.sections.upload.file-type": "File type",
 
@@ -7900,7 +7954,7 @@
 
   "thumbnail.person.placeholder": "No Profile Picture Available",
 
-  "title": "DSpace Cris",
+  "title": "Infoscience",
 
 
 
@@ -8044,7 +8098,7 @@
 
   "supervision.search.results.head": "Workflow and Workspace tasks",
 
-  "researchoutputsoa.search.results.head": "Publications Search Results (Open Access)",
+  "researchoutputsoa.search.results.head": "Search Results (Open Access)",
 
   "workflow-item.edit.breadcrumbs": "Edit workflowitem",
 
@@ -8346,7 +8400,7 @@
 
   "person.page.orcid.sync-queue.send.validation-error.organization.country-required": "The address of the organization to be sent requires a valid 2 digits ISO 3166 country",
 
-  "person.page.orcid.sync-queue.send.validation-error.disambiguated-organization.required": "An identifier to disambiguate organizations is required. Supported ids are GRID, Ringgold, Legal Entity identifiers (LEIs) and Crossref Funder Registry identifiers",
+  "person.page.orcid.sync-queue.send.validation-error.disambiguated-organization.required": "An identifier to disambiguate unit is required. Supported ids are GRID, Ringgold, Legal Entity identifiers (LEIs) and Crossref Funder Registry identifiers",
 
   "person.page.orcid.sync-queue.send.validation-error.disambiguated-organization.value-required": "The organization's identifiers requires a value",
 
@@ -8456,8 +8510,9 @@
 
   "menu.section.explore_sectionfonds": "Fonds",
   "menu.section.explore_sectionjournalfonds": "Journal Fonds",
-  "menu.section.explore_advancedsearch": "Advanced Search",
-
+  "menu.section.explore_advancedsearch": "Explore",
+  "menu.section.explore_journals": "By Journal",
+  "menu.section.explore_events": "By Event",
   "menu.section.explore_sectionaggregations": "Collections",
   "menu.section.explore_sectiondocuments": "Documents & Other materials",
   "explore.counters-section.fonds": "Fonds",
@@ -8482,6 +8537,9 @@
   "explore.index.fond": "Fond",
   "explore.index.journalfond": "Journal Fond",
   "explore.index.aggregation": "Collection",
+  "explore.index.unitOrLab": "EPFL Unit",
+  "explore.index.eventDate": "Event Date",
+  "explore.index.eventPlace": "Event Place",
 
   "explore.search-section.sectiondocuments.title": "Search Documents & Other materials",
 
@@ -8492,7 +8550,10 @@
   "explore.search-section.sectionaggregations.title": "Search Collections",
 
   "explore.sectiondocuments.breadcrumbs": "Documents & Other materials",
-
+  "explore.search-section.journals.title": "Search Journals",
+  "explore.search-section.events.title": "Search Events",
+  "explore.events.breadcrumbs": "Events",
+  "explore.journals.breadcrumbs": "Journals",
   "explore.sectionfonds.breadcrumbs": "Fonds",
   "explore.sectionjournalfonds.breadcrumbs": "Journal Fonds",
   "explore.sectionaggregations.breadcrumbs": "Collections",
@@ -8519,6 +8580,21 @@
   "search.filters.filter.aggregation.placeholder": "Collection name",
   "search.filters.filter.aggregation.label": "Search Collection name",
   "search.filters.applied.f.aggregation": "Collection",
+
+  "search.filters.applied.f.types": "Type",
+  "search.filters.applied.f.datacite_rights": "Availability",
+  "search.filters.applied.f.parentOrganization": "Parent unit",
+  "search.filters.applied.f.author_editor": "Author",
+  "search.filters.applied.f.container": "Published In",
+  "search.filters.applied.f.unitOrLab": "EPFL Unit",
+  "search.filters.applied.f.role": "Position",
+  "search.filters.applied.f.researcherActive": "EPFL Member",
+  "search.filters.applied.f.publisher": "Publisher",
+  "search.filters.applied.f.eventPlace": "Event Place",
+  "search.filters.applied.f.eventDate.min": "Event Date start",
+  "search.filters.applied.f.eventDate.max": "Event Date end",
+  "search.filters.applied.f.fundername": "Funder",
+
   "submission.sections.submit.progressbar.describe.archival_materials": "Archival Materials Basic Information",
 
   "submission.sections.submit.progressbar.describe.archival_materials_indexing": "Archival Materials Indexing Information",

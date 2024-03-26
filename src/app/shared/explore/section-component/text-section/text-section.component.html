@@ -10,12 +10,9 @@
     <ng-container *ngTemplateOutlet="custom"></ng-container>
   </div>
   <div *ngSwitchCase="'submit-section'">
-    <ng-container *dsShowOnlyForRole="[roleTypeEnum.Submitter]">
+    <ng-container>
       <ng-container *ngTemplateOutlet="submitSection"></ng-container>
     </ng-container>
-  </div>
-  <div *ngSwitchCase="'link-section'">
-    <ng-container *ngTemplateOutlet="linkSection"></ng-container>
   </div>
 </ng-container>
 
@@ -23,28 +20,8 @@
 <ng-template #submitSection>
   <a routerLink="../mydspace" class="unstyled">
     <div class="d-flex flex-column align-items-center">
-      <div><i class="fas fa-cloud-upload-alt fa-3x"></i></div>
+      <div><i class="icon icon-right epfl-upload text-primary"></i></div>
       <div>{{ 'explore.submit-section.new-submission' | translate }}</div>
     </div>
   </a>
 </ng-template>
-
-<ng-template #linkSection>
-  <div class="d-flex justify-content-around">
-    <a routerLink="/explore/researcherprofiles" class="unstyled">
-      <div class="d-flex flex-column align-items-center">
-        <div><i class="fas fa-users fa-3x"></i></div>
-        <div>{{ 'explore.link-section.researchers' | translate }}</div>
-      </div>
-    </a>
-    <a routerLink="/explore/orgunits" class="unstyled">
-      <div class="d-flex flex-column align-items-center">
-        <div><i class="fas fa-building fa-3x"></i></div>
-        <div>{{ 'explore.link-section.orgunits' | translate }}</div>
-      </div>
-    </a>
-  </div>
-</ng-template>
-
-<!-- Custom content type -->
-<ng-template #custom></ng-template>

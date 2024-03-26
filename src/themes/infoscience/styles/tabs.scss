@@ -1,0 +1,69 @@
+@charset 'utf-8';
+@use 'sass:color';
+
+
+.cris-layout-navbar {
+    .navbar-nav {
+        margin-bottom: $spacer;
+        background-color: $white;
+        border-bottom: $nav-tabs-border-width solid $nav-tabs-border-color;
+    }
+
+    .navbar-nav {
+        .nav-item {
+            position: relative;
+            margin-right: ($nav-link-padding-x * 2);
+            padding-right: 0;
+            padding-left: 0;
+            text-decoration: none;
+            font-weight: $font-weight-bold;
+
+            &:after {
+                content: '';
+                display: block;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                border-bottom: 0 solid theme-color('primary');
+                transition: border-bottom 0.2s;
+            }
+
+            &:after {
+                content: '';
+                display: block;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                border-bottom: 0 solid theme-color('primary');
+                transition: border-bottom 0.2s;
+            }
+
+            &:hover {
+                color: $primary;
+            }
+
+        }
+
+        .sidebar-section {
+            &:last-child {
+                .nav-item {
+                    margin-right: 0;
+                }
+            }
+
+            &.active {
+
+                .nav-item {
+                    color: $dark !important;
+
+                    &:after {
+                        border-bottom-width: ($nav-tabs-border-width * 2);
+                    }
+
+                }
+            }
+        }
+    }
+}
