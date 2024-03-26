@@ -21,6 +21,7 @@ import { PLACEHOLDER_PARENT_METADATA } from '../../shared/form/builder/ds-dynami
 import { ServerResponseService } from '../../core/services/server-response.service';
 import { SignpostingDataService } from '../../core/data/signposting-data.service';
 import { LinkHeadService } from '../../core/services/link-head.service';
+import { APP_CONFIG, AppConfig } from '../../../config/app-config.interface';
 
 /**
  * This component renders a full item page.
@@ -42,7 +43,7 @@ export class FullItemPageComponent extends ItemPageComponent implements OnInit, 
 
   metadataMapLimit$: BehaviorSubject<Map<string, number>> = new BehaviorSubject<Map<string, number>>(new Map<string, number>());
 
-  limitSize = 20;
+  limitSize = this.appConfig.item.metadataLimit;
 
   /**
    * True when the itemRD has been originated from its workspaceite/workflowitem, false otherwise.
@@ -62,6 +63,7 @@ export class FullItemPageComponent extends ItemPageComponent implements OnInit, 
     protected signpostingDataService: SignpostingDataService,
     protected linkHeadService: LinkHeadService,
     @Inject(PLATFORM_ID) protected platformId: string,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
   ) {
     super(route, router, items, authService, authorizationService, responseService, signpostingDataService, linkHeadService, platformId);
   }

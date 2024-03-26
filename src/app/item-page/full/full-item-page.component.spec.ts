@@ -26,6 +26,7 @@ import { LinkHeadService } from '../../core/services/link-head.service';
 import { MarkdownDirective } from '../../shared/utils/markdown.directive';
 import { MathService } from '../../core/shared/math.service';
 import { MathServiceMock } from '../../shared/testing/math-service.stub';
+import { APP_CONFIG } from '../../../config/app-config.interface';
 
 const mockItem: Item = Object.assign(new Item(), {
   bundles: createSuccessfulRemoteDataObject$(createPaginatedList([])),
@@ -148,6 +149,12 @@ describe('FullItemPageComponent', () => {
     type: 'test'
   };
 
+  const appConfig = {
+    item: {
+      metadataLimit: 20
+    }
+  };
+
   beforeEach(waitForAsync(() => {
     authService = jasmine.createSpyObj('authService', {
       isAuthenticated: observableOf(true),
@@ -197,7 +204,8 @@ describe('FullItemPageComponent', () => {
         { provide: SignpostingDataService, useValue: signpostingDataService },
         { provide: LinkHeadService, useValue: linkHeadService },
         { provide: MathService, useValue: MathServiceMock },
-        { provide: PLATFORM_ID, useValue: 'server' }
+        { provide: PLATFORM_ID, useValue: 'server' },
+        { provide: APP_CONFIG, useValue: appConfig },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(FullItemPageComponent, {
