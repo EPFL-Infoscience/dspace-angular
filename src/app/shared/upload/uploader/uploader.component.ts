@@ -156,8 +156,6 @@ export class UploaderComponent {
       if (hasValue(impersonatingID)) {
         this.uploader.options.headers.push({ name: ON_BEHALF_OF_HEADER, value: impersonatingID });
       }
-
-      // this.onBeforeUpload();
       this.isOverDocumentDropZone = observableOf(false);
 
       // Start the keep alive service now that the upload is starting
