@@ -9,9 +9,12 @@
         <ds-themed-badges [object]="item" [context]="badgeContext" [showAccessStatus]="true"></ds-themed-badges>
       </div>
       <ds-truncatable [id]="item.id">
-        <h3 [innerHTML]="dsoTitle" [ngClass]="{'lead': true,'text-muted': !item.firstMetadataValue('dc.title')}"></h3>
+        <h3 [dsMarkdown]="dsoTitle" [ngClass]="{'lead': true,'text-muted': !item.firstMetadataValue('dc.title')}"></h3>
         <div *ngIf="item.isArchived && item.hasMetadata('epfl.workflow.startDateTime') && item.hasMetadata('dc.date.accessioned')">
           {{'mydspace.results.in-workflow-for' | translate}} {{getDateForArchivedItem(item.firstMetadataValue('epfl.workflow.startDateTime'), item.firstMetadataValue('dc.date.accessioned'))}}
+        </div>
+        <div *ngIf="!item.isArchived && item.hasMetadata('epfl.workflow.startDateTime')">
+          {{'mydspace.results.in-workflow-since' | translate}} {{getDateForItem(item.firstMetadataValue('epfl.workflow.startDateTime'))}}
         </div>
         <div>
           <span class="text-muted">
@@ -29,8 +32,9 @@
           </span>
 
           <ds-truncatable-part [id]="item.id" [minLines]="1" class="item-list-abstract">
+<!--            <ds-markdown-viewer [innerHTML]="item.firstMetadataValue('dc.description.abstract')"></ds-markdown-viewer>-->
             <span [ngClass]="{'text-muted': !item.firstMetadataValue('dc.description.abstract')}"
-                  [innerHTML]="(item.firstMetadataValue('dc.description.abstract')) || ('mydspace.results.no-abstract' | translate)"></span>
+                  [dsMarkdown]="item.firstMetadataValue('dc.description.abstract') || ('mydspace.results.no-abstract' | translate)"></span>
           </ds-truncatable-part>
 
           <ds-additional-metadata [object]="item"></ds-additional-metadata>

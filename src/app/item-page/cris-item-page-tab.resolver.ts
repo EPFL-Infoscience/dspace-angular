@@ -51,14 +51,18 @@ export class CrisItemPageTabResolver implements Resolve<RemoteData<PaginatedList
               if (tabsRD.hasSucceeded && tabsRD?.payload?.page?.length > 0) {
                 // By splitting the url with uuid we can understand if the item is primary item page or a tab
                 const urlSplit = state.url.split(route.params.id);
-                const givenTab = urlSplit[1];
+                const givenTab = urlSplit[1]?.split('/')[1];
                 const itemPageRoute = getItemPageRoute(itemRD.payload);
-                const isValidTab = tabsRD.payload.page?.some((tab) => tab && (!givenTab || `/${tab.shortname}` === givenTab)) ?? false;
-                const mainTab = tabsRD.payload.page?.filter((tab) => tab && !tab.leading)[0];
+                const isValidTab = tabsRD.payload.page.some((tab) => !givenTab || tab.shortname === givenTab);
+
+                const mainTab = tabsRD.payload.page.length === 1
+                  ? tabsRD.payload.page[0]
+                  : tabsRD.payload.page.find(tab => !tab.leading);
+
                 if (!isValidTab) {
                   // If wrong tab is given redirect to 404 page
                   this.router.navigateByUrl(getPageNotFoundRoute(), { skipLocationChange: true, replaceUrl: false });
-                } else if (mainTab && givenTab === `/${mainTab.shortname}`) {
+                } else if (givenTab === mainTab.shortname) {
                   // If first tab is given redirect to root item page
                   this.hardRedirectService.redirect(itemPageRoute, 302);
                 }

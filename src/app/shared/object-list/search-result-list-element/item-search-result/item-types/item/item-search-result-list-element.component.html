@@ -13,17 +13,24 @@
   <div [ngClass]="showThumbnails ? 'col-9 col-xl-10' : 'col-12'">
     <div class="d-flex justify-content-between">
       <div class="flex-fill">
+        <small class="d-flex text-muted" *ngIf="!(hasLoadedThirdPartyMetrics$ | async) && showMetrics">
+          {{ "third-party-metrics-blocked" | translate }}&nbsp;
+          <div role="button" class="btn-link" (click)="showSettings()">{{ "third-party-metrics-cookies.consent-settings" | translate }}</div>
+        </small>
         <div class="d-flex">
           <ds-themed-badges *ngIf="showLabel" [object]="dso" [context]="context" [showAccessStatus]="true"></ds-themed-badges>
         </div>
         <ds-truncatable [id]="dso.id" *ngIf="object !== undefined && object !== null">
           <a *ngIf="linkType != linkTypes.None" [target]="(linkType == linkTypes.ExternalLink) ? '_blank' : '_self'" [attr.rel]="(linkType == linkTypes.ExternalLink) ? 'noopener noreferrer' : null"
                  [routerLink]="[itemPageRoute]" class="lead item-list-title dont-break-out"
-                 [innerHTML]="dsoTitle"></a>
+                 [dsMarkdown]="dsoTitle"></a>
           <span *ngIf="linkType == linkTypes.None" class="lead item-list-title dont-break-out"
-                [innerHTML]="dsoTitle"></span>
-          <div *ngIf="!dso.isArchived && dso.hasMetadata('epfl.workflow.startDateTime')">
-            {{'mydspace.results.in-workflow-since' | translate}} {{getDateForItem(dso.firstMetadataValue('epfl.workflow.startDateTime'))}}
+                [dsMarkdown]="dsoTitle"></span>
+          <div *ngIf="!dso.isArchived && workflowStartDate">
+            {{'mydspace.results.in-workflow-since' | translate}} {{itemDateTime}}
+          </div>
+          <div *ngIf="dso.isArchived && workflowStartDate && accessionedDate">
+            {{'mydspace.results.in-workflow-for' | translate}} {{itemArchivedDateTime}}
           </div>
           <span class="text-muted">
             <ds-truncatable-part [id]="dso.id" [minLines]="1">
@@ -42,7 +49,7 @@
           </span>
           <div *ngIf="dso.firstMetadataValue('dc.description.abstract')" class="item-list-abstract">
           <ds-truncatable-part [id]="dso.id" [minLines]="3">
-            <div [innerHTML]="firstMetadataValue('dc.description.abstract')"></div>
+            <div [dsMarkdown]="firstMetadataValue('dc.description.abstract')"></div>
             </ds-truncatable-part>
           </div>
         <ds-additional-metadata [object]="dso"></ds-additional-metadata>

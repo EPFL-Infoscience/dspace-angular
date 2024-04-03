@@ -162,7 +162,7 @@ export class DefaultAppConfig implements AppConfig {
   submission: SubmissionConfig = {
     autosave: {
       // NOTE: which metadata trigger an autosave
-      metadata: ['dc.title', 'dc.identifier.doi', 'dc.identifier.pmid', 'dc.identifier.arxiv', 'dc.identifier.patentno', 'dc.identifier.scopus', 'dc.identifier.isi', 'dcterms.dateSubmitted', 'dc.identifier.applicationnumber'],
+      metadata: ['dc.title', 'dc.identifier.doi', 'dc.identifier.pmid', 'dc.identifier.arxiv', 'dc.identifier.patentno', 'dc.identifier.scopus', 'dc.identifier.isi', 'dcterms.dateSubmitted', 'dc.identifier.applicationnumber', 'dc.type'],
       /**
        * NOTE: after how many time (milliseconds) submission is saved automatically
        * eg. timer: 5 * (1000 * 60); // 5 minutes
@@ -490,14 +490,29 @@ export class DefaultAppConfig implements AppConfig {
   // - All mentions of the privacy policy being removed from the UI (e.g. in the footer)
   info: InfoConfig = {
     enableEndUserAgreement: true,
-    enablePrivacyStatement: true
+    enablePrivacyStatement: true,
+    //Configuration for third-party metrics in Klaro
+    metricsConsents: [
+      {
+        key: 'plumX',
+        enabled: true
+      },
+      {
+        key: 'altmetric',
+        enabled: true
+      },
+      {
+        key: 'dimensions',
+        enabled: true
+      },
+    ]
   };
 
   // Whether to enable Markdown (https://commonmark.org/) and MathJax (https://www.mathjax.org/)
   // display in supported metadata fields. By default, only dc.description.abstract is supported.
   markdown: MarkdownConfig = {
-    enabled: false,
-    mathjax: false,
+    enabled: true,
+    mathjax: true,
   };
 
   // Which vocabularies should be used for which search filters

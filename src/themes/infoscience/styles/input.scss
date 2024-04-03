@@ -54,6 +54,13 @@ ds-submission-form {
         padding: 0 !important;
         background-color: $canard;
         color: $white;
+
+        &:has([aria-label="has warnings"]), &:has([aria-label="comporte des avertissements"]) {
+                background-color: $warning;
+            }
+        &:has([aria-label="has errors"]), &:has([aria-label="comporte des erreurs"])  {
+            background-color: $danger;
+        }
     }
 
     .card-header button .float-left.section-title {
@@ -61,6 +68,20 @@ ds-submission-form {
         color: $white;
     }
 
+    .inline-btn-group {
+        margin-top: 0!important;
+    }
+
+    i.fas.fa-exclamation-circle {
+        color: $white !important
+    }
+
+}
+
+ds-submission-form-footer {
+    i.fas.fa-warning {
+        color: $danger !important;
+    }
 }
 
 ds-submission-upload-files {

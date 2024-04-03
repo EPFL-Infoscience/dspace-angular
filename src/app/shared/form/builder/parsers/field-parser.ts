@@ -26,6 +26,7 @@ import { SubmissionVisibility } from '../../../../submission/utils/visibility.ut
 import { SubmissionVisibilityType } from '../../../../core/config/models/config-submission-section.model';
 import { Metadata } from '../../../../core/shared/metadata.utils';
 import { MetadataValue } from '../../../../core/shared/metadata.models';
+import {TranslateService} from "@ngx-translate/core";
 
 export const SUBMISSION_ID: InjectionToken<string> = new InjectionToken<string>('submissionId');
 export const CONFIG_DATA: InjectionToken<FormFieldModel> = new InjectionToken<FormFieldModel>('configData');
@@ -38,6 +39,7 @@ export const PARSER_OPTIONS: InjectionToken<ParserOptions> = new InjectionToken<
  */
 export const REGEX_FIELD_VALIDATOR = new RegExp('(\\/?)(.+)\\1([gimsuy]*)', 'i');
 export const SECURITY_CONFIG: InjectionToken<any> = new InjectionToken<any>('securityConfig');
+export const TRANSLATION_SERVICE: InjectionToken<any> = new InjectionToken<any>('translateService');
 
 export abstract class FieldParser {
 
@@ -53,7 +55,8 @@ export abstract class FieldParser {
     @Inject(CONFIG_DATA) protected configData: FormFieldModel,
     @Inject(INIT_FORM_VALUES) protected initFormValues: any,
     @Inject(PARSER_OPTIONS) protected parserOptions: ParserOptions,
-    @Inject(SECURITY_CONFIG) protected securityConfig: any = null
+    @Inject(SECURITY_CONFIG) protected securityConfig: any = null,
+    @Inject(TRANSLATION_SERVICE) protected translateService: TranslateService
   ) {
   }
 
@@ -422,10 +425,20 @@ export abstract class FieldParser {
       regex = new RegExp(this.configData.input.regex);
     }
     controlModel.validators = Object.assign({}, controlModel.validators, { pattern: regex });
-    controlModel.errorMessages = Object.assign(
-      {},
-      controlModel.errorMessages,
-      { pattern: 'error.validation.pattern' });
+    let errorField = controlModel.name;
+    this.translateService.get(`error.validation.pattern.${errorField}`).subscribe((result) => {
+      if (`error.validation.pattern.${errorField}` === result) {
+        controlModel.errorMessages = Object.assign(
+          {},
+          controlModel.errorMessages,
+          {pattern: 'error.validation.pattern'});
+      } else {
+        controlModel.errorMessages = Object.assign(
+          {},
+          controlModel.errorMessages,
+          {pattern: `error.validation.pattern.${errorField}`});
+      }
+    });
   }
 
   protected markAsRequired(controlModel) {

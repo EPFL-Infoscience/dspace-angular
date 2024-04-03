@@ -81,7 +81,10 @@ export class ItemExportService {
     }
     return this.itemExportFormatService.byEntityTypeAndMolteplicity(entityType, ItemExportFormatMolteplicity.SINGLE).pipe(
       take(1),
-      map(values => this.buildConfiguration(null, entityType, values[entityType]))
+      map(values =>  {
+        values[entityType] = [...values[entityType], ...values.all];
+        return  this.buildConfiguration(null, entityType, values[entityType]);
+      } )
     );
   }
 

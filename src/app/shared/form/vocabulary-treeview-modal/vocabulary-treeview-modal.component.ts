@@ -70,6 +70,9 @@ export class VocabularyTreeviewModalComponent implements OnInit {
   private setDescription() {
     const descriptionLabel = 'vocabulary-treeview.tree.description.' + this.vocabularyOptions.name;
     this.description = this.translate.instant(descriptionLabel);
+    if (this.description.startsWith('vocabulary-treeview.tree.description.')) {
+      this.description = this.translate.instant('vocabulary-treeview.tree.description.default-type');
+    }
   }
 
 }
