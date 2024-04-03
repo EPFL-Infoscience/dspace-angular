@@ -1,6 +1,6 @@
 {
 
-  "401.help": "You're not authorized to access this page. You can use the button below to get back to the home page.",
+  "401.help": "You're not authorized to access this page. You can use the button below to get back to the home page.", 
 
   "401.link.home-page": "Take me to the home page",
 
@@ -2089,7 +2089,7 @@
 
   "cookies.consent.ok": "That's ok",
 
-  "cookies.consent.save": "Close",
+  "cookies.consent.save": "Save",
 
   "cookies.consent.content-notice.title": "Cookie Consent",
 
@@ -2139,21 +2139,9 @@
 
   "cookies.consent.purpose.sharing": "Sharing",
 
-  "cookies.consent.app.title.plumX": "PlumX",
-
-  "cookies.consent.app.description.plumX": "PlumX Metrics provide insights into the ways people interact with individual pieces of research output (articles, conference proceedings, book chapters, and many more) in the online environment. (https://plumanalytics.com/)",
-
-  "cookies.consent.app.title.altmetric": "Altmetric",
-
-  "cookies.consent.app.description.altmetric": "Altmetric’s interface tracks online engagement to reveal how and where your research is being visualized. (https://www.altmetric.com)",
-
-  "cookies.consent.app.title.dimensions": "Dimensions",
-
-  "cookies.consent.app.description.dimensions": "Dimensions analyses references from publications and calculates a set of article-level indicators. (https://www.dimensions.ai)",
-
-  "cookies.consent.purpose.thirdPartyJs": "Third-party JavaScript",
 
   "curation-task.task.citationpage.label": "Generate Citation Page",
+
 
   "curation-task.task.migratedocviewer.label": "Migrate the previously generated doc. viewer resources",
 
@@ -2878,7 +2866,7 @@
 
   "forgot-password.form.submit": "Submit password",
 
-  "form.add": "Add more",
+  "form.add": "Add",
 
   "form.other-option": "(Other): ",
 
@@ -2965,6 +2953,8 @@
   "form.other-information.dc_publisher": "Publisher",
 
   "form.other-information.dc_relation_issn": "ISSN",
+
+  "form.other-information.dc_relation_identifier": "URI",
 
   "form.other-information.variant": "Variant name of",
 
@@ -5388,7 +5378,7 @@
 
   "patent.listelement.badge": "Patent",
 
-  "product.listelement.badge": "Product",
+  "product.listelement.badge": "Dataset or other product",
 
   "profile.breadcrumbs": "Update Profile",
 
@@ -5534,7 +5524,7 @@
 
   "publication.search.title": "Publication Search",
 
-  "product.page.titleprefix": "Product: ",
+  "product.page.titleprefix": "Dataset or other product: ",
 
   "media-viewer.next": "Next",
 
@@ -6837,7 +6827,7 @@
 
   "submission.import-external.title.Patent": "Import a patent from an external source",
 
-  "submission.import-external.title.Product": "Import a product from an external source",
+  "submission.import-external.title.Product": "Import a dataset or a product from an external source",
 
   "submission.import-external.page.hint": "Enter a query above to find items from the web to import in to Infoscience.",
 
@@ -6959,7 +6949,7 @@
 
   "submission.sections.submit.progressbar.describe.ctb-metadata": "Common file attributes - set for each file unless differently specified",
 
-  "submission.sections.submit.progressbar.describe.orgunit-editor": "Delegated head of units",
+  "submission.sections.submit.progressbar.describe.orgunit-editor": "Delegated manager",
 
   "submission.sections.submit.progressbar.describe.notes-for-reviewer": "Notes for reviewer",
 
@@ -6969,41 +6959,43 @@
 
   "submission.sections.submit.progressbar.upload-content": "Attachment(s)",
 
-  "submission.sections.submit.progressbar.describe.journalcontainer_details": "Details",
+  "submission.sections.submit.progressbar.describe.journalcontainer_details": "Journal references, if applicable",
 
-  "submission.sections.submit.progressbar.describe.bookcontainer_details": "Additional details",
+  "submission.sections.submit.progressbar.describe.bookcontainer_details": "Book references, if applicable",
 
   "submission.sections.submit.progressbar.describe.thesis_type": "Type",
 
-  "submission.sections.submit.progressbar.describe.thesis_details": "Details",
+  "submission.sections.submit.progressbar.describe.thesis_details": "Basic information",
 
-  "submission.sections.submit.progressbar.describe.thesis_involved": "Thesis Involved",
+  "submission.sections.submit.progressbar.describe.thesis_involved": "Academic affiliation",
 
   "submission.sections.submit.progressbar.describe.alternative_identifiers": "Identifiers",
 
-  "submission.sections.submit.progressbar.describe.related_event": "Related event",
+  "submission.sections.submit.progressbar.describe.related_event": "Related events, if applicable",
 
   "submission.sections.submit.progressbar.describe.publication-import": "Details",
 
   "submission.sections.submit.progressbar.describe.article_type": "Type",
 
-  "submission.sections.submit.progressbar.describe.article_details": "Article details",
+  "submission.sections.submit.progressbar.describe.article_details": "Basic information",
 
-  "submission.sections.submit.progressbar.describe.teaching_details": "Teaching materials details",
+  "submission.sections.submit.progressbar.describe.teaching_details": "Basic information",
 
-  "submission.sections.submit.progressbar.describe.dataset_details": "Data set details",
+  "submission.sections.submit.progressbar.describe.dataset_details": "Basic information",
 
-  "submission.sections.submit.progressbar.describe.conference_details": "Conference details",
+  "submission.sections.submit.progressbar.describe.conference_details": "Basic information",
 
-  "submission.sections.submit.progressbar.describe.conference_event": "Conference event",
+  "submission.sections.submit.progressbar.describe.conference_event": "Related events, if applicable",
 
-  "submission.sections.submit.progressbar.describe.design_details": "Design details",
+  "submission.sections.submit.progressbar.describe.design_details": "Basic information",
 
-  "submission.sections.submit.progressbar.describe.media_details": "Media details",
+  "submission.sections.submit.progressbar.describe.media_details": "Basic information",
 
-  "submission.sections.submit.progressbar.describe.preprint_type": "Preprint type",
+  "submission.sections.submit.progressbar.describe.other_details": "Basic information",
 
-  "submission.sections.submit.progressbar.describe.preprint_details": "Preprint details",
+  "submission.sections.submit.progressbar.describe.preprint_type": "Type",
+
+  "submission.sections.submit.progressbar.describe.preprint_details": "Basic information",
 
   "submission.sections.detect-duplicate.clear-decision": "Undo",
 
@@ -7071,7 +7063,7 @@
 
   "submission.sections.describe.relationship-lookup.external-source.import-button-title.Person": "Import remote person",
 
-  "submission.sections.describe.relationship-lookup.external-source.import-button-title.Product": "Import remote product",
+  "submission.sections.describe.relationship-lookup.external-source.import-button-title.Product": "Import remote dataset or product",
 
   "submission.sections.describe.relationship-lookup.external-source.import-button-title.Equipment": "Import remote equipment",
 
@@ -7351,7 +7343,7 @@
 
   "submission.sections.ccLicense.confirmation": "I grant the license above",
 
-  "submission.sections.general.add-more": "Add more",
+  "submission.sections.general.add-more": "Add",
 
   "submission.sections.general.cannot_deposit": "Deposit cannot be completed due to errors in the form.<br>Please fill out all required fields to complete the deposit.",
 
@@ -7407,9 +7399,9 @@
 
   "submission.sections.submit.progressbar.describe.funding": "Funding basic information",
 
-  "submission.sections.submit.progressbar.describe.conf_details": "Conference details",
+  "submission.sections.submit.progressbar.describe.conf_details": "Basic information",
 
-  "submission.sections.submit.progressbar.describe.book_details": "Book details",
+  "submission.sections.submit.progressbar.describe.book_details": "Basic information",
 
   "submission.sections.submit.progressbar.describe.journal": "Journal basic information",
 
@@ -7425,13 +7417,15 @@
 
   "submission.sections.submit.progressbar.describe.involved": "Involved Units",
 
-  "submission.sections.submit.progressbar.describe.thesis_awards": "Thesis Awards",
+  "submission.sections.submit.progressbar.describe.student_type": "Work Type",
 
-  "submission.sections.submit.progressbar.describe.grants": "Grants",
+  "submission.sections.submit.progressbar.describe.thesis_awards": "Awards",
+
+  "submission.sections.submit.progressbar.describe.grants": "Funding",
 
   "submission.sections.submit.progressbar.describe.publishing_information": "Publishing Information",
 
-  "submission.sections.submit.progressbar.describe.additional_fields": "Additional Fields",
+  "submission.sections.submit.progressbar.describe.additional_fields": "Additional fields",
 
   "submission.sections.submit.progressbar.describe.journal_details": "Journal details",
 
@@ -7443,7 +7437,7 @@
 
   "submission.sections.submit.progressbar.describe.owner": "Owner",
 
-  "submission.sections.submit.progressbar.describe.patent": "Patent basic information",
+  "submission.sections.submit.progressbar.describe.patent": "Basic information",
 
   "submission.sections.submit.progressbar.describe.patent_indexing": "Patent indexing",
 
@@ -7487,33 +7481,33 @@
 
   "submission.sections.submit.progressbar.identifiers": "Identifiers",
 
-  "submission.sections.submit.progressbar.license": "Deposit license",
+  "submission.sections.submit.progressbar.license": "Submission agreement",
 
   "submission.sections.submit.progressbar.sherpapolicy": "Sherpa policies",
 
-  "submission.sections.submit.progressbar.upload": "Upload files",
+  "submission.sections.submit.progressbar.upload": "Uploaded files",
 
   "submission.sections.submit.progressbar.sherpaPolicies": "Publisher open access policy information",
 
   "submission.sections.submit.progressbar.correction": "Corrections",
 
-  "submission.sections.submit.progressbar.upload-publication": "Upload files",
+  "submission.sections.submit.progressbar.upload-publication": "Uploaded files",
 
-  "submission.sections.submit.progressbar.upload-product": "Upload files",
+  "submission.sections.submit.progressbar.upload-product": "Uploaded files",
 
-  "submission.sections.submit.progressbar.upload-patent": "Upload files",
+  "submission.sections.submit.progressbar.upload-patent": "Uploaded files",
 
-  "submission.sections.submit.progressbar.upload-project": "Upload files",
+  "submission.sections.submit.progressbar.upload-project": "Uploaded files",
 
-  "submission.sections.submit.progressbar.upload-funding": "Upload files",
+  "submission.sections.submit.progressbar.upload-funding": "Uploaded files",
 
-  "submission.sections.submit.progressbar.upload-event": "Upload files",
+  "submission.sections.submit.progressbar.upload-event": "Uploaded files",
 
-  "submission.sections.submit.progressbar.upload-journal": "Upload files",
+  "submission.sections.submit.progressbar.upload-journal": "Uploaded files",
 
-  "submission.sections.submit.progressbar.upload-orgunit": "Upload files",
+  "submission.sections.submit.progressbar.upload-orgunit": "Uploaded files",
 
-  "submission.sections.submit.progressbar.upload-person": "Upload files",
+  "submission.sections.submit.progressbar.upload-person": "Uploaded files",
 
   "submission.sections.submit.progressbar.correction": "Corrections",
 
@@ -7655,6 +7649,10 @@
 
   "access.condition.value.embargo": "Embargo",
 
+  "access.condition.value.restricted": "Restricted (Only EPFL)",
+
+  "access.condition.value.reserved": "Reserved",
+
   "access.condition.value.administrator": "Administrator Only",
 
   "access.condition.value.lease": "Lease",
@@ -7728,7 +7726,6 @@
   "submission.sections.unpaywall.status.pending": "Unpaywall api request is initialized",
 
   "submission.sections.unpaywall.status.no-file": "There are no files to be imported",
-  "submission.sections.unpaywall.status.imported": "The Unpaywall resource has been imported!",
 
   "submission.sections.submit.progressbar.unpaywall": "Unpaywall",
 
@@ -8037,32 +8034,6 @@
   "vocabulary-treeview.tree.description.srsc": "Research Subject Categories",
 
   "vocabulary-treeview.tree.description.publication-coar-types": "Publication types",
-
-  "vocabulary-treeview.tree.description.default-type": "Types tree view",
-
-  "vocabulary-treeview.tree.description.book-coar-types": "Books and Book parts types",
-
-  "vocabulary-treeview.tree.description.article-coar-types": "Journal Articles types",
-
-  "vocabulary-treeview.tree.description.dataset-coar-types": "Datasets and Code types",
-
-  "vocabulary-treeview.tree.description.design-coar-types": "Design, Images, Video and Interactive resources types",
-
-  "vocabulary-treeview.tree.description.media-coar-types": "Media types",
-
-  "vocabulary-treeview.tree.description.patent-coar-types": "Patents types",
-
-  "vocabulary-treeview.tree.description.preprint-coar-types": "Preprints and Working Papers types",
-
-  "vocabulary-treeview.tree.description.product-coar-types": "Product types",
-
-  "vocabulary-treeview.tree.description.report-coar-types": "Report types",
-
-  "vocabulary-treeview.tree.description.student-coar-types": "Student types",
-
-  "vocabulary-treeview.tree.description.teaching-coar-types": "Teaching materials types",
-
-  "vocabulary-treeview.tree.description.thesis-coar-types": "Thesis types",
 
   "vocabulary-treeview.info": "Select a subject to add as search filter",
 
@@ -8764,7 +8735,7 @@
 
   "access-control-execute": "Execute",
 
-  "access-control-add-more": "Add more",
+  "access-control-add-more": "Add",
 
   "access-control-select-bitstreams-modal.title": "Select bitstreams",
 
@@ -8849,12 +8820,6 @@
 
   "external-login-page.confirm-email.create-account.notifications.error.no-netId": "Something went wrong with this email account. Try again or use a different method to login.",
 
-  "third-party-metrics-cookies.message": "{{ metricType }} badge is blocked by your ",
-
-  "third-party-metrics-cookies.consent-settings": "consent settings",
-
-  "third-party-metrics-blocked": "Some of the metrics are blocked by your",
-
 
   "vocabulary-treeview.header.fondboxtree": "Fond Tree",
 
@@ -8865,6 +8830,6 @@
   "event.page.titleprefix": "Event: ",
   "patent.page.titleprefix": "Patent: ",
   "explore.index.unitOrLab": "Units or Labs",
-  "browse.metadata.vctitle.breadcrumbs": "Browse by Title",
+  "browse.metadata.vctitle.breadcrumbs": "Browse by Title"
 }
 
