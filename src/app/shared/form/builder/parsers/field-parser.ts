@@ -26,7 +26,7 @@ import { SubmissionVisibility } from '../../../../submission/utils/visibility.ut
 import { SubmissionVisibilityType } from '../../../../core/config/models/config-submission-section.model';
 import { Metadata } from '../../../../core/shared/metadata.utils';
 import { MetadataValue } from '../../../../core/shared/metadata.models';
-import {TranslateService} from "@ngx-translate/core";
+import {TranslateService} from '@ngx-translate/core';
 
 export const SUBMISSION_ID: InjectionToken<string> = new InjectionToken<string>('submissionId');
 export const CONFIG_DATA: InjectionToken<FormFieldModel> = new InjectionToken<FormFieldModel>('configData');
