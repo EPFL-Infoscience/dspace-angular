@@ -22,7 +22,7 @@ import { setLayout } from './parser.utils';
 import { DYNAMIC_FORM_CONTROL_TYPE_RELATION_GROUP } from '../ds-dynamic-form-ui/ds-dynamic-form-constants';
 import { SubmissionVisibility } from '../../../../submission/utils/visibility.util';
 import { SubmissionVisibilityType } from '../../../../core/config/models/config-submission-section.model';
-import {TranslateService} from "@ngx-translate/core";
+import {TranslateService} from '@ngx-translate/core';
 
 export const ROW_ID_PREFIX = 'df-row-group-config-';
 

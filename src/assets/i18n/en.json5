@@ -1,6 +1,6 @@
 {
 
-  "401.help": "You're not authorized to access this page. You can use the button below to get back to the home page.", 
+  "401.help": "You're not authorized to access this page. You can use the button below to get back to the home page.",
 
   "401.link.home-page": "Take me to the home page",
 
@@ -5978,7 +5978,7 @@
 
   "search.filters.filter.fundername.placeholder": "Funder",
 
-  "search.filters.filter.fundername.label": "Search Funder",  
+  "search.filters.filter.fundername.label": "Search Funder",
 
   "search.filters.filter.withdrawn.head": "Withdrawn",
 
@@ -6156,7 +6156,7 @@
 
   "search.filters.filter.role.head": "Position",
 
-  "search.filters.filter.role.label": "Position",  
+  "search.filters.filter.role.label": "Position",
 
   "search.filters.filter.role.placeholder": "Search Position",
 
@@ -8830,6 +8830,6 @@
   "event.page.titleprefix": "Event: ",
   "patent.page.titleprefix": "Patent: ",
   "explore.index.unitOrLab": "Units or Labs",
-  "browse.metadata.vctitle.breadcrumbs": "Browse by Title"
+  "browse.metadata.vctitle.breadcrumbs": "Browse by Title",
 }
 

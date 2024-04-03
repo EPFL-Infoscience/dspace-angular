@@ -109,8 +109,6 @@ export class ThumbnailComponent extends BitstreamRenderingModelComponent impleme
       this.default = 'assets/images/product-placeholder.svg';
     } else if (hasValue(eType) && eType.toUpperCase() === 'PATENT') {
       this.default = 'assets/images/patent-placeholder.svg';
-    } else if (hasValue(eType) && eType.toUpperCase() === 'PERSON') {
-      this.default = 'assets/images/person-placeholder.svg';
-}
+    }
   }
 }
