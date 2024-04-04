@@ -414,7 +414,7 @@ export class DefaultAppConfig implements AppConfig {
     // },
 
     {
-      name: 'epfl',
+      name: 'infoscience',
       extends: 'dspace',
     },
     {
