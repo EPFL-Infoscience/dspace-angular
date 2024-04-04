@@ -10,7 +10,7 @@ import {
   TRANSLATION_SERVICE
 } from './field-parser';
 import { ParserOptions } from './parser-options';
-import {TranslateService} from "@ngx-translate/core";
+import {TranslateService} from '@ngx-translate/core';
 
 export class NameFieldParser extends ConcatFieldParser {
 

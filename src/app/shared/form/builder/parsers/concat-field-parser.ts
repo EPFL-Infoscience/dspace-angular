@@ -21,7 +21,7 @@ import {
   TRANSLATION_SERVICE
 } from './field-parser';
 import { DsDynamicInputModel, DsDynamicInputModelConfig } from '../ds-dynamic-form-ui/models/ds-dynamic-input.model';
-import {TranslateService} from "@ngx-translate/core";
+import {TranslateService} from '@ngx-translate/core';
 
 export class ConcatFieldParser extends FieldParser {
 
