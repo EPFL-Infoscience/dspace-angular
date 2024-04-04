@@ -16,7 +16,6 @@ import { hasValue } from '../../shared/empty.util';
 import { AuthService } from '../../core/auth/auth.service';
 import { Location } from '@angular/common';
 import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
-import { PLACEHOLDER_PARENT_METADATA } from '../../shared/form/builder/ds-dynamic-form-ui/ds-dynamic-form-constants';
 
 import { ServerResponseService } from '../../core/services/server-response.service';
 import { SignpostingDataService } from '../../core/data/signposting-data.service';
