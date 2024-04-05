@@ -6,7 +6,7 @@ import { ViewMode } from '../../../../../../core/shared/view-mode.model';
 import { ItemSearchResult } from '../../../../../object-collection/shared/item-search-result.model';
 import { SearchResultListElementComponent } from '../../../search-result-list-element.component';
 import { Item } from '../../../../../../core/shared/item.model';
-import { getItemPageRoute } from '../../../../../../item-page/item-page-routing-paths';
+import { getItemPageRoute, getItemViewerPath } from '../../../../../../item-page/item-page-routing-paths';
 import { Context } from '../../../../../../core/shared/context.model';
 import { environment } from '../../../../../../../environments/environment';
 import { KlaroService } from '../../../../../cookies/klaro.service';
@@ -40,12 +40,19 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
    */
   itemPageRoute: string;
 
+  itemViewerRoute: string;
+
   authorMetadata = environment.searchResult.authorMetadata;
+
+  fullTextHighlights: string[];
+
+  fullTextMirador: string[];
+
+  fullTextVideo: string[];
 
   hasLoadedThirdPartyMetrics$: Observable<boolean>;
 
   private thirdPartyMetrics = environment.info.metricsConsents.filter(metric => metric.enabled).map(metric => metric.key);
-
 
   constructor(
     protected truncatableService: TruncatableService,
@@ -58,8 +65,11 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
 
   ngOnInit(): void {
     super.ngOnInit();
-    this.showThumbnails = this.showThumbnails ?? this.appConfig.browseBy.showThumbnails;
     this.itemPageRoute = getItemPageRoute(this.dso);
+    this.itemViewerRoute = getItemViewerPath(this.dso, 'iiif');
+    this.fullTextHighlights = this.allMetadataValues('fulltext');
+    this.fullTextMirador = this.allMetadataValues('fulltext.mirador');
+    this.fullTextVideo = this.allMetadataValues('fulltext.video');
   }
 
   /**
