@@ -56,6 +56,7 @@ export class CrisItemPageTabResolver implements Resolve<RemoteData<PaginatedList
                 const urlSplit = state.url.split(route.params.id);
                 const tabArguments = urlSplit[1]?.split('/');
                 const givenTab = tabArguments[1];
+                const hasViewer: boolean = isNotEmpty(tabArguments[2]) && tabArguments[2] === 'viewer';
                 const itemPageRoute = getItemPageRoute(itemRD.payload);
                 const isValidTab = tabsRD.payload.page.some((tab) => !givenTab || tab.shortname === givenTab);
 
@@ -66,7 +67,7 @@ export class CrisItemPageTabResolver implements Resolve<RemoteData<PaginatedList
                 if (!isValidTab) {
                   // If wrong tab is given redirect to 404 page
                   this.router.navigateByUrl(getPageNotFoundRoute(), { skipLocationChange: true, replaceUrl: false });
-                } else if (givenTab === mainTab.shortname) {
+                } else if (givenTab === mainTab.shortname && !hasViewer) {
                   if (isPlatformServer(this.platformId)) {
                     // If first tab is given redirect to root item page
                     this.hardRedirectService.redirect(itemPageRoute, 302);
