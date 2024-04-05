@@ -74,13 +74,13 @@ describe('OneboxFieldParser test suite', () => {
   });
 
   it('should init parser properly', () => {
-    const parser = new OneboxFieldParser(submissionId, field1, initFormValues, parserOptions);
+    const parser = new OneboxFieldParser(submissionId, field1, initFormValues, parserOptions, null, null);
 
     expect(parser instanceof OneboxFieldParser).toBe(true);
   });
 
   it('should return a DynamicQualdropModel object when selectableMetadata is multiple', () => {
-    const parser = new OneboxFieldParser(submissionId, field2, initFormValues, parserOptions);
+    const parser = new OneboxFieldParser(submissionId, field2, initFormValues, parserOptions, null, null);
 
     const fieldModel = parser.parse();
 
@@ -88,7 +88,7 @@ describe('OneboxFieldParser test suite', () => {
   });
 
   it('should return a DsDynamicInputModel object when selectableMetadata is not multiple', () => {
-    const parser = new OneboxFieldParser(submissionId, field3, initFormValues, parserOptions);
+    const parser = new OneboxFieldParser(submissionId, field3, initFormValues, parserOptions, null, null);
 
     const fieldModel = parser.parse();
 
@@ -96,7 +96,7 @@ describe('OneboxFieldParser test suite', () => {
   });
 
   it('should return a DynamicOneboxModel object when selectableMetadata has authority', () => {
-    const parser = new OneboxFieldParser(submissionId, field1, initFormValues, parserOptions);
+    const parser = new OneboxFieldParser(submissionId, field1, initFormValues, parserOptions, null, null);
 
     const fieldModel = parser.parse();
 
@@ -125,7 +125,7 @@ describe('OneboxFieldParser test suite', () => {
         languageCodes: []
       } as FormFieldModel;
 
-      parser = new OneboxFieldParser(submissionId, regexField, initFormValues, parserOptions);
+      parser = new OneboxFieldParser(submissionId, regexField, initFormValues, parserOptions, null, null);
       fieldModel = parser.parse();
     });
 
