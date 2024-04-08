@@ -76,7 +76,7 @@ describe('MenuResolver', () => {
   beforeEach(waitForAsync(() => {
     menuService = new MenuServiceStub();
     spyOn(menuService, 'getMenu').and.returnValue(observableOf(MENU_STATE));
-    spyOn(menuService, 'addSection');
+    // spyOn(menuService, 'addSection');
 
     sectionsService = jasmine.createSpyObj('SectionDataService', {
       findVisibleSections: createSuccessfulRemoteDataObject$(createPaginatedList(EXPLORE_SECTIONS_DEFINITIONS))
