@@ -8,9 +8,9 @@ import {
   SubmissionVisibilityValue
 } from '../../../../core/config/models/config-submission-section.model';
 import { SubmissionScopeType } from '../../../../core/submission/submission-scope-type';
-import {TranslateService} from "@ngx-translate/core";
-import {getMockTranslateService} from "../../../mocks/translate.service.mock";
-import {of} from "rxjs";
+import {TranslateService} from '@ngx-translate/core';
+import {getMockTranslateService} from '../../../mocks/translate.service.mock';
+import {of} from 'rxjs';
 
 describe('RowParser test suite', () => {
 
