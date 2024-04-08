@@ -26,7 +26,7 @@ describe('Config Util', () => {
       ]);
 
       expect(appConfig.themes.length).toEqual(2);
-      expect(appConfig.themes[0].name).toEqual('epfl');
+      expect(appConfig.themes[0].name).toEqual('infoscience');
       expect(appConfig.themes[1].name).toEqual('dspace');
 
       const msToLive = 1 * 60 * 1000; // 1 minute
@@ -64,7 +64,7 @@ describe('Config Util', () => {
       expect(environment.submission.autosave.metadata[1]).toEqual(autoSaveMetadata[1]);
 
       expect(environment.themes.length).toEqual(3);
-      expect(environment.themes[0].name).toEqual('epfl');
+      expect(environment.themes[0].name).toEqual('infoscience');
       expect(environment.themes[1].name).toEqual('dspace');
       expect(environment.themes[2].name).toEqual(customTheme.name);
       expect((environment.themes[2] as HandleThemeConfig).handle).toEqual(customTheme.handle);

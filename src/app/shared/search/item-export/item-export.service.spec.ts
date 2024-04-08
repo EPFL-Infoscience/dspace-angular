@@ -26,6 +26,20 @@ export const ItemExportFormatsMap: ItemExportFormatMap = {
   ]
 };
 
+export const ItemExportFormatsMapWithAll: ItemExportFormatMap = {
+  'Publication': [
+    Object.assign(new ItemExportFormat(), { id: 'publication-xml', entityType: 'Publication'}),
+    Object.assign(new ItemExportFormat(), { id: 'publication-json', entityType: 'Publication'}),
+  ],
+  'Project': [
+    Object.assign(new ItemExportFormat(), { id: 'project-xml', entityType: 'Project'})
+  ],
+  'all': [
+    Object.assign(new ItemExportFormat(), { id: 'project-xml', entityType: 'all'})
+  ]
+
+};
+
 describe('ItemExportService', () => {
 
   let service: ItemExportService;
@@ -44,9 +58,10 @@ describe('ItemExportService', () => {
     });
 
     describe('when an item is passed', () => {
+      (itemExportFormatService.byEntityTypeAndMolteplicity as any).and.returnValue(of(ItemExportFormatsMapWithAll));
       it('should return the export single configuration', (done) => {
         const expectedEntityType = 'Publication';
-        const expectedFormats = ItemExportFormatsMap[expectedEntityType];
+        const expectedFormats = ItemExportFormatsMapWithAll[expectedEntityType];
 
         service.initialItemExportFormConfiguration(ThePublication).subscribe((configuration) => {
           expect(configuration.entityTypes).toEqual(null);

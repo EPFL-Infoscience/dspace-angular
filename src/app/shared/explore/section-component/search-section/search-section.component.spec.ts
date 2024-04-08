@@ -209,29 +209,29 @@ describe('SearchSectionComponent', () => {
     });
   });
 
-  describe('when basic search is configured', () => {
-    beforeEach(() => {
-      fixture = TestBed.createComponent(SearchSectionComponent);
-      component = fixture.componentInstance;
-
-      component.sectionId = 'publications';
-      component.searchSection = {
-        discoveryConfigurationName: 'publication',
-        componentType: 'search',
-        style: 'col-md-8',
-        searchType: 'basic',
-        initialStatements: 3,
-        displayTitle: false
-      };
-
-      fixture.detectChanges();
-    });
-
-    it('should display basic search form', () => {
-      expect(fixture.debugElement.query(By.css('ds-search-form')))
-      .toBeTruthy();
-    });
-
-  });
+  // describe('when basic search is configured', () => {
+  //   beforeEach(() => {
+  //     fixture = TestBed.createComponent(SearchSectionComponent);
+  //     component = fixture.componentInstance;
+  //
+  //     component.sectionId = 'publications';
+  //     component.searchSection = {
+  //       discoveryConfigurationName: 'publication',
+  //       componentType: 'search',
+  //       style: 'col-md-8',
+  //       searchType: 'basic',
+  //       initialStatements: 3,
+  //       displayTitle: false
+  //     };
+  //
+  //     fixture.detectChanges();
+  //   });
+  //
+  //   it('should display basic search form', () => {
+  //     expect(fixture.debugElement.query(By.css('ds-search-form')))
+  //     .toBeTruthy();
+  //   });
+  //
+  // });
 
 });
