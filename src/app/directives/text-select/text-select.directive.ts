@@ -38,14 +38,12 @@ export class TextSelectDirective implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.elementRef.nativeElement.removeEventListener('mousedown', this.handleMousedown, false);
     document.removeEventListener('mouseup', this.handleMouseup, false);
-    document.removeEventListener('selectionchange', this.handleSelectionchange, false);
   }
 
   // Set up event listeners when the directive is initialized.
   public ngOnInit(): void {
     this.zone.runOutsideAngular(() => {
       this.elementRef.nativeElement.addEventListener('mousedown', this.handleMousedown, false);
-      document.addEventListener('selectionchange', this.handleSelectionchange, false);
     });
   }
 
@@ -69,57 +67,55 @@ export class TextSelectDirective implements OnInit, OnDestroy {
     this.processSelection();
   };
 
-  // Handle selectionchange events anywhere in the document.
-  private handleSelectionchange = (): void => {
-    if (this.hasSelection) {
-      this.processSelection();
-    }
-  };
 
   // Inspect the document's current selection and check to see if it should be
   // emitted as a TextSelectEvent within the current element.
   private processSelection(): void {
-    let selection = document.getSelection();
-    if (this.hasSelection) {
-      this.zone.runGuarded(() => {
-        this.hasSelection = false;
-        this.dsTextSelect.next({
-          text: '',
-          viewportRectangle: null,
-          hostRectangle: null
-        });
-      });
-    }
-    if (!selection.rangeCount || !selection.toString()) {
-      return;
-    }
-    let range = selection.getRangeAt(0);
-    let rangeContainer = this.getRangeContainer(range);
-    if (this.elementRef.nativeElement.contains(rangeContainer)) {
-      let viewportRectangle = range.getBoundingClientRect();
-      let localRectangle = this.viewportToHost(viewportRectangle, rangeContainer);
-      const stringSelection = selection.toString();
-      if (stringSelection) {
+    // setting up a zero-delay timeout to wait for the selection to be cleared
+    // this solves the issue of the previous selection not being cleared before the mouseup event
+    setTimeout(() => {
+      const selection = document.getSelection();
+      if (this.hasSelection) {
         this.zone.runGuarded(() => {
-          this.hasSelection = true;
-          this.dsTextSelect.emit({
-            text: stringSelection,
-            viewportRectangle: {
-              left: viewportRectangle.left,
-              top: viewportRectangle.top,
-              width: viewportRectangle.width,
-              height: viewportRectangle.height
-            },
-            hostRectangle: {
-              left: localRectangle.left,
-              top: localRectangle.top,
-              width: localRectangle.width,
-              height: localRectangle.height
-            }
+          this.hasSelection = false;
+          this.dsTextSelect.next({
+            text: '',
+            viewportRectangle: null,
+            hostRectangle: null
           });
         });
       }
-    }
+      if (!selection.rangeCount || !selection.toString()) {
+        return;
+      }
+      let range = selection.getRangeAt(0);
+      let rangeContainer = this.getRangeContainer(range);
+      if (this.elementRef.nativeElement.contains(rangeContainer)) {
+        let viewportRectangle = range.getBoundingClientRect();
+        let localRectangle = this.viewportToHost(viewportRectangle, rangeContainer);
+        const stringSelection = selection.toString();
+        if (stringSelection) {
+          this.zone.runGuarded(() => {
+            this.hasSelection = true;
+            this.dsTextSelect.emit({
+              text: stringSelection,
+              viewportRectangle: {
+                left: viewportRectangle.left,
+                top: viewportRectangle.top,
+                width: viewportRectangle.width,
+                height: viewportRectangle.height
+              },
+              hostRectangle: {
+                left: localRectangle.left,
+                top: localRectangle.top,
+                width: localRectangle.width,
+                height: localRectangle.height
+              }
+            });
+          });
+        }
+      }
+    });
   }
 
   // Convert the given viewport-relative rectangle to a host-relative rectangle.

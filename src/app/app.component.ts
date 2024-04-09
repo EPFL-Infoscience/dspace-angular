@@ -173,5 +173,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     console.warn('Viewport rectangle:', event.viewportRectangle);
     console.warn('Host rectangle:', event.hostRectangle);
     console.groupEnd();
+
+    const utterance = new SpeechSynthesisUtterance(event.text);
+    speechSynthesis.speak(utterance);
   }
 }
