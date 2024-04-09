@@ -58,12 +58,16 @@ describe('ItemExportService', () => {
     });
 
     describe('when an item is passed', () => {
-      (itemExportFormatService.byEntityTypeAndMolteplicity as any).and.returnValue(of(ItemExportFormatsMapWithAll));
+      beforeEach(() => {
+        (itemExportFormatService.byEntityTypeAndMolteplicity as any).and.returnValue(of(ItemExportFormatsMapWithAll));
+      });
+
       it('should return the export single configuration', (done) => {
         const expectedEntityType = 'Publication';
-        const expectedFormats = ItemExportFormatsMapWithAll[expectedEntityType];
+        const expectedFormats = [...ItemExportFormatsMapWithAll[expectedEntityType], ...ItemExportFormatsMapWithAll.all];
 
         service.initialItemExportFormConfiguration(ThePublication).subscribe((configuration) => {
+          console.log(configuration);
           expect(configuration.entityTypes).toEqual(null);
           expect(configuration.entityType).toEqual(expectedEntityType);
           expect(configuration.formats).toEqual(expectedFormats);

@@ -37,7 +37,7 @@ import {EpflUnpaywallMetadata} from './epfl-unpaywall-metadata';
 interface AppConfig extends Config {
   ui: UIServerConfig;
   rest: ServerConfig;
-  virtualCollection: VirtualCollectionConfig;
+  virtualCollection?: VirtualCollectionConfig;
   production: boolean;
   cache: CacheConfig;
   auth?: AuthConfig;
