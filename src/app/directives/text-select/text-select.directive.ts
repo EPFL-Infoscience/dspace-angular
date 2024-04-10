@@ -1,4 +1,15 @@
-import { Directive, ElementRef, EventEmitter, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  ApplicationRef, ComponentFactoryResolver,
+  ComponentRef,
+  Directive,
+  ElementRef,
+  EmbeddedViewRef,
+  Injector,
+  NgZone,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
+import { TextSelectionTooltipComponent } from './text-selection-tooltip/text-selection-tooltip.component';
 
 // Define the structure of the event that will be emitted when text is selected.
 export interface TextSelectEvent {
@@ -15,22 +26,24 @@ interface SelectionRectangle {
   height: number;
 }
 
+
 // This directive emits an event when the user selects text within the host element.
 @Directive({
-  selector: '[dsTextSelect]',
+  selector: '[dsTextSelectTooltip]',
 })
 export class TextSelectDirective implements OnInit, OnDestroy {
 
-  // Event emitter for the text select event.
-  @Output()
-  dsTextSelect: EventEmitter<TextSelectEvent> = new EventEmitter();
-
   hasSelection = false;
+
+  private componentRef: ComponentRef<any> = null;
 
   // Initialize the directive.
   constructor(
     private elementRef: ElementRef,
-    private zone: NgZone
+    private zone: NgZone,
+    private appRef: ApplicationRef,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private injector: Injector
   ) {
   }
 
@@ -42,6 +55,7 @@ export class TextSelectDirective implements OnInit, OnDestroy {
 
   // Set up event listeners when the directive is initialized.
   public ngOnInit(): void {
+    this.elementRef.nativeElement.style.position = 'relative';
     this.zone.runOutsideAngular(() => {
       this.elementRef.nativeElement.addEventListener('mousedown', this.handleMousedown, false);
     });
@@ -75,17 +89,15 @@ export class TextSelectDirective implements OnInit, OnDestroy {
     // this solves the issue of the previous selection not being cleared before the mouseup event
     setTimeout(() => {
       const selection = document.getSelection();
+      const stringSelection = selection.toString().trim();
       if (this.hasSelection) {
         this.zone.runGuarded(() => {
           this.hasSelection = false;
-          this.dsTextSelect.next({
-            text: '',
-            viewportRectangle: null,
-            hostRectangle: null
-          });
         });
+        this.componentRef.destroy();
+        this.componentRef = null;
       }
-      if (!selection.rangeCount || !selection.toString()) {
+      if (!selection.rangeCount || !stringSelection) {
         return;
       }
       let range = selection.getRangeAt(0);
@@ -93,26 +105,27 @@ export class TextSelectDirective implements OnInit, OnDestroy {
       if (this.elementRef.nativeElement.contains(rangeContainer)) {
         let viewportRectangle = range.getBoundingClientRect();
         let localRectangle = this.viewportToHost(viewportRectangle, rangeContainer);
-        const stringSelection = selection.toString();
         if (stringSelection) {
           this.zone.runGuarded(() => {
             this.hasSelection = true;
-            this.dsTextSelect.emit({
-              text: stringSelection,
-              viewportRectangle: {
-                left: viewportRectangle.left,
-                top: viewportRectangle.top,
-                width: viewportRectangle.width,
-                height: viewportRectangle.height
-              },
-              hostRectangle: {
-                left: localRectangle.left,
-                top: localRectangle.top,
-                width: localRectangle.width,
-                height: localRectangle.height
-              }
-            });
           });
+        }
+        if (this.componentRef === null) {
+          const componentFactory =
+            this.componentFactoryResolver.resolveComponentFactory(TextSelectionTooltipComponent);
+          this.componentRef = componentFactory.create(this.injector);
+
+          this.appRef.attachView(this.componentRef.hostView);
+
+          const domElem =
+            (this.componentRef.hostView as EmbeddedViewRef<any>)
+              .rootNodes[0] as HTMLElement;
+
+          document.body.appendChild(domElem);
+
+          this.componentRef.instance.left = localRectangle.left + localRectangle.width / 2;
+          this.componentRef.instance.top = localRectangle.top;
+          this.componentRef.instance.text = stringSelection;
         }
       }
     });

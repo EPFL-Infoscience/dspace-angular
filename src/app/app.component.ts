@@ -29,7 +29,6 @@ import { distinctNext } from './core/shared/distinct-next';
 import { RouteService } from './core/services/route.service';
 import { getEditItemPageRoute, getWorkflowItemModuleRoute, getWorkspaceItemModuleRoute } from './app-routing-paths';
 import { SocialService } from './social/social.service';
-import { TextSelectEvent } from './directives/text-select/text-select.directive';
 
 @Component({
   selector: 'ds-app',
@@ -167,14 +166,4 @@ export class AppComponent implements OnInit, AfterViewInit {
       });
   }
 
-  onTextSelect(event: TextSelectEvent) {
-    console.group('Text selected');
-    console.warn('Text selected:', event.text);
-    console.warn('Viewport rectangle:', event.viewportRectangle);
-    console.warn('Host rectangle:', event.hostRectangle);
-    console.groupEnd();
-
-    const utterance = new SpeechSynthesisUtterance(event.text);
-    speechSynthesis.speak(utterance);
-  }
 }
