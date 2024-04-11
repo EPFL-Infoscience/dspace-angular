@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, HostListener, Input, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'ds-text-selection-tooltip',
@@ -22,9 +22,13 @@ export class TextSelectionTooltipComponent implements OnDestroy {
 
   utterance: SpeechSynthesisUtterance;
 
-  public textToSpeech(event: MouseEvent): void {
+  // listen to mousedown on host element to avoid clearing selection
+  @HostListener('mousedown', ['$event'])
+  public handleMousedown(event: MouseEvent): void {
     event.preventDefault();
+  }
 
+  public textToSpeech(event: MouseEvent): void {
     if (this.utterance) {
       speechSynthesis.cancel();
     }

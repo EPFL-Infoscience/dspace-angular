@@ -34,6 +34,7 @@ interface SelectionRectangle {
 export class TextSelectDirective implements OnInit, OnDestroy {
 
   hasSelection = false;
+  selectedText = '';
 
   private componentRef: ComponentRef<any> = null;
 
@@ -87,17 +88,22 @@ export class TextSelectDirective implements OnInit, OnDestroy {
   private processSelection(): void {
     // setting up a zero-delay timeout to wait for the selection to be cleared
     // this solves the issue of the previous selection not being cleared before the mouseup event
-    setTimeout(() => {
+    // setTimeout(() => {
       const selection = document.getSelection();
       const stringSelection = selection.toString().trim();
+      const previousSelection = this.selectedText;
       if (this.hasSelection) {
         this.zone.runGuarded(() => {
           this.hasSelection = false;
+          this.selectedText = '';
+          this.componentRef.destroy();
+          this.componentRef = null;
         });
-        this.componentRef.destroy();
-        this.componentRef = null;
       }
-      if (!selection.rangeCount || !stringSelection) {
+
+      // check if there is a selection and if it is different from the previous one
+      // (to handle a bug in browsers that fires the mouseup event again if clicking on the selection)
+      if (!selection.rangeCount || !stringSelection || previousSelection === stringSelection) {
         return;
       }
       let range = selection.getRangeAt(0);
@@ -108,27 +114,29 @@ export class TextSelectDirective implements OnInit, OnDestroy {
         if (stringSelection) {
           this.zone.runGuarded(() => {
             this.hasSelection = true;
+            if (this.componentRef === null) {
+              const componentFactory =
+                this.componentFactoryResolver.resolveComponentFactory(TextSelectionTooltipComponent);
+              this.componentRef = componentFactory.create(this.injector);
+
+              this.appRef.attachView(this.componentRef.hostView);
+
+              const domElem =
+                (this.componentRef.hostView as EmbeddedViewRef<any>)
+                  .rootNodes[0] as HTMLElement;
+
+              document.body.appendChild(domElem);
+
+              this.componentRef.instance.left = localRectangle.left + localRectangle.width / 2;
+              this.componentRef.instance.top = localRectangle.top;
+              this.componentRef.instance.text = stringSelection;
+
+              this.selectedText = stringSelection;
+            }
           });
         }
-        if (this.componentRef === null) {
-          const componentFactory =
-            this.componentFactoryResolver.resolveComponentFactory(TextSelectionTooltipComponent);
-          this.componentRef = componentFactory.create(this.injector);
-
-          this.appRef.attachView(this.componentRef.hostView);
-
-          const domElem =
-            (this.componentRef.hostView as EmbeddedViewRef<any>)
-              .rootNodes[0] as HTMLElement;
-
-          document.body.appendChild(domElem);
-
-          this.componentRef.instance.left = localRectangle.left + localRectangle.width / 2;
-          this.componentRef.instance.top = localRectangle.top;
-          this.componentRef.instance.text = stringSelection;
-        }
       }
-    });
+    // });
   }
 
   // Convert the given viewport-relative rectangle to a host-relative rectangle.
