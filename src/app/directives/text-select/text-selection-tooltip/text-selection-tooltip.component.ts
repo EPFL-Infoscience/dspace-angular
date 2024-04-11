@@ -59,7 +59,7 @@ export class TextSelectionTooltipComponent implements OnInit, OnDestroy {
   utterance: SpeechSynthesisUtterance;
   isPaused = false;
 
-  bindedCheckPosition = this.checkPosition.bind(this);
+  boundCheckPosition = this.checkPosition.bind(this);
 
   constructor(
     @Inject(NativeWindowService) protected _window: NativeWindowRef,
@@ -74,7 +74,7 @@ export class TextSelectionTooltipComponent implements OnInit, OnDestroy {
     this.checkPosition();
     this.ngZone.runOutsideAngular(() => {
       // listen to scroll event to update position
-      window.addEventListener('scroll', this.bindedCheckPosition);
+      window.addEventListener('scroll', this.boundCheckPosition);
     });
   }
 
@@ -112,7 +112,7 @@ export class TextSelectionTooltipComponent implements OnInit, OnDestroy {
     if (this.utterance) {
       speechSynthesis.cancel();
     }
-    window.removeEventListener('scroll', this.bindedCheckPosition);
+    window.removeEventListener('scroll', this.boundCheckPosition);
   }
 
   pauseTextToSpeech() {
