@@ -33,6 +33,8 @@ import { AttachmentRenderingConfig } from './attachment-rendering.config';
 import { SearchResultConfig } from './search-result-config.interface';
 import {VirtualCollectionConfig} from './virtual-collection-config.interface';
 import {EpflUnpaywallMetadata} from './epfl-unpaywall-metadata';
+import { MiradorConfig } from './mirador-config.interfaces';
+import { LocationConfig } from './location-config.interface';
 
 interface AppConfig extends Config {
   ui: UIServerConfig;
@@ -71,6 +73,8 @@ interface AppConfig extends Config {
   attachmentRendering: AttachmentRenderingConfig;
   advancedAttachmentRendering: AdvancedAttachmentRenderingConfig;
   searchResult: SearchResultConfig;
+  mirador: MiradorConfig;
+  location: LocationConfig;
   epflUnpaywallMetadata: EpflUnpaywallMetadata;
 }
 
