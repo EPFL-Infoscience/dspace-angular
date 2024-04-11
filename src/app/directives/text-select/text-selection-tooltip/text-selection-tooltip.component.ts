@@ -1,9 +1,10 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, ElementRef,
+  Component,
   HostBinding,
-  HostListener, Inject,
+  HostListener,
+  Inject,
   Input,
   NgZone,
   OnDestroy,
@@ -11,6 +12,7 @@ import {
 } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { NativeWindowRef, NativeWindowService } from '../../../core/services/window.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ds-text-selection-tooltip',
@@ -60,7 +62,7 @@ export class TextSelectionTooltipComponent implements OnInit, OnDestroy {
     @Inject(NativeWindowService) protected _window: NativeWindowRef,
     private changeDetectorRef: ChangeDetectorRef,
     private ngZone: NgZone,
-    private element: ElementRef) {
+    private translate: TranslateService) {
 
   }
 
@@ -95,6 +97,7 @@ export class TextSelectionTooltipComponent implements OnInit, OnDestroy {
       speechSynthesis.cancel();
     }
     this.utterance = new SpeechSynthesisUtterance(this.text);
+    this.utterance.lang = this.translate.currentLang;
     this.utterance.onend = () => {
       this.utterance = null;
       this.changeDetectorRef.detectChanges();
