@@ -110,7 +110,7 @@ export class TextSelectDirective implements OnInit, OnDestroy {
       let rangeContainer = this.getRangeContainer(range);
       if (this.elementRef.nativeElement.contains(rangeContainer)) {
         let viewportRectangle = range.getBoundingClientRect();
-        let localRectangle = this.viewportToHost(viewportRectangle, rangeContainer);
+        let bodyRelativeRectangle = this.rectangleRelativeToBody(viewportRectangle, rangeContainer);
         if (stringSelection) {
           this.zone.runGuarded(() => {
             this.hasSelection = true;
@@ -127,10 +127,10 @@ export class TextSelectDirective implements OnInit, OnDestroy {
 
               document.body.appendChild(domElem);
 
-              this.componentRef.instance.rectangleLeft = localRectangle.left;
-              this.componentRef.instance.rectangleTop = localRectangle.top;
-              this.componentRef.instance.rectangleWidth = localRectangle.width;
-              this.componentRef.instance.rectangleHeight = localRectangle.height;
+              this.componentRef.instance.elementRectangleLeft = bodyRelativeRectangle.left;
+              this.componentRef.instance.elementRectangleTop = bodyRelativeRectangle.top;
+              this.componentRef.instance.elementRectangleWidth = bodyRelativeRectangle.width;
+              this.componentRef.instance.elementRectangleHeight = bodyRelativeRectangle.height;
               this.componentRef.instance.text = stringSelection;
 
               this.selectedText = stringSelection;
@@ -141,12 +141,12 @@ export class TextSelectDirective implements OnInit, OnDestroy {
     // });
   }
 
-  // Convert the given viewport-relative rectangle to a host-relative rectangle.
-  private viewportToHost(
+  // Convert the given viewport-relative rectangle to a body-relative rectangle.
+  private rectangleRelativeToBody(
     viewportRectangle: SelectionRectangle,
     rangeContainer: Node
   ): SelectionRectangle {
-    let host = this.elementRef.nativeElement;
+    let host = document.body;
     let hostRectangle = host.getBoundingClientRect();
     let localLeft = (viewportRectangle.left - hostRectangle.left);
     let localTop = (viewportRectangle.top - hostRectangle.top);

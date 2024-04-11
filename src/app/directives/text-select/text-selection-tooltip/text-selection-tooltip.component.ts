@@ -27,16 +27,16 @@ import { TranslateService } from '@ngx-translate/core';
 export class TextSelectionTooltipComponent implements OnInit, OnDestroy {
 
   @Input()
-  rectangleLeft = 0;
+  elementRectangleLeft = 0;
 
   @Input()
-  rectangleTop = 0;
+  elementRectangleTop = 0;
 
   @Input()
-  rectangleWidth = 0;
+  elementRectangleWidth = 0;
 
   @Input()
-  rectangleHeight = 0;
+  elementRectangleHeight = 0;
 
   @Input()
   text: string;
@@ -67,7 +67,7 @@ export class TextSelectionTooltipComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.left = this.rectangleLeft + this.rectangleWidth / 2;
+    this.left = this.elementRectangleLeft + this.elementRectangleWidth / 2;
     this.checkPosition();
     this.ngZone.runOutsideAngular(() => {
       // listen to scroll event to update position
@@ -76,11 +76,11 @@ export class TextSelectionTooltipComponent implements OnInit, OnDestroy {
   }
 
   checkPosition() {
-    if (this.rectangleTop < this._window.nativeWindow.scrollY) {
-      this.top = this.rectangleTop + this.rectangleHeight + 6;
+    if (this.elementRectangleTop < this._window.nativeWindow.scrollY) {
+      this.top = this.elementRectangleTop + this.elementRectangleHeight + 6;
       this.bottomPlacement = true;
     } else {
-      this.top = this.rectangleTop - 6;
+      this.top = this.elementRectangleTop - 6;
       this.bottomPlacement = false;
     }
     this.changeDetectorRef.detectChanges();
