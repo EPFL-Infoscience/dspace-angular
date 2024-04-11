@@ -1,14 +1,16 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, ElementRef,
   HostBinding,
-  HostListener,
+  HostListener, Inject,
   Input,
+  NgZone,
   OnDestroy,
   OnInit
 } from '@angular/core';
 import { NgIf } from '@angular/common';
+import { NativeWindowRef, NativeWindowService } from '../../../core/services/window.service';
 
 @Component({
   selector: 'ds-text-selection-tooltip',
@@ -46,19 +48,40 @@ export class TextSelectionTooltipComponent implements OnInit, OnDestroy {
   @HostBinding('style.right.px')
   right: number;
 
-  @HostBinding('style.bottom.px')
-  bottom: number;
+  @HostBinding('class.bottom-placement')
+  bottomPlacement = false;
 
   utterance: SpeechSynthesisUtterance;
   isPaused = false;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) {
+  bindedCheckPosition = this.checkPosition.bind(this);
+
+  constructor(
+    @Inject(NativeWindowService) protected _window: NativeWindowRef,
+    private changeDetectorRef: ChangeDetectorRef,
+    private ngZone: NgZone,
+    private element: ElementRef) {
 
   }
 
   ngOnInit(): void {
-    this.top = this.rectangleTop - 6;
     this.left = this.rectangleLeft + this.rectangleWidth / 2;
+    this.checkPosition();
+    this.ngZone.runOutsideAngular(() => {
+      // listen to scroll event to update position
+      window.addEventListener('scroll', this.bindedCheckPosition);
+    });
+  }
+
+  checkPosition() {
+    if (this.rectangleTop < this._window.nativeWindow.scrollY) {
+      this.top = this.rectangleTop + this.rectangleHeight + 6;
+      this.bottomPlacement = true;
+    } else {
+      this.top = this.rectangleTop - 6;
+      this.bottomPlacement = false;
+    }
+    this.changeDetectorRef.detectChanges();
   }
 
   // listen to mousedown on host element to avoid clearing selection
@@ -83,6 +106,7 @@ export class TextSelectionTooltipComponent implements OnInit, OnDestroy {
     if (this.utterance) {
       speechSynthesis.cancel();
     }
+    window.removeEventListener('scroll', this.bindedCheckPosition);
   }
 
   pauseTextToSpeech() {
