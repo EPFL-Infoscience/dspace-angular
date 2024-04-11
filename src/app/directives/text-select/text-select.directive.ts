@@ -1,11 +1,11 @@
 import {
   ApplicationRef,
-  ComponentFactoryResolver,
   ComponentRef,
+  createComponent,
   Directive,
   ElementRef,
   EmbeddedViewRef,
-  Injector,
+  EnvironmentInjector,
   Input,
   NgZone,
   OnDestroy,
@@ -48,8 +48,7 @@ export class TextSelectDirective implements OnInit, OnDestroy {
     private elementRef: ElementRef,
     private zone: NgZone,
     private appRef: ApplicationRef,
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private injector: Injector
+    private injector: EnvironmentInjector
   ) {
   }
 
@@ -120,10 +119,7 @@ export class TextSelectDirective implements OnInit, OnDestroy {
         this.zone.runGuarded(() => {
           this.hasSelection = true;
           if (this.componentRef === null) {
-            const componentFactory =
-              this.componentFactoryResolver.resolveComponentFactory(TextSelectionTooltipComponent);
-            this.componentRef = componentFactory.create(this.injector);
-
+            this.componentRef = createComponent(TextSelectionTooltipComponent, {environmentInjector: this.injector});
             this.appRef.attachView(this.componentRef.hostView);
 
             const domElem =
