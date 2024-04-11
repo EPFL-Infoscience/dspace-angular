@@ -1,10 +1,12 @@
 import {
-  ApplicationRef, ComponentFactoryResolver,
+  ApplicationRef,
+  ComponentFactoryResolver,
   ComponentRef,
   Directive,
   ElementRef,
   EmbeddedViewRef,
   Injector,
+  Input,
   NgZone,
   OnDestroy,
   OnInit
@@ -32,6 +34,9 @@ interface SelectionRectangle {
   selector: '[dsTextSelectTooltip]',
 })
 export class TextSelectDirective implements OnInit, OnDestroy {
+
+  @Input()
+  showTTSControls = true;
 
   hasSelection = false;
   selectedText = '';
@@ -89,55 +94,57 @@ export class TextSelectDirective implements OnInit, OnDestroy {
     // setting up a zero-delay timeout to wait for the selection to be cleared
     // this solves the issue of the previous selection not being cleared before the mouseup event
     // setTimeout(() => {
-      const selection = document.getSelection();
-      const stringSelection = selection.toString().trim();
-      const previousSelection = this.selectedText;
-      if (this.hasSelection) {
+    const selection = document.getSelection();
+    const stringSelection = selection.toString().trim();
+    const previousSelection = this.selectedText;
+    if (this.hasSelection) {
+      this.zone.runGuarded(() => {
+        this.hasSelection = false;
+        this.selectedText = '';
+        this.componentRef.destroy();
+        this.componentRef = null;
+      });
+    }
+
+    // check if there is a selection and if it is different from the previous one
+    // (to handle a bug in browsers that fires the mouseup event again if clicking on the selection)
+    if (!selection.rangeCount || !stringSelection || previousSelection === stringSelection) {
+      return;
+    }
+    let range = selection.getRangeAt(0);
+    let rangeContainer = this.getRangeContainer(range);
+    if (this.elementRef.nativeElement.contains(rangeContainer)) {
+      let viewportRectangle = range.getBoundingClientRect();
+      let bodyRelativeRectangle = this.rectangleRelativeToBody(viewportRectangle, rangeContainer);
+      if (stringSelection) {
         this.zone.runGuarded(() => {
-          this.hasSelection = false;
-          this.selectedText = '';
-          this.componentRef.destroy();
-          this.componentRef = null;
+          this.hasSelection = true;
+          if (this.componentRef === null) {
+            const componentFactory =
+              this.componentFactoryResolver.resolveComponentFactory(TextSelectionTooltipComponent);
+            this.componentRef = componentFactory.create(this.injector);
+
+            this.appRef.attachView(this.componentRef.hostView);
+
+            const domElem =
+              (this.componentRef.hostView as EmbeddedViewRef<any>)
+                .rootNodes[0] as HTMLElement;
+
+            document.body.appendChild(domElem);
+
+            this.componentRef.instance.elementRectangleLeft = bodyRelativeRectangle.left;
+            this.componentRef.instance.elementRectangleTop = bodyRelativeRectangle.top;
+            this.componentRef.instance.elementRectangleWidth = bodyRelativeRectangle.width;
+            this.componentRef.instance.elementRectangleHeight = bodyRelativeRectangle.height;
+            this.componentRef.instance.text = stringSelection;
+
+            this.componentRef.instance.showTTSControls = this.showTTSControls;
+
+            this.selectedText = stringSelection;
+          }
         });
       }
-
-      // check if there is a selection and if it is different from the previous one
-      // (to handle a bug in browsers that fires the mouseup event again if clicking on the selection)
-      if (!selection.rangeCount || !stringSelection || previousSelection === stringSelection) {
-        return;
-      }
-      let range = selection.getRangeAt(0);
-      let rangeContainer = this.getRangeContainer(range);
-      if (this.elementRef.nativeElement.contains(rangeContainer)) {
-        let viewportRectangle = range.getBoundingClientRect();
-        let bodyRelativeRectangle = this.rectangleRelativeToBody(viewportRectangle, rangeContainer);
-        if (stringSelection) {
-          this.zone.runGuarded(() => {
-            this.hasSelection = true;
-            if (this.componentRef === null) {
-              const componentFactory =
-                this.componentFactoryResolver.resolveComponentFactory(TextSelectionTooltipComponent);
-              this.componentRef = componentFactory.create(this.injector);
-
-              this.appRef.attachView(this.componentRef.hostView);
-
-              const domElem =
-                (this.componentRef.hostView as EmbeddedViewRef<any>)
-                  .rootNodes[0] as HTMLElement;
-
-              document.body.appendChild(domElem);
-
-              this.componentRef.instance.elementRectangleLeft = bodyRelativeRectangle.left;
-              this.componentRef.instance.elementRectangleTop = bodyRelativeRectangle.top;
-              this.componentRef.instance.elementRectangleWidth = bodyRelativeRectangle.width;
-              this.componentRef.instance.elementRectangleHeight = bodyRelativeRectangle.height;
-              this.componentRef.instance.text = stringSelection;
-
-              this.selectedText = stringSelection;
-            }
-          });
-        }
-      }
+    }
     // });
   }
 

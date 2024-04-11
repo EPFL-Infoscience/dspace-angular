@@ -27,6 +27,9 @@ import { TranslateService } from '@ngx-translate/core';
 export class TextSelectionTooltipComponent implements OnInit, OnDestroy {
 
   @Input()
+  showTTSControls = true;
+
+  @Input()
   elementRectangleLeft = 0;
 
   @Input()
