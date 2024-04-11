@@ -127,8 +127,10 @@ export class TextSelectDirective implements OnInit, OnDestroy {
 
               document.body.appendChild(domElem);
 
-              this.componentRef.instance.left = localRectangle.left + localRectangle.width / 2;
-              this.componentRef.instance.top = localRectangle.top;
+              this.componentRef.instance.rectangleLeft = localRectangle.left;
+              this.componentRef.instance.rectangleTop = localRectangle.top;
+              this.componentRef.instance.rectangleWidth = localRectangle.width;
+              this.componentRef.instance.rectangleHeight = localRectangle.height;
               this.componentRef.instance.text = stringSelection;
 
               this.selectedText = stringSelection;
