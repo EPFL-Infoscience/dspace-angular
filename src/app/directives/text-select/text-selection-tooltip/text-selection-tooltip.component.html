@@ -1,4 +1,8 @@
 <div class="p-2 text-white">
-  <i (click)="textToSpeech($event)" class="button fa fa-volume-high"></i>
+  <div class="tts-controls">
+    <i *ngIf="!this.utterance" class="button fa fa-volume-high" (click)="textToSpeech()"></i>
+    <i *ngIf="this.utterance && !isPaused" class="button fa fa-pause" (click)="pauseTextToSpeech()"></i>
+    <i *ngIf="this.utterance && isPaused" class="button fa fa-play" (click)="resumeTextToSpeech()"></i>
+  </div>
 </div>
 <div class="pointer-down">&nbsp;</div>

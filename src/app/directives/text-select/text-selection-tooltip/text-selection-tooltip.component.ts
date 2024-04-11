@@ -1,10 +1,23 @@
-import { ChangeDetectionStrategy, Component, HostBinding, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'ds-text-selection-tooltip',
   templateUrl: './text-selection-tooltip.component.html',
   styleUrls: ['./text-selection-tooltip.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf
+  ],
   standalone: true
 })
 export class TextSelectionTooltipComponent implements OnInit, OnDestroy {
@@ -37,6 +50,11 @@ export class TextSelectionTooltipComponent implements OnInit, OnDestroy {
   bottom: number;
 
   utterance: SpeechSynthesisUtterance;
+  isPaused = false;
+
+  constructor(private changeDetectorRef: ChangeDetectorRef) {
+
+  }
 
   ngOnInit(): void {
     this.top = this.rectangleTop - 6;
@@ -49,17 +67,31 @@ export class TextSelectionTooltipComponent implements OnInit, OnDestroy {
     event.preventDefault();
   }
 
-  public textToSpeech(event: MouseEvent): void {
+  public textToSpeech(): void {
     if (this.utterance) {
       speechSynthesis.cancel();
     }
     this.utterance = new SpeechSynthesisUtterance(this.text);
+    this.utterance.onend = () => {
+      this.utterance = null;
+      this.changeDetectorRef.detectChanges();
+    };
     speechSynthesis.speak(this.utterance);
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     if (this.utterance) {
       speechSynthesis.cancel();
     }
+  }
+
+  pauseTextToSpeech() {
+    speechSynthesis.pause();
+    this.isPaused = true;
+  }
+
+  resumeTextToSpeech() {
+    speechSynthesis.resume();
+    this.isPaused = false;
   }
 }
