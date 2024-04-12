@@ -26,6 +26,8 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class TextSelectionTooltipComponent implements OnInit, OnDestroy {
 
+  private readonly tooltipOffset = 6;
+
   @Input()
   showTTSControls = true;
 
@@ -80,10 +82,10 @@ export class TextSelectionTooltipComponent implements OnInit, OnDestroy {
 
   checkPosition() {
     if (this.elementRectangleTop < this._window.nativeWindow.scrollY) {
-      this.top = this.elementRectangleTop + this.elementRectangleHeight + 6;
+      this.top = this.elementRectangleTop + this.elementRectangleHeight + this.tooltipOffset;
       this.bottomPlacement = true;
     } else {
-      this.top = this.elementRectangleTop - 6;
+      this.top = this.elementRectangleTop - this.tooltipOffset;
       this.bottomPlacement = false;
     }
     this.changeDetectorRef.detectChanges();
