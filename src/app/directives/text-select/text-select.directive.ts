@@ -24,7 +24,7 @@ export class TextSelectDirective implements OnInit, OnDestroy {
   hasSelection = false;
   selectedText = '';
 
-  private componentRef: ComponentRef<any> = null;
+  componentRef: ComponentRef<any> = null;
 
   // Initialize the directive.
   constructor(
@@ -36,20 +36,20 @@ export class TextSelectDirective implements OnInit, OnDestroy {
   }
 
   // Clean up when the directive is destroyed.
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.elementRef.nativeElement.removeEventListener('mousedown', this.handleMousedown, false);
     document.removeEventListener('mouseup', this.handleMouseup, false);
   }
 
   // Set up event listeners when the directive is initialized.
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.zone.runOutsideAngular(() => {
       this.elementRef.nativeElement.addEventListener('mousedown', this.handleMousedown, false);
     });
   }
 
   // Get the deepest Element node in the DOM tree that contains the entire range.
-  private getRangeContainer(range: Range): Node {
+  getRangeContainer(range: Range): Node {
     let container = range.commonAncestorContainer;
     while (container.nodeType !== Node.ELEMENT_NODE) {
       container = container.parentNode;
@@ -58,7 +58,7 @@ export class TextSelectDirective implements OnInit, OnDestroy {
   }
 
   // Handle mousedown events inside the current element.
-  private handleMousedown = (): void => {
+  handleMousedown = (): void => {
     document.addEventListener('mouseup', this.handleMouseup, false);
   };
 
@@ -68,8 +68,11 @@ export class TextSelectDirective implements OnInit, OnDestroy {
     this.processSelection();
   };
 
+  createTooltipComponent(): ComponentRef<TextSelectionTooltipComponent> {
+    return createComponent(TextSelectionTooltipComponent, {environmentInjector: this.injector});
+  }
 
-  private processSelection(): void {
+  processSelection(): void {
     const selection = document.getSelection();
     const stringSelection = selection.toString().trim();
     const previousSelection = this.selectedText;
@@ -88,6 +91,7 @@ export class TextSelectDirective implements OnInit, OnDestroy {
     if (!selection.rangeCount || !stringSelection || previousSelection === stringSelection) {
       return;
     }
+    console.warn('selection', stringSelection);
     let range = selection.getRangeAt(0);
     let rangeContainer = this.getRangeContainer(range);
     // check if the range container is inside the current element
@@ -98,11 +102,10 @@ export class TextSelectDirective implements OnInit, OnDestroy {
         this.zone.runGuarded(() => {
           this.hasSelection = true;
           if (this.componentRef === null) {
-            this.componentRef = createComponent(TextSelectionTooltipComponent, {environmentInjector: this.injector});
+            this.componentRef = this.createTooltipComponent();
             this.appRef.attachView(this.componentRef.hostView);
 
             const domElem = (this.componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
-
             document.body.appendChild(domElem);
 
             this.componentRef.instance.elementRectangleLeft = viewportRectangle.left + window.scrollX;
