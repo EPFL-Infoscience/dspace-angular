@@ -1,6 +1,6 @@
 // Load the implementations that should be tested
 import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, inject, TestBed, waitForAsync, } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync, } from '@angular/core/testing';
 
 import { ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
 
