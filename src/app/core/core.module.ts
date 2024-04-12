@@ -1,3 +1,4 @@
+import { MergeObject } from './deduplication/models/merge-object.model';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
@@ -212,6 +213,9 @@ import { WorkflowOwnerStatisticsDataService } from './statistics/workflow-owner-
 import { WorkflowOwnerStatistics } from './statistics/models/workflow-owner-statistics.model';
 import { LoginStatisticsService } from './statistics/login-statistics.service';
 import { LoginStatistics } from './statistics/models/login-statistics.model';
+import { SignatureObject } from './deduplication/models/signature.model';
+import { SetObject } from './deduplication/models/set.model';
+import { SubmissionFieldsObject } from './deduplication/models/submission-fields.model';
 import { MachineToken } from './auth/models/machine-token.model';
 import { SchemaJsonLDService } from './metadata/schema-json-ld/schema-json-ld.service';
 import {
@@ -483,6 +487,10 @@ export const models =
     WorkflowOwnerStatistics,
     LoginStatistics,
     Metric,
+    SignatureObject,
+    SetObject,
+    MergeObject,
+    SubmissionFieldsObject,
   ];
 
 @NgModule({

@@ -4,9 +4,6 @@ import { AuthBlockingGuard } from './core/auth/auth-blocking.guard';
 
 import { AuthenticatedGuard } from './core/auth/authenticated.guard';
 import {
-  SiteAdministratorGuard
-} from './core/data/feature-authorization/feature-authorization-guard/site-administrator.guard';
-import {
   ACCESS_CONTROL_MODULE_PATH,
   ADMIN_MODULE_PATH,
   BITSTREAM_MODULE_PATH,
@@ -45,6 +42,10 @@ import { MenuResolver } from './menu.resolver';
 import { ThemedPageErrorComponent } from './page-error/themed-page-error.component';
 import { SUGGESTION_MODULE_PATH } from './suggestions-page/suggestions-page-routing-paths';
 import { RedirectService } from './redirect/redirect.service';
+import {
+  CollectionAdministratorGuard
+} from './core/data/feature-authorization/feature-authorization-guard/collection-administrator.guard';
+import { DEDUPLICATION_PATH } from './admin/admin-routing-paths';
 
 @NgModule({
   imports: [
@@ -164,7 +165,12 @@ import { RedirectService } from './redirect/redirect.service';
             path: ADMIN_MODULE_PATH,
             loadChildren: () => import('./admin/admin.module')
               .then((m) => m.AdminModule),
-            canActivate: [SiteAdministratorGuard, EndUserAgreementCurrentUserGuard]
+            canActivate: [CollectionAdministratorGuard, EndUserAgreementCurrentUserGuard]
+          },
+          {
+            path: DEDUPLICATION_PATH,
+            loadChildren: () => import('./admin/admin-deduplication-page/admin-deduplication-page.module')
+              .then((m) => m.AdminDeduplicationPageModule),
           },
           {
             path: 'login',

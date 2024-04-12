@@ -1,0 +1,51 @@
+<table class="table table-bordered">
+  <thead class="bundle-row">
+    <tr>
+      <th scope="col">
+        {{ "deduplication.merge.table.header.entities" | translate }}
+      </th>
+      <th scope="col">{{ "Handle" | translate }}</th>
+      <th scope="col">
+        {{ "deduplication.merge.table.header.identifier" | translate }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let itemObj of itemsToCompare">
+      <td>
+        <span>
+          <strong>
+            {{ "deduplication.merge.table.header.title" | translate }}:</strong>
+          {{ itemObj.object?.name }}</span>
+        <br />
+        <span *ngIf="itemObj.object?.metadata['dc.type']">
+          <strong>{{'deduplication.merge.items-table.th.type' | translate}}</strong>
+          {{ itemObj.object?.metadata["dc.type"][0].value }}</span>
+        <br />
+        <span>
+          <strong>{{'deduplication.merge.items-table.th.entity-type' | translate}} </strong>
+          {{ itemObj.object?.type }}</span>
+        <br />
+        <strong>{{'deduplication.merge.items-table.th.collection' | translate}}</strong>
+        <span id=""> {{ (itemObj.object | dsGetOwningCollectionTitle) | async }}</span>
+      </td>
+      <td>
+        <span [ngStyle]="{ color: itemObj.color }" *ngIf="itemObj.object && itemObj.object.handle; else emptyCell">
+          {{ itemObj.object?.handle }}
+        </span>
+        <ng-template #emptyCell>
+          <div class="row justify-content-center text-muted">{{'deduplication.merge.items-table.td.no-data' |
+            translate}}</div>
+        </ng-template>
+      </td>
+      <td>
+        <a class="underline" target="_blank" [routerLink]="getItemPage(itemObj.object)" role="button">
+          <span [ngStyle]="{ color: itemObj.color }">
+            {{ itemObj.object?.uuid }}
+            <i class="fas fa-external-link-alt"></i>
+          </span>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>

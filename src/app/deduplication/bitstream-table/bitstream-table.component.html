@@ -1,0 +1,133 @@
+<table class="table table-bordered">
+  <thead class="bundle-row">
+    <tr>
+      <th *ngIf="selectable" scope="col">
+        {{ "Select" | translate }}
+      </th>
+      <th scope="col">
+        {{ "deduplication.merge.table.bitstream.header.title" | translate }}
+      </th>
+      <th scope="col">
+        {{
+          "deduplication.merge.table.bitstream.header.identifier" | translate
+        }}
+      </th>
+      <th scope="col">
+        {{
+          "deduplication.merge.table.bitstream.header.item-identifier"
+            | translate
+        }}
+      </th>
+      <th scope="col">
+        {{ "CheckSum" | translate }}
+      </th>
+      <th scope="col" *ngIf="!previewMode">
+        {{ "Actions" | translate }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let itemObj of itemsToCompare; let idx = index">
+      <!-- LOADER -->
+      <tr *ngIf="itemObj.object && itemObj.object | dsGetBitstreams | async">
+        <ds-loading
+          [showMessage]="false"
+          *ngIf="!(itemObj.object | dsGetBitstreams | async | async)"
+        >
+        </ds-loading>
+      </tr>
+      <!-- NO DATA -->
+      <tr
+        *ngIf="
+          (itemObj.object &&
+            (itemObj.object | dsGetBitstreams | async | async)?.length == 0) ||
+            !(itemObj.object | dsGetBitstreams | async | async);
+          else data
+        "
+      >
+        <td colspan="12">
+          <div class="row justify-content-center">
+            No Bitstreams for item with identifier: &nbsp;
+            <span [ngStyle]="{ color: itemObj.color }">
+              {{ itemObj.object?.handle }} ({{ itemObj.object?.uuid }})
+            </span>
+          </div>
+        </td>
+      </tr>
+      <!--ROW DATA -->
+      <ng-template #data>
+        <tr
+          *ngFor="
+            let bitstream of itemObj.object | dsGetBitstreams | async | async
+          "
+        >
+          <td *ngIf="selectable">
+            <div class="custom-control custom-checkbox">
+              <input
+                type="checkbox"
+                class="custom-control-input checkbox-{{ idx }}"
+                [id]="bitstream.uuid"
+                [checked]="bitstreamList.includes(bitstream._links.self.href)"
+                (change)="onBitstreamChecked($event, bitstream)"
+              />
+              <label
+                class="custom-control-label"
+                [for]="bitstream.uuid"
+              ></label>
+            </div>
+          </td>
+          <td>
+            <ng-container *ngIf="bitstream.metadata['dc.title']">
+              <span *ngFor="let title of bitstream.metadata['dc.title']">
+                {{ title.value }} <br />
+              </span>
+            </ng-container>
+          </td>
+          <td>{{ bitstream.uuid }}<br /></td>
+          <td>
+            <span>{{'deduplication.merge.table.bitstream.header.item-identifier-handle' | translate }}</span>
+            <span *ngIf="itemObj.object?.handle;else noData" [ngStyle]="{ color: itemObj.color }">
+              {{ itemObj.object.handle }}
+            </span>
+             <ng-template #noData>
+              <span class="text-muted" >
+                {{'deduplication.merge.items-table.td.no-data' | translate}}
+              </span>
+              </ng-template>
+              <br>
+            <span>{{'deduplication.merge.table.bitstream.header.item-identifier-uuid' | translate }}</span>
+            <span [ngStyle]="{ color: itemObj.color }">
+              {{ itemObj.object?.uuid }}
+            </span>
+          </td>
+          <td>
+            <div class="row justify-content-center">
+               <div>
+              {{ bitstream.checkSum.checkSumAlgorithm }}
+            </div>
+            <div>
+              {{ bitstream.checkSum.value }}
+            </div>
+            </div>
+          </td>
+          <ng-container *ngIf="!previewMode">
+            <td class="download-action">
+              <div class="row justify-content-center">
+                <a
+                  id="redirect-{{ idx }}"
+                  [href]="getBitstreamDownloadRoute(bitstream)"
+                  class="btn btn-outline-primary btn-sm"
+                  ngbTooltip="{{
+                    'item.edit.bitstreams.edit.buttons.download' | translate
+                  }}"
+                >
+                  <i class="fas fa-download fa-fw"></i>
+                </a>
+              </div>
+            </td>
+          </ng-container>
+        </tr>
+      </ng-template>
+    </ng-container>
+  </tbody>
+</table>

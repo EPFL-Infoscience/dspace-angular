@@ -1,0 +1,13 @@
+.heighlighted-selection {
+  padding: 0.5em 0 0.5em 0.5em;;
+  background: aliceblue;
+}
+
+.top-btn {
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
+  border-radius: 5px;
+  outline: none;
+  z-index: 99 !important;
+}
