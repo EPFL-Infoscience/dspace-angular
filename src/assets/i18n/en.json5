@@ -2129,8 +2129,6 @@
 
   "curation-task.task.profileformats.label": "Profile Bitstream Formats",
 
-  "curation-task.task.registerdoi.label": "Mint DOI",
-
   "curation-task.task.requiredmetadata.label": "Check for Required Metadata",
 
   "curation-task.task.translate.label": "Microsoft Translator",
@@ -3454,7 +3452,9 @@
 
   "item.page.metric.details": "Details",
 
-  "item.page.metric.label.altmetrics": "Altmetrics©",
+  "item.page.metric.label.altmetric": "Altmetrics©",
+
+  "item.page.metric.label.dimensions": "Dimensions",
 
   "item.page.metric.label.check": "Check",
 
@@ -6539,10 +6539,6 @@
 
   "submission.sections.submit.progressbar.sherpaPolicies": "Publisher open access policy information",
 
-  "submission.sections.submit.progressbar.correction": "Corrections",
-
-
-
   "submission.sections.sherpa-policy.title-empty": "No publisher policy information available. If your work has an associated ISSN, please enter it above to see any related publisher open access policies.",
 
   "submission.sections.status.errors.title": "Errors",
@@ -7171,6 +7167,10 @@
 
   "person.page.orcid.funding-preferences": "Funding preferences",
 
+  "person.page.orcid.products-preferences": "Product preferences",
+
+  "person.page.orcid.patent-preferences": "Patent preferences",
+
   "person.page.orcid.publications-preferences": "Publication preferences",
 
   "person.page.orcid.remove-orcid-message": "If you need to remove your ORCID, please contact the repository administrator",
@@ -7193,6 +7193,14 @@
 
   "person.page.orcid.sync-fundings.disabled": "Disabled",
 
+  "person.page.orcid.sync-patents.all": "All patents",
+
+  "person.page.orcid.sync-patents.mine": "My patents",
+
+  "person.page.orcid.sync-patents.my_selected": "Selected patents",
+
+  "person.page.orcid.sync-patents.disabled": "Disabled",
+
   "person.page.orcid.sync-publications.all": "All publications",
 
   "person.page.orcid.sync-publications.mine": "My publications",
@@ -7200,6 +7208,14 @@
   "person.page.orcid.sync-publications.my_selected": "Selected publications",
 
   "person.page.orcid.sync-publications.disabled": "Disabled",
+
+  "person.page.orcid.sync-products.all": "All products",
+
+  "person.page.orcid.sync-products.mine": "My products",
+
+  "person.page.orcid.sync-products.my_selected": "Selected products",
+
+  "person.page.orcid.sync-products.disabled": "Disabled",
 
   "person.page.orcid.sync-queue.discard": "Discard the change and do not synchronize with the ORCID registry",
 
@@ -7237,7 +7253,11 @@
 
   "person.page.orcid.sync-queue.tooltip.delete": "Remove this entry from the ORCID registry",
 
+  "person.page.orcid.sync-queue.tooltip.patent": "Patent",
+
   "person.page.orcid.sync-queue.tooltip.publication": "Publication",
+
+  "person.page.orcid.sync-queue.tooltip.product": "Product",
 
   "person.page.orcid.sync-queue.tooltip.project": "Project",
 
@@ -7319,7 +7339,11 @@
 
   "person.page.orcid.synchronization-mode-funding-message": "Select whether to send your linked Project entities to your ORCID record's list of funding information.",
 
+  "person.page.orcid.synchronization-mode-patent-message": "Select whether to send your linked Patent entities to your ORCID record's list of works.",
+
   "person.page.orcid.synchronization-mode-publication-message": "Select whether to send your linked Publication entities to your ORCID record's list of works.",
+
+  "person.page.orcid.synchronization-mode-product-message": "Select whether to send your linked Product entities to your ORCID record's list of works.",
 
   "person.page.orcid.synchronization-mode-profile-message": "Select whether to send your biographical data or personal identifiers to your ORCID record.",
 
