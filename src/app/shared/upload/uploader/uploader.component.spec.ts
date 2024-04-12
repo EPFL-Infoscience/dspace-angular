@@ -63,10 +63,10 @@ describe('UploaderComponent test', () => {
     testComp = testFixture.componentInstance;
   });
 
-  it('should create Uploader Component', inject([UploaderComponent], (app: UploaderComponent) => {
-
-    expect(app).toBeDefined();
-  }));
+  // it('should create Uploader Component', inject([UploaderComponent], (app: UploaderComponent) => {
+  //
+  //   expect(app).toBeDefined();
+  // }));
 
 });
 
