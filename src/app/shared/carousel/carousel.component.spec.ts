@@ -35,6 +35,9 @@ import { createPaginatedList } from '../testing/utils.test';
 import { ItemSearchResult } from '../object-collection/shared/item-search-result.model';
 import { BitstreamFormat } from '../../core/shared/bitstream-format.model';
 import { CarouselOptions } from './carousel-options.model';
+import { SortDirection } from '../../core/cache/models/sort-options.model';
+import { SearchManager } from '../../core/browse/search-manager';
+import { toRemoteData } from '../../browse-by/browse-by-metadata-page/browse-by-metadata-page.component.spec';
 
 describe('CarouselComponent', () => {
     let component: CarouselComponent;
@@ -63,7 +66,12 @@ describe('CarouselComponent', () => {
       aspectRatio: 1,
       captionStyle: '',
       titleStyle: '',
-      bundle: 'ORIGINAL'
+      bundle: 'ORIGINAL',
+      discoveryConfiguration: 'person',
+      sortField: 'testField',
+      sortDirection: SortDirection.DESC,
+      numberOfItems: 5,
+      order: 'testOrder'
     };
 
     const firstItemResult = Object.assign(new ItemSearchResult(), {
@@ -153,6 +161,10 @@ describe('CarouselComponent', () => {
       }))
     });
 
+    const mockSearchManager = {
+      search: (options: any) => toRemoteData([firstItemResult])
+    };
+
     beforeEach(waitForAsync(() => {
         notificationService = new NotificationsServiceStub();
         TestBed.configureTestingModule({
@@ -178,6 +190,7 @@ describe('CarouselComponent', () => {
                 { provide: DefaultChangeAnalyzer, useValue: {} },
                 { provide: BitstreamDataService, useValue: mockBitstreamDataService },
                 { provide: NativeWindowService, useValue: new NativeWindowRef() },
+                { provide: SearchManager, useValue: mockSearchManager },
             ],
             schemas: [NO_ERRORS_SCHEMA]
         }).compileComponents();
@@ -188,7 +201,6 @@ describe('CarouselComponent', () => {
         fixture = TestBed.createComponent(CarouselComponent);
         component = fixture.componentInstance;
         mockBitstreamDataService.findAllByItemAndBundleName.and.returnValue(createSuccessfulRemoteDataObject$(createPaginatedList([mockBitstream1])));
-        component.items = [firstItemResult];
         component.carouselOptions = carouselOptions;
 
         fixture.detectChanges();
@@ -222,7 +234,6 @@ describe('CarouselComponent', () => {
             fixture = TestBed.createComponent(CarouselComponent);
             component = fixture.componentInstance;
             mockBitstreamDataService.findAllByItemAndBundleName.and.returnValue(createSuccessfulRemoteDataObject$(createPaginatedList([mockBitstream2])));
-            component.items = [secondItemResult];
             component.carouselOptions = carouselOptions;
 
             fixture.detectChanges();
