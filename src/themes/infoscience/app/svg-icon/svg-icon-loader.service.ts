@@ -23,8 +23,11 @@ export class SvgIconLoaderService {
     }
 
     private getCustomPath(propertyName: string, defaultValue: string): string {
+      if (typeof window !== 'undefined') {
         const customPath = (window as any)[propertyName];
         return customPath ? customPath : defaultValue;
+      }
+        return defaultValue;
     }
 
     private injectSvg(svgContent: string): void {
