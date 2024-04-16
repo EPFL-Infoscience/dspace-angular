@@ -1,6 +1,6 @@
 <div *ngIf="!(isLoading$ | async) && itemList?.length > 0">
   <ngb-carousel #carousel [interval]="2000" (slide)="onSlide($event)" class="ds-carousel">
-    <ng-template ngbSlide *ngFor="let item of currentPageItems(); let i = index; let last = last">
+    <ng-template ngbSlide [id]="'slide_' + i" *ngFor="let item of currentPageItems(); let i = index; let last = last">
       <ng-container *ngIf="getItemLink(item.indexableObject); let currentLink; else carouselContent">
         <a *ngIf="isLinkInternal(currentLink)" [routerLink]="currentLink">
           <ng-container *ngTemplateOutlet="carouselContent"></ng-container>
@@ -41,7 +41,7 @@
     </button>
   </div>
   <div class="mt-4 w-100 d-flex justify-content-center align-items-center" *ngIf="totalPages > 1">
-    <button (click)="previousPage()" [disabled]="currentPage === 1" class="prev">
+    <button (click)="previousPage()" [disabled]="currentPage === 1" class="prev border-0 bg-transparent">
       <i class="fa fa-arrow-left"></i>
     </button>
     <button
@@ -52,7 +52,7 @@
       [style.color]="page === currentPage ? '#000000' : '#7c7c7c'">
       {{ page < 10 ? '0' + page : page }}
     </button>
-    <button (click)="nextPage()" [disabled]="currentPage === pages().length" class="next">
+    <button (click)="nextPage()" [disabled]="currentPage === pages().length" class="next border-0 bg-transparent">
       <i class="fa fa-arrow-right"></i>
     </button>
   </div>

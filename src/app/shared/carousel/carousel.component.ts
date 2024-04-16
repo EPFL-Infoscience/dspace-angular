@@ -78,7 +78,7 @@ export class CarouselComponent implements OnInit {
   /**
    * reference to the carousel
    */
-  @ViewChild('carousel', {static: true}) carousel: NgbCarousel;
+  @ViewChild('carousel', {static: false}) carousel: NgbCarousel;
 
   isLoading$ = new BehaviorSubject(true);
 
@@ -159,12 +159,25 @@ export class CarouselComponent implements OnInit {
    * function to call on slide
    */
   onSlide(slideEvent: NgbSlideEvent) {
+    const previousSlideIndex = parseInt(slideEvent.prev.split(('_'))[1], 10);
+    const direction = slideEvent.direction;
+
     if (this.unpauseOnArrow && slideEvent.paused &&
       (slideEvent.source === NgbSlideEventSource.ARROW_LEFT || slideEvent.source === NgbSlideEventSource.ARROW_RIGHT)) {
       this.togglePaused();
     }
     if (this.pauseOnIndicator && !slideEvent.paused && slideEvent.source === NgbSlideEventSource.INDICATOR) {
       this.togglePaused();
+    }
+
+    if (previousSlideIndex === (this.carouselOptions.numberOfItems - 1) && direction === 'left' && (this.hasMoreToLoad || this.currentPage < this.totalPages)) {
+      this.changePage(this.currentPage + 1);
+    } else if (previousSlideIndex === 0 && direction === 'right' && this.currentPage !== 1) {
+      this.changePage(this.currentPage - 1);
+    } else if (previousSlideIndex === 0 && direction === 'right' && this.currentPage === 1) {
+      this.changePage(this.totalPages);
+    } else if (previousSlideIndex === (this.currentPageItems().length - 1) && direction === 'left' && (!this.hasMoreToLoad || this.currentPage === this.totalPages)) {
+      this.changePage(1);
     }
   }
 
