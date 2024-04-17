@@ -620,4 +620,10 @@ export const environment: BuildConfig = {
       statusEndpoint: 'https://nominatim.openstreetmap.org/status',
     }
   },
+
+  loader: {
+    enableFallbackMessagesByDefault: true,
+    warningMessageDelay: 1000,
+    errorMessageDelay: 2000,
+  },
 };

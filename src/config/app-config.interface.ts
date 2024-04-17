@@ -35,6 +35,7 @@ import {VirtualCollectionConfig} from './virtual-collection-config.interface';
 import {EpflUnpaywallMetadata} from './epfl-unpaywall-metadata';
 import { MiradorConfig } from './mirador-config.interfaces';
 import { LocationConfig } from './location-config.interface';
+import { LoaderConfig } from './loader-config.interfaces';
 
 interface AppConfig extends Config {
   ui: UIServerConfig;
@@ -76,6 +77,7 @@ interface AppConfig extends Config {
   mirador: MiradorConfig;
   location: LocationConfig;
   epflUnpaywallMetadata: EpflUnpaywallMetadata;
+  loader: LoaderConfig;
 }
 
 /**

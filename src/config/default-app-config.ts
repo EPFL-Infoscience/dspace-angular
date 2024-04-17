@@ -38,6 +38,7 @@ import { VirtualCollectionConfig } from './virtual-collection-config.interface';
 import { EpflUnpaywallMetadata } from './epfl-unpaywall-metadata';
 import { MiradorConfig } from './mirador-config.interfaces';
 import { LocationConfig } from './location-config.interface';
+import { LoaderConfig } from './loader-config.interfaces';
 
 export class DefaultAppConfig implements AppConfig {
   production = false;
@@ -813,5 +814,11 @@ export class DefaultAppConfig implements AppConfig {
       reverseSearchEndpoint: 'https://nominatim.openstreetmap.org/reverse',
       statusEndpoint: 'https://nominatim.openstreetmap.org/status',
     }
+  };
+
+  loader: LoaderConfig = {
+    enableFallbackMessagesByDefault: false,
+    warningMessageDelay: 10000, // 10 seconds
+    errorMessageDelay: 30000, // 30 seconds
   };
 }
