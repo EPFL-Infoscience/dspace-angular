@@ -622,7 +622,7 @@ export const environment: BuildConfig = {
   },
 
   loader: {
-    enableFallbackMessagesByDefault: true,
+    showFallbackMessagesByDefault: true,
     warningMessageDelay: 1000,
     errorMessageDelay: 2000,
   },
