@@ -36,6 +36,9 @@ import { AttachmentRenderingConfig } from './attachment-rendering.config';
 import { SearchResultConfig } from './search-result-config.interface';
 import { VirtualCollectionConfig } from './virtual-collection-config.interface';
 import { EpflUnpaywallMetadata } from './epfl-unpaywall-metadata';
+import { MiradorConfig } from './mirador-config.interfaces';
+import { LocationConfig } from './location-config.interface';
+import { LoaderConfig } from './loader-config.interfaces';
 
 export class DefaultAppConfig implements AppConfig {
   production = false;
@@ -602,6 +605,12 @@ export class DefaultAppConfig implements AppConfig {
       default: 'cris.entity.style',
     },
     itemPage: {
+      OrgUnit: {
+        orientation: 'vertical'
+      },
+      Project: {
+        orientation: 'vertical'
+      },
       default: {
         orientation: 'horizontal'
       },
@@ -667,7 +676,12 @@ export class DefaultAppConfig implements AppConfig {
       'cris.cms.home-header',
       'cris.cms.home-news',
       'cris.cms.footer',
-      'cris.cms.epfl-news',
+      'cris.cms.grid-component-badge',
+      'cris.cms.grid-component-title',
+      'cris.cms.grid-component-subtitle',
+      'cris.cms.grid-component-abstract',
+      'cris.cms.grid-component-link',
+      'cris.cms.epfl-news'
     ]
   };
 
@@ -788,5 +802,23 @@ export class DefaultAppConfig implements AppConfig {
       acceptedVersion: 'http://purl.org/coar/version/c_ab4af688f83e57aa',
       publishedVersion: 'http://purl.org/coar/version/c_970fb48d4fbd8a85',
     }
+  };
+
+  mirador: MiradorConfig = {
+    enableDownloadPlugin: true,
+  };
+
+  location: LocationConfig = {
+    nominatimApi: {
+      searchEndpoint: 'https://nominatim.openstreetmap.org/search',
+      reverseSearchEndpoint: 'https://nominatim.openstreetmap.org/reverse',
+      statusEndpoint: 'https://nominatim.openstreetmap.org/status',
+    }
+  };
+
+  loader: LoaderConfig = {
+    showFallbackMessagesByDefault: false,
+    warningMessageDelay: 5000, // 5 seconds
+    errorMessageDelay: 15000, // 15 seconds
   };
 }

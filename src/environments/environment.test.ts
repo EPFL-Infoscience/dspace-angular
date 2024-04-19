@@ -606,6 +606,24 @@ export const environment: BuildConfig = {
       acceptedVersion: 'http://purl.org/coar/version/c_ab4af688f83e57aa',
       publishedVersion: 'http://purl.org/coar/version/c_970fb48d4fbd8a85',
     }
-  }
+  },
 
+
+  mirador: {
+    enableDownloadPlugin: true,
+  },
+
+  location: {
+    nominatimApi: {
+      searchEndpoint: 'https://nominatim.openstreetmap.org/search',
+      reverseSearchEndpoint: 'https://nominatim.openstreetmap.org/reverse',
+      statusEndpoint: 'https://nominatim.openstreetmap.org/status',
+    }
+  },
+
+  loader: {
+    showFallbackMessagesByDefault: true,
+    warningMessageDelay: 1000,
+    errorMessageDelay: 2000,
+  },
 };
