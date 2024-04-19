@@ -35,6 +35,8 @@ import { ReferrerService } from '../../app/core/services/referrer.service';
 import { BrowserReferrerService } from '../../app/core/services/browser.referrer.service';
 import { MathService } from '../../app/core/shared/math.service';
 import { ClientMathService } from '../../app/core/shared/client-math.service';
+import { SvgIconLoaderService } from '../../themes/infoscience/app/svg-icon/svg-icon-loader.service';
+import { ClientSvgIconLoaderService } from '../../themes/infoscience/app/svg-icon/client-svg-icon-loader.service';
 
 export const REQ_KEY = makeStateKey<string>('req');
 
@@ -122,6 +124,10 @@ export function getRequest(transferState: TransferState): any {
     {
       provide: MathService,
       useClass: ClientMathService
+    },
+    {
+      provide: SvgIconLoaderService,
+      useClass: ClientSvgIconLoaderService
     }
   ]
 })
