@@ -12,7 +12,6 @@ import { NavbarModule } from '../../app/navbar/navbar.module';
 import { SharedBrowseByModule } from '../../app/shared/browse-by/shared-browse-by.module';
 import { ResultsBackButtonModule } from '../../app/shared/results-back-button/results-back-button.module';
 import { ExploreModule } from '../../app/shared/explore/explore.module';
-import { SvgIconLoaderService } from './app/svg-icon/svg-icon-loader.service'; // Importez votre service
 
 
 /**
@@ -43,8 +42,7 @@ const DECLARATIONS = [
   ],
   declarations: DECLARATIONS,
   providers: [
-    ...ENTRY_COMPONENTS.map((component) => ({ provide: component })),
-    SvgIconLoaderService
+    ...ENTRY_COMPONENTS.map((component) => ({ provide: component }))
   ],
 })
 /**
@@ -57,9 +55,5 @@ const DECLARATIONS = [
  * Themed EntryComponents should also be added here
  */
 export class EagerThemeModule {
-  constructor(private svgIconLoader: SvgIconLoaderService) {
-    // Initialisez le chargement des icônes SVG ici
-    this.svgIconLoader.loadIcons();
-  }
 }
 
