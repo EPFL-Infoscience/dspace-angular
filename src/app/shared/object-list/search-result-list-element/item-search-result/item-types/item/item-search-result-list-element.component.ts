@@ -6,7 +6,7 @@ import { ViewMode } from '../../../../../../core/shared/view-mode.model';
 import { ItemSearchResult } from '../../../../../object-collection/shared/item-search-result.model';
 import { SearchResultListElementComponent } from '../../../search-result-list-element.component';
 import { Item } from '../../../../../../core/shared/item.model';
-import { getItemPageRoute } from '../../../../../../item-page/item-page-routing-paths';
+import { getItemPageRoute, getItemViewerPath } from '../../../../../../item-page/item-page-routing-paths';
 import { Context } from '../../../../../../core/shared/context.model';
 import { differenceInDays, differenceInMilliseconds, parseISO } from 'date-fns';
 import { environment } from '../../../../../../../environments/environment';
@@ -42,7 +42,15 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
    */
   itemPageRoute: string;
 
+  itemViewerRoute: string;
+
   authorMetadata = environment.searchResult.authorMetadata;
+
+  fullTextHighlights: string[];
+
+  fullTextMirador: string[];
+
+  fullTextVideo: string[];
 
   hasLoadedThirdPartyMetrics$: Observable<boolean>;
 
@@ -66,6 +74,10 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
   ngOnInit(): void {
     super.ngOnInit();
     this.itemPageRoute = getItemPageRoute(this.dso);
+    this.itemViewerRoute = getItemViewerPath(this.dso, 'iiif');
+    this.fullTextHighlights = this.allMetadataValues('fulltext');
+    this.fullTextMirador = this.allMetadataValues('fulltext.mirador');
+    this.fullTextVideo = this.allMetadataValues('fulltext.video');
     this.accessionedDate = this.dso.firstMetadataValue('dc.date.accessioned');
     this.workflowStartDate = this.dso.firstMetadataValue('epfl.workflow.startDateTime');
     if (isNotEmpty(this.workflowStartDate)) {
