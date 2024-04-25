@@ -72,7 +72,7 @@ describe('CrisItemPageTabResolver', () => {
 
         spyOn(router, 'navigateByUrl');
 
-        resolver = new CrisItemPageTabResolver(hardRedirectService, tabService, itemService, router);
+        resolver = new CrisItemPageTabResolver(null, hardRedirectService, tabService, itemService, router);
       });
 
       it('should redirect to root route if given tab is the first one', (done) => {
@@ -135,7 +135,7 @@ describe('CrisItemPageTabResolver', () => {
 
         spyOn(router, 'navigateByUrl');
 
-        resolver = new CrisItemPageTabResolver(hardRedirectService, tabService, itemService, router);
+        resolver = new CrisItemPageTabResolver(null, hardRedirectService, tabService, itemService, router);
       });
 
       it('should redirect to root route if given tab is the only one', (done) => {
@@ -185,7 +185,7 @@ describe('CrisItemPageTabResolver', () => {
 
         spyOn(router, 'navigateByUrl');
 
-        resolver = new CrisItemPageTabResolver(hardRedirectService, tabService, itemService, router);
+        resolver = new CrisItemPageTabResolver(null, hardRedirectService, tabService, itemService, router);
       });
 
       it('should not redirect nor navigate', (done) => {
