@@ -99,6 +99,7 @@ describe('TableComponent component when .first and .last is not in rendering con
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'renderingSubTypeProvider', useValue: '' },
         { provide: MathService, useValue: MathServiceMock },
+        { provide: 'tabNameProvider', useValue: '' },
         {
           provide: APP_CONFIG,
           useValue: Object.assign(environment, {
@@ -280,6 +281,7 @@ describe('TableComponent component when .first and .last is present in rendering
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'renderingSubTypeProvider', useValue: '' },
         { provide: MathService, useValue: MathServiceMock },
+        { provide: 'tabNameProvider', useValue: '' },
         LoadMoreService
       ],
       declarations: [

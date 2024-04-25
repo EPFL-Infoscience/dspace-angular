@@ -55,7 +55,7 @@ describe('UploaderComponent test', () => {
   // synchronous beforeEach
   beforeEach(() => {
     html = `
-      <ds-uploader [onBeforeUpload]="onBeforeUpload"
+      <ds-uploader [onAfterUpload]="onAfterUpload"
                    [uploadFilesOptions]="uploadFilesOptions"
                    (onCompleteItem)="onCompleteItem($event)"></ds-uploader>`;
 
