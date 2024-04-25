@@ -37,8 +37,8 @@ import { BreadcrumbsService } from './breadcrumbs/breadcrumbs.service';
 import { of } from 'rxjs';
 import { APP_CONFIG } from '../config/app-config.interface';
 import { environment } from '../environments/environment';
-import {SvgIconLoaderService} from "../themes/infoscience/app/svg-icon/svg-icon-loader.service";
-import {SvgIconLoaderServiceMock} from "./shared/mocks/svg-icon-loader.service.mock";
+import {SvgIconLoaderService} from '../themes/infoscience/app/svg-icon/svg-icon-loader.service';
+import {SvgIconLoaderServiceMock} from './shared/mocks/svg-icon-loader.service.mock';
 
 let comp: AppComponent;
 let fixture: ComponentFixture<AppComponent>;
