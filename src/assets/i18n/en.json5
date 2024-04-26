@@ -1789,6 +1789,10 @@
 
   "context-menu.actions.subscription.notification.content": "Subscription Updated Successfully, click {{here}} to see subscrition summary.",
 
+  "RELATION.Event.researchoutputs.search.results.head": "Publications",
+
+  "RELATION.Journal.researchoutputs.search.results.head": "Publications",
+
   "RELATION.Person.researchoutputs.search.results.head": "Scholarly Works",
 
   "RELATION.Person.projects.search.results.head": "Projects",
@@ -2947,6 +2951,8 @@
   "form.no-results": "No results found",
 
   "form.no-value": "No value entered",
+
+  "form.other-information.datacite_relatedIdentifier": "Identifier",
 
   "form.other-information.email": "Email",
 
@@ -8062,6 +8068,8 @@
   "vocabulary-treeview.search.form.search": "Search",
 
   "vocabulary-treeview.search.no-result": "There were no items to show",
+
+  "vocabulary-treeview.tree.description.default-type": "Type",
 
   "vocabulary-treeview.tree.description.nsi": "The Norwegian Science Index",
 
