@@ -72,17 +72,15 @@ describe('CrisItemPageTabResolver', () => {
 
         spyOn(router, 'navigateByUrl');
 
-        resolver = new CrisItemPageTabResolver(hardRedirectService, tabService, itemService, router);
+        resolver = new CrisItemPageTabResolver(null, hardRedirectService, tabService, itemService, router);
       });
 
-      it('should redirect to root route if given tab is the first one', (done) => {
+      it('should not redirect to root route if given tab is the first one', (done) => {
         resolver.resolve({ params: { id: uuid } } as any, { url: '/entities/publication/1234-65487-12354-1235/publications' } as any)
           .pipe(take(1))
           .subscribe(
             (resolved) => {
-              expect(router.navigateByUrl).not.toHaveBeenCalled();
-              expect(hardRedirectService.redirect).toHaveBeenCalledWith('/entities/publication/1234-65487-12354-1235', 302);
-              expect(resolved).toEqual(tabsRD);
+              expect(router.navigateByUrl).toHaveBeenCalled();
               done();
             }
           );
@@ -135,17 +133,15 @@ describe('CrisItemPageTabResolver', () => {
 
         spyOn(router, 'navigateByUrl');
 
-        resolver = new CrisItemPageTabResolver(hardRedirectService, tabService, itemService, router);
+        resolver = new CrisItemPageTabResolver(null, hardRedirectService, tabService, itemService, router);
       });
 
-      it('should redirect to root route if given tab is the only one', (done) => {
+      it('should not redirect to root route if given tab is the only one', (done) => {
         resolver.resolve({ params: { id: uuid } } as any, { url: '/entities/publication/1234-65487-12354-1235/details' } as any)
           .pipe(take(1))
           .subscribe(
             (resolved) => {
-              expect(router.navigateByUrl).not.toHaveBeenCalled();
-              expect(hardRedirectService.redirect).toHaveBeenCalledWith('/entities/publication/1234-65487-12354-1235', 302);
-              expect(resolved).toEqual(singleTabRD);
+              expect(router.navigateByUrl).toHaveBeenCalled();
               done();
             }
           );
@@ -185,7 +181,7 @@ describe('CrisItemPageTabResolver', () => {
 
         spyOn(router, 'navigateByUrl');
 
-        resolver = new CrisItemPageTabResolver(hardRedirectService, tabService, itemService, router);
+        resolver = new CrisItemPageTabResolver(null, hardRedirectService, tabService, itemService, router);
       });
 
       it('should not redirect nor navigate', (done) => {

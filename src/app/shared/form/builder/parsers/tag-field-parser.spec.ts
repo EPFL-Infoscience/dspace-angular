@@ -39,13 +39,13 @@ describe('TagFieldParser test suite', () => {
   });
 
   it('should init parser properly', () => {
-    const parser = new TagFieldParser(submissionId, field, initFormValues, parserOptions);
+    const parser = new TagFieldParser(submissionId, field, initFormValues, parserOptions, null, null);
 
     expect(parser instanceof TagFieldParser).toBe(true);
   });
 
   it('should return a DynamicTagModel object when repeatable option is false', () => {
-    const parser = new TagFieldParser(submissionId, field, initFormValues, parserOptions);
+    const parser = new TagFieldParser(submissionId, field, initFormValues, parserOptions, null, null);
 
     const fieldModel = parser.parse();
 
@@ -60,7 +60,7 @@ describe('TagFieldParser test suite', () => {
       ],
     };
 
-    const parser = new TagFieldParser(submissionId, field, initFormValues, parserOptions);
+    const parser = new TagFieldParser(submissionId, field, initFormValues, parserOptions, null, null);
 
     const fieldModel = parser.parse();
 
