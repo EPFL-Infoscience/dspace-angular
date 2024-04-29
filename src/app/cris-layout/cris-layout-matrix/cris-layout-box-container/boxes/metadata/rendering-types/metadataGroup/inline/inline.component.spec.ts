@@ -92,6 +92,7 @@ describe('Inline component when .first and .last is not in rendering configurati
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'renderingSubTypeProvider', useValue: '' },
         { provide: MathService, useValue: MathServiceMock },
+        { provide: 'tabNameProvider', useValue: '' },
         {
           provide: APP_CONFIG,
           useValue: Object.assign(environment, {
@@ -276,6 +277,7 @@ describe('Inline component when .first and .last is present in rendering configu
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'renderingSubTypeProvider', useValue: '' },
         { provide: MathService, useValue: MathServiceMock },
+        { provide: 'tabNameProvider', useValue: '' },
         {
           provide: APP_CONFIG,
           useValue: Object.assign(environment, {

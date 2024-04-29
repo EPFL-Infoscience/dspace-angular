@@ -205,6 +205,10 @@ describe('OrcidSyncSettingsComponent test suite', () => {
           op: 'replace',
           value: 'MANUAL'
         }, {
+          path: '/orcid/patents',
+          op: 'replace',
+          value: undefined
+        }, {
           path: '/orcid/publications',
           op: 'replace',
           value: 'ALL'
@@ -216,7 +220,11 @@ describe('OrcidSyncSettingsComponent test suite', () => {
           path: '/orcid/profile',
           op: 'replace',
           value: 'BIOGRAPHICAL,IDENTIFIERS'*/
-        }
+        }, {
+          path: '/orcid/products',
+          op: 'replace',
+          value: undefined
+        },
       ];
 
       scheduler.schedule(() => comp.onSubmit(formGroup));
