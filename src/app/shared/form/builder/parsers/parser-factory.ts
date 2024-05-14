@@ -22,6 +22,7 @@ import { TextareaFieldParser } from './textarea-field-parser';
 import { NumberFieldParser } from './number-field-parser';
 import { CalendarFieldParser } from './calendar-field-parser';
 import { DisabledFieldParser } from './disabled-field-parser';
+import { MarkdownFieldParser } from './markdown-field-parser';
 
 const fieldParserDeps = [
   SUBMISSION_ID,
@@ -140,6 +141,13 @@ export class ParserFactory {
         return {
           provide: FieldParser,
           useClass: TextareaFieldParser,
+          deps: [...fieldParserDeps]
+        };
+      }
+      case ParserType.Markdown: {
+        return {
+          provide: FieldParser,
+          useClass: MarkdownFieldParser,
           deps: [...fieldParserDeps]
         };
       }

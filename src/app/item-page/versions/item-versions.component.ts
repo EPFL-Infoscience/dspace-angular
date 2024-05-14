@@ -35,7 +35,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ItemVersionsDeleteModalComponent } from './item-versions-delete-modal/item-versions-delete-modal.component';
 import { VersionDataService } from '../../core/data/version-data.service';
 import { ItemDataService } from '../../core/data/item-data.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
 import { FeatureID } from '../../core/data/feature-authorization/feature-id';
 import { ItemVersionsSharedService } from './item-versions-shared.service';
@@ -47,7 +47,11 @@ import { UUIDService } from '../../core/shared/uuid.service';
 import { StoreIdentifiersToMerge } from 'src/app/deduplication/interfaces/deduplication-merge.models';
 import { CookieService } from '../../core/services/cookie.service';
 import { AuthService } from '../../core/auth/auth.service';
+import { RenderCrisLayoutBoxFor } from '../../cris-layout/decorators/cris-layout-box.decorator';
+import { LayoutBox } from '../../cris-layout/enums/layout-box.enum';
 
+
+@RenderCrisLayoutBoxFor(LayoutBox.VERSIONING)
 @Component({
   selector: 'ds-item-versions',
   templateUrl: './item-versions.component.html',
@@ -203,6 +207,7 @@ export class ItemVersionsComponent implements OnDestroy, OnInit {
               private uuidService: UUIDService,
               private cookieService: CookieService,
               private authService: AuthService,
+              private route: ActivatedRoute
   ) {
   }
 
@@ -246,10 +251,14 @@ export class ItemVersionsComponent implements OnDestroy, OnInit {
 
   /**
    * Get the route to the specified version
-   * @param versionId the ID of the version for which the route will be retrieved
+   * @param version the version for which the route will be retrieved
    */
-  getVersionRoute(versionId: string) {
-    return getItemVersionRoute(versionId);
+  getVersionRoute(version: Version): Observable<string> {
+    return version.item.pipe(
+      getFirstCompletedRemoteData(),
+      map(data => data.payload),
+      map(item => getItemVersionRoute(item.uuid))
+    );
   }
 
   /**
@@ -520,6 +529,21 @@ export class ItemVersionsComponent implements OnDestroy, OnInit {
    * Initialize all observables
    */
   ngOnInit(): void {
+    if (!hasValue(this.item)) {
+      this.subs.push(this.route.data.pipe(
+        map((data) => {
+          return data.dso as RemoteData<Item>;
+        }),
+        getFirstCompletedRemoteData(),
+        map(data => data.payload)
+      ).subscribe((item) => {
+        this.item = item;
+        this.ngOnInit();
+      }));
+
+      return;
+    }
+
     if (hasValue(this.item.version)) {
       this.versionRD$ = this.item.version;
       this.versionHistoryRD$ = this.versionRD$.pipe(
