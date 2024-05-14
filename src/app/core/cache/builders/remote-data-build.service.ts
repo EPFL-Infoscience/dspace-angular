@@ -243,7 +243,7 @@ export class RemoteDataBuildService {
    * @param href$             self link of object we want to retrieve
    * @param linksToFollow     List of {@link FollowLinkConfig} that indicate which {@link HALLink}s should be automatically resolved
    */
-  buildFromHref<T>(href$: string | Observable<string>, ...linksToFollow: FollowLinkConfig<any>[]): Observable<RemoteData<T>> {
+   buildFromHref<T>(href$: string | Observable<string>, ...linksToFollow: FollowLinkConfig<any>[]): Observable<RemoteData<T>> {
     if (typeof href$ === 'string') {
       href$ = observableOf(href$);
     }

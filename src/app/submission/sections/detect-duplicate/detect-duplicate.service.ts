@@ -62,7 +62,7 @@ export class DetectDuplicateService {
       map((item: WorkspaceitemSectionDetectDuplicateObject) => {
         const outputObject: WorkspaceitemSectionDetectDuplicateObject = {} as WorkspaceitemSectionDetectDuplicateObject;
         outputObject.matches = {};
-        if (hasValue(item)) {
+        if (hasValue(item) && hasValue(item?.matches)) {
           Object.keys(item.matches)
             .filter((key) => {
               let output = false;

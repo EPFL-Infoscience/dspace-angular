@@ -115,6 +115,7 @@ import { EditItemResolver } from '../../core/shared/resolvers/edit-item.resolver
     EditMetadataSecurityComponent,
     ItemOperationComponent,
     ItemVersionHistoryComponent,
+    ItemBitstreamsComponent
   ]
 })
 export class EditItemPageModule {

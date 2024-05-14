@@ -1,0 +1,20 @@
+::ng-deep ins {
+  background-color: #77e9a9c7;
+}
+
+::ng-deep del {
+  background-color: #d775757a;
+}
+
+::ng-deep ins * {
+  background-color: #77e9a9c7;
+}
+
+::ng-deep del * {
+  background-color: #d775757a;
+}
+
+hr {
+  margin-bottom: 1rem;
+  border: 1px solid rgb(38 18 18 / 24%);
+}
