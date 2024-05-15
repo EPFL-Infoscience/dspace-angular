@@ -20,6 +20,7 @@ import { SortOptions } from '../../core/cache/models/sort-options.model';
 import { PaginationComponentOptions } from '../pagination/pagination-component-options.model';
 import { PaginatedSearchOptions } from '../search/models/paginated-search-options.model';
 import { DSpaceObjectType } from '../../core/shared/dspace-object-type.model';
+import { InternalLinkService } from '../../core/services/internal-link.service';
 
 /**
  * Component representing the Carousel component section.
@@ -112,6 +113,7 @@ export class CarouselComponent implements OnInit {
   constructor(
     protected bitstreamDataService: BitstreamDataService,
     private searchManager: SearchManager,
+    public internalLinkService: InternalLinkService,
     @Inject(NativeWindowService) private _window: NativeWindowRef,
   ) {
   }
@@ -215,9 +217,6 @@ export class CarouselComponent implements OnInit {
     return item.firstMetadataValue(this.link);
   }
 
-  isLinkInternal(link: string) {
-    return link.startsWith('/');
-  }
 
   /**
    * to open a link of an item

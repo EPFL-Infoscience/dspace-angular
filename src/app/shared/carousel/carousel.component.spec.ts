@@ -38,6 +38,7 @@ import { CarouselOptions } from './carousel-options.model';
 import { SortDirection } from '../../core/cache/models/sort-options.model';
 import { SearchManager } from '../../core/browse/search-manager';
 import { toRemoteData } from '../../browse-by/browse-by-metadata-page/browse-by-metadata-page.component.spec';
+import { InternalLinkService } from '../../core/services/internal-link.service';
 
 describe('CarouselComponent', () => {
     let component: CarouselComponent;
@@ -180,7 +181,8 @@ describe('CarouselComponent', () => {
             providers: [
                 CarouselComponent,
                 { provide: ObjectCacheService, useValue: {} },
-                { provide: UUIDService, useValue: {} },
+              { provide: InternalLinkService, useValue: {} },
+              { provide: UUIDService, useValue: {} },
                 { provide: Store, useValue: {} },
                 { provide: RemoteDataBuildService, useValue: {} },
                 { provide: HALEndpointService, useValue: {} },
