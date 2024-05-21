@@ -40,7 +40,7 @@ import { LoaderConfig } from './loader-config.interfaces';
 interface AppConfig extends Config {
   ui: UIServerConfig;
   rest: ServerConfig;
-  virtualCollection: VirtualCollectionConfig;
+  virtualCollection?: VirtualCollectionConfig;
   production: boolean;
   cache: CacheConfig;
   auth?: AuthConfig;

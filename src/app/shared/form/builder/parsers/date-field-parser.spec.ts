@@ -38,13 +38,13 @@ describe('DateFieldParser test suite', () => {
   });
 
   it('should init parser properly', () => {
-    const parser = new DateFieldParser(submissionId, field, initFormValues, parserOptions);
+    const parser = new DateFieldParser(submissionId, field, initFormValues, parserOptions, null, null);
 
     expect(parser instanceof DateFieldParser).toBe(true);
   });
 
   it('should return a DynamicDsDatePickerModel object when repeatable option is false', () => {
-    const parser = new DateFieldParser(submissionId, field, initFormValues, parserOptions);
+    const parser = new DateFieldParser(submissionId, field, initFormValues, parserOptions, null, null);
 
     const fieldModel = parser.parse();
 
@@ -57,7 +57,7 @@ describe('DateFieldParser test suite', () => {
     };
     const expectedValue = '1983-11-18';
 
-    const parser = new DateFieldParser(submissionId, field, initFormValues, parserOptions);
+    const parser = new DateFieldParser(submissionId, field, initFormValues, parserOptions, null, null);
 
     const fieldModel = parser.parse();
 

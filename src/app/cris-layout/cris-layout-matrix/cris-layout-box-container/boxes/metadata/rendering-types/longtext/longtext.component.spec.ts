@@ -68,6 +68,7 @@ describe('LongtextComponent', () => {
         { provide: 'metadataValueProvider', useValue: metadataValue },
         { provide: 'renderingSubTypeProvider', useValue: '' },
         { provide: MathService, useValue: MathServiceMock },
+        { provide: 'tabNameProvider', useValue: '' },
         {
           provide: APP_CONFIG,
           useValue: Object.assign(environment, {
