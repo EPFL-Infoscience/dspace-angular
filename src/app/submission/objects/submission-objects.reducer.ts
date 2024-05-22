@@ -18,6 +18,9 @@ import {
   DiscardSubmissionSuccessAction,
   EditFileDataAction,
   EnableSectionAction,
+  ExecuteExternalUploadAction,
+  ExecuteExternalUploadErrorAction,
+  ExecuteExternalUploadSuccessAction,
   InertSectionErrorsAction,
   InitSectionAction,
   InitSubmissionFormAction,
@@ -103,6 +106,11 @@ export interface SubmissionObjectEntry {
    * A boolean representing if a duplicate decision is pending
    */
   saveDecisionPending?: boolean;
+
+  /**
+   * A boolean representing if an external upload is pending
+   */
+  externalUploadPending?: boolean;
 
   /**
    * A boolean representing if a submission deposit operation is pending
@@ -283,6 +291,19 @@ export function submissionObjectReducer(state = initialState, action: Submission
       return cleanDetectDuplicateSection(state, action as CleanDetectDuplicateAction);
     }
 
+    //external upload
+    case SubmissionObjectActionTypes.EXECUTE_EXTERNAL_UPLOAD: {
+      return startExternalUploadExecution(state, action as ExecuteExternalUploadAction);
+    }
+
+    case SubmissionObjectActionTypes.EXECUTE_EXTERNAL_UPLOAD_ERROR: {
+      return endExternalUploadExecution(state, action as ExecuteExternalUploadErrorAction);
+    }
+
+    case SubmissionObjectActionTypes.EXECUTE_EXTERNAL_UPLOAD_SUCCESS: {
+      return updateSubmissionFromExternalUploadEvent(state, action as ExecuteExternalUploadSuccessAction);
+    }
+
     default: {
       return state;
     }
@@ -389,6 +410,7 @@ function initSubmission(state: SubmissionObjectState, action: InitSubmissionForm
     isLoading: true,
     savePending: false,
     saveDecisionPending: false,
+    externalUploadPending: false,
     depositPending: false,
     metadataSecurityConfiguration: action.payload.metadataSecurityConfiguration,
     isDiscarding: false
@@ -1065,6 +1087,87 @@ function cleanDetectDuplicateSection(state: SubmissionObjectState, action: Clean
             data: {}
           })
         })
+      })
+    });
+  } else {
+    return state;
+  }
+}
+
+// ------ External upload functions ------ //
+/**
+ * Set external upload flag to true
+ *
+ * @param state
+ *    the current state
+ * @param action
+ *    a SetDuplicateDecisionAction
+ * @return SubmissionObjectState
+ *    the new state, with the decision flag changed.
+ */
+function startExternalUploadExecution(state: SubmissionObjectState, action: ExecuteExternalUploadAction): SubmissionObjectState {
+  if (hasValue(state[ action.payload.submissionId ])) {
+    return Object.assign({}, state, {
+      [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
+        externalUploadPending: true,
+      })
+    });
+  } else {
+    return state;
+  }
+}
+
+/**
+ * Set external upload flag to false
+ *
+ * @param state
+ *    the current state
+ * @param action
+ *    a SetDuplicateDecisionAction
+ * @return SubmissionObjectState
+ *    the new state, with the decision flag changed.
+ */
+function endExternalUploadExecution(state: SubmissionObjectState, action: ExecuteExternalUploadErrorAction): SubmissionObjectState {
+  if (hasValue(state[ action.payload.submissionId ])) {
+    return Object.assign({}, state, {
+      [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
+        externalUploadPending: false,
+      })
+    });
+  } else {
+    return state;
+  }
+}
+
+/**
+ * Update submission object in store form external update response
+ *
+ * @param state
+ * @param action
+ */
+
+function updateSubmissionFromExternalUploadEvent(state: SubmissionObjectState, action: ExecuteExternalUploadSuccessAction) {
+  const index: any = findKey(action.payload.submissionObject, {id: parseInt(action.payload.submissionId, 10) as any});
+  const sectionData = action
+    .payload
+    .submissionObject[index]
+    .sections;
+
+
+  const sectionsKeys = Object.keys(sectionData);
+  const tempSections = {};
+
+  for (let key of sectionsKeys) {
+    tempSections[key] = Object.assign({}, state[action.payload.submissionId].sections[key], {
+      data: sectionData[key]
+    });
+  }
+
+  if (hasValue(state[ action.payload.submissionId ].sections[ action.payload.sectionId ])) {
+    return Object.assign({}, state, {
+      [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
+        sections: tempSections,
+        externalUploadPending: false
       })
     });
   } else {
