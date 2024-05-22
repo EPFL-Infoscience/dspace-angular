@@ -17,16 +17,41 @@ ds-auth-nav-menu ds-themed-user-menu ds-user-menu a.dropdown-item.active:hover {
   margin-bottom: 0;
   text-align: center;
 
-  h1.display-3 {
-    margin-bottom: 0em !important;
-    color: $red;
-    font-weight: 800;
+  .box {
+    line-height: 3.5em;
+
+    display: table;
+    text-align: justify;
+
+    span {
+      display: block;
+      text-align-last: justify;
+    }
+
+    .lead-name {
+      color: $leman;
+      font-weight: 200;
+      font-size: 4.5em;
+    }
+
+    .lead-sub {
+      color: $dark;
+      font-size: 2.1em;
+      letter-spacing: 2px;
+    }
+
+
   }
 
-  .lead {
-    color: $dark;
-    font-size: 2rem;
-    font-weight: 600;
+  .logo-image img {
+    width: 150px;
+    padding: 10px;
+  }
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   p {
@@ -34,9 +59,36 @@ ds-auth-nav-menu ds-themed-user-menu ds-user-menu a.dropdown-item.active:hover {
     font-size: 1.4rem;
   }
 
-  @media screen and (min-width: map-get($grid-breakpoints, md)) {
+  @media (min-width: map-get($grid-breakpoints, sm)) {
     .jumbotron {
-      padding: 1rem 2rem;
+      padding: 0 !important;
+    }
+  }
+
+  @media screen and (max-width: map-get($grid-breakpoints, md)) {
+    .search-container {
+      padding: 0 !important;
+    }
+    .jumbotron {
+        .logo-image img {
+            width: 90px;
+          }
+        .box {
+            line-height: 1.7em;
+          .lead-name {
+              color: $leman;
+              font-size: 2.4em;
+            }
+          
+            .lead-sub {
+              color: $dark;
+              font-size: .95em;
+              // letter-spacing: 1px;
+            }
+        }
+    }
+    #query {
+      font-size: .9em !important;
     }
   }
 
@@ -85,7 +137,7 @@ ds-access-status-badge .badge-secondary,
 
 // Facet filters and setting options
 .facet-filter,
-.setting-option {
+.setting-option, .card {
 
   &.p-3 {
     padding-top: 0.5rem !important;
@@ -176,7 +228,7 @@ ds-themed-counters-section {
   >ds-counters-section b,
   >ds-counters-section b {
     font-size: xx-large;
-    color: red;
+    color: $leman;
   }
 }
 
@@ -275,9 +327,6 @@ ds-bitstream-attachment .card-container {
     }
 }
 @media screen and (max-width: map-get($grid-breakpoints, sm)) {
-  ds-thumbnail {
-    display: none;
-  }
 
   #cris-layout-leading ds-cris-layout-box-container ds-cris-layout-metadata-box .col-2 {
     max-width: unset !important;
