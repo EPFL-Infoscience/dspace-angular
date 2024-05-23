@@ -1,5 +1,5 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, By } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
@@ -61,7 +61,9 @@ describe('SectionExternalUploadComponent test suite', () => {
   });
 
   const sectionsService: any = jasmine.createSpyObj('sectionsService', {
-    isSectionTypeAvailable: of(true)
+    isSectionTypeAvailable: of(true),
+    isSectionActive: of(true),
+    setSectionStatus: () => null
   });
 
   const submissionId = mockSubmissionId;
@@ -161,6 +163,33 @@ describe('SectionExternalUploadComponent test suite', () => {
       fixture.detectChanges();
 
       expect(comp.source).toBeFalsy();
+    });
+
+    it('Button should be disabled if no source', () => {
+      comp.loading$ = of(false);
+
+      comp.onSectionInit();
+      fixture.detectChanges();
+
+      expect(comp.source).toBeFalsy();
+      expect(fixture.debugElement.query(By.css('button')).nativeElement.disabled).toBeTruthy();
+    });
+
+    it('Should execute upload is source is present', () => {
+      spyOn(compAsAny, 'submitUpload');
+      comp.loading$ = of(false);
+
+      comp.onSectionInit();
+      comp.source = '/path/to/file';
+      comp.submissionId = 'subId';
+
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(By.css('button')).nativeElement;
+      button.click();
+
+      expect(fixture.debugElement.query(By.css('button')).nativeElement.disabled).toBeFalsy();
+      expect(compAsAny.submitUpload).toHaveBeenCalled();
     });
   });
 
