@@ -627,6 +627,9 @@ export class DefaultAppConfig implements AppConfig {
       defaultCollectionsLabelColStyle: 'col-3 font-weight-bold',
       defaultCollectionsValueColStyle: 'col-9',
       isInline: true
+    },
+    crisOptions: {
+      ignoreOptions: ['RELATION.OrgUnit.publications', 'RELATION.OrgUnit.people', 'RELATION.OrgUnit.rppublications', 'RELATION.Person.researchoutputs']
     }
   };
 
