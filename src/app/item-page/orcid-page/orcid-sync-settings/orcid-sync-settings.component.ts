@@ -154,9 +154,7 @@ export class OrcidSyncSettingsComponent implements OnInit {
   onSubmit(form: UntypedFormGroup): void {
     const operations: Operation[] = [];
     this.fillOperationsFor(operations, '/orcid/mode', form.value.syncMode);
-    this.fillOperationsFor(operations, '/orcid/patents', form.value.syncPatents);
     this.fillOperationsFor(operations, '/orcid/publications', form.value.syncPublications);
-    this.fillOperationsFor(operations, '/orcid/products', form.value.syncProducts);
     //this.fillOperationsFor(operations, '/orcid/fundings', form.value.syncFundings);
 
     /*const syncProfileValue = this.syncProfileOptions
