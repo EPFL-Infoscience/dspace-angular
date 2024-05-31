@@ -58,7 +58,7 @@ export class TextSelectionTooltipComponent implements OnInit, OnDestroy {
   @HostBinding('class.bottom-placement')
   bottomPlacement = false;
 
-  utterance: SpeechSynthesisUtterance;
+  utterances: SpeechSynthesisUtterance[] = [];
   isPaused = false;
 
   boundCheckPosition = this.checkPosition.bind(this);
@@ -98,20 +98,28 @@ export class TextSelectionTooltipComponent implements OnInit, OnDestroy {
   }
 
   public textToSpeech(): void {
-    if (this.utterance) {
+    if (this.utterances.length) {
       speechSynthesis.cancel();
     }
-    this.utterance = new SpeechSynthesisUtterance(this.text);
-    this.utterance.lang = this.translate.currentLang;
-    this.utterance.onend = () => {
-      this.utterance = null;
-      this.changeDetectorRef.detectChanges();
-    };
-    speechSynthesis.speak(this.utterance);
+    // split the text in phrases (ending with . or ! or ?), include any leftover text
+    const phrases = this.text.match(/[^.!?]+[.!?]?/g);
+    this.utterances = phrases.map(phrase => new SpeechSynthesisUtterance(phrase));
+    this.utterances.forEach((utterance, i) => {
+      utterance.lang = this.translate.currentLang;
+      utterance.onend = () => {
+        if (i < this.utterances.length - 1) {
+          speechSynthesis.speak(this.utterances[i + 1]);
+        } else {
+          this.utterances = [];
+          this.changeDetectorRef.detectChanges();
+        }
+      };
+    });
+    speechSynthesis.speak(this.utterances[0]);
   }
 
   ngOnDestroy(): void {
-    if (this.utterance) {
+    if (this.utterances.length) {
       speechSynthesis.cancel();
     }
     this._window.nativeWindow.removeEventListener('scroll', this.boundCheckPosition);
