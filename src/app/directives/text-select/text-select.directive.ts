@@ -6,12 +6,14 @@ import {
   ElementRef,
   EmbeddedViewRef,
   EnvironmentInjector,
+  Inject,
   Input,
   NgZone,
   OnDestroy,
   OnInit
 } from '@angular/core';
 import { TextSelectionTooltipComponent } from './text-selection-tooltip/text-selection-tooltip.component';
+import { DOCUMENT } from '@angular/common';
 
 @Directive({
   selector: '[dsTextSelectTooltip]',
@@ -28,6 +30,7 @@ export class TextSelectDirective implements OnInit, OnDestroy {
 
   // Initialize the directive.
   constructor(
+    @Inject(DOCUMENT) private _document: Document,
     private elementRef: ElementRef,
     private zone: NgZone,
     private appRef: ApplicationRef,
@@ -38,7 +41,7 @@ export class TextSelectDirective implements OnInit, OnDestroy {
   // Clean up when the directive is destroyed.
   ngOnDestroy(): void {
     this.elementRef.nativeElement.removeEventListener('mousedown', this.handleMousedown, false);
-    document.removeEventListener('mouseup', this.handleMouseup, false);
+    this._document.removeEventListener('mouseup', this.handleMouseup, false);
   }
 
   // Set up event listeners when the directive is initialized.
@@ -59,12 +62,12 @@ export class TextSelectDirective implements OnInit, OnDestroy {
 
   // Handle mousedown events inside the current element.
   handleMousedown = (): void => {
-    document.addEventListener('mouseup', this.handleMouseup, false);
+    this._document.addEventListener('mouseup', this.handleMouseup, false);
   };
 
   // Handle mouseup events anywhere in the document.
   private handleMouseup = (): void => {
-    document.removeEventListener('mouseup', this.handleMouseup, false);
+    this._document.removeEventListener('mouseup', this.handleMouseup, false);
     this.processSelection();
   };
 
@@ -73,7 +76,7 @@ export class TextSelectDirective implements OnInit, OnDestroy {
   }
 
   processSelection(): void {
-    const selection = document.getSelection();
+    const selection = this._document.getSelection();
     const stringSelection = selection.toString().trim();
     const previousSelection = this.selectedText;
 
@@ -106,7 +109,7 @@ export class TextSelectDirective implements OnInit, OnDestroy {
             this.appRef.attachView(this.componentRef.hostView);
 
             const domElem = (this.componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
-            document.body.appendChild(domElem);
+            this._document.body.appendChild(domElem);
 
             this.componentRef.instance.elementRectangleLeft = viewportRectangle.left + window.scrollX;
             this.componentRef.instance.elementRectangleTop = viewportRectangle.top + window.scrollY;

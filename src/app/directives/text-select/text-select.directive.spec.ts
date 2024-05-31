@@ -1,6 +1,7 @@
 import { TextSelectDirective } from './text-select.directive';
 import { ApplicationRef, ElementRef, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { DOCUMENT } from '@angular/common';
 
 describe('TextSelectDirective', () => {
   let directive: TextSelectDirective;
@@ -12,6 +13,7 @@ describe('TextSelectDirective', () => {
     TestBed.configureTestingModule({
       providers: [
         TextSelectDirective,
+        { provide: Document, useExisting: DOCUMENT },
         { provide: ApplicationRef, useValue: { attachView: () => ({ rootNodes: [{}] }) } },
         { provide: ElementRef, useValue: { nativeElement: document.createElement('div') } },
         { provide: NgZone, useValue: new NgZone({}) },
