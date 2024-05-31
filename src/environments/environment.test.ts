@@ -442,6 +442,9 @@ export const environment: BuildConfig = {
       defaultCollectionsValueColStyle: 'col-9',
       isInline: true
     },
+    crisOptions: {
+      ignoreOptions: ['RELATION.OrgUnit.publications', 'RELATION.OrgUnit.people', 'RELATION.OrgUnit.rppublications', 'RELATION.Person.researchoutputs']
+    }
   },
   layout: {
     navbar: {
