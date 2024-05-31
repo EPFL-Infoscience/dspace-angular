@@ -16,10 +16,18 @@
   <div class="container-fluid mb-4 search-wrapper">
     <div class="container">
       <div class="jumbotron search-container">
-        <h1 class="display-3">Infoscience</h1>
-        <p class="lead">Unlocking Knowledge</p>
-        <ds-search-form [inPlaceSearch]="false" [configuration]="'researchoutputs'"
-          [searchPlaceholder]="'home.search-form.placeholder' | translate"></ds-search-form>
+        <div class="logo-container">
+        <div class="lead-logo"><picture class="logo-image"><img alt="" [src]="'assets/infoscience/images/logo_icon.svg'" /></picture></div>
+          <div class="box">
+            <span class="lead-name">Infoscience</span>
+            <span class="lead-sub">Unlocking Knowledge</span>
+          </div>
+        </div>
+        <ds-search-form 
+          [inPlaceSearch]="false" 
+          [configuration]="'researchoutputs'"
+          [searchPlaceholder]="'home.search-form.placeholder' | translate">
+        </ds-search-form>
       </div>
     </div>
   </div>

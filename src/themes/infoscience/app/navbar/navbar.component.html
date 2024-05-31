@@ -1,7 +1,7 @@
 <nav [ngClass]="{'open': !(menuCollapsed | async)}" [@slideMobileNav]="!(windowService.isXsOrSm() | async) ? 'default' : ((menuCollapsed | async) ? 'collapsed' : 'expanded')"
   class="navbar navbar-expand-md navbar-light p-0 navbar-container" role="navigation" [attr.aria-label]="'nav.main.description' | translate">
   <div class="header-light-content navbar-inner-container w-100 h-100" [class.container]="!(isXsOrSm$ | async)">
-    <a class="navbar-brand my-2 logo" href="https://www.epfl.ch/" >
+    <a class="navbar-brand my-2 logo" href="/home" >
       <img src="/assets/infoscience/images/epfl-logo.svg" [attr.alt]="'menu.header.image.institutionlogo' | translate" />
     </a>
     <p class="site-title">
