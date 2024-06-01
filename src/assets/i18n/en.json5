@@ -4462,7 +4462,7 @@
 
   "layout.field.label.Patent.dc.contributor.author": "Author(s)",
 
-  "layout.field.label.Patent.dc.identifier.patentno": "DOI",
+  "layout.field.label.Patent.dc.identifier.patentno": "Patent Number",
 
   "layout.field.label.Patent.dc.description.abstract": "Abstract",
 
@@ -6488,6 +6488,8 @@
 
   "statistics.workflow.page.step-table.editstep": "Edit",
 
+  "statistics.workflow.page.step-table.epflstep": "EPFL Reviewers",
+
   "statistics.workflow.page.step-table.finaleditstep": "Final edit",
 
   "statistics.workflow.page.step-table.item": "Archive",
@@ -6602,6 +6604,8 @@
 
   "statistics.table.top20reports.title.TopItems": "Top 20 most downloaded deposits",
 
+  "statistics.table.top20reports.title.TopDownloads": "Top 20 most downloaded deposits",
+
   "form.other-information.oairecerif-author-affiliation": "Affiliation",
 
   "form.other-information.oairecerif-editor-affiliation": "Affiliation",
@@ -6641,6 +6645,8 @@
   "statistics.table.downloadReports.header.views": "Downloads",
 
   "statistics.table.top20reports.header.views": "Downloads",
+
+  "statistics.table.top20reports.header.downloads": "Downloads",
 
   "statistics.table.downloadReports.header.continent": "Continent",
 
