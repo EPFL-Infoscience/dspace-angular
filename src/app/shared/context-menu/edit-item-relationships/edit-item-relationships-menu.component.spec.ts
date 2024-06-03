@@ -20,8 +20,8 @@ import { CrisLayoutTab } from '../../../core/layout/models/tab.model';
 import { TAB } from '../../../core/layout/models/tab.resource-type';
 import { AuthorizationDataService } from '../../../core/data/feature-authorization/authorization-data.service';
 import { of as observableOf } from 'rxjs';
-import {APP_CONFIG} from "../../../../config/app-config.interface";
-import {environment} from "../../../../environments/environment";
+import {APP_CONFIG} from '../../../../config/app-config.interface';
+import {environment} from '../../../../environments/environment';
 
 describe('EditItemRelationshipsMenuComponent', () => {
   let component: EditItemRelationshipsMenuComponent;
