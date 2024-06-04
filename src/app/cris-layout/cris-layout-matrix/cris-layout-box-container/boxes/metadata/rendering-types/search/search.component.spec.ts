@@ -11,6 +11,9 @@ import { DsDatePipe } from '../../../../../../pipes/ds-date.pipe';
 import { LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { MetadataValue } from '../../../../../../../core/shared/metadata.models';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MarkdownDirective } from '../../../../../../../shared/utils/markdown.directive';
+import { MathService } from '../../../../../../../core/shared/math.service';
+import { MathServiceMock } from '../../../../../../../shared/testing/math-service.stub';
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
@@ -61,8 +64,9 @@ describe('SearchComponent', () => {
         { provide: 'metadataValueProvider', useValue: metadataValue },
         { provide: 'renderingSubTypeProvider', useValue: '' },
         { provide: 'tabNameProvider', useValue: '' },
+        { provide: MathService, useValue: MathServiceMock },
       ],
-      declarations: [SearchComponent, DsDatePipe]
+      declarations: [SearchComponent, DsDatePipe, MarkdownDirective]
     })
       .compileComponents();
   }));
@@ -78,9 +82,10 @@ describe('SearchComponent', () => {
   });
 
   it('check metadata rendering', (done) => {
-    const spanValueFound = fixture.debugElement.queryAll(By.css('div[data-test="formatted-text"]'));
-    expect(spanValueFound.length).toBe(1);
-    expect(spanValueFound[0].nativeElement.textContent).toContain(metadataValue.value);
+    fixture.detectChanges();
+
+    const formattedText = fixture.debugElement.query(By.css('[data-test="formatted-text"]')).nativeElement.innerHTML;
+    expect(formattedText).toContain(metadataValue.value);
     done();
   });
 
