@@ -53,7 +53,6 @@ import { ExploreModule } from '../../app/shared/explore/explore.module';
 import { FooterModule } from '../../app/footer/footer.module';
 import { ContextMenuModule } from '../../app/shared/context-menu/context-menu.module';
 import { SocialModule } from '../../app/social/social.module';
-import { SvgIconLoaderService } from './app/svg-icon/svg-icon-loader.service';
 
 
 const DECLARATIONS = [
@@ -129,8 +128,4 @@ const DECLARATIONS = [
  * to give lazily loaded components a context in which they can be compiled successfully
  */
 export class LazyThemeModule {
-  constructor(private svgIconLoader: SvgIconLoaderService) {
-    // Initialisez le chargement des icônes SVG ici, si nécessaire
-    this.svgIconLoader.loadIcons();
-  }
 }

@@ -37,13 +37,13 @@ describe('NumberFieldParser test suite', () => {
   });
 
   it('should init parser properly', () => {
-    const parser = new NumberFieldParser(submissionId, field, initFormValues, parserOptions);
+    const parser = new NumberFieldParser(submissionId, field, initFormValues, parserOptions, null, null);
 
     expect(parser instanceof NumberFieldParser).toBe(true);
   });
 
   it('should return a DsDynamicInputModel object when repeatable option is false', () => {
-    const parser = new NumberFieldParser(submissionId, field, initFormValues, parserOptions);
+    const parser = new NumberFieldParser(submissionId, field, initFormValues, parserOptions, null, null);
 
     const fieldModel = parser.parse();
 
@@ -51,7 +51,7 @@ describe('NumberFieldParser test suite', () => {
   });
 
   it('should have properly inputType', () => {
-    const parser = new NumberFieldParser(submissionId, field, initFormValues, parserOptions);
+    const parser = new NumberFieldParser(submissionId, field, initFormValues, parserOptions, null, null);
 
     const fieldModel = parser.parse();
 
@@ -66,7 +66,7 @@ describe('NumberFieldParser test suite', () => {
     };
     const expectedValue = '1';
 
-    const parser = new NumberFieldParser(submissionId, field, initFormValues, parserOptions);
+    const parser = new NumberFieldParser(submissionId, field, initFormValues, parserOptions, null, null);
 
     const fieldModel = parser.parse();
 

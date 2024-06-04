@@ -24,6 +24,8 @@ import {
 import { FormBuilderService } from '../../../form-builder.service';
 import { SubmissionService } from '../../../../../../submission/submission.service';
 import { SubmissionServiceStub } from '../../../../../testing/submission-service.stub';
+import {TranslateService} from '@ngx-translate/core';
+import {getMockTranslateService} from '../../../../../mocks/translate.service.mock';
 
 function createKeyUpEvent(key: number) {
   /* eslint-disable no-empty,@typescript-eslint/no-empty-function */
@@ -97,6 +99,7 @@ describe('DsDynamicTagComponent test suite', () => {
         { provide: DynamicFormValidationService, useValue: mockDynamicFormValidationService },
         { provide: FormBuilderService },
         { provide: SubmissionService, useClass: SubmissionServiceStub },
+        { provide: TranslateService, useValue: getMockTranslateService() },
         NgbModal
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

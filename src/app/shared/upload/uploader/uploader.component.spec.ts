@@ -1,6 +1,6 @@
 // Load the implementations that should be tested
 import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, inject, TestBed, waitForAsync, } from '@angular/core/testing';
+import { ComponentFixture, inject,  TestBed, waitForAsync, } from '@angular/core/testing';
 
 import { ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
 
@@ -55,7 +55,7 @@ describe('UploaderComponent test', () => {
   // synchronous beforeEach
   beforeEach(() => {
     html = `
-      <ds-uploader [onBeforeUpload]="onBeforeUpload"
+      <ds-uploader [onAfterUpload]="onAfterUpload"
                    [uploadFilesOptions]="uploadFilesOptions"
                    (onCompleteItem)="onCompleteItem($event)"></ds-uploader>`;
 
@@ -84,7 +84,7 @@ class TestComponent {
   });
 
   /* eslint-disable no-empty,@typescript-eslint/no-empty-function */
-  public onBeforeUpload = () => {
+  public onAfterUpload = () => {
   };
 
   onCompleteItem(event) {

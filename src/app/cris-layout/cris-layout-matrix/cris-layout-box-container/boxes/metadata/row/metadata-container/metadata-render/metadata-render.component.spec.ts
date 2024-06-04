@@ -128,6 +128,7 @@ describe('MetadataRenderComponent', () => {
         Injector,
         LoadMoreService,
         { provide: MathService, useValue: MathServiceMock },
+        { provide: 'tabNameProvider', useValue: '' },
       ],
       declarations: [
         DsDatePipe,

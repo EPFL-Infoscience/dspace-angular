@@ -216,7 +216,7 @@ describe('OrcidSyncSettingsComponent test suite', () => {
           path: '/orcid/profile',
           op: 'replace',
           value: 'BIOGRAPHICAL,IDENTIFIERS'*/
-        }
+        },
       ];
 
       scheduler.schedule(() => comp.onSubmit(formGroup));

@@ -29,6 +29,7 @@ import { distinctNext } from './core/shared/distinct-next';
 import { RouteService } from './core/services/route.service';
 import { getEditItemPageRoute, getWorkflowItemModuleRoute, getWorkspaceItemModuleRoute } from './app-routing-paths';
 import { SocialService } from './social/social.service';
+import { SvgIconLoaderService } from '../themes/infoscience/app/svg-icon/svg-icon-loader.service';
 
 @Component({
   selector: 'ds-app',
@@ -74,6 +75,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private modalService: NgbModal,
     private modalConfig: NgbModalConfig,
     private socialService: SocialService,
+    private svgIconLoader: SvgIconLoaderService,
   ) {
     this.notificationOptions = environment.notifications;
 
@@ -89,6 +91,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.storeCSSVariables();
 
     this.socialService.initialize();
+
+    this.svgIconLoader.loadIcons();
   }
 
   ngOnInit() {

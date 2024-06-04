@@ -7835,9 +7835,9 @@
   // TODO New key - Add a translation
   "layout.field.label.Patent.dc.contributor.author": "Author(s)",
 
-  // "layout.field.label.Patent.dc.identifier.patentno": "DOI",
+  // "layout.field.label.Patent.dc.identifier.patentno": "Patent Number",
   // TODO New key - Add a translation
-  "layout.field.label.Patent.dc.identifier.patentno": "DOI",
+  "layout.field.label.Patent.dc.identifier.patentno": "Patent Number",
 
   // "layout.field.label.Patent.dc.description.abstract": "Abstract",
   // TODO New key - Add a translation
