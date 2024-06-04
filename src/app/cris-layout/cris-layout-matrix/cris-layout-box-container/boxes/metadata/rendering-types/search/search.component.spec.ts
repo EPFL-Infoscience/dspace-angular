@@ -78,7 +78,7 @@ describe('SearchComponent', () => {
   });
 
   it('check metadata rendering', (done) => {
-    const spanValueFound = fixture.debugElement.queryAll(By.css('a.text-value'));
+    const spanValueFound = fixture.debugElement.queryAll(By.css('div[data-test="formatted-text"]'));
     expect(spanValueFound.length).toBe(1);
     expect(spanValueFound[0].nativeElement.textContent).toContain(metadataValue.value);
     done();
