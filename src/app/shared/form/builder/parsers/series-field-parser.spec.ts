@@ -35,13 +35,13 @@ describe('SeriesFieldParser test suite', () => {
   });
 
   it('should init parser properly', () => {
-    const parser = new SeriesFieldParser(submissionId, field, initFormValues, parserOptions);
+    const parser = new SeriesFieldParser(submissionId, field, initFormValues, parserOptions, null, null);
 
     expect(parser instanceof SeriesFieldParser).toBe(true);
   });
 
   it('should return a DynamicConcatModel object when repeatable option is false', () => {
-    const parser = new SeriesFieldParser(submissionId, field, initFormValues, parserOptions);
+    const parser = new SeriesFieldParser(submissionId, field, initFormValues, parserOptions, null, null);
 
     const fieldModel = parser.parse();
 
@@ -49,7 +49,7 @@ describe('SeriesFieldParser test suite', () => {
   });
 
   it('should return a DynamicConcatModel object with the correct separator', () => {
-    const parser = new SeriesFieldParser(submissionId, field, initFormValues, parserOptions);
+    const parser = new SeriesFieldParser(submissionId, field, initFormValues, parserOptions, null, null);
 
     const fieldModel = parser.parse();
 
@@ -62,7 +62,7 @@ describe('SeriesFieldParser test suite', () => {
     };
     const expectedValue = new FormFieldMetadataValueObject('test; series', undefined, null, undefined, 'test');
 
-    const parser = new SeriesFieldParser(submissionId, field, initFormValues, parserOptions);
+    const parser = new SeriesFieldParser(submissionId, field, initFormValues, parserOptions, null, null);
 
     const fieldModel = parser.parse();
 

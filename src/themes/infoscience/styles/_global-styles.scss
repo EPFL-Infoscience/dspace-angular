@@ -1,0 +1,328 @@
+// Base imports
+@import '../../../styles/_global-styles.scss';
+
+// Variables
+$icon-size: 16px; 
+$transition-speed: 0.2s; 
+$font-size-small: 1rem; 
+$font-size-large: 1.4rem; 
+$font-size-h4: 1.1rem; 
+
+
+ds-auth-nav-menu ds-themed-user-menu ds-user-menu a.dropdown-item.active:hover {
+  color: $white !important;
+}
+// Jumbotron adjustments
+.jumbotron {
+  margin-bottom: 0;
+  text-align: center;
+
+  h1.display-3 {
+    margin-bottom: 0em !important;
+    color: $red;
+    font-weight: 800;
+  }
+
+  .lead {
+    color: $dark;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  p {
+    color: $dark;
+    font-size: 1.4rem;
+  }
+
+  @media screen and (min-width: map-get($grid-breakpoints, md)) {
+    .jumbotron {
+      padding: 1rem 2rem;
+    }
+  }
+
+}
+
+// Background colors for various elements
+.bg-gray-100 {
+  background-color: $gray-100 !important;
+}
+
+.bg-dark .link-pretty,
+.bg-gray-600 .link-pretty {
+  color: #fff;
+
+  &:focus,
+  &:hover,
+  &:active {
+    text-decoration-color: #fff;
+  }
+}
+
+// Badge styling
+ds-access-status-badge .badge-secondary,
+.badge-info {
+  color: $white;
+  background-color: $gray-dark;
+}
+
+// Link icon styling
+.link-icon {
+  display: flex;
+  justify-content: space-between;
+
+  .icon {
+    content: '';
+    width: $icon-size;
+    height: $icon-size;
+    opacity: 0.5;
+    transition: opacity $transition-speed;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+// Facet filters and setting options
+.facet-filter,
+.setting-option {
+
+  &.p-3 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  h4 {
+    font-size: $font-size-h4;
+  }
+
+  .filters {
+    font-size: $font-size-small;
+  }
+
+  span.w-100.pl-1.break-facet {
+    text-transform: lowercase;
+  }
+}
+
+// Discover section
+
+ds-facet-section {
+
+  h5 {
+    text-transform: uppercase;
+    font-size: 1rem;
+    color: $red;
+    font-weight: 100;
+  }
+
+  .row {
+    >[class*="col-"] {
+      margin-bottom: 3rem !important;
+
+      >span:first-child {
+        font-weight: 200;
+        line-height: 1.2;
+        font-size: 1.2rem;
+        display: block;
+        margin-bottom: 1.5rem;
+      }
+
+      >div.border {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        border: 0 !important;
+        padding: 0 !important;
+
+        a {
+          flex: 1 1 auto;
+          padding-right: .5rem !important;
+          font-size: .9rem;
+        }
+
+        &+div.border {
+          margin-top: .5rem;
+          padding-top: .5rem !important;
+          border-top: 1px solid $gray-200 !important;
+        }
+
+        .badge,
+        ds-chips .nav-item .nav-link,
+        ds-chips .nav-item & .nav-link {
+          background-color: $white;
+          border: 1px solid $gray-200;
+          color: inherit;
+        }
+      }
+    }
+  }
+}
+
+// Themed sections and counters
+ds-themed-text-section {
+
+  >ds-text-section {
+    text-transform: uppercase;
+    color: $gray-600;
+  }
+}
+
+ds-themed-counters-section {
+  .card {
+    border: none !important;
+  }
+
+  >ds-counters-section b,
+  >ds-counters-section b {
+    font-size: xx-large;
+    color: red;
+  }
+}
+
+ds-counters-section {
+
+  .col.d-flex.justify-content-center.text-center.align-items-center {
+      text-transform: uppercase;
+      color: $gray-600;
+  }
+
+  .card {
+    .px-4.py-1.d-flex {
+        text-transform: uppercase;
+        color: $gray-600;
+
+        &:hover {
+            background-color: $gray-200;
+          }
+      }
+    a.text-decoration-none {
+          padding: 0 3rem 0 3rem;
+          &:hover {
+              background-color: $gray-200;
+            }
+    }
+    
+
+  }
+
+  i.metrics-icon-section {
+    width: 7rem;
+    height: 7rem;
+  }
+}
+
+ds-themed-text-section {
+    .card {
+      border: none;
+    }
+}
+
+// Search form adjustments
+ds-home-page ds-search-form .form-control {
+  font-size: $font-size-large !important;
+}
+
+// Search label line height
+ds-search-labels ds-search-label {
+  line-height: 1.5;
+}
+
+// Metric donuts background size
+ds-metric-donuts a {
+  background-size: contain;
+}
+
+ds-item-search-result-list-element .text-muted {
+  font-size: 1rem;
+}
+
+.item-list-abstract {
+  font-size: .9rem;
+  padding: .7rem;
+  
+}
+
+#main-content ds-themed-browse-most-elements ds-item-search-result-grid-element ds-badges {
+  display: none !important;
+}
+
+.clamp-default-3 .content.dont-break-out {
+  line-height: 1.3 !important;
+}
+
+a.lead.btn.btn-primary.viewButton {
+  font-size: .9rem;
+}
+
+ds-access-status-badge .badge-secondary,
+.badge-info {
+  color: $dark;
+  background-color: $gray-200;
+  font-weight: 300;
+}
+
+.mb-4.login-logo {
+  display: none !important;
+}
+
+ds-bitstream-attachment .card-container {
+  background-color: transparent !important;
+  font-size: .9rem;
+
+  .btn {
+      white-space: nowrap;
+    }
+}
+@media screen and (max-width: map-get($grid-breakpoints, sm)) {
+  ds-thumbnail {
+    display: none;
+  }
+
+  #cris-layout-leading ds-cris-layout-box-container ds-cris-layout-metadata-box .col-2 {
+    max-width: unset !important;
+    flex: unset !important;
+  }
+
+  ds-cris-layout-metrics-box {
+    margin: 2rem !important;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+}
+ds-advanced-attachment ds-bitstream-attachment .card-container {
+  border-bottom: 1px solid $gray-100;
+}
+
+ds-thumbnail .thumbnail img {
+  max-width: 100%;
+  height: auto;
+  width: 100%;
+}
+
+ds-bitstream-attachment {
+  .content.ng-star-inserted {
+    display: flex;
+    gap: 0.5rem;
+    color: $gray-dark;
+  }
+
+  .thumbnail-wrapper {
+    min-width: 90px !important;
+  }
+
+  .order-lg-3 {
+    .flex-column {
+      flex-direction: unset !important;
+    }
+  }
+
+}
+
+pre.license-text{
+  font-family: $font-family-sans-serif;
+  font-size: 1em;
+}
+

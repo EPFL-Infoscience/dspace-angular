@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import isEqual from 'lodash/isEqual';
 import { Bitstream } from '../../core/shared/bitstream.model';
 import { ItemData } from '../interfaces/deduplication-merge.models';
+import {getBitstreamDownloadRoute} from '../../app-routing-paths';
 
 @Component({
   selector: 'ds-bitstream-table',
@@ -30,6 +31,8 @@ export class BitstreamTableComponent {
    * Flag that indicates if the bitstream is selectable
    */
   @Input() selectable = true;
+
+  protected readonly getBitstreamDownloadRoute = getBitstreamDownloadRoute;
 
   /**
    * Add/remove the bitstream from @var bitstreamList based on the selection

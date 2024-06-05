@@ -79,9 +79,9 @@ export class SubmissionUploadFilesComponent implements OnChanges {
   private uploadEnabled: Observable<boolean> = observableOf(false);
 
   /**
-   * Save submission before to upload a file
+   * Save submission after to upload a file
    */
-  public onBeforeUpload = () => {
+  public onAfterUpload = () => {
     const sub: Subscription = this.operationsService.jsonPatchByResourceType(
       this.submissionService.getSubmissionObjectLinkName(),
       this.submissionId,

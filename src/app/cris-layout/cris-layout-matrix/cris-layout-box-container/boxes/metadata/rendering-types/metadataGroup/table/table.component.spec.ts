@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ChangeDetectionStrategy } from '@angular/core';
-import { By } from '@angular/platform-browser';
+import { BrowserModule, By } from '@angular/platform-browser';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
@@ -13,7 +13,11 @@ import { MetadataRenderComponent } from '../../../row/metadata-container/metadat
 import { DsDatePipe } from '../../../../../../../pipes/ds-date.pipe';
 import { TextComponent } from '../../text/text.component';
 import { LoadMoreService } from '../../../../../../../services/load-more.service';
-
+import { MarkdownDirective } from '../../../../../../../../shared/utils/markdown.directive';
+import { APP_CONFIG } from '../../../../../../../../../config/app-config.interface';
+import { environment } from '../../../../../../../../../environments/environment';
+import { MathService } from '../../../../../../../../core/shared/math.service';
+import { MathServiceMock } from '../../../../../../../../shared/testing/math-service.stub';
 
 describe('TableComponent component when .first and .last is not in rendering configuration', () => {
   let component: TableComponent;
@@ -81,20 +85,35 @@ describe('TableComponent component when .first and .last is not in rendering con
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot({
-        loader: {
-          provide: TranslateLoader,
-          useClass: TranslateLoaderMock
-        }
-      })],
+      imports: [
+        BrowserModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useClass: TranslateLoaderMock
+          }
+        })
+      ],
       providers: [
         { provide: 'fieldProvider', useValue: mockField },
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'renderingSubTypeProvider', useValue: '' },
+        { provide: MathService, useValue: MathServiceMock },
+        { provide: 'tabNameProvider', useValue: '' },
+        {
+          provide: APP_CONFIG,
+          useValue: Object.assign(environment, {
+            markdown: {
+              enabled: false,
+              mathjax: false,
+            }
+          })
+        },
         LoadMoreService
       ],
       declarations: [
         DsDatePipe,
+        MarkdownDirective,
         MetadataRenderComponent,
         TableComponent,
         TextComponent
@@ -103,41 +122,51 @@ describe('TableComponent component when .first and .last is not in rendering con
       set: { changeDetection: ChangeDetectionStrategy.OnPush }
     }).compileComponents();
   }));
+
   beforeEach(() => {
     fixture = TestBed.createComponent(TableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', (done) => {
-    expect(component).toBeTruthy();
-    done();
+  afterEach(() => {
+    component = null;
+    fixture = null;
+  });
 
+  it('should create', (done) => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(component).toBeTruthy();
+      done();
+    });
   });
 
   it('check metadata rendering', (done) => {
-    const rowsFound = fixture.debugElement.queryAll(By.css('tr'));
-    expect(rowsFound.length).toBe(4);
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      const rowsFound = fixture.debugElement.queryAll(By.css('tr'));
+      expect(rowsFound.length).toBe(4);
 
-    let rowFound = fixture.debugElement.query(By.css('tr:nth-child(1)'));
-    let td = rowFound.query(By.css('td:nth-child(1)'));
-    expect(td.nativeElement.textContent).toContain(mockField.metadataGroup.elements[0].label);
-    td = rowFound.query(By.css('td:nth-child(2)'));
-    expect(td.nativeElement.textContent).toContain(mockField.metadataGroup.elements[1].label);
+      let rowFound = fixture.debugElement.query(By.css('tr:nth-child(1)'));
+      let td = rowFound.query(By.css('td:nth-child(1)'));
+      expect(td.nativeElement.textContent).toContain(mockField.metadataGroup.elements[0].label);
+      td = rowFound.query(By.css('td:nth-child(2)'));
+      expect(td.nativeElement.textContent).toContain(mockField.metadataGroup.elements[1].label);
 
-    rowFound = fixture.debugElement.query(By.css('tr:nth-child(2)'));
-    td = rowFound.query(By.css('td:nth-child(1)'));
-    expect(td.nativeElement.textContent).toContain(testItem.metadata[mockField.metadataGroup.elements[0].metadata][0].value);
-    td = rowFound.query(By.css('td:nth-child(2)'));
-    expect(td.nativeElement.textContent).toContain(testItem.metadata[mockField.metadataGroup.elements[1].metadata][0].value);
+      rowFound = fixture.debugElement.query(By.css('tr:nth-child(2)'));
+      td = rowFound.query(By.css('td:nth-child(1)'));
+      expect(td.nativeElement.textContent).toContain(testItem.metadata[mockField.metadataGroup.elements[0].metadata][0].value);
+      td = rowFound.query(By.css('td:nth-child(2)'));
+      expect(td.nativeElement.textContent).toContain(testItem.metadata[mockField.metadataGroup.elements[1].metadata][0].value);
 
-    rowFound = fixture.debugElement.query(By.css('tr:nth-child(3)'));
-    td = rowFound.query(By.css('td:nth-child(1)'));
-    expect(td.nativeElement.textContent).toContain(testItem.metadata[mockField.metadataGroup.elements[0].metadata][1].value);
-    td = rowFound.query(By.css('td:nth-child(2)'));
-    expect(td.nativeElement.textContent).toContain(testItem.metadata[mockField.metadataGroup.elements[1].metadata][1].value);
-    done();
-
+      rowFound = fixture.debugElement.query(By.css('tr:nth-child(3)'));
+      td = rowFound.query(By.css('td:nth-child(1)'));
+      expect(td.nativeElement.textContent).toContain(testItem.metadata[mockField.metadataGroup.elements[0].metadata][1].value);
+      td = rowFound.query(By.css('td:nth-child(2)'));
+      expect(td.nativeElement.textContent).toContain(testItem.metadata[mockField.metadataGroup.elements[1].metadata][1].value);
+      done();
+    });
   });
 
   it('should render first data size to be 6 and last data size to be 0', () => {
@@ -238,20 +267,26 @@ describe('TableComponent component when .first and .last is present in rendering
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot({
-        loader: {
-          provide: TranslateLoader,
-          useClass: TranslateLoaderMock
-        }
-      })],
+      imports: [
+        BrowserModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useClass: TranslateLoaderMock
+          }
+        })
+      ],
       providers: [
         { provide: 'fieldProvider', useValue: mockField },
         { provide: 'itemProvider', useValue: testItem },
         { provide: 'renderingSubTypeProvider', useValue: '' },
+        { provide: MathService, useValue: MathServiceMock },
+        { provide: 'tabNameProvider', useValue: '' },
         LoadMoreService
       ],
       declarations: [
         DsDatePipe,
+        MarkdownDirective,
         MetadataRenderComponent,
         TableComponent,
         TextComponent
@@ -267,18 +302,35 @@ describe('TableComponent component when .first and .last is present in rendering
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  afterEach(() => {
+    component = null;
+    fixture = null;
   });
 
-  it('should render first data size to be 1 and last data size to be 2', () => {
-    expect(component.firstLimitedDataToBeRenderedMap.size).toBe(1);
-    expect(component.lastLimitedDataToBeRenderedMap.size).toBe(2);
+  it('should create', (done) => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(component).toBeTruthy();
+      done();
+    });
   });
 
-  it('should display more tag', () => {
-    const moreTag = fixture.debugElement.query(By.css('#a-more-label'));
-    expect(moreTag).toBeTruthy();
+  it('should render first data size to be 1 and last data size to be 2', (done) => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(component.firstLimitedDataToBeRenderedMap.size).toBe(1);
+      expect(component.lastLimitedDataToBeRenderedMap.size).toBe(2);
+      done();
+    });
+  });
+
+  it('should display more tag', (done) => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      const moreTag = fixture.debugElement.query(By.css('#a-more-label'));
+      expect(moreTag).toBeTruthy();
+      done();
+    });
   });
 
 });

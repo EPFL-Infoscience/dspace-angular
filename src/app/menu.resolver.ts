@@ -54,7 +54,7 @@ import { NOTIFICATIONS_RECITER_SUGGESTION_PATH } from './admin/admin-notificatio
 import { environment } from '../environments/environment';
 import { BrowseService } from './core/browse/browse.service';
 import { APP_CONFIG, AppConfig } from '../config/app-config.interface';
-import {ValueListBrowseDefinition} from "./core/shared/value-list-browse-definition.model";
+import { ValueListBrowseDefinition } from './core/shared/value-list-browse-definition.model';
 
 /**
  * Creates all of the app's menus
@@ -475,6 +475,19 @@ export class MenuResolver implements Resolve<boolean> {
       this.authorizationService.isAuthorized(FeatureID.CanEditItem),
     ]).subscribe(([isCollectionAdmin, isCommunityAdmin, isSiteAdmin, canSubmit, canEditItem]) => {
       const newSubMenuList = [
+        /* Communities and Collections */
+        {
+          id: `browse_global_communities_and_collections`,
+          active: false,
+          visible: !environment.layout.navbar.showCommunityCollection && isCollectionAdmin,
+          model: {
+            type: MenuItemType.LINK,
+            text: `menu.section.communities_and_collections`,
+            link: `/community-list`
+          } as LinkMenuItemModel,
+          icon: 'users',
+          index: 0
+        },
         {
           id: 'new_community',
           parentID: 'new',

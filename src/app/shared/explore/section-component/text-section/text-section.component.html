@@ -2,42 +2,30 @@
   <div *ngSwitchCase="'image'"><img [src]="textRowSection.content" style="width: 100%"></div>
   <div *ngSwitchCase="'text-key'">{{ ('explore.text-section.' + textRowSection.content) | translate }}</div>
   <div *ngSwitchCase="'text-raw'">{{ textRowSection.content }}</div>
-  <div *ngSwitchCase="'text-metadata'" class="p-2 border rounded">
-    <ds-markdown-viewer data-test="ds-markdown-viewer" [value]="metadataValue(textRowSection.content)"></ds-markdown-viewer>
+  <div *ngSwitchCase="'text-metadata'" class="p-2 border rounded" [class.text-section-home-news]="textRowSection.content === 'cris.cms.home-news'">
+    <ds-markdown-viewer data-test="ds-markdown-viewer"
+                        [value]="metadataValue(textRowSection.content)"></ds-markdown-viewer>
+  </div>
+  <div *ngSwitchCase="'custom'">
+    <ng-container *ngTemplateOutlet="custom"></ng-container>
   </div>
   <div *ngSwitchCase="'submit-section'">
-    <ng-container *dsShowOnlyForRole="[roleTypeEnum.Submitter]">
+    <ng-container>
       <ng-container *ngTemplateOutlet="submitSection"></ng-container>
     </ng-container>
-  </div>
-  <div *ngSwitchCase="'link-section'">
-    <ng-container *ngTemplateOutlet="linkSection"></ng-container>
   </div>
 </ng-container>
 
 <!-- Custom content type -->
 <ng-template #submitSection>
-  <a routerLink="../mydspace" class="unstyled">
     <div class="d-flex flex-column align-items-center">
-      <div><i class="fas fa-cloud-upload-alt fa-3x"></i></div>
-      <div>{{ 'explore.submit-section.new-submission' | translate }}</div>
+      <div class="card p-2 my-2">
+        <div>
+          <a routerLink="../mydspace" class="btn btn-primary upload-button"><i class="icon icon-right epfl-upload"></i> {{'explore.submit-section.new-submission' | translate }}</a>
+      </div>
     </div>
-  </a>
+    </div>
 </ng-template>
 
-<ng-template #linkSection>
-  <div class="d-flex justify-content-around">
-    <a routerLink="/explore/researcherprofiles" class="unstyled">
-      <div class="d-flex flex-column align-items-center">
-        <div><i class="fas fa-users fa-3x"></i></div>
-        <div>{{ 'explore.link-section.researchers' | translate }}</div>
-      </div>
-    </a>
-    <a routerLink="/explore/orgunits" class="unstyled">
-      <div class="d-flex flex-column align-items-center">
-        <div><i class="fas fa-building fa-3x"></i></div>
-        <div>{{ 'explore.link-section.orgunits' | translate }}</div>
-      </div>
-    </a>
-  </div>
-</ng-template>
+<!-- Custom content type -->
+<ng-template #custom></ng-template>

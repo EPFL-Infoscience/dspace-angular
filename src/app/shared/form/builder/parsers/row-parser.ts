@@ -12,7 +12,8 @@ import {
   INIT_FORM_VALUES,
   PARSER_OPTIONS,
   SECURITY_CONFIG,
-  SUBMISSION_ID
+  SUBMISSION_ID,
+  TRANSLATION_SERVICE
 } from './field-parser';
 import { ParserFactory } from './parser-factory';
 import { ParserOptions } from './parser-options';
@@ -21,6 +22,7 @@ import { setLayout } from './parser.utils';
 import { DYNAMIC_FORM_CONTROL_TYPE_RELATION_GROUP } from '../ds-dynamic-form-ui/ds-dynamic-form-constants';
 import { SubmissionVisibility } from '../../../../submission/utils/visibility.util';
 import { SubmissionVisibilityType } from '../../../../core/config/models/config-submission-section.model';
+import {TranslateService} from '@ngx-translate/core';
 
 export const ROW_ID_PREFIX = 'df-row-group-config-';
 
@@ -32,7 +34,8 @@ export const ROW_ID_PREFIX = 'df-row-group-config-';
  * Parser the submission data for a single row
  */
 export class RowParser {
-  constructor(private parentInjector: Injector) {
+  constructor(private parentInjector: Injector,
+              private translateService: TranslateService) {
   }
 
   public parse(submissionId: string,
@@ -77,7 +80,8 @@ export class RowParser {
             { provide: CONFIG_DATA, useValue: fieldData },
             { provide: INIT_FORM_VALUES, useValue: initFormValues },
             { provide: PARSER_OPTIONS, useValue: parserOptions },
-            { provide: SECURITY_CONFIG, useValue: securityConfig }
+            { provide: SECURITY_CONFIG, useValue: securityConfig },
+            { provide: TRANSLATION_SERVICE, useValue: this.translateService }
           ],
           parent: this.parentInjector
         });

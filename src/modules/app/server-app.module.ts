@@ -37,6 +37,10 @@ import { XhrFactory } from '@angular/common';
 import { ServerXhrService } from '../../app/core/services/server-xhr.service';
 import { ReferrerService } from '../../app/core/services/referrer.service';
 import { ServerReferrerService } from '../../app/core/services/server.referrer.service';
+import { MathService } from '../../app/core/shared/math.service';
+import { ServerMathService } from '../../app/core/shared/server-math.service';
+import { SvgIconLoaderService } from '../../themes/infoscience/app/svg-icon/svg-icon-loader.service';
+import { ServerSvgIconLoaderService } from '../../themes/infoscience/app/svg-icon/server-svg-icon-loader.service';
 
 export function createTranslateLoader(transferState: TransferState) {
   return new TranslateServerLoader(transferState, 'dist/server/assets/i18n/', '.json');
@@ -116,6 +120,14 @@ export function createTranslateLoader(transferState: TransferState) {
       provide: ReferrerService,
       useClass: ServerReferrerService,
     },
+    {
+      provide: MathService,
+      useClass: ServerMathService
+    },
+    {
+      provide: SvgIconLoaderService,
+      useClass: ServerSvgIconLoaderService
+    }
   ]
 })
 export class ServerAppModule {

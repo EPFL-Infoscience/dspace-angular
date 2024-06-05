@@ -3,6 +3,9 @@ import { Component, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MetadataFieldWrapperComponent } from './metadata-field-wrapper.component';
+import { MarkdownDirective } from '../utils/markdown.directive';
+import { MathService } from '../../core/shared/math.service';
+import { MathServiceMock } from '../testing/math-service.stub';
 
 @Component({
     selector: 'ds-component-without-content',
@@ -41,7 +44,10 @@ describe('MetadataFieldWrapperComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MetadataFieldWrapperComponent, NoContentComponent, SpanContentComponent, TextContentComponent]
+      providers: [
+        { provide: MathService, useValue: MathServiceMock },
+      ],
+      declarations: [MarkdownDirective, MetadataFieldWrapperComponent, NoContentComponent, SpanContentComponent, TextContentComponent]
     }).compileComponents();
   }));
 

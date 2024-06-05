@@ -10,7 +10,7 @@ import { listableObjectComponent } from '../../../object-collection/shared/lista
 import { WorkspaceItemSearchResult } from '../../../object-collection/shared/workspace-item-search-result.model';
 import { TruncatableService } from '../../../truncatable/truncatable.service';
 import {
-  SearchResultListElementComponent,
+  SearchResultListElementComponent
 } from '../../search-result-list-element/search-result-list-element.component';
 import { DSONameService } from '../../../../core/breadcrumbs/dso-name.service';
 import { APP_CONFIG, AppConfig } from '../../../../../config/app-config.interface';
@@ -73,7 +73,6 @@ export class WorkspaceItemSearchResultListElementComponent extends SearchResultL
   ngOnInit() {
     super.ngOnInit();
     this.deriveSearchResult();
-    this.showThumbnails = this.appConfig.browseBy.showThumbnails;
   }
 
   private deriveSearchResult() {

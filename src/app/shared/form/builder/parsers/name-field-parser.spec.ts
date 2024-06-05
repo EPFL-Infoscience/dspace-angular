@@ -72,13 +72,13 @@ describe('NameFieldParser test suite', () => {
   });
 
   it('should init parser properly', () => {
-    const parser = new NameFieldParser(submissionId, field1, initFormValues, parserOptions);
+    const parser = new NameFieldParser(submissionId, field1, initFormValues, parserOptions, null, null);
 
     expect(parser instanceof NameFieldParser).toBe(true);
   });
 
   it('should return a DynamicConcatModel object when repeatable option is false', () => {
-    const parser = new NameFieldParser(submissionId, field2, initFormValues, parserOptions);
+    const parser = new NameFieldParser(submissionId, field2, initFormValues, parserOptions, null, null);
 
     const fieldModel = parser.parse();
 
@@ -86,7 +86,7 @@ describe('NameFieldParser test suite', () => {
   });
 
   it('should return a DynamicConcatModel object with the correct separator', () => {
-    const parser = new NameFieldParser(submissionId, field2, initFormValues, parserOptions);
+    const parser = new NameFieldParser(submissionId, field2, initFormValues, parserOptions, null, null);
 
     const fieldModel = parser.parse();
 
@@ -99,7 +99,7 @@ describe('NameFieldParser test suite', () => {
     };
     const expectedValue = new FormFieldMetadataValueObject('test, name', undefined, null, undefined, 'test');
 
-    const parser = new NameFieldParser(submissionId, field1, initFormValues, parserOptions);
+    const parser = new NameFieldParser(submissionId, field1, initFormValues, parserOptions, null, null);
 
     const fieldModel = parser.parse();
 

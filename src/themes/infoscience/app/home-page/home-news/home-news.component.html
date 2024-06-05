@@ -1,0 +1,27 @@
+<div class="background-image-container">
+  <div class="container">
+    <div class="jumbotron jumbotron-fluid">
+      <ds-themed-text-section *ngIf="hasHomeNewsMetadata; else dsDefaultHomeNews" [sectionId]="'site'" [textRowSection]="homeNewsSection"
+                              [site]="(site$ | async)"></ds-themed-text-section>
+    </div>
+  </div>
+  <picture class="background-image">
+    <source type="image/webp" srcset="assets/infoscience/images/banner_50.webp 2000w, assets/infoscience/images/banner_half_50.webp 1200w, assets/infoscience/images/banner_half_50.webp 768w">
+    <source type="image/jpg" srcset="assets/infoscience/images/banner_50.jpg 2000w, assets/infoscience/images/banner_half_50.jpg 1200w, assets/infoscience/images/banner_half_50.jpg 768w">
+    <img alt="" [src]="'assets/dspace/images/banner_50.jpg'"/><!-- without the []="''" Firefox downloads both the fallback and the resolved image -->
+  </picture>
+</div>
+
+<ng-template #dsDefaultHomeNews>
+  <div class="container-fluid mb-4 search-wrapper">
+    <div class="container">
+      <div class="jumbotron search-container">
+        <h1 class="display-3">Infoscience</h1>
+        <p class="lead">Unlocking Knowledge</p>
+        <ds-search-form [inPlaceSearch]="false" [configuration]="'researchoutputs'"
+          [searchPlaceholder]="'home.search-form.placeholder' | translate"></ds-search-form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
