@@ -39,4 +39,5 @@ export enum FeatureID {
   CanSubscribe = 'canSubscribeDso',
   ShowClaimItem = 'showClaimItem',
   CanCorrectItem = 'canCorrectItem',
+  CanViewInWorkflowSinceStatistics = 'canViewInWorkflowSinceStatistics',
 }
