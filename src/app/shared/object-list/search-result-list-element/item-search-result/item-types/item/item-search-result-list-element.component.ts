@@ -18,6 +18,8 @@ import { APP_CONFIG, AppConfig } from '../../../../../../../config/app-config.in
 import { getFirstSucceededRemoteListPayload } from '../../../../../../core/shared/operators';
 import { map } from 'rxjs/operators';
 import { isNotEmpty } from '../../../../../empty.util';
+import {FeatureID} from '../../../../../../core/data/feature-authorization/feature-id';
+import {AuthorizationDataService} from '../../../../../../core/data/feature-authorization/authorization-data.service';
 
 @listableObjectComponent('PublicationSearchResult', ViewMode.ListElement)
 @listableObjectComponent(ItemSearchResult, ViewMode.ListElement)
@@ -65,6 +67,7 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
   constructor(
     protected truncatableService: TruncatableService,
     public dsoNameService: DSONameService,
+    public authorizationService: AuthorizationDataService,
     @Inject(APP_CONFIG) protected appConfig?: AppConfig,
     @Optional() private klaroService?: KlaroService,
   ) {
@@ -139,5 +142,9 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
    */
   showSettings() {
     this.klaroService.showSettings();
+  }
+
+  public canViewInWorkflowSinceStatistics(useCacheVersion = true): Observable<boolean> {
+    return this.authorizationService.isAuthorized(FeatureID.CanViewInWorkflowSinceStatistics, this.dso.self, null,  useCacheVersion);
   }
 }

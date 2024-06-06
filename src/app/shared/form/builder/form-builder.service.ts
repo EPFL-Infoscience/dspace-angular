@@ -522,8 +522,8 @@ export class FormBuilderService extends DynamicFormService {
       const fieldModel: any = this.findById(fieldId, models);
       if (hasValue(fieldModel) && !fieldModel.hidden) {
         if (isNotEmpty(value)) {
-          if (fieldModel.repeatable && isNotEmpty(fieldModel.value)) {
-            // if model is repeatable and has already a value add a new field instead of replacing it
+          if (fieldModel.repeatable) {
+            // if model is repeatable add a new field instead of replacing it
             const formGroup = this.formGroups.get(formId);
             const arrayContext = fieldModel.parent?.context;
             if (isNotEmpty(formGroup) && isNotEmpty(arrayContext)) {
