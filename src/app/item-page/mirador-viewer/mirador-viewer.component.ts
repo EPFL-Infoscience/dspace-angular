@@ -70,7 +70,8 @@ export class MiradorViewerComponent implements OnInit {
     const manifestApiEndpoint = encodeURIComponent(environment.rest.baseUrl + '/iiif/'
       + this.object.id + '/manifest');
     // The Express path to Mirador viewer.
-    let viewerPath = '/iiif/mirador/index.html?manifest=' + manifestApiEndpoint;
+    let viewerPath = `${environment.ui.nameSpace}${environment.ui.nameSpace.length > 1 ? '/' : ''}`
+      + `iiif/mirador/index.html?manifest=${manifestApiEndpoint}`;
     if (this.searchable) {
       // Tell the viewer add search to menu.
       viewerPath += '&searchable=' + this.searchable;
@@ -85,6 +86,9 @@ export class MiradorViewerComponent implements OnInit {
     }
     if (this.notMobile) {
       viewerPath += '&notMobile=true';
+    }
+    if (environment.mirador.enableDownloadPlugin) {
+      viewerPath += '&enableDownloadPlugin=true';
     }
 
     // TODO: Should the query term be trusted here?

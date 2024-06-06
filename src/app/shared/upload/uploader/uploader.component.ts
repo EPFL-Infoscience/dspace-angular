@@ -18,7 +18,7 @@ import { UploaderOptions } from './uploader-options.model';
 import { hasValue, isNotEmpty, isUndefined } from '../../empty.util';
 import { UploaderProperties } from './uploader-properties.model';
 import { HttpXsrfTokenExtractor } from '@angular/common/http';
-import { XSRF_COOKIE, XSRF_REQUEST_HEADER, XSRF_RESPONSE_HEADER } from '../../../core/xsrf/xsrf.interceptor';
+import { XSRF_COOKIE, XSRF_REQUEST_HEADER, XSRF_RESPONSE_HEADER } from '../../../core/xsrf/xsrf.constants';
 import { CookieService } from '../../../core/services/cookie.service';
 import { DragService } from '../../../core/drag.service';
 import { AuthService } from '../../../core/auth/auth.service';
@@ -53,7 +53,7 @@ export class UploaderComponent {
   /**
    * The function to call before an upload
    */
-  @Input() onBeforeUpload: () => void;
+  @Input() onAfterUpload: () => void;
 
   /**
    * Configuration for the ng2-file-upload component.
@@ -140,8 +140,8 @@ export class UploaderComponent {
     this.uploader.onAfterAddingAll = ((items) => {
       this.onFileSelected.emit(items);
     });
-    if (isUndefined(this.onBeforeUpload)) {
-      this.onBeforeUpload = () => {return;};
+    if (isUndefined(this.onAfterUpload)) {
+      this.onAfterUpload = () => {return;};
     }
     this.uploader.onBeforeUploadItem = (item) => {
       if (item.url !== this.uploader.options.url) {
@@ -156,13 +156,17 @@ export class UploaderComponent {
       if (hasValue(impersonatingID)) {
         this.uploader.options.headers.push({ name: ON_BEHALF_OF_HEADER, value: impersonatingID });
       }
-
-      this.onBeforeUpload();
       this.isOverDocumentDropZone = observableOf(false);
 
       // Start the keep alive service now that the upload is starting
       this.keepAliveService.start();
     };
+
+    this.uploader.onCompleteAll = () => {
+      this.onAfterUpload();
+    };
+
+
     if (hasValue(this.uploadProperties)) {
       this.uploader.onBuildItemForm = (item, form) => {
         form.append('properties', JSON.stringify(this.uploadProperties));

@@ -12,7 +12,7 @@ import { MediaViewerConfig } from './media-viewer-config.interface';
 import { INotificationBoardOptions } from './notifications-config.interfaces';
 import { ServerConfig } from './server-config.interface';
 import { SubmissionConfig } from './submission-config.interface';
-import { ThemeConfig } from './theme.model';
+import { ThemeConfig } from './theme.config';
 import { UIServerConfig } from './ui-server-config.interface';
 import { BundleConfig } from './bundle-config.interface';
 import { ActuatorsConfig } from './actuators.config';
@@ -21,6 +21,7 @@ import { CommunityListConfig } from './community-list-config.interface';
 import { HomeConfig } from './homepage-config.interface';
 import { MarkdownConfig } from './markdown-config.interface';
 import { FilterVocabularyConfig } from './filter-vocabulary-config';
+import { DiscoverySortConfig } from './discovery-sort.config';
 import { AddToAnyPluginConfig } from './add-to-any-plugin-config';
 import { CmsMetadata } from './cms-metadata';
 import { CrisLayoutConfig, LayoutConfig, SuggestionConfig } from './layout-config.interfaces';
@@ -33,8 +34,11 @@ import {
 } from './advanced-attachment-rendering.config';
 import { AttachmentRenderingConfig } from './attachment-rendering.config';
 import { SearchResultConfig } from './search-result-config.interface';
-import {VirtualCollectionConfig} from './virtual-collection-config.interface';
-import {EpflUnpaywallMetadata} from './epfl-unpaywall-metadata';
+import { VirtualCollectionConfig } from './virtual-collection-config.interface';
+import { EpflUnpaywallMetadata } from './epfl-unpaywall-metadata';
+import { MiradorConfig } from './mirador-config.interfaces';
+import { LocationConfig } from './location-config.interface';
+import { LoaderConfig } from './loader-config.interfaces';
 
 export class DefaultAppConfig implements AppConfig {
   production = false;
@@ -95,6 +99,8 @@ export class DefaultAppConfig implements AppConfig {
     // In-memory cache of server-side rendered content
     serverSide: {
       debug: false,
+      // Link header is used for signposting functionality
+      headers: ['Link'],
       // Cache specific to known bots.  Allows you to serve cached contents to bots only.
       // Defaults to caching 1,000 pages. Each page expires after 1 day
       botCache: {
@@ -159,7 +165,7 @@ export class DefaultAppConfig implements AppConfig {
   submission: SubmissionConfig = {
     autosave: {
       // NOTE: which metadata trigger an autosave
-      metadata: ['dc.title', 'dc.identifier.doi', 'dc.identifier.pmid', 'dc.identifier.arxiv', 'dc.identifier.patentno', 'dc.identifier.scopus', 'dc.identifier.isi', 'dcterms.dateSubmitted', 'dc.identifier.applicationnumber'],
+      metadata: ['dc.title', 'dc.identifier.doi', 'dc.identifier.pmid', 'dc.identifier.arxiv', 'dc.identifier.patentno', 'dc.identifier.scopus', 'dc.identifier.isi', 'dcterms.dateSubmitted', 'dc.identifier.applicationnumber', 'dc.type'],
       /**
        * NOTE: after how many time (milliseconds) submission is saved automatically
        * eg. timer: 5 * (1000 * 60); // 5 minutes
@@ -282,13 +288,16 @@ export class DefaultAppConfig implements AppConfig {
     { code: 'pl', label: 'Polski', active: true },
     { code: 'pt-PT', label: 'Português', active: true },
     { code: 'pt-BR', label: 'Português do Brasil', active: true },
+    { code: 'sr-lat', label: 'Srpski (lat)', active: true},
     { code: 'fi', label: 'Suomi', active: true },
     { code: 'sv', label: 'Svenska', active: true },
     { code: 'tr', label: 'Türkçe', active: true },
+    { code: 'vi', label: 'Tiếng Việt', active: true },
     { code: 'kk', label: 'Қазақ', active: true },
     { code: 'bn', label: 'বাংলা', active: true },
     { code: 'hi', label: 'हिंदी', active: true},
     { code: 'el', label: 'Ελληνικά', active: true },
+    { code: 'sr-cyr', label: 'Српски', active: true},
     { code: 'uk', label: 'Yкраї́нська', active: true}
   ];
 
@@ -336,7 +345,12 @@ export class DefaultAppConfig implements AppConfig {
       // Rounded to the nearest size in the list of selectable sizes on the
       // settings menu.  See pageSizeOptions in 'pagination-component-options.model.ts'.
       pageSize: 5
-    }
+    },
+    // The maximum number of metadata values to add to the metatag list of the item page
+    metatagLimit: 20,
+
+    // The maximum number of values for repeatable metadata to show in the full item
+    metadataLimit: 20
   };
 
   // When the search results are retrieved, for each item type the metadata with a valid authority value are inspected.
@@ -408,7 +422,7 @@ export class DefaultAppConfig implements AppConfig {
     // },
 
     {
-      name: 'epfl',
+      name: 'infoscience',
       extends: 'dspace',
     },
     {
@@ -484,14 +498,29 @@ export class DefaultAppConfig implements AppConfig {
   // - All mentions of the privacy policy being removed from the UI (e.g. in the footer)
   info: InfoConfig = {
     enableEndUserAgreement: true,
-    enablePrivacyStatement: true
+    enablePrivacyStatement: true,
+    //Configuration for third-party metrics in Klaro
+    metricsConsents: [
+      {
+        key: 'plumX',
+        enabled: true
+      },
+      {
+        key: 'altmetric',
+        enabled: true
+      },
+      {
+        key: 'dimensions',
+        enabled: true
+      },
+    ]
   };
 
   // Whether to enable Markdown (https://commonmark.org/) and MathJax (https://www.mathjax.org/)
   // display in supported metadata fields. By default, only dc.description.abstract is supported.
   markdown: MarkdownConfig = {
-    enabled: false,
-    mathjax: false,
+    enabled: true,
+    mathjax: true,
   };
 
   // Which vocabularies should be used for which search filters
@@ -504,6 +533,12 @@ export class DefaultAppConfig implements AppConfig {
       enabled: false
     }
     ];
+
+  // Configuration that determines the metadata sorting of community and collection edition and creation when there are not a search query.
+  comcolSelectionSort: DiscoverySortConfig = {
+    sortField:'dc.title',
+    sortDirection:'ASC',
+  };
 
   crisLayout: CrisLayoutConfig = {
     urn: [
@@ -570,6 +605,12 @@ export class DefaultAppConfig implements AppConfig {
       default: 'cris.entity.style',
     },
     itemPage: {
+      OrgUnit: {
+        orientation: 'vertical'
+      },
+      Project: {
+        orientation: 'vertical'
+      },
       default: {
         orientation: 'horizontal'
       },
@@ -582,6 +623,11 @@ export class DefaultAppConfig implements AppConfig {
         last: 1,
       }
     },
+    collectionsBox: {
+      defaultCollectionsLabelColStyle: 'col-3 font-weight-bold',
+      defaultCollectionsValueColStyle: 'col-9',
+      isInline: true
+    }
   };
 
   layout: LayoutConfig = {
@@ -630,19 +676,22 @@ export class DefaultAppConfig implements AppConfig {
       'cris.cms.home-header',
       'cris.cms.home-news',
       'cris.cms.footer',
-      'cris.cms.epfl-news',
+      'cris.cms.grid-component-badge',
+      'cris.cms.grid-component-title',
+      'cris.cms.grid-component-subtitle',
+      'cris.cms.grid-component-abstract',
+      'cris.cms.grid-component-link',
+      'cris.cms.epfl-news'
     ]
   };
 
   addToAnyPlugin: AddToAnyPluginConfig = {
     scriptUrl: 'https://static.addtoany.com/menu/page.js',
     socialNetworksEnabled: false,
-    buttons: ['facebook', 'twitter', 'linkedin', 'email', 'copy_link'],
+    buttons: ['facebook', 'x', 'linkedin', 'email', 'copy_link'],
     showPlusButton: true,
     showCounters: true,
     title: 'DSpace CRIS 7 demo',
-    // link: 'https://dspacecris7.4science.cloud/',
-    // The link to be shown in the shared post, if different from document.location.origin
   };
 
   metricVisualizationConfig: MetricVisualizationConfig[] = [
@@ -733,7 +782,8 @@ export class DefaultAppConfig implements AppConfig {
   };
 
   searchResult: SearchResultConfig = {
-    additionalMetadataFields: []
+    additionalMetadataFields: [],
+    authorMetadata: ['dc.contributor.author', 'dc.creator', 'dc.contributor.*'],
   };
 
   epflUnpaywallMetadata: EpflUnpaywallMetadata = {
@@ -752,5 +802,23 @@ export class DefaultAppConfig implements AppConfig {
       acceptedVersion: 'http://purl.org/coar/version/c_ab4af688f83e57aa',
       publishedVersion: 'http://purl.org/coar/version/c_970fb48d4fbd8a85',
     }
+  };
+
+  mirador: MiradorConfig = {
+    enableDownloadPlugin: true,
+  };
+
+  location: LocationConfig = {
+    nominatimApi: {
+      searchEndpoint: 'https://nominatim.openstreetmap.org/search',
+      reverseSearchEndpoint: 'https://nominatim.openstreetmap.org/reverse',
+      statusEndpoint: 'https://nominatim.openstreetmap.org/status',
+    }
+  };
+
+  loader: LoaderConfig = {
+    showFallbackMessagesByDefault: false,
+    warningMessageDelay: 5000, // 5 seconds
+    errorMessageDelay: 15000, // 15 seconds
   };
 }

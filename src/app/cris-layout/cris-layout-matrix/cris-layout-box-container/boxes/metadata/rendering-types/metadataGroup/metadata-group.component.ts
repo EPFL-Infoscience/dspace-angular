@@ -6,12 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { isNotEmpty } from '../../../../../../../shared/empty.util';
 import { MetadataValue } from '../../../../../../../core/shared/metadata.models';
 import { BehaviorSubject } from 'rxjs';
-import { LoadMoreService } from '../../../../../../services/load-more.service';
-
-export interface NestedMetadataGroupEntry {
-  field: LayoutField;
-  value: MetadataValue;
-}
+import { LoadMoreService, NestedMetadataGroupEntry } from '../../../../../../services/load-more.service';
 
 @Component({
   template: ''
@@ -68,10 +63,11 @@ export abstract class MetadataGroupComponent extends RenderingTypeStructuredMode
     @Inject('fieldProvider') public fieldProvider: LayoutField,
     @Inject('itemProvider') public itemProvider: Item,
     @Inject('renderingSubTypeProvider') public renderingSubTypeProvider: string,
+    @Inject('tabNameProvider') public tabNameProvider: string,
     protected translateService: TranslateService,
-    protected loadMoreService: LoadMoreService
+    protected loadMoreService: LoadMoreService,
   ) {
-    super(fieldProvider, itemProvider, renderingSubTypeProvider, translateService);
+    super(fieldProvider, itemProvider, renderingSubTypeProvider, tabNameProvider, translateService);
   }
 
   ngOnInit() {

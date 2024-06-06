@@ -62,6 +62,7 @@ export const environment: BuildConfig = {
     // In-memory cache of server-side rendered pages. Disabled in test environment (max=0)
     serverSide: {
       debug: false,
+      headers: ['Link'],
       botCache: {
         max: 0,
         timeToLive: 24 * 60 * 60 * 1000, // 1 day
@@ -231,6 +232,10 @@ export const environment: BuildConfig = {
     code: 'el',
     label: 'Ελληνικά',
     active: true,
+  }, {
+    code: 'disabled',
+    label: 'Disabled',
+    active: false,
   }],
 
   // Browse-By Pages
@@ -278,7 +283,12 @@ export const environment: BuildConfig = {
       // Rounded to the nearest size in the list of selectable sizes on the
       // settings menu.  See pageSizeOptions in 'pagination-component-options.model.ts'.
       pageSize: 5
-    }
+    },
+    // The maximum number of metadata values to add to the metatag list of the item page
+    metatagLimit: 20,
+
+    // The maximum number of values for repeatable metadata to show in the full item
+    metadataLimit: 20
   },
   collection: {
     edit: {
@@ -320,10 +330,29 @@ export const environment: BuildConfig = {
   info: {
     enableEndUserAgreement: true,
     enablePrivacyStatement: true,
+    //Configuration for third-party metrics in Klaro
+    metricsConsents: [
+      {
+        key: 'plumX',
+        enabled: true
+      },
+      {
+        key: 'altmetric',
+        enabled: true
+      },
+      {
+        key: 'dimensions',
+        enabled: true
+      },
+    ]
   },
   markdown: {
     enabled: false,
     mathjax: false,
+  },
+  comcolSelectionSort: {
+    sortField:'dc.title',
+    sortDirection:'ASC',
   },
 
   vocabularies: [
@@ -406,8 +435,13 @@ export const environment: BuildConfig = {
       loadMore :{
         first: 3,
         last: 1
-      }
-    }
+      },
+    },
+    collectionsBox: {
+      defaultCollectionsLabelColStyle: 'col-3 font-weight-bold',
+      defaultCollectionsValueColStyle: 'col-9',
+      isInline: true
+    },
   },
   layout: {
     navbar: {
@@ -548,7 +582,48 @@ export const environment: BuildConfig = {
         entityType: 'default',
         metadataConfiguration: []
       }
-    ]
-  }
+    ],
+    authorMetadata: ['dc.contributor.author', 'dc.contributor.editor', 'dc.contributor.contributor', 'dc.creator'],
+  },
 
+  virtualCollection: {
+    uuid: 'dummy',
+  },
+
+  epflUnpaywallMetadata: {
+    oaire_licenseCondition: {
+      cc_by: 'CC BY',
+      cc_by_sa: 'CC BY-SA',
+      cc_by_nd: 'CC BY-ND',
+      cc_by_nc: 'CC BY-NC',
+      cc_by_nc_sa: 'CC BY-NC-SA',
+      cc_by_nc_nd: 'CC BY-NC-ND',
+      cc_0: 'CC0',
+      pdm: 'PDM',
+    },
+    oaire_version: {
+      submittedVersion: 'http://purl.org/coar/version/c_71e4c1898caa6e32',
+      acceptedVersion: 'http://purl.org/coar/version/c_ab4af688f83e57aa',
+      publishedVersion: 'http://purl.org/coar/version/c_970fb48d4fbd8a85',
+    }
+  },
+
+
+  mirador: {
+    enableDownloadPlugin: true,
+  },
+
+  location: {
+    nominatimApi: {
+      searchEndpoint: 'https://nominatim.openstreetmap.org/search',
+      reverseSearchEndpoint: 'https://nominatim.openstreetmap.org/reverse',
+      statusEndpoint: 'https://nominatim.openstreetmap.org/status',
+    }
+  },
+
+  loader: {
+    showFallbackMessagesByDefault: true,
+    warningMessageDelay: 1000,
+    errorMessageDelay: 2000,
+  },
 };

@@ -1,12 +1,12 @@
-import { isEqual } from 'lodash';
-import { Item } from './../../core/shared/item.model';
-import { getAllSucceededRemoteListPayload } from './../../core/shared/operators';
-import { SetObject } from './../../core/deduplication/models/set.model';
-import { PaginatedList } from './../../core/data/paginated-list.model';
-import { NotificationsService } from './../../shared/notifications/notifications.service';
+import isEqual from 'lodash/isEqual';
+import { Item } from '../../core/shared/item.model';
+import { getAllSucceededRemoteListPayload } from '../../core/shared/operators';
+import { SetObject } from '../../core/deduplication/models/set.model';
+import { PaginatedList } from '../../core/data/paginated-list.model';
+import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of as observableOf } from 'rxjs';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import {
@@ -32,7 +32,7 @@ export class DeduplicationSetsEffects {
    * Retrieve all deduplication sets per signature managing pagination and errors.
    * Retrieve all items per set.
    */
-  @Effect() retrieveAllSets$ = this.actions$.pipe(
+  retrieveAllSets$ = createEffect(() => this.actions$.pipe(
     ofType(DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE),
     withLatestFrom(this.store$),
     switchMap(([action, currentState]: [RetrieveSetsBySignatureAction, any]) => {
@@ -71,32 +71,41 @@ export class DeduplicationSetsEffects {
           })
         );
     })
-  );
+  ));
 
   /**
    * Show a notification on error.
    */
-  @Effect({ dispatch: false }) retrieveAllSetsErrorAction$ = this.actions$.pipe(
-    ofType(DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE_ERROR),
-    tap(() => {
-      this.notificationsService.error(null, this.translate.get('deduplication.sets.notification.cannot-get-set'));
-    })
+  retrieveAllSetsErrorAction$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(DeduplicationSetsActionTypes.RETRIEVE_SETS_BY_SIGNATURE_ERROR),
+        tap(() => {
+          this.notificationsService.error(null, this.translate.get('deduplication.sets.notification.cannot-get-set'));
+        })
+      ),
+    { dispatch: false }
   );
 
-  @Effect({ dispatch: false }) removeSetsAction$ = this.actions$.pipe(
-    ofType(DeduplicationSetsActionTypes.REMOVE_SETS),
-    withLatestFrom(this.store$),
-    tap((res: [RemoveSetsAction, any]) =>
-      new RemoveSetsAction(res[0].payload.signatureId, res[0].payload.rule)
-    )
+  removeSetsAction$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(DeduplicationSetsActionTypes.REMOVE_SETS),
+      withLatestFrom(this.store$),
+      tap((res: [RemoveSetsAction, any]) =>
+        new RemoveSetsAction(res[0].payload.signatureId, res[0].payload.rule)
+      )
+    ),
+    { dispatch: false }
   );
 
-  @Effect({ dispatch: false }) removeItemPerSetAction$ = this.actions$.pipe(
-    ofType(DeduplicationSetsActionTypes.DELETE_ITEM_PER_SET),
-    withLatestFrom(this.store$),
-    tap((res: [RemoveItemPerSetAction, any]) =>
-      new RemoveItemPerSetAction(res[0].payload.signatureId, res[0].payload.setId, res[0].payload.rule, res[0].payload.itemId, res[0].payload.deleteMode)
-    )
+  removeItemPerSetAction$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(DeduplicationSetsActionTypes.DELETE_ITEM_PER_SET),
+        withLatestFrom(this.store$),
+        tap((res: [RemoveItemPerSetAction, any]) =>
+          new RemoveItemPerSetAction(res[0].payload.signatureId, res[0].payload.setId, res[0].payload.rule, res[0].payload.itemId, res[0].payload.deleteMode)
+        )
+      ),
+{ dispatch: false }
   );
 
   constructor(

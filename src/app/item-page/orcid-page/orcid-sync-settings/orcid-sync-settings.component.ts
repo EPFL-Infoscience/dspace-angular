@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { TranslateService } from '@ngx-translate/core';
 import { Operation } from 'fast-json-patch';
@@ -36,9 +36,19 @@ export class OrcidSyncSettingsComponent implements OnInit {
   currentSyncMode: string;
 
   /**
+   * The current synchronization mode for patents
+   */
+  currentSyncPatent: string;
+
+  /**
    * The current synchronization mode for publications
    */
   currentSyncPublications: string;
+
+  /**
+   * The current synchronization mode for product
+   */
+  currentSyncProduct: string;
 
   /**
    * The current synchronization mode for funding
@@ -51,11 +61,23 @@ export class OrcidSyncSettingsComponent implements OnInit {
   syncModes: { value: string, label: string }[];
 
   /**
+   * The synchronization options for patents
+   */
+  syncPatentOptions: { value: string, label: string }[];
+
+  /**
    * The synchronization options for publications
    */
   syncPublicationOptions: { value: string, label: string }[];
 /*
   /!**
+
+  /**
+   * The synchronization options for products
+   */
+  syncProductOptions: { value: string, label: string }[];
+
+  /**
    * The synchronization options for funding
    *!/
   syncFundingOptions: { value: string, label: string }[];
@@ -118,7 +140,9 @@ export class OrcidSyncSettingsComponent implements OnInit {
       });*/
 
     this.currentSyncMode = this.getCurrentPreference('dspace.orcid.sync-mode', ['BATCH', 'MANUAL'], 'MANUAL');
+    this.currentSyncPatent = this.getCurrentPreference('dspace.orcid.sync-patents', ['DISABLED', 'ALL'], 'DISABLED');
     this.currentSyncPublications = this.getCurrentPreference('dspace.orcid.sync-publications', ['DISABLED', 'ALL'], 'DISABLED');
+    this.currentSyncProduct = this.getCurrentPreference('dspace.orcid.sync-products', ['DISABLED', 'ALL'], 'DISABLED');
     //this.currentSyncFunding = this.getCurrentPreference('dspace.orcid.sync-fundings', ['DISABLED', 'ALL'], 'DISABLED');
   }
 
@@ -127,7 +151,7 @@ export class OrcidSyncSettingsComponent implements OnInit {
    *
    * @param form The form group
    */
-  onSubmit(form: FormGroup): void {
+  onSubmit(form: UntypedFormGroup): void {
     const operations: Operation[] = [];
     this.fillOperationsFor(operations, '/orcid/mode', form.value.syncMode);
     this.fillOperationsFor(operations, '/orcid/publications', form.value.syncPublications);

@@ -2,15 +2,16 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 
 import { Item } from '../../../../core/shared/item.model';
 import { fadeInOut } from '../../../animations/fade';
-import {
-  MyDspaceItemStatusType
-} from '../../../object-collection/shared/mydspace-item-status/my-dspace-item-status-type';
 import { SearchResult } from '../../../search/models/search-result.model';
 import { APP_CONFIG, AppConfig } from '../../../../../config/app-config.interface';
 import { DSONameService } from '../../../../core/breadcrumbs/dso-name.service';
+import { Context } from '../../../../core/shared/context.model';
 import { WorkflowItem } from '../../../../core/submission/models/workflowitem.model';
-import { DuplicateMatchMetadataDetailConfig } from '../../../../submission/sections/detect-duplicate/models/duplicate-detail-metadata.model';
-import { parseISO, differenceInDays, differenceInMilliseconds } from 'date-fns';
+import {
+  DuplicateMatchMetadataDetailConfig
+} from '../../../../submission/sections/detect-duplicate/models/duplicate-detail-metadata.model';
+import { differenceInDays, differenceInMilliseconds, parseISO } from 'date-fns';
+import { environment } from '../../../../../environments/environment';
 
 /**
  * This component show metadata for the given item object in the list view.
@@ -34,14 +35,19 @@ export class ItemListPreviewComponent implements OnInit {
   @Input() object: SearchResult<any>;
 
   /**
-   * Represent item's status
+   * Represents the badge context
    */
-  @Input() status: MyDspaceItemStatusType;
+  @Input() badgeContext: Context;
 
   /**
    * A boolean representing if to show submitter information
    */
   @Input() showSubmitter = false;
+
+  /**
+   * Whether to show the thumbnail preview
+   */
+  @Input() showThumbnails;
 
   /**
    * An object representing the duplicate match
@@ -53,24 +59,20 @@ export class ItemListPreviewComponent implements OnInit {
    */
   @Input() workflowItem: WorkflowItem;
 
-  /**
-   * Display thumbnails if required by configuration
-   */
-  showThumbnails: boolean;
-
   dsoTitle: string;
+
+  authorMetadata = environment.searchResult.authorMetadata;
 
   constructor(
     @Inject(APP_CONFIG) protected appConfig: AppConfig,
-    private dsoNameService: DSONameService,
+    public dsoNameService: DSONameService,
   ) {
   }
 
   ngOnInit(): void {
-    this.showThumbnails = this.appConfig.browseBy.showThumbnails;
+    this.showThumbnails = this.showThumbnails ?? this.appConfig.browseBy.showThumbnails;
     this.dsoTitle = this.dsoNameService.getHitHighlights(this.object, this.item);
   }
-
 
   getDateForArchivedItem(itemStartDate: string, dateAccessioned: string) {
     const itemStartDateConverted: Date = parseISO(itemStartDate);
@@ -81,5 +83,11 @@ export class ItemListPreviewComponent implements OnInit {
     return `${days} d ${hours} h`;
   }
 
-
+  getDateForItem(itemStartDate: string) {
+    const itemStartDateConverted: Date = parseISO(itemStartDate);
+    const days: number = Math.max(0, Math.floor(differenceInDays(Date.now(), itemStartDateConverted)));
+    const remainingMilliseconds: number = differenceInMilliseconds(Date.now(), itemStartDateConverted) - days * 24 * 60 * 60 * 1000;
+    const hours: number = Math.max(0, Math.floor(remainingMilliseconds / (60 * 60 * 1000)));
+    return `${days} d ${hours} h`;
+  }
 }

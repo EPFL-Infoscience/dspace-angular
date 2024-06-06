@@ -17,9 +17,9 @@ export class MetricStyleConfigPipe implements PipeTransform {
 
   transform(metric: Metric): unknown {
     if (metric) {
-      let metricClass = 'alert-warning'; // default style
+      let metricClass = 'alert alert-warning'; // default style
 
-      // check if metric has a preconfiguerd style
+      // check if metric has a preconfigured style
       const metricTypeConfig = this.style.find((x) => isEqual(x.type, metric.metricType));
       if (metricTypeConfig) {
         metric.icon = metricTypeConfig.icon;
@@ -27,11 +27,10 @@ export class MetricStyleConfigPipe implements PipeTransform {
       }
 
       const classes: any = {};
-      // classes used to set rules related to metric type behavoir
+      // classes used to set rules related to metric type behavior
       classes[metric.metricType] = true;
       const classlist = {
         ...classes,
-        alert: true,
         'metric-container': true,
       };
       classlist[metricClass] = true;

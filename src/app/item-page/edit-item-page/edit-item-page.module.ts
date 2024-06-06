@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NgbTooltipModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../../shared/shared.module';
 import { EditItemPageRoutingModule } from './edit-item-page.routing.module';
@@ -20,14 +20,22 @@ import { SearchPageModule } from '../../search-page/search-page.module';
 import { ItemCollectionMapperComponent } from './item-collection-mapper/item-collection-mapper.component';
 import { ItemRelationshipsComponent } from './item-relationships/item-relationships.component';
 import { EditRelationshipComponent } from './item-relationships/edit-relationship/edit-relationship.component';
-import { EditRelationshipListComponent } from './item-relationships/edit-relationship-list/edit-relationship-list.component';
+import {
+  EditRelationshipListComponent
+} from './item-relationships/edit-relationship-list/edit-relationship-list.component';
 import { AbstractItemUpdateComponent } from './abstract-item-update/abstract-item-update.component';
 import { ItemMoveComponent } from './item-move/item-move.component';
-import { ItemEditBitstreamBundleComponent } from './item-bitstreams/item-edit-bitstream-bundle/item-edit-bitstream-bundle.component';
+import {
+  ItemEditBitstreamBundleComponent
+} from './item-bitstreams/item-edit-bitstream-bundle/item-edit-bitstream-bundle.component';
 import { BundleDataService } from '../../core/data/bundle-data.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { ItemEditBitstreamDragHandleComponent } from './item-bitstreams/item-edit-bitstream-drag-handle/item-edit-bitstream-drag-handle.component';
-import { PaginatedDragAndDropBitstreamListComponent } from './item-bitstreams/item-edit-bitstream-bundle/paginated-drag-and-drop-bitstream-list/paginated-drag-and-drop-bitstream-list.component';
+import {
+  ItemEditBitstreamDragHandleComponent
+} from './item-bitstreams/item-edit-bitstream-drag-handle/item-edit-bitstream-drag-handle.component';
+import {
+  PaginatedDragAndDropBitstreamListComponent
+} from './item-bitstreams/item-edit-bitstream-bundle/paginated-drag-and-drop-bitstream-list/paginated-drag-and-drop-bitstream-list.component';
 import { VirtualMetadataComponent } from './virtual-metadata/virtual-metadata.component';
 import { ItemVersionHistoryComponent } from './item-version-history/item-version-history.component';
 import { ItemAuthorizationsComponent } from './item-authorizations/item-authorizations.component';
@@ -38,6 +46,12 @@ import { IdentifierDataService } from '../../core/data/identifier-data.service';
 import { IdentifierDataComponent } from '../../shared/object-list/identifier-data/identifier-data.component';
 import { ItemRegisterDoiComponent } from './item-register-doi/item-register-doi.component';
 import { DsoSharedModule } from '../../dso-shared/dso-shared.module';
+import { ItemCurateComponent } from './item-curate/item-curate.component';
+import { ThemedItemStatusComponent } from './item-status/themed-item-status.component';
+
+import { ItemAccessControlComponent } from './item-access-control/item-access-control.component';
+import { ResultsBackButtonModule } from '../../shared/results-back-button/results-back-button.module';
+import { AccessControlFormModule } from '../../shared/access-control-form-container/access-control-form.module';
 import { ItemUnlinkOrcidComponent } from './item-unlink-orcid/item-unlink-orcid.component';
 import { EditMetadataSecurityComponent } from './edit-metadata-security/edit-metadata-security.component';
 import { EditItemResolver } from '../../core/shared/resolvers/edit-item.resolver';
@@ -57,6 +71,8 @@ import { EditItemResolver } from '../../core/shared/resolvers/edit-item.resolver
     NgbModule,
     ItemVersionsModule,
     DsoSharedModule,
+    ResultsBackButtonModule,
+    AccessControlFormModule,
   ],
   declarations: [
     EditItemPageComponent,
@@ -70,6 +86,7 @@ import { EditItemResolver } from '../../core/shared/resolvers/edit-item.resolver
     ItemDeleteComponent,
     ItemUnlinkOrcidComponent,
     ItemStatusComponent,
+    ThemedItemStatusComponent,
     ItemRelationshipsComponent,
     ItemBitstreamsComponent,
     ItemVersionHistoryComponent,
@@ -84,7 +101,9 @@ import { EditItemResolver } from '../../core/shared/resolvers/edit-item.resolver
     VirtualMetadataComponent,
     ItemAuthorizationsComponent,
     IdentifierDataComponent,
-    ItemRegisterDoiComponent
+    ItemRegisterDoiComponent,
+    ItemCurateComponent,
+    ItemAccessControlComponent,
   ],
   providers: [
     BundleDataService,
@@ -94,7 +113,9 @@ import { EditItemResolver } from '../../core/shared/resolvers/edit-item.resolver
   ],
   exports: [
     EditMetadataSecurityComponent,
-    ItemBitstreamsComponent
+    ItemBitstreamsComponent,
+    ItemOperationComponent,
+    ItemVersionHistoryComponent,
   ]
 })
 export class EditItemPageModule {

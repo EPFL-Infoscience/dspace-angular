@@ -2,7 +2,7 @@ import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/cor
 import { ItemDataService } from '../../core/data/item-data.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateLoaderMock } from '../../shared/mocks/translate-loader.mock';
-import { ChangeDetectionStrategy, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ChangeDetectionStrategy, NO_ERRORS_SCHEMA, PLATFORM_ID } from '@angular/core';
 import { TruncatePipe } from '../../shared/utils/truncate.pipe';
 import { FullItemPageComponent } from './full-item-page.component';
 import { MetadataService } from '../../core/metadata/metadata.service';
@@ -20,6 +20,13 @@ import { createPaginatedList } from '../../shared/testing/utils.test';
 import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
 import { createRelationshipsObservable } from '../simple/item-types/shared/item.component.spec';
 import { RemoteData } from '../../core/data/remote-data';
+import { ServerResponseService } from '../../core/services/server-response.service';
+import { SignpostingDataService } from '../../core/data/signposting-data.service';
+import { LinkHeadService } from '../../core/services/link-head.service';
+import { MarkdownDirective } from '../../shared/utils/markdown.directive';
+import { MathService } from '../../core/shared/math.service';
+import { MathServiceMock } from '../../shared/testing/math-service.stub';
+import { APP_CONFIG } from '../../../config/app-config.interface';
 
 const mockItem: Item = Object.assign(new Item(), {
   bundles: createSuccessfulRemoteDataObject$(createPaginatedList([])),
@@ -28,6 +35,77 @@ const mockItem: Item = Object.assign(new Item(), {
       {
         language: 'en_US',
         value: 'test item'
+      }
+    ],
+    'dc.contributor.author': [
+      {
+        value: 'author1'
+      },
+      {
+        value: 'author2'
+      },
+      {
+        value: 'author3'
+      },
+      {
+        value: 'author4'
+      },
+      {
+        value: 'author5'
+      },
+      {
+        value: 'author6'
+      },
+      {
+        value: 'author7'
+      },
+      {
+        value: 'author8'
+      },
+      {
+        value: 'author9'
+      },
+      {
+        value: 'author10'
+      },
+      {
+        value: 'author11'
+      },
+      {
+        value: 'author12'
+      },
+      {
+        value: 'author13'
+      },
+      {
+        value: 'author14'
+      },
+      {
+        value: 'author15'
+      },
+      {
+        value: 'author16'
+      },
+      {
+        value: 'author17'
+      },
+      {
+        value: 'author18'
+      },
+      {
+        value: 'author19'
+      },
+      {
+        value: 'author20'
+      },
+      {
+        value: 'author21'
+      },
+      {
+        value: 'author22'
+      },
+      {
+        value: 'author23'
       }
     ]
   }
@@ -55,8 +133,27 @@ describe('FullItemPageComponent', () => {
   let routeStub: ActivatedRouteStub;
   let routeData;
   let authorizationDataService: AuthorizationDataService;
+  let serverResponseService: jasmine.SpyObj<ServerResponseService>;
+  let signpostingDataService: jasmine.SpyObj<SignpostingDataService>;
+  let linkHeadService: jasmine.SpyObj<LinkHeadService>;
 
+  const mocklink = {
+    href: 'http://test.org',
+    rel: 'test',
+    type: 'test'
+  };
 
+  const mocklink2 = {
+    href: 'http://test2.org',
+    rel: 'test',
+    type: 'test'
+  };
+
+  const appConfig = {
+    item: {
+      metadataLimit: 20
+    }
+  };
 
   beforeEach(waitForAsync(() => {
     authService = jasmine.createSpyObj('authService', {
@@ -76,6 +173,19 @@ describe('FullItemPageComponent', () => {
       isAuthorized: observableOf(false),
     });
 
+    serverResponseService = jasmine.createSpyObj('ServerResponseService', {
+      setHeader: jasmine.createSpy('setHeader'),
+    });
+
+    signpostingDataService = jasmine.createSpyObj('SignpostingDataService', {
+      getLinks: observableOf([mocklink, mocklink2]),
+    });
+
+    linkHeadService = jasmine.createSpyObj('LinkHeadService', {
+      addTag: jasmine.createSpy('setHeader'),
+      removeTag: jasmine.createSpy('removeTag'),
+    });
+
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot({
         loader: {
@@ -83,15 +193,20 @@ describe('FullItemPageComponent', () => {
           useClass: TranslateLoaderMock
         }
       }), RouterTestingModule.withRoutes([]), BrowserAnimationsModule],
-      declarations: [FullItemPageComponent, TruncatePipe, VarDirective],
+      declarations: [FullItemPageComponent, MarkdownDirective, TruncatePipe, VarDirective],
       providers: [
         { provide: ActivatedRoute, useValue: routeStub },
         { provide: ItemDataService, useValue: {} },
         { provide: MetadataService, useValue: metadataServiceStub },
         { provide: AuthService, useValue: authService },
         { provide: AuthorizationDataService, useValue: authorizationDataService },
+        { provide: ServerResponseService, useValue: serverResponseService },
+        { provide: SignpostingDataService, useValue: signpostingDataService },
+        { provide: LinkHeadService, useValue: linkHeadService },
+        { provide: MathService, useValue: MathServiceMock },
+        { provide: PLATFORM_ID, useValue: 'server' },
+        { provide: APP_CONFIG, useValue: appConfig },
       ],
-
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(FullItemPageComponent, {
       set: { changeDetection: ChangeDetectionStrategy.Default }
@@ -104,9 +219,13 @@ describe('FullItemPageComponent', () => {
     fixture.detectChanges();
   }));
 
+  afterEach(() => {
+    fixture.debugElement.nativeElement.remove();
+  });
+
   it('should display the item\'s metadata', () => {
     const table = fixture.debugElement.query(By.css('table'));
-    for (const metadatum of mockItem.allMetadata([])) {
+    for (const metadatum of mockItem.allMetadata('dc.title')) {
       expect(table.nativeElement.innerHTML).toContain(metadatum.value);
     }
   });
@@ -137,7 +256,12 @@ describe('FullItemPageComponent', () => {
 
     it('should display the item', () => {
       const objectLoader = fixture.debugElement.query(By.css('.full-item-info'));
-      expect(objectLoader.nativeElement).toBeDefined();
+      expect(objectLoader.nativeElement).not.toBeNull();
+    });
+
+    it('should add the signposting links', () => {
+      expect(serverResponseService.setHeader).toHaveBeenCalled();
+      expect(linkHeadService.addTag).toHaveBeenCalledTimes(2);
     });
   });
   describe('when the item is withdrawn and the user is not an admin', () => {
@@ -161,7 +285,12 @@ describe('FullItemPageComponent', () => {
 
     it('should display the item', () => {
       const objectLoader = fixture.debugElement.query(By.css('.full-item-info'));
-      expect(objectLoader.nativeElement).toBeDefined();
+      expect(objectLoader).not.toBeNull();
+    });
+
+    it('should add the signposting links', () => {
+      expect(serverResponseService.setHeader).toHaveBeenCalled();
+      expect(linkHeadService.addTag).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -173,7 +302,36 @@ describe('FullItemPageComponent', () => {
 
     it('should display the item', () => {
       const objectLoader = fixture.debugElement.query(By.css('.full-item-info'));
-      expect(objectLoader.nativeElement).toBeDefined();
+      expect(objectLoader).not.toBeNull();
+    });
+
+    it('should add the signposting links', () => {
+      expect(serverResponseService.setHeader).toHaveBeenCalled();
+      expect(linkHeadService.addTag).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('when the item has many metadata values', () => {
+    beforeEach(() => {
+      comp.itemRD$ = new BehaviorSubject<RemoteData<Item>>(createSuccessfulRemoteDataObject(mockItem));
+      fixture.detectChanges();
+    });
+
+    it('should not display all the item\'s metadata', () => {
+      const table = fixture.debugElement.query(By.css('table'));
+      const visibleValues = mockItem.allMetadata('dc.contributor.author').slice(0, 20);
+      const hiddenValues = mockItem.allMetadata('dc.contributor.author').slice(20, 40);
+      for (const metadatum of visibleValues) {
+        expect(table.nativeElement.innerHTML).toContain(metadatum.value);
+      }
+      for (const metadatum of hiddenValues) {
+        expect(table.nativeElement.innerHTML).not.toContain(metadatum.value);
+      }
+    });
+
+    it('should display show more button', () => {
+      const btn = fixture.debugElement.query(By.css('button[data-test="btn-more"]'));
+      expect(btn).not.toBeNull();
     });
   });
 });

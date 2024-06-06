@@ -42,15 +42,16 @@ export class IdentifierComponent extends RenderingTypeValueModelComponent implem
     @Inject('itemProvider') public itemProvider: Item,
     @Inject('metadataValueProvider') public metadataValueProvider: MetadataValue,
     @Inject('renderingSubTypeProvider') public renderingSubTypeProvider: string,
+    @Inject('tabNameProvider') public tabNameProvider: string,
     protected resolver: ResolverStrategyService,
     protected translateService: TranslateService
   ) {
-    super(fieldProvider, itemProvider, metadataValueProvider, renderingSubTypeProvider, translateService);
+    super(fieldProvider, itemProvider, metadataValueProvider, renderingSubTypeProvider, tabNameProvider, translateService);
   }
 
   getIdentifierFromValue() {
     let identifier: MetadataLinkValue;
-    if (isNotEmpty(this.renderingSubType)) {
+    if (isNotEmpty(this.renderingSubType) && !this.resolver.checkLink(this.metadataValue.value)) {
       identifier = this.composeLink(this.metadataValue.value, this.renderingSubType);
     } else {
       // Check if the value is a link (http, https, ftp or ftps)

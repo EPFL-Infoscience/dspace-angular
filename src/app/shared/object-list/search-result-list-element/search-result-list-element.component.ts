@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { SearchResult } from '../../search/models/search-result.model';
 import { DSpaceObject } from '../../../core/shared/dspace-object.model';
 import { hasValue } from '../../empty.util';
-import { AbstractListableElementComponent } from '../../object-collection/shared/object-collection-element/abstract-listable-element.component';
+import {
+  AbstractListableElementComponent
+} from '../../object-collection/shared/object-collection-element/abstract-listable-element.component';
 import { TruncatableService } from '../../truncatable/truncatable.service';
 import { Metadata } from '../../../core/shared/metadata.utils';
 import { DSONameService } from '../../../core/breadcrumbs/dso-name.service';
@@ -22,15 +24,16 @@ export class SearchResultListElementComponent<T extends SearchResult<K>, K exten
   dsoTitle: string;
 
   public constructor(protected truncatableService: TruncatableService,
-                     protected dsoNameService: DSONameService,
+                     public dsoNameService: DSONameService,
                      @Inject(APP_CONFIG) protected appConfig?: AppConfig) {
-    super();
+    super(dsoNameService);
   }
 
   /**
    * Retrieve the dso from the search result
    */
   ngOnInit(): void {
+    this.showThumbnails = this.showThumbnails ?? this.appConfig.browseBy.showThumbnails;
     if (hasValue(this.object)) {
       this.dso = this.object.indexableObject;
       this.dsoTitle = this.dsoNameService.getHitHighlights(this.object, this.dso);

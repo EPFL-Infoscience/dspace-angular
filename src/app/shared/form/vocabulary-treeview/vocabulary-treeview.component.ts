@@ -1,8 +1,6 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -15,19 +13,21 @@ import { PageInfo } from '../../../core/shared/page-info.model';
 import { VocabularyEntry } from '../../../core/submission/vocabularies/models/vocabulary-entry.model';
 import { VocabularyTreeFlattener } from './vocabulary-tree-flattener';
 import { VocabularyTreeFlatDataSource } from './vocabulary-tree-flat-data-source';
-import { lowerCase } from 'lodash/string';
+import { VocabularyService } from '../../../core/submission/vocabularies/vocabulary.service';
 import { FormFieldMetadataValueObject } from '../builder/models/form-field-metadata-value.model';
 import { Metadata } from '../../../core/shared/metadata.utils';
 
+export type VocabularyTreeItemType = FormFieldMetadataValueObject | VocabularyEntry | VocabularyEntryDetail;
+
 /**
- * Component that show a hierarchical vocabulary in a tree view
+ * Component that shows a hierarchical vocabulary in a tree view
  */
 @Component({
   selector: 'ds-vocabulary-treeview',
   templateUrl: './vocabulary-treeview.component.html',
   styleUrls: ['./vocabulary-treeview.component.scss']
 })
-export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
+export class VocabularyTreeviewComponent implements OnDestroy, OnInit, OnChanges {
 
   /**
    * The {@link VocabularyOptions} object
@@ -40,19 +40,9 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
   @Input() preloadLevel = 2;
 
   /**
-   * The vocabulary entry already selected, if any
+   * Contain a descriptive message for the tree
    */
-  @Input() selectedItem: any = null;
-
-  /**
-   * The i18n key suffix to use for header title
-   */
-  @Input() vocabularyHeader: string = null;
-
-  /**
-   * The boolean to check whether it is in used in a modal view or not
-   */
-  @Input() isModalView = false;
+  @Input() description = '';
 
   /**
    * The boolean to check whether search enabled
@@ -65,9 +55,19 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
   @Input() publicModeOnly = false;
 
   /**
-   * Contain a descriptive message for this vocabulary retrieved from i18n files
+   * Whether to allow selecting multiple values with checkboxes
    */
-  description: Observable<string>;
+  @Input() multiSelect = false;
+
+  /**
+   * The vocabulary entries already selected, if any
+   */
+  @Input() showAdd = true;
+
+  /**
+   * The vocabulary entries already selected, if any
+   */
+  @Input() selectedItems: VocabularyTreeItemType[] = [];
 
   /**
    * A map containing the current node showed by the tree
@@ -111,14 +111,15 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
 
   /**
    * An event fired when a vocabulary entry is selected.
-   * Event's payload equals to {@link VocabularyEntryDetail} selected.
+   * Event's payload equals to {@link VocabularyTreeItemType} selected.
    */
-  @Output() select: EventEmitter<FormFieldMetadataValueObject> = new EventEmitter<FormFieldMetadataValueObject>(null);
+  @Output() select: EventEmitter<VocabularyTreeItemType> = new EventEmitter<VocabularyTreeItemType>(null);
 
   /**
-   * A boolean representing if user is authenticated
+   * An event fired when a vocabulary entry is deselected.
+   * Event's payload equals to {@link VocabularyTreeItemType} deselected.
    */
-  private isAuthenticated: Observable<boolean>;
+  @Output() deselect: EventEmitter<VocabularyTreeItemType> = new EventEmitter<VocabularyTreeItemType>(null);
 
   /**
    * Array to track all subscriptions and unsubscribe them onDestroy
@@ -128,14 +129,13 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
   /**
    * Initialize instance variables
    *
-   * @param {NgbActiveModal} activeModal
-   * @param {Router} router
    * @param {VocabularyTreeviewService} vocabularyTreeviewService
+   * @param {vocabularyService} vocabularyService
    * @param {TranslateService} translate
    */
   constructor(
-    public activeModal: NgbActiveModal,
     private vocabularyTreeviewService: VocabularyTreeviewService,
+    private vocabularyService: VocabularyService,
     private translate: TranslateService
   ) {
     this.treeFlattener = new VocabularyTreeFlattener(this.transformer, this.getLevel,
@@ -158,7 +158,8 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
    * @param level The node level information
    */
   transformer = (node: TreeviewNode, level: number) => {
-    const existingNode = this.nodeMap.get(node.item.id);
+    const entryId = this.getEntryId(node.item);
+    const existingNode = this.nodeMap.get(entryId);
 
     if (existingNode && existingNode.item.id !== LOAD_MORE && existingNode.item.id !== LOAD_MORE_ROOT) {
       return existingNode;
@@ -171,9 +172,10 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
       node.pageInfo,
       node.loadMoreParentItem,
       node.isSearchNode,
-      node.isInInitValueHierarchy
+      node.isInInitValueHierarchy,
+      node.isSelected
     );
-    this.nodeMap.set(node.item.id, newNode);
+    this.nodeMap.set(entryId, newNode);
 
     if ((((level + 1) < this.preloadLevel) && newNode.childrenLoaded)
       || (newNode.isSearchNode && newNode.childrenLoaded)
@@ -226,16 +228,10 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
       })
     );
 
-    this.translate.get(`search.filters.filter.${this.vocabularyOptions.name}.head`).pipe(
-      map((type) => lowerCase(type)),
-    ).subscribe(
-      (type) => this.description = this.translate.get('vocabulary-treeview.info', { type })
-    );
-
     this.loading = this.vocabularyTreeviewService.isLoading();
 
-    const entryId: string = (this.selectedItem) ? this.getEntryId(this.selectedItem) : null;
-    this.vocabularyTreeviewService.initialize(this.vocabularyOptions, new PageInfo(), entryId, this.publicModeOnly);
+    const entryId: string = (this.selectedItems?.length > 0) ? this.getEntryId(this.selectedItems[0]) : null;
+    this.vocabularyTreeviewService.initialize(this.vocabularyOptions, new PageInfo(), this.getSelectedEntryIds(), entryId, this.publicModeOnly);
   }
 
   /**
@@ -243,7 +239,7 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
    * @param item The VocabularyEntryDetail for which to load more nodes
    */
   loadMore(item: VocabularyEntryDetail) {
-    this.vocabularyTreeviewService.loadMore(item);
+    this.vocabularyTreeviewService.loadMore(item, this.getSelectedEntryIds());
   }
 
   /**
@@ -251,7 +247,7 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
    * @param node The TreeviewFlatNode for which to load more nodes
    */
   loadMoreRoot(node: TreeviewFlatNode) {
-    this.vocabularyTreeviewService.loadMoreRoot(node);
+    this.vocabularyTreeviewService.loadMoreRoot(node, this.getSelectedEntryIds());
   }
 
   /**
@@ -259,18 +255,21 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
    * @param node The TreeviewFlatNode for which to load children nodes
    */
   loadChildren(node: TreeviewFlatNode) {
-    this.vocabularyTreeviewService.loadMore(node.item, true);
+    this.vocabularyTreeviewService.loadMore(node.item, this.getSelectedEntryIds(), true);
   }
 
   /**
-   * Method called on entry select
-   * Emit a new select Event
+   * Method called on entry select/deselect
    */
-  onSelect(entry: VocabularyEntryDetail) {
+  onSelect(item: VocabularyEntryDetail) {
     if (!this.publicModeOnly) {
-      const value = new FormFieldMetadataValueObject(entry.value, null, entry.securityLevel, entry.id, entry.display);
-      this.select.emit(value);
-      this.activeModal.close(value);
+      if (!this.getSelectedEntryIds().includes(this.getEntryId(item))) {
+        this.selectedItems.push(item);
+      this.select.emit(new FormFieldMetadataValueObject(item.value, null, item.securityLevel, item.authority, item.display));
+      } else {
+        this.selectedItems = this.selectedItems.filter((detail: VocabularyTreeItemType) => this.getEntryId(detail) !== this.getEntryId(item));
+        this.deselect.emit(item);
+      }
     }
   }
 
@@ -290,7 +289,7 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
         this.storedNodeMap = this.nodeMap;
       }
       this.nodeMap = new Map<string, TreeviewFlatNode>();
-      this.vocabularyTreeviewService.searchByQuery(this.searchText);
+      this.vocabularyTreeviewService.searchByQuery(this.searchText, this.getSelectedEntryIds());
     }
   }
 
@@ -305,13 +304,29 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
    * Reset tree resulting from a previous search
    */
   reset() {
+    this.searchText = '';
+    for (const item of this.selectedItems) {
+      this.deselect.emit(item);
+      this.nodeMap.get(this.getEntryId(item)).isSelected = false;
+    }
+    this.selectedItems = [];
+
     if (isNotEmpty(this.storedNodeMap)) {
       this.nodeMap = this.storedNodeMap;
       this.storedNodeMap = new Map<string, TreeviewFlatNode>();
       this.vocabularyTreeviewService.restoreNodes();
     }
+  }
 
-    this.searchText = '';
+  add() {
+    const userVocabularyEntry = new FormFieldMetadataValueObject(
+      this.searchText,
+      null,
+      null,
+      null,
+      this.searchText
+    );
+    this.select.emit(userVocabularyEntry);
   }
 
   /**
@@ -325,9 +340,28 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit {
   }
 
   /**
-   * Return an id for a given {@link VocabularyEntry}
+   * Return an id for a given {@link VocabularyTreeItemType}
    */
-  private getEntryId(entry: VocabularyEntry): string {
-    return entry.authority || entry?.otherInformation?.id || undefined;
+  private getEntryId(entry: VocabularyTreeItemType): string {
+    const entryId: string = entry?.authority || entry?.otherInformation?.id || (entry as any)?.id || undefined;
+    return entryId?.startsWith(this.vocabularyOptions.name) ? entryId.replace(`${this.vocabularyOptions.name}:`, '') : entryId;
+  }
+
+  /**
+   * Return an ids for all selected entries
+   */
+  private getSelectedEntryIds(): string[] {
+    return this.selectedItems
+      .map((entry: VocabularyTreeItemType) => this.getEntryId(entry))
+      .filter((value) => isNotEmpty(value));
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes.vocabularyOptions.isFirstChange() && changes.vocabularyOptions.currentValue !== changes.vocabularyOptions.previousValue) {
+      this.selectedItems = [];
+      this.searchText = '';
+      this.vocabularyTreeviewService.cleanTree();
+      this.vocabularyTreeviewService.initialize(this.vocabularyOptions, new PageInfo(), this.getSelectedEntryIds(), null);
+    }
   }
 }

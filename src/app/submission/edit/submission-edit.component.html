@@ -1,6 +1,13 @@
-<div class="submission-submit-container">
-  <ds-submission-form [collectionId]="collectionId" [sections]="sections" [selfUrl]="selfUrl"
-    [submissionDefinition]="submissionDefinition" [submissionErrors]="submissionErrors" [item]="item"
-    [metadataSecurityConfiguration]="metadataSecurityConfiguration" [entityType]="entityType"
-    [submissionId]="submissionId" [isWorkFlow]="isWorkFlow"></ds-submission-form>
+<div class="submission-submit-container" >
+  <ds-submission-form [collectionId]="collectionId"
+                      [sections]="sections"
+                      [selfUrl]="selfUrl"
+                      [submissionDefinition]="submissionDefinition"
+                      [submissionErrors]="submissionErrors"
+                      [item]="item"
+                      [collectionModifiable]="collectionModifiable"
+                      [submissionId]="submissionId"
+                      [isWorkFlow]="isWorkFlow"
+                      [metadataSecurityConfiguration]="metadataSecurityConfiguration"
+                      [entityType]="entityType"></ds-submission-form>
 </div>

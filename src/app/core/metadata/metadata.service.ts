@@ -8,12 +8,12 @@ import { TranslateService } from '@ngx-translate/core';
 import {
   BehaviorSubject,
   combineLatest,
-  Observable,
-  of as observableOf,
   concat as observableConcat,
-  EMPTY
+  EMPTY,
+  Observable,
+  of as observableOf
 } from 'rxjs';
-import { filter, map, switchMap, take, mergeMap } from 'rxjs/operators';
+import { filter, map, mergeMap, switchMap, take } from 'rxjs/operators';
 
 import { hasNoValue, hasValue, isNotEmpty } from '../../shared/empty.util';
 import { DSONameService } from '../breadcrumbs/dso-name.service';
@@ -25,10 +25,7 @@ import { BitstreamFormat } from '../shared/bitstream-format.model';
 import { Bitstream } from '../shared/bitstream.model';
 import { DSpaceObject } from '../shared/dspace-object.model';
 import { Item } from '../shared/item.model';
-import {
-  getFirstCompletedRemoteData,
-  getFirstSucceededRemoteDataPayload
-} from '../shared/operators';
+import { getFirstCompletedRemoteData, getFirstSucceededRemoteDataPayload } from '../shared/operators';
 import { RootDataService } from '../data/root-data.service';
 import { getBitstreamDownloadRoute } from '../../app-routing-paths';
 import { BundleDataService } from '../data/bundle-data.service';
@@ -130,19 +127,18 @@ export class MetadataService {
     }
 
     if (routeInfo.data.value.title) {
-      const pageName$ = this.rootService.findRoot(true).pipe(
-        getFirstCompletedRemoteData(),
-        map((rootRD: RemoteData<Root>) => rootRD.payload.dspaceName),
+      const repositoryName$ = this.rootService.findRoot(true).pipe(
+        getFirstSucceededRemoteDataPayload(),
+        map((payload: Root) => payload.dspaceName),
       );
-
+      const titlePrefix = repositoryName$.pipe(
+        switchMap((repositoryName) => this.translate.get('repository.title.prefix', { repositoryName })),
+      );
       const title = this.translate.get(routeInfo.data.value.title, routeInfo.data.value);
-      combineLatest([ pageName$, title ])
-        .pipe(take(1))
-        .subscribe(([ translatedTitlePrefix, translatedTitle ]: [ string, string ]) => {
-          let finalTitle = translatedTitlePrefix + ' :: ' + translatedTitle;
-          this.addMetaTag('title', finalTitle);
-          this.title.setTitle(finalTitle);
-        });
+      combineLatest([titlePrefix, title]).pipe(take(1)).subscribe(([translatedTitlePrefix, translatedTitle]: [string, string]) => {
+        this.addMetaTag('title', translatedTitlePrefix + translatedTitle);
+        this.title.setTitle(translatedTitlePrefix + translatedTitle);
+      });
     }
     if (routeInfo.data.value.description) {
       this.translate.get(routeInfo.data.value.description).pipe(take(1)).subscribe((translatedDescription: string) => {
@@ -207,6 +203,13 @@ export class MetadataService {
       this.setCitationTechnicalReportNumberTag();
     }
 
+    this.setOpenGraphTitleTag();
+    this.setOpenGraphDescriptionTag();
+    this.setOpenGraphImageTag();
+
+    this.setTwitterTitleTag();
+    this.setTwitterDescriptionTag();
+    this.setTwitterImageTag();
   }
 
   /**
@@ -239,7 +242,9 @@ export class MetadataService {
    * Add <meta name="citation_author" ... >  to the <head>
    */
   private setCitationAuthorTags(): void {
-    const values: string[] = this.getMetaTagValues(['dc.author', 'dc.contributor.author', 'dc.creator']);
+    // limit author to first 20 entries to avoid issue with item page rendering
+    const values: string[] = this.getMetaTagValues(['dc.author', 'dc.contributor.author', 'dc.creator'])
+      .slice(0, this.appConfig.item.metatagLimit);
     this.addMetaTags('citation_author', values);
   }
 
@@ -402,22 +407,75 @@ export class MetadataService {
    * Add <meta name="citation_pdf_url" ... >  to the <head>
    */
   private setCitationPdfUrlTag(): void {
+    this.setPrimaryBitstreamInBundleTag('ORIGINAL', 'citation_pdf_url');
+  }
+
+  /**
+   * Add <meta name="og:title" ... >  to the <head>
+   */
+  private setOpenGraphTitleTag(): void {
+    const value = this.getMetaTagValue('dc.title');
+    this.addMetaTag('og:title', value);
+  }
+
+  /**
+   * Add <meta name="og:description" ... >  to the <head>
+   */
+  private setOpenGraphDescriptionTag(): void {
+    // TODO: truncate abstract
+    const value = this.getMetaTagValue('dc.description.abstract');
+    this.addMetaTag('og:description', value);
+  }
+
+  /**
+   * Add <meta name="og:image" ... >  to the <head>
+   */
+  private setOpenGraphImageTag(): void {
+    this.setPrimaryBitstreamInBundleTag('THUMBNAIL', 'og:image');
+  }
+
+
+  /**
+   * Add <meta name="twitter:title" ... >  to the <head>
+   */
+  private setTwitterTitleTag(): void {
+    const value = this.getMetaTagValue('dc.title');
+    this.addMetaTag('twitter:title', value);
+  }
+
+  /**
+   * Add <meta name="twitter:description" ... >  to the <head>
+   */
+  private setTwitterDescriptionTag(): void {
+    // TODO: truncate abstract
+    const value = this.getMetaTagValue('dc.description.abstract');
+    this.addMetaTag('twitter:description', value);
+  }
+
+  /**
+   * Add <meta name="twitter:image" ... >  to the <head>
+   */
+  private setTwitterImageTag(): void {
+    this.setPrimaryBitstreamInBundleTag('THUMBNAIL', 'twitter:image');
+  }
+
+  private setPrimaryBitstreamInBundleTag(bundleName: string, tag: string): void {
     if (this.currentObject.value instanceof Item) {
       const item = this.currentObject.value as Item;
 
-      // Retrieve the ORIGINAL bundle for the item
+      // Retrieve the bundle for the item
       this.bundleDataService.findByItemAndName(
         item,
-        'ORIGINAL',
+        bundleName,
         true,
         true,
         followLink('primaryBitstream'),
         followLink('bitstreams', {
-            findListOptions: {
-              // limit the number of bitstreams used to find the citation pdf url to the number
-              // shown by default on an item page
-              elementsPerPage: this.appConfig.item.bitstream.pageSize
-            }
+          findListOptions: {
+            // limit the number of bitstreams used to find the citation pdf url to the number
+            // shown by default on an item page
+            elementsPerPage: this.appConfig.item.bitstream.pageSize
+          }
         }, followLink('format')),
       ).pipe(
         getFirstSucceededRemoteDataPayload(),
@@ -461,7 +519,7 @@ export class MetadataService {
       ).subscribe((link: string) => {
         // Use the found link to set the <meta> tag
         this.addMetaTag(
-          'citation_pdf_url',
+          tag,
           new URLCombiner(this.hardRedirectService.getCurrentOrigin(), link).toString()
         );
       });

@@ -1,0 +1,22 @@
+// Override or add CSS variables for your theme here
+
+:root {
+  --ds-header-logo-height: 30px;
+  --ds-breadcrumb-bg: #{$light} !important;
+  --ds-thumbnail-placeholder-border: none;
+  --ds-thumbnail-placeholder-background: #{$gray-100};
+  --ds-cris-layout-navbar-background-color: #{$white};
+  --ds-cris-layout-sidebar-menu-active-background: #{$white};
+  --ds-cris-layout-navbar-tab-color-hover : #{$white};
+  --ds-header-navbar-border-bottom-color: #{$gray-100};
+  --ds-navbar-link-color: #{$dark};
+  --ds-breadcrumb-link-color: #{$dark};
+  --ds-navbar-link-color-hover: #{$red};
+  --ds-breadcrumb-link-color: #{$dark};
+  --ds-breadcrumb-link-active-color: #{$red-dark};
+  --ds-cris-layout-sidebar-menu-active-color: #{$red};
+  --ds-cris-layout-navbar-tab-color-active: #{$red};
+  --ds-slider-color:#{$red};
+  --ds-search-form-scope-max-width:-1px;
+  --ds-card-thumbnail-height:190px;
+}

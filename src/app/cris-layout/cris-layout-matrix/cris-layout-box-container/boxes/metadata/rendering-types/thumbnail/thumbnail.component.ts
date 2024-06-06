@@ -51,10 +51,11 @@ export class ThumbnailComponent extends BitstreamRenderingModelComponent impleme
     @Inject('fieldProvider') public fieldProvider: LayoutField,
     @Inject('itemProvider') public itemProvider: Item,
     @Inject('renderingSubTypeProvider') public renderingSubTypeProvider: string,
+    @Inject('tabNameProvider') public tabNameProvider: string,
     protected bitstreamDataService: BitstreamDataService,
     protected translateService: TranslateService
   ) {
-    super(fieldProvider, itemProvider, renderingSubTypeProvider, bitstreamDataService, translateService);
+    super(fieldProvider, itemProvider, renderingSubTypeProvider, tabNameProvider, bitstreamDataService, translateService);
   }
 
   /**
@@ -104,25 +105,29 @@ export class ThumbnailComponent extends BitstreamRenderingModelComponent impleme
    */
   setDefaultImage(): void {
     const eType = this.item.firstMetadataValue('dspace.entity.type');
-    this.default = 'assets/images/person-placeholder.svg';
-    if (this.isProject(eType)) {
-      this.default = 'assets/images/project-placeholder.svg';
-    } else if (this.isOrgUnit(eType)) {
-      this.default = 'assets/images/orgunit-placeholder.svg';
-    } else if (this.isPublication(eType)) {
-      this.default = 'assets/images/publication-placeholder.svg';
+    switch (eType?.toUpperCase()) {
+      case 'PROJECT':
+        this.default = 'assets/images/project-placeholder.svg';
+        break;
+      case 'ORGUNIT':
+        this.default = 'assets/images/orgunit-placeholder.svg';
+        break;
+      case 'PERSON':
+        this.default = 'assets/images/person-placeholder.svg';
+        break;
+      case 'PUBLICATION':
+        this.default = 'assets/images/publication-placeholder.svg';
+        break;
+      case 'PRODUCT':
+        this.default = 'assets/images/product-placeholder.svg';
+        break;
+      case 'PATENT':
+        this.default = 'assets/images/patent-placeholder.svg';
+        break;
+      default:
+        this.default = 'assets/images/file-placeholder.svg';
+        break;
     }
   }
 
-  private isProject(eType: string) {
-    return hasValue(eType) && eType.toUpperCase() === 'PROJECT';
-  }
-
-  private isOrgUnit(eType: string) {
-    return hasValue(eType) && eType.toUpperCase() === 'ORGUNIT';
-  }
-
-  private isPublication(eType: string): boolean {
-    return hasValue(eType) && eType.toUpperCase() === 'PUBLICATION';
-  }
 }

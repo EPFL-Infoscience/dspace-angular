@@ -1,22 +1,23 @@
-import { RequestParam } from './../../core/cache/models/request-param.model';
-import { followLink } from './../../shared/utils/follow-link-config.model';
-import { WorkflowItem } from './../../core/submission/models/workflowitem.model';
-import { SubmitDataResponseDefinitionObject } from './../../core/shared/submit-data-response-definition.model';
-import { SubmissionRestService } from './../../core/submission/submission-rest.service';
-import { ItemDataService } from './../../core/data/item-data.service';
-import { NoContent } from './../../core/shared/NoContent.model';
-import { RemoteData } from './../../core/data/remote-data';
-import { PaginatedList } from './../../core/data/paginated-list.model';
-import { FindListOptions } from './../../core/data/find-list-options.model';
-import { SetObject } from './../../core/deduplication/models/set.model';
+import { RequestParam } from '../../core/cache/models/request-param.model';
+import { followLink } from '../../shared/utils/follow-link-config.model';
+import { WorkflowItem } from '../../core/submission/models/workflowitem.model';
+import { SubmitDataResponseDefinitionObject } from '../../core/shared/submit-data-response-definition.model';
+import { SubmissionRestService } from '../../core/submission/submission-rest.service';
+import { ItemDataService } from '../../core/data/item-data.service';
+import { NoContent } from '../../core/shared/NoContent.model';
+import { RemoteData } from '../../core/data/remote-data';
+import { PaginatedList } from '../../core/data/paginated-list.model';
+import { FindListOptions } from '../../core/data/find-list-options.model';
+import { SetObject } from '../../core/deduplication/models/set.model';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { getFirstCompletedRemoteData } from './../../core/shared/operators';
+import { getFirstCompletedRemoteData } from '../../core/shared/operators';
 import { catchError, concatMap, map, take } from 'rxjs/operators';
 import { DeduplicationSetsRestService } from '../../core/deduplication/services/deduplication-sets-rest.service';
-import { WorkflowItemDataService } from './../../core/submission/workflowitem-data.service';
+import { WorkflowItemDataService } from '../../core/submission/workflowitem-data.service';
 import { hasValue } from '../../shared/empty.util';
-import { isEqual, isNull } from 'lodash';
+import isEqual from 'lodash/isEqual';
+import isNull from 'lodash/isNull';
 
 @Injectable()
 export class DeduplicationSetsService {

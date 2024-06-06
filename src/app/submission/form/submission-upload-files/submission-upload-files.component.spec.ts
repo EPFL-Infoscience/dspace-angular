@@ -13,7 +13,9 @@ import {
   mockSubmissionObject,
   mockUploadResponse1ParsedErrors,
   mockUploadResponse2Errors,
-  mockUploadResponse2ParsedErrors
+  mockUploadResponse2ParsedErrors,
+  mockUploadResponse3Errors,
+  mockUploadResponse3ParsedErrors
 } from '../../../shared/mocks/submission.mock';
 import { SubmissionService } from '../../submission.service';
 
@@ -174,7 +176,7 @@ describe('SubmissionUploadFilesComponent Component', () => {
 
       });
 
-      it('should show an error notification and call updateSectionData if unsuccessful', () => {
+      it('should also show a success notification and call updateSectionData if successful', () => {
         const responseErrors = mockUploadResponse2Errors;
         const expectedErrors: any = mockUploadResponse2ParsedErrors;
         fixture.detectChanges();
@@ -190,6 +192,30 @@ describe('SubmissionUploadFilesComponent Component', () => {
             sectionId,
             mockSectionsData[sectionId],
           expectedErrors[sectionId],
+            expectedErrors[sectionId]
+          );
+        });
+
+        expect(notificationsServiceStub.success).toHaveBeenCalled();
+
+      });
+
+      it('should show an error notification and call updateSectionData if unsuccessful', () => {
+        const responseErrors = mockUploadResponse3Errors;
+        const expectedErrors: any = mockUploadResponse3ParsedErrors;
+        fixture.detectChanges();
+
+        comp.onCompleteItem(Object.assign({}, uploadRestResponse, {
+          sections: mockSectionsData,
+          errors: responseErrors.errors
+        }));
+
+        Object.keys(mockSectionsData).forEach((sectionId) => {
+          expect(sectionsServiceStub.updateSectionData).toHaveBeenCalledWith(
+            submissionId,
+            sectionId,
+            mockSectionsData[sectionId],
+            expectedErrors[sectionId],
             expectedErrors[sectionId]
           );
         });

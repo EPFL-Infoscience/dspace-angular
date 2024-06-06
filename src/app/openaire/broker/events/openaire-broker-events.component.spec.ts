@@ -40,6 +40,8 @@ import { FindListOptions } from '../../../core/data/find-list-options.model';
 import { SortDirection, SortOptions } from '../../../core/cache/models/sort-options.model';
 import { PaginationService } from '../../../core/pagination/pagination.service';
 import { PaginationServiceStub } from '../../../shared/testing/pagination-service.stub';
+import { UUIDService } from '../../../core/shared/uuid.service';
+import { getMockUUIDService } from '../../../shared/mocks/uuid.service.mock';
 
 describe('OpenaireBrokerEventsComponent test suite', () => {
   let fixture: ComponentFixture<OpenaireBrokerEventsComponent>;
@@ -116,6 +118,7 @@ describe('OpenaireBrokerEventsComponent test suite', () => {
         { provide: NotificationsService, useValue: new NotificationsServiceStub() },
         { provide: TranslateService, useValue: getMockTranslateService() },
         { provide: PaginationService, useValue: paginationService },
+        { provide: UUIDService, useValue: getMockUUIDService() },
         OpenaireBrokerEventsComponent
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -232,7 +235,8 @@ describe('OpenaireBrokerEventsComponent test suite', () => {
       it('should call getOpenaireBrokerEvents on 200 response from REST', () => {
         const action = 'ACCEPTED';
         spyOn(compAsAny, 'getOpenaireBrokerEvents');
-        openaireBrokerEventRestServiceStub.patchEvent.and.returnValue(createSuccessfulRemoteDataObject$({}));
+        openaireBrokerEventRestServiceStub.patchEvent.and.returnValue(
+          createSuccessfulRemoteDataObject$({ title: 'title' } as OpenaireBrokerEventObject));
 
         scheduler.schedule(() => {
           comp.executeAction(action, getOpenAireBrokerEventData1());

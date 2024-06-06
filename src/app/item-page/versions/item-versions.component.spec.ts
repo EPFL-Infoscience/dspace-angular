@@ -18,7 +18,7 @@ import { PaginationServiceStub } from '../../shared/testing/pagination-service.s
 import { AuthService } from '../../core/auth/auth.service';
 import { VersionDataService } from '../../core/data/version-data.service';
 import { ItemDataService } from '../../core/data/item-data.service';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { NotificationsServiceStub } from '../../shared/testing/notifications-service.stub';
 import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
@@ -30,6 +30,8 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ItemSharedModule } from '../item-shared.module';
 import { CookieService } from '../../core/services/cookie.service';
+import { UUIDService } from '../../core/shared/uuid.service';
+import { getMockUUIDService } from '../../shared/mocks/uuid.service.mock';
 
 describe('ItemVersionsComponent', () => {
   let component: ItemVersionsComponent;
@@ -146,7 +148,7 @@ describe('ItemVersionsComponent', () => {
       imports: [TranslateModule.forRoot(), CommonModule, FormsModule, ReactiveFormsModule, BrowserModule, ItemSharedModule],
       providers: [
         {provide: PaginationService, useValue: new PaginationServiceStub()},
-        {provide: FormBuilder, useValue: new FormBuilder()},
+        {provide: UntypedFormBuilder, useValue: new UntypedFormBuilder()},
         {provide: NotificationsService, useValue: new NotificationsServiceStub()},
         {provide: AuthService, useValue: authenticationServiceSpy},
         {provide: AuthorizationDataService, useValue: authorizationServiceSpy},
@@ -158,6 +160,7 @@ describe('ItemVersionsComponent', () => {
         {provide: ConfigurationDataService, useValue: configurationServiceSpy},
         {provide: CookieService, useValue: cookieServiceSpy},
         { provide: Router, useValue: routerSpy },
+        { provide: UUIDService, useValue: getMockUUIDService() }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();

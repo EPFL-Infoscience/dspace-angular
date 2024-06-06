@@ -1,20 +1,22 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
 
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { NativeWindowRef, NativeWindowService } from '../../../../core/services/window.service';
 import { DSpaceObject } from '../../../../core/shared/dspace-object.model';
 import { SearchObjects } from '../../../search/models/search-objects.model';
 import { getFirstSucceededRemoteDataPayload } from '../../../../core/shared/operators';
 import { PaginationComponentOptions } from '../../../pagination/pagination-component-options.model';
 import { SectionComponent } from '../../../../core/layout/models/section.model';
-import { SearchService } from '../../../../core/shared/search/search.service';
+import { SearchManager } from '../../../../core/browse/search-manager';
 import { PaginatedSearchOptions } from '../../../search/models/paginated-search-options.model';
-import { hasValue } from '../../../empty.util';
+import { UUIDService } from '../../../../core/shared/uuid.service';
+import { InternalLinkService } from 'src/app/core/services/internal-link.service';
 
 @Component({
   selector: 'ds-counters-section',
+  styleUrls: ['./counters-section.component.scss'],
   templateUrl: './counters-section.component.html'
 })
 export class CountersSectionComponent implements OnInit {
@@ -30,17 +32,26 @@ export class CountersSectionComponent implements OnInit {
   isLoading$ = new BehaviorSubject(true);
 
   pagination: PaginationComponentOptions = Object.assign(new PaginationComponentOptions(), {
-    id: 'counters-pagination',
+    id: this.uuidService.generate(),
     pageSize: 1,
     currentPage: 1
   });
 
 
-  constructor(private searchService: SearchService, @Inject(NativeWindowService) protected _window: NativeWindowRef,) {
+  constructor(
+              public internalLinkService: InternalLinkService,
+              private searchService: SearchManager,
+              private uuidService: UUIDService,
+              @Inject(PLATFORM_ID) private platformId: Object,
+  ) {
 
   }
 
   ngOnInit() {
+    if (isPlatformServer(this.platformId)) {
+      return;
+    }
+
     this.counterData$ = forkJoin(
       this.countersSection.counterSettingsList.map((counterSettings: CountersSettings) =>
         this.searchService.search(new PaginatedSearchOptions({
@@ -59,12 +70,6 @@ export class CountersSectionComponent implements OnInit {
           })
         )));
     this.counterData$.subscribe(() => this.isLoading$.next(false));
-  }
-
-  goToLink(link: string) {
-    if (hasValue(link)) {
-      this._window.nativeWindow.location.href = link;
-    }
   }
 }
 

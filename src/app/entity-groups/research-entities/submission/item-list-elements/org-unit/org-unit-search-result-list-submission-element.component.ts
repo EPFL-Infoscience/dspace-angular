@@ -1,8 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { BitstreamDataService } from '../../../../../core/data/bitstream-data.service';
-import { SearchResultListElementComponent } from '../../../../../shared/object-list/search-result-list-element/search-result-list-element.component';
+import {
+  SearchResultListElementComponent
+} from '../../../../../shared/object-list/search-result-list-element/search-result-list-element.component';
 import { ItemSearchResult } from '../../../../../shared/object-collection/shared/item-search-result.model';
-import { listableObjectComponent } from '../../../../../shared/object-collection/shared/listable-object/listable-object.decorator';
+import {
+  listableObjectComponent
+} from '../../../../../shared/object-collection/shared/listable-object/listable-object.decorator';
 import { ViewMode } from '../../../../../core/shared/view-mode.model';
 import { Item } from '../../../../../core/shared/item.model';
 import { Context } from '../../../../../core/shared/context.model';
@@ -49,7 +53,7 @@ export class OrgUnitSearchResultListSubmissionElementComponent extends SearchRes
               private itemDataService: ItemDataService,
               private bitstreamDataService: BitstreamDataService,
               private selectableListService: SelectableListService,
-              protected dsoNameService: DSONameService,
+              public dsoNameService: DSONameService,
               @Inject(APP_CONFIG) protected appConfig: AppConfig
   ) {
     super(truncatableService, dsoNameService, appConfig);
@@ -72,7 +76,6 @@ export class OrgUnitSearchResultListSubmissionElementComponent extends SearchRes
           }
         );
     }
-    this.showThumbnails = this.appConfig.browseBy.showThumbnails;
   }
 
   select(value) {

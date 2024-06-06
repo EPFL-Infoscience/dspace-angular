@@ -1,5 +1,5 @@
-import { filter, map } from 'rxjs/operators';
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { filter, map, tap } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -16,8 +16,11 @@ import { hasValue } from '../../shared/empty.util';
 import { AuthService } from '../../core/auth/auth.service';
 import { Location } from '@angular/common';
 import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
-import { PLACEHOLDER_PARENT_METADATA } from '../../shared/form/builder/ds-dynamic-form-ui/ds-dynamic-form-constants';
 
+import { ServerResponseService } from '../../core/services/server-response.service';
+import { SignpostingDataService } from '../../core/data/signposting-data.service';
+import { LinkHeadService } from '../../core/services/link-head.service';
+import { APP_CONFIG, AppConfig } from '../../../config/app-config.interface';
 
 /**
  * This component renders a full item page.
@@ -37,6 +40,10 @@ export class FullItemPageComponent extends ItemPageComponent implements OnInit, 
 
   metadata$: Observable<MetadataMap>;
 
+  metadataMapLimit$: BehaviorSubject<Map<string, number>> = new BehaviorSubject<Map<string, number>>(new Map<string, number>());
+
+  limitSize = this.appConfig.item.metadataLimit;
+
   /**
    * True when the itemRD has been originated from its workspaceite/workflowitem, false otherwise.
    */
@@ -44,13 +51,20 @@ export class FullItemPageComponent extends ItemPageComponent implements OnInit, 
 
   subs = [];
 
-  constructor(protected route: ActivatedRoute,
-              router: Router,
-              items: ItemDataService,
-              authService: AuthService,
-              authorizationService: AuthorizationDataService,
-              private _location: Location) {
-    super(route, router, items, authService, authorizationService);
+  constructor(
+    protected route: ActivatedRoute,
+    protected router: Router,
+    protected items: ItemDataService,
+    protected authService: AuthService,
+    protected authorizationService: AuthorizationDataService,
+    protected _location: Location,
+    protected responseService: ServerResponseService,
+    protected signpostingDataService: SignpostingDataService,
+    protected linkHeadService: LinkHeadService,
+    @Inject(PLATFORM_ID) protected platformId: string,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+  ) {
+    super(route, router, items, authService, authorizationService, responseService, signpostingDataService, linkHeadService, platformId);
   }
 
   /*** AoT inheritance fix, will hopefully be resolved in the near future **/
@@ -59,16 +73,9 @@ export class FullItemPageComponent extends ItemPageComponent implements OnInit, 
     this.metadata$ = this.itemRD$.pipe(
       map((rd: RemoteData<Item>) => rd.payload),
       filter((item: Item) => hasValue(item)),
-      map((item: Item) =>
-        Object.keys(item.metadata)
-          .reduce((metadataMap, metadataKey) =>
-              Object.assign(
-                metadataMap,
-                { [metadataKey]: item.metadata[metadataKey].filter(mv => hasValue(mv?.value) && mv.value !== PLACEHOLDER_PARENT_METADATA) }),
-            new MetadataMap()
-          )
-      )
-    );
+      map((item: Item) => item.metadata),
+      tap((metadataMap: MetadataMap) => this.nextMetadataMapLimit(metadataMap))
+     );
 
     this.subs.push(this.route.data.subscribe((data: Data) => {
         this.fromSubmissionObject = hasValue(data.wfi) || hasValue(data.wsi);
@@ -86,4 +93,18 @@ export class FullItemPageComponent extends ItemPageComponent implements OnInit, 
   ngOnDestroy() {
     this.subs.filter((sub) => hasValue(sub)).forEach((sub) => sub.unsubscribe());
   }
+
+  protected increaseLimit(metadataKey: string) {
+    const newMetadataMap: Map<string, number> = new Map(this.metadataMapLimit$.value);
+    const newMetadataSize = newMetadataMap.get(metadataKey) + this.limitSize;
+    newMetadataMap.set(metadataKey, newMetadataSize);
+    this.metadataMapLimit$.next(newMetadataMap);
+  }
+
+  protected nextMetadataMapLimit(metadataMap: MetadataMap) {
+    const metadataMapLimit: Map<string, number> = new Map(this.metadataMapLimit$.value);
+    Object.keys(metadataMap).forEach((key: string) => metadataMapLimit.set(key, this.limitSize));
+    this.metadataMapLimit$.next(metadataMapLimit);
+  }
+
 }

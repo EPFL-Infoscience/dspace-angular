@@ -90,7 +90,6 @@ describe('ProfilePageMetadataFormComponent', () => {
   it('should automatically fill the present metadata values and leave missing ones empty', () => {
     expect(component.formGroup.get('firstname').value).toEqual('John');
     expect(component.formGroup.get('lastname').value).toEqual('Doe');
-    expect(component.formGroup.get('phone').value).toBeUndefined();
     expect(component.formGroup.get('language').value).toEqual('de');
   });
 

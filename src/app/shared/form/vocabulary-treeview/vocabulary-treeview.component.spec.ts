@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, NO_ERRORS_SCHEMA } from '@angular/core';
+import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { By } from '@angular/platform-browser';
@@ -12,10 +12,11 @@ import { createTestComponent } from '../../testing/utils.test';
 import { VocabularyTreeviewComponent } from './vocabulary-treeview.component';
 import { VocabularyTreeviewService } from './vocabulary-treeview.service';
 import { VocabularyEntryDetail } from '../../../core/submission/vocabularies/models/vocabulary-entry-detail.model';
-import { TreeviewFlatNode } from './vocabulary-treeview-node.model';
+import { TreeviewFlatNode, TreeviewNode } from './vocabulary-treeview-node.model';
 import { FormFieldMetadataValueObject } from '../builder/models/form-field-metadata-value.model';
 import { VocabularyOptions } from '../../../core/submission/vocabularies/models/vocabulary-options.model';
 import { PageInfo } from '../../../core/shared/page-info.model';
+import { VocabularyService } from '../../../core/submission/vocabularies/vocabulary.service';
 import { VocabularyEntry } from '../../../core/submission/vocabularies/models/vocabulary-entry.model';
 
 describe('VocabularyTreeviewComponent test suite', () => {
@@ -23,6 +24,7 @@ describe('VocabularyTreeviewComponent test suite', () => {
   let comp: VocabularyTreeviewComponent;
   let compAsAny: any;
   let fixture: ComponentFixture<VocabularyTreeviewComponent>;
+  let de;
 
   const item = new VocabularyEntryDetail();
   item.id = 'node1';
@@ -36,6 +38,13 @@ describe('VocabularyTreeviewComponent test suite', () => {
   entryWithInvalidItemId.otherInformation = {
     id: 'testid'
   };
+  const entryWithAuthority = new VocabularyEntryDetail();
+  entryWithAuthority.authority = 'entryWithAuthority';
+  entryWithAuthority.id = 'entryWithAuthority';
+  entryWithAuthority.value = 'test';
+  const entryWithoutAuthority = new VocabularyEntryDetail();
+  entryWithoutAuthority.id = 'entryWithoutAuthority';
+  entryWithoutAuthority.value = 'test2';
   const emptyNodeMap = new Map<string, TreeviewFlatNode>();
   const storedNodeMap = new Map<string, TreeviewFlatNode>().set('test', new TreeviewFlatNode(item2));
   const nodeMap = new Map<string, TreeviewFlatNode>().set('test', new TreeviewFlatNode(item));
@@ -51,6 +60,14 @@ describe('VocabularyTreeviewComponent test suite', () => {
     restoreNodes: jasmine.createSpy('restoreNodes'),
     cleanTree: jasmine.createSpy('cleanTree'),
   });
+  const vocabularyServiceStub = jasmine.createSpyObj('VocabularyService', {
+    getVocabularyEntriesByValue: jasmine.createSpy('getVocabularyEntriesByValue'),
+    getEntryDetailParent: jasmine.createSpy('getEntryDetailParent'),
+    findEntryDetailById: jasmine.createSpy('findEntryDetailById'),
+    searchTopEntries: jasmine.createSpy('searchTopEntries'),
+    getEntryDetailChildren: jasmine.createSpy('getEntryDetailChildren'),
+    clearSearchTopRequests: jasmine.createSpy('clearSearchTopRequests')
+  });
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -64,8 +81,8 @@ describe('VocabularyTreeviewComponent test suite', () => {
       ],
       providers: [
         { provide: VocabularyTreeviewService, useValue: vocabularyTreeviewServiceStub },
+        { provide: VocabularyService, useValue: vocabularyServiceStub },
         { provide: NgbActiveModal, useValue: modalStub },
-        ChangeDetectorRef,
         VocabularyTreeviewComponent
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -105,7 +122,7 @@ describe('VocabularyTreeviewComponent test suite', () => {
       comp = fixture.componentInstance;
       compAsAny = comp;
       comp.vocabularyOptions = vocabularyOptions;
-      comp.selectedItem = null;
+      comp.selectedItems = [];
     });
 
     afterEach(() => {
@@ -126,10 +143,10 @@ describe('VocabularyTreeviewComponent test suite', () => {
       currentValue.otherInformation = {
         id: 'entryID'
       };
-      comp.selectedItem = currentValue;
+      comp.selectedItems = [currentValue];
       fixture.detectChanges();
       expect(comp.dataSource.data).toEqual([]);
-      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), 'entryID', false);
+      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['entryID'], 'entryID', false);
     });
 
     it('should should init component properly with init value as VocabularyEntry', () => {
@@ -138,10 +155,20 @@ describe('VocabularyTreeviewComponent test suite', () => {
       currentValue.otherInformation = {
         id: 'entryID'
       };
-      comp.selectedItem = currentValue;
+      comp.selectedItems = [currentValue];
       fixture.detectChanges();
       expect(comp.dataSource.data).toEqual([]);
-      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), 'entryID', false);
+      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['entryID'], 'entryID', false);
+    });
+
+    it('should should init component properly with init value as VocabularyEntryDetail', () => {
+      const currentValue = new VocabularyEntryDetail();
+      currentValue.value = 'testValue';
+      currentValue.id = 'entryID';
+      comp.selectedItems = [currentValue];
+      fixture.detectChanges();
+      expect(comp.dataSource.data).toEqual([]);
+      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['entryID'], 'entryID', false);
     });
 
     it('should should init component properly with init value as VocabularyEntry and publicModeOnly enabled', () => {
@@ -151,37 +178,57 @@ describe('VocabularyTreeviewComponent test suite', () => {
       currentValue.otherInformation = {
         id: 'entryID'
       };
-      comp.selectedItem = currentValue;
+      comp.selectedItems = [currentValue];
       fixture.detectChanges();
       expect(comp.dataSource.data).toEqual([]);
-      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), 'entryID', true);
+      expect(vocabularyTreeviewServiceStub.initialize).toHaveBeenCalledWith(comp.vocabularyOptions, new PageInfo(), ['entryID'], 'entryID', true);
     });
 
     it('should call loadMore function', () => {
       comp.loadMore(item);
       fixture.detectChanges();
-      expect(vocabularyTreeviewServiceStub.loadMore).toHaveBeenCalledWith(item);
+      expect(vocabularyTreeviewServiceStub.loadMore).toHaveBeenCalledWith(item, []);
     });
 
     it('should call loadMoreRoot function', () => {
       const node = new TreeviewFlatNode(item);
       comp.loadMoreRoot(node);
       fixture.detectChanges();
-      expect(vocabularyTreeviewServiceStub.loadMoreRoot).toHaveBeenCalledWith(node);
+      expect(vocabularyTreeviewServiceStub.loadMoreRoot).toHaveBeenCalledWith(node, []);
     });
 
     it('should call loadChildren function', () => {
       const node = new TreeviewFlatNode(item);
       comp.loadChildren(node);
       fixture.detectChanges();
-      expect(vocabularyTreeviewServiceStub.loadMore).toHaveBeenCalledWith(node.item, true);
+      expect(vocabularyTreeviewServiceStub.loadMore).toHaveBeenCalledWith(node.item, [], true);
     });
 
-    it('should emit select event', () => {
+    it('should emit proper FormFieldMetadataValueObject when VocabularyEntryDetail has authority', () => {
+      spyOn(compAsAny, 'getSelectedEntryIds').and.returnValue([]);
       spyOn(comp.select, 'emit');
-      comp.onSelect(item);
+      comp.onSelect(entryWithAuthority);
 
-      expect(comp.select.emit).toHaveBeenCalled();
+      const expected = new FormFieldMetadataValueObject(entryWithAuthority.value, null, null, entryWithAuthority.authority);
+      expect(comp.select.emit).toHaveBeenCalledWith(expected);
+    });
+
+    it('should emit proper FormFieldMetadataValueObject when VocabularyEntryDetail has no authority', () => {
+      spyOn(compAsAny, 'getSelectedEntryIds').and.returnValue([]);
+      spyOn(comp.select, 'emit');
+      comp.onSelect(entryWithoutAuthority);
+
+      const expected = new FormFieldMetadataValueObject(entryWithoutAuthority.value);
+      expect(comp.select.emit).toHaveBeenCalledWith(expected);
+    });
+
+    it('should emit deselect when entry is already present', () => {
+      spyOn(compAsAny, 'getSelectedEntryIds').and.returnValue([entryWithAuthority.id]);
+      spyOn(comp.select, 'emit');
+      spyOn(comp.deselect, 'emit');
+      comp.onSelect(entryWithAuthority);
+
+      expect(comp.deselect.emit).toHaveBeenCalled();
     });
 
     it('should call searchByQuery function and set storedNodeMap properly', () => {
@@ -189,7 +236,7 @@ describe('VocabularyTreeviewComponent test suite', () => {
       comp.nodeMap.set('test', new TreeviewFlatNode(item));
       comp.search();
       fixture.detectChanges();
-      expect(vocabularyTreeviewServiceStub.searchByQuery).toHaveBeenCalledWith('test search');
+      expect(vocabularyTreeviewServiceStub.searchByQuery).toHaveBeenCalledWith('test search', []);
       expect(comp.storedNodeMap).toEqual(nodeMap);
       expect(comp.nodeMap).toEqual(emptyNodeMap);
     });
@@ -200,7 +247,7 @@ describe('VocabularyTreeviewComponent test suite', () => {
       comp.storedNodeMap.set('test', new TreeviewFlatNode(item2));
       comp.search();
       fixture.detectChanges();
-      expect(vocabularyTreeviewServiceStub.searchByQuery).toHaveBeenCalledWith('test search');
+      expect(vocabularyTreeviewServiceStub.searchByQuery).toHaveBeenCalledWith('test search', []);
       expect(comp.storedNodeMap).toEqual(storedNodeMap);
       expect(comp.nodeMap).toEqual(emptyNodeMap);
     });
@@ -225,18 +272,6 @@ describe('VocabularyTreeviewComponent test suite', () => {
       expect(comp.searchText).toEqual('');
     });
 
-    it('should not show active button', () => {
-      comp.isModalView = false;
-      fixture.detectChanges();
-      expect(fixture.debugElement.query(By.css('[data-test="active-button"]'))).toBeFalsy();
-    });
-
-    it('should show active button', () => {
-      comp.isModalView = true;
-      fixture.detectChanges();
-      expect(fixture.debugElement.query(By.css('[data-test="active-button"]'))).toBeTruthy();
-    });
-
     it('should not show search field', () => {
       comp.enabledSearch = false;
       fixture.detectChanges();
@@ -252,6 +287,59 @@ describe('VocabularyTreeviewComponent test suite', () => {
     it('should call cleanTree method on destroy', () => {
       compAsAny.ngOnDestroy();
       expect(vocabularyTreeviewServiceStub.cleanTree).toHaveBeenCalled();
+    });
+  });
+
+  describe('', () => {
+    beforeEach(() => {
+      vocabularyTreeviewServiceStub.getData.and.returnValue(observableOf([
+        {
+          'item': {
+            'id': 'srsc:SCB11',
+            'otherInformation': {
+              'id': 'srsc:SCB11'
+            },
+            'display': 'HUMANITIES and RELIGION'
+          } as any
+        } as TreeviewNode,
+        {
+          'item': {
+            'id': 'srsc:SCB12',
+            'otherInformation': {
+              'id': 'srsc:SCB11'
+            },
+            'display': 'LAW/JURISPRUDENCE'
+          } as any
+        } as TreeviewNode,
+        {
+          'item': {
+            'id': 'srsc:SCB13',
+            'otherInformation': {
+              'id': 'srsc:SCB11'
+            },
+            'display': 'SOCIAL SCIENCES'
+          } as any
+        } as TreeviewNode,
+      ]));
+      fixture = TestBed.createComponent(VocabularyTreeviewComponent);
+      comp = fixture.componentInstance;
+      compAsAny = comp;
+      comp.vocabularyOptions = vocabularyOptions;
+      comp.selectedItems = [];
+      de = fixture.debugElement;
+    });
+
+    it('should not display checkboxes by default', async () => {
+      fixture.detectChanges();
+      expect(de.query(By.css('input[type=checkbox]'))).toBeNull();
+      expect(de.queryAll(By.css('cdk-tree-node')).length).toEqual(3);
+    });
+
+    it('should display checkboxes if multiSelect is true', async () => {
+      comp.multiSelect = true;
+      fixture.detectChanges();
+      expect(de.queryAll(By.css('input[type=checkbox]')).length).toEqual(3);
+      expect(de.queryAll(By.css('cdk-tree-node')).length).toEqual(3);
     });
   });
 });

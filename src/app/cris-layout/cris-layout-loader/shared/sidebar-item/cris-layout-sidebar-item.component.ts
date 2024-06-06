@@ -45,6 +45,8 @@ export class CrisLayoutSidebarItemComponent {
 
   @Input() activeTab: CrisLayoutTab;
 
+  @Input() itemType: string;
+
   /**
    * Emits true when the menu section is expanded, else emits false
    * This is true when the section is active AND either the sidebar or it's preview is open
@@ -80,14 +82,16 @@ export class CrisLayoutSidebarItemComponent {
   }
 
   getTabHeader(tab: CrisLayoutTab): string {
+    const tabHeaderItemTypeI18nKey = this.tabI18nPrefix + this.tab.entityType + '.' + this.itemType + '.' + tab.shortname;
     const tabHeaderI18nKey = this.tabI18nPrefix + this.tab.entityType + '.' + tab.shortname;
     const tabHeaderGenericI18nKey = this.tabI18nPrefix + tab.shortname;
 
-    return this.getTranslation(tabHeaderI18nKey) ??
-      this.getTranslation(tabHeaderGenericI18nKey) ??
-        this.getTranslation(tab.header) ??
-          tab.header ??
-            '';
+    return this.getTranslation(tabHeaderItemTypeI18nKey) ??
+      this.getTranslation(tabHeaderI18nKey) ??
+        this.getTranslation(tabHeaderGenericI18nKey) ??
+          this.getTranslation(tab.header) ??
+            tab.header ??
+              '';
   }
 
   toggleSection(event): void {

@@ -26,11 +26,11 @@ import { FeatureID } from '../../../../core/data/feature-authorization/feature-i
  * Used to choose a dso from to export metadata of
  */
 @Component({
-  selector: 'ds-export-metadata-selector',
+  selector: 'ds-export-metadata-csv-selector',
   templateUrl: '../dso-selector-modal-wrapper.component.html',
 })
 export class ExportBatchSelectorComponent extends DSOSelectorModalWrapperComponent implements OnInit {
-  configuration = 'backend';
+  configuration = 'communityOrCollection';
   objectType = DSpaceObjectType.DSPACEOBJECT;
   selectorTypes = [DSpaceObjectType.COLLECTION];
   action = SelectorActionType.EXPORT_BATCH;

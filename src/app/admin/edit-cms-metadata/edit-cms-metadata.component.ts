@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Operation } from 'fast-json-patch';
 import { BehaviorSubject } from 'rxjs';
 import { getFirstCompletedRemoteData } from '../../core/shared/operators';
-import { AlertType } from '../../shared/alert/aletr-type';
+import { AlertType } from '../../shared/alert/alert-type';
 
 /**
  * Component representing the page to edit cms metadata for site.

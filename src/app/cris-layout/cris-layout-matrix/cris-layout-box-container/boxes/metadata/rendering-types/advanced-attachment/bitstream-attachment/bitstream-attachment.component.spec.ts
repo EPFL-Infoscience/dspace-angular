@@ -5,25 +5,29 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { BitstreamDataService } from '../../../../../../../../core/data/bitstream-data.service';
 import { TranslateService } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ItemDataService } from '../../../../../../../../core/data/item-data.service';
 
 describe('BitstreamAttachmentComponent', () => {
   let component: BitstreamAttachmentComponent;
+  let itemDataService = { };
   let fixture: ComponentFixture<BitstreamAttachmentComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BitstreamAttachmentComponent ],
+      declarations: [BitstreamAttachmentComponent],
       imports: [RouterTestingModule.withRoutes([])],
       providers: [
-        {provide: 'fieldProvider', useValue: {}},
-        {provide: 'itemProvider', useValue: {}},
-        {provide: 'renderingSubTypeProvider', useValue: ''},
-        {provide: BitstreamDataService, useValue: {}},
-        {provide: TranslateService, useValue: {}},
+        { provide: 'fieldProvider', useValue: {} },
+        { provide: 'itemProvider', useValue: {} },
+        { provide: 'renderingSubTypeProvider', useValue: '' },
+        { provide: 'tabNameProvider', useValue: '' },
+        { provide: BitstreamDataService, useValue: {} },
+        { provide: TranslateService, useValue: {} },
+        { provide: ItemDataService, useValue: itemDataService },
       ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [NO_ERRORS_SCHEMA]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

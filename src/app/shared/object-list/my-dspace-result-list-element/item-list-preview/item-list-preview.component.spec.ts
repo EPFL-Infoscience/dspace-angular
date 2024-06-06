@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ChangeDetectionStrategy, NO_ERRORS_SCHEMA } from '@angular/core';
-import { By } from '@angular/platform-browser';
+import { BrowserModule, By } from '@angular/platform-browser';
 
 import { of as observableOf } from 'rxjs';
 
@@ -12,6 +12,9 @@ import { TranslateLoaderMock } from '../../../mocks/translate-loader.mock';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { VarDirective } from '../../../utils/var.directive';
 import { APP_CONFIG } from '../../../../../config/app-config.interface';
+import { MarkdownDirective } from '../../../utils/markdown.directive';
+import { MathService } from '../../../../core/shared/math.service';
+import { MathServiceMock } from '../../../testing/math-service.stub';
 
 let component: ItemListPreviewComponent;
 let fixture: ComponentFixture<ItemListPreviewComponent>;
@@ -19,6 +22,12 @@ let fixture: ComponentFixture<ItemListPreviewComponent>;
 const mockItemWithAuthorAndDate: Item = Object.assign(new Item(), {
   bundles: observableOf({}),
   metadata: {
+    'dc.title': [
+      {
+        language: 'en_US',
+        value: 'This is just a title'
+      }
+    ],
     'dc.contributor.author': [
       {
         language: 'en_US',
@@ -71,12 +80,20 @@ const mockItemWithEntityType: Item = Object.assign(new Item(), {
 const environmentUseThumbs = {
   browseBy: {
     showThumbnails: true
+  },
+  markdown: {
+    enabled: false,
+    mathjax: false,
   }
 };
 
 const enviromentNoThumbs = {
   browseBy: {
     showThumbnails: false
+  },
+  markdown: {
+    enabled: false,
+    mathjax: false,
   }
 };
 
@@ -84,6 +101,7 @@ describe('ItemListPreviewComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
+        BrowserModule,
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
@@ -92,8 +110,9 @@ describe('ItemListPreviewComponent', () => {
         }),
         NoopAnimationsModule
       ],
-      declarations: [ItemListPreviewComponent, TruncatePipe, VarDirective],
+      declarations: [ItemListPreviewComponent, MarkdownDirective, TruncatePipe, VarDirective],
       providers: [
+        { provide: MathService, useValue: MathServiceMock },
         { provide: 'objectElementProvider', useValue: { mockItemWithAuthorAndDate }},
         { provide: APP_CONFIG, useValue: environmentUseThumbs }
       ],
@@ -119,6 +138,17 @@ describe('ItemListPreviewComponent', () => {
       component.item = mockItemWithAuthorAndDate;
       fixture.detectChanges();
     });
+
+    it('should show the title', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const itemTitle = fixture.debugElement.query(By.css('h3.lead'));
+        expect(itemTitle).not.toBeNull();
+        expect(itemTitle.nativeElement.innerHTML).toContain(mockItemWithAuthorAndDate.metadata['dc.title'][0].value);
+        done();
+      });
+    });
+
     it('should add the ds-thumbnail element', () => {
       const thumbnail = fixture.debugElement.query(By.css('ds-thumbnail'));
       expect(thumbnail).toBeTruthy();
@@ -129,6 +159,16 @@ describe('ItemListPreviewComponent', () => {
     beforeEach(() => {
       component.item = mockItemWithAuthorAndDate;
       fixture.detectChanges();
+    });
+
+    it('should show the title', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const itemTitle = fixture.debugElement.query(By.css('h3.lead'));
+        expect(itemTitle).not.toBeNull();
+        expect(itemTitle.nativeElement.innerHTML).toContain(mockItemWithAuthorAndDate.metadata['dc.title'][0].value);
+        done();
+      });
     });
 
     it('should show the author paragraph', () => {
@@ -143,6 +183,16 @@ describe('ItemListPreviewComponent', () => {
       fixture.detectChanges();
     });
 
+    it('should show the title', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const itemTitle = fixture.debugElement.query(By.css('h3.lead'));
+        expect(itemTitle).not.toBeNull();
+        expect(itemTitle.nativeElement.innerHTML).toContain(mockItemWithoutAuthorAndDate.metadata['dc.title'][0].value);
+        done();
+      });
+    });
+
     it('should not show the author paragraph', () => {
       const itemAuthorField = fixture.debugElement.query(By.css('span.item-list-authors'));
       expect(itemAuthorField).toBeNull();
@@ -153,6 +203,16 @@ describe('ItemListPreviewComponent', () => {
     beforeEach(() => {
       component.item = mockItemWithAuthorAndDate;
       fixture.detectChanges();
+    });
+
+    it('should show the title', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const itemTitle = fixture.debugElement.query(By.css('h3.lead'));
+        expect(itemTitle).not.toBeNull();
+        expect(itemTitle.nativeElement.innerHTML).toContain(mockItemWithAuthorAndDate.metadata['dc.title'][0].value);
+        done();
+      });
     });
 
     it('should show the issuedate span', () => {
@@ -167,6 +227,16 @@ describe('ItemListPreviewComponent', () => {
       fixture.detectChanges();
     });
 
+    it('should show the title', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const itemTitle = fixture.debugElement.query(By.css('h3.lead'));
+        expect(itemTitle).not.toBeNull();
+        expect(itemTitle.nativeElement.innerHTML).toContain(mockItemWithoutAuthorAndDate.metadata['dc.title'][0].value);
+        done();
+      });
+    });
+
     it('should show the issuedate empty placeholder', () => {
       const dateField = fixture.debugElement.query(By.css('span.item-list-date'));
       expect(dateField).not.toBeNull();
@@ -179,8 +249,18 @@ describe('ItemListPreviewComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should show the entity type span', () => {
-      const entityField = fixture.debugElement.query(By.css('ds-type-badge'));
+    it('should show the title', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const itemTitle = fixture.debugElement.query(By.css('h3.lead'));
+        expect(itemTitle).not.toBeNull();
+        expect(itemTitle.nativeElement.innerHTML).toContain(mockItemWithEntityType.metadata['dc.title'][0].value);
+        done();
+      });
+    });
+
+    it('should show the badges', () => {
+      const entityField = fixture.debugElement.query(By.css('ds-themed-badges'));
       expect(entityField).not.toBeNull();
     });
   });
@@ -198,12 +278,12 @@ describe('ItemListPreviewComponent', () => {
         }),
         NoopAnimationsModule
       ],
-      declarations: [ItemListPreviewComponent, TruncatePipe],
+      declarations: [ItemListPreviewComponent, MarkdownDirective, TruncatePipe],
       providers: [
+        {provide: MathService, useValue: MathServiceMock},
         {provide: 'objectElementProvider', useValue: {mockItemWithAuthorAndDate}},
         {provide: APP_CONFIG, useValue: enviromentNoThumbs}
       ],
-
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(ItemListPreviewComponent, {
       set: {changeDetection: ChangeDetectionStrategy.Default}
@@ -224,6 +304,17 @@ describe('ItemListPreviewComponent', () => {
       component.item = mockItemWithAuthorAndDate;
       fixture.detectChanges();
     });
+
+    it('should show the title', (done) => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const itemTitle = fixture.debugElement.query(By.css('h3.lead'));
+        expect(itemTitle).not.toBeNull();
+        expect(itemTitle.nativeElement.innerHTML).toContain(mockItemWithAuthorAndDate.metadata['dc.title'][0].value);
+        done();
+      });
+    });
+
     it('should add the ds-thumbnail element', () => {
       const thumbnail = fixture.debugElement.query(By.css('ds-thumbnail'));
       expect(thumbnail).toBeFalsy();

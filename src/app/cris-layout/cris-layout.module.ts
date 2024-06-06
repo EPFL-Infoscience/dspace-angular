@@ -98,8 +98,8 @@ import {
   MetadataRenderComponent
 } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/row/metadata-container/metadata-render/metadata-render.component';
 import {
-  MapComponent
-} from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/map/map.component';
+  GmapComponent
+} from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/gmap/gmap.component';
 import { GooglemapsModule } from '../shared/googlemaps/googlemaps.module';
 import { LoadMoreService } from './services/load-more.service';
 import { MiradorViewerModule } from '../item-page/mirador-viewer/mirador-viewer.module';
@@ -140,16 +140,20 @@ import {
   AttachmentRenderingModule
 } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/advanced-attachment/bitstream-attachment/attachment-render/attachment-rendering.module';
 import { FormModule } from '../shared/form/form.module';
+import { CrisLayoutCollectionBoxComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/cris-layout-collection-box/cris-layout-collection-box.component';
 import {
   CrisLayoutMediaBoxComponent
 } from './cris-layout-matrix/cris-layout-box-container/boxes/media-box/cris-layout-media-box.component';
 import { MediaPlayerModule } from '../shared/media-player/media-player.module';
+import { OpenStreetMapModule } from '../shared/open-street-map/open-street-map.module';
+import { OpenStreetMapRenderingComponent } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/open-street-map/open-street-map-rendering.component';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
   CrisLayoutVerticalComponent,
   CrisLayoutHorizontalComponent,
   CrisLayoutMetadataBoxComponent,
+  CrisLayoutCollectionBoxComponent,
   TextComponent,
   HtmlComponent,
   HeadingComponent,
@@ -170,14 +174,15 @@ const ENTRY_COMPONENTS = [
   OrcidComponent,
   ValuepairComponent,
   TagComponent,
-  MapComponent,
+  GmapComponent,
+  OpenStreetMapRenderingComponent,
   BrowseComponent,
   TagBrowseComponent,
   MarkdownComponent,
   SearchComponent,
   TagSearchComponent,
   AdvancedAttachmentComponent,
-  CrisLayoutMediaBoxComponent
+  CrisLayoutMediaBoxComponent,
 ];
 
 @NgModule({
@@ -213,6 +218,7 @@ const ENTRY_COMPONENTS = [
     SharedModule,
     SearchModule.withEntryComponents(),
     GooglemapsModule,
+    OpenStreetMapModule,
     MyDSpacePageModule,
     ContextMenuModule.withEntryComponents(),
     NgbAccordionModule,
@@ -224,7 +230,7 @@ const ENTRY_COMPONENTS = [
     MetricsModule,
     AttachmentRenderingModule,
     FormModule,
-    MediaPlayerModule
+    MediaPlayerModule,
   ],
   exports: [
     CrisLayoutComponent,

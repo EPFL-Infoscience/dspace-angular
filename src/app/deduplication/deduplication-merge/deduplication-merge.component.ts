@@ -1,19 +1,19 @@
-import { MergeObject } from './../../core/deduplication/models/merge-object.model';
-import { NestedMetadataObject, StoreIdentifiersToMerge } from './../interfaces/deduplication-merge.models';
-import { isEqual } from 'lodash';
-import { ConfigurationProperty } from './../../core/shared/configuration-property.model';
-import { getFirstSucceededRemoteDataPayload } from './../../core/shared/operators';
-import { ConfigurationDataService } from './../../core/data/configuration-data.service';
-import { ShowDifferencesComponent } from './../show-differences/show-differences.component';
+import { MergeObject } from '../../core/deduplication/models/merge-object.model';
+import { NestedMetadataObject, StoreIdentifiersToMerge } from '../interfaces/deduplication-merge.models';
+import isEqual from 'lodash/isEqual';
+import { ConfigurationProperty } from '../../core/shared/configuration-property.model';
+import { getFirstSucceededRemoteDataPayload } from '../../core/shared/operators';
+import { ConfigurationDataService } from '../../core/data/configuration-data.service';
+import { ShowDifferencesComponent } from '../show-differences/show-differences.component';
 import {
   NgbAccordion,
   NgbModal,
   NgbModalOptions,
   NgbModalRef,
 } from '@ng-bootstrap/ng-bootstrap';
-import { Bitstream } from './../../core/shared/bitstream.model';
-import { MetadataValue } from './../../core/shared/metadata.models';
-import { Item } from './../../core/shared/item.model';
+import { Bitstream } from '../../core/shared/bitstream.model';
+import { MetadataValue } from '../../core/shared/metadata.models';
+import { Item } from '../../core/shared/item.model';
 import { Observable } from 'rxjs/internal/Observable';
 import {
   Component,
@@ -24,7 +24,7 @@ import {
   QueryList,
 } from '@angular/core';
 import { DeduplicationItemsService } from './deduplication-items.service';
-import { map, concatMap, finalize, debounceTime } from 'rxjs/operators';
+import { map,  finalize, debounceTime } from 'rxjs/operators';
 import { hasValue } from '../../shared/empty.util';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from '../../core/services/cookie.service';
@@ -863,13 +863,7 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
   private getItemBitstreams() {
     if (this.itemsToCompare && this.itemsToCompare.length > 0) {
       this.itemsToCompare.map((item) => {
-        this.getBitstreamsPipe
-          .transform(item.object)?.pipe(
-            concatMap((res$: Observable<Bitstream[]>) =>
-              res$.pipe(map((bitstreams: Bitstream[]) => bitstreams))
-            )
-          )
-          .subscribe((bitstreams: Bitstream[]) => {
+        this.getBitstreamsPipe.transform(item.object)?.subscribe((bitstreams: Bitstream[]) => {
             const linksPerItem = bitstreams.map((b) => b._links.self.href);
             linksPerItem.forEach((link) => {
               if (!this.bitstreamList.includes(link)) {

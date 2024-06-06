@@ -3,7 +3,8 @@ import {
   Component,
   ComponentFactoryResolver,
   ContentChildren,
-  EventEmitter, Inject,
+  EventEmitter,
+  Inject,
   Input,
   NgZone,
   OnChanges,
@@ -16,7 +17,7 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormGroup } from '@angular/forms';
 
 import {
   DYNAMIC_FORM_CONTROL_TYPE_ARRAY,
@@ -58,7 +59,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { ReorderableRelationship } from './existing-metadata-list-element/existing-metadata-list-element.component';
 
 import { DYNAMIC_FORM_CONTROL_TYPE_ONEBOX } from './models/onebox/dynamic-onebox.model';
-import { DYNAMIC_FORM_CONTROL_TYPE_SCROLLABLE_DROPDOWN } from './models/scrollable-dropdown/dynamic-scrollable-dropdown.model';
+import {
+  DYNAMIC_FORM_CONTROL_TYPE_SCROLLABLE_DROPDOWN
+} from './models/scrollable-dropdown/dynamic-scrollable-dropdown.model';
 import { DYNAMIC_FORM_CONTROL_TYPE_TAG } from './models/tag/dynamic-tag.model';
 import { DYNAMIC_FORM_CONTROL_TYPE_DSDATEPICKER } from './models/date-picker/date-picker.model';
 import { DYNAMIC_FORM_CONTROL_TYPE_LOOKUP } from './models/lookup/dynamic-lookup.model';
@@ -70,7 +73,9 @@ import { DsDynamicTagComponent } from './models/tag/dynamic-tag.component';
 import { DsDatePickerComponent } from './models/date-picker/date-picker.component';
 import { DsDynamicListComponent } from './models/list/dynamic-list.component';
 import { DsDynamicOneboxComponent } from './models/onebox/dynamic-onebox.component';
-import { DsDynamicScrollableDropdownComponent } from './models/scrollable-dropdown/dynamic-scrollable-dropdown.component';
+import {
+  DsDynamicScrollableDropdownComponent
+} from './models/scrollable-dropdown/dynamic-scrollable-dropdown.component';
 import { DsDynamicLookupComponent } from './models/lookup/dynamic-lookup.component';
 import { DsDynamicFormGroupComponent } from './models/form-group/dynamic-form-group.component';
 import { DsDynamicFormArrayComponent } from './models/array-group/dynamic-form-array.component';
@@ -82,7 +87,9 @@ import { CustomSwitchComponent } from './models/custom-switch/custom-switch.comp
 import { find, map, startWith, switchMap, take } from 'rxjs/operators';
 import { combineLatest as observableCombineLatest, Observable, Subscription } from 'rxjs';
 import { DsDynamicTypeBindRelationService } from './ds-dynamic-type-bind-relation.service';
-import { DsDynamicRelationInlineGroupComponent } from './models/relation-inline-group/dynamic-relation-inline-group.components';
+import {
+  DsDynamicRelationInlineGroupComponent
+} from './models/relation-inline-group/dynamic-relation-inline-group.components';
 import { SearchResult } from '../../../search/models/search-result.model';
 import { DSpaceObject } from '../../../../core/shared/dspace-object.model';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -122,6 +129,7 @@ import { FormFieldMetadataValueObject } from '../models/form-field-metadata-valu
 import { APP_CONFIG, AppConfig } from '../../../../../config/app-config.interface';
 import { itemLinksToFollow } from '../../../utils/relation-query.utils';
 import { DynamicConcatModel } from './models/ds-dynamic-concat.model';
+import { Metadata } from '../../../../core/shared/metadata.utils';
 import { DsDynamicMarkdownComponent } from './models/markdown/dynamic-markdown.component';
 import { DYNAMIC_FORM_CONTROL_TYPE_MARKDOWN } from './models/markdown/dynamic-markdown.model';
 
@@ -205,12 +213,12 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
   @Input('templates') inputTemplateList: QueryList<DynamicTemplateDirective>;
   @Input() hasMetadataModel: any;
   @Input() formId: string;
-  @Input() formGroup: FormGroup;
+  @Input() formGroup: UntypedFormGroup;
   @Input() formModel: DynamicFormControlModel[];
   @Input() asBootstrapFormGroup = false;
   @Input() bindId = true;
   @Input() context: any | null = null;
-  @Input() group: FormGroup;
+  @Input() group: UntypedFormGroup;
   @Input() hostClass: string[];
   @Input() hasErrorMessaging = false;
   @Input() layout = null as DynamicFormLayout;
@@ -268,7 +276,7 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
     private submissionObjectService: SubmissionObjectDataService,
     private ref: ChangeDetectorRef,
     private formService: FormService,
-    private formBuilderService: FormBuilderService,
+    public formBuilderService: FormBuilderService,
     private submissionService: SubmissionService,
     @Inject(APP_CONFIG) protected appConfig: AppConfig,
   ) {
@@ -352,9 +360,15 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
         );
       }
     }
-    if (this.model && this.model.value && this.model.value.securityLevel !== undefined) {
+
+    if (isNotEmpty(this.model?.value?.securityLevel)) {
       this.securityLevel = this.model.value.securityLevel;
+    } else if (isNotEmpty(this.model?.metadataValue?.securityLevel)) {
+      this.securityLevel = this.model.metadataValue.securityLevel;
+    } else {
+      this.securityLevel = this.model.securityLevel;
     }
+
  }
 
   get isCheckbox(): boolean {
@@ -484,7 +498,7 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
   onRemove(): void {
     const arrayContext: DynamicFormArrayModel = (this.context as DynamicFormArrayGroupModel).context;
     const path = this.formBuilderService.getPath(arrayContext);
-    const formArrayControl = this.group.root.get(path) as FormArray;
+    const formArrayControl = this.group.root.get(path) as UntypedFormArray;
     this.formBuilderService.removeFormArrayGroup(this.context.index, formArrayControl, arrayContext);
     if (this.model.parent.context.groups.length === 0) {
       this.formBuilderService.addFormArrayGroup(formArrayControl, arrayContext);
@@ -495,6 +509,7 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
    * Unsubscribe from all subscriptions
    */
   ngOnDestroy(): void {
+    super.ngOnDestroy();
     this.subs
       .filter((sub) => hasValue(sub))
       .forEach((sub) => sub.unsubscribe());
@@ -502,6 +517,14 @@ export class DsDynamicFormControlContainerComponent extends DynamicFormControlCo
 
   get hasHint(): boolean {
     return isNotEmpty(this.model.hint) && this.model.hint !== '&nbsp;';
+  }
+
+  get hasValue(): boolean {
+    if (hasValue(this.model.metadataValue)) {
+      return Metadata.hasValue(this.model?.metadataValue);
+    } else {
+      return Metadata.hasValue(this.model?.value);
+    }
   }
 
   /**

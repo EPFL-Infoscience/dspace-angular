@@ -11,7 +11,6 @@ import { createTestComponent } from '../../testing/utils.test';
 import { AuthorityConfidenceStateDirective } from '../directives/authority-confidence-state.directive';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfidenceType } from '../../../core/shared/confidence-type';
-import { SortablejsModule } from 'ngx-sortablejs';
 import { environment } from '../../../../environments/environment';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -31,7 +30,6 @@ describe('ChipsComponent test suite', () => {
       imports: [
         NgbModule,
         RouterTestingModule,
-        SortablejsModule.forRoot({ animation: 150 }),
         TranslateModule.forRoot()
       ],
       declarations: [
@@ -96,18 +94,18 @@ describe('ChipsComponent test suite', () => {
     }));
 
     it('should save chips item index when drag and drop start', fakeAsync(() => {
-      const de = chipsFixture.debugElement.query(By.css('li.nav-item'));
+      const de = chipsFixture.debugElement.query(By.css('a'));
 
-      de.triggerEventHandler('dragstart', null);
+      de.triggerEventHandler('cdkDragStarted', null);
 
       expect(chipsComp.dragged).toBe(0);
     }));
 
     it('should update chips item order when drag and drop end', fakeAsync(() => {
       spyOn(chipsComp.chips, 'updateOrder');
-      const de = chipsFixture.debugElement.query(By.css('li.nav-item'));
+      const de = chipsFixture.debugElement.query(By.css('div[role="list"]'));
 
-      de.triggerEventHandler('dragend', null);
+      de.triggerEventHandler('cdkDropListDropped', { previousIndex: 0, currentIndex: 1 });
 
       expect(chipsComp.dragged).toBe(-1);
       expect(chipsComp.chips.updateOrder).toHaveBeenCalled();
@@ -132,7 +130,7 @@ describe('ChipsComponent test suite', () => {
     });
 
     it('should show icon for every field that has a configured icon', () => {
-      const de = chipsFixture.debugElement.query(By.css('li.nav-item'));
+      const de = chipsFixture.debugElement.query(By.css('div.nav-item'));
       const icons = de.queryAll(By.css('i.fas'));
 
       expect(icons.length).toBe(4);
@@ -140,7 +138,7 @@ describe('ChipsComponent test suite', () => {
     });
 
     it('should show tooltip on mouse over an icon', () => {
-      const de = chipsFixture.debugElement.query(By.css('li.nav-item'));
+      const de = chipsFixture.debugElement.query(By.css('div.nav-item'));
       const icons = de.queryAll(By.css('i.fas'));
 
       icons[0].triggerEventHandler('mouseover', null);
@@ -168,7 +166,7 @@ describe('ChipsComponent test suite', () => {
     });
 
     it('should not show tooltip on mouse over list item when display text is short', () => {
-      const de = chipsFixture.debugElement.query(By.css('li.nav-item'));
+      const de = chipsFixture.debugElement.query(By.css('div.nav-item'));
       de.triggerEventHandler('mouseover', null);
       expect(chipsComp.tipText$.value).toEqual([]);
       de.triggerEventHandler('mouseout', null);
@@ -190,14 +188,14 @@ describe('ChipsComponent test suite', () => {
     });
 
     it('should show tooltip on mouse over list item when display text is long', () => {
-      const de = chipsFixture.debugElement.query(By.css('li.nav-item'));
+      const de = chipsFixture.debugElement.query(By.css('div.nav-item'));
       de.triggerEventHandler('mouseover', null);
       expect(chipsComp.tipText$.value).toEqual(['long text to display is truncated but not in tooltip']);
       de.triggerEventHandler('mouseout', null);
     });
 
     it('should show truncated text on list item when display text is long', () => {
-      const de = chipsFixture.debugElement.query(By.css('li.nav-item p.d-table-cell'));
+      const de = chipsFixture.debugElement.query(By.css('div.nav-item p.d-table-cell'));
       expect(de.nativeElement.innerText).toEqual(chipsComp.textTruncate('long text to display is truncated but not in tooltip'));
     });
   });

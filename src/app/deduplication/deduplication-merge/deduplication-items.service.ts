@@ -1,19 +1,19 @@
-import { FindListOptions } from './../../core/data/find-list-options.model';
-import { isEqual } from 'lodash';
+import { FindListOptions } from '../../core/data/find-list-options.model';
+import isEqual from 'lodash/isEqual';
 import { SubmissionFieldsObject } from '../../core/deduplication/models/submission-fields.model';
 import { SubmissionFieldsRestService } from '../../core/deduplication/services/submission-fields-rest.service';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
-import { RemoteData } from './../../core/data/remote-data';
-import { MergeObject } from './../../core/deduplication/models/merge-object.model';
+import { RemoteData } from '../../core/data/remote-data';
+import { MergeObject } from '../../core/deduplication/models/merge-object.model';
 import { map } from 'rxjs/operators';
-import { DeduplicationMergeRestService } from './../../core/deduplication/services/deduplication-merge-rest.service';
+import { DeduplicationMergeRestService } from '../../core/deduplication/services/deduplication-merge-rest.service';
 import {
   getFirstCompletedRemoteData,
   getFirstSucceededRemoteDataPayload,
-} from './../../core/shared/operators';
-import { followLink } from './../../shared/utils/follow-link-config.model';
-import { Item } from './../../core/shared/item.model';
-import { ItemDataService } from './../../core/data/item-data.service';
+} from '../../core/shared/operators';
+import { followLink } from '../../shared/utils/follow-link-config.model';
+import { Item } from '../../core/shared/item.model';
+import { ItemDataService } from '../../core/data/item-data.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 
 import { Observable } from 'rxjs';
@@ -13,6 +13,10 @@ import { getFirstCompletedRemoteData } from '../core/shared/operators';
 import { Item } from '../core/shared/item.model';
 import { getItemPageRoute } from './item-page-routing-paths';
 import { createFailedRemoteDataObject$ } from '../shared/remote-data.utils';
+import { HardRedirectService } from '../core/services/hard-redirect.service';
+import { getPageNotFoundRoute } from '../app-routing-paths';
+import { isNotEmpty } from '../shared/empty.util';
+import { isPlatformServer } from '@angular/common';
 
 /**
  * This class represents a resolver that requests the tabs of specific
@@ -21,7 +25,12 @@ import { createFailedRemoteDataObject$ } from '../shared/remote-data.utils';
 @Injectable()
 export class CrisItemPageTabResolver implements Resolve<RemoteData<PaginatedList<CrisLayoutTab>>> {
 
-  constructor(private tabService: TabDataService, private itemDataService: ItemDataService, private router: Router) { }
+  constructor(
+    @Inject(PLATFORM_ID) protected platformId: any,
+    private hardRedirectService: HardRedirectService,
+    private tabService: TabDataService,
+    private itemDataService: ItemDataService,
+    private router: Router) { }
 
   /**
    * Method for resolving the tabs of item based on the parameters in the current route
@@ -37,6 +46,7 @@ export class CrisItemPageTabResolver implements Resolve<RemoteData<PaginatedList
         if (itemRD.hasSucceeded && itemRD.statusCode === 200) {
           return this.tabService.findByItem(
             itemRD.payload.uuid,
+            true,
             true
           ).pipe(
             getFirstCompletedRemoteData(),
@@ -44,18 +54,27 @@ export class CrisItemPageTabResolver implements Resolve<RemoteData<PaginatedList
               if (tabsRD.hasSucceeded && tabsRD?.payload?.page?.length > 0) {
                 // By splitting the url with uuid we can understand if the item is primary item page or a tab
                 const urlSplit = state.url.split(route.params.id);
-                // If a no or wrong tab is given redirect to the first tab available
-                if (!!tabsRD.payload && !!tabsRD.payload.page && tabsRD.payload.page.length > 0 && !urlSplit[1]) {
-                  const selectedTab = tabsRD.payload.page.filter((tab) => !tab.leading)[0];
-                  if (!!selectedTab) {
-                    let tabName = selectedTab.shortname;
+                const tabArguments = urlSplit[1]?.split('/');
+                const givenTab = tabArguments[1];
+                const hasViewer: boolean = isNotEmpty(tabArguments[2]) && tabArguments[2] === 'viewer';
+                const itemPageRoute = getItemPageRoute(itemRD.payload);
+                const isValidTab = tabsRD.payload.page.some((tab) => !givenTab || tab.shortname === givenTab);
 
-                    if (tabName.includes('::')) {
-                      tabName = tabName.split('::')[1];
-                    }
+                const mainTab = tabsRD.payload.page.length === 1
+                  ? tabsRD.payload.page[0]
+                  : tabsRD.payload.page.find(tab => !tab.leading);
 
-                    this.router.navigateByUrl(getItemPageRoute(itemRD.payload) + '/' + tabName);
+                if (!isValidTab) {
+                  // If wrong tab is given redirect to 404 page
+                  this.router.navigateByUrl(getPageNotFoundRoute(), { skipLocationChange: true, replaceUrl: false });
+                } else if (givenTab === mainTab.shortname && !hasViewer) {
+                  if (isPlatformServer(this.platformId)) {
+                    // If first tab is given redirect to root item page
+                    this.hardRedirectService.redirect(itemPageRoute, 302);
+                  } else {
+                    this.router.navigateByUrl(itemPageRoute);
                   }
+
                 }
               }
               return tabsRD;

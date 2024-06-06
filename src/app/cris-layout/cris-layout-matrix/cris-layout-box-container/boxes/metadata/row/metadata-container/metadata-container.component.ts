@@ -18,8 +18,7 @@ import { MetadataFilter } from '../../../../../../../core/data/bitstream-data.se
 import { RemoteData } from '../../../../../../../core/data/remote-data';
 import { PaginatedList } from '../../../../../../../core/data/paginated-list.model';
 import { Observable } from 'rxjs';
-import { NestedMetadataGroupEntry } from '../../rendering-types/metadataGroup/metadata-group.component';
-import { LoadMoreService } from '../../../../../../services/load-more.service';
+import { LoadMoreService, NestedMetadataGroupEntry } from '../../../../../../services/load-more.service';
 
 @Component({
   selector: 'ds-metadata-container',
@@ -40,6 +39,10 @@ export class MetadataContainerComponent implements OnInit {
    * The metadata field to render
    */
   @Input() field: LayoutField;
+  /**
+   * The tab name
+   */
+  @Input() tabName: string;
 
   /**
    * The prefix used for box field label's i18n key

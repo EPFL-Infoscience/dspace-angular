@@ -24,6 +24,9 @@ import { ParserType } from './parser-type';
 import { isNgbDateStruct } from '../../../date.util';
 import { SubmissionVisibility } from '../../../../submission/utils/visibility.util';
 import { SubmissionVisibilityType } from '../../../../core/config/models/config-submission-section.model';
+import { Metadata } from '../../../../core/shared/metadata.utils';
+import { MetadataValue } from '../../../../core/shared/metadata.models';
+import {TranslateService} from '@ngx-translate/core';
 
 export const SUBMISSION_ID: InjectionToken<string> = new InjectionToken<string>('submissionId');
 export const CONFIG_DATA: InjectionToken<FormFieldModel> = new InjectionToken<FormFieldModel>('configData');
@@ -36,6 +39,7 @@ export const PARSER_OPTIONS: InjectionToken<ParserOptions> = new InjectionToken<
  */
 export const REGEX_FIELD_VALIDATOR = new RegExp('(\\/?)(.+)\\1([gimsuy]*)', 'i');
 export const SECURITY_CONFIG: InjectionToken<any> = new InjectionToken<any>('securityConfig');
+export const TRANSLATION_SERVICE: InjectionToken<any> = new InjectionToken<any>('translateService');
 
 export abstract class FieldParser {
 
@@ -51,7 +55,8 @@ export abstract class FieldParser {
     @Inject(CONFIG_DATA) protected configData: FormFieldModel,
     @Inject(INIT_FORM_VALUES) protected initFormValues: any,
     @Inject(PARSER_OPTIONS) protected parserOptions: ParserOptions,
-    @Inject(SECURITY_CONFIG) protected securityConfig: any = null
+    @Inject(SECURITY_CONFIG) protected securityConfig: any = null,
+    @Inject(TRANSLATION_SERVICE) protected translateService: TranslateService
   ) {
   }
 
@@ -200,12 +205,16 @@ export abstract class FieldParser {
     return modelConfig;
   }
 
-  public initSecurityValue(modelConfig: any) {
-    // preselect most restricted security level if is not yet selected
+  public initSecurityValue(modelConfig: any, forcedValue?: MetadataValue|string) {
+    // preselect the security level if is not yet selected
     // or if the current security level is not available in the current configuration
     if ((isEmpty(modelConfig.securityLevel) && isNotEmpty(modelConfig.securityConfigLevel)) ||
       (isNotEmpty(modelConfig.securityLevel) && isNotEmpty(modelConfig.securityConfigLevel) && !modelConfig.securityConfigLevel.includes(modelConfig.securityLevel) )) {
-      modelConfig.securityLevel = modelConfig.securityConfigLevel[modelConfig.securityConfigLevel.length - 1];
+      // take the first element of the securityConfigLevel array when the model config has already a value
+      // otherwise take the most restricted one
+      modelConfig.securityLevel = (Metadata.hasValue(modelConfig.value) || Metadata.hasValue(forcedValue)) ?
+        modelConfig.securityConfigLevel[0] :
+        modelConfig.securityConfigLevel[modelConfig.securityConfigLevel.length - 1];
     }
   }
 
@@ -315,7 +324,7 @@ export abstract class FieldParser {
     // Set read only option
     controlModel.readOnly = this.parserOptions.readOnly
       || this.isFieldReadOnly(this.configData.visibility, this.parserOptions.submissionScope);
-    controlModel.disabled = this.parserOptions.readOnly;
+    controlModel.disabled = controlModel.readOnly;
     controlModel.isModelOfInnerForm = this.parserOptions.isInnerForm;
     if (hasValue(this.configData.selectableRelationship)) {
       controlModel.relationship = Object.assign(new RelationshipOptions(), this.configData.selectableRelationship);
@@ -350,7 +359,7 @@ export abstract class FieldParser {
       (controlModel as DsDynamicInputModel).typeBindRelations = this.getTypeBindRelations(this.configData.typeBind,
         this.parserOptions.typeField);
     }
-    controlModel.securityConfigLevel = this.mapBetweenMetadataRowAndSecurityMetadataLevels(this.fieldId);
+    controlModel.securityConfigLevel = this.mapBetweenMetadataRowAndSecurityMetadataLevels(this.getFieldId());
 
     return controlModel;
   }
@@ -416,10 +425,20 @@ export abstract class FieldParser {
       regex = new RegExp(this.configData.input.regex);
     }
     controlModel.validators = Object.assign({}, controlModel.validators, { pattern: regex });
-    controlModel.errorMessages = Object.assign(
-      {},
-      controlModel.errorMessages,
-      { pattern: 'error.validation.pattern' });
+    let errorField = controlModel.name;
+    this.translateService.get(`error.validation.pattern.${errorField}`).subscribe((result) => {
+      if (`error.validation.pattern.${errorField}` === result) {
+        controlModel.errorMessages = Object.assign(
+          {},
+          controlModel.errorMessages,
+          {pattern: 'error.validation.pattern'});
+      } else {
+        controlModel.errorMessages = Object.assign(
+          {},
+          controlModel.errorMessages,
+          {pattern: `error.validation.pattern.${errorField}`});
+      }
+    });
   }
 
   protected markAsRequired(controlModel) {
