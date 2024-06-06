@@ -44,7 +44,6 @@ import { getDownloadableBitstream } from '../shared/bitstream.operators';
 import { APP_CONFIG, AppConfig } from '../../../config/app-config.interface';
 import { SchemaJsonLDService } from './schema-json-ld/schema-json-ld.service';
 import { ITEM } from '../shared/item.resource-type';
-import { isPlatformServer } from '@angular/common';
 import { Root } from '../data/root.model';
 
 /**
