@@ -26,11 +26,13 @@
                  [dsMarkdown]="dsoTitle"></a>
           <span *ngIf="linkType == linkTypes.None" class="lead item-list-title dont-break-out"
                 [dsMarkdown]="dsoTitle"></span>
-          <div *ngIf="!dso.isArchived && workflowStartDate">
-            {{'mydspace.results.in-workflow-since' | translate}} {{itemDateTime}}
-          </div>
-          <div *ngIf="dso.isArchived && workflowStartDate && accessionedDate">
-            {{'mydspace.results.in-workflow-for' | translate}} {{itemArchivedDateTime}}
+          <div *ngIf="canViewInWorkflowSinceStatistics() | async" >
+            <div *ngIf="!dso.isArchived && workflowStartDate">
+              {{'mydspace.results.in-workflow-since' | translate}} {{itemDateTime}}
+            </div>
+            <div *ngIf="dso.isArchived && workflowStartDate && accessionedDate">
+              {{'mydspace.results.in-workflow-for' | translate}} {{itemArchivedDateTime}}
+            </div>
           </div>
           <span class="text-muted">
             <ds-truncatable-part [id]="dso.id" [minLines]="1">

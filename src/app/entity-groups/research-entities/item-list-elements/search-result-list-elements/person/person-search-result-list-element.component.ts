@@ -9,6 +9,7 @@ import {
 import { TruncatableService } from '../../../../../shared/truncatable/truncatable.service';
 import { DSONameService } from '../../../../../core/breadcrumbs/dso-name.service';
 import { APP_CONFIG, AppConfig } from '../../../../../../config/app-config.interface';
+import {AuthorizationDataService} from '../../../../../core/data/feature-authorization/authorization-data.service';
 
 @listableObjectComponent('PersonSearchResult', ViewMode.ListElement)
 @Component({
@@ -24,9 +25,10 @@ export class PersonSearchResultListElementComponent extends ItemSearchResultList
   public constructor(
     protected truncatableService: TruncatableService,
     public dsoNameService: DSONameService,
+    public authorizationService: AuthorizationDataService,
     @Inject(APP_CONFIG) protected appConfig: AppConfig
   ) {
-    super(truncatableService, dsoNameService, appConfig);
+    super(truncatableService, dsoNameService, authorizationService, appConfig);
   }
 
   /**
