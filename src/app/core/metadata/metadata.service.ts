@@ -44,7 +44,6 @@ import { getDownloadableBitstream } from '../shared/bitstream.operators';
 import { APP_CONFIG, AppConfig } from '../../../config/app-config.interface';
 import { SchemaJsonLDService } from './schema-json-ld/schema-json-ld.service';
 import { ITEM } from '../shared/item.resource-type';
-import { isPlatformServer } from '@angular/common';
 import { Root } from '../data/root.model';
 
 /**
@@ -149,7 +148,7 @@ export class MetadataService {
     if (hasValue(routeInfo.data.value.dso) && hasValue(routeInfo.data.value.dso.payload)) {
       this.currentObject.next(routeInfo.data.value.dso.payload);
       this.setDSOMetaTags();
-      if (routeInfo.data.value.dso.payload.type === ITEM.value && isPlatformServer(this.platformId)) {
+      if (routeInfo.data.value.dso.payload.type === ITEM.value) {
         this.schemaJsonLDService.insertSchema(routeInfo.data.value.dso.payload);
       }
     }

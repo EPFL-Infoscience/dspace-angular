@@ -1,5 +1,5 @@
 <div [class]="field.styleValue">
   <a class="text-value" [routerLink]="'/search'" [queryParams]="searchQueryParams">
-    {{ metadataValue.value }}
+    <div [dsMarkdown]="metadataValue.value" data-test="formatted-text"></div>
   </a>
 </div>

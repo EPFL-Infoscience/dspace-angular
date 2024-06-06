@@ -1789,6 +1789,10 @@
 
   "context-menu.actions.subscription.notification.content": "Subscription Updated Successfully, click {{here}} to see subscrition summary.",
 
+  "RELATION.Event.researchoutputs.search.results.head": "Publications",
+
+  "RELATION.Journal.researchoutputs.search.results.head": "Publications",
+
   "RELATION.Person.researchoutputs.search.results.head": "Scholarly Works",
 
   "RELATION.Person.projects.search.results.head": "Projects",
@@ -2947,6 +2951,8 @@
   "form.no-results": "No results found",
 
   "form.no-value": "No value entered",
+
+  "form.other-information.datacite_relatedIdentifier": "Identifier",
 
   "form.other-information.email": "Email",
 
@@ -6482,6 +6488,8 @@
 
   "statistics.workflow.page.step-table.editstep": "Edit",
 
+  "statistics.workflow.page.step-table.epflstep": "EPFL Reviewers",
+
   "statistics.workflow.page.step-table.finaleditstep": "Final edit",
 
   "statistics.workflow.page.step-table.item": "Archive",
@@ -6596,6 +6604,8 @@
 
   "statistics.table.top20reports.title.TopItems": "Top 20 most downloaded deposits",
 
+  "statistics.table.top20reports.title.TopDownloads": "Top 20 most downloaded deposits",
+
   "form.other-information.oairecerif-author-affiliation": "Affiliation",
 
   "form.other-information.oairecerif-editor-affiliation": "Affiliation",
@@ -6635,6 +6645,8 @@
   "statistics.table.downloadReports.header.views": "Downloads",
 
   "statistics.table.top20reports.header.views": "Downloads",
+
+  "statistics.table.top20reports.header.downloads": "Downloads",
 
   "statistics.table.downloadReports.header.continent": "Continent",
 
@@ -8062,6 +8074,8 @@
   "vocabulary-treeview.search.form.search": "Search",
 
   "vocabulary-treeview.search.no-result": "There were no items to show",
+
+  "vocabulary-treeview.tree.description.default-type": "Type",
 
   "vocabulary-treeview.tree.description.nsi": "The Norwegian Science Index",
 
