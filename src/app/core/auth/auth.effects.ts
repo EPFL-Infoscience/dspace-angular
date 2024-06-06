@@ -285,10 +285,10 @@ export class AuthEffects {
       switchMap(([{ token, redirectUrl }, { id }]) =>
         this.authService.retrieveAuthenticatedUserById(id).pipe(
           take(1),
-          map(user => new RefreshEpersonAndTokenRedirectSuccessAction(user, token, redirectUrl))
+          map(user => new RefreshEpersonAndTokenRedirectSuccessAction(user, token, redirectUrl)),
+          catchError(_ => observableOf(new RefreshEpersonAndTokenRedirectErrorAction()))
         )
-      ),
-      catchError(_ => observableOf(new RefreshEpersonAndTokenRedirectErrorAction()))
+      )
     )
   );
 
