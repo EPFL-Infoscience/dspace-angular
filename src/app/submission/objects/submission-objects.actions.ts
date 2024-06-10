@@ -9,7 +9,7 @@ import {
   WorkspaceitemSectionDataType,
   WorkspaceitemSectionsObject
 } from '../../core/submission/models/workspaceitem-sections.model';
-import { SubmissionObject } from '../../core/submission/models/submission-object.model';
+import { SubmissionObject, SubmissionObjectError } from '../../core/submission/models/submission-object.model';
 import { SubmissionDefinitionsModel } from '../../core/config/models/config-submission-definitions.model';
 import { SectionsType } from '../sections/sections-type';
 import { Item } from '../../core/shared/item.model';
@@ -1088,6 +1088,7 @@ export class ExecuteExternalUploadErrorAction implements Action {
   type = SubmissionObjectActionTypes.EXECUTE_EXTERNAL_UPLOAD_ERROR;
   payload: {
     submissionId: string;
+    errors: SubmissionObjectError[]
   };
 
   /**
@@ -1095,11 +1096,11 @@ export class ExecuteExternalUploadErrorAction implements Action {
    *
    * @param submissionId
    *    the submission's ID
-   * @param sectionId
+   * @param errors
    *    the section's ID
    */
-  constructor(submissionId: string) {
-    this.payload = { submissionId };
+  constructor(submissionId: string, errors: SubmissionObjectError[]) {
+    this.payload = { submissionId, errors };
   }
 }
 

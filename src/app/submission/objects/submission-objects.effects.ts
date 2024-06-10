@@ -68,6 +68,8 @@ import { NotificationOptions } from '../../shared/notifications/models/notificat
 import {
   WorkspaceitemSectionDetectDuplicateObject
 } from '../../core/submission/models/workspaceitem-section-deduplication.model';
+import { Simulate } from 'react-dom/test-utils';
+import error = Simulate.error;
 
 @Injectable()
 export class SubmissionObjectEffects {
@@ -308,7 +310,7 @@ export class SubmissionObjectEffects {
     switchMap(([action, state]: [DepositSubmissionAction, any]) => {
       return this.submissionService.depositSubmission(state.submission.objects[action.payload.submissionId].selfUrl).pipe(
         map(() => new DepositSubmissionSuccessAction(action.payload.submissionId)),
-        catchError((error) => observableOf(new DepositSubmissionErrorAction(action.payload.submissionId))));
+        catchError(() => observableOf(new DepositSubmissionErrorAction(action.payload.submissionId))));
     })));
 
   /**
@@ -397,12 +399,25 @@ export class SubmissionObjectEffects {
         action.payload.submissionId,
         'sections',
         action.payload.sectionId).pipe(
-        map((response: SubmissionObject[]) => new ExecuteExternalUploadSuccessAction(
-          action.payload.submissionId,
-          action.payload.sectionId,
-          response
-        )),
-        catchError(() => observableOf(new ExecuteExternalUploadErrorAction(action.payload.submissionId))));
+          map((response: SubmissionObject[]) => {
+            const errors = [].concat.apply([], response.map(sub => sub.errors));
+            const sectionErrors = errors.filter((errorObject: SubmissionObjectError) => errorObject.paths.length > 0)
+              .filter(err => err.paths.includes('/sections/' + action.payload.sectionId));
+
+            if (sectionErrors.length > 0) {
+              return new ExecuteExternalUploadErrorAction(action.payload.submissionId, sectionErrors);
+            } else {
+              return new ExecuteExternalUploadSuccessAction(
+                action.payload.submissionId,
+                action.payload.sectionId,
+                response
+              );
+            }
+          }),
+          catchError((rd: RemoteData<any>) => observableFrom(
+            this.parseErrorResponse(false, rd.errors, action.payload.submissionId, rd.statusCode, rd.errorMessage)
+          ))
+      );
     }))
   );
 
@@ -412,6 +427,15 @@ export class SubmissionObjectEffects {
   executeExternalUploadSuccess$ = createEffect(() => this.actions$.pipe(
       ofType(SubmissionObjectActionTypes.EXECUTE_EXTERNAL_UPLOAD_SUCCESS),
       tap(() => this.notificationsService.success(null, this.translate.get('submission.sections.external-upload.upload-success-notice')))),
+    { dispatch: false }
+  );
+
+  /**
+   * Show external update errors
+   */
+  executeExternalUploadError$ = createEffect(() => this.actions$.pipe(
+      ofType(SubmissionObjectActionTypes.EXECUTE_EXTERNAL_UPLOAD_ERROR),
+      tap(() => this.notificationsService.error(null, this.translate.get('submission.sections.external-upload.upload-error-notice')))),
     { dispatch: false }
   );
 
@@ -635,11 +659,11 @@ function filterErrors(sectionForm: FormState, sectionErrors: SubmissionSectionEr
     return [];
   }
   const filteredErrors = [];
-  sectionErrors.forEach((error: SubmissionSectionError) => {
+  sectionErrors.forEach((err: SubmissionSectionError) => {
     const errorPaths: SectionErrorPath[] = parseSectionErrorPaths(error.path);
     errorPaths.forEach((path: SectionErrorPath) => {
       if (path.fieldId && sectionForm.touched[path.fieldId]) {
-        filteredErrors.push(error);
+        filteredErrors.push(err);
       }
     });
   });

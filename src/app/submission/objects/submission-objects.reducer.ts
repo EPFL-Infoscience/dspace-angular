@@ -55,6 +55,7 @@ import {
 } from '../../core/submission/models/workspaceitem-section-deduplication.model';
 import { SubmissionSectionObject } from './submission-section-object.model';
 import { MetadataSecurityConfiguration } from '../../core/submission/models/metadata-security-configuration';
+import { SubmissionObjectError } from '../../core/submission/models/submission-object.model';
 
 /**
  * An interface to represent SubmissionSectionObject entry
@@ -112,6 +113,10 @@ export interface SubmissionObjectEntry {
    */
   externalUploadPending?: boolean;
 
+  /**
+   * Errors from external upload
+   */
+  externalUploadErrors?: SubmissionObjectError[];
   /**
    * A boolean representing if a submission deposit operation is pending
    */
@@ -411,6 +416,7 @@ function initSubmission(state: SubmissionObjectState, action: InitSubmissionForm
     savePending: false,
     saveDecisionPending: false,
     externalUploadPending: false,
+    externalUploadErrors: [],
     depositPending: false,
     metadataSecurityConfiguration: action.payload.metadataSecurityConfiguration,
     isDiscarding: false
@@ -1110,6 +1116,7 @@ function startExternalUploadExecution(state: SubmissionObjectState, action: Exec
     return Object.assign({}, state, {
       [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
         externalUploadPending: true,
+        externalUploadErrors: [],
       })
     });
   } else {
@@ -1132,6 +1139,7 @@ function endExternalUploadExecution(state: SubmissionObjectState, action: Execut
     return Object.assign({}, state, {
       [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
         externalUploadPending: false,
+        externalUploadErrors: action.payload.errors
       })
     });
   } else {

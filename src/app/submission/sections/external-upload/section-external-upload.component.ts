@@ -27,6 +27,8 @@ export class SectionExternalUploadComponent extends SectionModelComponent implem
 
   public loading$ = this.submissionService.getExternalUplodaProcessingStatus(this.injectedSubmissionId);
 
+  public errors$ = this.submissionService.getExternalUplodaErorrs(this.injectedSubmissionId);
+
   public AlertType = AlertType;
 
   /**
@@ -90,7 +92,6 @@ export class SectionExternalUploadComponent extends SectionModelComponent implem
       .subscribe(() => {
         this.operationsBuilder.add(this.pathCombiner.getPath(this.patchOperationPath), this.source, false, true);
         this.externalUploadService.executeExternalUpload(this.submissionId, this.injectedSectionData.id);
-        this.source = '';
       });
   }
 }

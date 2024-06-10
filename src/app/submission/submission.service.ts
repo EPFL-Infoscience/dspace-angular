@@ -30,7 +30,7 @@ import { HttpOptions } from '../core/dspace-rest/dspace-rest.service';
 import { SubmissionRestService } from '../core/submission/submission-rest.service';
 import { SectionDataObject } from './sections/models/section-data.model';
 import { SubmissionScopeType } from '../core/submission/submission-scope-type';
-import { SubmissionObject } from '../core/submission/models/submission-object.model';
+import { SubmissionObject, SubmissionObjectError } from '../core/submission/models/submission-object.model';
 import { RouteService } from '../core/services/route.service';
 import { SectionsType } from './sections/sections-type';
 import { NotificationsService } from '../shared/notifications/notifications.service';
@@ -552,6 +552,21 @@ export class SubmissionService {
       map((state: SubmissionObjectEntry) => state.externalUploadPending),
       distinctUntilChanged(),
       startWith(false));
+  }
+
+  /**
+   * Return the external upload status of the submission
+   *
+   * @param submissionId
+   *    The submission id
+   * @return Observable<boolean>
+   *    observable with submission save-decision status
+   */
+  getExternalUplodaErorrs(submissionId: string): Observable<SubmissionObjectError[]> {
+    return this.getSubmissionObject(submissionId).pipe(
+      map((state: SubmissionObjectEntry) => state.externalUploadErrors),
+      distinctUntilChanged(),
+      startWith([]));
   }
 
   /**

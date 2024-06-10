@@ -2183,6 +2183,8 @@
 
   "error.validation.filerequired": "The file upload is mandatory",
 
+  "error.validation.filenotfound": "File not found",
+
   "error.validation.required": "This field is required",
 
   "error.validation.NotValidEmail": "This E-mail is not a valid email",
@@ -6143,6 +6145,8 @@
   "submission.sections.external-source.duplicate-matches.item.isWithdrawn": "Withdrawn",
 
   "submission.sections.external-upload.upload-success-notice": "Upload executed succesfully",
+
+  "submission.sections.external-upload.upload-error-notice": "Upload failed. Please try again",
 
   "submission.sections.describe.relationship-lookup.search-tab.deselect-all": "Deselect all",
 

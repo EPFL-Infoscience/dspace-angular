@@ -88,6 +88,7 @@ describe('submissionReducer test suite', () => {
         savePending: false,
         saveDecisionPending: false,
         externalUploadPending: false,
+        externalUploadErrors: [],
         depositPending: false,
         metadataSecurityConfiguration: metadataSecurityConfiguration as any,
       }

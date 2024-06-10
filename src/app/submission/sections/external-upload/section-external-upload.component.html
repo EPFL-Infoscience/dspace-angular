@@ -11,6 +11,11 @@
         <label for="externalUploadSource">{{'submission.sections.external-upload.source' | translate}}</label>
         <input [(ngModel)]="source" class="form-control w-100" id="externalUploadSource" [placeholder]="'submission.sections.external-upload.placeholder' | translate" />
       </div>
+      <div class="d-flex flex-column" *ngIf="(errors$ | async).length > 0">
+          <div class="text-danger mt-1" *ngFor="let error of (errors$ | async)">
+            {{error.message | translate}}
+          </div>
+      </div>
       <div class="w-100 d-flex justify-content-center">
         <button [disabled]="!source" (click)="submitUpload()" class="btn btn-success mt-4">{{'submission.sections.external-upload.import' | translate}}</button>
       </div>
