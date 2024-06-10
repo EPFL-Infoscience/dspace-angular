@@ -6142,6 +6142,8 @@
 
   "submission.sections.external-source.duplicate-matches.item.isWithdrawn": "Withdrawn",
 
+  "submission.sections.external-upload.upload-success-notice": "Upload executed succesfully",
+
   "submission.sections.describe.relationship-lookup.search-tab.deselect-all": "Deselect all",
 
   "submission.sections.describe.relationship-lookup.search-tab.deselect-page": "Deselect page",
@@ -6346,6 +6348,14 @@
 
   "submission.sections.ccLicense.confirmation": "I grant the license above",
 
+  "submission.sections.external-upload.info": "You can import from remote url or local path",
+
+  "submission.sections.external-upload.placeholder": "Insert remote url or local path",
+
+  "submission.sections.external-upload.source": "Source",
+
+  "submission.sections.external-upload.import": "Import from source",
+
   "submission.sections.general.add-more": "Add more",
 
   "submission.sections.general.cannot_deposit": "Deposit cannot be completed due to errors in the form.<br>Please fill out all required fields to complete the deposit.",
@@ -6402,6 +6412,8 @@
 
   "submission.sections.submit.progressbar.describe.event": "Event basic information",
 
+  "submission.sections.submit.progressbar.describe.external-upload": "External upload",
+
   "submission.sections.submit.progressbar.describe.funding": "Funding basic information",
 
   "submission.sections.submit.progressbar.describe.journal": "Journal basic information",
@@ -6445,6 +6457,8 @@
   "submission.sections.submit.progressbar.describe.steptwo": "Describe",
 
   "submission.sections.submit.progressbar.detect-duplicate": "Potential duplicates",
+
+  "submission.sections.submit.progressbar.external-upload": "External upload",
 
   "submission.sections.submit.progressbar.identifiers": "Identifiers",
 

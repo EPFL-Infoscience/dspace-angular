@@ -31,7 +31,7 @@ import {
   DisableSectionErrorAction,
   DisableSectionSuccessAction,
   DiscardSubmissionErrorAction,
-  DiscardSubmissionSuccessAction,
+  DiscardSubmissionSuccessAction, ExecuteExternalUploadErrorAction, ExecuteExternalUploadSuccessAction,
   InitSectionAction,
   InitSubmissionFormAction,
   ResetSubmissionFormAction,
@@ -384,6 +384,36 @@ export class SubmissionObjectEffects {
       }
     }),
   ));
+
+  /**
+   * Execute upload from external source
+   */
+
+  executeExternalUpload$ = createEffect(() => this.actions$.pipe(
+    ofType(SubmissionObjectActionTypes.EXECUTE_EXTERNAL_UPLOAD),
+    switchMap((action: SetDuplicateDecisionAction) => {
+      return this.operationsService.jsonPatchByResourceID(
+        this.submissionService.getSubmissionObjectLinkName(),
+        action.payload.submissionId,
+        'sections',
+        action.payload.sectionId).pipe(
+        map((response: SubmissionObject[]) => new ExecuteExternalUploadSuccessAction(
+          action.payload.submissionId,
+          action.payload.sectionId,
+          response
+        )),
+        catchError(() => observableOf(new ExecuteExternalUploadErrorAction(action.payload.submissionId))));
+    }))
+  );
+
+  /**
+   * Set external update status
+   */
+  executeExternalUploadSuccess$ = createEffect(() => this.actions$.pipe(
+      ofType(SubmissionObjectActionTypes.EXECUTE_EXTERNAL_UPLOAD_SUCCESS),
+      tap(() => this.notificationsService.success(null, this.translate.get('submission.sections.external-upload.upload-success-notice')))),
+    { dispatch: false }
+  );
 
   /**
    * Show a notification on success and redirect to MyDSpace page

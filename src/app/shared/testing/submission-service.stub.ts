@@ -21,6 +21,7 @@ export class SubmissionServiceStub {
   getSubmissionStatus = jasmine.createSpy('getSubmissionStatus');
   getSubmissionSaveProcessingStatus = jasmine.createSpy('getSubmissionSaveProcessingStatus');
   getSubmissionDepositProcessingStatus = jasmine.createSpy('getSubmissionDepositProcessingStatus');
+  getExternalUplodaProcessingStatus = jasmine.createSpy('getExternalUplodaProcessingStatus');
   hasUnsavedModification = jasmine.createSpy('hasUnsavedModification');
   isSectionHidden = jasmine.createSpy('isSectionHidden');
   isSectionReadOnly = jasmine.createSpy('isSectionReadOnly');
