@@ -12,7 +12,7 @@ export class ClientMathService extends MathService {
 
   protected mathJaxOptions = {
     tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
+      inlineMath: [['$', '$'], ['$$', '$$'], ['\\(', '\\)']]
     },
     svg: {
       fontCache: 'global'
@@ -73,7 +73,7 @@ export class ClientMathService extends MathService {
 
   render(element: HTMLElement) {
     if (environment.markdown.mathjax) {
-      (window as any).MathJax.typesetPromise([element]);
+      return (window as any).MathJax.typesetPromise([element]) as Promise<any>;
     }
   }
 }
