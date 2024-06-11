@@ -12,6 +12,9 @@ import {
 } from '../../../../submission/sections/detect-duplicate/models/duplicate-detail-metadata.model';
 import { differenceInDays, differenceInMilliseconds, parseISO } from 'date-fns';
 import { environment } from '../../../../../environments/environment';
+import {Observable} from 'rxjs';
+import {FeatureID} from '../../../../core/data/feature-authorization/feature-id';
+import {AuthorizationDataService} from '../../../../core/data/feature-authorization/authorization-data.service';
 
 /**
  * This component show metadata for the given item object in the list view.
@@ -66,6 +69,7 @@ export class ItemListPreviewComponent implements OnInit {
   constructor(
     @Inject(APP_CONFIG) protected appConfig: AppConfig,
     public dsoNameService: DSONameService,
+    private authorizationService: AuthorizationDataService
   ) {
   }
 
@@ -89,5 +93,9 @@ export class ItemListPreviewComponent implements OnInit {
     const remainingMilliseconds: number = differenceInMilliseconds(Date.now(), itemStartDateConverted) - days * 24 * 60 * 60 * 1000;
     const hours: number = Math.max(0, Math.floor(remainingMilliseconds / (60 * 60 * 1000)));
     return `${days} d ${hours} h`;
+  }
+
+  public canViewInWorkflowSinceStatistics(useCacheVersion = true): Observable<boolean> {
+    return this.authorizationService.isAuthorized(FeatureID.CanViewInWorkflowSinceStatistics, this.item.self, null,  useCacheVersion);
   }
 }

@@ -36,6 +36,6 @@ export class ServerMathService extends MathService {
   }
 
   render(element: HTMLElement) {
-    return;
+    return Promise.resolve();
   }
 }
