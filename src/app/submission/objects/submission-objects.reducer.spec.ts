@@ -123,7 +123,9 @@ describe('submissionReducer test suite', () => {
         isLoading: true,
         isDiscarding: false,
         savePending: false,
-        depositPending: false
+        depositPending: false,
+        externalUploadPending: false,
+        externalUploadErrors: []
       }
     };
 

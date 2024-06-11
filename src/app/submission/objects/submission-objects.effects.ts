@@ -393,7 +393,8 @@ export class SubmissionObjectEffects {
 
   executeExternalUpload$ = createEffect(() => this.actions$.pipe(
     ofType(SubmissionObjectActionTypes.EXECUTE_EXTERNAL_UPLOAD),
-    switchMap((action: SetDuplicateDecisionAction) => {
+    withLatestFrom(this.store$),
+    switchMap(([action, currentState]: [SetDuplicateDecisionAction, any]) => {
       return this.operationsService.jsonPatchByResourceID(
         this.submissionService.getSubmissionObjectLinkName(),
         action.payload.submissionId,
@@ -407,10 +408,18 @@ export class SubmissionObjectEffects {
             if (sectionErrors.length > 0) {
               return new ExecuteExternalUploadErrorAction(action.payload.submissionId, sectionErrors);
             } else {
+              const index: any = parseInt(action.payload.submissionId, 10);
+              const sections = currentState.submission.objects[index]?.sections;
+              const newSectionsState = Object.assign({}, sections);
+
+              //Update upload section with received files
+              newSectionsState[SectionsType.Upload] = Object.assign({}, newSectionsState[SectionsType.Upload], {
+                data: Object.assign({files: (response[0].sections[SectionsType.Upload] as any).files})
+              });
               return new ExecuteExternalUploadSuccessAction(
                 action.payload.submissionId,
                 action.payload.sectionId,
-                response
+                newSectionsState
               );
             }
           }),

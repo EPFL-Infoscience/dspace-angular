@@ -1155,30 +1155,24 @@ function endExternalUploadExecution(state: SubmissionObjectState, action: Execut
  */
 
 function updateSubmissionFromExternalUploadEvent(state: SubmissionObjectState, action: ExecuteExternalUploadSuccessAction) {
-  const index: any = findKey(action.payload.submissionObject, {id: parseInt(action.payload.submissionId, 10) as any});
-  const sectionData = action
-    .payload
-    .submissionObject[index]
-    .sections;
+  const sectionsData = action.payload.sectionsObject;
 
+  let currentSection = {};
+  const currentSectionId = action.payload.sectionId;
+  currentSection[currentSectionId] = state[ action.payload.submissionId ].sections[currentSectionId];
 
-  const sectionsKeys = Object.keys(sectionData);
-  const tempSections = {};
-
-  for (let key of sectionsKeys) {
-    tempSections[key] = Object.assign({}, state[action.payload.submissionId].sections[key], {
-      data: sectionData[key]
-    });
-  }
-
-  if (hasValue(state[ action.payload.submissionId ].sections[ action.payload.sectionId ])) {
+  if (hasValue(sectionsData[ action.payload.sectionId ])) {
     return Object.assign({}, state, {
       [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
-        sections: tempSections,
+        sections: Object.assign({}, sectionsData, currentSection),
         externalUploadPending: false
       })
     });
   } else {
-    return state;
+    return Object.assign({}, state, {
+      [action.payload.submissionId]: Object.assign({}, state[action.payload.submissionId], {
+        externalUploadPending: false
+      })
+    });
   }
 }

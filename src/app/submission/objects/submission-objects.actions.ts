@@ -1067,7 +1067,7 @@ export class ExecuteExternalUploadSuccessAction implements Action {
   payload: {
     submissionId: string;
     sectionId: string;
-    submissionObject: SubmissionObject[];
+    sectionsObject: WorkspaceitemSectionsObject;
   };
 
   /**
@@ -1077,10 +1077,10 @@ export class ExecuteExternalUploadSuccessAction implements Action {
    *    the submission's ID
    * @param sectionId
    *    the section's ID
-   * @param submissionObject
+   * @param sectionsObject
    */
-  constructor(submissionId: string, sectionId: string, submissionObject: SubmissionObject[]) {
-    this.payload = { submissionId, sectionId, submissionObject };
+  constructor(submissionId: string, sectionId: string, sectionsObject: WorkspaceitemSectionsObject) {
+    this.payload = { submissionId, sectionId, sectionsObject };
   }
 }
 

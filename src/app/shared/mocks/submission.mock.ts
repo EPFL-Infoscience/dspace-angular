@@ -3115,7 +3115,9 @@ export const mockSubmissionState: SubmissionObjectState = Object.assign({}, {
     isLoading: false,
     isDiscarding: false,
     savePending: false,
-    depositPending: false
+    depositPending: false,
+    externalUploadPending: false,
+    externalUploadErrors: []
   }
 });
 
