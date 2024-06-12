@@ -11,8 +11,12 @@ export class ClientMathService extends MathService {
   protected isReady$: Subject<boolean>;
 
   protected mathJaxOptions = {
+    loader: {
+      load: ['[tex]/upgreek']
+    },
     tex: {
-      inlineMath: [['$', '$'], ['$$', '$$'], ['\\(', '\\)']]
+      inlineMath: [['$', '$'], ['$$', '$$'], ['\\(', '\\)']],
+      packages: {'[+]': ['upgreek']}
     },
     svg: {
       fontCache: 'global'
