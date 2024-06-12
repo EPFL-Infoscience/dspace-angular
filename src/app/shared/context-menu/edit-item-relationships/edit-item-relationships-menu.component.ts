@@ -21,6 +21,7 @@ import {NotificationsService} from '../../notifications/notifications.service';
 import {ContextMenuEntryType} from '../context-menu-entry-type';
 import {FeatureID} from '../../../core/data/feature-authorization/feature-id';
 import {AuthorizationDataService} from '../../../core/data/feature-authorization/authorization-data.service';
+import {APP_CONFIG, AppConfig} from '../../../../config/app-config.interface';
 
 /**
  * This component renders a context menu option that provides the links to edit item page.
@@ -76,7 +77,8 @@ export class EditItemRelationshipsMenuComponent extends ContextMenuEntryComponen
     private editItemService: EditItemDataService,
     protected tabService: TabDataService,
     protected authorizationService: AuthorizationDataService,
-    private notificationService: NotificationsService
+    private notificationService: NotificationsService,
+    @Inject(APP_CONFIG) protected appConfig: AppConfig
   ) {
     super(injectedContextMenuObject, injectedContextMenuObjectType, ContextMenuEntryType.EditRelationships);
   }
@@ -99,7 +101,10 @@ export class EditItemRelationshipsMenuComponent extends ContextMenuEntryComponen
     this.tabs.forEach((tab: CrisLayoutTab) => {
       tab.rows.forEach((row: CrisLayoutRow) => {
         row.cells.forEach((cell: CrisLayoutCell) => {
-          const relationshipsBoxes = cell.boxes.filter((box) => box.boxType === 'RELATION');
+          console.log(cell.boxes[0].configuration['discovery-configuration']);
+          const relationshipsBoxes = cell.boxes.filter((box) => box.boxType === 'RELATION'
+            && !this.appConfig.crisLayout.crisOptions.ignoreOptions
+              .includes(box.configuration['discovery-configuration']));
           this.relationships.push(...relationshipsBoxes);
         });
       });

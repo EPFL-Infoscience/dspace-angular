@@ -21,6 +21,7 @@ import { ServerResponseService } from '../../core/services/server-response.servi
 import { SignpostingDataService } from '../../core/data/signposting-data.service';
 import { LinkHeadService } from '../../core/services/link-head.service';
 import { APP_CONFIG, AppConfig } from '../../../config/app-config.interface';
+import {PLACEHOLDER_PARENT_METADATA} from '../../shared/form/builder/ds-dynamic-form-ui/ds-dynamic-form-constants';
 
 /**
  * This component renders a full item page.
@@ -35,6 +36,8 @@ import { APP_CONFIG, AppConfig } from '../../../config/app-config.interface';
   animations: [fadeInOut]
 })
 export class FullItemPageComponent extends ItemPageComponent implements OnInit, OnDestroy {
+
+  protected readonly PLACEHOLDER_PARENT_METADATA = PLACEHOLDER_PARENT_METADATA;
 
   itemRD$: BehaviorSubject<RemoteData<Item>>;
 

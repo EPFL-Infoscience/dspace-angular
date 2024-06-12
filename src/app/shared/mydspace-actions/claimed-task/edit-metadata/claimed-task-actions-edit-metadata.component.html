@@ -1,4 +1,4 @@
-<a *ngIf="(object.workflowitem | async)?.payload?.id != null"
+<a *ngIf="isNeedToBeShown()"
    class="btn btn-primary"
    ngbTooltip="{{'submission.workflow.tasks.claimed.edit_help' | translate}}"
    [routerLink]="['/workflowitems/' + (object.workflowitem | async)?.payload?.id + '/edit']"

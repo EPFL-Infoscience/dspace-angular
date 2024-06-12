@@ -61,6 +61,11 @@ export interface CrisLayoutConfig extends Config {
   itemPage: CrisItemPageConfig;
   metadataBox: CrisLayoutMetadataBoxConfig;
   collectionsBox: CrisLayoutCollectionsBoxConfig;
+  crisOptions: CrisOptionsConfig;
+}
+
+export class CrisOptionsConfig implements Config {
+  ignoreOptions: string[];
 }
 
 export interface LayoutConfig extends Config {
