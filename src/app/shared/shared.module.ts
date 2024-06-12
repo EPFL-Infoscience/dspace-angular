@@ -355,6 +355,8 @@ import { MarkdownDirective } from './utils/markdown.directive';
 import { MetadataLinkViewPopoverComponent } from './metadata-link-view/metadata-link-view-popover/metadata-link-view-popover.component';
 import { MetadataLinkViewAvatarPopoverComponent } from './metadata-link-view/metadata-link-view-avatar-popover/metadata-link-view-avatar-popover.component';
 import { MetadataLinkViewOrcidComponent } from './metadata-link-view/metadata-link-view-orcid/metadata-link-view-orcid.component';
+import { DefaultBrowseElementsComponent } from './browse-most-elements/default-browse-elements/default-browse-elements.component';
+import { ThemedDefaultBrowseElementsComponent } from './browse-most-elements/default-browse-elements/themed-default-browse-elements.component';
 
 const MODULES = [
   CommonModule,
@@ -513,7 +515,9 @@ const COMPONENTS = [
   SearchChartBarHorizontalComponent,
   ItemListPreviewComponent,
   ThemedItemListPreviewComponent,
-  ItemCollectionComponent
+  ItemCollectionComponent,
+  DefaultBrowseElementsComponent,
+  ThemedDefaultBrowseElementsComponent,
 ];
 
 const ENTRY_COMPONENTS = [
@@ -590,6 +594,7 @@ const ENTRY_COMPONENTS = [
   SearchChartBarHorizontalComponent,
   RelationshipsListComponent,
   AdditionalMetadataComponent,
+  ThemedDefaultBrowseElementsComponent,
 ];
 
 const PROVIDERS = [
