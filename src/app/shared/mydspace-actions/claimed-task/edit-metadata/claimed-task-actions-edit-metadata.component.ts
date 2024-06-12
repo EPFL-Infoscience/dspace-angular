@@ -32,4 +32,8 @@ export class ClaimedTaskActionsEditMetadataComponent extends ClaimedTaskActionsA
               protected requestService: RequestService) {
     super(injector, router, notificationsService, translate, searchService, requestService);
   }
+
+  isNeedToBeShown(): boolean {
+    return !window.location.href.endsWith('/edit');
+  }
 }
