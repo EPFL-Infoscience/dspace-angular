@@ -57,7 +57,8 @@ const ENTRY_COMPONENTS = [
   SubscriptionMenuComponent,
   ItemVersionMenuComponent,
   FullItemMenuComponent,
-  OrcidViewPageMenuComponent
+  OrcidViewPageMenuComponent,
+  ChangeSubmitterComponent
 ];
 
 const MODULE = [
