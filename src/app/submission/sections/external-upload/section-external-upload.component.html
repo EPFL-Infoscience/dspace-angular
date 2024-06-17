@@ -1,20 +1,13 @@
+
+<ds-alert [type]="AlertType.Info"
+          [content]="'submission.sections.external-upload.info' | translate"></ds-alert>
+
 <div class="container-fluid">
-  <div class="row justify-content-center">
-    <div class="col-12">
-      <ds-alert [type]="AlertType.Info"
-                [content]="'submission.sections.external-upload.info' | translate"></ds-alert>
-    </div>
-  </div>
   <div class="row justify-content-center w-100 external-upload-container">
     <div class="col-12" *ngIf="!(loading$ | async)">
       <div class="w-100">
         <label for="externalUploadSource">{{'submission.sections.external-upload.source' | translate}}</label>
         <input [(ngModel)]="source" class="form-control w-100" id="externalUploadSource" [placeholder]="'submission.sections.external-upload.placeholder' | translate" />
-      </div>
-      <div class="d-flex flex-column" *ngIf="(errors$ | async).length > 0">
-          <div class="text-danger mt-1" *ngFor="let error of (errors$ | async)">
-            {{error.message | translate}}
-          </div>
       </div>
       <div class="w-100 d-flex justify-content-center">
         <button [disabled]="!source" (click)="submitUpload()" class="btn btn-success mt-4">{{'submission.sections.external-upload.import' | translate}}</button>

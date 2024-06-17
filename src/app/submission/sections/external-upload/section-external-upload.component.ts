@@ -27,8 +27,6 @@ export class SectionExternalUploadComponent extends SectionModelComponent implem
 
   public loading$ = this.submissionService.getExternalUplodaProcessingStatus(this.injectedSubmissionId);
 
-  public errors$ = this.submissionService.getExternalUplodaErorrs(this.injectedSubmissionId);
-
   public AlertType = AlertType;
 
   /**
@@ -69,6 +67,7 @@ export class SectionExternalUploadComponent extends SectionModelComponent implem
   public submitUpload() {
     this.dispatchExecuteUploadAction();
   }
+
   getSectionStatus(): Observable<boolean> {
     return of(true);
   }

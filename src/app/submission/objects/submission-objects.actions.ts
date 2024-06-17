@@ -1088,6 +1088,7 @@ export class ExecuteExternalUploadErrorAction implements Action {
   type = SubmissionObjectActionTypes.EXECUTE_EXTERNAL_UPLOAD_ERROR;
   payload: {
     submissionId: string;
+    sectionId: string;
     errors: SubmissionObjectError[]
   };
 
@@ -1096,11 +1097,13 @@ export class ExecuteExternalUploadErrorAction implements Action {
    *
    * @param submissionId
    *    the submission's ID
+   * @param sectionId
+   *    the section's ID
    * @param errors
    *    the section's ID
    */
-  constructor(submissionId: string, errors: SubmissionObjectError[]) {
-    this.payload = { submissionId, errors };
+  constructor(submissionId: string,  sectionId: string, errors: SubmissionObjectError[]) {
+    this.payload = { submissionId, sectionId, errors };
   }
 }
 

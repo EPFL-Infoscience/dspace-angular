@@ -20,7 +20,6 @@ import {
   EnableSectionAction,
   ExecuteExternalUploadAction,
   ExecuteExternalUploadErrorAction,
-  ExecuteExternalUploadSuccessAction,
   InertSectionErrorsAction,
   InitSectionAction,
   InitSubmissionFormAction,
@@ -113,10 +112,6 @@ export interface SubmissionObjectEntry {
    */
   externalUploadPending?: boolean;
 
-  /**
-   * Errors from external upload
-   */
-  externalUploadErrors?: SubmissionObjectError[];
   /**
    * A boolean representing if a submission deposit operation is pending
    */
@@ -302,11 +297,11 @@ export function submissionObjectReducer(state = initialState, action: Submission
     }
 
     case SubmissionObjectActionTypes.EXECUTE_EXTERNAL_UPLOAD_ERROR: {
-      return endExternalUploadExecution(state, action as ExecuteExternalUploadErrorAction);
+      return updateExternalUploadState(state, action.payload.submissionId, action.payload.sectionId, (action as ExecuteExternalUploadErrorAction).payload.errors);
     }
 
     case SubmissionObjectActionTypes.EXECUTE_EXTERNAL_UPLOAD_SUCCESS: {
-      return updateSubmissionFromExternalUploadEvent(state, action as ExecuteExternalUploadSuccessAction);
+      return updateExternalUploadState(state, action.payload.submissionId, action.payload.sectionId, []);
     }
 
     default: {
@@ -416,7 +411,6 @@ function initSubmission(state: SubmissionObjectState, action: InitSubmissionForm
     savePending: false,
     saveDecisionPending: false,
     externalUploadPending: false,
-    externalUploadErrors: [],
     depositPending: false,
     metadataSecurityConfiguration: action.payload.metadataSecurityConfiguration,
     isDiscarding: false
@@ -1116,7 +1110,6 @@ function startExternalUploadExecution(state: SubmissionObjectState, action: Exec
     return Object.assign({}, state, {
       [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
         externalUploadPending: true,
-        externalUploadErrors: [],
       })
     });
   } else {
@@ -1125,54 +1118,35 @@ function startExternalUploadExecution(state: SubmissionObjectState, action: Exec
 }
 
 /**
- * Set external upload flag to false
+ * Update external upload state
  *
  * @param state
  *    the current state
- * @param action
- *    a SetDuplicateDecisionAction
+ * @param submissionId
+ *    the submission's ID
+ * @param sectionId
+ *    the section's ID
+ * @param errors
+ *    the section's ID
  * @return SubmissionObjectState
  *    the new state, with the decision flag changed.
  */
-function endExternalUploadExecution(state: SubmissionObjectState, action: ExecuteExternalUploadErrorAction): SubmissionObjectState {
-  if (hasValue(state[ action.payload.submissionId ])) {
+function updateExternalUploadState(state: SubmissionObjectState, submissionId: string, sectionId: string, errors: SubmissionObjectError[]): SubmissionObjectState {
+  if (isNotEmpty(state[ submissionId ])
+    && isNotEmpty(state[ submissionId ].sections[ sectionId])) {
     return Object.assign({}, state, {
-      [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
+      [ submissionId ]: Object.assign({}, state[ submissionId ], {
+        sections: Object.assign({}, state[ submissionId ].sections, {
+          [ sectionId ]: Object.assign({}, state[ submissionId ].sections [ sectionId ], {
+            enabled: true,
+            errorsToShow: errors,
+            serverValidationErrors: errors,
+          })
+        }),
         externalUploadPending: false,
-        externalUploadErrors: action.payload.errors
       })
     });
   } else {
     return state;
-  }
-}
-
-/**
- * Update submission object in store form external update response
- *
- * @param state
- * @param action
- */
-
-function updateSubmissionFromExternalUploadEvent(state: SubmissionObjectState, action: ExecuteExternalUploadSuccessAction) {
-  const sectionsData = action.payload.sectionsObject;
-
-  let currentSection = {};
-  const currentSectionId = action.payload.sectionId;
-  currentSection[currentSectionId] = state[ action.payload.submissionId ].sections[currentSectionId];
-
-  if (hasValue(sectionsData[ action.payload.sectionId ])) {
-    return Object.assign({}, state, {
-      [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
-        sections: Object.assign({}, sectionsData, currentSection),
-        externalUploadPending: false
-      })
-    });
-  } else {
-    return Object.assign({}, state, {
-      [action.payload.submissionId]: Object.assign({}, state[action.payload.submissionId], {
-        externalUploadPending: false
-      })
-    });
   }
 }

@@ -401,28 +401,24 @@ export class SubmissionObjectEffects {
         'sections',
         action.payload.sectionId).pipe(
           map((response: SubmissionObject[]) => {
-            const errors = [].concat.apply([], response.map(sub => sub.errors));
-            const sectionErrors = errors.filter((errorObject: SubmissionObjectError) => errorObject.paths.length > 0)
-              .filter(err => err.paths.includes('/sections/' + action.payload.sectionId));
+            const { errors } = response[0];
+            const errorsMap = parseSectionErrors(errors);
+            const sectionErrors = errorsMap[action.payload.sectionId];
 
-            if (sectionErrors.length > 0) {
-              return new ExecuteExternalUploadErrorAction(action.payload.submissionId, sectionErrors);
+            if (sectionErrors?.length > 0) {
+              return [new ExecuteExternalUploadErrorAction(action.payload.submissionId, action.payload.sectionId, sectionErrors)];
             } else {
-              const index: any = parseInt(action.payload.submissionId, 10);
-              const sections = currentState.submission.objects[index]?.sections;
-              const newSectionsState = Object.assign({}, sections);
-
-              //Update upload section with received files
-              newSectionsState[SectionsType.Upload] = Object.assign({}, newSectionsState[SectionsType.Upload], {
-                data: Object.assign({files: (response[0].sections[SectionsType.Upload] as any).files})
-              });
-              return new ExecuteExternalUploadSuccessAction(
+              const actions = this.parseSaveResponse((currentState.submission as SubmissionState).objects[action.payload.submissionId],
+                response, action.payload.submissionId, currentState.forms, false, true);
+              actions.push(new ExecuteExternalUploadSuccessAction(
                 action.payload.submissionId,
                 action.payload.sectionId,
-                newSectionsState
-              );
+                null
+              ));
+              return actions;
             }
           }),
+          mergeMap((actions) => observableFrom(actions)),
           catchError((rd: RemoteData<any>) => observableFrom(
             this.parseErrorResponse(false, rd.errors, action.payload.submissionId, rd.statusCode, rd.errorMessage)
           ))
