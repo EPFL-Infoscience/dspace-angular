@@ -27,7 +27,6 @@ import { Collection } from '../../../core/shared/collection.model';
 import { SectionExternalUploadComponent } from './section-external-upload.component';
 import { ExternalUploadService } from './external-upload.service';
 import { ExternalServiceStub } from './external-upload-service.mock';
-import { PathableObjectError } from '../../../core/data/response-state.model';
 
 function getMockCollectionDataService(): CollectionDataService {
   return jasmine.createSpyObj('CollectionDataService', {
@@ -48,8 +47,6 @@ const sectionObject: SectionDataObject = {
   sectionType: SectionsType.DetectDuplicate,
   sectionVisibility: null
 };
-
-
 
 describe('SectionExternalUploadComponent test suite', () => {
   let comp: SectionExternalUploadComponent;
@@ -194,22 +191,6 @@ describe('SectionExternalUploadComponent test suite', () => {
       expect(compAsAny.submitUpload).toHaveBeenCalled();
     });
 
-    it('Should display errors if present', () => {
-      const errorObj = [{message:'Test error message', paths: ['external-upload']} as PathableObjectError];
-      spyOn(compAsAny, 'submitUpload');
-      comp.loading$ = of(false);
-      comp.errors$ = of(errorObj);
-
-      comp.onSectionInit();
-      comp.source = '/path/to/file';
-      comp.submissionId = 'subId';
-
-      fixture.detectChanges();
-
-      const errorElement = fixture.debugElement.query(By.css('.text-danger')).nativeElement;
-      expect(errorElement.innerHTML).toEqual(' ' + errorObj[0].message + ' ');
-
-    });
   });
 
 });

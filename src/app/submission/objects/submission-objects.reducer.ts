@@ -54,7 +54,7 @@ import {
 } from '../../core/submission/models/workspaceitem-section-deduplication.model';
 import { SubmissionSectionObject } from './submission-section-object.model';
 import { MetadataSecurityConfiguration } from '../../core/submission/models/metadata-security-configuration';
-import { SubmissionObjectError } from '../../core/submission/models/submission-object.model';
+import { SubmissionSectionError } from './submission-section-error.model';
 
 /**
  * An interface to represent SubmissionSectionObject entry
@@ -1131,7 +1131,7 @@ function startExternalUploadExecution(state: SubmissionObjectState, action: Exec
  * @return SubmissionObjectState
  *    the new state, with the decision flag changed.
  */
-function updateExternalUploadState(state: SubmissionObjectState, submissionId: string, sectionId: string, errors: SubmissionObjectError[]): SubmissionObjectState {
+function updateExternalUploadState(state: SubmissionObjectState, submissionId: string, sectionId: string, errors: SubmissionSectionError[]): SubmissionObjectState {
   if (isNotEmpty(state[ submissionId ])
     && isNotEmpty(state[ submissionId ].sections[ sectionId])) {
     return Object.assign({}, state, {

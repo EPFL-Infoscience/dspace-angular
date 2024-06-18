@@ -9,7 +9,7 @@ import {
   WorkspaceitemSectionDataType,
   WorkspaceitemSectionsObject
 } from '../../core/submission/models/workspaceitem-sections.model';
-import { SubmissionObject, SubmissionObjectError } from '../../core/submission/models/submission-object.model';
+import { SubmissionObject } from '../../core/submission/models/submission-object.model';
 import { SubmissionDefinitionsModel } from '../../core/config/models/config-submission-definitions.model';
 import { SectionsType } from '../sections/sections-type';
 import { Item } from '../../core/shared/item.model';
@@ -1067,7 +1067,6 @@ export class ExecuteExternalUploadSuccessAction implements Action {
   payload: {
     submissionId: string;
     sectionId: string;
-    sectionsObject: WorkspaceitemSectionsObject;
   };
 
   /**
@@ -1076,11 +1075,9 @@ export class ExecuteExternalUploadSuccessAction implements Action {
    * @param submissionId
    *    the submission's ID
    * @param sectionId
-   *    the section's ID
-   * @param sectionsObject
    */
-  constructor(submissionId: string, sectionId: string, sectionsObject: WorkspaceitemSectionsObject) {
-    this.payload = { submissionId, sectionId, sectionsObject };
+  constructor(submissionId: string, sectionId: string) {
+    this.payload = { submissionId, sectionId };
   }
 }
 
@@ -1089,7 +1086,7 @@ export class ExecuteExternalUploadErrorAction implements Action {
   payload: {
     submissionId: string;
     sectionId: string;
-    errors: SubmissionObjectError[]
+    errors: SubmissionSectionError[]
   };
 
   /**
@@ -1102,7 +1099,7 @@ export class ExecuteExternalUploadErrorAction implements Action {
    * @param errors
    *    the section's ID
    */
-  constructor(submissionId: string,  sectionId: string, errors: SubmissionObjectError[]) {
+  constructor(submissionId: string,  sectionId: string, errors: SubmissionSectionError[]) {
     this.payload = { submissionId, sectionId, errors };
   }
 }

@@ -413,7 +413,6 @@ export class SubmissionObjectEffects {
               actions.push(new ExecuteExternalUploadSuccessAction(
                 action.payload.submissionId,
                 action.payload.sectionId,
-                null
               ));
               return actions;
             }
