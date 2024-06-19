@@ -1,14 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import {
   LocationCoordinates,
   LocationErrorCodes,
   LocationPlace,
   LocationService
 } from '../../core/services/location.service';
-import { filter, map } from 'rxjs/operators';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { isNotEmpty } from '../empty.util';
+import { latLng, LatLng, Layer, MapOptions, marker, tileLayer } from 'leaflet';
+
 
 export interface OpenStreetMapPointer {
   coordinates: LocationCoordinates,
@@ -24,8 +26,6 @@ export class OpenStreetMapComponent implements OnInit {
 
   // Spacial reference identifier
   SRID = 'EPSG:4326'; // World Geodetic System 1984
-
-  zoom = 14;
 
   /**
    * The width of the map
@@ -83,31 +83,51 @@ export class OpenStreetMapComponent implements OnInit {
   place = new BehaviorSubject<LocationPlace>(undefined);
 
   /**
-   * The pointers to be shown on the map
+   * The styles that are being applied to the map container
    */
-  pointers$: Observable<OpenStreetMapPointer[]>;
+  mapStyle: {[key: string]: string} = {};
+
+  /**
+   * The center of the map
+   */
+  leafletCenter: LatLng;
+
+  /**
+   * The zoom level of the map
+   */
+  leafletZoom = 14;
+
+  /**
+   * The layers of the map
+   */
+  leafletLayers: Layer[] = [];
+
+  /**
+   * The options for the map
+   */
+  leafletOptions: MapOptions = {
+    // attribution is still needed
+    // attributionControl: false,
+    zoomControl: this.showControlsZoom
+  };
 
   constructor(
     protected translateService: TranslateService,
-    private locationService: LocationService) {
+    private locationService: LocationService,
+    protected elementRef: ElementRef) {
   }
 
   ngOnInit(): void {
 
+    this.mapStyle = {
+      width: this.width || '100%',
+      height: this.height || `${(+this.width || this.elementRef.nativeElement.parentElement.offsetWidth) / 2}px`
+    };
+
     this.coordinates$ = this.place.asObservable().pipe(
       filter((place) => isNotEmpty(place)),
       map((place) => place.coordinates),
-    );
-
-    this.pointers$ = this.place.asObservable().pipe(
-      filter((place) => isNotEmpty(place)),
-      map((place) => {
-        const pointer: OpenStreetMapPointer = {
-          coordinates: place.coordinates,
-          color: 'green',
-        };
-        return [pointer];
-      }),
+      tap(coordinates => this.setCenterAndPointer(coordinates))
     );
 
     this.displayName$ = this.place.asObservable().pipe(
@@ -169,12 +189,11 @@ export class OpenStreetMapComponent implements OnInit {
 
   }
 
-  increaseZoom() {
-    this.zoom++;
+  private setCenterAndPointer(coordinates: LocationCoordinates) {
+    this.leafletCenter = latLng(coordinates.latitude, coordinates.longitude);
+    this.leafletLayers = [
+      tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: 'Leaflet'}),
+      marker([coordinates.latitude, coordinates.longitude])
+    ];
   }
-
-  decreaseZoom() {
-    this.zoom--;
-  }
-
 }
