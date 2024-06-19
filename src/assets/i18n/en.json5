@@ -7765,21 +7765,21 @@
 
   "submission.sections.sherpa.error.message": "There was an error retrieving sherpa informations",
 
-  "submission.sections.unpaywall.refresh": "Refresh",
+  "submission.sections.unpaywall.refresh": "Check for update",
 
-  "submission.sections.unpaywall.import": "Import from unpaywall",
+  "submission.sections.unpaywall.import": "Import from Unpaywall",
 
-  "submission.sections.unpaywall.status.successful": "You can import above linked file from unpaywall",
+  "submission.sections.unpaywall.status.imported": "The file has been imported from Unpaywall",
 
-  "submission.sections.unpaywall.status.not-found": "Can't find record using Unpaywall api",
+  "submission.sections.unpaywall.status.not-found": "No information found on Unpaywall",
 
-  "submission.sections.unpaywall.status.pending": "Unpaywall api request is initialized",
+  "submission.sections.unpaywall.status.no-file": "There are no open access files to be imported according to Unpaywall",
 
-  "submission.sections.unpaywall.status.no-file": "There are no files to be imported",
+  "submission.sections.unpaywall.status.pending": "We are retrieving data from Unpaywall",
+
+  "submission.sections.unpaywall.status.successful": "You can import the file from Unpaywall",
 
   "submission.sections.submit.progressbar.unpaywall": "Unpaywall",
-
-
 
   "submission.submit.breadcrumbs": "New submission",
 
