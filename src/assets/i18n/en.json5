@@ -2994,6 +2994,10 @@
 
   "form.other-information.variant": "Variant name of",
 
+  "form.other-information.oairecerif_scientificeditor_affiliation": "Institution",
+
+  "form.other-information.oairecerif_contributor_affiliation": "Institution",
+
   "form.remove": "Remove",
 
   "form.save": "Save",
