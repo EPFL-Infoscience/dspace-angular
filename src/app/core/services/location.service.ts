@@ -123,13 +123,13 @@ export class LocationService {
   /**
    * Check if a string contains valid coordinateString in the format `latitude,longitude`
    * @param coordinateString the string to be checked
-   * @returns {boolean} whether the string is valid and it contains valid coordinateString
+   * @returns {boolean} whether the string is valid, and it contains valid coordinateString
    */
   public isValidCoordinateString(coordinateString: string): boolean {
     if (this.isCoordinateString(coordinateString)) {
       const coordinateArray = coordinateString.split(',');
-      const latitude = parseFloat(coordinateArray[0]);
-      const longitude = parseFloat(coordinateArray[1]);
+      const latitude = parseFloat(coordinateArray[0]?.trim());
+      const longitude = parseFloat(coordinateArray[1]?.trim());
       return !isNaN(latitude) && !isNaN(longitude) && this.isValidCoordinatePair(latitude, longitude);
     } else {
       return false;
@@ -144,8 +144,8 @@ export class LocationService {
   public parseCoordinates(coordinates: string): LocationCoordinates {
     const coordinateArr = coordinates.split(',');
     if (this.isValidCoordinateString(coordinates)) {
-      const latitude = parseFloat(coordinateArr[0]);
-      const longitude = parseFloat(coordinateArr[1]);
+      const latitude = parseFloat(coordinateArr[0]?.trim());
+      const longitude = parseFloat(coordinateArr[1]?.trim());
       return { latitude, longitude };
     } else {
       console.warn('Location service', `Invalid coordinates "${coordinates}"`);
