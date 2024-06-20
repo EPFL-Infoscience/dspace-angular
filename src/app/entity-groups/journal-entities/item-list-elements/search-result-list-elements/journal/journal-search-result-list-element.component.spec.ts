@@ -10,6 +10,8 @@ import { ItemSearchResult } from '../../../../../shared/object-collection/shared
 import { DSONameService } from '../../../../../core/breadcrumbs/dso-name.service';
 import { DSONameServiceMock } from '../../../../../shared/mocks/dso-name.service.mock';
 import { APP_CONFIG } from '../../../../../../config/app-config.interface';
+import { AuthorizationDataService } from '../../../../../core/data/feature-authorization/authorization-data.service';
+import { AuthorizationDataServiceStub } from '../../../../../shared/testing/authorization-service.stub';
 
 let journalListElementComponent: JournalSearchResultListElementComponent;
 let fixture: ComponentFixture<JournalSearchResultListElementComponent>;
@@ -72,7 +74,8 @@ describe('JournalSearchResultListElementComponent', () => {
       providers: [
         { provide: TruncatableService, useValue: {} },
         { provide: DSONameService, useClass: DSONameServiceMock },
-        { provide: APP_CONFIG, useValue: environmentUseThumbs }
+        { provide: APP_CONFIG, useValue: environmentUseThumbs },
+        { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
       ],
 
       schemas: [NO_ERRORS_SCHEMA]
@@ -135,7 +138,8 @@ describe('JournalSearchResultListElementComponent', () => {
       providers: [
         {provide: TruncatableService, useValue: {}},
         {provide: DSONameService, useClass: DSONameServiceMock},
-        { provide: APP_CONFIG, useValue: enviromentNoThumbs }
+        { provide: APP_CONFIG, useValue: enviromentNoThumbs },
+        { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
       ],
 
       schemas: [NO_ERRORS_SCHEMA]
