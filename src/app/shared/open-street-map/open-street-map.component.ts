@@ -1,19 +1,19 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import {
-  LocationCoordinates,
+  LocationDDCoordinates,
   LocationErrorCodes,
   LocationPlace,
   LocationService
 } from '../../core/services/location.service';
 import { filter, map, tap } from 'rxjs/operators';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { isNotEmpty } from '../empty.util';
 import { latLng, LatLng, Layer, MapOptions, marker, tileLayer } from 'leaflet';
 
 
 export interface OpenStreetMapPointer {
-  coordinates: LocationCoordinates,
+  coordinates: LocationDDCoordinates,
   color: string,
 }
 
@@ -65,7 +65,7 @@ export class OpenStreetMapComponent implements OnInit {
   /**
    * The coordinates of the place once retrieved by the location service
    */
-  coordinates$: Observable<LocationCoordinates>;
+  coordinates$: Observable<LocationDDCoordinates>;
 
   /**
    * The name of the address to display
@@ -135,13 +135,15 @@ export class OpenStreetMapComponent implements OnInit {
       map((place) => place.displayName),
     );
 
-    if (this.locationService.isCoordinateString(this.coordinates)) {
+    const position = this.coordinates; // this may contain a pair or coordinates, a POI, or an address
+
+    if (this.locationService.isDecimalCoordinateString(position)) {
 
       // Validate the coordinates, then retrieve the location name
 
-      if (this.locationService.isValidCoordinateString(this.coordinates)) {
-        const coordinates = this.locationService.parseCoordinates(this.coordinates);
-        this.locationService.searchCoordinates(coordinates).subscribe({
+      if (this.locationService.isValidCoordinateString(position)) {
+        const coordinates = this.locationService.parseCoordinates(position);
+        this.locationService.searchByCoordinates(coordinates).subscribe({
           next: (displayName) => {
             const place: LocationPlace = {
               coordinates: coordinates,
@@ -163,17 +165,36 @@ export class OpenStreetMapComponent implements OnInit {
           },
         });
       } else {
-        console.error(`Invalid coordinates: "${this.coordinates}"`);
+        console.error(`Invalid coordinates: "${position}"`);
         this.invalidLocationErrorCode.next(LocationErrorCodes.INVALID_COORDINATES);
       }
+
+    } else if (this.locationService.isSexagesimalCoordinateString(position)) {
+
+      // Retrieve the decimal coordinates and the place name for the provided coordinates
+
+      this.locationService.findPlaceAndDecimalCoordinates(position).subscribe({
+        next: (place) => {
+          console.log('PLACE', place);
+          this.place.next(place);
+        },
+        error: (err) => {
+          this.invalidLocationErrorCode.next(err.message); // either INVALID_COORDINATES or API_ERROR
+          if (err.message === LocationErrorCodes.API_ERROR) {
+            console.error(err.message);
+          } else {
+            console.warn(err.message);
+          }
+        },
+      });
 
     } else {
 
       // Retrieve the coordinates for the provided POI or address
 
-      this.locationService.searchPlace(this.coordinates).subscribe({
+      this.locationService.findPlaceCoordinates(position).subscribe({
         next: (place) => {
-          place.displayName = this.coordinates; // Show the name stored in metadata (comment out to show name retrieved from Nominatim)
+          place.displayName = position; // Show the name stored in metadata (comment out to show name retrieved from Nominatim)
           this.place.next(place);
         },
         error: (err) => {
@@ -189,11 +210,11 @@ export class OpenStreetMapComponent implements OnInit {
 
   }
 
-  private setCenterAndPointer(coordinates: LocationCoordinates) {
-    this.leafletCenter = latLng(coordinates.latitude, coordinates.longitude);
+  private setCenterAndPointer(coordinates: LocationDDCoordinates) {
+    this.leafletCenter = latLng(+coordinates.latitude, +coordinates.longitude);
     this.leafletLayers = [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: 'Leaflet'}),
-      marker([coordinates.latitude, coordinates.longitude])
+      marker([+coordinates.latitude, +coordinates.longitude])
     ];
   }
 }
