@@ -1,13 +1,13 @@
 @charset 'utf-8';
 
 .header {
-
-    #collapsingNav>ul>ds-themed-expandable-navbar-section:nth-child(4) {
-        margin-left: $spacer;
-        padding-left: $spacer;
-        border-left: 1px solid gray('200');
+    @include media-breakpoint-up(lg) {
+        #collapsingNav>ul>ds-themed-expandable-navbar-section:nth-child(4) {
+            margin-left: $spacer;
+            padding-left: $spacer;
+            border-left: 1px solid gray('200');
+        }
     }
-
     a {
         text-decoration: none;
     }
@@ -132,6 +132,10 @@
             &:hover {
                 color: $black;
             }
+
+            &:active {
+                background-color: none;
+            }
         }
 
         .icon {
@@ -204,6 +208,40 @@
 
 
     }
+    @include media-breakpoint-down(md) {
+        .logo {
+            img {
+                width: 60px;
+            }
+        }
+
+        .navbar-expand-md>.container {
+                max-width: 850px;
+        }
+
+        .site-title {
+            font-size: 0.9rem;
+        }
+
+        .navbar-light {
+            ul {
+                &.navbar-nav {
+                    .nav-item {
+                        a {
+                            padding: 0.4rem 0.2rem;
+                            font-size: .9rem;
+
+                            &.dropdown-toggle {
+                                padding: 1rem 0.4rem;
+                            }
+                        }
+
+
+                    }
+                }
+            }
+        }
+    }
 
     @include media-breakpoint-down(xs) {
         :not(.nav-lang.dropdown, .nav-user)+.nav-toggle-mobile {
@@ -254,6 +292,96 @@
     ds-lang-switch,
     ds-auth-nav-menu {
         padding: .6rem;
+    }
+
+}
+
+ds-auth-nav-menu ds-themed-user-menu ds-user-menu a.dropdown-item.active:hover {
+    color: $white !important;
+}
+
+// Jumbotron adjustments
+.jumbotron {
+    margin-bottom: 0;
+    text-align: center;
+
+    .box {
+        line-height: 3.5em;
+
+        display: table;
+        text-align: justify;
+
+        span {
+            display: block;
+            text-align-last: justify;
+        }
+
+        .lead-name {
+            color: $leman;
+            font-weight: 200;
+            font-size: 4.5em;
+        }
+
+        .lead-sub {
+            color: $dark;
+            font-size: 2.1em;
+            letter-spacing: 2px;
+        }
+
+
+    }
+
+    .logo-image img {
+        width: 150px;
+        padding: 10px;
+    }
+
+    .logo-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    p {
+        color: $dark;
+        font-size: 1.4rem;
+    }
+
+    @media (min-width: map-get($grid-breakpoints, sm)) {
+        .jumbotron {
+            padding: 0 !important;
+        }
+    }
+
+    @media screen and (max-width: map-get($grid-breakpoints, md)) {
+        .search-container {
+            padding: 0 !important;
+        }
+
+        .jumbotron {
+            .logo-image img {
+                width: 90px;
+            }
+
+            .box {
+                line-height: 1.7em;
+
+                .lead-name {
+                    color: $leman;
+                    font-size: 2.4em;
+                }
+
+                .lead-sub {
+                    color: $dark;
+                    font-size: .95em;
+                    // letter-spacing: 1px;
+                }
+            }
+        }
+
+        #query {
+            font-size: .9em !important;
+        }
     }
 
 }

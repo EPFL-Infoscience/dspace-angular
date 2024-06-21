@@ -87,7 +87,7 @@ $gray-200: #D5D5D5 !default;
 $gray-100: #E6E6E6 !default;
 
 $theme-colors: (
-        primary: $red,
+        primary: $leman,
         secondary: $secondary,
         success: #7ed321,
         info: $dark,
@@ -193,7 +193,7 @@ $border-radius-lg: 4px !default;
 $border-radius-sm: 2px !default;
 
 $component-active-color: $white !default;
-$component-active-bg: $primary !default;
+$component-active-bg: $dark !default;
 
 $caret-width: .3em !default;
 
