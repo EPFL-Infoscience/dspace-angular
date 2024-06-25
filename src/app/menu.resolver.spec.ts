@@ -107,7 +107,6 @@ describe('MenuResolver', () => {
     });
     resolver = TestBed.inject(MenuResolver);
 
-    spyOn(menuService, 'addSection');
     // TODO properly test createByBrowseMenu(), this is a temporary stub so that tests don't fail
     spyOn(resolver, 'createBrowseByMenu').and.stub();
   }));

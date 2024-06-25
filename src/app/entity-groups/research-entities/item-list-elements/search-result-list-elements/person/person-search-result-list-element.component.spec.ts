@@ -12,6 +12,8 @@ import { DSONameServiceMock } from '../../../../../shared/mocks/dso-name.service
 import { APP_CONFIG } from '../../../../../../config/app-config.interface';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateLoaderMock } from '../../../../../shared/mocks/translate-loader.mock';
+import { AuthorizationDataService } from '../../../../../core/data/feature-authorization/authorization-data.service';
+import { AuthorizationDataServiceStub } from '../../../../../shared/testing/authorization-service.stub';
 
 let personListElementComponent: PersonSearchResultListElementComponent;
 let fixture: ComponentFixture<PersonSearchResultListElementComponent>;
@@ -79,7 +81,8 @@ describe('PersonSearchResultListElementComponent', () => {
       providers: [
         { provide: TruncatableService, useValue: {} },
         { provide: DSONameService, useClass: DSONameServiceMock },
-        { provide: APP_CONFIG, useValue: environmentUseThumbs }
+        { provide: APP_CONFIG, useValue: environmentUseThumbs },
+        { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
       ],
 
       schemas: [NO_ERRORS_SCHEMA]
@@ -149,7 +152,8 @@ describe('PersonSearchResultListElementComponent', () => {
       providers: [
         {provide: TruncatableService, useValue: {}},
         {provide: DSONameService, useClass: DSONameServiceMock},
-        { provide: APP_CONFIG, useValue: enviromentNoThumbs }
+        { provide: APP_CONFIG, useValue: enviromentNoThumbs },
+        { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
       ],
 
       schemas: [NO_ERRORS_SCHEMA]

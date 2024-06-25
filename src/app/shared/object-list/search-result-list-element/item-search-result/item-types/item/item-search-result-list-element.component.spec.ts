@@ -15,6 +15,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MarkdownDirective } from '../../../../../utils/markdown.directive';
 import { MathService } from '../../../../../../core/shared/math.service';
 import { MathServiceMock } from '../../../../../testing/math-service.stub';
+import { AuthorizationDataService } from '../../../../../../core/data/feature-authorization/authorization-data.service';
+import { AuthorizationDataServiceStub } from '../../../../../testing/authorization-service.stub';
 
 
 let publicationListElementComponent: ItemSearchResultListElementComponent;
@@ -60,6 +62,9 @@ const mockItemWithMetadata: ItemSearchResult = Object.assign(new ItemSearchResul
             value: 'This is the abstract'
           }
         ]
+      },
+      _links: {
+        self: {}
       }
     })
 });
@@ -67,7 +72,10 @@ const mockItemWithoutMetadata: ItemSearchResult = Object.assign(new ItemSearchRe
   indexableObject:
     Object.assign(new Item(), {
       bundles: observableOf({}),
-      metadata: {}
+      metadata: {},
+      _links: {
+        self: {}
+      }
     })
 });
 const mockPerson: ItemSearchResult = Object.assign(new ItemSearchResult(), {
@@ -121,6 +129,9 @@ const mockPerson: ItemSearchResult = Object.assign(new ItemSearchResult(), {
             value: 'Person'
           }
         ]
+      },
+      _links: {
+        self: {}
       }
     })
 });
@@ -175,6 +186,9 @@ const mockOrgUnit: ItemSearchResult = Object.assign(new ItemSearchResult(), {
             value: 'OrgUnit'
           }
         ]
+      },
+      _links: {
+        self: {}
       }
     })
 });
@@ -208,6 +222,7 @@ describe('ItemSearchResultListElementComponent', () => {
         { provide: DSONameService, useClass: DSONameServiceMock },
         { provide: APP_CONFIG, useValue: environmentUseThumbs },
         { provide: MathService, useValue: MathServiceMock },
+        { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(ItemSearchResultListElementComponent, {
@@ -449,6 +464,7 @@ describe('ItemSearchResultListElementComponent', () => {
         {provide: DSONameService, useClass: DSONameServiceMock},
         { provide: APP_CONFIG, useValue: enviromentNoThumbs },
         { provide: MathService, useValue: MathServiceMock },
+        { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
       ],
 
       schemas: [NO_ERRORS_SCHEMA]
