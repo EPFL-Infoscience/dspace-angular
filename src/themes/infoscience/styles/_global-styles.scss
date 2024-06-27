@@ -224,6 +224,10 @@ ds-themed-counters-section {
   .card {
     border: none !important;
   }
+  
+  .mb-2 {
+    margin-bottom: 0 !important;
+  }
 
   >ds-counters-section b,
   >ds-counters-section b {
@@ -231,6 +235,8 @@ ds-themed-counters-section {
     color: $leman;
   }
 }
+
+
 
 ds-counters-section {
 
@@ -249,7 +255,7 @@ ds-counters-section {
           }
       }
     a.text-decoration-none {
-          padding: 0 3rem 0 3rem;
+          padding: 0 2rem 0 2rem;
           &:hover {
               background-color: $gray-200;
             }
@@ -375,3 +381,10 @@ pre.license-text{
   font-size: 1em;
 }
 
+#dropdownSubmission, #dropdownImport {
+
+      padding: 0.68rem 1.4rem !important;
+      font-size: 1rem !important;
+      line-height: 1.65 !important;
+
+}

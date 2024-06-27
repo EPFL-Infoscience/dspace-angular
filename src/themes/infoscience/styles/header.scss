@@ -31,7 +31,7 @@
                 left: 0.6rem;
                 width: 6px;
                 height: 6px;
-                background: $red;
+                background: var(--ds-navbar-link-color-hover);
                 opacity: 0;
                 transform: none;
                 transition: opacity 0.3s;
@@ -69,7 +69,7 @@
                         left: 0.4rem;
                         width: 6px;
                         height: 6px;
-                        background: $red;
+                        background: var(--ds-navbar-link-color-hover);
                         opacity: 0;
                         transform: none;
                         transition: opacity 0.3s;
@@ -325,7 +325,7 @@ ds-auth-nav-menu ds-themed-user-menu ds-user-menu a.dropdown-item.active:hover {
         .lead-sub {
             color: $dark;
             font-size: 2.1em;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
         }
 
 
