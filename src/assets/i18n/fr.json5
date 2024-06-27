@@ -1,5 +1,5 @@
 {
-
+  // Test SV
   // "401.help": "You're not authorized to access this page. You can use the button below to get back to the home page.",
   "401.help": "L'accès à cette page ne vous est pas autorisé. Vous pouvez utiliser le bouton ci-dessous pour revenir à la page d'accueil",
 
@@ -717,7 +717,7 @@
   // "admin.access-control.groups.button.add": "Add group",
   "admin.access-control.groups.button.add": "Ajouter un groupe",
 
-  // "admin.access-control.groups.search.head": "Search groups",
+  // "admin.access-control.groups.search.head": "Search for groups",
   "admin.access-control.groups.search.head": "Rechercher des groupes",
 
   // "admin.access-control.groups.button.see-all": "Browse all",
@@ -726,7 +726,7 @@
   // "admin.access-control.groups.search.button": "Search",
   "admin.access-control.groups.search.button": "Rechercher",
 
-  // "admin.access-control.groups.search.placeholder": "Search groups...",
+  // "admin.access-control.groups.search.placeholder": "Search for groups...",
   "admin.access-control.groups.search.placeholder": "Rechercher des groupes...",
 
   // "admin.access-control.groups.table.id": "ID",
@@ -1183,28 +1183,23 @@
   "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.search.head": "Add EPeople",
 
   // "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.button.see-all": "Browse All",
-  // TODO New key - Add a translation
-  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.button.see-all": "Browse All",
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.button.see-all": "Parcourir tout",
 
   // "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.headMembers": "Current Members",
-  // TODO New key - Add a translation
-  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.headMembers": "Current Members",
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.headMembers": "Membres actuels",
 
   // "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.search.button": "Search",
-  // TODO New key - Add a translation
-  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.search.button": "Search",
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.search.button": "Chercher",
 
   // "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.id": "ID",
   // TODO New key - Add a translation
   "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.id": "ID",
 
   // "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.name": "Name",
-  // TODO New key - Add a translation
-  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.name": "Name",
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.name": "Nom",
 
   // "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.identity": "Identity",
-  // TODO New key - Add a translation
-  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.identity": "Identity",
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.identity": "Identité",
 
   // "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.email": "Email",
   // TODO New key - Add a translation
@@ -1215,69 +1210,55 @@
   "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.netid": "NetID",
 
   // "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.edit": "Remove / Add",
-  // TODO New key - Add a translation
-  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.edit": "Remove / Add",
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.edit": "Supprimer / Ajouter",
 
   // "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.edit.buttons.remove": "Remove member with name \"{{name}}\"",
-  // TODO New key - Add a translation
-  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.edit.buttons.remove": "Remove member with name \"{{name}}\"",
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.edit.buttons.remove": "Supprimer le membre avec le nom \"{{name}}\"",
 
   // "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.success.addMember": "Successfully added member: \"{{name}}\"",
-  // TODO New key - Add a translation
-  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.success.addMember": "Successfully added member: \"{{name}}\"",
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.success.addMember": "Membre ajouté avec succès: \"{{name}}\"",
 
   // "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.failure.addMember": "Failed to add member: \"{{name}}\"",
-  // TODO New key - Add a translation
-  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.failure.addMember": "Failed to add member: \"{{name}}\"",
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.failure.addMember": "Echec de l'ajout du membre: \"{{name}}\"",
 
   // "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.success.deleteMember": "Successfully deleted member: \"{{name}}\"",
-  // TODO New key - Add a translation
-  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.success.deleteMember": "Successfully deleted member: \"{{name}}\"",
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.success.deleteMember": "Suppression réussie du membre : \"{{name}}\"",
 
   // "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.failure.deleteMember": "Failed to delete member: \"{{name}}\"",
-  // TODO New key - Add a translation
-  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.failure.deleteMember": "Failed to delete member: \"{{name}}\"",
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.failure.deleteMember": "Echec de la suppression du membre : \"{{name}}\"",
 
   // "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.edit.buttons.add": "Add member with name \"{{name}}\"",
-  // TODO New key - Add a translation
-  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.edit.buttons.add": "Add member with name \"{{name}}\"",
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.table.edit.buttons.add": "Ajouter le membre avec le nom \"{{name}}\"",
 
   // "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.failure.noActiveGroup": "No current active group, submit a name first.",
   // TODO New key - Add a translation
   "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.notification.failure.noActiveGroup": "No current active group, submit a name first.",
 
   // "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.no-members-yet": "No members in group yet, search and add.",
-  // TODO New key - Add a translation
-  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.no-members-yet": "No members in group yet, search and add.",
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.no-members-yet": "Pas de membres dans le groupe actuellement, cherchez et ajoutez.",
 
   // "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.no-items": "No EPeople found in that search",
-  // TODO New key - Add a translation
-  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.no-items": "No EPeople found in that search",
+  "advanced-workflow-action-select-reviewer.groups.form.reviewers-list.no-items": "Pas de EPeople correspondant à cette recherche",
 
   // "advanced-workflow-action.select-reviewer.no-reviewer-selected.error": "No reviewer selected.",
-  // TODO New key - Add a translation
-  "advanced-workflow-action.select-reviewer.no-reviewer-selected.error": "No reviewer selected.",
+  "advanced-workflow-action.select-reviewer.no-reviewer-selected.error": "Pas de validateur sélectionné.",
 
   // "admin.batch-import.page.validateOnly.hint": "When selected, the uploaded ZIP will be validated. You will receive a report of detected changes, but no changes will be saved.",
   // TODO New key - Add a translation
   "admin.batch-import.page.validateOnly.hint": "When selected, the uploaded ZIP will be validated. You will receive a report of detected changes, but no changes will be saved.",
 
   // "admin.batch-import.page.remove": "remove",
-  // TODO New key - Add a translation
-  "admin.batch-import.page.remove": "remove",
+  "admin.batch-import.page.remove": "supprimer",
 
 
   // "alert.close.aria": "Close",
-  // TODO New key - Add a translation
-  "alert.close.aria": "Close",
+  "alert.close.aria": "Fermer",
 
   // "alert.toggle.hide": "Show less",
-  // TODO New key - Add a translation
-  "alert.toggle.hide": "Show less",
+  "alert.toggle.hide": "Présenter moins d'informations",
 
   // "alert.toggle.show": "Show more",
-  // TODO New key - Add a translation
-  "alert.toggle.show": "Show more",
+  "alert.toggle.show": "Présenter plus d'informations",
 
 
   // "audit.overview.title": "Audit Logs Overview",
@@ -1309,16 +1290,13 @@
   "audit.overview.table.entityType": "Audit Type",
 
   // "audit.overview.table.eperson": "EPerson",
-  // TODO New key - Add a translation
   "audit.overview.table.eperson": "EPerson",
 
   // "audit.overview.table.details": "Details",
-  // TODO New key - Add a translation
-  "audit.overview.table.details": "Details",
+  "audit.overview.table.details": "Détails",
 
   // "audit.overview.table.timestamp": "Time",
-  // TODO New key - Add a translation
-  "audit.overview.table.timestamp": "Time",
+  "audit.overview.table.timestamp": "Temps",
 
   // "audit.overview.breadcrumbs": "Audit Logs Overview",
   // TODO New key - Add a translation
@@ -1329,15 +1307,12 @@
   "audit.object.overview.title": "Subject Audit Logs Overview",
 
   // "audit.object.overview.disabled.message": "Audit feature is currently disabled",
-  // TODO New key - Add a translation
-  "audit.object.overview.disabled.message": "Audit feature is currently disabled",
+  "audit.object.overview.disabled.message": "La fonction Audit est actuellement désactivée",
 
   // "audit.detail.title": "Audit Detail",
-  // TODO New key - Add a translation
-  "audit.detail.title": "Audit Detail",
+  "audit.detail.title": "Détail d'audit",
 
   // "audit.detail.id": "Audit Id",
-  // TODO New key - Add a translation
   "audit.detail.id": "Audit Id",
 
   // "audit.detail.subjectUUID": "Subject ID",
@@ -1345,24 +1320,19 @@
   "audit.detail.subjectUUID": "Subject ID",
 
   // "audit.detail.subjectType": "Subject Type",
-  // TODO New key - Add a translation
-  "audit.detail.subjectType": "Subject Type",
+  "audit.detail.subjectType": "Type de sujet",
 
   // "audit.detail.eventType": "Audit Type",
-  // TODO New key - Add a translation
-  "audit.detail.eventType": "Audit Type",
+  "audit.detail.eventType": "Type d'audit",
 
   // "audit.detail.eperson": "EPerson",
-  // TODO New key - Add a translation
   "audit.detail.eperson": "EPerson",
 
   // "audit.detail.timeStamp": "Time",
-  // TODO New key - Add a translation
-  "audit.detail.timeStamp": "Time",
+  "audit.detail.timeStamp": "Temps",
 
   // "audit.detail.back": "All Audit Logs",
-  // TODO New key - Add a translation
-  "audit.detail.back": "All Audit Logs",
+  "audit.detail.back": "Logs de tous les audits",
 
   // "audit.detail.back.subject": "Subject Audit Logs",
   // TODO New key - Add a translation
@@ -1383,12 +1353,10 @@
   "bitstream.download.page": "Téléchargement de {{bitstream}} en cours...",
 
   // "bitstream.download.page.back": "Back",
-  // TODO Source message changed - Revise the translation
   "bitstream.download.page.back": "Retour",
 
   // "bitstream.download.page.close": "Close",
-  // TODO New key - Add a translation
-  "bitstream.download.page.close": "Close",
+  "bitstream.download.page.close": "Fermer",
 
 
   // "bitstream.edit.authorizations.link": "Edit bitstream's Policies",
@@ -1431,12 +1399,10 @@
   "bitstream.edit.form.primaryBitstream.label": "Bitstream principal",
 
   // "bitstream.edit.form.fileType.label": "File type",
-  // TODO New key - Add a translation
-  "bitstream.edit.form.fileType.label": "File type",
+  "bitstream.edit.form.fileType.label": "Type de fichier",
 
   // "bitstream.edit.form.fileType.hint": "Personal picture, logo, main article, etc.",
-  // TODO New key - Add a translation
-  "bitstream.edit.form.fileType.hint": "Personal picture, logo, main article, etc.",
+  "bitstream.edit.form.fileType.hint": "Image personnelle, logo, article principal, etc.",
 
   // "bitstream.edit.form.selectedFormat.hint": "If the format is not in the above list, <b>select \"format not in list\" above</b> and describe it under \"Describe new format\".",
   "bitstream.edit.form.selectedFormat.hint": "Si le format souhaité ne se trouve pas dans la liste ci-dessus, <b>sélectionner \"Format non disponible dans la liste\" ci-dessus</b> et le décrire via \"Décrire un nouveau format\".",
@@ -1451,8 +1417,7 @@
   "bitstream.edit.notifications.error.format.title": "Une erreur s'est produite lors de la sauvegarde du format du Bitstream",
 
   // "bitstream.edit.notifications.error.primaryBitstream.title": "An error occurred saving the primary bitstream",
-  // TODO New key - Add a translation
-  "bitstream.edit.notifications.error.primaryBitstream.title": "An error occurred saving the primary bitstream",
+  "bitstream.edit.notifications.error.primaryBitstream.title": "UNe erreur est survenu pendant l'enregistrement du fichier",
 
   // "bitstream.edit.form.iiifLabel.label": "IIIF Label",
   "bitstream.edit.form.iiifLabel.label": "Étiquette IIIF",
@@ -1545,8 +1510,7 @@
   "bitstream-request-a-copy.submit.error": "Un problème est survenu lors de la soumission de la demande d'Item",
 
   // "bitstream-request-a-copy.submit.info": "EPFL authenticated users can download restricted access files",
-  // TODO New key - Add a translation
-  "bitstream-request-a-copy.submit.info": "EPFL authenticated users can download restricted access files",
+  "bitstream-request-a-copy.submit.info": "Les usagers EPFL authentifiés peuvent télécharger les fichiers en accès restreint",
 
 
 
@@ -1561,27 +1525,21 @@
   "browse.comcol.by.dateissued": "Date de publication",
 
   // "browse.comcol.by.ouname": "By Name",
-  // TODO New key - Add a translation
-  "browse.comcol.by.ouname": "By Name",
+  "browse.comcol.by.ouname": "Par nom",
 
   // "browse.comcol.by.pjtitle": "By Title",
-  // TODO New key - Add a translation
-  "browse.comcol.by.pjtitle": "By Title",
+  "browse.comcol.by.pjtitle": "Par titre",
 
   // "browse.comcol.by.rodept": "Units",
-  // TODO New key - Add a translation
-  "browse.comcol.by.rodept": "Units",
+  "browse.comcol.by.rodept": "Unités",
 
   // "browse.comcol.by.rpdept": "By Department",
-  // TODO New key - Add a translation
-  "browse.comcol.by.rpdept": "By Department",
+  "browse.comcol.by.rpdept": "Par département",
 
   // "browse.comcol.by.rpname": "By Name",
-  // TODO New key - Add a translation
-  "browse.comcol.by.rpname": "By Name",
+  "browse.comcol.by.rpname": "Par nom",
 
   // "browse.comcol.by.subject": "Domains",
-  // TODO Source message changed - Revise the translation
   "browse.comcol.by.subject": "Sujet",
 
   // "browse.comcol.by.srsc": "By Subject Category",
@@ -1822,10 +1780,8 @@
   // "browse.title.page": "Browsing {{ collection }} by {{ field }} {{ value }}",
   "browse.title.page": "Parcourir la collection {{ collection }} par {{ field }} {{ value }}",
 
-
   // "bulk-import.abort-on-error": "Abort on first error",
-  // TODO New key - Add a translation
-  "bulk-import.abort-on-error": "Abort on first error",
+  "bulk-import.abort-on-error": "Annuler en cas d'erreur",
 
   // "bulk-import.back": "Back",
   // TODO New key - Add a translation
@@ -1844,8 +1800,7 @@
   "bulk-import.error": "An error occurred while creating the import process",
 
   // "bulk-import.file": "Source file",
-  // TODO New key - Add a translation
-  "bulk-import.file": "Source file",
+  "bulk-import.file": "Fichier source",
 
   // "bulk-import.header": "Bulk import",
   // TODO New key - Add a translation
@@ -1860,12 +1815,10 @@
   "bulk-import.success": "The import process was successfully created",
 
   // "bulk-import.submit": "Start import",
-  // TODO New key - Add a translation
-  "bulk-import.submit": "Start import",
+  "bulk-import.submit": "Débuter l'import",
 
   // "bulk-import.title": "Bulk import",
-  // TODO New key - Add a translation
-  "bulk-import.title": "Bulk import",
+  "bulk-import.title": "Import par lots",
 
 
   // "search.browse.item-back": "Back to Results",
@@ -1982,14 +1935,14 @@
   // "collection.edit.item-mapper.remove": "Remove selected item mappings",
   "collection.edit.item-mapper.remove": "Supprimer les associations des Items sélectionnées",
 
-  // "collection.edit.item-mapper.search-form.placeholder": "Search items...",
-  "collection.edit.item-mapper.search-form.placeholder": "Rechercher des Items... ",
+  // "collection.edit.item-mapper.search-form.placeholder": "Search for items...",
+  "collection.edit.item-mapper.search-form.placeholder": "Rechercher des items... ",
 
   // "collection.edit.item-mapper.tabs.browse": "Browse mapped items",
-  "collection.edit.item-mapper.tabs.browse": "Parcourir les Items associés",
+  "collection.edit.item-mapper.tabs.browse": "Parcourir les items associés",
 
   // "collection.edit.item-mapper.tabs.map": "Map new items",
-  "collection.edit.item-mapper.tabs.map": "Associer de nouveaux Items",
+  "collection.edit.item-mapper.tabs.map": "Associer de nouveaux items",
 
   // "collection.edit.logo.delete.title": "Delete logo",
   "collection.edit.logo.delete.title": "Supprimer le logo",
@@ -4177,7 +4130,7 @@
   // "event.listelement.badge": "Event",
   "event.listelement.badge": "Événement",
 
-  // "event.search.results.head": "Search Event",
+  // "event.search.results.head": "Search for Event",
   "event.search.results.head": "Rechercher un événement",
 
   // "explore.browse-section.title": "Browse",
@@ -4190,7 +4143,7 @@
   "explore.counters-section.units": "Unités EPFL",
 
   // "explore.counters-section.people": "Researchers",
-  "explore.counters-section.people": "Auteur·trices",
+  "explore.counters-section.people": "Membres EPFL",
 
   // "explore.counters-section.publications": "Scholarly Works",
   "explore.counters-section.publications": "Travaux académiques",
@@ -4209,6 +4162,9 @@
 
   // "explore.index.all": "All",
   "explore.index.all": "Tout",
+
+  // "explore.index.thesis": "Recent EPFL Thesis",
+  "explore.index.thesis": "Dernières thèses EPFL",
 
   // "explore.index.news": "What's new",
   "explore.index.news": "Actualités",
@@ -4257,11 +4213,14 @@
   // "explore.index.dateIssued": "Publication Year",
   "explore.index.dateIssued": "Année de publication",
 
+  // "explore.index.license": "License",
+  "explore.index.license": "Licence",
+
   // "explore.index.dateissued": "Date issued",
   "explore.index.dateissued": "Date de diffusion",
 
   // "explore.index.dc.date.accessioned": "Recent Scholarly Works",
-  "explore.index.dc.date.accessioned": "Derniers dépôts",
+  "explore.index.dc.date.accessioned": "Derniers travaux déposés",
 
   // "explore.index.dc.date.created": "Date Created",
   "explore.index.dc.date.created": "Date de création",
@@ -4531,27 +4490,25 @@
   // TODO New key - Add a translation
   "explore.search-section.infrastructure.title": "Infrastructure",
 
-  // "explore.search-section.fundings.title": "Search Projects",
-  // TODO New key - Add a translation
-  "explore.search-section.fundings.title": "Search Projects",
+  // "explore.search-section.fundings.title": "Search for Projects",
+  "explore.search-section.fundings.title": "Chercher un projet",
 
-  // "explore.search-section.fundings_and_projects.title": "Search Projects",
-  // TODO New key - Add a translation
-  "explore.search-section.fundings_and_projects.title": "Search Projects",
+  // "explore.search-section.fundings_and_projects.title": "Search for Projects",
+  "explore.search-section.fundings_and_projects.title": "Rechercher un projet",
 
-  // "explore.search-section.orgunits.title": "Search Units",
+  // "explore.search-section.orgunits.title": "Search for Units",
   "explore.search-section.orgunits.title": "Rechercher une unité",
 
-  // "explore.search-section.publications.title": "Search Scholarly Works",
+  // "explore.search-section.publications.title": "Search for Scholarly Works",
   "explore.search-section.publications.title": "Rechercher dans la production académique",
 
-  // "explore.search-section.researchoutputs.title": "Search Scholarly Works",
+  // "explore.search-section.researchoutputs.title": "Search for Scholarly Works",
   "explore.search-section.researchoutputs.title": "Rechercher dans la production académique",
 
-  // "explore.search-section.researchoutputsoa.title": "Search Scholarly Works (Open Access)",
+  // "explore.search-section.researchoutputsoa.title": "Search for Scholarly Works (Open Access)",
   "explore.search-section.researchoutputsoa.title": "Rechercher dans la production académique (en Open Access)",
 
-  // "explore.search-section.researcherprofiles.title": "Search People",
+  // "explore.search-section.researcherprofiles.title": "Search for People",
   "explore.search-section.researcherprofiles.title": "Rechercher une personne",
 
   // "explore.search-section.search-button": "Search",
@@ -4919,8 +4876,13 @@
   "form.other-information.datacite_relatedIdentifier": "URI",
 
   // "form.other-information.variant": "Variant name of",
-  // TODO New key - Add a translation
-  "form.other-information.variant": "Variant name of",
+  "form.other-information.variant": "Variante de nom pour",
+
+  //"form.other-information.oairecerif_scientificeditor_affiliation": "Institution",
+  "form.other-information.oairecerif_scientificeditor_affiliation": "Institution",
+
+  //"form.other-information.oairecerif_contributor_affiliation": "Institution",
+  "form.other-information.oairecerif_scientificeditor_affiliation": "Institution",
 
   // "form.remove": "Remove",
   "form.remove": "Supprimer",
@@ -5135,7 +5097,7 @@
   "home.breadcrumbs": "Accueil",
 
   // "home.search-form.placeholder": "Your trusted repository for accessing EPFL's research output",
-  "home.search-form.placeholder": "Votre dépôt de référence pour accéder aux travaux académiques de l'EPFL",
+  "home.search-form.placeholder": "Accéder aux travaux académiques de l'EPFL",
 
   // "home.title": "Home",
   "home.title": "Accueil",
@@ -5521,7 +5483,7 @@
   // "item.edit.item-mapper.notifications.remove.success.head": "Removal of mapping completed",
   "item.edit.item-mapper.notifications.remove.success.head": "Suppression d'association terminée",
 
-  // "item.edit.item-mapper.search-form.placeholder": "Search collections...",
+  // "item.edit.item-mapper.search-form.placeholder": "Search for collections...",
   "item.edit.item-mapper.search-form.placeholder": "Rechercher des collections...",
 
   // "item.edit.item-mapper.tabs.browse": "Browse mapped collections",
@@ -5982,8 +5944,7 @@
   "item.edit.withdraw.success": "L'Item a été retiré avec succès",
 
   // "item.orcid.return": "Back",
-  // TODO New key - Add a translation
-  "item.orcid.return": "Back",
+  "item.orcid.return": "Retour",
 
   // "item.listelement.badge": "Item",
   "item.listelement.badge": "Item",
@@ -6268,20 +6229,17 @@
   "item.preview.dc.identifier.scopus": "Scopus ID",
 
   // "item.preview.dc.publisher": "Publisher",
-  // TODO New key - Add a translation
-  "item.preview.dc.publisher": "Publisher",
+  "item.preview.dc.publisher": "Éditeur",
 
   // "item.preview.dc.relation.grantno": "Grant no.",
   // TODO New key - Add a translation
   "item.preview.dc.relation.grantno": "Grant no.",
 
   // "item.preview.dc.relation.ispartofseries": "Serie",
-  // TODO New key - Add a translation
-  "item.preview.dc.relation.ispartofseries": "Serie",
+  "item.preview.dc.relation.ispartofseries": "Publication en série",
 
   // "item.preview.dc.relation.journal": "Journal",
-  // TODO New key - Add a translation
-  "item.preview.dc.relation.journal": "Journal",
+  "item.preview.dc.relation.journal": "Revue",
 
   // "item.preview.dc.identifier.uri": "Identifier:",
   "item.preview.dc.identifier.uri": "Identifiant :",
@@ -6367,12 +6325,10 @@
   // TODO New key - Add a translation
   "item.preview.dc.identifier": "Identifier:",
 
-  // "item.preview.dc.relation.ispartof": "Journal or Series",
-  // TODO New key - Add a translation
-  "item.preview.dc.relation.ispartof": "Journal or Series",
+  // "item.preview.dc.relation.ispartof": "Published in",
+  "item.preview.dc.relation.ispartof": "Publié dans",
 
   // "item.preview.dc.identifier.doi": "DOI",
-  // TODO New key - Add a translation
   "item.preview.dc.identifier.doi": "DOI",
 
   // "item.preview.dc.title.alternative": "Alternative Title",
@@ -7291,9 +7247,8 @@
   // TODO New key - Add a translation
   "layout.field.label.Journal.dc.identifier.issn": "ISSN",
 
-  // "layout.field.label.Publication.dc.relation.ispartof": "Journal",
-  // TODO New key - Add a translation
-  "layout.field.label.Publication.dc.relation.ispartof": "Journal",
+  // "layout.field.label.Publication.dc.relation.ispartof": "Published in",
+  "layout.field.label.Publication.dc.relation.ispartof": "Publié dans",
 
   // "layout.field.label.Publication.dc.relation.issn": "ISSN",
   // TODO New key - Add a translation
@@ -7366,7 +7321,7 @@
   // "layout.field.label.Product.dc.title": "Title",
   "layout.field.label.Product.dc.title": "Titre",
 
-  // "layout.field.label.Product.dc.relation.ispartof": "Journal",
+  // "layout.field.label.Product.dc.relation.ispartof": "Published in",
   "layout.field.label.Product.dc.relation.ispartof": "Publié dans",
 
   // "layout.field.label.Product.dc.relation.issn": "ISSN",
@@ -7405,9 +7360,8 @@
   // "layout.field.label.Patent.dc.title": "Title",
   "layout.field.label.Patent.dc.title": "Titre",
 
-  // "layout.field.label.Patent.dc.relation.ispartof": "Journal",
-  // TODO New key - Add a translation
-  "layout.field.label.Patent.dc.relation.ispartof": "Journal",
+  // "layout.field.label.Patent.dc.relation.ispartof": "Published in",
+  "layout.field.label.Patent.dc.relation.ispartof": "Publié dans",
 
   // "layout.field.label.Patent.dc.relation.issn": "ISSN",
   // TODO New key - Add a translation
@@ -7734,8 +7688,8 @@
   // "menu.section.explore_researchoutputsoa": "in Open Access",
   "menu.section.explore_researchoutputsoa": "En Open Access",
 
-  // "menu.section.explore_researcherprofiles": "Researcher Profiles",
-  "menu.section.explore_researcherprofiles": "Profils Auteur·trice·s",
+  // "menu.section.explore_researcherprofiles": "EPFL People",
+  "menu.section.explore_researcherprofiles": "Membres EPFL",
 
   // "menu.section.explore_orgunits": "By Unit",
   "menu.section.explore_orgunits": "Unités EPFL",
@@ -7985,7 +7939,7 @@
 
   // "menu.section.statistics.site": "Site",
   // TODO New key - Add a translation
-  "menu.section.statistics.site": "Globales",
+  "menu.section.statistics.site": "Site",
 
   // "menu.section.statistics_task": "Statistics Task",
   "menu.section.statistics_task": "Tâche statistiques",
@@ -8004,8 +7958,7 @@
   "statistics.search.breadcrumbs": "Search report",
 
   // "statistics.search.page.header": "Search report",
-  // TODO New key - Add a translation
-  "statistics.search.page.header": "Search report",
+  "statistics.search.page.header": "Sommaire des recherches",
 
   // "statistics.search.page.startDate": "Start date",
   "statistics.search.page.startDate": "Début",
@@ -8912,8 +8865,7 @@
   "process.detail.arguments.empty": "This process doesn't contain any arguments",
 
   // "process.detail.back": "Back",
-  // TODO New key - Add a translation
-  "process.detail.back": "Back",
+  "process.detail.back": "Retour",
 
   // "process.detail.output": "Process Output",
   // TODO New key - Add a translation
@@ -9183,8 +9135,7 @@
   "profile.security.form.label.passwordrepeat": "Entrer à nouveau pour confirmer",
 
   // "profile.security.form.label.current-password": "Current password",
-  // TODO New key - Add a translation
-  "profile.security.form.label.current-password": "Current password",
+  "profile.security.form.label.current-password": "Mot de passe actuel",
 
   // "profile.security.form.notifications.success.content": "Your changes to the password were saved.",
   "profile.security.form.notifications.success.content": "Votre nouveau mot de passe a été sauvegardé avec succès.",
@@ -9896,7 +9847,7 @@
   // "search.filters.filter.author.placeholder": "Author name",
   "search.filters.filter.author.placeholder": "Nom de l'auteur·trice",
 
-  // "search.filters.filter.author.label": "Search author name",
+  // "search.filters.filter.author.label": "Search for author name",
   "search.filters.filter.author.label": "Recherche du nom d'auteur·trice",
 
   // "search.filters.filter.birthDate.head": "Birth Date",
@@ -9952,11 +9903,14 @@
   // "search.filters.filter.creativeWorkPublisher.placeholder": "Publisher",
   "search.filters.filter.creativeWorkPublisher.placeholder": "Éditeur",
 
-  // "search.filters.filter.creativeWorkPublisher.label": "Search publisher",
+  // "search.filters.filter.creativeWorkPublisher.label": "Search for publisher",
   "search.filters.filter.creativeWorkPublisher.label": "Rechercher par éditeur",
 
   // "search.filters.filter.dateIssued.head": "Publication Year",
   "search.filters.filter.dateIssued.head": "Année de publication",
+
+    // "search.filters.filter.license.head": "License",
+  "search.filters.filter.license.head": "Licence",
 
   // "search.filters.filter.dateIssued.max.placeholder": "Maximum Publication Year",
   "search.filters.filter.dateIssued.max.placeholder": "Depuis",
@@ -10006,7 +9960,7 @@
   // "search.filters.filter.editor.placeholder": "Editor",
   "search.filters.filter.editor.placeholder": "Éditeur·rice scientifique",
 
-  // "search.filters.filter.editor.label": "Search editor",
+  // "search.filters.filter.editor.label": "Search for editor",
   "search.filters.filter.editor.label": "Rechercher un·e éditeur·rice scientifique",
 
   // "search.filters.filter.fundername.head": "Funder",
@@ -10015,7 +9969,7 @@
   // "search.filters.filter.fundername.placeholder": "Funder",
   "search.filters.filter.fundername.placeholder": "Bailleur de fonds",
 
-  // "search.filters.filter.fundername.label": "Search Funder",
+  // "search.filters.filter.fundername.label": "Search for Funder",
   "search.filters.filter.fundername.label": "Rechercher par bailleur de fonds",
 
   // "search.filters.filter.withdrawn.head": "Withdrawn",
@@ -10039,7 +9993,7 @@
   // TODO New key - Add a translation
   "search.filters.filter.eventPlace.placeholder": "Event Place",
 
-  // "search.filters.filter.eventPlace.label": "Search Event Place",
+  // "search.filters.filter.eventPlace.label": "Search for Event Place",
   // TODO New key - Add a translation
   "search.filters.filter.eventPlace.label": "Search Event Place",
 
@@ -10051,7 +10005,7 @@
   // TODO New key - Add a translation
   "search.filters.filter.eventDate.placeholder": "Event Date",
 
-  // "search.filters.filter.eventDate.label": "Search Event Date",
+  // "search.filters.filter.eventDate.label": "Search for Event Date",
   // TODO New key - Add a translation
   "search.filters.filter.eventDate.label": "Search Event Date",
 
@@ -10098,7 +10052,7 @@
   // "search.filters.filter.funding.placeholder": "Funding",
   "search.filters.filter.funding.placeholder": "Financements",
 
-  // "search.filters.filter.funding.label": "Search funding",
+  // "search.filters.filter.funding.label": "Search for funding",
   // TODO New key - Add a translation
   "search.filters.filter.funding.label": "Rechercher par financement",
 
@@ -10174,7 +10128,7 @@
   // "search.filters.filter.personOrgUnits.head": "EPFL Unit",
   "search.filters.filter.personOrgUnits.head": "Unité EPFL",
 
-  // "search.filters.filter.personOrgUnits.label": "Search EPFL Unit",
+  // "search.filters.filter.personOrgUnits.label": "Search for EPFL Unit",
   "search.filters.filter.personOrgUnits.label": "Rechercher par unité EPFL",
 
   // "search.filters.filter.personOrgUnits.placeholder": "EPFL Unit",
@@ -10184,7 +10138,7 @@
   // TODO New key - Add a translation
   "search.filters.filter.publisher.head": "Éditeur",
 
-  // "search.filters.filter.publisher.label": "Search Publisher",
+  // "search.filters.filter.publisher.label": "Search for Publisher",
   // TODO New key - Add a translation
   "search.filters.filter.publisher.label": "Rechercher par éditeur",
 
@@ -10207,7 +10161,7 @@
   // "search.filters.filter.objectpeople.placeholder": "People",
   "search.filters.filter.objectpeople.placeholder": "Personne",
 
-  // "search.filters.filter.objectpeople.label": "Search people",
+  // "search.filters.filter.objectpeople.label": "Search for people",
   "search.filters.filter.objectpeople.label": "Recherche d'une personne",
 
   // "search.filters.filter.organization.head": "Institution",
@@ -10218,7 +10172,7 @@
   // TODO New key - Add a translation
   "search.filters.filter.organization.placeholder": "Institution",
 
-  // "search.filters.filter.organization.label": "Search Institution",
+  // "search.filters.filter.organization.label": "Search for Institution",
   // TODO New key - Add a translation
   "search.filters.filter.organization.label": "Rechercher par institution",
 
@@ -10228,7 +10182,7 @@
   // "search.filters.filter.unitOrLab.placeholder": "Unit",
   "search.filters.filter.unitOrLab.placeholder": "Unité EPFL",
 
-  // "search.filters.filter.unitOrLab.label": "Search Unit",
+  // "search.filters.filter.unitOrLab.label": "Search for Unit",
   "search.filters.filter.unitOrLab.label": "Rechercher par unité EPFL",
 
   // "search.filters.filter.parentOrganization.head": "Parent Unit",
@@ -10237,7 +10191,7 @@
   // "search.filters.filter.parentOrganization.placeholder": "Parent Unit",
   "search.filters.filter.parentOrganization.placeholder": "Unité parente",
 
-  // "search.filters.filter.parentOrganization.label": "Search Parent Unit",
+  // "search.filters.filter.parentOrganization.label": "Search for Parent Unit",
   // TODO New key - Add a translation
   "search.filters.filter.parentOrganization.label": "Rechercher par unité parente",
 
@@ -10247,7 +10201,7 @@
   // "search.filters.filter.organizationAddressCountry.placeholder": "Country",
   "search.filters.filter.organizationAddressCountry.placeholder": "Pays",
 
-  // "search.filters.filter.organizationAddressCountry.label": "Search country",
+  // "search.filters.filter.organizationAddressCountry.label": "Search for country",
   "search.filters.filter.organizationAddressCountry.label": "Rechercher par pays",
 
   // "search.filters.filter.organizationAddressLocality.head": "City",
@@ -10275,7 +10229,7 @@
   // "search.filters.filter.original_bundle_oaire_licenseCondition.placeholder": "License",
   "search.filters.filter.original_bundle_oaire_licenseCondition.placeholder": "Licence",
 
-  // "search.filters.filter.original_bundle_oaire_licenseCondition.label": "Search License",
+  // "search.filters.filter.original_bundle_oaire_licenseCondition.label": "Search for License",
   "search.filters.filter.original_bundle_oaire_licenseCondition.label": "Rechercher par Licence",
 
   // "search.filters.filter.original_bundle_datacite_available.head": "Embargo",
@@ -10297,7 +10251,7 @@
   // "search.filters.filter.original_bundle_datacite_rights.placeholder": "Availability",
   "search.filters.filter.original_bundle_datacite_rights.placeholder": "Accès",
 
-  // "search.filters.filter.original_bundle_datacite_rights.label": "Search Availability",
+  // "search.filters.filter.original_bundle_datacite_rights.label": "Search for Availability",
   // TODO New key - Add a translation
   "search.filters.filter.original_bundle_datacite_rights.label": "Rechercher par accès",
 
@@ -10308,7 +10262,7 @@
   // TODO New key - Add a translation
   "search.filters.filter.datacite_rights.placeholder": "Accès",
 
-  // "search.filters.filter.datacite_rights.label": "Search Availability",
+  // "search.filters.filter.datacite_rights.label": "Search for Availability",
   // TODO New key - Add a translation
   "search.filters.filter.datacite_rights.label": "Rechercher par accès",
 
@@ -10320,7 +10274,7 @@
   // TODO New key - Add a translation
   "search.filters.filter.role.label": "Fonction",
 
-  // "search.filters.filter.role.placeholder": "Search Position",
+  // "search.filters.filter.role.placeholder": "Search for Position",
   // TODO New key - Add a translation
   "search.filters.filter.role.placeholder": "Rechercher par fonction",
 
@@ -10377,7 +10331,7 @@
   // TODO New key - Add a translation
   "search.filters.filter.types.head": "Type",
 
-  // "search.filters.filter.types.label": "Search Type",
+  // "search.filters.filter.types.label": "Search for Type",
   // TODO New key - Add a translation
   "search.filters.filter.types.label": "Rechercher par type",
 
@@ -10388,7 +10342,7 @@
   // "search.filters.filter.unit.head": "Unit",
   "search.filters.filter.unit.head": "Unité EPFL",
 
-  // "search.filters.filter.unit.label": "Search Unit",
+  // "search.filters.filter.unit.label": "Search for Unit",
   "search.filters.filter.unit.label": "Rechercher par unité EPFL",
 
   // "search.filters.filter.unit.placeholder": "Unit",
@@ -10397,7 +10351,7 @@
   // "search.filters.filter.author_editor.head": "Author",
   "search.filters.filter.author_editor.head": "Auteur·trice",
 
-  // "search.filters.filter.author_editor.label": "Search Author",
+  // "search.filters.filter.author_editor.label": "Search for Author",
   "search.filters.filter.author_editor.label": "Rechercher par auteur·trice",
 
   // "search.filters.filter.author_editor.placeholder": "Author",
@@ -10427,7 +10381,7 @@
   // TODO New key - Add a translation
   "search.filters.filter.ouActive.head": "Statut de l'unité",
 
-  // "search.filters.filter.ouActive.label": "Search Active Status",
+  // "search.filters.filter.ouActive.label": "Search for Active Status",
   // TODO New key - Add a translation
   "search.filters.filter.ouActive.label": "Rechercher par statut",
 
@@ -10439,7 +10393,7 @@
   // TODO New key - Add a translation
   "search.filters.filter.researcherActive.head": "Est membre EPFL",
 
-  // "search.filters.filter.researcherActive.label": "Search EPFL Member",
+  // "search.filters.filter.researcherActive.label": "Search for EPFL Member",
   // TODO New key - Add a translation
   "search.filters.filter.researcherActive.label": "Rechercher par statut",
 
@@ -11434,7 +11388,7 @@
   // "submission.import-external.back-to-my-dspace": "Back to My dashboard",
   "submission.import-external.back-to-my-dspace": "Retour au tableau de bord",
 
-  // "submission.import-external.search.placeholder": "Search the external source",
+  // "submission.import-external.search.placeholder": "Search in the external source",
   "submission.import-external.search.placeholder": "Rechercher dans la source externe",
 
   // "submission.import-external.search.button": "Search",
@@ -11624,8 +11578,8 @@
   // TODO New key - Add a translation
   "submission.sections.correction.column.policy": "Policy",
 
-  // "submission.sections.submit.progressbar.itemAccessConditions": "Item Access Conditions",
-  "submission.sections.submit.progressbar.itemAccessConditions": "Modalités d'accès",
+  // "submission.sections.submit.progressbar.itemAccessConditions": "Item Access Conditions - set for each file unless differently specified",
+  "submission.sections.submit.progressbar.itemAccessConditions": "Modalités d'accès - applicable sur l'ensemble des fichiers sauf indication contraire",
 
   // "submission.sections.submit.progressbar.describe.ctb-metadata": "Common file attributes - set for each file unless differently specified",
   // TODO New key - Add a translation
@@ -11651,11 +11605,11 @@
   "submission.sections.submit.progressbar.upload-content": "Attachment(s)",
 
   // "submission.sections.submit.progressbar.describe.journalcontainer_details": "Journal references, if applicable",
-  "submission.sections.submit.progressbar.describe.journalcontainer_details": "Référence d'article de revue, si applicable",
+  "submission.sections.submit.progressbar.describe.journalcontainer_details": "Publié dans une revue, si applicable",
 
   // "submission.sections.submit.progressbar.describe.bookcontainer_details": "Book references, if applicable",
   // TODO New key - Add a translation
-  "submission.sections.submit.progressbar.describe.bookcontainer_details": "Référence d'ouvrage, si applicable",
+  "submission.sections.submit.progressbar.describe.bookcontainer_details": "Publié dans un livre, si applicable",
 
   // "submission.sections.submit.progressbar.describe.thesis_type": "Type",
   // TODO New key - Add a translation
@@ -13705,8 +13659,7 @@
   "researcher.profile.change-visibility.fail": "An unexpected error occurs while changing the profile visibility",
 
   // "researcher.profile.create.new": "Create new",
-  // TODO New key - Add a translation
-  "researcher.profile.create.new": "Create new",
+  "researcher.profile.create.new": "Créer",
 
   // "researcher.profile.create.success": "Researcher profile created successfully",
   // TODO New key - Add a translation
@@ -14484,9 +14437,9 @@
   // "search.filters.filter.aggregation.placeholder": "Collection name",
   // TODO New key - Add a translation
   "search.filters.filter.aggregation.placeholder": "Collection name",
-  // "search.filters.filter.aggregation.label": "Search Collection name",
+  // "search.filters.filter.aggregation.label": "Search for Collection name",
   // TODO New key - Add a translation
-  "search.filters.filter.aggregation.label": "Search Collection name",
+  "search.filters.filter.aggregation.label": "Search for Collection name",
   // "search.filters.applied.f.aggregation": "Collection",
   // TODO New key - Add a translation
   "search.filters.applied.f.aggregation": "Collection",
