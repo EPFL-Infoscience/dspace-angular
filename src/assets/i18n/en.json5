@@ -1795,6 +1795,10 @@
 
   "RELATION.Person.researchoutputs.search.results.head": "Scholarly Works",
 
+  "RELATION.Journal.researchoutputs.search.results.head": "Journal Articles",
+
+  "RELATION.Event.researchoutputs.search.results.head": "Conference Outputs",
+
   "RELATION.Person.projects.search.results.head": "Projects",
 
   "RELATION.OrgUnit.organizations.search.results.head": "Units",
@@ -2572,7 +2576,7 @@
 
   "explore.counters-section.units": "EPFL Units",
 
-  "explore.counters-section.people": "EPFL Members",
+  "explore.counters-section.people": "EPFL People",
 
   "explore.counters-section.publications": "Scholarly Works",
 
@@ -6272,9 +6276,9 @@
 
   "search.filters.filter.ouActive.placeholder": "Active Status",
 
-  "search.filters.filter.researcherActive.head": "EPFL Members",
+  "search.filters.filter.researcherActive.head": "EPFL People",
 
-  "search.filters.filter.researcherActive.label": "Search for EPFL Member",
+  "search.filters.filter.researcherActive.label": "Search for EPFL People",
 
   "search.filters.filter.researcherActive.placeholder": "EPFL Member",
 
