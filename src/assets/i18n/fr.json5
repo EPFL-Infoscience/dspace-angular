@@ -2755,6 +2755,12 @@
   // "RELATION.Person.researchoutputs.search.results.head": "Scholarly Works",
   "RELATION.Person.researchoutputs.search.results.head": "Travaux académiques",
 
+  // "RELATION.Journal.researchoutputs.search.results.head": "Journal Articles",
+  "RELATION.Journal.researchoutputs.search.results.head": "Articles de revue",
+
+  // "RELATION.Event.researchoutputs.search.results.head": "Conference Outputs",
+  "RELATION.Event.researchoutputs.search.results.head": "Contributions de conférence",
+
   // "RELATION.Person.projects.search.results.head": "Projects",
   "RELATION.Person.projects.search.results.head": "Projets",
 
@@ -7026,8 +7032,7 @@
   "layout.box.header.Person.metrics": "Metrics",
 
   // "layout.box.header.Person.usagemetrics": "Usage Metrics",
-  // TODO New key - Add a translation
-  "layout.box.header.Person.usagemetrics": "Usage Metrics",
+  "layout.box.header.Person.usagemetrics": "Statistiques d'usage",
 
   // "layout.box.header.Person.secure": "Secured box",
   // TODO New key - Add a translation
@@ -7038,16 +7043,14 @@
   "layout.box.header.OrgUnit.rpprojects": "OrgUnit's Researchers projects",
 
   // "layout.box.header.OrgUnit.publications": "OrgUnit's Publications",
-  // TODO New key - Add a translation
-  "layout.box.header.OrgUnit.publications": "OrgUnit's Publications",
+  "layout.box.header.OrgUnit.publications": "Publications de l'unité",
 
   // "layout.box.header.OrgUnit.rppublications": "OrgUnit's Researchers publications",
   // TODO New key - Add a translation
   "layout.box.header.OrgUnit.rppublications": "OrgUnit's Researchers publications",
 
   // "layout.box.header.OrgUnit.people": "OrgUnit's Researchers",
-  // TODO New key - Add a translation
-  "layout.box.header.OrgUnit.people": "OrgUnit's Researchers",
+  "layout.box.header.OrgUnit.people": "Membres de l'unité",
 
   // "layout.box.header.OrgUnit.projects": "OrgUnit funded Projects",
   // TODO New key - Add a translation
