@@ -96,8 +96,6 @@
 
   "admin.edit-cms-metadata.error": "An error occurred while updating the metadata",
 
-                                                                                                                   
-
   "menu.section.cms_metadata_edit": "Edit CMS Metadata",
 
   "menu.section.cms.edit.metadata.head": "Edit Metadata",
@@ -134,7 +132,6 @@
   "admin.institution.explore.roles": "Institutional Scoped Roles",
 
   "admin.institution.explore.title": "Explore Institutions",
-
 
   "admin.language-labels.title": "Language files",
 
@@ -1795,10 +1792,6 @@
 
   "RELATION.Person.researchoutputs.search.results.head": "Scholarly Works",
 
-  "RELATION.Journal.researchoutputs.search.results.head": "Journal Articles",
-
-  "RELATION.Event.researchoutputs.search.results.head": "Conference Outputs",
-
   "RELATION.Person.projects.search.results.head": "Projects",
 
   "RELATION.OrgUnit.organizations.search.results.head": "Units",
@@ -2230,7 +2223,7 @@
 
   "cris-layout.advanced-attachment.dc.description": "Description",
 
-  "cris-layout.advanced-attachment.no_thumbnail": "No Thumbnail Available",
+  "cris-layout.advanced-attachment.no_thumbnail": "",
 
   "cris-layout.advanced-attachment.download": "Download",
 
@@ -2749,7 +2742,7 @@
 
   "explore.index.identifier": "Identifier",
 
-  "explore.index.researcherActive": "EPFL member",
+  "explore.index.researcherActive": "EPFL People",
 
   "explore.index.ouTitle": "Unit name",
 
@@ -3126,7 +3119,7 @@
 
   "home.breadcrumbs": "Home",
 
-  "home.search-form.placeholder": "Access to EPFL's research output",
+  "home.search-form.placeholder": "Search...",
 
   "home.title": "Home",
 
@@ -6280,7 +6273,7 @@
 
   "search.filters.filter.researcherActive.label": "Search for EPFL People",
 
-  "search.filters.filter.researcherActive.placeholder": "EPFL Member",
+  "search.filters.filter.researcherActive.placeholder": "EPFL People",
 
   "search.filters.filter.epflResourceType.head": "Type",
 
@@ -8647,7 +8640,7 @@
   "search.filters.applied.f.container": "Published In",
   "search.filters.applied.f.unitOrLab": "EPFL Unit",
   "search.filters.applied.f.role": "Position",
-  "search.filters.applied.f.researcherActive": "EPFL Member",
+  "search.filters.applied.f.researcherActive": "EPFL People",
   "search.filters.applied.f.publisher": "Publisher",
   "search.filters.applied.f.eventPlace": "Event Place",
   "search.filters.applied.f.eventDate.min": "Event Date start",
