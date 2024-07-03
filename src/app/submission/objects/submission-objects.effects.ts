@@ -68,8 +68,6 @@ import { NotificationOptions } from '../../shared/notifications/models/notificat
 import {
   WorkspaceitemSectionDetectDuplicateObject
 } from '../../core/submission/models/workspaceitem-section-deduplication.model';
-import { Simulate } from 'react-dom/test-utils';
-import error = Simulate.error;
 
 @Injectable()
 export class SubmissionObjectEffects {
@@ -663,11 +661,11 @@ function filterErrors(sectionForm: FormState, sectionErrors: SubmissionSectionEr
     return [];
   }
   const filteredErrors = [];
-  sectionErrors.forEach((err: SubmissionSectionError) => {
+  sectionErrors.forEach((error: SubmissionSectionError) => {
     const errorPaths: SectionErrorPath[] = parseSectionErrorPaths(error.path);
     errorPaths.forEach((path: SectionErrorPath) => {
       if (path.fieldId && sectionForm.touched[path.fieldId]) {
-        filteredErrors.push(err);
+        filteredErrors.push(error);
       }
     });
   });
