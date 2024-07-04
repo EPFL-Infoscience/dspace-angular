@@ -9,13 +9,7 @@ import { filter, map, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { isNotEmpty } from '../empty.util';
-import { latLng, LatLng, Layer, MapOptions, marker, tileLayer } from 'leaflet';
-
-
-export interface OpenStreetMapPointer {
-  coordinates: LocationDDCoordinates,
-  color: string,
-}
+import { icon, latLng, LatLng, Layer, MapOptions, marker, tileLayer } from 'leaflet';
 
 @Component({
   selector: 'ds-open-street-map',
@@ -23,9 +17,6 @@ export interface OpenStreetMapPointer {
   styleUrls: ['./open-street-map.component.scss'],
 })
 export class OpenStreetMapComponent implements OnInit {
-
-  // Spacial reference identifier
-  SRID = 'EPSG:4326'; // World Geodetic System 1984
 
   /**
    * The width of the map
@@ -175,7 +166,6 @@ export class OpenStreetMapComponent implements OnInit {
 
       this.locationService.findPlaceAndDecimalCoordinates(position).subscribe({
         next: (place) => {
-          console.log('PLACE', place);
           this.place.next(place);
         },
         error: (err) => {
@@ -214,7 +204,9 @@ export class OpenStreetMapComponent implements OnInit {
     this.leafletCenter = latLng(+coordinates.latitude, +coordinates.longitude);
     this.leafletLayers = [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: 'Leaflet'}),
-      marker([+coordinates.latitude, +coordinates.longitude])
+      marker(
+        [+coordinates.latitude, +coordinates.longitude],
+        {icon: icon({iconUrl: 'assets/images/marker-icon.png', shadowUrl: 'assets/images/marker-shadow.png'})})
     ];
   }
 }
