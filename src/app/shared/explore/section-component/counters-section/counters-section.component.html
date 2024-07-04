@@ -1,6 +1,6 @@
 <div>
-  <div class="card p-3">
-    <div class="d-flex flex-wrap flex-row justify-content-around gap-4">
+  <div class="card">
+    <div class="d-flex flex-wrap flex-row justify-content-around">
       <div *ngIf="isLoading$ | async">
         <ds-loading message="{{'loading.default' | translate}}"></ds-loading>
       </div>

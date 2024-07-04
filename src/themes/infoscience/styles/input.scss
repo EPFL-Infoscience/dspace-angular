@@ -52,7 +52,7 @@ ds-submission-form {
 
     .card-header {
         padding: 0 !important;
-        background-color: $canard;
+        background-color: $leman;
         color: $white;
 
         &:has([aria-label="has warnings"]), &:has([aria-label="comporte des avertissements"]) {
@@ -98,7 +98,7 @@ ds-submission-upload-files {
             text-decoration: underline;
 
             &:hover {
-                color: $canard;
+                color: $leman;
             }
         }
     }
