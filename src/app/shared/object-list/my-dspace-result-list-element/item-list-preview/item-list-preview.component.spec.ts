@@ -17,6 +17,8 @@ import { MathService } from '../../../../core/shared/math.service';
 import { MathServiceMock } from '../../../testing/math-service.stub';
 import { AuthorizationDataService } from '../../../../core/data/feature-authorization/authorization-data.service';
 import { AuthorizationDataServiceStub } from '../../../testing/authorization-service.stub';
+import { ItemDataService } from '../../../../core/data/item-data.service';
+import { createSuccessfulRemoteDataObject$ } from '../../../remote-data.utils';
 
 let component: ItemListPreviewComponent;
 let fixture: ComponentFixture<ItemListPreviewComponent>;
@@ -108,6 +110,11 @@ const enviromentNoThumbs = {
   }
 };
 
+const itemService = jasmine.createSpyObj('itemService', {
+  findById: createSuccessfulRemoteDataObject$(new Item())
+});
+
+
 describe('ItemListPreviewComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -127,6 +134,7 @@ describe('ItemListPreviewComponent', () => {
         { provide: 'objectElementProvider', useValue: { mockItemWithAuthorAndDate }},
         { provide: APP_CONFIG, useValue: environmentUseThumbs },
         { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
+        { provide: ItemDataService, useValue: itemService },
       ],
 
       schemas: [NO_ERRORS_SCHEMA]
@@ -296,6 +304,7 @@ describe('ItemListPreviewComponent', () => {
         {provide: 'objectElementProvider', useValue: {mockItemWithAuthorAndDate}},
         {provide: APP_CONFIG, useValue: enviromentNoThumbs},
         { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
+        { provide: ItemDataService, useValue: itemService },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(ItemListPreviewComponent, {
