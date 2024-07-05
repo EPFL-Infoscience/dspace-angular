@@ -12,9 +12,13 @@ import {
 } from '../../../../submission/sections/detect-duplicate/models/duplicate-detail-metadata.model';
 import { differenceInDays, differenceInMilliseconds, parseISO } from 'date-fns';
 import { environment } from '../../../../../environments/environment';
-import {Observable} from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import {FeatureID} from '../../../../core/data/feature-authorization/feature-id';
 import {AuthorizationDataService} from '../../../../core/data/feature-authorization/authorization-data.service';
+import { ItemDataService } from '../../../../core/data/item-data.service';
+import { hasValue } from '../../../empty.util';
+import { getFirstCompletedRemoteData } from '../../../../core/shared/operators';
+import { map } from 'rxjs/operators';
 
 /**
  * This component show metadata for the given item object in the list view.
@@ -69,7 +73,8 @@ export class ItemListPreviewComponent implements OnInit {
   constructor(
     @Inject(APP_CONFIG) protected appConfig: AppConfig,
     public dsoNameService: DSONameService,
-    private authorizationService: AuthorizationDataService
+    private authorizationService: AuthorizationDataService,
+    private itemDataService: ItemDataService
   ) {
   }
 
@@ -96,6 +101,20 @@ export class ItemListPreviewComponent implements OnInit {
   }
 
   public canViewInWorkflowSinceStatistics(useCacheVersion = true): Observable<boolean> {
-    return this.authorizationService.isAuthorized(FeatureID.CanViewInWorkflowSinceStatistics, this.item.self, null,  useCacheVersion);
+    if (hasValue(this.item?.self)) {
+      return this.isUserAuthorizedToViewItemInWorkflow(this.item.self, useCacheVersion);
+    } else {
+      // If self link has no value we fetch again the item from the rest.
+      // Since at this stage the item has most likely already been fetched we will get it from the cache
+      return this.itemDataService.findById(this.item.id).pipe(
+        getFirstCompletedRemoteData(),
+        map(data => data.payload.self),
+        switchMap(selfLink => this.isUserAuthorizedToViewItemInWorkflow(selfLink, useCacheVersion))
+      );
+    }
+  }
+
+  private isUserAuthorizedToViewItemInWorkflow(selfLink: string, useCacheVersion = true): Observable<boolean> {
+    return this.authorizationService.isAuthorized(FeatureID.CanViewInWorkflowSinceStatistics, selfLink, null,  useCacheVersion);
   }
 }
