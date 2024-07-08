@@ -27,8 +27,6 @@ import { ConfigurationDataService } from '../../core/data/configuration-data.ser
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ItemSharedModule } from '../item-shared.module';
-import { UUIDService } from '../../core/shared/uuid.service';
-import { getMockUUIDService } from '../../shared/mocks/uuid.service.mock';
 import { CookieService } from '../../core/services/cookie.service';
 
 describe('ItemVersionsComponent', () => {
@@ -177,7 +175,6 @@ describe('ItemVersionsComponent', () => {
         {provide: ConfigurationDataService, useValue: configurationServiceSpy},
         {provide: CookieService, useValue: cookieServiceSpy},
         { provide: Router, useValue: routerSpy },
-        { provide: UUIDService, useValue: getMockUUIDService() },
         { provide: ActivatedRoute, useValue: routeStub },
       ],
       schemas: [NO_ERRORS_SCHEMA]
