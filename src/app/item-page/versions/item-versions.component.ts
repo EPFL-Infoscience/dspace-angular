@@ -44,11 +44,11 @@ import { WorkspaceitemDataService } from '../../core/submission/workspaceitem-da
 import { WorkflowItemDataService } from '../../core/submission/workflowitem-data.service';
 import { ConfigurationDataService } from '../../core/data/configuration-data.service';
 import { UUIDService } from '../../core/shared/uuid.service';
+import { RenderCrisLayoutBoxFor } from '../../cris-layout/decorators/cris-layout-box.decorator';
+import { LayoutBox } from '../../cris-layout/enums/layout-box.enum';
 import { StoreIdentifiersToMerge } from 'src/app/deduplication/interfaces/deduplication-merge.models';
 import { CookieService } from '../../core/services/cookie.service';
 import { AuthService } from '../../core/auth/auth.service';
-import { RenderCrisLayoutBoxFor } from '../../cris-layout/decorators/cris-layout-box.decorator';
-import { LayoutBox } from '../../cris-layout/enums/layout-box.enum';
 
 
 @RenderCrisLayoutBoxFor(LayoutBox.VERSIONING)
@@ -205,9 +205,9 @@ export class ItemVersionsComponent implements OnDestroy, OnInit {
               private workflowItemDataService: WorkflowItemDataService,
               private configurationService: ConfigurationDataService,
               private uuidService: UUIDService,
+              private route: ActivatedRoute,
               private cookieService: CookieService,
               private authService: AuthService,
-              private route: ActivatedRoute
   ) {
   }
 

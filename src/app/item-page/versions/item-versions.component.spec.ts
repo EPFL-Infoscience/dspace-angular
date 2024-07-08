@@ -134,10 +134,6 @@ describe('ItemVersionsComponent', () => {
     navigateByUrl: null,
   });
 
-  const cookieServiceSpy = jasmine.createSpyObj('cookieService', {
-    set: jasmine.createSpy('set'),
-  });
-
   const mockItem = Object.assign(new Item(), {
     id: 'fake-id',
     uuid: 'fake-id',
@@ -156,6 +152,11 @@ describe('ItemVersionsComponent', () => {
     }),
     children: []
   };
+
+  const cookieServiceSpy = jasmine.createSpyObj('cookieService', {
+    set: jasmine.createSpy('set'),
+  });
+
 
   beforeEach(waitForAsync(() => {
 
