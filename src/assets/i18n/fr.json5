@@ -13767,7 +13767,7 @@
   // "layout.tab.header.Product.dataset.datasetdetails": "Details",
   "layout.tab.header.Product.dataset.datasetdetails": "Détails",
 
-      // "layout.tab.header.Product.dataset.statistics": "Metrics",
+  // "layout.tab.header.Product.dataset.statistics": "Metrics",
   "layout.tab.header.Product.dataset.statistics": "Statistiques",
 
   // "layout.tab.header.Product.statistics": "Metrics",
@@ -13848,7 +13848,7 @@
   // "layout.box.header.Event.researchoutputs": "Scholarly works",
   "layout.box.header.Event.researchoutputs": "Travaux académiques",
 
-    // "layout.box.header.Project.primarydata": "Primary Data",
+  // "layout.box.header.Project.primarydata": "Primary Data",
   "layout.box.header.Project.primarydata": "Détails",
 
   // "layout.box.header.Project.description": "Description",
@@ -14446,6 +14446,6 @@
   "layout.field.label.Patent.dc.identifier.applicationnumber": "Demande",
 
   // "layout.field.label.Patent.dcterms.dateSubmitted": "Application Date"
-  "layout.field.label.Patent.dcterms.dateSubmitted": "Date"
+  "layout.field.label.Patent.dcterms.dateSubmitted": "Date",
 
 }

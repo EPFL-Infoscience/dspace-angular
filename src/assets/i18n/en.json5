@@ -8951,7 +8951,7 @@
   "layout.field.label.Publication.epfl.url": "Additional link",
 
   "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
-  
+
   "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
 
   "layout.field.label.Publication.dc.date.available": "Available on Infoscience",
@@ -9546,5 +9546,5 @@
 
   "layout.field.label.Patent.dc.identifier.applicationnumber": "Application number",
 
-  "layout.field.label.Patent.dcterms.dateSubmitted": "Application Date"
+  "layout.field.label.Patent.dcterms.dateSubmitted": "Application Date",
 }
