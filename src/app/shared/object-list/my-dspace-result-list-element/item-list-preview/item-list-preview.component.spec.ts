@@ -15,6 +15,10 @@ import { APP_CONFIG } from '../../../../../config/app-config.interface';
 import { MarkdownDirective } from '../../../utils/markdown.directive';
 import { MathService } from '../../../../core/shared/math.service';
 import { MathServiceMock } from '../../../testing/math-service.stub';
+import { AuthorizationDataService } from '../../../../core/data/feature-authorization/authorization-data.service';
+import { AuthorizationDataServiceStub } from '../../../testing/authorization-service.stub';
+import { ItemDataService } from '../../../../core/data/item-data.service';
+import { createSuccessfulRemoteDataObject$ } from '../../../remote-data.utils';
 
 let component: ItemListPreviewComponent;
 let fixture: ComponentFixture<ItemListPreviewComponent>;
@@ -40,6 +44,9 @@ const mockItemWithAuthorAndDate: Item = Object.assign(new Item(), {
         value: '2015-06-26'
       }
     ]
+  },
+  _links: {
+    self: {}
   }
 });
 const mockItemWithoutAuthorAndDate: Item = Object.assign(new Item(), {
@@ -57,6 +64,9 @@ const mockItemWithoutAuthorAndDate: Item = Object.assign(new Item(), {
         value: 'Article'
       }
     ]
+  },
+  _links: {
+    self: {}
   }
 });
 const mockItemWithEntityType: Item = Object.assign(new Item(), {
@@ -74,6 +84,9 @@ const mockItemWithEntityType: Item = Object.assign(new Item(), {
         value: 'Publication'
       }
     ]
+  },
+  _links: {
+    self: {}
   }
 });
 
@@ -97,6 +110,11 @@ const enviromentNoThumbs = {
   }
 };
 
+const itemService = jasmine.createSpyObj('itemService', {
+  findById: createSuccessfulRemoteDataObject$(new Item())
+});
+
+
 describe('ItemListPreviewComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -114,7 +132,9 @@ describe('ItemListPreviewComponent', () => {
       providers: [
         { provide: MathService, useValue: MathServiceMock },
         { provide: 'objectElementProvider', useValue: { mockItemWithAuthorAndDate }},
-        { provide: APP_CONFIG, useValue: environmentUseThumbs }
+        { provide: APP_CONFIG, useValue: environmentUseThumbs },
+        { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
+        { provide: ItemDataService, useValue: itemService },
       ],
 
       schemas: [NO_ERRORS_SCHEMA]
@@ -282,7 +302,9 @@ describe('ItemListPreviewComponent', () => {
       providers: [
         {provide: MathService, useValue: MathServiceMock},
         {provide: 'objectElementProvider', useValue: {mockItemWithAuthorAndDate}},
-        {provide: APP_CONFIG, useValue: enviromentNoThumbs}
+        {provide: APP_CONFIG, useValue: enviromentNoThumbs},
+        { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
+        { provide: ItemDataService, useValue: itemService },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(ItemListPreviewComponent, {

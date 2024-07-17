@@ -181,25 +181,26 @@ input[type="button"] {
 
 .btn-primary {
     font-weight: $font-weight-bold;
+    
 
     &:hover,
     &.hover {
-        background: $red-dark;
-        border-color: $red-dark;
+        background: $canard;
+        border-color: $canard;
     }
 
     &:focus,
     &:focus-visible,
     &.focus {
-        outline-color: $red-dark !important;
+        outline-color: $canard !important;
     }
 
     &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active {
         // ugly ↓
         // background: linear-gradient(to bottom, $red-dark 0%, $red 100%);
-        background: color.adjust($red-dark, $lightness: -10%);
-        border-color: color.adjust($red-dark, $lightness: -10%);
+        background: color.adjust($canard, $lightness: -10%);
+        border-color: color.adjust($canard, $lightness: -10%);
     }
 
     &:disabled,

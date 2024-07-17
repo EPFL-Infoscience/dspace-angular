@@ -101,10 +101,9 @@ export class EditItemRelationshipsMenuComponent extends ContextMenuEntryComponen
     this.tabs.forEach((tab: CrisLayoutTab) => {
       tab.rows.forEach((row: CrisLayoutRow) => {
         row.cells.forEach((cell: CrisLayoutCell) => {
-          console.log(cell.boxes[0].configuration['discovery-configuration']);
           const relationshipsBoxes = cell.boxes.filter((box) => box.boxType === 'RELATION'
             && !this.appConfig.crisLayout.crisOptions.ignoreOptions
-              .includes(box.configuration['discovery-configuration']));
+              .includes(hasValue(box.configuration) ? box.configuration['discovery-configuration'] : undefined));
           this.relationships.push(...relationshipsBoxes);
         });
       });

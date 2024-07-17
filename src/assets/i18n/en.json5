@@ -54,7 +54,7 @@
 
   "admin.curation-tasks.header": "System curation tasks",
 
-
+  "admin.edit-cms-metadata.refresh-alert": "You may need to manually refresh the page in order to see the changes",
 
   "admin.edit-user-agreement.breadcrumbs": "Edit User Agreement",
 
@@ -132,7 +132,6 @@
   "admin.institution.explore.roles": "Institutional Scoped Roles",
 
   "admin.institution.explore.title": "Explore Institutions",
-
 
   "admin.language-labels.title": "Language files",
 
@@ -373,7 +372,7 @@
 
   "admin.access-control.epeople.search.button": "Search",
 
-  "admin.access-control.epeople.search.placeholder": "Search people...",
+  "admin.access-control.epeople.search.placeholder": "Search for people...",
 
   "admin.access-control.epeople.button.add": "Add EPerson",
 
@@ -478,13 +477,13 @@
 
   "admin.access-control.groups.button.add": "Add group",
 
-  "admin.access-control.groups.search.head": "Search groups",
+  "admin.access-control.groups.search.head": "Search for groups",
 
   "admin.access-control.groups.button.see-all": "Browse all",
 
   "admin.access-control.groups.search.button": "Search",
 
-  "admin.access-control.groups.search.placeholder": "Search groups...",
+  "admin.access-control.groups.search.placeholder": "Search for groups...",
 
   "admin.access-control.groups.table.id": "ID",
 
@@ -1272,7 +1271,7 @@
 
   "collection.edit.item-mapper.remove": "Remove selected item mappings",
 
-  "collection.edit.item-mapper.search-form.placeholder": "Search items...",
+  "collection.edit.item-mapper.search-form.placeholder": "Search for items...",
 
   "collection.edit.item-mapper.tabs.browse": "Browse mapped items",
 
@@ -1697,6 +1696,8 @@
 
   "context-menu.actions.edit-item.btn.FULLAUTH": "Edit all details (as Author)",
 
+  "context-menu.actions.edit-item.btn.UNIT-ATTRIBUTION": "Edit Unit/Lab affiliations",
+
   "context-menu.actions.edit-item.btn.THEMATIC-AREA-CURATOR": "Manage thematic collection",
 
   "context-menu.actions.edit-item.btn.THEMATIC-AREA-CURATOR-DELEGATE": "Manage thematic collection",
@@ -1789,33 +1790,33 @@
 
   "context-menu.actions.subscription.notification.content": "Subscription Updated Successfully, click {{here}} to see subscrition summary.",
 
-  "RELATION.Event.researchoutputs.search.results.head": "Publications",
+  "RELATION.Person.researchoutputs.search.results.head": "",
 
-  "RELATION.Journal.researchoutputs.search.results.head": "Publications",
+  "RELATION.Person.projects.search.results.head": "",
 
-  "RELATION.Person.researchoutputs.search.results.head": "Scholarly Works",
+  "RELATION.OrgUnit.organizations.search.results.head": "",
 
-  "RELATION.Person.projects.search.results.head": "Projects",
+  "RELATION.OrgUnit.rppublications.search.results.head": "",
 
-  "RELATION.OrgUnit.organizations.search.results.head": "Units",
+  "RELATION.OrgUnit.publications.search.results.head": "",
 
-  "RELATION.OrgUnit.rppublications.search.results.head": "Researchers Publications",
+  "RELATION.OrgUnit.rpprojects.search.results.head": "",
 
-  "RELATION.OrgUnit.publications.search.results.head": "Publications",
+  "RELATION.OrgUnit.projects.search.results.head": "",
 
-  "RELATION.OrgUnit.rpprojects.search.results.head": "Researchers Projects",
+  "RELATION.Project.researchoutputs.search.results.head": "",
 
-  "RELATION.OrgUnit.projects.search.results.head": "Projects",
+  "RELATION.OrgUnit.people.search.results.head": "",
 
-  "RELATION.Project.researchoutputs.search.results.head": "Publications",
+  "RELATION.OrgUnit.theses.search.results.head": "",
 
-  "RELATION.OrgUnit.people.search.results.head": "People",
+  "RELATION.OrgUnit.sectiontheses.search.results.head": "",
 
-  "RELATION.OrgUnit.theses.search.results.head": "Theses",
+  "RELATION.VirtualCollection.publications.search.results.head": "",
 
-  "RELATION.OrgUnit.sectiontheses.search.results.head": "Teaching materials and student works",
+  "RELATION.Journal.researchoutputs.search.results.head": "",
 
-  "RELATION.VirtualCollection.publications.search.results.head": "Publications",
+  "RELATION.Event.researchoutputs.search.results.head": "",
 
   "deduplication.breadcrumbs": "Deduplication",
 
@@ -2226,7 +2227,7 @@
 
   "cris-layout.advanced-attachment.dc.description": "Description",
 
-  "cris-layout.advanced-attachment.no_thumbnail": "No Thumbnail Available",
+  "cris-layout.advanced-attachment.no_thumbnail": "",
 
   "cris-layout.advanced-attachment.download": "Download",
 
@@ -2564,15 +2565,15 @@
 
   "event.listelement.badge": "Event",
 
-  "event.search.results.head": "Search Event",
+  "event.search.results.head": "Search for Event",
 
   "explore.browse-section.title": "Browse",
 
   "explore.counters-section.rprofiles": "People",
 
-  "explore.counters-section.units": "Units",
+  "explore.counters-section.units": "EPFL Units",
 
-  "explore.counters-section.people": "Researchers",
+  "explore.counters-section.people": "EPFL People",
 
   "explore.counters-section.publications": "Scholarly Works",
 
@@ -2585,6 +2586,8 @@
   "explore.facet-section.title": "Explore",
 
   "explore.index.all": "All",
+
+  "explore.index.thesis": "Recent EPFL Theses",
 
   "explore.index.news": "What's new",
 
@@ -2612,6 +2615,7 @@
 
   "explore.index.chart.bar.dateIssued.year": "Year",
 
+  "explore.index.license": "License",
 
   "explore.index.dateIssued": "Publication Year",
 
@@ -2743,7 +2747,7 @@
 
   "explore.index.identifier": "Identifier",
 
-  "explore.index.researcherActive": "EPFL member",
+  "explore.index.researcherActive": "EPFL People",
 
   "explore.index.ouTitle": "Unit name",
 
@@ -2767,19 +2771,19 @@
 
   "explore.search-section.infrastructure.title": "Infrastructure",
 
-  "explore.search-section.fundings.title": "Search Projects",
+  "explore.search-section.fundings.title": "Search for Projects",
 
-  "explore.search-section.fundings_and_projects.title": "Search Projects",
+  "explore.search-section.fundings_and_projects.title": "Search for Projects",
 
-  "explore.search-section.orgunits.title": "Search Units",
+  "explore.search-section.orgunits.title": "Search for Units",
 
-  "explore.search-section.publications.title": "Search Scholarly Works",
+  "explore.search-section.publications.title": "Search for Scholarly Works",
 
-  "explore.search-section.researchoutputs.title": "Search Scholarly Works",
+  "explore.search-section.researchoutputs.title": "Search for Scholarly Works",
 
-  "explore.search-section.researchoutputsoa.title": "Search Scholarly Works (Open Access)",
+  "explore.search-section.researchoutputsoa.title": "Search for Scholarly Works (Open Access)",
 
-  "explore.search-section.researcherprofiles.title": "Search People",
+  "explore.search-section.researcherprofiles.title": "Search for People",
 
   "explore.search-section.search-button": "Search",
 
@@ -2952,8 +2956,6 @@
 
   "form.no-value": "No value entered",
 
-  "form.other-information.datacite_relatedIdentifier": "Identifier",
-
   "form.other-information.email": "Email",
 
   "form.other-information.first-name": "First Name",
@@ -2992,7 +2994,13 @@
 
   "form.other-information.dc_relation_identifier": "URI",
 
+  "form.other-information.datacite_relatedIdentifier": "URI",
+
   "form.other-information.variant": "Variant name of",
+
+  "form.other-information.oairecerif_scientificeditor_affiliation": "Institution",
+
+  "form.other-information.oairecerif_contributor_affiliation": "Institution",
 
   "form.remove": "Remove",
 
@@ -3116,7 +3124,7 @@
 
   "home.breadcrumbs": "Home",
 
-  "home.search-form.placeholder": "Your trusted repository for accessing EPFL's research output",
+  "home.search-form.placeholder": "Search...",
 
   "home.title": "Home",
 
@@ -3368,7 +3376,7 @@
 
   "item.edit.item-mapper.notifications.remove.success.head": "Removal of mapping completed",
 
-  "item.edit.item-mapper.search-form.placeholder": "Search collections...",
+  "item.edit.item-mapper.search-form.placeholder": "Search for collections...",
 
   "item.edit.item-mapper.tabs.browse": "Browse mapped collections",
 
@@ -3738,6 +3746,8 @@
   "item.page.metric.details": "Details",
 
   "item.page.metric.label.altmetrics": "Altmetrics©",
+
+  "item.page.metric.label.altmetric": "Altmetrics©",
 
   "item.page.metric.label.check": "Check",
 
@@ -4222,280 +4232,6 @@
 
   "iiiftoolbar.iiif.copy-clipboard-notification": "IIIF manifest has been copied to clipboard",
 
-  "layout.tab.header.Person.details": "Profile",
-
-  "layout.tab.header.Person.publications": "Authored Publications",
-
-  "layout.tab.header.Person.projects": "Projects",
-
-  "layout.tab.header.Person.orcid": "ORCID",
-
-  "layout.tab.header.Person.otherinfo": "Other",
-
-  "layout.tab.header.Person.indicators": "Metrics",
-
-  "layout.tab.header.Person.secure": "Secured Tab",
-
-  "layout.tab.header.OrgUnit.maininformation": "Information",
-
-  "layout.tab.header.OrgUnit.details": "Details",
-
-  "layout.tab.header.OrgUnit.collège.details": "Institutes",
-
-  "layout.tab.header.OrgUnit.faculté.details": "Institutes",
-
-  "layout.tab.header.OrgUnit.institut.details": "Labs and Research Groups",
-
-  "layout.tab.header.OrgUnit.organizations": "Units",
-
-  "layout.tab.header.OrgUnit.publications": "Publications",
-
-  "layout.tab.header.OrgUnit.rppublications": "Researchers publications",
-
-  "layout.tab.header.OrgUnit.projects": "Projects",
-
-  "layout.tab.header.OrgUnit.rpprojects": "Researchers projects",
-
-  "layout.tab.header.OrgUnit.people": "People",
-
-  "layout.tab.header.Journal.details": "Details",
-
-  "layout.tab.header.Publication.details": "Details",
-
-  "layout.tab.header.Product.details": "Details",
-
-  "layout.tab.header.Patent.details": "Details",
-
-  "layout.box.header.Person.projects": "Projects",
-
-  "layout.box.header.Person.researchoutputs": "Publications",
-
-  "layout.box.header.Person.editedresearchoutputs": "Edited Publications",
-
-  "layout.box.header.Person.qualifications": "Professional Qualifications",
-
-  "layout.box.header.Person.media": "Media Contact Directory",
-
-  "layout.box.header.Person.namecard": "Name Card",
-
-  "layout.box.header.Person.researcherprofile": "Profile",
-
-  "layout.box.header.Person.metrics": "Metrics",
-
-  "layout.box.header.Person.usagemetrics": "Usage Metrics",
-
-  "layout.box.header.Person.secure": "Secured box",
-
-  "layout.box.header.OrgUnit.rpprojects": "OrgUnit's Researchers projects",
-
-  "layout.box.header.OrgUnit.publications": "OrgUnit's Publications",
-
-  "layout.box.header.OrgUnit.rppublications": "OrgUnit's Researchers publications",
-
-  "layout.box.header.OrgUnit.people": "OrgUnit's Researchers",
-
-  "layout.box.header.OrgUnit.projects": "OrgUnit funded Projects",
-
-  "layout.box.header.OrgUnit.description": "Description",
-
-  "layout.box.header.OrgUnit.organizations": "SubOrgUnits",
-
-  "layout.box.header.OrgUnit.details": "Details",
-
-  "layout.box.header.OrgUnit.orgcard": "Card",
-
-  "layout.box.header.OrgUnit.metrics": "Metrics",
-
-  "layout.box.header.Journal.details": "Journal description",
-
-  "layout.box.header.Journal.metrics": "Metrics",
-
-  "layout.box.header.Publication.iiifviewer": "IIIF Viewer",
-
-  "layout.box.header.Publication.details": "Details",
-
-  "layout.box.header.Publication.metrics": "Metrics",
-
-  "layout.box.header.Publication.altmetrics": "Alternative Metrics",
-
-  "layout.box.header.Publication.usagemetrics": "Usage Metrics",
-
-  "layout.box.header.Patent.details": "Details",
-
-  "layout.box.header.Patent.metrics": "Metrics",
-
-  "layout.box.header.Patent.altmetrics": "Metrics",
-
-  "layout.box.header.Patent.usagemetrics": "Metrics",
-
-  "layout.box.header.Product.details": "Details",
-
-  "layout.box.header.Product.metrics": "Metrics",
-
-  "layout.box.header.Product.altmetrics": "Metrics",
-
-  "layout.box.header.Product.usagemetrics": "Metrics",
-
-  "layout.field.label.OrgUnit.dc.description.abstract": "Description",
-
-  "layout.field.label.OrgUnit.crisou.boards": "Boards",
-
-  "layout.field.label.OrgUnit.dc.title": "Organisation Name",
-
-  "layout.field.label.OrgUnit.crisou.director": "Director",
-
-  "layout.field.label.OrgUnit.organization.parentOrganization": "Parent Organisation",
-
-  "layout.field.label.OrgUnit.organization.foundingDate": "Founding Date",
-
-  "layout.field.label.OrgUnit.organization.address.addressLocality": "City",
-
-  "layout.field.label.OrgUnit.organization.address.addressCountry": "Country",
-
-  "layout.field.label.Person.dc.subject": "Research Interests",
-
-  "layout.field.label.Person.person.knowsLanguage": "Knows Language",
-
-  "layout.field.label.Person.dc.title": "Preferred name",
-
-  "layout.field.label.Person.crisrp.name": "Official Name",
-
-  "layout.field.label.Person.crisrp.name.translated": "Translated Name",
-
-  "layout.field.label.Person.crisrp.name.variant": "Alternative Name",
-
-  "layout.field.label.Person.person.affiliation.name": "Main Affiliation",
-
-  "layout.field.label.Person.oairecerif.identifier.url": "Web Site",
-
-  "layout.field.label.Person.person.email": "Email",
-
-  "layout.field.label.Person.person.identifier.orcid": "ORCID",
-
-  "layout.field.label.Person.person.identifier.scopus-author-id": "Scopus Author ID",
-
-  "layout.field.label.Person.person.identifier.rid": "Researcher ID",
-
-  "layout.field.label.Person.dc.description.abstract": "Biography",
-
-  "layout.field.label.Person.oairecerif.person.affiliation": "Affiliation",
-
-  "layout.field.label.Person.crisrp.education": "Education",
-
-  "layout.field.label.Person.crisrp.qualification": "Qualification",
-
-  "layout.field.label.Person.crisrp.country": "Country",
-
-  "layout.field.label.Person.person.birthDate": "Birth Date",
-
-  "layout.field.label.Journal.dc.title": "Journal Title",
-
-  "layout.field.label.Journal.dc.subject": "Keywords",
-
-  "layout.field.label.Journal.dc.identifier.issn": "ISSN",
-
-  "layout.field.label.Publication.dc.relation.ispartof": "Journal",
-
-  "layout.field.label.Publication.dc.relation.issn": "ISSN",
-
-  "layout.field.label.Publication.dc.date.issued": "Date Issued",
-
-  "layout.field.label.Publication.dc.contributor.author": "Author(s)",
-
-  "layout.field.label.Publication.dc.contributor.editor": "Editor(s)",
-
-  "layout.field.label.Publication.dc.identifier.doi": "DOI",
-
-  "layout.field.label.Publication.dc.identifier.url": "Link(s)",
-
-  "layout.field.label.Publication.epfl.url.arxiv": "ArXiv",
-
-  "layout.field.label.Publication.epfl.url.zenodo": "Zenodo",
-
-  "layout.field.label.Publication.epfl.url.github": "Github",
-
-  "layout.field.label.Publication.epfl.url.gitlab": "Gitlab",
-
-  "layout.field.label.Publication.epfl.url.cforscience": "C4Science",
-
-  "layout.field.label.Publication.epfl.url.other": "Other Url:",
-
-  "layout.field.label.Publication.dc.description.abstract": "Abstract",
-
-  "layout.field.label.Publication.dc.relation.project": "Project(s)",
-
-  "layout.field.label.Publication.dc.relation.product": "Product(s) or Dataset(s)",
-
-  "layout.field.label.Publication.dc.relation.funding": "Funding(s)",
-
-  "layout.field.label.Publication.dc.subject": "Subjects",
-
-  "layout.field.label.Product.dc.title": "Title",
-
-  "layout.field.label.Product.dc.relation.ispartof": "Journal",
-
-  "layout.field.label.Product.dc.relation.issn": "ISSN",
-
-  "layout.field.label.Product.dc.date.issued": "Date Issued",
-
-  "layout.field.label.Product.dc.contributor.author": "Author(s)",
-
-  "layout.field.label.Product.dc.identifier.doi": "DOI",
-
-  "layout.field.label.Product.dc.description.abstract": "Abstract",
-
-  "layout.field.label.Product.dc.relation.project": "Project(s)",
-
-  "layout.field.label.Product.dc.relation.funding": "Funding(s)",
-
-  "layout.field.label.Product.dc.relation.publication": "Publication(s)",
-
-  "layout.field.label.Product.dc.subject": "Subjects",
-
-  "layout.field.label.Patent.dc.title": "Title",
-
-  "layout.field.label.Patent.dc.relation.ispartof": "Journal",
-
-  "layout.field.label.Patent.dc.relation.issn": "ISSN",
-
-  "layout.field.label.Patent.dc.date.issued": "Date Issued",
-
-  "layout.field.label.Patent.dc.contributor.author": "Author(s)",
-
-  "layout.field.label.Patent.dc.identifier.patentno": "Patent Number",
-
-  "layout.field.label.Patent.dc.description.abstract": "Abstract",
-
-  "layout.field.label.Patent.dc.relation.project": "Project(s)",
-
-  "layout.field.label.Patent.dc.relation.funding": "Funding(s)",
-
-  "layout.field.label.Patent.dc.subject": "Subjects",
-
-  "layout.field.label.Person.crisrp.qualification.start": "Start",
-
-  "layout.field.label.Person.crisrp.qualification.end": "End",
-
-  "layout.field.label.Person.oairecerif.affiliation.role": "Role",
-
-  "layout.field.label.Person.oairecerif.affiliation.startDate": "Start",
-
-  "layout.field.label.Person.oairecerif.affiliation.endDate": "End",
-
-  "layout.field.label.Person.crisrp.education.role": "Role",
-
-  "layout.field.label.Person.crisrp.education.start": "Start",
-
-  "layout.field.label.Person.crisrp.education.end": "End",
-
-  "layout.field.label.Publication.oairecerif.author.affiliation": "Affiliation",
-
-  "layout.field.label.Publication.oairecerif.editor.affiliation": "Affiliation",
-
-  "layout.field.label.Product.oairecerif.author.affiliation": "Affiliation",
-
-  "layout.field.label.Patent.oairecerif.author.affiliation": "Affiliation",
-
   "loading.bitstream": "Loading bitstream...",
 
   "loading.bitstreams": "Loading bitstreams...",
@@ -4648,9 +4384,9 @@
 
   "menu.section.explore_researchoutputsoa": "in Open Access",
 
-  "menu.section.explore_researcherprofiles": "Researcher Profiles",
+  "menu.section.explore_researcherprofiles": "EPFL People",
 
-  "menu.section.explore_orgunits": "By Unit",
+  "menu.section.explore_orgunits": "EPFL Units",
 
   "menu.section.browse_global_by_srsc": "By Subject Category",
 
@@ -5710,9 +5446,9 @@
 
   "repository.image.logo": "Repository logo",
 
-  "repository.title": "{{ repositoryName }}",
+  "repository.title": "Infoscience",
 
-  "repository.title.prefix": "{{ repositoryName }} Angular :: ",
+  "repository.title.prefix": "{{ repositoryName }}  - EPFL Institutional Repository  ",
 
   "resource-policies.add.button": "Add",
 
@@ -5942,7 +5678,7 @@
 
   "search.filters.filter.author.placeholder": "Author name",
 
-  "search.filters.filter.author.label": "Search author name",
+  "search.filters.filter.author.label": "Search for author name",
 
   "search.filters.filter.birthDate.head": "Birth Date",
 
@@ -5966,7 +5702,7 @@
 
   "search.filters.filter.creativeWorkEditor.placeholder": "Editor",
 
-  "search.filters.filter.creativeWorkEditor.label": "Search editor",
+  "search.filters.filter.creativeWorkEditor.label": "Search for editor",
 
   "search.filters.filter.creativeWorkKeywords.head": "Subject",
 
@@ -5978,7 +5714,7 @@
 
   "search.filters.filter.creativeWorkPublisher.placeholder": "Publisher",
 
-  "search.filters.filter.creativeWorkPublisher.label": "Search publisher",
+  "search.filters.filter.creativeWorkPublisher.label": "Search for publisher",
 
   "search.filters.filter.dateIssued.head": "Publication Year",
 
@@ -6012,13 +5748,13 @@
 
   "search.filters.filter.editor.placeholder": "Editor",
 
-  "search.filters.filter.editor.label": "Search editor",
+  "search.filters.filter.editor.label": "Search for editor",
 
   "search.filters.filter.fundername.head": "Funder",
 
   "search.filters.filter.fundername.placeholder": "Funder",
 
-  "search.filters.filter.fundername.label": "Search Funder",
+  "search.filters.filter.fundername.label": "Search for Funder",
 
   "search.filters.filter.withdrawn.head": "Withdrawn",
 
@@ -6032,13 +5768,13 @@
 
   "search.filters.filter.eventPlace.placeholder": "Event Place",
 
-  "search.filters.filter.eventPlace.label": "Search Event Place",
+  "search.filters.filter.eventPlace.label": "Search for Event Place",
 
   "search.filters.filter.eventDate.head": "Event Date",
 
   "search.filters.filter.eventDate.placeholder": "Event Date",
 
-  "search.filters.filter.eventDate.label": "Search Event Date",
+  "search.filters.filter.eventDate.label": "Search for Event Date",
 
   "search.filters.filter.eventDate.min.label": "Start",
 
@@ -6064,7 +5800,7 @@
 
   "search.filters.filter.funding.placeholder": "Funding",
 
-  "search.filters.filter.funding.label": "Search funding",
+  "search.filters.filter.funding.label": "Search for funding",
 
   "search.filters.filter.has_content_in_original_bundle.head": "Has files",
 
@@ -6112,13 +5848,13 @@
 
   "search.filters.filter.personOrgUnits.head": "EPFL Unit",
 
-  "search.filters.filter.personOrgUnits.label": "Search EPFL Unit",
+  "search.filters.filter.personOrgUnits.label": "Search for EPFL Unit",
 
   "search.filters.filter.personOrgUnits.placeholder": "EPFL Unit",
 
   "search.filters.filter.publisher.head": "Publisher",
 
-  "search.filters.filter.publisher.label": "Search Publisher",
+  "search.filters.filter.publisher.label": "Search for Publisher",
 
   "search.filters.filter.publisher.placeholder": "Publisher",
 
@@ -6132,31 +5868,31 @@
 
   "search.filters.filter.objectpeople.placeholder": "People",
 
-  "search.filters.filter.objectpeople.label": "Search people",
+  "search.filters.filter.objectpeople.label": "Search for people",
 
   "search.filters.filter.organization.head": "Institution",
 
   "search.filters.filter.organization.placeholder": "Institution",
 
-  "search.filters.filter.organization.label": "Search Institution",
+  "search.filters.filter.organization.label": "Search for Institution",
 
   "search.filters.filter.unitOrLab.head": "Unit",
 
   "search.filters.filter.unitOrLab.placeholder": "Unit",
 
-  "search.filters.filter.unitOrLab.label": "Search Unit",
+  "search.filters.filter.unitOrLab.label": "Search for Unit",
 
   "search.filters.filter.parentOrganization.head": "Parent Unit",
 
   "search.filters.filter.parentOrganization.placeholder": "Parent Unit",
 
-  "search.filters.filter.parentOrganization.label": "Search Parent Unit",
+  "search.filters.filter.parentOrganization.label": "Search for Parent Unit",
 
   "search.filters.filter.organizationAddressCountry.head": "Country",
 
   "search.filters.filter.organizationAddressCountry.placeholder": "Country",
 
-  "search.filters.filter.organizationAddressCountry.label": "Search country",
+  "search.filters.filter.organizationAddressCountry.label": "Search for country",
 
   "search.filters.filter.organizationAddressLocality.head": "City",
 
@@ -6174,7 +5910,7 @@
 
   "search.filters.filter.original_bundle_oaire_licenseCondition.placeholder": "License",
 
-  "search.filters.filter.original_bundle_oaire_licenseCondition.label": "Search License",
+  "search.filters.filter.original_bundle_oaire_licenseCondition.label": "Search for License",
 
   "search.filters.filter.original_bundle_datacite_available.head": "Embargo",
 
@@ -6186,7 +5922,7 @@
 
   "search.filters.filter.original_bundle_datacite_rights.placeholder": "Availability",
 
-  "search.filters.filter.original_bundle_datacite_rights.label": "Search Availability",
+  "search.filters.filter.original_bundle_datacite_rights.label": "Search for Availability",
 
   "search.filters.filter.datacite_rights.head": "Availability",
 
@@ -6198,7 +5934,7 @@
 
   "search.filters.filter.role.label": "Position",
 
-  "search.filters.filter.role.placeholder": "Search Position",
+  "search.filters.filter.role.placeholder": "Search for Position",
 
   "search.filters.filter.scope.head": "Scope",
 
@@ -6232,19 +5968,19 @@
 
   "search.filters.filter.types.head": "Type",
 
-  "search.filters.filter.types.label": "Search Type",
+  "search.filters.filter.types.label": "Search for Type",
 
   "search.filters.filter.types.placeholder": "Type",
 
   "search.filters.filter.unit.head": "Unit",
 
-  "search.filters.filter.unit.label": "Search Unit",
+  "search.filters.filter.unit.label": "Search for Unit",
 
   "search.filters.filter.unit.placeholder": "Unit",
 
   "search.filters.filter.author_editor.head": "Author",
 
-  "search.filters.filter.author_editor.label": "Search Author",
+  "search.filters.filter.author_editor.label": "Search for Author",
 
   "search.filters.filter.author_editor.placeholder": "Author",
 
@@ -6262,15 +5998,15 @@
 
   "search.filters.filter.ouActive.head": "Active Status",
 
-  "search.filters.filter.ouActive.label": "Search Active Status",
+  "search.filters.filter.ouActive.label": "Search for Active Status",
 
   "search.filters.filter.ouActive.placeholder": "Active Status",
 
-  "search.filters.filter.researcherActive.head": "EPFL Members",
+  "search.filters.filter.researcherActive.head": "EPFL People",
 
-  "search.filters.filter.researcherActive.label": "Search EPFL Member",
+  "search.filters.filter.researcherActive.label": "Search for EPFL People",
 
-  "search.filters.filter.researcherActive.placeholder": "EPFL Member",
+  "search.filters.filter.researcherActive.placeholder": "EPFL People",
 
   "search.filters.filter.epflResourceType.head": "Type",
 
@@ -6642,9 +6378,9 @@
 
   "statistics.table.mainReports.header.item": "Item",
 
-  "statistics.table.downloadReports.header.views": "Downloads",
+  "statistics.table.downloadReports.header.views": "Views",
 
-  "statistics.table.top20reports.header.views": "Downloads",
+  "statistics.table.top20reports.header.views": "Views",
 
   "statistics.table.top20reports.header.downloads": "Downloads",
 
@@ -6881,7 +6617,7 @@
 
   "submission.import-external.back-to-my-dspace": "Back to My dashboard",
 
-  "submission.import-external.search.placeholder": "Search the external source",
+  "submission.import-external.search.placeholder": "Search in the external source",
 
   "submission.import-external.search.button": "Search",
 
@@ -6991,7 +6727,7 @@
 
   "submission.sections.correction.column.policy": "Policy",
 
-  "submission.sections.submit.progressbar.itemAccessConditions": "Item Access Conditions",
+  "submission.sections.submit.progressbar.itemAccessConditions": "Item Access Conditions - set for each file unless differently specified",
 
   "submission.sections.submit.progressbar.describe.ctb-metadata": "Common file attributes - set for each file unless differently specified",
 
@@ -7042,6 +6778,8 @@
   "submission.sections.submit.progressbar.describe.preprint_type": "Type",
 
   "submission.sections.submit.progressbar.describe.preprint_details": "Basic information",
+
+  "submission.sections.submit.progressbar.describe.unit-attribution-bind": "Edit Unit/Lab affiliations",
 
   "submission.sections.detect-duplicate.clear-decision": "Undo",
 
@@ -7593,15 +7331,15 @@
 
   "submission.sections.upload.delete.confirm.submit": "Yes, I'm sure",
 
-  "submission.sections.upload.delete.confirm.title": "Delete bitstream",
+  "submission.sections.upload.delete.confirm.title": "Delete file",
 
   "submission.sections.upload.delete.submit": "Delete",
 
-  "submission.sections.upload.download.title": "Download bitstream",
+  "submission.sections.upload.download.title": "Download file",
 
   "submission.sections.upload.drop-message": "Drop files to attach them to the item",
 
-  "submission.sections.upload.edit.title": "Edit bitstream",
+  "submission.sections.upload.edit.title": "Edit file metadata",
 
   "submission.sections.upload.form.access-condition-label": "Access condition type",
 
@@ -7633,11 +7371,11 @@
 
   "submission.sections.upload.header.policy.default.withlist": "Please note that uploaded files in the {{collectionName}} collection will be accessible, in addition to what is explicitly decided for the single file, with the following group(s):",
 
-  "submission.sections.upload.info": "Here you will find all the files currently in the item. You can update the file metadata and access conditions or <strong>upload additional files by dragging & dropping them anywhere on the page.</strong>",
+  "submission.sections.upload.info": "<strong>Please, edit <i class='fa fa-edit fa- text-normal'></i> the file metadata and access conditions below.</strong>",
 
   "submission.sections.upload.no-entry": "No",
 
-  "submission.sections.upload.no-file-uploaded": "No file uploaded yet.",
+  "submission.sections.upload.no-file-uploaded": "No file uploaded yet, drag and drop a file to add one",
 
   "submission.sections.upload.save-metadata": "Save metadata",
 
@@ -8061,7 +7799,9 @@
 
   "vocabulary.import-external.preview.import.success": "Entity created successfully.",
 
-  "vocabulary-treeview.header": "Hierarchical tree view",
+  "vocabulary-treeview.header": "Vocabulary List",
+
+  "vocabulary-treeview.tree.description.default-type": "Resource Types",
 
   "vocabulary-treeview.header.affiliation": "Affiliation",
 
@@ -8074,8 +7814,6 @@
   "vocabulary-treeview.search.form.search": "Search",
 
   "vocabulary-treeview.search.no-result": "There were no items to show",
-
-  "vocabulary-treeview.tree.description.default-type": "Type",
 
   "vocabulary-treeview.tree.description.nsi": "The Norwegian Science Index",
 
@@ -8281,7 +8019,7 @@
 
   "person.page.orcid.missing-authorizations-message": "The following authorizations are missing:",
 
-  "person.page.orcid.no-missing-authorizations-message": "Great! This box is empty, so you have granted all access rights to use all functions offers by your institution.",
+  "person.page.orcid.no-missing-authorizations-message": "Great! This box is empty, so you have granted all access rights to use all functions offers by Infoscience. Please note that only synchronization of scholarly works and publications is supported for now.",
 
   "person.page.orcid.no-orcid-message": "No ORCID iD associated yet. By clicking on the button below it is possible to link this profile with an ORCID account.",
 
@@ -8558,8 +8296,8 @@
   "menu.section.explore_sectionfonds": "Fonds",
   "menu.section.explore_sectionjournalfonds": "Journal Fonds",
   "menu.section.explore_advancedsearch": "Explore",
-  "menu.section.explore_journals": "By Journal",
-  "menu.section.explore_events": "By Event",
+  "menu.section.explore_journals": "Journals",
+  "menu.section.explore_events": "Events",
   "menu.section.explore_sectionaggregations": "Collections",
   "menu.section.explore_sectiondocuments": "Documents & Other materials",
   "explore.counters-section.fonds": "Fonds",
@@ -8594,11 +8332,11 @@
 
   "explore.search-section.sectionjournalfonds.title": "Search Journal fonds",
 
-  "explore.search-section.sectionaggregations.title": "Search Collections",
+  "explore.search-section.sectionaggregations.title": "Search for Collections",
 
   "explore.sectiondocuments.breadcrumbs": "Documents & Other materials",
   "explore.search-section.journals.title": "Search Journals",
-  "explore.search-section.events.title": "Search Events",
+  "explore.search-section.events.title": "Search for Events",
   "explore.events.breadcrumbs": "Events",
   "explore.journals.breadcrumbs": "Journals",
   "explore.sectionfonds.breadcrumbs": "Fonds",
@@ -8625,7 +8363,7 @@
   "search.filters.applied.f.journalfond": "Journal Fond",
   "search.filters.filter.aggregation.head": "Collection",
   "search.filters.filter.aggregation.placeholder": "Collection name",
-  "search.filters.filter.aggregation.label": "Search Collection name",
+  "search.filters.filter.aggregation.label": "Search for Collection name",
   "search.filters.applied.f.aggregation": "Collection",
 
   "search.filters.applied.f.types": "Type",
@@ -8635,7 +8373,7 @@
   "search.filters.applied.f.container": "Published In",
   "search.filters.applied.f.unitOrLab": "EPFL Unit",
   "search.filters.applied.f.role": "Position",
-  "search.filters.applied.f.researcherActive": "EPFL Member",
+  "search.filters.applied.f.researcherActive": "EPFL People",
   "search.filters.applied.f.publisher": "Publisher",
   "search.filters.applied.f.eventPlace": "Event Place",
   "search.filters.applied.f.eventDate.min": "Event Date start",
@@ -8911,7 +8649,902 @@
 
   "event.page.titleprefix": "Event: ",
   "patent.page.titleprefix": "Patent: ",
-  "explore.index.unitOrLab": "Units or Labs",
   "browse.metadata.vctitle.breadcrumbs": "Browse by Title",
-}
 
+  "layout.tab.header.Person.details": "Profile",
+
+  "layout.tab.header.Person.details": "Profile",
+
+  "layout.tab.header.Person.publications": "Scholarly works",
+
+  "layout.tab.header.Person.editedpublications": "Edited Publications",
+
+  "layout.tab.header.Person.projects": "Projects",
+
+  "layout.tab.header.Person.about": "About",
+
+  "layout.tab.header.Person.orcid": "ORCID",
+
+  "layout.tab.header.Person.indicators": "Metrics",
+
+  "layout.tab.header.Person.secure": "Secured Tab",
+
+  "layout.tab.header.OrgUnit.maininformation": "Information",
+
+  "layout.tab.header.OrgUnit.details": "Details",
+
+  "layout.tab.header.OrgUnit.organizations": "Affiliated units",
+
+  "layout.tab.header.OrgUnit.publications": "Scholarly works",
+
+  "layout.tab.header.OrgUnit.projects": "Projects",
+
+  "layout.tab.header.OrgUnit.rpprojects": "Researchers projects",
+
+  "layout.tab.header.OrgUnit.people": "People",
+
+  "layout.tab.header.Project.details": "Details",
+
+  "layout.tab.header.Project.outputs::projectoutputs": "Outputs::Publications",
+
+  "layout.tab.header.Project.outputs::fundings": "Outputs::Fundings",
+
+  "layout.tab.header.Journal.details": "Details",
+
+  "layout.tab.header.Journal.publications": "Publications",
+
+  "layout.tab.header.Journal.statistics": "Metrics",
+
+  "layout.tab.header.Event.details": "Details",
+
+  "layout.tab.header.Event.publications": "Contributions",
+
+  "layout.tab.header.Event.statistics": "Metrics",
+
+  "layout.tab.header.Equipment.details": "Details",
+
+  "layout.tab.header.Funding.details": "Details",
+
+  "layout.tab.header.Publication.article.articlemain": "Information",
+
+  "layout.tab.header.Publication.article.files": "Files",
+
+  "layout.tab.header.Publication.article.articledetails": "Details",
+
+  "layout.tab.header.Publication.article.statistics": "Metrics",
+
+  "layout.tab.header.Publication.book.bookmain": "Information",
+
+  "layout.tab.header.Publication.book.files": "Files",
+
+  "layout.tab.header.Publication.book.bookdetails": "Details",
+
+  "layout.tab.header.Publication.book.statistics": "Metrics",
+
+  "layout.tab.header.Publication.conference.conferencemain": "Information",
+
+  "layout.tab.header.Publication.conference.files": "Files",
+
+  "layout.tab.header.Publication.conference.conferencedetails": "Details",
+
+  "layout.tab.header.Publication.conference.statistics": "Metrics",
+
+  "layout.tab.header.Publication.media.mediamain": "Information",
+
+  "layout.tab.header.Publication.media.files": "Files",
+
+  "layout.tab.header.Publication.media.mediadetails": "Details",
+
+  "layout.tab.header.Publication.media.statistics": "Metrics",
+
+  "layout.tab.header.Publication.preprint.preprintmain": "Information",
+
+  "layout.tab.header.Publication.preprint.files": "Files",
+
+  "layout.tab.header.Publication.preprint.preprintdetails": "Details",
+
+  "layout.tab.header.Publication.preprint.statistics": "Metrics",
+
+  "layout.tab.header.Publication.report.reportmain": "Information",
+
+  "layout.tab.header.Publication.report.files": "Files",
+
+  "layout.tab.header.Publication.report.reportdetails": "Details",
+
+  "layout.tab.header.Publication.report.statistics": "Metrics",
+
+  "layout.tab.header.Publication.student.studentmain": "Information",
+
+  "layout.tab.header.Publication.student.files": "Files",
+
+  "layout.tab.header.Publication.student.studentdetails": "Details",
+
+  "layout.tab.header.Publication.student.statistics": "Metrics",
+
+  "layout.tab.header.Publication.thesis.thesismain": "Information",
+
+  "layout.tab.header.Publication.thesis.files": "Files",
+
+  "layout.tab.header.Publication.thesis.thesisdetails": "Details",
+
+  "layout.tab.header.Publication.thesis.statistics": "Metrics",
+
+  "layout.tab.header.Product.teaching.teachingmain": "Information",
+
+  "layout.tab.header.Product.datasetmain": "Information",
+
+  "layout.tab.header.Product.files": "Files",
+
+  "layout.tab.header.Product.datasetdetails": "Details",
+
+  "layout.tab.header.Product.statistics": "Metrics",
+
+  "layout.tab.header.Patent.patentmain": "Information",
+
+  "layout.tab.header.Patent.files": "Files",
+
+  "layout.tab.header.Patent.patentdetails": "Details",
+
+  "layout.tab.header.Patent.statistics": "Metrics",
+
+  "layout.box.header.Person.researchoutputs": "Scholarly works",
+
+  "layout.box.header.Person.editedresearchoutputs": "Edited works",
+
+  "layout.box.header.Person.projects": "Projects",
+
+  "layout.box.header.Person.researcherprofile": "Profile",
+
+  "layout.box.header.Person.metrics": "Metrics",
+
+  "layout.box.header.Person.usagemetrics": "Usage metrics",
+
+  "layout.box.header.Person.secure": "Secured box",
+
+  "layout.box.header.OrgUnit.details": "Details",
+
+  "layout.box.header.OrgUnit.description": "Description",
+
+  "layout.box.header.OrgUnit.organizations": "Affiliated EPFL Units",
+
+  "layout.box.header.OrgUnit.publications": "Scholarly works",
+
+  "layout.box.header.OrgUnit.projects": "OrgUnit funded Projects",
+
+  "layout.box.header.OrgUnit.rpprojects": "OrgUnit's Researchers projects",
+
+  "layout.box.header.OrgUnit.people": "Members",
+
+  "layout.box.header.Journal.description": "Description",
+
+  "layout.box.header.Journal.researchoutputs": "Scholarly works",
+
+  "layout.box.header.Event.description": "Description",
+
+  "layout.box.header.Event.researchoutputs": "Scholarly works",
+
+  "layout.box.header.Project.primarydata": "Primary Data",
+
+  "layout.box.header.Project.description": "Description",
+
+  "layout.box.header.Project.metrics": "Metrics",
+
+  "layout.box.header.Project.researchoutputs": "Publications",
+
+  "layout.box.header.Project.fundings": "Fundings",
+
+  "layout.box.header.Equipment.details": "Equipment description",
+
+  "layout.box.header.Equipment.metrics": "Metrics",
+
+  "layout.box.header.Funding.primarydata": "Primary Data",
+
+  "layout.box.header.Funding.financialdata": "Financial Data",
+
+  "layout.box.header.Funding.metrics": "Metrics",
+
+  "layout.field.label.Person.dc.title": "Name",
+
+  "layout.field.label.Person.crisrp.name": "Official Name",
+
+  "layout.field.label.Person.crisrp.name.translated": "Translated name",
+
+  "layout.field.label.Person.crisrp.name.variant": "Alternative name",
+
+  "layout.field.label.Person.person.jobTitle": "Main position",
+
+  "layout.field.label.Person.person.affiliation.name": "Main EPFL affiliation",
+
+  "layout.field.label.Person.person.email": "Email",
+
+  "layout.field.label.Person.person.identifier.orcid": "ORCID",
+
+  "layout.field.label.Person.person.identifier.scopus-author-id": "ScopusID",
+
+  "layout.field.label.Person.person.identifier.rid": "ResearcherID",
+
+  "layout.field.label.Person.epfl.sciper.active": "EPFL member",
+
+  "layout.field.label.Person.dc.description.abstract": "Biography",
+
+  "layout.field.label.Person.dc.subject": "Research Interests",
+
+  "layout.field.label.Person.oairecerif.identifier.url": "Personal website",
+
+  "layout.field.label.Person.oairecerif.person.affiliation": "EPFL affiliations",
+
+  "layout.field.label.OrgUnit.oairecerif.acronym": "Acronym",
+
+  "layout.field.label.OrgUnit.epfl.unit.alias": "Other aliases",
+
+  "layout.field.label.OrgUnit.crisou.director": "Director",
+
+  "layout.field.label.OrgUnit.organization.parentOrganization": "Parent Organisation",
+
+  "layout.field.label.OrgUnit.organization.foundingDate": "Founding date",
+
+  "layout.field.label.OrgUnit.organization.closingDate": "Closing date",
+
+  "layout.field.label.OrgUnit.oairecerif.identifier.url": "Website",
+
+  "layout.field.label.OrgUnit.dc.identifier.uri": "Permalink",
+
+  "layout.field.label.OrgUnit.epfl.orgUnit.active": "Status",
+  "layout.field.label.Journal.dc.publisher": "Publisher",
+
+  "layout.field.label.Journal.dc.identifier.issn": "ISSN",
+
+  "layout.field.label.Journal.dc.subject": "Keywords",
+
+  "layout.field.label.Event.dc.type": "Event type",
+
+  "layout.field.label.Event.oairecerif.acronym": "Event acronym",
+
+  "layout.field.label.Event.oaire.citation.conferenceDate": "Event date",
+
+  "layout.field.label.Event.oairecerif.event.place": "Event location",
+
+  "layout.field.label.Event.dc.subject": "Topics",
+
+  "layout.field.label.Publication.dc.identifier.uri": "Use this identifier to reference this record ",
+
+  "layout.field.label.Publication.dc.type": "Type",
+
+  "layout.field.label.Publication.dc.identifier.doi": "DOI",
+
+  "layout.field.label.Publication.dc.identifier.isi": "Web of Science ID",
+
+  "layout.field.label.Publication.dc.identifier.scopus": "Scopus ID",
+
+  "layout.field.label.Publication.dc.identifier.pmid": "PubMed ID",
+
+  "layout.field.label.Publication.dc.identifier.arxiv": "ArXiv ID",
+
+  "layout.field.label.Publication.dc.identifier.isbn": "ISBN",
+
+  "layout.field.label.Publication.dc.contributor.author": "Authors",
+
+  "layout.field.label.Publication.dc.contributor.scientificeditor": "Editors",
+
+  "layout.field.label.Publication.dc.contributor": "Corporate authors",
+
+  "layout.field.label.Publication.dc.date.issued": "Publication date",
+
+  "layout.field.label.Publication.dc.publisher": "Publisher",
+
+  "layout.field.label.Publication.dc.relation.journal": "Journal title",
+
+  "layout.field.label.Publication.oaire.citation.volume": "Volume",
+
+  "layout.field.label.Publication.oaire.citation.issue": "Issue",
+
+  "layout.field.label.Publication.oaire.citation.articlenumber": "Article Number",
+
+  "layout.field.label.Publication.oaire.citation.startPage": "Start page",
+
+  "layout.field.label.Publication.oaire.citation.endPage": "End page",
+
+  "layout.field.label.Publication.dc.subject": "Subjects",
+
+  "layout.field.label.Publication.dc.description": "Note",
+
+  "layout.field.label.Publication.epfl.url": "Additional link",
+
+  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+
+  "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
+
+  "layout.field.label.Publication.dc.date.available": "Available on Infoscience",
+
+  "layout.field.label.Publication.dc.type": "Type",
+
+  "layout.field.label.Publication.dc.identifier.isbn": "ISBN",
+
+  "layout.field.label.Publication.dc.identifier.doi": "DOI",
+
+  "layout.field.label.Publication.dc.identifier.isi": "Web of Science ID",
+
+  "layout.field.label.Publication.dc.identifier.scopus": "Scopus ID",
+
+  "layout.field.label.Publication.dc.identifier.pmid": "PubMed ID",
+
+  "layout.field.label.Publication.dc.identifier.arxiv": "ArXiv ID",
+
+  "layout.field.label.Publication.dc.contributor.author": "Authors",
+
+  "layout.field.label.Publication.dc.contributor.scientificeditor": "Editors",
+
+  "layout.field.label.Publication.dc.contributor": "Corporate authors",
+
+  "layout.field.label.Publication.dc.date.issued": "Publication date",
+
+  "layout.field.label.Publication.dc.publisher": "Publisher",
+
+  "layout.field.label.Publication.dc.relation.ispartof": "Published in",
+
+  "layout.field.label.Publication.dc.relation.doi": "DOI of the book",
+
+  "layout.field.label.Publication.dc.relation.isbn": "ISBN of the book",
+
+  "layout.field.label.Publication.dc.publisher.place": "Publisher place",
+
+  "layout.field.label.Publication.dc.description.edition": "Edition",
+
+  "layout.field.label.Publication.dc.size": "Total of pages",
+
+  "layout.field.label.Publication.epfl.part.name": "Book part title",
+
+  "layout.field.label.Publication.epfl.part.number": "Book part number",
+
+  "layout.field.label.Publication.oaire.citation.startPage": "Start page",
+
+  "layout.field.label.Publication.oaire.citation.endPage": "End page",
+
+  "layout.field.label.Publication.dc.relation.ispartofseries": "Series title/Series vol.",
+
+  "layout.field.label.Publication.dc.relation.serieissn": "ISSN (of the series)",
+
+  "layout.field.label.Publication.oaire.citation.volume": "Volume",
+
+  "layout.field.label.Publication.oaire.citation.issue": "Issue",
+
+  "layout.field.label.Publication.dc.subject": "Subjects",
+
+  "layout.field.label.Publication.dc.description": "Note",
+
+  "layout.field.label.Publication.epfl.url": "Additional link",
+
+  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+
+  "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
+
+  "layout.field.label.Publication.dc.date.available": "Available on Infoscience",
+
+  "layout.field.label.Publication.dc.type": "Type",
+
+  "layout.field.label.Publication.dc.identifier.isbn": "ISBN",
+
+  "layout.field.label.Publication.dc.identifier.doi": "DOI",
+
+  "layout.field.label.Publication.dc.identifier.isi": "Web of Science ID",
+
+  "layout.field.label.Publication.dc.identifier.scopus": "Scopus ID",
+
+  "layout.field.label.Publication.dc.identifier.pmid": "PubMed ID",
+
+  "layout.field.label.Publication.dc.identifier.arxiv": "ArXiv ID",
+
+  "layout.field.label.Publication.dc.contributor.author": "Authors",
+
+  "layout.field.label.Publication.dc.contributor.scientificeditor": "Editors",
+
+  "layout.field.label.Publication.dc.contributor": "Corporate authors",
+
+  "layout.field.label.Publication.dc.date.issued": "Publication date",
+
+  "layout.field.label.Publication.dc.publisher": "Publisher",
+
+  "layout.field.label.Publication.dc.relation.ispartof": "Published in",
+
+  "layout.field.label.Publication.dc.relation.doi": "DOI of the book",
+
+  "layout.field.label.Publication.dc.relation.isbn": "ISBN of the book",
+
+  "layout.field.label.Publication.dc.publisher.place": "Publisher place",
+
+  "layout.field.label.Publication.dc.description.edition": "Edition",
+
+  "layout.field.label.Publication.dc.size": "Total of pages",
+
+  "layout.field.label.Publication.epfl.part.name": "Book part title",
+
+  "layout.field.label.Publication.epfl.part.number": "Book part number",
+
+  "layout.field.label.Publication.dc.relation.ispartofseries": "Series title/Series vol.",
+
+  "layout.field.label.Publication.dc.relation.serieissn": "ISSN (of the series)",
+
+  "layout.field.label.Publication.dc.relation.journal": "Journal title",
+
+  "layout.field.label.Publication.oaire.citation.volume": "Volume",
+
+  "layout.field.label.Publication.oaire.citation.issue": "Issue",
+
+  "layout.field.label.Publication.oaire.citation.articlenumber": "Article Number",
+
+  "layout.field.label.Publication.oaire.citation.startPage": "Start page",
+
+  "layout.field.label.Publication.oaire.citation.endPage": "End page",
+
+  "layout.field.label.Publication.dc.subject": "Subjects",
+
+  "layout.field.label.Publication.dc.description": "Note",
+
+  "layout.field.label.Publication.epfl.url": "Additional link",
+
+  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+
+  "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
+
+  "layout.field.label.Publication.dc.date.available": "Available on Infoscience",
+
+  "layout.field.label.Publication.dc.type": "Type",
+
+  "layout.field.label.Publication.dc.contributor.author": "Authors",
+
+  "layout.field.label.Publication.dc.contributor": "Corporate authors",
+
+  "layout.field.label.Publication.dc.date.issued": "Publication date",
+
+  "layout.field.label.Publication.dc.relation.ispartof": "Published in",
+
+  "layout.field.label.Publication.epfl.part.section": "Section",
+
+  "layout.field.label.Publication.dc.subject": "Subjects",
+
+  "layout.field.label.Publication.dc.description": "Note",
+
+  "layout.field.label.Publication.epfl.url": "Additional link",
+
+  "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
+
+  "layout.field.label.Publication.dc.date.available": "Available on Infoscience",
+
+  "layout.field.label.Publication.dc.type": "Type",
+
+  "layout.field.label.Publication.dc.identifier.doi": "DOI",
+
+  "layout.field.label.Publication.dc.identifier.arxiv": "ArXiv ID",
+
+  "layout.field.label.Publication.dc.contributor.author": "Authors",
+
+  "layout.field.label.Publication.dc.contributor": "Corporate authors",
+
+  "layout.field.label.Publication.dc.date.issued": "Publication date",
+
+  "layout.field.label.Publication.dc.subject": "Subjects",
+
+  "layout.field.label.Publication.local.arxiv.sourceCategory": "Subjects arXiv",
+
+  "layout.field.label.Publication.dc.description": "Note",
+
+  "layout.field.label.Publication.epfl.url": "Additional link",
+
+  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+
+  "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
+
+  "layout.field.label.Publication.dc.date.available": "Available on Infoscience",
+
+  "layout.field.label.Publication.dc.type": "Type",
+
+  "layout.field.label.Publication.dc.identifier.isbn": "ISBN",
+
+  "layout.field.label.Publication.dc.identifier.doi": "DOI",
+
+  "layout.field.label.Publication.dc.identifier.reportno": "Report number",
+
+  "layout.field.label.Publication.dc.identifier.standardno": "Standard number",
+
+  "layout.field.label.Publication.dc.contributor.author": "Authors",
+
+  "layout.field.label.Publication.dc.contributor": "Corporate authors",
+
+  "layout.field.label.Publication.dc.date.issued": "Date published",
+
+  "layout.field.label.Publication.dc.size": "Total of pages",
+
+  "layout.field.label.Publication.dc.subject": "Subjects",
+
+  "layout.field.label.Publication.dc.description": "Note",
+
+  "layout.field.label.Publication.epfl.url": "Additional link",
+
+  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+
+  "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
+
+  "layout.field.label.Publication.dc.date.available": "Available on Infoscience",
+
+  "layout.field.label.Publication.dc.type": "Type",
+
+  "layout.field.label.Publication.dc.identifier.doi": "DOI",
+
+  "layout.field.label.Publication.dc.contributor.author": "Authors",
+
+  "layout.field.label.Publication.dc.contributor.advisor": "Advisors",
+
+  "layout.field.label.Publication.epfl.thesis.jury": "Jury",
+
+  "layout.field.label.Publication.dc.date.issued": "Publication date",
+
+  "layout.field.label.Publication.dc.publisher": "Publisher",
+
+  "layout.field.label.Publication.dc.publisher.place": "Publisher place",
+
+  "layout.field.label.Publication.epfl.thesis.publicDefenseYear": "Public defense year",
+
+  "layout.field.label.Publication.epfl.thesis.number": "Thesis number",
+
+  "layout.field.label.Publication.dc.size": "Total of pages",
+
+  "layout.field.label.Publication.dc.subject": "Subjects",
+
+  "layout.field.label.Publication.dc.description": "Note",
+
+  "layout.field.label.Publication.epfl.url": "Additional link",
+
+  "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
+
+  "layout.field.label.Publication.epfl.thesis.faculty": "Faculty",
+
+  "layout.field.label.Publication.epfl.thesis.section": "Section",
+
+  "layout.field.label.Publication.epfl.thesis.institute": "School",
+
+  "layout.field.label.Publication.epfl.thesis.doctoralSchool": "Doctoral School",
+
+  "layout.field.label.Publication.epfl.award": "Awards",
+
+  "layout.field.label.Publication.dc.date.available": "Available on Infoscience",
+
+  "layout.field.label.Publication.dc.type": "Type",
+
+  "layout.field.label.Publication.dc.identifier.doi": "DOI",
+
+  "layout.field.label.Publication.dc.contributor.author": "Authors",
+
+  "layout.field.label.Publication.dc.contributor.advisor": "Advisors",
+
+  "layout.field.label.Publication.epfl.thesis.jury": "Jury",
+
+  "layout.field.label.Publication.dc.date.issued": "Publication date",
+
+  "layout.field.label.Publication.dc.publisher": "Publisher",
+
+  "layout.field.label.Publication.dc.publisher.place": "Publisher place",
+
+  "layout.field.label.Publication.epfl.thesis.publicDefenseYear": "Public defense year",
+
+  "layout.field.label.Publication.epfl.thesis.number": "Thesis number",
+
+  "layout.field.label.Publication.dc.size": "Total of pages",
+
+  "layout.field.label.Publication.dc.subject": "Subjects",
+
+  "layout.field.label.Publication.dc.description": "Note",
+
+  "layout.field.label.Publication.epfl.url": "Additional link",
+
+  "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
+
+  "layout.field.label.Publication.epfl.thesis.faculty": "Faculty",
+
+  "layout.field.label.Publication.epfl.thesis.section": "Section",
+
+  "layout.field.label.Publication.epfl.thesis.institute": "School",
+
+  "layout.field.label.Publication.epfl.thesis.doctoralSchool": "Doctoral School",
+
+  "layout.field.label.Publication.epfl.award": "Awards",
+
+  "layout.field.label.Publication.dc.date.available": "Available on Infoscience",
+
+  "layout.field.label.Product.dc.identifier.uri": "Use this identifier to reference this record ",
+
+  "layout.field.label.Product.dc.type": "File(s)",
+
+  "layout.field.label.Product.dc.type": "Type",
+
+  "layout.field.label.Product.dc.contributor.author": "Creators",
+
+  "layout.field.label.Product.dc.date.issued": "Publication date",
+
+  "layout.field.label.Product.dc.audience": "Target audience",
+
+  "layout.field.label.Product.dc.size": "Main content size, duration",
+
+  "layout.field.label.Product.dc.format.extent": "Main content format",
+
+  "layout.field.label.Product.dc.subject": "Subjects",
+
+  "layout.field.label.Product.dc.description": "Note",
+
+  "layout.field.label.Product.epfl.url": "Additional link",
+
+  "layout.field.label.Product.epfl.peerreviewed": "Peer reviewed",
+
+  "layout.field.label.Product.dc.description.sponsorship": "EPFL units",
+
+  "layout.field.label.Product.dc.date.available": "Available on Infoscience",
+
+  "layout.field.label.Product.dc.type": "Type",
+
+  "layout.field.label.Product.dc.identifier.doi": "DOI",
+
+  "layout.field.label.Product.dc.contributor.author": "Creators",
+
+  "layout.field.label.Product.dc.contributor": "Contributors",
+
+  "layout.field.label.Product.dc.date.issued": "Publication date",
+
+  "layout.field.label.Product.datacite.geoLocation": "Geographic coverage",
+
+  "layout.field.label.Product.dc.description.version": "Version",
+
+  "layout.field.label.Product.dc.publisher": "Publisher",
+
+  "layout.field.label.Product.dc.size": "Main content size, duration",
+
+  "layout.field.label.Product.dc.format.extent": "Main content format",
+
+  "layout.field.label.Product.dc.subject": "Subjects",
+
+  "layout.field.label.Product.dc.description": "Note",
+
+  "layout.field.label.Product.epfl.url": "Additional link",
+
+  "layout.field.label.Product.epfl.peerreviewed": "Peer reviewed",
+
+  "layout.field.label.Product.dc.description.sponsorship": "EPFL units",
+
+  "layout.field.label.Product.dc.date.available": "Available on Infoscience",
+
+  "layout.field.label.Product.dc.type": "Type",
+
+  "layout.field.label.Product.dc.contributor.author": "Creators",
+
+  "layout.field.label.Product.dc.date.issued": "Publication date",
+
+  "layout.field.label.Product.dc.relation.ispartof": "Published in",
+
+  "layout.field.label.Product.dc.size": "Main content size, duration",
+
+  "layout.field.label.Product.dc.format.extent": "Main content format",
+
+  "layout.field.label.Product.dc.subject": "Subjects",
+
+  "layout.field.label.Product.dc.description": "Note",
+
+  "layout.field.label.Product.epfl.url": "Additional link",
+
+  "layout.field.label.Product.epfl.peerreviewed": "Peer reviewed",
+
+  "layout.field.label.Product.dc.description.sponsorship": "EPFL units",
+
+  "layout.field.label.Product.dc.date.available": "Available on Infoscience",
+
+  "layout.field.label.Patent.dc.identifier.uri": "Use this identifier to reference this record ",
+
+  "layout.field.label.Patent.dc.type": "File(s)",
+
+  "layout.field.label.Patent.dc.type": "Patent Type",
+
+  "layout.field.label.Patent.dc.identifier.epo": "EPO Family ID",
+
+  "layout.field.label.Patent.dc.title.alternative": "Additional titles",
+
+  "layout.field.label.Patent.dc.contributor.author": "Inventors",
+
+  "layout.field.label.Patent.dcterms.rightHolder": "Issuers",
+
+  "layout.field.label.Patent.dc.subject": "Subjects",
+
+  "layout.field.label.Patent.dc.description": "Note",
+
+  "layout.field.label.Patent.epfl.url": "Additional link",
+
+  "layout.field.label.Patent.epfl.tto": "TTO classification",
+
+  "layout.field.label.Patent.dc.description.sponsorship": "EPFL units",
+
+  "layout.field.label.Patent.dc.date.available": "Available on Infoscience",
+
+  "layout.field.label.Project.oairecerif.acronym": "Acronym",
+
+  "layout.field.label.Project.dc.title": "Project Title",
+
+  "layout.field.label.Project.crispj.coordinator": "Consortium Coordinator",
+
+  "layout.field.label.Project.crispj.partnerou": "Partner Organisations",
+
+  "layout.field.label.Project.oairecerif.internalid": "Internal ID",
+
+  "layout.field.label.Project.crispj.investigator": "Principal Investigator",
+
+  "layout.field.label.Project.oairecerif.project.status": "Status",
+
+  "layout.field.label.Project.oairecerif.project.startDate": "Start Date",
+
+  "layout.field.label.Project.oairecerif.project.endDate": "End Date",
+
+  "layout.field.label.Project.crispj.coinvestigators": "Investigators",
+
+  "layout.field.label.Project.crispj.organization": "Organisations",
+
+  "layout.field.label.Project.dc.relation.equipment": "Uses",
+
+  "layout.field.label.Project.oairecerif.identifier.url": "Project Web Site",
+
+  "layout.field.label.Project.crispj.openaireid": "OpenAIRE ID",
+
+  "layout.field.label.Project.dc.subject": "Keywords",
+
+  "layout.field.label.Project.dc.description.abstract": "Description",
+
+  "layout.field.label.Equipment.oairecerif.acronym": "Acronym",
+
+  "layout.field.label.Equipment.dc.description": "Description",
+
+  "layout.field.label.Equipment.oairecerif.internalid": "Internal ID",
+
+  "layout.field.label.Equipment.dc.title": "Name",
+
+  "layout.field.label.Equipment.crisequipment.ownerou": "Owner Organisation",
+
+  "layout.field.label.Funding.dc.relation.project": "Project",
+
+  "layout.field.label.Funding.dc.type": "Type",
+
+  "layout.field.label.Funding.oairecerif.funder": "Funder",
+
+  "layout.field.label.Funding.oairecerif.fundingParent": "Funding Program",
+
+  "layout.field.label.Funding.oairecerif.identifier.url": "Award URL",
+
+  "layout.field.label.Funding.oairecerif.oamandate": "OA Mandate",
+
+  "layout.field.label.Funding.oairecerif.internalid": "Funding code",
+
+  "layout.field.label.Funding.oairecerif.amount": "Amount",
+
+  "layout.field.label.Funding.oairecerif.amount.currency": "Currency",
+
+  "layout.field.label.Person.oairecerif.affiliation.role": "Position",
+
+  "layout.field.label.Person.oairecerif.person.affiliation": "EPFL Unit",
+
+  "layout.field.label.Person.oairecerif.affiliation.endDate": "Affiliation end date",
+
+  "layout.field.label.Publication.dc.date.issued": "Publication date",
+
+  "layout.field.label.Publication.dc.relation.ispartof": "Published in",
+
+  "layout.field.label.Publication.dc.date.issued": "Publication date",
+
+  "layout.field.label.Publication.dc.relation.journal": "Published in",
+
+  "layout.field.label.Publication.epfl.url.description": "Additional link",
+
+  "layout.field.label.Publication.epfl.url": "URL",
+
+  "layout.field.label.Publication.oairecerif.funder": "Funder",
+
+  "layout.field.label.Publication.dc.relation.funding": "Grant Name",
+
+  "layout.field.label.Publication.dc.relation.grantno": "Grant Number",
+
+  "layout.field.label.Publication.crisfund.award.uri": "Grant URL",
+
+  "layout.field.label.Publication.dc.relation.conference": "Event name",
+
+  "layout.field.label.Publication.oairecerif.acronym": "Event acronym",
+
+  "layout.field.label.Publication.oaire.citation.conferencePlace": "Event place",
+
+  "layout.field.label.Publication.oaire.citation.conferenceDate": "Event date",
+
+  "layout.field.label.Publication.epfl.award": "Award",
+
+  "layout.field.label.Publication.epfl.award.year": "Award date",
+
+  "layout.field.label.Publication.datacite.relationType": "Relation",
+
+  "layout.field.label.Publication.dc.relation.title": "Related work",
+
+  "layout.field.label.Publication.datacite.relatedIdentifier": "URL/DOI",
+
+  "layout.field.label.Product.dc.type": "Type",
+
+  "layout.field.label.Product.datacite.rights": "Access rights",
+
+  "layout.field.label.Product.dc.date.issued": "Date Issued",
+
+  "layout.field.label.Product.dc.publisher": "Publisher",
+
+  "layout.field.label.Product.epfl.url.description": "Link description",
+
+  "layout.field.label.Product.epfl.url": "URL",
+
+  "layout.field.label.Product.oairecerif.funder": "Funder",
+
+  "layout.field.label.Product.dc.relation.funding": "Grant Name",
+
+  "layout.field.label.Product.dc.relation.grantno": "Grant NO",
+
+  "layout.field.label.Product.crisfund.award.uri": "Grant URL",
+
+  "layout.field.label.Product.dc.relation.conference": "Event name",
+
+  "layout.field.label.Product.oairecerif.acronym": "Event acronym",
+
+  "layout.field.label.Product.oaire.citation.conferencePlace": "Event place",
+
+  "layout.field.label.Product.oaire.citation.conferenceDate": "Event date",
+
+  "layout.field.label.Product.epfl.relationpublication.type": "Relation",
+
+  "layout.field.label.Product.dc.relation.publication": "Publication title",
+
+  "layout.field.label.Product.epfl.relationpublication.identifier": "URL or DOI",
+
+  "layout.field.label.Product.epfl.relationpatent.type": "Relation",
+
+  "layout.field.label.Product.dc.relation.patent": "Publication title",
+
+  "layout.field.label.Product.epfl.relationpatent.identifier": "URL or DOI",
+
+  "layout.field.label.Product.epfl.relationproduct.type": "Relation",
+
+  "layout.field.label.Product.dc.relation.product": "Publication title",
+
+  "layout.field.label.Product.epfl.relationproduct.identifier": "URL or DOI",
+
+  "layout.field.label.Product.datacite.relationType": "Relation",
+
+  "layout.field.label.Product.dc.relation.title": "Related work",
+
+  "layout.field.label.Product.datacite.relatedIdentifier": "URL/DOI",
+
+  "layout.field.label.Patent.dc.type": "Type",
+
+  "layout.field.label.Patent.datacite.rights": "Access rights",
+
+  "layout.field.label.Patent.datacite.available": "Availability",
+
+  "layout.field.label.Patent.epfl.url.description": "Additional link",
+
+  "layout.field.label.Patent.epfl.url": "URL",
+
+  "layout.field.label.Patent.dc.identifier.patentno": "Patent number",
+
+  "layout.field.label.Patent.oairecerif.patent.country": "Country code",
+
+  "layout.field.label.Patent.epfl.patent.kindcode": "Kind code",
+
+  "layout.field.label.Patent.epfl.patent.date": "Date issued",
+
+  "layout.field.label.Patent.datacite.relationType": "Relation",
+
+  "layout.field.label.Patent.dc.relation.title": "Related work",
+
+  "layout.field.label.Patent.datacite.relatedIdentifier": "URL/DOI",
+
+  "layout.field.label.Patent.dc.identifier.prioritynumber": "Priority number",
+
+  "layout.field.label.Patent.dcterms.dateAccepted": "Priority date",
+
+  "layout.field.label.Patent.dc.identifier.applicationnumber": "Application number",
+
+  "layout.field.label.Patent.dcterms.dateSubmitted": "Application Date",
+}

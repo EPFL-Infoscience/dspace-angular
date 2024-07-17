@@ -145,6 +145,7 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
   }
 
   public canViewInWorkflowSinceStatistics(useCacheVersion = true): Observable<boolean> {
-    return this.authorizationService.isAuthorized(FeatureID.CanViewInWorkflowSinceStatistics, this.dso.self, null,  useCacheVersion);
+    return this.authorizationService.isAuthorized(FeatureID.CanViewInWorkflowSinceStatistics,
+      this.dso?._links != null ? this.dso?.self : null, null,  useCacheVersion);
   }
 }

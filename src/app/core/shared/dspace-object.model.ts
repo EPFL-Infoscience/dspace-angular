@@ -55,7 +55,7 @@ export class DSpaceObject extends ListableObject implements CacheableObject {
    * A shorthand to get this DSpaceObject's self link
    */
   get self(): string {
-    return this._links.self.href;
+    return this._links?.self.href;
   }
 
   /**
