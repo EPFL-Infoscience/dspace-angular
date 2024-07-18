@@ -7727,6 +7727,18 @@
 
   "thumbnail.project.placeholder": "Project Placeholder Image",
 
+  "thumbnail.publication.alt": "Publication Logo",
+
+  "thumbnail.publication.placeholder": "Publication Placeholder Image",
+
+  "thumbnail.product.alt": "Product Logo",
+
+  "thumbnail.product.placeholder": "Product Placeholder Image",
+
+  "thumbnail.patent.alt": "Patent Logo",
+
+  "thumbnail.patent.placeholder": "Patent Placeholder Image",
+
   "thumbnail.orgunit.alt": "OrgUnit Logo",
 
   "thumbnail.orgunit.placeholder": "OrgUnit Placeholder Image",

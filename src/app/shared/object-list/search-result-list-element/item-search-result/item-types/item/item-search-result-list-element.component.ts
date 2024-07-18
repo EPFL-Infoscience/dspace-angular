@@ -60,6 +60,9 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
   workflowStartDate: string;
   itemDateTime: string;
   itemArchivedDateTime: string;
+  placeholder: string;
+  thumbnailAlt: string;
+  defaultImage: string;
 
   private thirdPartyMetrics = environment.info.metricsConsents.filter(metric => metric.enabled).map(metric => metric.key);
 
@@ -91,6 +94,50 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
           this.accessionedDate
         );
       }
+    }
+    const eType = this.dso.firstMetadataValue('dspace.entity.type');
+    switch (eType?.toUpperCase()) {
+      case 'PROJECT':
+        this.placeholder = 'thumbnail.project.placeholder';
+        this.defaultImage = 'assets/images/project-placeholder.svg';
+        this.thumbnailAlt = 'thumbnail.project.alt';
+        break;
+      case 'ORGUNIT':
+        this.placeholder = 'thumbnail.orgunit.placeholder';
+        this.defaultImage = 'assets/images/orgunit-placeholder.svg';
+        this.thumbnailAlt = 'thumbnail.orgunit.alt';
+
+        break;
+      case 'PERSON':
+        this.placeholder = 'thumbnail.person.placeholder';
+        this.defaultImage = 'assets/images/person-placeholder.svg';
+        this.thumbnailAlt = 'thumbnail.person.alt';
+
+        break;
+      case 'PUBLICATION':
+        this.placeholder = 'thumbnail.publication.placeholder';
+        this.defaultImage = 'assets/images/publication-placeholder.svg';
+        this.thumbnailAlt = 'thumbnail.publication.alt';
+
+        break;
+      case 'PRODUCT':
+        this.placeholder = 'thumbnail.product.placeholder';
+        this.defaultImage = 'assets/images/product-placeholder.svg';
+        this.thumbnailAlt = 'thumbnail.product.alt';
+
+        break;
+      case 'PATENT':
+        this.placeholder = 'thumbnail.patent.placeholder';
+        this.defaultImage = 'assets/images/patent-placeholder.svg';
+        this.thumbnailAlt = 'thumbnail.patent.alt';
+
+        break;
+      default:
+        this.placeholder = 'thumbnail.default.placeholder';
+        this.defaultImage = 'assets/images/file-placeholder.svg';
+        this.thumbnailAlt = 'thumbnail.default.alt';
+
+        break;
     }
 
   }
