@@ -23,6 +23,7 @@ import { FullItemMenuComponent } from './full-item/full-item-menu.component';
 import { OrcidViewPageMenuComponent } from './orcid-view-page/orcid-view-page-menu.component';
 import { SharedModule } from '../shared.module';
 import { ChangeSubmitterComponent } from './change-submitter/change-submitter.component';
+import { BrowserOnlyDirective } from '../utils/browser-only.directive';
 
 const COMPONENTS = [
   BulkImportMenuComponent,
@@ -67,7 +68,8 @@ const MODULE = [
   RouterModule,
   TranslateModule,
   SubscriptionsModule,
-  SharedModule
+  SharedModule,
+  BrowserOnlyDirective
 ];
 @NgModule({
   imports: [
