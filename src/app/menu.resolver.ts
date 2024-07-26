@@ -164,7 +164,7 @@ export class MenuResolver implements Resolve<boolean> {
     });
 
     this.createStatisticsMenu();
-    this.createBrowseByMenu();
+    //this.createBrowseByMenu();
     return this.waitForMenu$(MenuID.PUBLIC);
   }
 
