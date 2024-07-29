@@ -20,6 +20,10 @@ export class BrowseMostElementsComponent implements OnInit, OnChanges {
 
   @Input() context: Context;
 
+  showLabel: boolean;
+
+  showMetrics = true;
+
   @Input() topSection: TopSection;
 
   @Input() mode: LayoutModeEnum;

@@ -1,7 +1,6 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import { AbstractBrowseElementsComponent } from '../abstract-browse-elements.component';
 import {LayoutModeEnum} from '../../../core/layout/models/section.model';
-import {CollectionElementLinkType} from '../../object-collection/collection-element-link.type';
 
 @Component({
   selector: 'ds-default-browse-elements',
@@ -20,6 +19,8 @@ export class DefaultBrowseElementsComponent extends AbstractBrowseElementsCompon
   @Input() showThumbnails = this.appConfig.browseBy.showThumbnails;
 
   @Input() mode: LayoutModeEnum;
+
+  @Input() showLabel: boolean;
 
   protected followThumbnailLink = true;
 }

@@ -31,7 +31,9 @@ export class ThemedDefaultBrowseElementsComponent extends ThemedComponent<Defaul
 
   @Input() mode: LayoutModeEnum;
 
-  protected inAndOutputNames: (keyof DefaultBrowseElementsComponent & keyof this)[] = ['paginatedSearchOptions', 'context', 'topSection', 'showMetrics', 'showThumbnails', 'mode'];
+  @Input() showLabel: boolean;
+
+  protected inAndOutputNames: (keyof DefaultBrowseElementsComponent & keyof this)[] = ['paginatedSearchOptions', 'context', 'topSection', 'showMetrics', 'showThumbnails', 'mode', 'showLabel'];
 
   protected getComponentName(): string {
     return 'DefaultBrowseElementsComponent';
