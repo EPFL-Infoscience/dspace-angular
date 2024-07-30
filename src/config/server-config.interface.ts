@@ -6,4 +6,5 @@ export class ServerConfig implements Config {
   public port: number;
   public nameSpace: string;
   public baseUrl?: string;
+  public ssrBaseUrl?: string;
 }
