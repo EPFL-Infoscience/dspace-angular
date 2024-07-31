@@ -27,7 +27,6 @@ export class DspaceRestInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    console.log(isPlatformBrowser(this.platformId), isEmpty(this.ssrBaseUrl), this.appConfig);
     if (isPlatformBrowser(this.platformId) || isEmpty(this.ssrBaseUrl) || this.baseUrl === this.ssrBaseUrl) {
       return next.handle(request);
     }
