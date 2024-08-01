@@ -7507,6 +7507,8 @@
 
   "map.coordinates-invalid": "Coordinates are not valid",
 
+  "map.no-key-configured": "No Google Maps key found in the configuration",
+
   "statistics-page.export-map-as-image": "Export map",
 
   "curation-task.task.hocr.label": "Extract text (HOCR) from images",
