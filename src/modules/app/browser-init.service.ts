@@ -27,11 +27,11 @@ import { ThemeService } from '../../app/shared/theme-support/theme.service';
 import { StoreAction, StoreActionTypes } from '../../app/store.actions';
 import { coreSelector } from '../../app/core/core.selectors';
 import { filter, find, map } from 'rxjs/operators';
-import { isNotEmpty } from '../../app/shared/empty.util';
+import { isEmpty, isNotEmpty } from '../../app/shared/empty.util';
 import { logStartupMessage } from '../../../startup-message';
 import { MenuService } from '../../app/shared/menu/menu.service';
 import { RootDataService } from '../../app/core/data/root-data.service';
-import { firstValueFrom, Subscription } from 'rxjs';
+import { firstValueFrom, lastValueFrom, Subscription } from 'rxjs';
 import { ServerCheckGuard } from '../../app/core/server-check/server-check.guard';
 
 /**
@@ -103,7 +103,7 @@ export class BrowserInitService extends InitService {
 
       this.initKlaro();
 
-      await this.authenticationReady$().toPromise();
+      await lastValueFrom(this.authenticationReady$());
 
       return true;
     };
@@ -117,13 +117,20 @@ export class BrowserInitService extends InitService {
    * @private
    */
   private async loadAppState(): Promise<boolean> {
-    const state = this.transferState.get<any>(InitService.NGRX_STATE, null);
-    this.transferState.remove(InitService.NGRX_STATE);
-    this.store.dispatch(new StoreAction(StoreActionTypes.REHYDRATE, state));
-    return this.store.select(coreSelector).pipe(
-      find((core: any) => isNotEmpty(core)),
-      map(() => true)
-    ).toPromise();
+    // The app state can be transferred only when SSR and CSR are using the same base url for the REST API
+    if (isEmpty(this.appConfig.rest.ssrBaseUrl) || this.appConfig.rest.baseUrl === this.appConfig.rest.ssrBaseUrl) {
+      const state = this.transferState.get<any>(InitService.NGRX_STATE, null);
+      this.transferState.remove(InitService.NGRX_STATE);
+      this.store.dispatch(new StoreAction(StoreActionTypes.REHYDRATE, state));
+      return lastValueFrom(
+        this.store.select(coreSelector).pipe(
+          find((core: any) => isNotEmpty(core)),
+          map(() => true),
+        ),
+      );
+    } else {
+      return Promise.resolve(true);
+    }
   }
 
   private trackAuthTokenExpiration(): void {
