@@ -79,6 +79,9 @@ let anonymousCache: LRU<string, any>;
 // extend environment with app config for server
 extendEnvironmentWithAppConfig(environment, appConfig);
 
+// The REST server base URL
+const REST_BASE_URL = environment.rest.ssrBaseUrl || environment.rest.baseUrl;
+
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {
 
