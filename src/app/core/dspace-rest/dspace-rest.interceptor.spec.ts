@@ -165,6 +165,20 @@ describe('DspaceRestInterceptor', () => {
         req.flush({});
         httpMock.verify();
       });
+
+      it('should not replace any query param containing the base URL', () => {
+        const url = 'http://api.example.com/server/items?url=http://api.example.com/server/item/1';
+        const ssrBaseUrl = appConfigWithSSR.rest.ssrBaseUrl;
+
+        httpClient.get(url).subscribe((response) => {
+          expect(response).toBeTruthy();
+        });
+
+        const req = httpMock.expectOne(ssrBaseUrl + '/items?url=http://api.example.com/server/item/1');
+        expect(req.request.url).toBe(ssrBaseUrl + '/items?url=http://api.example.com/server/item/1');
+        req.flush({});
+        httpMock.verify();
+      });
     });
   });
 });
