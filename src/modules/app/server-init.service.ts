@@ -91,6 +91,8 @@ export class ServerInitService extends InitService {
   }
 
   private saveAppConfigForCSR(): void {
-    this.transferState.set<AppConfig>(APP_CONFIG_STATE, environment as AppConfig);
+    const config: AppConfig = Object.assign({}, environment as AppConfig);
+    delete config.rest.ssrBaseUrl;
+    this.transferState.set<AppConfig>(APP_CONFIG_STATE, config);
   }
 }
