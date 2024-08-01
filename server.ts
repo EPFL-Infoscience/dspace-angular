@@ -175,7 +175,7 @@ export function app() {
    * Proxy the sitemaps
    */
   router.use('/sitemap**', createProxyMiddleware({
-    target: `${environment.rest.baseUrl}/sitemaps`,
+    target: `${REST_BASE_URL}/sitemaps`,
     pathRewrite: path => path.replace(environment.ui.nameSpace, '/'),
     changeOrigin: true
   }));
@@ -184,7 +184,7 @@ export function app() {
    * Proxy the linksets
    */
   router.use('/signposting**', createProxyMiddleware({
-    target: `${environment.rest.baseUrl}`,
+    target: `${REST_BASE_URL}`,
     pathRewrite: path => path.replace(environment.ui.nameSpace, '/'),
     changeOrigin: true
   }));
@@ -635,7 +635,7 @@ function clientHealthCheck(req, res) {
  * The callback function to serve health check requests
  */
 function healthCheck(req, res) {
-  const baseUrl = `${environment.rest.baseUrl}${environment.actuators.endpointPath}`;
+  const baseUrl = `${REST_BASE_URL}${environment.actuators.endpointPath}`;
   axios.get(baseUrl)
     .then((response) => {
       res.status(response.status).send(response.data);
