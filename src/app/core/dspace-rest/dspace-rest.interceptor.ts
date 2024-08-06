@@ -35,6 +35,7 @@ export class DspaceRestInterceptor implements HttpInterceptor {
     let newRequest: HttpRequest<any>;
     const url = request.url.replace(this.baseUrl, this.ssrBaseUrl);
     newRequest = request.clone({ url });
+    console.log(newRequest.url);
     return next.handle(newRequest);
   }
 }
