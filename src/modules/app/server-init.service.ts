@@ -91,11 +91,6 @@ export class ServerInitService extends InitService {
   }
 
   private saveAppConfigForCSR(): void {
-    // Avoid to transfer ssrBaseUrl in order to avoid security issues
-    const config: AppConfig = Object.assign({}, environment as AppConfig, {
-      rest: Object.assign({}, environment.rest, { ssrBaseUrl: '' })
-    });
-    console.log('saveAppConfigForCSR', config.rest.ssrBaseUrl, environment.rest.ssrBaseUrl);
-    this.transferState.set<AppConfig>(APP_CONFIG_STATE, config);
+    this.transferState.set<AppConfig>(APP_CONFIG_STATE, environment as AppConfig);
   }
 }
