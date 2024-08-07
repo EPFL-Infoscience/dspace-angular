@@ -118,7 +118,7 @@ export class BrowserInitService extends InitService {
    */
   private async loadAppState(): Promise<boolean> {
     // The app state can be transferred only when SSR and CSR are using the same base url for the REST API
-    if (isEmpty(this.appConfig.rest.ssrBaseUrl) || this.appConfig.rest.baseUrl === this.appConfig.rest.ssrBaseUrl) {
+    if (!this.appConfig.rest.hasSsrBaseUrl) {
       const state = this.transferState.get<any>(InitService.NGRX_STATE, null);
       this.transferState.remove(InitService.NGRX_STATE);
       this.store.dispatch(new StoreAction(StoreActionTypes.REHYDRATE, state));
