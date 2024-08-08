@@ -15,7 +15,9 @@
                 'aspect-ratio': carouselOptions.keepAspectRatio ? carouselOptions.aspectRatio : null
            }">
         <div class="picsum-img-wrapper" *ngIf="(itemToImageHrefMap$ | async).get(item.indexableObject.uuid); let href">
-          <img [src]="href" [alt]="item.indexableObject.metadata[title][0].value" class="img-fluid"
+          <img *ngIf="item.indexableObject.metadata[title]" [src]="href" [alt]="item.indexableObject.metadata[title][0].value" class="img-fluid"
+               [ngClass]="{'w-100': carouselOptions.fitWidth, 'h-100': carouselOptions.fitHeight}">
+          <img *ngIf="!item.indexableObject.metadata[title]" [src]="href" alt="carousel image" class="img-fluid"
                [ngClass]="{'w-100': carouselOptions.fitWidth, 'h-100': carouselOptions.fitHeight}">
         </div>
         <div class="carousel-caption">
