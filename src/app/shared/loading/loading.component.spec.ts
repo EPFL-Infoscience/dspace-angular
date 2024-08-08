@@ -2,13 +2,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { TranslateLoaderMock } from '../mocks/translate-loader.mock';
-
 import { LoadingComponent } from './loading.component';
-import {Router} from '@angular/router';
-import {RouterMock} from '../mocks/router.mock';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('LoadingComponent (inline template)', () => {
 
@@ -20,6 +18,12 @@ describe('LoadingComponent (inline template)', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
+        RouterTestingModule.withRoutes([
+          {
+            path: 'fake-url',
+            redirectTo: '/',
+          },
+        ]),
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
@@ -28,10 +32,6 @@ describe('LoadingComponent (inline template)', () => {
         }),
       ],
       declarations: [LoadingComponent], // declare the test component
-      providers: [
-        TranslateService,
-        {provide: Router, useValue: new RouterMock()},
-      ]
     }).compileComponents();  // compile template and css
   }));
 
