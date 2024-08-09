@@ -233,7 +233,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   /**
    * Defines whether to show the toggle button to Show/Hide filter
    */
-  @Input() renderOnServerSide = true;
+  @Input() renderOnServerSide = false;
 
   /**
    * Defines whether to show the toggle button to Show/Hide chart
