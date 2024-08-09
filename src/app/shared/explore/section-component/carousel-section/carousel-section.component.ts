@@ -1,15 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { SortDirection, SortOptions } from '../../../../core/cache/models/sort-options.model';
 import { DSpaceObjectType } from '../../../../core/shared/dspace-object-type.model';
-import { getFirstSucceededRemoteListPayload } from '../../../../core/shared/operators';
+import { getFirstCompletedRemoteData } from '../../../../core/shared/operators';
 import { SearchService } from '../../../../core/shared/search/search.service';
 import { PaginationComponentOptions } from '../../../pagination/pagination-component-options.model';
 import { PaginatedSearchOptions } from '../../../search/models/paginated-search-options.model';
 import { CarouselSection } from '../../../../core/layout/models/section.model';
-import {CarouselOptions} from '../../../carousel/carousel-options.model';
+import { CarouselOptions } from '../../../carousel/carousel-options.model';
 import { ItemSearchResult } from '../../../object-collection/shared/item-search-result.model';
+import { RemoteData } from '../../../../core/data/remote-data';
+import { SearchObjects } from '../../../search/models/search-objects.model';
 
 /**
  * Component representing the Carousel component section.
@@ -103,8 +105,9 @@ export class CarouselSectionComponent implements OnInit {
       forcedEmbeddedKeys: ['bundles']
     });
 
-    this.searchResults$ = this.searchService.search(this.paginatedSearchOptions).pipe(
-      getFirstSucceededRemoteListPayload(),
+    this.searchResults$ = this.searchService.search<any>(this.paginatedSearchOptions).pipe(
+      getFirstCompletedRemoteData(),
+      map((results: RemoteData<SearchObjects<any>>) => results.hasSucceeded ? results.payload.page : []),
       tap(() => this.isLoading$.next(false)),
     ) as Observable<ItemSearchResult[]>;
   }
