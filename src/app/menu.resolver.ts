@@ -744,12 +744,11 @@ export class MenuResolver implements Resolve<boolean> {
       // },
     ];
     menuList.forEach((menuSection) => this.menuService.addSection(MenuID.ADMIN, menuSection));
-
-    observableCombineLatest([
-      this.authorizationService.isAuthorized(FeatureID.AdministratorOf),
-      this.scriptDataService.scriptWithNameExistsAndCanExecute(METADATA_EXPORT_SCRIPT_NAME)
-    ]).pipe(
-      filter(([authorized, metadataExportScriptExists]: boolean[]) => authorized && metadataExportScriptExists),
+    this.authorizationService.isAuthorized(FeatureID.AdministratorOf).pipe(
+      filter((authorized: boolean) => authorized),
+      take(1),
+      switchMap(() => this.scriptDataService.scriptWithNameExistsAndCanExecute(METADATA_EXPORT_SCRIPT_NAME)),
+      filter((metadataImportScriptExists: boolean) => metadataImportScriptExists),
       take(1)
     ).subscribe(() => {
       // Hides the export menu for unauthorised people
@@ -834,11 +833,11 @@ export class MenuResolver implements Resolve<boolean> {
     const menuList = [];
     menuList.forEach((menuSection) => this.menuService.addSection(MenuID.ADMIN, menuSection));
 
-    observableCombineLatest([
-      this.authorizationService.isAuthorized(FeatureID.AdministratorOf),
-      this.scriptDataService.scriptWithNameExistsAndCanExecute(METADATA_IMPORT_SCRIPT_NAME)
-    ]).pipe(
-      filter(([authorized, metadataImportScriptExists]: boolean[]) => authorized && metadataImportScriptExists),
+    this.authorizationService.isAuthorized(FeatureID.AdministratorOf).pipe(
+      filter((authorized: boolean) => authorized),
+      take(1),
+      switchMap(() => this.scriptDataService.scriptWithNameExistsAndCanExecute(METADATA_IMPORT_SCRIPT_NAME)),
+      filter((metadataImportScriptExists: boolean) => metadataImportScriptExists),
       take(1)
     ).subscribe(() => {
       // Hides the import menu for unauthorised people
