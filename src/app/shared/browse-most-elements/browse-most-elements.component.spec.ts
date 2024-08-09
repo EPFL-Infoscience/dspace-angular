@@ -109,7 +109,8 @@ describe('BrowseMostElementsComponent', () => {
       null,
       true,
       true,
-      followLink('thumbnail')
+      followLink('thumbnail'),
+      followLink('metrics')
     );
   });
 
@@ -122,7 +123,8 @@ describe('BrowseMostElementsComponent', () => {
       null,
       true,
       true,
-      followLink('thumbnail')
+      followLink('thumbnail'),
+      followLink('metrics')
     );
   });
 
@@ -134,7 +136,8 @@ describe('BrowseMostElementsComponent', () => {
       component.paginatedSearchOptions,
       null,
       true,
-      true
+      true,
+      followLink('metrics')
     );
   });
 
