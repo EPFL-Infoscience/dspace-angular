@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Inject, Input, OnChanges, PLATFORM_ID } from '@angular/core';
 import { Bitstream } from '../core/shared/bitstream.model';
 import { hasValue } from '../shared/empty.util';
 import { RemoteData } from '../core/data/remote-data';
@@ -10,6 +10,7 @@ import { AuthService } from '../core/auth/auth.service';
 import { FileService } from '../core/shared/file.service';
 import { Item } from '../core/shared/item.model';
 import { ItemDataService } from '../core/data/item-data.service';
+import { isPlatformBrowser } from '@angular/common';
 
 /**
  * This component renders a given Bitstream as a thumbnail.
@@ -72,6 +73,7 @@ export class ThumbnailComponent implements OnChanges {
   isLoading$ = new BehaviorSubject(true);
 
   constructor(
+    @Inject(PLATFORM_ID) private platformID: any,
     protected auth: AuthService,
     protected authorizationService: AuthorizationDataService,
     protected fileService: FileService,
@@ -84,11 +86,14 @@ export class ThumbnailComponent implements OnChanges {
    * Use a default image if no actual image is available.
    */
   ngOnChanges(): void {
-    const src = this.contentHref;
-    if (hasValue(src)) {
-      this.setSrc(src);
-    } else if (hasValue(this.defaultImage)) {
-      this.setSrc(this.defaultImage);
+    if (isPlatformBrowser(this.platformID)) {
+      console.log('ngOnChanges', this.thumbnail, this.contentHref);
+      const src = this.contentHref;
+      if (hasValue(src)) {
+        this.setSrc(src);
+      } else if (hasValue(this.defaultImage)) {
+        this.setSrc(this.defaultImage);
+      }
     }
   }
 

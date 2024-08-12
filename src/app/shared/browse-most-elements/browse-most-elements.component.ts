@@ -67,7 +67,7 @@ export class BrowseMostElementsComponent implements OnInit {
     }
 
     const showThumbnails = this.showThumbnails ?? this.appConfig.browseBy.showThumbnails;
-    const followLinks = showThumbnails ? [followLink('thumbnail')] : [];
+    const followLinks = showThumbnails ? [followLink('thumbnail'), followLink('metrics')] : [followLink('metrics')];
     this.searchService.search(this.paginatedSearchOptions, null, true, true, ...followLinks).pipe(
       getFirstCompletedRemoteData(),
     ).subscribe((response: RemoteData<PaginatedList<SearchResult<DSpaceObject>>>) => {
