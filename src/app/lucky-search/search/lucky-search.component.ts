@@ -1,5 +1,5 @@
-import {Component, Inject, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
-import {BehaviorSubject, mergeMap, Observable, of, Subject, Subscription} from 'rxjs';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
+import {BehaviorSubject, mergeMap, Observable, of, Subject} from 'rxjs';
 import { RemoteData } from '../../core/data/remote-data';
 import { PaginatedList } from '../../core/data/paginated-list.model';
 import { SearchResult } from '../../shared/search/models/search-result.model';
@@ -29,7 +29,7 @@ import {isPlatformServer} from '@angular/common';
   templateUrl: './lucky-search.component.html',
   styleUrls: ['./lucky-search.component.scss']
 })
-export class LuckySearchComponent implements OnInit, OnDestroy {
+export class LuckySearchComponent implements OnInit {
   /**
    * The current search results
    */
@@ -37,11 +37,11 @@ export class LuckySearchComponent implements OnInit, OnDestroy {
   /**
    * flag to show the result in case of no results from search
    */
-  showEmptySearchSection$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  showEmptySearchSection$: Observable<boolean>;
   /**
    * flag to show the result in case of no results from multiple search
    */
-  showMultipleSearchSection$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  showMultipleSearchSection$: Observable<boolean>;
   /**
    * Search options to use for options of the search
    */
@@ -63,7 +63,6 @@ export class LuckySearchComponent implements OnInit, OnDestroy {
   item$ = new Subject<Item>();
   bitstreams$: Observable<Bitstream[]>;
 
-  private readonly subscription: Subscription[] = [];
 
   constructor(
     private luckySearchService: LuckySearchService,
@@ -94,51 +93,49 @@ export class LuckySearchComponent implements OnInit, OnDestroy {
     }
 
     if (!(this.currentFilter.value !== '' && this.currentFilter.identifier !== '')) {
-      this.showEmptySearchSection$.next(true);
+      this.showEmptySearchSection$ = of(true);
       return;
     }
 
     this.resultsRD$ = this.searchOptions$.pipe(
       switchMap((options: PaginatedSearchOptions) => this.getLuckySearchResults(options)),
-      tap(results => {
-        if (results?.payload?.pageInfo?.totalElements === 0) {
-          this.showEmptySearchSection$.next(true);
-        }
-      }),
-      tap(results => {
-        if (results?.payload?.pageInfo?.totalElements > 1) {
-          this.showMultipleSearchSection$.next(true);
-        }
-      }),
-      switchMap(results => {
-        if (this.hasBitstreamFilters() && results?.payload?.totalElements === 1) {
-          const item = results.payload.page[0].indexableObject as Item;
-          this.item$.next(item);
-          return this.bitstreamFilters$.pipe(
-            withLatestFrom(of(item)),
-            mergeMap(([bitstreamFilters, itemOb]) => this.loadBitstreamsAndRedirectIfNeeded(itemOb, bitstreamFilters)),
-            tap(bitstreams => {
-              this.bitstreams$ = of(bitstreams);
-              this.showEmptySearchSection$.next(isEmpty(bitstreams));
-              if (isNotEmpty(bitstreams) && bitstreams.length === 1) {
-                const bitstreamRoute = getBitstreamDownloadRoute(bitstreams[0]);
-                this.redirect(bitstreamRoute);
-              }
-            }),
-            map(() => results)
-          );
-        } else if (!this.hasBitstreamFilters() && results?.payload?.totalElements === 1) {
-          const item = results.payload.page[0].indexableObject as Item;
-          this.item$.next(item);
-          const route = getItemPageRoute(item);
-          this.redirect(route);
-        }
-        return of(results);
+        switchMap(results => {
+          if (this.hasBitstreamFilters() && results?.payload?.totalElements === 1) {
+            const item = results.payload.page[0].indexableObject as Item;
+            this.item$.next(item);
+            return this.bitstreamFilters$.pipe(
+              withLatestFrom(of(item)),
+              mergeMap(([bitstreamFilters, itemOb]) => this.loadBitstreamsAndRedirectIfNeeded(itemOb, bitstreamFilters)),
+              tap(bitstreams => {
+                this.bitstreams$ = of(bitstreams);
+                this.showEmptySearchSection$ = of(isEmpty(bitstreams));
+                if (isNotEmpty(bitstreams) && bitstreams.length === 1) {
+                  const bitstreamRoute = getBitstreamDownloadRoute(bitstreams[0]);
+                  this.redirect(bitstreamRoute);
+                }
+              }),
+              map(() => results)
+            );
+          } else if (!this.hasBitstreamFilters() && results?.payload?.totalElements === 1) {
+            const item = results.payload.page[0].indexableObject as Item;
+            this.item$.next(item);
+            const route = getItemPageRoute(item);
+            this.redirect(route);
+          }
+          return of(results);
+        })
+    );
+
+    this.showEmptySearchSection$ = this.resultsRD$.pipe(
+      map(results => {
+        return results?.payload?.pageInfo?.totalElements === 0;
       })
     );
 
-    this.subscription.push(
-      this.resultsRD$.subscribe()
+    this.showMultipleSearchSection$ = this.resultsRD$.pipe(
+      map(results => {
+        return results?.payload?.pageInfo?.totalElements > 1;
+      })
     );
   }
 
@@ -147,7 +144,7 @@ export class LuckySearchComponent implements OnInit, OnDestroy {
     return this.luckySearchService.sendRequest(options).pipe(
       tap((rd: RemoteData<PaginatedList<SearchResult<DSpaceObject>>>) => {
         if (rd && rd?.state === 'Error') {
-          this.showEmptySearchSection$.next(true);
+          this.showEmptySearchSection$ = of(true);
         }
       }),
       getFirstSucceededRemoteData());
@@ -204,9 +201,5 @@ export class LuckySearchComponent implements OnInit, OnDestroy {
         getFirstCompletedRemoteData(),
         map(bitstreamsResult => bitstreamsResult.payload?.page),
       );
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.filter((sub) => hasValue(sub)).forEach((sub) => sub.unsubscribe());
   }
 }
