@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
 import { BehaviorSubject, mergeMap, Observable, Subject, Subscription } from 'rxjs';
 import { RemoteData } from '../../core/data/remote-data';
 import { PaginatedList } from '../../core/data/paginated-list.model';
@@ -18,6 +18,8 @@ import { Bitstream } from '../../core/shared/bitstream.model';
 import { hasValue, isEmpty, isNotEmpty } from '../../shared/empty.util';
 import { getItemPageRoute } from '../../item-page/item-page-routing-paths';
 import { getBitstreamDownloadRoute } from '../../app-routing-paths';
+import {HardRedirectService} from '../../core/services/hard-redirect.service';
+import {isPlatformServer} from '@angular/common';
 
 @Component({
   selector: 'ds-lucky-search',
@@ -58,13 +60,15 @@ export class LuckySearchComponent implements OnInit, OnDestroy {
   bitstreams$ = new BehaviorSubject<Bitstream[]>(null);
   item$ = new Subject<Item>();
 
-  private readonly subscription = new Subscription();
+  private readonly subscription: Subscription[] = [];
 
   constructor(
     private luckySearchService: LuckySearchService,
     private router: Router,
     private bitstreamDataService: BitstreamDataService,
-    public searchConfigService: SearchConfigurationService
+    public searchConfigService: SearchConfigurationService,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private hardRedirectService: HardRedirectService,
   ) {}
 
   ngOnInit(): void {
@@ -89,7 +93,7 @@ export class LuckySearchComponent implements OnInit, OnDestroy {
       this.showEmptySearchSection = true;
       return;
     }
-    this.subscription.add(
+    this.subscription.push(
       this.searchOptions$
           .pipe(switchMap((options: PaginatedSearchOptions) => this.getLuckySearchResults(options)))
           .subscribe((results) => this.resultsRD$.next(results as any))
@@ -97,7 +101,7 @@ export class LuckySearchComponent implements OnInit, OnDestroy {
   }
 
   private handleBitstreamResults() {
-    this.subscription.add(
+    this.subscription.push(
       this.bitstreams$.pipe(
         filter(bitstreams => isNotEmpty(bitstreams) && bitstreams.length === 1),
         map(bitstreams => getBitstreamDownloadRoute(bitstreams[0]))
@@ -130,12 +134,12 @@ export class LuckySearchComponent implements OnInit, OnDestroy {
   }
 
   private readResult() {
-    this.subscription.add(
+    this.subscription.push(
         this.resultsRD$.pipe(
           filter(results => results?.payload?.totalElements === 0)
         ).subscribe(_ => this.showEmptySearchSection = true)
     );
-    this.subscription.add(
+    this.subscription.push(
         this.resultsRD$.pipe(
           filter(results =>
             this.hasBitstreamFilters() && results?.payload?.totalElements === 1
@@ -149,7 +153,7 @@ export class LuckySearchComponent implements OnInit, OnDestroy {
           this.bitstreams$.next(results);
         })
     );
-    this.subscription.add(
+    this.subscription.push(
         this.resultsRD$.pipe(
           filter(results =>
             !this.hasBitstreamFilters() && results?.payload?.totalElements === 1
@@ -159,7 +163,7 @@ export class LuckySearchComponent implements OnInit, OnDestroy {
           map(item => getItemPageRoute(item))
         ).subscribe(results => this.redirect(results))
     );
-    this.subscription.add(
+    this.subscription.push(
         this.resultsRD$.pipe(
           filter(results => results?.payload?.totalElements > 1),
         ).subscribe(_ => this.showMultipleSearchSection = true)
@@ -174,8 +178,12 @@ export class LuckySearchComponent implements OnInit, OnDestroy {
     return this.searchConfigService.paginatedSearchOptions;
   }
 
-  public redirect(url): void {
-    this.router.navigateByUrl(url, {replaceUrl: true});
+  public redirect(url: string): void {
+    if (isPlatformServer(this.platformId)) {
+      this.hardRedirectService.redirect(url, 302);
+    } else {
+      this.router.navigateByUrl(url, { replaceUrl: true });
+    }
   }
 
   private parseBitstreamFilters(queryParams: Params): MetadataFilter[] {
@@ -203,7 +211,7 @@ export class LuckySearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscription.filter((sub) => hasValue(sub)).forEach((sub) => sub.unsubscribe());
   }
 
 }
