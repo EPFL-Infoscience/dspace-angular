@@ -134,7 +134,7 @@ export class LuckySearchComponent implements OnInit {
 
     this.showMultipleSearchSection$ = this.resultsRD$.pipe(
       map(results => {
-        return results?.payload?.pageInfo?.totalElements > 1;
+        return results?.payload?.page?.length > 1;
       })
     );
   }
