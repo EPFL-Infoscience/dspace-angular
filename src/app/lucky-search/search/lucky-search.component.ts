@@ -33,15 +33,15 @@ export class LuckySearchComponent implements OnInit {
   /**
    * The current search results
    */
-  resultsRD$: Observable<RemoteData<PaginatedList<SearchResult<DSpaceObject>>>>;
+  resultsRD$: BehaviorSubject<RemoteData<PaginatedList<SearchResult<DSpaceObject>>>> = new BehaviorSubject(null);
   /**
    * flag to show the result in case of no results from search
    */
-  showEmptySearchSection$: Observable<boolean>;
+  showEmptySearchSection$ = new BehaviorSubject<boolean>(false);
   /**
    * flag to show the result in case of no results from multiple search
    */
-  showMultipleSearchSection$: Observable<boolean>;
+  showMultipleSearchSection$ = new BehaviorSubject<boolean>(false);
   /**
    * Search options to use for options of the search
    */
@@ -61,7 +61,7 @@ export class LuckySearchComponent implements OnInit {
 
   bitstreamFilters$ = new BehaviorSubject<MetadataFilter[]>(null);
   item$ = new Subject<Item>();
-  bitstreams$: Observable<Bitstream[]>;
+  bitstreams$: BehaviorSubject<Bitstream[]> = new BehaviorSubject([]);
 
 
   constructor(
@@ -93,50 +93,48 @@ export class LuckySearchComponent implements OnInit {
     }
 
     if (!(this.currentFilter.value !== '' && this.currentFilter.identifier !== '')) {
-      this.showEmptySearchSection$ = of(true);
+      this.showEmptySearchSection$.next(true);
       return;
     }
 
-    this.resultsRD$ = this.searchOptions$.pipe(
+    this.getSearchResults();
+  }
+
+  getSearchResults(){
+    this.searchOptions$.pipe(
       switchMap((options: PaginatedSearchOptions) => this.getLuckySearchResults(options)),
-        switchMap(results => {
-          if (this.hasBitstreamFilters() && results?.payload?.totalElements === 1) {
-            const item = results.payload.page[0].indexableObject as Item;
-            this.item$.next(item);
-            return this.bitstreamFilters$.pipe(
-              withLatestFrom(of(item)),
-              mergeMap(([bitstreamFilters, itemOb]) => this.loadBitstreamsAndRedirectIfNeeded(itemOb, bitstreamFilters)),
-              tap(bitstreams => {
-                this.bitstreams$ = of(bitstreams);
-                this.showEmptySearchSection$ = of(isEmpty(bitstreams));
-                if (isNotEmpty(bitstreams) && bitstreams.length === 1) {
-                  const bitstreamRoute = getBitstreamDownloadRoute(bitstreams[0]);
-                  this.redirect(bitstreamRoute);
-                }
-              }),
-              map(() => results)
-            );
-          } else if (!this.hasBitstreamFilters() && results?.payload?.totalElements === 1) {
-            const item = results.payload.page[0].indexableObject as Item;
-            this.item$.next(item);
-            const route = getItemPageRoute(item);
-            this.redirect(route);
+      switchMap(results => this.processSearchResults(results))
+    ).subscribe(results => {
+      this.resultsRD$.next(results);
+      this.showEmptySearchSection$.next(results?.payload?.page?.length === 0);
+      this.showMultipleSearchSection$.next(results?.payload?.page?.length > 1);
+    });
+  }
+
+  private processSearchResults(results: RemoteData<PaginatedList<SearchResult<DSpaceObject>>>): Observable<RemoteData<PaginatedList<SearchResult<DSpaceObject>>>> {
+    if (this.hasBitstreamFilters() && results?.payload?.totalElements === 1) {
+      const item = results.payload.page[0].indexableObject as Item;
+      this.item$.next(item);
+      return this.bitstreamFilters$.pipe(
+        withLatestFrom(of(item)),
+        mergeMap(([bitstreamFilters, itemOb]) => this.loadBitstreamsAndRedirectIfNeeded(itemOb, bitstreamFilters)),
+        tap(bitstreams => {
+          this.bitstreams$.next(bitstreams);
+          this.showEmptySearchSection$.next(isEmpty(bitstreams));
+          if (isNotEmpty(bitstreams) && bitstreams.length === 1) {
+            const bitstreamRoute = getBitstreamDownloadRoute(bitstreams[0]);
+            this.redirect(bitstreamRoute);
           }
-          return of(results);
-        })
-    );
-
-    this.showEmptySearchSection$ = this.resultsRD$.pipe(
-      map(results => {
-        return results?.payload?.pageInfo?.totalElements === 0;
-      })
-    );
-
-    this.showMultipleSearchSection$ = this.resultsRD$.pipe(
-      map(results => {
-        return results?.payload?.page?.length > 1;
-      })
-    );
+        }),
+        map(() => results)
+      );
+    } else if (!this.hasBitstreamFilters() && results?.payload?.totalElements === 1) {
+      const item = results.payload.page[0].indexableObject as Item;
+      this.item$.next(item);
+      const route = getItemPageRoute(item);
+      this.redirect(route);
+    }
+    return of(results);
   }
 
   private getLuckySearchResults(options: PaginatedSearchOptions): Observable<RemoteData<PaginatedList<SearchResult<DSpaceObject>>>> {
@@ -144,7 +142,7 @@ export class LuckySearchComponent implements OnInit {
     return this.luckySearchService.sendRequest(options).pipe(
       tap((rd: RemoteData<PaginatedList<SearchResult<DSpaceObject>>>) => {
         if (rd && rd?.state === 'Error') {
-          this.showEmptySearchSection$ = of(true);
+          this.showEmptySearchSection$.next(true);
         }
       }),
       getFirstSucceededRemoteData());
