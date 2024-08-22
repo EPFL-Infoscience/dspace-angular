@@ -21,7 +21,6 @@ import {RouterMock} from '../../shared/mocks/router.mock';
 import {MetadataMap, MetadataValue} from '../../core/shared/metadata.models';
 import {FileSizePipe} from '../../shared/utils/file-size-pipe';
 import {HardRedirectService} from '../../core/services/hard-redirect.service';
-import {TestScheduler} from 'rxjs/testing';
 import {getBitstreamDownloadRoute} from '../../app-routing-paths';
 import {PLATFORM_ID} from '@angular/core';
 
@@ -144,24 +143,12 @@ describe('LuckySearchComponent', () => {
         firstSearchResult, secondSearchResult
       ]));
 
-      component.resultsRD$ = observableOf(data);
+      component.resultsRD$.next(data);
       fixture.detectChanges();
     });
 
     it('should create', () => {
       expect(component).toBeTruthy();
-    });
-
-    it('should show multiple search section when more than one result is found', () => {
-      const testScheduler = new TestScheduler((actual, expected) => {
-        expect(actual).toEqual(expected);
-      });
-
-      testScheduler.run(({expectObservable}) => {
-        const expectedMarble = '(a|)';
-        const expectedValues = {a: true};
-        expectObservable(component.showMultipleSearchSection$).toBe(expectedMarble, expectedValues);
-      });
     });
 
     it('should display basic search form results', () => {
@@ -217,7 +204,7 @@ describe('LuckySearchComponent', () => {
       spyOn(component, 'redirect');
       spyOn(routerStub, 'parseUrl').and.returnValue(bitstreamSearchTree);
 
-      component.resultsRD$ = observableOf(data);
+      component.resultsRD$.next(data);
 
       fixture.detectChanges();
     });
@@ -280,7 +267,7 @@ describe('LuckySearchComponent', () => {
         spyOn(component, 'redirect');
         spyOn(routerStub, 'parseUrl').and.returnValue(bitstreamSearchTree);
 
-        component.resultsRD$ = observableOf(data);
+        component.resultsRD$.next(data);
 
         fixture.detectChanges();
       });
@@ -294,32 +281,40 @@ describe('LuckySearchComponent', () => {
       });
     });
 
-    it('should show empty search section when no results are found', () => {
-      const data = createSuccessfulRemoteDataObject(createPaginatedList([]));
-      component.resultsRD$ = observableOf(data);
-      fixture.detectChanges();
-
-      const testScheduler = new TestScheduler((actual, expected) => {
-        expect(actual).toEqual(expected);
-      });
-
-      testScheduler.run(({expectObservable}) => {
-        const expectedMarble = '(a|)';
-        const expectedValues = {a: true};
-        expectObservable(component.showEmptySearchSection$).toBe(expectedMarble, expectedValues);
-      });
-    });
-
     it('should not redirect when no bitstreams are found', () => {
       const item = Object.assign(new Item(), {uuid: 'item-uuid-1', name: 'Test item 1'});
       const data = createSuccessfulRemoteDataObject(createPaginatedList([
         {indexableObject: item, hitHighlights: {}}
       ])) as any;
-      component.resultsRD$ = observableOf(data);
+      component.resultsRD$.next(data);
       component.bitstreamFilters$.next([{metadataName: 'dc.title', metadataValue: 'Non-existent bitstream'}]);
       bitstreamDataService.findByItem.and.returnValue(createSuccessfulRemoteDataObject$(createPaginatedList([])));
       spyOn(component, 'redirect');
       fixture.detectChanges();
       expect(component.redirect).not.toHaveBeenCalled();
     });
+
+  it('should update showEmptySearchSection$ and showMultipleSearchSection$ based on search results', () => {
+    const emptyResults = createSuccessfulRemoteDataObject(createPaginatedList([]));
+    const multipleResults = createSuccessfulRemoteDataObject(createPaginatedList([
+      new SearchResult<DSpaceObject>(),
+      new SearchResult<DSpaceObject>()
+    ]));
+
+    spyOn(component as any, 'getLuckySearchResults').and.returnValue(observableOf(emptyResults));
+    spyOn(component as any, 'processSearchResults').and.returnValue(observableOf(emptyResults));
+
+    component.getSearchResults();
+
+    expect(component.showEmptySearchSection$.getValue()).toBe(true);
+    expect(component.showMultipleSearchSection$.getValue()).toBe(false);
+
+    (component as any).getLuckySearchResults.and.returnValue(observableOf(multipleResults));
+    (component as any).processSearchResults.and.returnValue(observableOf(multipleResults));
+
+    component.getSearchResults();
+
+    expect(component.showEmptySearchSection$.getValue()).toBe(false);
+    expect(component.showMultipleSearchSection$.getValue()).toBe(true);
+  });
 });

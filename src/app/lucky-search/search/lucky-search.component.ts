@@ -94,10 +94,9 @@ export class LuckySearchComponent implements OnInit {
 
     if (!(this.currentFilter.value !== '' && this.currentFilter.identifier !== '')) {
       this.showEmptySearchSection$.next(true);
-      return;
+    } else {
+      this.getSearchResults();
     }
-
-    this.getSearchResults();
   }
 
   getSearchResults(){
