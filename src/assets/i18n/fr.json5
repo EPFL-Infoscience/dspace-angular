@@ -1358,6 +1358,7 @@
   // "bitstream.download.page.close": "Close",
   "bitstream.download.page.close": "Fermer",
 
+
   // "bitstream.edit.authorizations.link": "Edit bitstream's Policies",
   "bitstream.edit.authorizations.link": "Modifier les modalités d'accès du Bitstream",
 
@@ -8388,7 +8389,8 @@
   // "repository.title": "Infoscience",
   "repository.title": "Infoscience",
 
-  // "repository.title.prefix": "{{ repositoryName }} - EPFL Institutional Repository ",
+  // "repository.title.prefix": "{{ repositoryName }}  - EPFL Institutional Repository  ",
+  // TODO Source message changed - Revise the translation
   "repository.title.prefix": "{{ repositoryName }} - EPFL Institutional Repository ",
 
   // "resource-policies.add.button": "Add",
@@ -11995,6 +11997,30 @@
   // "thumbnail.project.placeholder": "Project Placeholder Image",
   "thumbnail.project.placeholder": "Image de remplacement du projet",
 
+  // "thumbnail.publication.alt": "Publication Logo",
+  // TODO New key - Add a translation
+  "thumbnail.publication.alt": "Publication Logo",
+
+  // "thumbnail.publication.placeholder": "Publication Placeholder Image",
+  // TODO New key - Add a translation
+  "thumbnail.publication.placeholder": "Publication Placeholder Image",
+
+  // "thumbnail.product.alt": "Product Logo",
+  // TODO New key - Add a translation
+  "thumbnail.product.alt": "Product Logo",
+
+  // "thumbnail.product.placeholder": "Product Placeholder Image",
+  // TODO New key - Add a translation
+  "thumbnail.product.placeholder": "Product Placeholder Image",
+
+  // "thumbnail.patent.alt": "Patent Logo",
+  // TODO New key - Add a translation
+  "thumbnail.patent.alt": "Patent Logo",
+
+  // "thumbnail.patent.placeholder": "Patent Placeholder Image",
+  // TODO New key - Add a translation
+  "thumbnail.patent.placeholder": "Patent Placeholder Image",
+
   // "thumbnail.orgunit.alt": "OrgUnit Logo",
   "thumbnail.orgunit.alt": "Logo de l'organisme",
 
@@ -12830,6 +12856,10 @@
   // "lucky.search.multiple.records": "may refer to multiple records",
   "lucky.search.multiple.records": "peut faire référence à plusieurs items",
 
+  // "lucky.search.bitstream.notfound": "We are unable to find the file that you have mentioned but it seems to be related to this item.",
+  // TODO New key - Add a translation
+  "lucky.search.bitstream.notfound": "We are unable to find the file that you have mentioned but it seems to be related to this item.",
+
   // "invitation.group.msg": "You have been invited to join the following groups",
   "invitation.group.msg": "Vous avez été invité à rejoindre les groupes suivants",
 
@@ -12914,98 +12944,70 @@
   // "menu.section.explore_sectionfonds": "Fonds",
   // TODO New key - Add a translation
   "menu.section.explore_sectionfonds": "Fonds",
-
   // "menu.section.explore_sectionjournalfonds": "Journal Fonds",
   // TODO New key - Add a translation
   "menu.section.explore_sectionjournalfonds": "Journal Fonds",
-
   // "menu.section.explore_advancedsearch": "Explore",
   "menu.section.explore_advancedsearch": "Explorer",
-
   // "menu.section.explore_journals": "Journals",
   "menu.section.explore_journals": "Revues",
-
   // "menu.section.explore_events": "Events",
   "menu.section.explore_events": "Événements (conférences, etc.)",
-
   // "menu.section.explore_sectionaggregations": "Collections",
   "menu.section.explore_sectionaggregations": "Collections",
-
   // "menu.section.explore_sectiondocuments": "Documents & Other materials",
   "menu.section.explore_sectiondocuments": "Documents et autres supports",
-
   // "explore.counters-section.fonds": "Fonds",
   // TODO New key - Add a translation
   "explore.counters-section.fonds": "Fonds",
-
   // "explore.counters-section.journalfonds": "Journal Fonds",
   // TODO New key - Add a translation
   "explore.counters-section.journalfonds": "Journal Fonds",
-
   // "explore.counters-section.aggregations": "Collections",
   "explore.counters-section.aggregations": "Collections",
-
   // "explore.counters-section.documents": "Documents & Other materials",
   "explore.counters-section.documents": "Documents et autres supports",
 
   // "explore.index.titleF": "Title",
   "explore.index.titleF": "Titre",
-
   // "explore.index.typeF": "Type",
   "explore.index.typeF": "Type",
-
   // "explore.index.dateissuedF": "Date",
   "explore.index.dateissuedF": "Date",
-
   // "explore.index.subjectF": "Subject",
   "explore.index.subjectF": "Sujet",
-
   // "explore.index.titleJF": "Title",
   "explore.index.titleJF": "Titre",
-
   // "explore.index.typeJF": "Type",
   "explore.index.typeJF": "Type",
-
   // "explore.index.dateissuedJF": "Date",
   "explore.index.dateissuedJF": "Date",
-
   // "explore.index.subjectJF": "Subject",
   "explore.index.subjectJF": "Sujet",
-
   // "explore.index.titleA": "Title",
   "explore.index.titleA": "Titre",
-
   // "explore.index.typeA": "Type",
   "explore.index.typeA": "Type",
-
   // "explore.index.dateissuedA": "Date",
   "explore.index.dateissuedA": "Date",
-
   // "explore.index.subjectA": "Subject",
   "explore.index.subjectA": "Sujet",
-
   // "explore.index.path": "Path",
   "explore.index.path": "Chemin",
-
   // "explore.index.parentOrganization": "Parent Unit",
   "explore.index.parentOrganization": "Unité parente",
-
   // "explore.index.fond": "Fond",
   // TODO New key - Add a translation
   "explore.index.fond": "Fond",
   // "explore.index.journalfond": "Journal Fond",
   // TODO New key - Add a translation
   "explore.index.journalfond": "Journal Fond",
-
   // "explore.index.aggregation": "Collection",
   "explore.index.aggregation": "Collection",
-
   // "explore.index.unitOrLab": "EPFL Unit",
   "explore.index.unitOrLab": "Unité EPFL",
-
   // "explore.index.eventDate": "Event Date",
   "explore.index.eventDate": "Date de l'événement",
-
   // "explore.index.eventPlace": "Event Place",
   "explore.index.eventPlace": "Lieu de l'événement",
 
@@ -13026,19 +13028,14 @@
 
   // "explore.sectiondocuments.breadcrumbs": "Documents & Other materials",
   "explore.sectiondocuments.breadcrumbs": "Documents et autres supports",
-
   // "explore.search-section.journals.title": "Search Journals",
   "explore.search-section.journals.title": "Search une revue",
-
   // "explore.search-section.events.title": "Search for Events",
   "explore.search-section.events.title": "Rechercher un événement",
-
   // "explore.events.breadcrumbs": "Events",
   "explore.events.breadcrumbs": "Événements",
-
   // "explore.journals.breadcrumbs": "Journals",
   "explore.journals.breadcrumbs": "Revues",
-
   // "explore.sectionfonds.breadcrumbs": "Fonds",
   // TODO New key - Add a translation
   "explore.sectionfonds.breadcrumbs": "Fonds",
@@ -13104,55 +13101,39 @@
   // "search.filters.applied.f.journalfond": "Journal Fond",
   // TODO New key - Add a translation
   "search.filters.applied.f.journalfond": "Journal Fond",
-
   // "search.filters.filter.aggregation.head": "Collection",
   "search.filters.filter.aggregation.head": "Collection",
-
   // "search.filters.filter.aggregation.placeholder": "Collection name",
   "search.filters.filter.aggregation.placeholder": "Intitulé de la collection",
-
   // "search.filters.filter.aggregation.label": "Search for Collection name",
   "search.filters.filter.aggregation.label": "Recherche une collection par titre",
-
   // "search.filters.applied.f.aggregation": "Collection",
   "search.filters.applied.f.aggregation": "Collection",
 
   // "search.filters.applied.f.types": "Type",
   "search.filters.applied.f.types": "Type de ressource",
-
   // "search.filters.applied.f.datacite_rights": "Availability",
   "search.filters.applied.f.datacite_rights": "Accès",
-
   // "search.filters.applied.f.parentOrganization": "Parent unit",
   "search.filters.applied.f.parentOrganization": "Unité parente",
-
   // "search.filters.applied.f.author_editor": "Author",
   "search.filters.applied.f.author_editor": "Auteur·trice",
-
   // "search.filters.applied.f.container": "Published In",
   "search.filters.applied.f.container": "Publié dans",
-
   // "search.filters.applied.f.unitOrLab": "EPFL Unit",
   "search.filters.applied.f.unitOrLab": "Unité EPFL",
-
   // "search.filters.applied.f.role": "Position",
   "search.filters.applied.f.role": "Fonction",
-
   // "search.filters.applied.f.researcherActive": "EPFL People",
   "search.filters.applied.f.researcherActive": "Membre EPFL",
-
   // "search.filters.applied.f.publisher": "Publisher",
   "search.filters.applied.f.publisher": "Éditeur",
-
   // "search.filters.applied.f.eventPlace": "Event Place",
   "search.filters.applied.f.eventPlace": "Lieu de l'événement",
-
   // "search.filters.applied.f.eventDate.min": "Event Date start",
   "search.filters.applied.f.eventDate.min": "Date de début de l'événement",
-
   // "search.filters.applied.f.eventDate.max": "Event Date end",
   "search.filters.applied.f.eventDate.max": "Date de fin de l'événement",
-
   // "search.filters.applied.f.fundername": "Funder",
   "search.filters.applied.f.fundername": "Bailleur de fonds",
 
@@ -13607,13 +13588,8 @@
 
   // "event.page.titleprefix": "Event: ",
   "event.page.titleprefix": "Événement : ",
-
   // "patent.page.titleprefix": "Patent: ",
   "patent.page.titleprefix": "Brevet : ",
-
-  // "explore.index.unitOrLab": "EPFL Units",
-  "explore.index.unitOrLab": "Unités EPFL",
-
   // "browse.metadata.vctitle.breadcrumbs": "Browse by Title",
   "browse.metadata.vctitle.breadcrumbs": "Parcourir par titre",
 
@@ -13698,65 +13674,137 @@
   // "layout.tab.header.Funding.details": "Details",
   "layout.tab.header.Funding.details": "Détails",
 
-  // "layout.tab.header.Publication.articlemain": "Information",
-  "layout.tab.header.Publication.articlemain": "Information",
+  // "layout.tab.header.Publication.article.articlemain": "Information",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.article.articlemain": "Information",
 
-  // "layout.tab.header.Publication.articledetails": "Details",
-  "layout.tab.header.Publication.articledetails": "Détails",
+  // "layout.tab.header.Publication.article.files": "Files",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.article.files": "Files",
 
-  // "layout.tab.header.Publication.bookmain": "Information",
-  "layout.tab.header.Publication.bookmain": "Information",
+  // "layout.tab.header.Publication.article.articledetails": "Details",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.article.articledetails": "Details",
 
-  // "layout.tab.header.Publication.bookdetails": "Details",
-  "layout.tab.header.Publication.bookdetails": "Détails",
+  // "layout.tab.header.Publication.article.statistics": "Metrics",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.article.statistics": "Metrics",
 
-  // "layout.tab.header.Publication.conferencemain": "Information",
-  "layout.tab.header.Publication.conferencemain": "Information",
+  // "layout.tab.header.Publication.book.bookmain": "Information",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.book.bookmain": "Information",
 
-  // "layout.tab.header.Publication.conferencedetails": "Details",
-  "layout.tab.header.Publication.conferencedetails": "Détails",
+  // "layout.tab.header.Publication.book.files": "Files",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.book.files": "Files",
 
-  // "layout.tab.header.Publication.mediamain": "Information",
-  "layout.tab.header.Publication.mediamain": "Information",
+  // "layout.tab.header.Publication.book.bookdetails": "Details",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.book.bookdetails": "Details",
 
-  // "layout.tab.header.Publication.mediadetails": "Details",
-  "layout.tab.header.Publication.mediadetails": "Détails",
+  // "layout.tab.header.Publication.book.statistics": "Metrics",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.book.statistics": "Metrics",
 
-  // "layout.tab.header.Publication.preprintmain": "Information",
-  "layout.tab.header.Publication.preprintmain": "Information",
+  // "layout.tab.header.Publication.conference.conferencemain": "Information",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.conference.conferencemain": "Information",
 
-  // "layout.tab.header.Publication.preprintdetails": "Details",
-  "layout.tab.header.Publication.preprintdetails": "Détails",
+  // "layout.tab.header.Publication.conference.files": "Files",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.conference.files": "Files",
 
-  // "layout.tab.header.Publication.reportmain": "Information",
-  "layout.tab.header.Publication.reportmain": "Information",
+  // "layout.tab.header.Publication.conference.conferencedetails": "Details",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.conference.conferencedetails": "Details",
 
-  // "layout.tab.header.Publication.reportdetails": "Details",
-  "layout.tab.header.Publication.reportdetails": "Détails",
+  // "layout.tab.header.Publication.conference.statistics": "Metrics",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.conference.statistics": "Metrics",
 
-  // "layout.tab.header.Publication.studentmain": "Information",
-  "layout.tab.header.Publication.studentmain": "Information",
+  // "layout.tab.header.Publication.media.mediamain": "Information",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.media.mediamain": "Information",
 
-  // "layout.tab.header.Publication.studentdetails": "Details",
-  "layout.tab.header.Publication.studentdetails": "Détails",
+  // "layout.tab.header.Publication.media.files": "Files",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.media.files": "Files",
 
-  // "layout.tab.header.Publication.thesismain": "Information",
-  "layout.tab.header.Publication.thesismain": "Information",
+  // "layout.tab.header.Publication.media.mediadetails": "Details",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.media.mediadetails": "Details",
 
-  // "layout.tab.header.Publication.files": "Files",
-  "layout.tab.header.Publication.files": "Fichiers",
+  // "layout.tab.header.Publication.media.statistics": "Metrics",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.media.statistics": "Metrics",
 
-  // "layout.tab.header.Publication.thesisdetails": "Details",
-  "layout.tab.header.Publication.thesisdetails": "Détails",
+  // "layout.tab.header.Publication.preprint.preprintmain": "Information",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.preprint.preprintmain": "Information",
 
-  // "layout.tab.header.Publication.statistics": "Metrics",
-  "layout.tab.header.Publication.statistics": "Statistiques",
+  // "layout.tab.header.Publication.preprint.files": "Files",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.preprint.files": "Files",
 
-  // "layout.tab.header.Product.teachingmain": "Information",
-  "layout.tab.header.Product.teachingmain": "Information",
+  // "layout.tab.header.Publication.preprint.preprintdetails": "Details",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.preprint.preprintdetails": "Details",
 
-  // "layout.tab.header.Product.teachingdetails": "Details",
-  "layout.tab.header.Product.teachingdetails": "Détails",
+  // "layout.tab.header.Publication.preprint.statistics": "Metrics",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.preprint.statistics": "Metrics",
+
+  // "layout.tab.header.Publication.report.reportmain": "Information",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.report.reportmain": "Information",
+
+  // "layout.tab.header.Publication.report.files": "Files",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.report.files": "Files",
+
+  // "layout.tab.header.Publication.report.reportdetails": "Details",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.report.reportdetails": "Details",
+
+  // "layout.tab.header.Publication.report.statistics": "Metrics",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.report.statistics": "Metrics",
+
+  // "layout.tab.header.Publication.student.studentmain": "Information",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.student.studentmain": "Information",
+
+  // "layout.tab.header.Publication.student.files": "Files",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.student.files": "Files",
+
+  // "layout.tab.header.Publication.student.studentdetails": "Details",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.student.studentdetails": "Details",
+
+  // "layout.tab.header.Publication.student.statistics": "Metrics",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.student.statistics": "Metrics",
+
+  // "layout.tab.header.Publication.thesis.thesismain": "Information",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.thesis.thesismain": "Information",
+
+  // "layout.tab.header.Publication.thesis.files": "Files",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.thesis.files": "Files",
+
+  // "layout.tab.header.Publication.thesis.thesisdetails": "Details",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.thesis.thesisdetails": "Details",
+
+  // "layout.tab.header.Publication.thesis.statistics": "Metrics",
+  // TODO New key - Add a translation
+  "layout.tab.header.Publication.thesis.statistics": "Metrics",
+
+  // "layout.tab.header.Product.teaching.teachingmain": "Information",
+  // TODO New key - Add a translation
+  "layout.tab.header.Product.teaching.teachingmain": "Information",
 
   // "layout.tab.header.Product.datasetmain": "Information",
   "layout.tab.header.Product.datasetmain": "Information",
@@ -13764,23 +13812,12 @@
   // "layout.tab.header.Product.files": "Files",
   "layout.tab.header.Product.files": "Fichiers",
 
-  // "layout.tab.header.Product.dataset.datasetdetails": "Details",
-  "layout.tab.header.Product.dataset.datasetdetails": "Détails",
-
-  // "layout.tab.header.Product.dataset.statistics": "Metrics",
-  "layout.tab.header.Product.dataset.statistics": "Statistiques",
+  // "layout.tab.header.Product.datasetdetails": "Details",
+  // TODO New key - Add a translation
+  "layout.tab.header.Product.datasetdetails": "Details",
 
   // "layout.tab.header.Product.statistics": "Metrics",
   "layout.tab.header.Product.statistics": "Statistiques",
-
-  // "layout.tab.header.Product.designmain": "Information",
-  "layout.tab.header.Product.designmain": "Information",
-
-  // "layout.tab.header.Product.design.files": "Files",
-  "layout.tab.header.Product.files": "Fichiers",
-
-  // "layout.tab.header.Product.designdetails": "Details",
-  "layout.tab.header.Product.designdetails": "Détails",
 
   // "layout.tab.header.Patent.patentmain": "Information",
   "layout.tab.header.Patent.patentmain": "Information",
@@ -13791,7 +13828,8 @@
   // "layout.tab.header.Patent.patentdetails": "Details",
   "layout.tab.header.Patent.patentdetails": "Détails",
 
-  // "layout.tab.header.Patent.statistics": "Statistiques",
+  // "layout.tab.header.Patent.statistics": "Metrics",
+  // TODO Source message changed - Revise the translation
   "layout.tab.header.Patent.statistics": "Statistiques",
 
   // "layout.box.header.Person.researchoutputs": "Scholarly works",
@@ -13949,7 +13987,6 @@
 
   // "layout.field.label.OrgUnit.epfl.orgUnit.active": "Status",
   "layout.field.label.OrgUnit.epfl.orgUnit.active": "Statut",
-
   // "layout.field.label.Journal.dc.publisher": "Publisher",
   "layout.field.label.Journal.dc.publisher": "Editeur",
 
@@ -13976,9 +14013,6 @@
 
   // "layout.field.label.Publication.dc.identifier.uri": "Use this identifier to reference this record ",
   "layout.field.label.Publication.dc.identifier.uri": "Utiliser cet identifiant pour citer cette référence ",
-
-  // "layout.field.label.Product.dc.identifier.uri": "Use this identifier to reference this record ",
-  "layout.field.label.Product.dc.identifier.uri": "Utiliser cet identifiant pour citer cette référence ",
 
   // "layout.field.label.Publication.dc.type": "Type",
   "layout.field.label.Publication.dc.type": "Type",
@@ -14052,6 +14086,138 @@
   // "layout.field.label.Publication.dc.date.available": "Available on Infoscience",
   "layout.field.label.Publication.dc.date.available": "Disponibilité sur Infoscience",
 
+  // "layout.field.label.Publication.dc.type": "Type",
+  "layout.field.label.Publication.dc.type": "Type",
+
+  // "layout.field.label.Publication.dc.identifier.isbn": "ISBN",
+  "layout.field.label.Publication.dc.identifier.isbn": "ISBN",
+
+  // "layout.field.label.Publication.dc.identifier.doi": "DOI",
+  "layout.field.label.Publication.dc.identifier.doi": "DOI",
+
+  // "layout.field.label.Publication.dc.identifier.isi": "Web of Science ID",
+  "layout.field.label.Publication.dc.identifier.isi": " ID Web of Science",
+
+  // "layout.field.label.Publication.dc.identifier.scopus": "Scopus ID",
+  "layout.field.label.Publication.dc.identifier.scopus": "ID Scopus",
+
+  // "layout.field.label.Publication.dc.identifier.pmid": "PubMed ID",
+  "layout.field.label.Publication.dc.identifier.pmid": "ID PubMed",
+
+  // "layout.field.label.Publication.dc.identifier.arxiv": "ArXiv ID",
+  "layout.field.label.Publication.dc.identifier.arxiv": "ID ArXiv",
+
+  // "layout.field.label.Publication.dc.contributor.author": "Authors",
+  "layout.field.label.Publication.dc.contributor.author": "Auteur·trices",
+
+  // "layout.field.label.Publication.dc.contributor.scientificeditor": "Editors",
+  "layout.field.label.Publication.dc.contributor.scientificeditor": "Editeur·trices scientifiques",
+
+  // "layout.field.label.Publication.dc.contributor": "Corporate authors",
+  "layout.field.label.Publication.dc.contributor": "Collectif d'auteurs",
+
+  // "layout.field.label.Publication.dc.date.issued": "Publication date",
+  "layout.field.label.Publication.dc.date.issued": "Date de publication",
+
+  // "layout.field.label.Publication.dc.publisher": "Publisher",
+  "layout.field.label.Publication.dc.publisher": "Editeur",
+
+  // "layout.field.label.Publication.dc.relation.ispartof": "Published in",
+  "layout.field.label.Publication.dc.relation.ispartof": "Publié dans",
+
+  // "layout.field.label.Publication.dc.relation.doi": "DOI of the book",
+  "layout.field.label.Publication.dc.relation.doi": "DOI de l'ouvrage",
+
+  // "layout.field.label.Publication.dc.relation.isbn": "ISBN of the book",
+  "layout.field.label.Publication.dc.relation.isbn": "ISBN de l'ouvrage",
+
+  // "layout.field.label.Publication.dc.publisher.place": "Publisher place",
+  "layout.field.label.Publication.dc.publisher.place": "Lieu d'édition",
+
+  // "layout.field.label.Publication.dc.description.edition": "Edition",
+  "layout.field.label.Publication.dc.description.edition": "Mention d'édition",
+
+  // "layout.field.label.Publication.dc.size": "Total of pages",
+  "layout.field.label.Publication.dc.size": "Nombre de pages",
+
+  // "layout.field.label.Publication.epfl.part.name": "Book part title",
+  "layout.field.label.Publication.epfl.part.name": "Titre de la partie",
+
+  // "layout.field.label.Publication.epfl.part.number": "Book part number",
+  "layout.field.label.Publication.epfl.part.number": "Numéro de la partie",
+
+  // "layout.field.label.Publication.oaire.citation.startPage": "Start page",
+  "layout.field.label.Publication.oaire.citation.startPage": "Page de début",
+
+  // "layout.field.label.Publication.oaire.citation.endPage": "End page",
+  "layout.field.label.Publication.oaire.citation.endPage": "Page de fin",
+
+  // "layout.field.label.Publication.dc.relation.ispartofseries": "Series title/Series vol.",
+  "layout.field.label.Publication.dc.relation.ispartofseries": "Titre de la série/vol.",
+
+  // "layout.field.label.Publication.dc.relation.serieissn": "ISSN (of the series)",
+  "layout.field.label.Publication.dc.relation.serieissn": "ISSN (de la série)",
+
+  // "layout.field.label.Publication.oaire.citation.volume": "Volume",
+  "layout.field.label.Publication.oaire.citation.volume": "Volume",
+
+  // "layout.field.label.Publication.oaire.citation.issue": "Issue",
+  "layout.field.label.Publication.oaire.citation.issue": "Numéro",
+
+  // "layout.field.label.Publication.dc.subject": "Subjects",
+  "layout.field.label.Publication.dc.subject": "Sujets",
+
+  // "layout.field.label.Publication.dc.description": "Note",
+  "layout.field.label.Publication.dc.description": "Note",
+
+  // "layout.field.label.Publication.epfl.url": "Additional link",
+  "layout.field.label.Publication.epfl.url": "lien complémentaire",
+
+  // "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+
+  // "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
+  "layout.field.label.Publication.dc.description.sponsorship": "Unités EPFL",
+
+  // "layout.field.label.Publication.dc.date.available": "Available on Infoscience",
+  "layout.field.label.Publication.dc.date.available": "Disponibilité sur Infoscience",
+
+  // "layout.field.label.Publication.dc.type": "Type",
+  "layout.field.label.Publication.dc.type": "Type",
+
+  // "layout.field.label.Publication.dc.identifier.isbn": "ISBN",
+  "layout.field.label.Publication.dc.identifier.isbn": "ISBN",
+
+  // "layout.field.label.Publication.dc.identifier.doi": "DOI",
+  "layout.field.label.Publication.dc.identifier.doi": "DOI",
+
+  // "layout.field.label.Publication.dc.identifier.isi": "Web of Science ID",
+  "layout.field.label.Publication.dc.identifier.isi": " ID Web of Science",
+
+  // "layout.field.label.Publication.dc.identifier.scopus": "Scopus ID",
+  "layout.field.label.Publication.dc.identifier.scopus": "ID Scopus",
+
+  // "layout.field.label.Publication.dc.identifier.pmid": "PubMed ID",
+  "layout.field.label.Publication.dc.identifier.pmid": "ID PubMed",
+
+  // "layout.field.label.Publication.dc.identifier.arxiv": "ArXiv ID",
+  "layout.field.label.Publication.dc.identifier.arxiv": "ID ArXiv",
+
+  // "layout.field.label.Publication.dc.contributor.author": "Authors",
+  "layout.field.label.Publication.dc.contributor.author": "Auteur·trices",
+
+  // "layout.field.label.Publication.dc.contributor.scientificeditor": "Editors",
+  "layout.field.label.Publication.dc.contributor.scientificeditor": "Editeur·trices scientifiques",
+
+  // "layout.field.label.Publication.dc.contributor": "Corporate authors",
+  "layout.field.label.Publication.dc.contributor": "Collectif d'auteurs",
+
+  // "layout.field.label.Publication.dc.date.issued": "Publication date",
+  "layout.field.label.Publication.dc.date.issued": "Date de publication",
+
+  // "layout.field.label.Publication.dc.publisher": "Publisher",
+  "layout.field.label.Publication.dc.publisher": "Editeur",
+
   // "layout.field.label.Publication.dc.relation.ispartof": "Published in",
   "layout.field.label.Publication.dc.relation.ispartof": "Publié dans",
 
@@ -14082,11 +14248,122 @@
   // "layout.field.label.Publication.dc.relation.serieissn": "ISSN (of the series)",
   "layout.field.label.Publication.dc.relation.serieissn": "ISSN (de la série)",
 
+  // "layout.field.label.Publication.dc.relation.journal": "Journal title",
+  "layout.field.label.Publication.dc.relation.journal": "Publié dans",
+
+  // "layout.field.label.Publication.oaire.citation.volume": "Volume",
+  "layout.field.label.Publication.oaire.citation.volume": "Volume",
+
+  // "layout.field.label.Publication.oaire.citation.issue": "Issue",
+  "layout.field.label.Publication.oaire.citation.issue": "Numéro",
+
+  // "layout.field.label.Publication.oaire.citation.articlenumber": "Article Number",
+  "layout.field.label.Publication.oaire.citation.articlenumber": "Numéro de l'article",
+
+  // "layout.field.label.Publication.oaire.citation.startPage": "Start page",
+  "layout.field.label.Publication.oaire.citation.startPage": "Page de début",
+
+  // "layout.field.label.Publication.oaire.citation.endPage": "End page",
+  "layout.field.label.Publication.oaire.citation.endPage": "Page de fin",
+
+  // "layout.field.label.Publication.dc.subject": "Subjects",
+  "layout.field.label.Publication.dc.subject": "Sujets",
+
+  // "layout.field.label.Publication.dc.description": "Note",
+  "layout.field.label.Publication.dc.description": "Note",
+
+  // "layout.field.label.Publication.epfl.url": "Additional link",
+  "layout.field.label.Publication.epfl.url": "lien complémentaire",
+
+  // "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+
+  // "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
+  "layout.field.label.Publication.dc.description.sponsorship": "Unités EPFL",
+
+  // "layout.field.label.Publication.dc.date.available": "Available on Infoscience",
+  "layout.field.label.Publication.dc.date.available": "Disponibilité sur Infoscience",
+
+  // "layout.field.label.Publication.dc.type": "Type",
+  "layout.field.label.Publication.dc.type": "Type",
+
+  // "layout.field.label.Publication.dc.contributor.author": "Authors",
+  "layout.field.label.Publication.dc.contributor.author": "Auteur·trices",
+
+  // "layout.field.label.Publication.dc.contributor": "Corporate authors",
+  "layout.field.label.Publication.dc.contributor": "Collectif d'auteurs",
+
+  // "layout.field.label.Publication.dc.date.issued": "Publication date",
+  "layout.field.label.Publication.dc.date.issued": "Date de publication",
+
+  // "layout.field.label.Publication.dc.relation.ispartof": "Published in",
+  "layout.field.label.Publication.dc.relation.ispartof": "Publié dans",
+
   // "layout.field.label.Publication.epfl.part.section": "Section",
   "layout.field.label.Publication.epfl.part.section": "Section",
 
+  // "layout.field.label.Publication.dc.subject": "Subjects",
+  "layout.field.label.Publication.dc.subject": "Sujets",
+
+  // "layout.field.label.Publication.dc.description": "Note",
+  "layout.field.label.Publication.dc.description": "Note",
+
+  // "layout.field.label.Publication.epfl.url": "Additional link",
+  "layout.field.label.Publication.epfl.url": "lien complémentaire",
+
+  // "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
+  "layout.field.label.Publication.dc.description.sponsorship": "Unités EPFL",
+
+  // "layout.field.label.Publication.dc.date.available": "Available on Infoscience",
+  "layout.field.label.Publication.dc.date.available": "Disponibilité sur Infoscience",
+
+  // "layout.field.label.Publication.dc.type": "Type",
+  "layout.field.label.Publication.dc.type": "Type",
+
+  // "layout.field.label.Publication.dc.identifier.doi": "DOI",
+  "layout.field.label.Publication.dc.identifier.doi": "DOI",
+
+  // "layout.field.label.Publication.dc.identifier.arxiv": "ArXiv ID",
+  "layout.field.label.Publication.dc.identifier.arxiv": "ID ArXiv",
+
+  // "layout.field.label.Publication.dc.contributor.author": "Authors",
+  "layout.field.label.Publication.dc.contributor.author": "Auteur·trices",
+
+  // "layout.field.label.Publication.dc.contributor": "Corporate authors",
+  "layout.field.label.Publication.dc.contributor": "Collectif d'auteurs",
+
+  // "layout.field.label.Publication.dc.date.issued": "Publication date",
+  "layout.field.label.Publication.dc.date.issued": "Date de publication",
+
+  // "layout.field.label.Publication.dc.subject": "Subjects",
+  "layout.field.label.Publication.dc.subject": "Sujets",
+
   // "layout.field.label.Publication.local.arxiv.sourceCategory": "Subjects arXiv",
   "layout.field.label.Publication.local.arxiv.sourceCategory": "Sujets arXiv",
+
+  // "layout.field.label.Publication.dc.description": "Note",
+  "layout.field.label.Publication.dc.description": "Note",
+
+  // "layout.field.label.Publication.epfl.url": "Additional link",
+  "layout.field.label.Publication.epfl.url": "lien complémentaire",
+
+  // "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+
+  // "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
+  "layout.field.label.Publication.dc.description.sponsorship": "Unités EPFL",
+
+  // "layout.field.label.Publication.dc.date.available": "Available on Infoscience",
+  "layout.field.label.Publication.dc.date.available": "Disponibilité sur Infoscience",
+
+  // "layout.field.label.Publication.dc.type": "Type",
+  "layout.field.label.Publication.dc.type": "Type",
+
+  // "layout.field.label.Publication.dc.identifier.isbn": "ISBN",
+  "layout.field.label.Publication.dc.identifier.isbn": "ISBN",
+
+  // "layout.field.label.Publication.dc.identifier.doi": "DOI",
+  "layout.field.label.Publication.dc.identifier.doi": "DOI",
 
   // "layout.field.label.Publication.dc.identifier.reportno": "Report number",
   "layout.field.label.Publication.dc.identifier.reportno": "Numéro du rapport",
@@ -14094,17 +14371,81 @@
   // "layout.field.label.Publication.dc.identifier.standardno": "Standard number",
   "layout.field.label.Publication.dc.identifier.standardno": "Identifiant de la norme",
 
+  // "layout.field.label.Publication.dc.contributor.author": "Authors",
+  "layout.field.label.Publication.dc.contributor.author": "Auteur·trices",
+
+  // "layout.field.label.Publication.dc.contributor": "Corporate authors",
+  "layout.field.label.Publication.dc.contributor": "Collectif d'auteurs",
+
+  // "layout.field.label.Publication.dc.date.issued": "Date published",
+  // TODO Source message changed - Revise the translation
+  "layout.field.label.Publication.dc.date.issued": "Date de publication",
+
+  // "layout.field.label.Publication.dc.size": "Total of pages",
+  "layout.field.label.Publication.dc.size": "Nombre de pages",
+
+  // "layout.field.label.Publication.dc.subject": "Subjects",
+  "layout.field.label.Publication.dc.subject": "Sujets",
+
+  // "layout.field.label.Publication.dc.description": "Note",
+  "layout.field.label.Publication.dc.description": "Note",
+
+  // "layout.field.label.Publication.epfl.url": "Additional link",
+  "layout.field.label.Publication.epfl.url": "lien complémentaire",
+
+  // "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+
+  // "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
+  "layout.field.label.Publication.dc.description.sponsorship": "Unités EPFL",
+
+  // "layout.field.label.Publication.dc.date.available": "Available on Infoscience",
+  "layout.field.label.Publication.dc.date.available": "Disponibilité sur Infoscience",
+
+  // "layout.field.label.Publication.dc.type": "Type",
+  "layout.field.label.Publication.dc.type": "Type",
+
+  // "layout.field.label.Publication.dc.identifier.doi": "DOI",
+  "layout.field.label.Publication.dc.identifier.doi": "DOI",
+
+  // "layout.field.label.Publication.dc.contributor.author": "Authors",
+  "layout.field.label.Publication.dc.contributor.author": "Auteur·trices",
+
   // "layout.field.label.Publication.dc.contributor.advisor": "Advisors",
   "layout.field.label.Publication.dc.contributor.advisor": "Directeur·trices",
 
   // "layout.field.label.Publication.epfl.thesis.jury": "Jury",
   "layout.field.label.Publication.epfl.thesis.jury": "Jury",
 
+  // "layout.field.label.Publication.dc.date.issued": "Publication date",
+  "layout.field.label.Publication.dc.date.issued": "Date de publication",
+
+  // "layout.field.label.Publication.dc.publisher": "Publisher",
+  "layout.field.label.Publication.dc.publisher": "Editeur",
+
+  // "layout.field.label.Publication.dc.publisher.place": "Publisher place",
+  "layout.field.label.Publication.dc.publisher.place": "Lieu d'édition",
+
   // "layout.field.label.Publication.epfl.thesis.publicDefenseYear": "Public defense year",
   "layout.field.label.Publication.epfl.thesis.publicDefenseYear": "Année de soutenance",
 
   // "layout.field.label.Publication.epfl.thesis.number": "Thesis number",
   "layout.field.label.Publication.epfl.thesis.number": "Numéro de la thèse",
+
+  // "layout.field.label.Publication.dc.size": "Total of pages",
+  "layout.field.label.Publication.dc.size": "Nombre de pages",
+
+  // "layout.field.label.Publication.dc.subject": "Subjects",
+  "layout.field.label.Publication.dc.subject": "Sujets",
+
+  // "layout.field.label.Publication.dc.description": "Note",
+  "layout.field.label.Publication.dc.description": "Note",
+
+  // "layout.field.label.Publication.epfl.url": "Additional link",
+  "layout.field.label.Publication.epfl.url": "lien complémentaire",
+
+  // "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
+  "layout.field.label.Publication.dc.description.sponsorship": "Unités EPFL",
 
   // "layout.field.label.Publication.epfl.thesis.faculty": "Faculty",
   "layout.field.label.Publication.epfl.thesis.faculty": "Faculté",
@@ -14121,11 +14462,81 @@
   // "layout.field.label.Publication.epfl.award": "Awards",
   "layout.field.label.Publication.epfl.award": "Prix",
 
+  // "layout.field.label.Publication.dc.date.available": "Available on Infoscience",
+  "layout.field.label.Publication.dc.date.available": "Disponibilité sur Infoscience",
+
+  // "layout.field.label.Publication.dc.type": "Type",
+  "layout.field.label.Publication.dc.type": "Type",
+
+  // "layout.field.label.Publication.dc.identifier.doi": "DOI",
+  "layout.field.label.Publication.dc.identifier.doi": "DOI",
+
+  // "layout.field.label.Publication.dc.contributor.author": "Authors",
+  "layout.field.label.Publication.dc.contributor.author": "Auteur·trices",
+
+  // "layout.field.label.Publication.dc.contributor.advisor": "Advisors",
+  "layout.field.label.Publication.dc.contributor.advisor": "Directeur·trices",
+
+  // "layout.field.label.Publication.epfl.thesis.jury": "Jury",
+  "layout.field.label.Publication.epfl.thesis.jury": "Jury",
+
+  // "layout.field.label.Publication.dc.date.issued": "Publication date",
+  "layout.field.label.Publication.dc.date.issued": "Date de publication",
+
+  // "layout.field.label.Publication.dc.publisher": "Publisher",
+  "layout.field.label.Publication.dc.publisher": "Editeur",
+
+  // "layout.field.label.Publication.dc.publisher.place": "Publisher place",
+  "layout.field.label.Publication.dc.publisher.place": "Lieu d'édition",
+
+  // "layout.field.label.Publication.epfl.thesis.publicDefenseYear": "Public defense year",
+  "layout.field.label.Publication.epfl.thesis.publicDefenseYear": "Année de soutenance",
+
+  // "layout.field.label.Publication.epfl.thesis.number": "Thesis number",
+  "layout.field.label.Publication.epfl.thesis.number": "Numéro de la thèse",
+
+  // "layout.field.label.Publication.dc.size": "Total of pages",
+  "layout.field.label.Publication.dc.size": "Nombre de pages",
+
+  // "layout.field.label.Publication.dc.subject": "Subjects",
+  "layout.field.label.Publication.dc.subject": "Sujets",
+
+  // "layout.field.label.Publication.dc.description": "Note",
+  "layout.field.label.Publication.dc.description": "Note",
+
+  // "layout.field.label.Publication.epfl.url": "Additional link",
+  "layout.field.label.Publication.epfl.url": "lien complémentaire",
+
+  // "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
+  "layout.field.label.Publication.dc.description.sponsorship": "Unités EPFL",
+
+  // "layout.field.label.Publication.epfl.thesis.faculty": "Faculty",
+  "layout.field.label.Publication.epfl.thesis.faculty": "Faculté",
+
+  // "layout.field.label.Publication.epfl.thesis.section": "Section",
+  "layout.field.label.Publication.epfl.thesis.section": "Section",
+
+  // "layout.field.label.Publication.epfl.thesis.institute": "School",
+  "layout.field.label.Publication.epfl.thesis.institute": "Collège",
+
+  // "layout.field.label.Publication.epfl.thesis.doctoralSchool": "Doctoral School",
+  "layout.field.label.Publication.epfl.thesis.doctoralSchool": "Programme doctoral",
+
+  // "layout.field.label.Publication.epfl.award": "Awards",
+  "layout.field.label.Publication.epfl.award": "Prix",
+
+  // "layout.field.label.Publication.dc.date.available": "Available on Infoscience",
+  "layout.field.label.Publication.dc.date.available": "Disponibilité sur Infoscience",
+
+  // "layout.field.label.Product.dc.identifier.uri": "Use this identifier to reference this record ",
+  "layout.field.label.Product.dc.identifier.uri": "Utiliser cet identifiant pour citer cette référence ",
+
   // "layout.field.label.Product.dc.type": "File(s)",
   "layout.field.label.Product.dc.type": "Fichiers",
 
   // "layout.field.label.Product.dc.type": "Type",
-  "layout.field.label.Product.dc.type": "Type",
+  // TODO Source message changed - Revise the translation
+  "layout.field.label.Product.dc.type": "Fichiers",
 
   // "layout.field.label.Product.dc.contributor.author": "Creators",
   "layout.field.label.Product.dc.contributor.author": "Createur·trices",
@@ -14160,11 +14571,21 @@
   // "layout.field.label.Product.dc.date.available": "Available on Infoscience",
   "layout.field.label.Product.dc.date.available": "Disponibilité sur Infoscience",
 
+  // "layout.field.label.Product.dc.type": "Type",
+  // TODO Source message changed - Revise the translation
+  "layout.field.label.Product.dc.type": "Fichiers",
+
   // "layout.field.label.Product.dc.identifier.doi": "DOI",
   "layout.field.label.Product.dc.identifier.doi": "DOI",
 
+  // "layout.field.label.Product.dc.contributor.author": "Creators",
+  "layout.field.label.Product.dc.contributor.author": "Createur·trices",
+
   // "layout.field.label.Product.dc.contributor": "Contributors",
   "layout.field.label.Product.dc.contributor": "Contributeur·trices",
+
+  // "layout.field.label.Product.dc.date.issued": "Publication date",
+  "layout.field.label.Product.dc.date.issued": "Date de publication",
 
   // "layout.field.label.Product.datacite.geoLocation": "Geographic coverage",
   "layout.field.label.Product.datacite.geoLocation": "Couverture Géographique",
@@ -14175,8 +14596,66 @@
   // "layout.field.label.Product.dc.publisher": "Publisher",
   "layout.field.label.Product.dc.publisher": "Editeur",
 
+  // "layout.field.label.Product.dc.size": "Main content size, duration",
+  "layout.field.label.Product.dc.size": "Taille, durée",
+
+  // "layout.field.label.Product.dc.format.extent": "Main content format",
+  "layout.field.label.Product.dc.format.extent": "Format",
+
+  // "layout.field.label.Product.dc.subject": "Subjects",
+  "layout.field.label.Product.dc.subject": "Sujets",
+
+  // "layout.field.label.Product.dc.description": "Note",
+  "layout.field.label.Product.dc.description": "Note",
+
+  // "layout.field.label.Product.epfl.url": "Additional link",
+  "layout.field.label.Product.epfl.url": "Lien complémentaire",
+
+  // "layout.field.label.Product.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Product.epfl.peerreviewed": "Peer reviewed",
+
+  // "layout.field.label.Product.dc.description.sponsorship": "EPFL units",
+  "layout.field.label.Product.dc.description.sponsorship": "Unités EPFL",
+
+  // "layout.field.label.Product.dc.date.available": "Available on Infoscience",
+  "layout.field.label.Product.dc.date.available": "Disponibilité sur Infoscience",
+
+  // "layout.field.label.Product.dc.type": "Type",
+  // TODO Source message changed - Revise the translation
+  "layout.field.label.Product.dc.type": "Fichiers",
+
+  // "layout.field.label.Product.dc.contributor.author": "Creators",
+  "layout.field.label.Product.dc.contributor.author": "Createur·trices",
+
+  // "layout.field.label.Product.dc.date.issued": "Publication date",
+  "layout.field.label.Product.dc.date.issued": "Date de publication",
+
   // "layout.field.label.Product.dc.relation.ispartof": "Published in",
   "layout.field.label.Product.dc.relation.ispartof": "Publié dans",
+
+  // "layout.field.label.Product.dc.size": "Main content size, duration",
+  "layout.field.label.Product.dc.size": "Taille, durée",
+
+  // "layout.field.label.Product.dc.format.extent": "Main content format",
+  "layout.field.label.Product.dc.format.extent": "Format",
+
+  // "layout.field.label.Product.dc.subject": "Subjects",
+  "layout.field.label.Product.dc.subject": "Sujets",
+
+  // "layout.field.label.Product.dc.description": "Note",
+  "layout.field.label.Product.dc.description": "Note",
+
+  // "layout.field.label.Product.epfl.url": "Additional link",
+  "layout.field.label.Product.epfl.url": "Lien complémentaire",
+
+  // "layout.field.label.Product.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Product.epfl.peerreviewed": "Peer reviewed",
+
+  // "layout.field.label.Product.dc.description.sponsorship": "EPFL units",
+  "layout.field.label.Product.dc.description.sponsorship": "Unités EPFL",
+
+  // "layout.field.label.Product.dc.date.available": "Available on Infoscience",
+  "layout.field.label.Product.dc.date.available": "Disponibilité sur Infoscience",
 
   // "layout.field.label.Patent.dc.identifier.uri": "Use this identifier to reference this record ",
   "layout.field.label.Patent.dc.identifier.uri": "Utiliser cet identifiant pour citer cette référence ",
@@ -14185,7 +14664,8 @@
   "layout.field.label.Patent.dc.type": "Fichiers",
 
   // "layout.field.label.Patent.dc.type": "Patent Type",
-  "layout.field.label.Patent.dc.type": "Type de brevet",
+  // TODO Source message changed - Revise the translation
+  "layout.field.label.Patent.dc.type": "Fichiers",
 
   // "layout.field.label.Patent.dc.identifier.epo": "EPO Family ID",
   "layout.field.label.Patent.dc.identifier.epo": "ID EPO Family",
@@ -14311,13 +14791,32 @@
   "layout.field.label.Person.oairecerif.affiliation.role": "Fonction",
 
   // "layout.field.label.Person.oairecerif.person.affiliation": "EPFL Unit",
-  "layout.field.label.Person.oairecerif.person.affiliation": "Unité EPFL",
+  // TODO Source message changed - Revise the translation
+  "layout.field.label.Person.oairecerif.person.affiliation": "Affiliations EPFL",
 
   // "layout.field.label.Person.oairecerif.affiliation.endDate": "Affiliation end date",
   "layout.field.label.Person.oairecerif.affiliation.endDate": "Date de fin d'affiliation",
 
+  // "layout.field.label.Publication.dc.date.issued": "Publication date",
+  "layout.field.label.Publication.dc.date.issued": "Date de publication",
+
+  // "layout.field.label.Publication.dc.relation.ispartof": "Published in",
+  "layout.field.label.Publication.dc.relation.ispartof": "Publié dans",
+
+  // "layout.field.label.Publication.dc.date.issued": "Publication date",
+  "layout.field.label.Publication.dc.date.issued": "Date de publication",
+
+  // "layout.field.label.Publication.dc.relation.journal": "Published in",
+  // TODO Source message changed - Revise the translation
+  "layout.field.label.Publication.dc.relation.journal": "Publié dans",
+
+  // "layout.field.label.Publication.epfl.url.description": "Additional link",
+  // TODO New key - Add a translation
+  "layout.field.label.Publication.epfl.url.description": "Additional link",
+
   // "layout.field.label.Publication.epfl.url": "URL",
-  "layout.field.label.Publication.epfl.url": "URL",
+  // TODO Source message changed - Revise the translation
+  "layout.field.label.Publication.epfl.url": "lien complémentaire",
 
   // "layout.field.label.Publication.oairecerif.funder": "Funder",
   "layout.field.label.Publication.oairecerif.funder": "Bailleur de fonds",
@@ -14344,6 +14843,7 @@
   "layout.field.label.Publication.oaire.citation.conferenceDate": "Date de l'événement",
 
   // "layout.field.label.Publication.epfl.award": "Award",
+  // TODO Source message changed - Revise the translation
   "layout.field.label.Publication.epfl.award": "Prix",
 
   // "layout.field.label.Publication.epfl.award.year": "Award date",
@@ -14358,14 +14858,26 @@
   // "layout.field.label.Publication.datacite.relatedIdentifier": "URL/DOI",
   "layout.field.label.Publication.datacite.relatedIdentifier": "URL/DOI",
 
+  // "layout.field.label.Product.dc.type": "Type",
+  // TODO Source message changed - Revise the translation
+  "layout.field.label.Product.dc.type": "Fichiers",
+
   // "layout.field.label.Product.datacite.rights": "Access rights",
   "layout.field.label.Product.datacite.rights": "Conditions d'accès",
+
+  // "layout.field.label.Product.dc.date.issued": "Date Issued",
+  // TODO Source message changed - Revise the translation
+  "layout.field.label.Product.dc.date.issued": "Date de publication",
+
+  // "layout.field.label.Product.dc.publisher": "Publisher",
+  "layout.field.label.Product.dc.publisher": "Editeur",
 
   // "layout.field.label.Product.epfl.url.description": "Link description",
   "layout.field.label.Product.epfl.url.description": "Description",
 
   // "layout.field.label.Product.epfl.url": "URL",
-  "layout.field.label.Product.epfl.url": "URL",
+  // TODO Source message changed - Revise the translation
+  "layout.field.label.Product.epfl.url": "Lien complémentaire",
 
   // "layout.field.label.Product.oairecerif.funder": "Funder",
   "layout.field.label.Product.oairecerif.funder": "Bailleur de fonds",
@@ -14373,7 +14885,8 @@
   // "layout.field.label.Product.dc.relation.funding": "Grant Name",
   "layout.field.label.Product.dc.relation.funding": "Intitulé du Grant",
 
-  // "layout.field.label.Product.dc.relation.grantno": "Grant Number",
+  // "layout.field.label.Product.dc.relation.grantno": "Grant NO",
+  // TODO Source message changed - Revise the translation
   "layout.field.label.Product.dc.relation.grantno": "Numéro du Grant",
 
   // "layout.field.label.Product.crisfund.award.uri": "Grant URL",
@@ -14391,6 +14904,42 @@
   // "layout.field.label.Product.oaire.citation.conferenceDate": "Event date",
   "layout.field.label.Product.oaire.citation.conferenceDate": "Date de l'événement",
 
+  // "layout.field.label.Product.epfl.relationpublication.type": "Relation",
+  // TODO New key - Add a translation
+  "layout.field.label.Product.epfl.relationpublication.type": "Relation",
+
+  // "layout.field.label.Product.dc.relation.publication": "Publication title",
+  // TODO New key - Add a translation
+  "layout.field.label.Product.dc.relation.publication": "Publication title",
+
+  // "layout.field.label.Product.epfl.relationpublication.identifier": "URL or DOI",
+  // TODO New key - Add a translation
+  "layout.field.label.Product.epfl.relationpublication.identifier": "URL or DOI",
+
+  // "layout.field.label.Product.epfl.relationpatent.type": "Relation",
+  // TODO New key - Add a translation
+  "layout.field.label.Product.epfl.relationpatent.type": "Relation",
+
+  // "layout.field.label.Product.dc.relation.patent": "Publication title",
+  // TODO New key - Add a translation
+  "layout.field.label.Product.dc.relation.patent": "Publication title",
+
+  // "layout.field.label.Product.epfl.relationpatent.identifier": "URL or DOI",
+  // TODO New key - Add a translation
+  "layout.field.label.Product.epfl.relationpatent.identifier": "URL or DOI",
+
+  // "layout.field.label.Product.epfl.relationproduct.type": "Relation",
+  // TODO New key - Add a translation
+  "layout.field.label.Product.epfl.relationproduct.type": "Relation",
+
+  // "layout.field.label.Product.dc.relation.product": "Publication title",
+  // TODO New key - Add a translation
+  "layout.field.label.Product.dc.relation.product": "Publication title",
+
+  // "layout.field.label.Product.epfl.relationproduct.identifier": "URL or DOI",
+  // TODO New key - Add a translation
+  "layout.field.label.Product.epfl.relationproduct.identifier": "URL or DOI",
+
   // "layout.field.label.Product.datacite.relationType": "Relation",
   "layout.field.label.Product.datacite.relationType": "Relation",
 
@@ -14401,7 +14950,8 @@
   "layout.field.label.Product.datacite.relatedIdentifier": "URL/DOI",
 
   // "layout.field.label.Patent.dc.type": "Type",
-  "layout.field.label.Patent.dc.type": "Type",
+  // TODO Source message changed - Revise the translation
+  "layout.field.label.Patent.dc.type": "Fichiers",
 
   // "layout.field.label.Patent.datacite.rights": "Access rights",
   "layout.field.label.Patent.datacite.rights": "Conditions d'accès",
@@ -14413,7 +14963,8 @@
   "layout.field.label.Patent.epfl.url.description": "Lien complémentaire",
 
   // "layout.field.label.Patent.epfl.url": "URL",
-  "layout.field.label.Patent.epfl.url": "URL",
+  // TODO Source message changed - Revise the translation
+  "layout.field.label.Patent.epfl.url": "Lien complémentaire",
 
   // "layout.field.label.Patent.dc.identifier.patentno": "Patent number",
   "layout.field.label.Patent.dc.identifier.patentno": "Numéro de brevet",
@@ -14445,7 +14996,9 @@
   // "layout.field.label.Patent.dc.identifier.applicationnumber": "Application number",
   "layout.field.label.Patent.dc.identifier.applicationnumber": "Demande",
 
-  // "layout.field.label.Patent.dcterms.dateSubmitted": "Application Date"
+  // "layout.field.label.Patent.dcterms.dateSubmitted": "Application Date",
+  // TODO Source message changed - Revise the translation
   "layout.field.label.Patent.dcterms.dateSubmitted": "Date",
+
 
 }
