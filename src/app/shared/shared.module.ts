@@ -357,6 +357,10 @@ import { MetadataLinkViewAvatarPopoverComponent } from './metadata-link-view/met
 import { MetadataLinkViewOrcidComponent } from './metadata-link-view/metadata-link-view-orcid/metadata-link-view-orcid.component';
 import { DefaultBrowseElementsComponent } from './browse-most-elements/default-browse-elements/default-browse-elements.component';
 import { ThemedDefaultBrowseElementsComponent } from './browse-most-elements/default-browse-elements/themed-default-browse-elements.component';
+import { CardsBrowseElementsComponent } from './browse-most-elements/cards-browse-elements/cards-browse-elements.component';
+import {
+  ThemedCardsBrowseElementsComponent
+} from "./browse-most-elements/cards-browse-elements/themed-cards-browse-elements.component";
 
 const MODULES = [
   CommonModule,
@@ -518,6 +522,8 @@ const COMPONENTS = [
   ItemCollectionComponent,
   DefaultBrowseElementsComponent,
   ThemedDefaultBrowseElementsComponent,
+  CardsBrowseElementsComponent,
+  ThemedCardsBrowseElementsComponent,
 ];
 
 const ENTRY_COMPONENTS = [
@@ -595,6 +601,7 @@ const ENTRY_COMPONENTS = [
   RelationshipsListComponent,
   AdditionalMetadataComponent,
   ThemedDefaultBrowseElementsComponent,
+  ThemedCardsBrowseElementsComponent,
 ];
 
 const PROVIDERS = [

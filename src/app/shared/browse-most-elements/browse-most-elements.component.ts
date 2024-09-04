@@ -28,6 +28,11 @@ export class BrowseMostElementsComponent implements OnInit, OnChanges {
 
   sectionTemplateType: TopSectionTemplateType;
 
+  /**
+   * The type of the template to render
+   */
+  templateTypeEnum = TopSectionTemplateType;
+
   ngOnInit(): void {
     this.sectionTemplateType = this.topSection?.template
       ?? (this.mode === LayoutModeEnum.CARD ? TopSectionTemplateType.CARD : TopSectionTemplateType.DEFAULT);
