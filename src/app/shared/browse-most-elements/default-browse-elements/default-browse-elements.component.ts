@@ -22,9 +22,4 @@ export class DefaultBrowseElementsComponent extends AbstractBrowseElementsCompon
   @Input() mode: LayoutModeEnum;
 
   protected followThumbnailLink = true;
-
-  public cardLayoutMode = LayoutModeEnum.CARD;
-
-  public collectionElementLinkTypeEnum = CollectionElementLinkType;
-
 }
