@@ -3,7 +3,7 @@ import { ThemedComponent } from '../../theme-support/themed.component';
 import { Context } from '../../../core/shared/context.model';
 import { PaginatedSearchOptions } from '../../search/models/paginated-search-options.model';
 import { TopSection } from '../../../core/layout/models/section.model';
-import {CardsBrowseElementsComponent} from "./cards-browse-elements.component";
+import {CardsBrowseElementsComponent} from './cards-browse-elements.component';
 
 /**
  * This component is a wrapper for the CardsBrowseElementsComponent

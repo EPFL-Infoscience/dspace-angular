@@ -360,7 +360,7 @@ import { ThemedDefaultBrowseElementsComponent } from './browse-most-elements/def
 import { CardsBrowseElementsComponent } from './browse-most-elements/cards-browse-elements/cards-browse-elements.component';
 import {
   ThemedCardsBrowseElementsComponent
-} from "./browse-most-elements/cards-browse-elements/themed-cards-browse-elements.component";
+} from './browse-most-elements/cards-browse-elements/themed-cards-browse-elements.component';
 
 const MODULES = [
   CommonModule,
