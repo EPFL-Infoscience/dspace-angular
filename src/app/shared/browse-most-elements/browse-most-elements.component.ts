@@ -26,6 +26,8 @@ export class BrowseMostElementsComponent implements OnInit, OnChanges {
 
   @Input() topSection: TopSection;
 
+  @Input() mode: LayoutModeEnum;
+
   paginatedSearchOptionsBS = new BehaviorSubject<PaginatedSearchOptions>(null);
 
   sectionTemplateType: TopSectionTemplateType;
@@ -37,7 +39,7 @@ export class BrowseMostElementsComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.sectionTemplateType = this.topSection?.template
-      ?? (this.topSection.defaultLayoutMode === LayoutModeEnum.CARD ? TopSectionTemplateType.CARD : TopSectionTemplateType.DEFAULT);
+      ?? (this.mode === LayoutModeEnum.CARD ? TopSectionTemplateType.CARD : TopSectionTemplateType.DEFAULT);
   }
 
   ngOnChanges() { // trigger change detection on child components

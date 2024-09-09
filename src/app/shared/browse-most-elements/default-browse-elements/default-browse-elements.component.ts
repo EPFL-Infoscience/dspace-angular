@@ -1,5 +1,6 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import { AbstractBrowseElementsComponent } from '../abstract-browse-elements.component';
+import {LayoutModeEnum} from '../../../core/layout/models/section.model';
 
 @Component({
   selector: 'ds-default-browse-elements',
@@ -16,6 +17,8 @@ export class DefaultBrowseElementsComponent extends AbstractBrowseElementsCompon
    * Whether to show the thumbnail preview
    */
   @Input() showThumbnails = this.appConfig.browseBy.showThumbnails;
+
+  @Input() mode: LayoutModeEnum;
 
   @Input() showLabel: boolean;
 
