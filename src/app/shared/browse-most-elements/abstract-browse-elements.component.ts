@@ -1,5 +1,6 @@
 import { followLink } from '../utils/follow-link-config.model';
-import {TopSection} from '../../core/layout/models/section.model';
+import { CollectionElementLinkType } from '../object-collection/collection-element-link.type';
+import { TopSection } from '../../core/layout/models/section.model';
 import { Component, Input, OnChanges, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformServer } from '@angular/common';
 
@@ -38,6 +39,8 @@ export abstract class AbstractBrowseElementsComponent implements OnInit, OnChang
 
   @Input() topSection: TopSection;
 
+  public collectionElementLinkTypeEnum = CollectionElementLinkType;
+
   paginatedSearchOptionsBS: BehaviorSubject<PaginatedSearchOptions>;
 
   searchResults$: Observable<RemoteData<PaginatedList<SearchResult<DSpaceObject>>>>;
@@ -52,7 +55,7 @@ export abstract class AbstractBrowseElementsComponent implements OnInit, OnChang
   }
 
   ngOnInit() {
-    const followLinks = this.followThumbnailLink ? [followLink('thumbnail')] : [];
+    const followLinks = this.followThumbnailLink ? [followLink('thumbnail'), followLink('metrics')] : [followLink('metrics')];
     this.paginatedSearchOptionsBS = new BehaviorSubject<PaginatedSearchOptions>(this.paginatedSearchOptions);
     this.searchResults$ = this.paginatedSearchOptionsBS.asObservable().pipe(
       mergeMap((paginatedSearchOptions) =>

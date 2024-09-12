@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractBrowseElementsComponent } from '../abstract-browse-elements.component';
 import {LayoutModeEnum} from '../../../core/layout/models/section.model';
 
@@ -8,6 +8,7 @@ import {LayoutModeEnum} from '../../../core/layout/models/section.model';
   styleUrls: ['./default-browse-elements.component.scss']
 })
 export class DefaultBrowseElementsComponent extends AbstractBrowseElementsComponent implements OnInit, OnChanges {
+
   /**
    * Whether to show the metrics badges
    */
@@ -22,5 +23,5 @@ export class DefaultBrowseElementsComponent extends AbstractBrowseElementsCompon
 
   @Input() showLabel: boolean;
 
-  protected followThumbnailLink = true;
+  protected followThumbnailLink = this.appConfig.browseBy.showThumbnails;
 }

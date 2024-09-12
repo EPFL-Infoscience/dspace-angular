@@ -12,7 +12,8 @@ import {TranslateLoaderMock} from '../shared/mocks/translate-loader.mock';
 import {RemoteData} from '../core/data/remote-data';
 import {
   BrowseSection,
-  FacetSection, LayoutModeEnum,
+  FacetSection,
+  LayoutModeEnum,
   SearchSection,
   Section,
   TopSection,
