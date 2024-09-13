@@ -87,7 +87,6 @@ export class ThumbnailComponent implements OnChanges {
    */
   ngOnChanges(): void {
     if (isPlatformBrowser(this.platformID)) {
-      console.log('ngOnChanges', this.thumbnail, this.contentHref);
       const src = this.contentHref;
       if (hasValue(src)) {
         this.setSrc(src);
