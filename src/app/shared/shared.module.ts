@@ -357,9 +357,7 @@ import { ThemedDefaultBrowseElementsComponent } from './browse-most-elements/def
 import { MetadataLinkViewPopoverComponent } from './metadata-link-view/metadata-link-view-popover/metadata-link-view-popover.component';
 import { MetadataLinkViewAvatarPopoverComponent } from './metadata-link-view/metadata-link-view-avatar-popover/metadata-link-view-avatar-popover.component';
 import { MetadataLinkViewOrcidComponent } from './metadata-link-view/metadata-link-view-orcid/metadata-link-view-orcid.component';
-import {StickyPopoverDirective} from './metadata-link-view/sticky-popover.directive';
-import { DefaultBrowseElementsComponent } from './browse-most-elements/default-browse-elements/default-browse-elements.component';
-import { ThemedDefaultBrowseElementsComponent } from './browse-most-elements/default-browse-elements/themed-default-browse-elements.component';
+import { StickyPopoverDirective } from './metadata-link-view/sticky-popover.directive';
 import { CardsBrowseElementsComponent } from './browse-most-elements/cards-browse-elements/cards-browse-elements.component';
 import {
   ThemedCardsBrowseElementsComponent
