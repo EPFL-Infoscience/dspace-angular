@@ -238,6 +238,7 @@ import {
 import { ProductDatasetSchemaType } from './metadata/schema-json-ld/schema-types/product/product-dataset-schema-type';
 import { PersonSchemaType } from './metadata/schema-json-ld/schema-types/Person/person-schema-type';
 import { InternalLinkService } from './services/internal-link.service';
+import { SubmissionParentBreadcrumbsService } from './submission/submission-parent-breadcrumb.service';
 import { UnpaywallItemService } from './data/unpaywall-item.service';
 
 /**
@@ -377,6 +378,7 @@ const PROVIDERS = [
   WorkflowStepStatisticsDataService,
   WorkflowOwnerStatisticsDataService,
   LoginStatisticsService,
+  SubmissionParentBreadcrumbsService
 ];
 
 const SCHEMA_PROVIDERS = [

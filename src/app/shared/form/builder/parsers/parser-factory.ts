@@ -24,13 +24,15 @@ import { CalendarFieldParser } from './calendar-field-parser';
 import { DisabledFieldParser } from './disabled-field-parser';
 import { LinkFieldParser } from './link-field-parser';
 import { MarkdownFieldParser } from './markdown-field-parser';
+import { TranslateService } from '@ngx-translate/core';
 
 const fieldParserDeps = [
   SUBMISSION_ID,
   CONFIG_DATA,
   INIT_FORM_VALUES,
   PARSER_OPTIONS,
-  SECURITY_CONFIG
+  SECURITY_CONFIG,
+  TranslateService
 ];
 
 /**

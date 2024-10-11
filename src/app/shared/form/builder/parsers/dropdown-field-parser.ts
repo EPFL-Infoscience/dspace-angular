@@ -16,6 +16,7 @@ import {
 import { isNotEmpty } from '../../../empty.util';
 import { FormFieldMetadataValueObject } from '../models/form-field-metadata-value.model';
 import { ParserOptions } from './parser-options';
+import { TranslateService } from '@ngx-translate/core';
 import { ParserType } from './parser-type';
 
 export class DropdownFieldParser extends FieldParser {
@@ -25,9 +26,10 @@ export class DropdownFieldParser extends FieldParser {
     @Inject(CONFIG_DATA) configData: FormFieldModel,
     @Inject(INIT_FORM_VALUES) initFormValues,
     @Inject(PARSER_OPTIONS) parserOptions: ParserOptions,
-    @Inject(SECURITY_CONFIG)  securityConfig: any = null
+    @Inject(SECURITY_CONFIG)  securityConfig: any = null,
+    protected translateService: TranslateService
   ) {
-    super(submissionId, configData, initFormValues, parserOptions, securityConfig);
+    super(submissionId, configData, initFormValues, parserOptions, securityConfig, translateService);
   }
 
   public modelFactory(fieldValue?: FormFieldMetadataValueObject | any, label?: boolean): any {
@@ -36,7 +38,8 @@ export class DropdownFieldParser extends FieldParser {
 
     if (isNotEmpty(this.configData.selectableMetadata[0].controlledVocabulary)) {
       this.setVocabularyOptions(dropdownModelConfig, this.parserOptions.collectionUUID);
-      this.setValues(dropdownModelConfig, fieldValue, true);
+      if (isNotEmpty(fieldValue)) {
+        this.setValues(dropdownModelConfig, fieldValue, true);
       if (this.configData.input.type === ParserType.OpenDropdown) {
         dropdownModelConfig.openType = true;
       } else {
