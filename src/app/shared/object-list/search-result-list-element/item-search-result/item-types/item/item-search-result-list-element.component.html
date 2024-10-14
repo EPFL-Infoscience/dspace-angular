@@ -2,7 +2,7 @@
   <div *ngIf="showThumbnails" class="col-3 col-xl-2 pr-sm-0">
     <a *ngIf="linkType != linkTypes.None" [target]="(linkType == linkTypes.ExternalLink) ? '_blank' : '_self'" [attr.rel]="(linkType == linkTypes.ExternalLink) ? 'noopener noreferrer' : null"
        [routerLink]="[itemPageRoute]" class="dont-break-out">
-      <ds-thumbnail [thumbnail]="dso?.thumbnail | async" [limitWidth]="true" 
+      <ds-thumbnail [thumbnail]="dso?.thumbnail | async" [limitWidth]="true"
       [defaultImage]="defaultImage" [alt]="thumbnailAlt" [placeholder]="placeholder">
       </ds-thumbnail>
     </a>
@@ -28,14 +28,7 @@
                  [dsMarkdown]="dsoTitle"></a>
           <span *ngIf="linkType == linkTypes.None" class="lead item-list-title dont-break-out"
                 [dsMarkdown]="dsoTitle"></span>
-          <div *ngIf="canViewInWorkflowSinceStatistics() | async" >
-            <div *ngIf="!dso.isArchived && workflowStartDate">
-              {{'mydspace.results.in-workflow-since' | translate}} {{itemDateTime}}
-            </div>
-            <div *ngIf="dso.isArchived && workflowStartDate && accessionedDate">
-              {{'mydspace.results.in-workflow-for' | translate}} {{itemArchivedDateTime}}
-            </div>
-          </div>
+          <ds-in-workflow-statistics  *ngIf="showWorkflowStatistics" [item]="dso"></ds-in-workflow-statistics>
           <span class="text-muted">
             <ds-truncatable-part [id]="dso.id" [minLines]="1">
               <ng-container *ngIf="dso.firstMetadataValue('dc.publisher') || dso.firstMetadataValue('dc.date.issued')">

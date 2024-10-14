@@ -196,6 +196,11 @@ export class SearchComponent implements OnInit, OnDestroy {
   @Input() showThumbnails: boolean;
 
   /**
+   * A boolean representing if to show workflow statistics
+   */
+  @Input() showWorkflowStatistics: boolean;
+
+  /**
    * Whether to show the view mode switch
    */
   @Input() showViewModes = true;

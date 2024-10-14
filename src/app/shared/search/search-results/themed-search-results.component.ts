@@ -22,7 +22,7 @@ import { AlertType } from '../../alert/alert-type';
   templateUrl: '../../theme-support/themed.component.html',
 })
 export class ThemedSearchResultsComponent extends ThemedComponent<SearchResultsComponent> {
-  protected inAndOutputNames: (keyof SearchResultsComponent & keyof this)[] = ['linkType', 'searchResults', 'searchConfig', 'showCsvExport', 'showThumbnails', 'sortConfig', 'viewMode', 'configuration', 'disableHeader', 'selectable', 'context', 'hidePaginationDetail', 'selectionConfig', 'contentChange', 'deselectObject', 'selectObject', 'customData', 'customEvent', 'searchResultNotice', 'searchResultNoticeType', 'showSearchResultNotice'];
+  protected inAndOutputNames: (keyof SearchResultsComponent & keyof this)[] = ['linkType', 'searchResults', 'searchConfig', 'showCsvExport', 'showThumbnails', 'sortConfig', 'viewMode', 'configuration', 'disableHeader', 'selectable', 'context', 'hidePaginationDetail', 'selectionConfig', 'contentChange', 'deselectObject', 'selectObject', 'customData', 'customEvent', 'searchResultNotice', 'searchResultNoticeType', 'showSearchResultNotice', 'showWorkflowStatistics'];
   @Input() linkType: CollectionElementLinkType;
 
   @Input() searchResultNotice: string = null;
@@ -36,6 +36,8 @@ export class ThemedSearchResultsComponent extends ThemedComponent<SearchResultsC
   @Input() showCsvExport: boolean;
 
   @Input() showThumbnails: boolean;
+
+  @Input() showWorkflowStatistics: boolean;
 
   @Input() showSearchResultNotice = false;
 

@@ -65,6 +65,11 @@ export class ObjectGridComponent implements OnInit {
   @Input() showThumbnails;
 
   /**
+   * A boolean representing if to show workflow statistics
+   */
+  @Input() showWorkflowStatistics: boolean;
+
+  /**
    * The whether or not the gear is hidden
    */
   @Input() hideGear = false;
