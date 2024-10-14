@@ -29,6 +29,11 @@ import { ClaimedTaskActionsAbstractComponent } from '../abstract/claimed-task-ac
  */
 export class ClaimedTaskActionsLoaderComponent implements OnInit, OnChanges {
   /**
+   * A boolean indicating whether the action components should be disabled
+   */
+  @Input() disabled: boolean;
+
+  /**
    * The item object that belonging to the ClaimedTask object
    */
   @Input() item: Item;
@@ -68,6 +73,7 @@ export class ClaimedTaskActionsLoaderComponent implements OnInit, OnChanges {
    * The list of input and output names for the dynamic component
    */
   protected inAndOutputNames: (keyof ClaimedTaskActionsAbstractComponent & keyof this)[] = [
+    'disabled',
     'object',
     'option',
     'processCompleted',
