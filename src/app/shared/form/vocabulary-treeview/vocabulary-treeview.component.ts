@@ -15,6 +15,7 @@ import { VocabularyTreeFlattener } from './vocabulary-tree-flattener';
 import { VocabularyTreeFlatDataSource } from './vocabulary-tree-flat-data-source';
 import { VocabularyService } from '../../../core/submission/vocabularies/vocabulary.service';
 import { FormFieldMetadataValueObject } from '../builder/models/form-field-metadata-value.model';
+import { AlertType } from '../../alert/alert-type';
 import { Metadata } from '../../../core/shared/metadata.utils';
 
 export type VocabularyTreeItemType = FormFieldMetadataValueObject | VocabularyEntry | VocabularyEntryDetail;
