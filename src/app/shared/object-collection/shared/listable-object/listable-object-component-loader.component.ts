@@ -81,6 +81,11 @@ export class ListableObjectComponentLoaderComponent implements OnInit, OnChanges
   @Input() showThumbnails;
 
   /**
+   * A boolean representing if to show workflow statistics
+   */
+  @Input() showWorkflowStatistics: boolean;
+
+  /**
    * The value to display for this element
    */
   @Input() value: string;
@@ -138,6 +143,7 @@ export class ListableObjectComponentLoaderComponent implements OnInit, OnChanges
     'showLabel',
     'showMetrics',
     'showThumbnails',
+    'showWorkflowStatistics',
     'context',
     'viewMode',
     'value',

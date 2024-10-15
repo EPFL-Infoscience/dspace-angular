@@ -51,10 +51,9 @@ export class ClientMathService extends MathService {
   protected async registerMathJaxAsync(config: MathJaxConfig): Promise<any> {
     if (environment.markdown.mathjax) {
       return new Promise<void>((resolve, reject) => {
-
         const optionsScript: HTMLScriptElement = document.createElement('script');
         optionsScript.type = 'text/javascript';
-        optionsScript.text = `MathJax = ${JSON.stringify(this.mathJaxOptions)};`;
+        optionsScript.text = `window.MathJax = ${JSON.stringify(this.mathJaxOptions)};`;
         document.head.appendChild(optionsScript);
 
         const script: HTMLScriptElement = document.createElement('script');
@@ -63,14 +62,25 @@ export class ClientMathService extends MathService {
         script.src = config.source;
         script.crossOrigin = 'anonymous';
         script.async = true;
-        script.onload = () => resolve();
+        script.onload = () => {
+          if ((window as any).MathJax) {
+            (window as any).MathJax.startup?.promise.then(() => {
+              if ((window as any).MathJax.typesetPromise) {
+                resolve();
+              } else {
+                reject(new Error('MathJax failed to load typesetPromise'));
+              }
+            }).catch(reject);
+          } else {
+            reject(new Error('MathJax failed to load'));
+          }
+        };
         script.onerror = error => reject(error);
         document.head.appendChild(script);
       });
     }
     return Promise.resolve();
   }
-
   ready(): Observable<boolean> {
     return this.isReady$;
   }

@@ -46,7 +46,6 @@ export abstract class ClaimedTaskActionsAbstractComponent extends MyDSpaceReload
    */
   @Input() disabled = false;
 
-
   /**
    * Anchor used to reload the pool task.
    */
