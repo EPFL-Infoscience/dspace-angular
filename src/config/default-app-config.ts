@@ -359,11 +359,11 @@ export class DefaultAppConfig implements AppConfig {
   followAuthorityMetadata: FollowAuthorityMetadata[] = [
     {
       type: 'Publication',
-      metadata: ['dc.contributor.author']
+      metadata: ['dc.contributor.author', 'dc.contributor.advisor', 'dc.contributor.scientificeditor']
     },
     {
       type: 'Product',
-      metadata: ['dc.contributor.author']
+      metadata: ['dc.contributor', 'dc.contributor.author']
     },
     {
       type: 'Patent',
