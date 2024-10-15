@@ -14,7 +14,7 @@ import { DSpaceObject } from '../shared/dspace-object.model';
 import { PaginatedSearchOptions } from '../../shared/search/models/paginated-search-options.model';
 import { SearchObjects } from '../../shared/search/models/search-objects.model';
 import { SearchService } from '../shared/search/search.service';
-import { hasValue } from '../../shared/empty.util';
+import { hasValue, isNotEmpty } from '../../shared/empty.util';
 import { FollowAuthorityMetadata } from '../../../config/search-follow-metadata.interface';
 import { MetadataValue } from '../shared/metadata.models';
 import { Metadata } from '../shared/metadata.utils';
@@ -85,7 +85,8 @@ export class SearchManager {
   protected completeSearchObjectsWithExtraData<T extends DSpaceObject>() {
     return switchMap((searchObjectsRD: RemoteData<SearchObjects<T>>) => {
       if (searchObjectsRD.isSuccess) {
-        const items: Item[] = searchObjectsRD.payload.page.map((searchResult) => searchResult._embedded.indexableObject) as any;
+        const items: Item[] = searchObjectsRD.payload.page
+          .map((searchResult) => isNotEmpty(searchResult?._embedded?.indexableObject) ? searchResult._embedded.indexableObject : searchResult.indexableObject) as any;
         return this.fetchExtraData(items).pipe(map(() => {
           return searchObjectsRD;
         }));
