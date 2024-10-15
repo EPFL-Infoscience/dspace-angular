@@ -33,6 +33,11 @@ export class BrowseMostElementsComponent implements OnInit {
   @Input() context: Context;
 
   /**
+   * Optional projection to use during the search
+   */
+  @Input() projection = 'preventMetadataSecurity';
+
+  /**
    * Whether to show the metrics badges
    */
   @Input() showMetrics;
@@ -68,6 +73,9 @@ export class BrowseMostElementsComponent implements OnInit {
 
     const showThumbnails = this.showThumbnails ?? this.appConfig.browseBy.showThumbnails;
     const followLinks = showThumbnails ? [followLink('thumbnail'), followLink('metrics')] : [followLink('metrics')];
+    this.paginatedSearchOptions = Object.assign(new PaginatedSearchOptions({}), this.paginatedSearchOptions, {
+      projection: this.projection
+    });
     this.searchService.search(this.paginatedSearchOptions, null, true, true, ...followLinks).pipe(
       getFirstCompletedRemoteData(),
     ).subscribe((response: RemoteData<PaginatedList<SearchResult<DSpaceObject>>>) => {
