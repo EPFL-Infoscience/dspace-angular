@@ -127,6 +127,8 @@ export class VocabularyTreeviewComponent implements OnDestroy, OnInit, OnChanges
    */
   private subs: Subscription[] = [];
 
+  readonly AlertType = AlertType;
+
   /**
    * Initialize instance variables
    *
