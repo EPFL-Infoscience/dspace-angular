@@ -22,6 +22,7 @@ import { URLCombiner } from '../url-combiner/url-combiner';
 import { RemoteData } from '../data/remote-data';
 import { SubmissionResponse } from './submission-response.model';
 import { RestRequest } from '../data/rest-request.model';
+import { ErrorResponse } from '../cache/response.models';
 
 /**
  * The service handling all submission REST requests
@@ -49,7 +50,12 @@ export class SubmissionRestService {
       getFirstCompletedRemoteData(),
       map((response: RemoteData<SubmissionResponse>) => {
         if (response.hasFailed) {
-          throw new Error(response.errorMessage);
+          const requestError: any = {
+            message: response.errorMessage,
+            statusCode: response.statusCode,
+            statusText: response.statusCode.toString()
+          };
+          throw new ErrorResponse(requestError);
         } else {
           return hasValue(response.payload) ? response.payload.dataDefinition : response.payload;
         }
