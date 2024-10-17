@@ -359,10 +359,14 @@ export class DefaultAppConfig implements AppConfig {
   followAuthorityMetadata: FollowAuthorityMetadata[] = [
     {
       type: 'Publication',
-      metadata: ['dc.contributor.author']
+      metadata: ['dc.contributor.author', 'dc.contributor.advisor', 'dc.contributor.scientificeditor']
     },
     {
       type: 'Product',
+      metadata: ['dc.contributor', 'dc.contributor.author']
+    },
+    {
+      type: 'Patent',
       metadata: ['dc.contributor.author']
     }
   ];
@@ -464,16 +468,8 @@ export class DefaultAppConfig implements AppConfig {
             'rel': 'manifest',
             'href': 'assets/dspace/images/favicons/manifest.webmanifest',
           }
-        },
-        {
-          // Insert   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> into the <head> of the page.
-          tagName: 'link',
-          attributes: {
-            'rel': 'stylesheet',
-            'href': 'https://fonts.googleapis.com/icon?family=Material+Icons',
-          }
-        },
-      ],
+        }
+      ]
     },
   ];
   // The default bundles that should always be displayed when you edit or add a bundle even when no bundle has been

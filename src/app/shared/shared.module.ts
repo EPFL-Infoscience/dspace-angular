@@ -360,6 +360,7 @@ import { ItemCollectionComponent } from './object-collection/shared/mydspace-ite
 import { ThemedItemListPreviewComponent } from './object-list/my-dspace-result-list-element/item-list-preview/themed-item-list-preview.component';
 import { ItemListPreviewComponent } from './object-list/my-dspace-result-list-element/item-list-preview/item-list-preview.component';
 import { MarkdownDirective } from './utils/markdown.directive';
+import { InWorkflowStatisticsComponent } from './object-collection/shared/in-workflow-statistics/in-workflow-statistics.component';
 
 const MODULES = [
   CommonModule,
@@ -468,7 +469,6 @@ const COMPONENTS = [
   ThemedStatusBadgeComponent,
   BadgesComponent,
   ThemedBadgesComponent,
-
   ItemSelectComponent,
   CollectionSelectComponent,
   MetadataRepresentationLoaderComponent,
@@ -521,7 +521,8 @@ const COMPONENTS = [
   EpflBadgesComponent,
   ItemListPreviewComponent,
   ThemedItemListPreviewComponent,
-  ItemCollectionComponent
+  ItemCollectionComponent,
+  InWorkflowStatisticsComponent,
 ];
 
 const ENTRY_COMPONENTS = [

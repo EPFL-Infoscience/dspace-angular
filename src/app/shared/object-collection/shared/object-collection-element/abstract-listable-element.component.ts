@@ -53,6 +53,11 @@ export class AbstractListableElementComponent<T extends ListableObject> {
   @Input() showThumbnails;
 
   /**
+   * A boolean representing if to show workflow statistics
+   */
+  @Input() showWorkflowStatistics = false;
+
+  /**
    * The context we matched on to get this component
    */
   @Input() context: Context;

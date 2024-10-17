@@ -8,7 +8,6 @@ import { SearchResultListElementComponent } from '../../../search-result-list-el
 import { Item } from '../../../../../../core/shared/item.model';
 import { getItemPageRoute, getItemViewerPath } from '../../../../../../item-page/item-page-routing-paths';
 import { Context } from '../../../../../../core/shared/context.model';
-import { differenceInDays, differenceInMilliseconds, parseISO } from 'date-fns';
 import { environment } from '../../../../../../../environments/environment';
 import { KlaroService } from '../../../../../cookies/klaro.service';
 import { combineLatest, Observable } from 'rxjs';
@@ -17,9 +16,6 @@ import { DSONameService } from '../../../../../../core/breadcrumbs/dso-name.serv
 import { APP_CONFIG, AppConfig } from '../../../../../../../config/app-config.interface';
 import { getFirstSucceededRemoteListPayload } from '../../../../../../core/shared/operators';
 import { map } from 'rxjs/operators';
-import { isNotEmpty } from '../../../../../empty.util';
-import {FeatureID} from '../../../../../../core/data/feature-authorization/feature-id';
-import {AuthorizationDataService} from '../../../../../../core/data/feature-authorization/authorization-data.service';
 
 @listableObjectComponent('PublicationSearchResult', ViewMode.ListElement)
 @listableObjectComponent(ItemSearchResult, ViewMode.ListElement)
@@ -56,10 +52,6 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
 
   hasLoadedThirdPartyMetrics$: Observable<boolean>;
 
-  accessionedDate: string;
-  workflowStartDate: string;
-  itemDateTime: string;
-  itemArchivedDateTime: string;
   placeholder: string;
   thumbnailAlt: string;
   defaultImage: string;
@@ -70,7 +62,6 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
   constructor(
     protected truncatableService: TruncatableService,
     public dsoNameService: DSONameService,
-    public authorizationService: AuthorizationDataService,
     @Inject(APP_CONFIG) protected appConfig?: AppConfig,
     @Optional() private klaroService?: KlaroService,
   ) {
@@ -84,17 +75,7 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
     this.fullTextHighlights = this.allMetadataValues('fulltext');
     this.fullTextMirador = this.allMetadataValues('fulltext.mirador');
     this.fullTextVideo = this.allMetadataValues('fulltext.video');
-    this.accessionedDate = this.dso.firstMetadataValue('dc.date.accessioned');
-    this.workflowStartDate = this.dso.firstMetadataValue('epfl.workflow.startDateTime');
-    if (isNotEmpty(this.workflowStartDate)) {
-      this.itemDateTime = this.getDateForItem(this.workflowStartDate);
-      if (isNotEmpty(this.accessionedDate)) {
-        this.itemArchivedDateTime = this.getDateForArchivedItem(
-          this.workflowStartDate,
-          this.accessionedDate
-        );
-      }
-    }
+
     const eType = this.dso.firstMetadataValue('dspace.entity.type');
     switch (eType?.toUpperCase()) {
       case 'PROJECT':
@@ -142,23 +123,6 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
 
   }
 
-  getDateForArchivedItem(itemStartDate: string, dateAccessioned: string) {
-    const itemStartDateConverted: Date = parseISO(itemStartDate);
-    const dateAccessionedConverted: Date = parseISO(dateAccessioned);
-    const days: number = Math.max(0, Math.floor(differenceInDays(dateAccessionedConverted, itemStartDateConverted)));
-    const remainingMilliseconds: number = differenceInMilliseconds(dateAccessionedConverted, itemStartDateConverted) - days * 24 * 60 * 60 * 1000;
-    const hours: number = Math.max(0, Math.floor(remainingMilliseconds / (60 * 60 * 1000)));
-    return `${days} d ${hours} h`;
-  }
-
-  getDateForItem(itemStartDate: string) {
-    const itemStartDateConverted: Date = parseISO(itemStartDate);
-    const days: number = Math.max(0, Math.floor(differenceInDays(Date.now(), itemStartDateConverted)));
-    const remainingMilliseconds: number = differenceInMilliseconds(Date.now(), itemStartDateConverted) - days * 24 * 60 * 60 * 1000;
-    const hours: number = Math.max(0, Math.floor(remainingMilliseconds / (60 * 60 * 1000)));
-    return `${days} d ${hours} h`;
-  }
-
   /**
    * Check if item has Third-party metrics blocked by consents
    */
@@ -191,8 +155,4 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
     this.klaroService.showSettings();
   }
 
-  public canViewInWorkflowSinceStatistics(useCacheVersion = true): Observable<boolean> {
-    return this.authorizationService.isAuthorized(FeatureID.CanViewInWorkflowSinceStatistics,
-      this.dso?._links != null ? this.dso?.self : null, null,  useCacheVersion);
-  }
 }
