@@ -6,7 +6,6 @@ import { map, switchMap, take } from 'rxjs/operators';
 import { EPersonDataService } from '../eperson/eperson-data.service';
 import { getFirstCompletedRemoteData } from '../shared/operators';
 import { ConfigurationDataService } from '../data/configuration-data.service';
-import {EPerson} from '../eperson/models/eperson.model';
 import {hasValue} from '../../shared/empty.util';
 
 export const END_USER_AGREEMENT_COOKIE = 'hasAgreedEndUser';
@@ -68,29 +67,13 @@ export class EndUserAgreementService {
       switchMap((authenticated) => {
         if (authenticated) {
           return this.authService.getAuthenticatedUserFromStore().pipe(
-              switchMap((user) => this.hasRemoteUserAcceptedAgreement(user.email, acceptedWhenAnonymous))
+            map((user) => hasValue(user) && user.hasMetadata(END_USER_AGREEMENT_METADATA_FIELD) && user.firstMetadata(END_USER_AGREEMENT_METADATA_FIELD).value === 'true')
           );
         } else {
           return observableOf(acceptedWhenAnonymous);
         }
       })
     );
-  }
-
-  hasRemoteUserAcceptedAgreement(email: string, acceptedWhenAnonymous: boolean): Observable<boolean> {
-      return this.ePersonService.getEPersonByEmail(email).pipe(
-          getFirstCompletedRemoteData(),
-          map((remoteData) => {
-              if (remoteData.payload instanceof EPerson) {
-                  let remoteUser: EPerson = remoteData.payload;
-                  return hasValue(remoteUser)
-                      && remoteUser.hasMetadata(END_USER_AGREEMENT_METADATA_FIELD)
-                      && remoteUser.firstMetadata(END_USER_AGREEMENT_METADATA_FIELD).value === 'true';
-              } else {
-                  return acceptedWhenAnonymous;
-              }
-          })
-      );
   }
 
   /**
