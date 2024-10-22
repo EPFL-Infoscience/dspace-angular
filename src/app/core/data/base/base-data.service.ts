@@ -110,8 +110,7 @@ export class BaseDataService<T extends CacheableObject> implements HALDataServic
     }
     if (hasValue(options.searchParams)) {
       options.searchParams.forEach((param: RequestParam) => {
-        const encodedValue = encodeURIComponent(param.fieldValue);
-        args = this.addHrefArg(href, args, `${param.fieldName}=${encodedValue}`);
+        args = this.addHrefArg(href, args, `${param.fieldName}=${param.fieldValue}`);
       });
     }
     args = this.addEmbedParams(href, args, ...linksToFollow);
@@ -137,8 +136,7 @@ export class BaseDataService<T extends CacheableObject> implements HALDataServic
     let  args = [];
     if (hasValue(params)) {
       params.forEach((param: RequestParam) => {
-        const encodedValue = encodeURIComponent(param.fieldValue);
-        args = this.addHrefArg(href, args, `${param.fieldName}=${encodedValue}`);
+        args = this.addHrefArg(href, args, `${param.fieldName}=${param.fieldValue}`);
       });
     }
 
