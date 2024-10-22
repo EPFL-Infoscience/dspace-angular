@@ -20,6 +20,7 @@ import { APP_CONFIG } from '../../../config/app-config.interface';
 import { BehaviorSubject, Observable, mergeMap } from 'rxjs';
 import { Item } from '../../core/shared/item.model';
 import { getItemPageRoute } from '../../item-page/item-page-routing-paths';
+import { LayoutModeEnum, TopSection } from '../../core/layout/models/section.model';
 
 @Component({
   template: ''
@@ -48,6 +49,8 @@ export abstract class AbstractBrowseElementsComponent implements OnInit, OnChang
    */
   @Input() projection = 'preventMetadataSecurity';
 
+  @Input() mode: LayoutModeEnum;
+
   /**
    * Whether to show the badge label or not
    */
@@ -62,6 +65,11 @@ export abstract class AbstractBrowseElementsComponent implements OnInit, OnChang
    * Whether to show the thumbnail preview
    */
   @Input() showThumbnails = this.appConfig.browseBy.showThumbnails;
+
+  /**
+   * TopSection object
+   */
+  @Input() topSection: TopSection;
 
   public collectionElementLinkTypeEnum = CollectionElementLinkType;
 
