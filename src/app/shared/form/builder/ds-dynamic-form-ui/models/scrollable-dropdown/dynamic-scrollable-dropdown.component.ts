@@ -61,7 +61,7 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
   public selectedIndex = 0;
   public acceptableKeys = ['Space', 'NumpadMultiply', 'NumpadAdd', 'NumpadSubtract', 'NumpadDecimal', 'Semicolon', 'Equal', 'Comma', 'Minus', 'Period', 'Quote', 'Backquote'];
   public otherListEntry = '';
-  public addButoonDisabled = false;
+  public addButtonDisabled = false;
 
 
   /**
@@ -75,7 +75,7 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
   filterTextChanged: Subject<string> = new Subject<string>();
 
   /**
-   * The subscribtion to be utilized on destroy to remove filterTextChange subscription
+   * The subscription to be utilized on destroy to remove filterTextChange subscription
    */
   subSearch: Subscription;
 
@@ -201,7 +201,7 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
     this.inputText += keyName;
     // When a new key is added, we need to reset the page info
     this.updatePageInfo(this.model.maxOptions, 1);
-    this.retrieveEntries(null, false);
+    this.retrieveEntries(this.inputText, false);
   }
 
   removeKeyFromInput() {
@@ -210,7 +210,7 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
       if (this.inputText === '') {
         this.inputText = null;
       }
-      this.retrieveEntries(null, false);
+      this.retrieveEntries(this.inputText, false);
     }
   }
 
@@ -337,7 +337,7 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
    */
   addListItem(sdRef: NgbDropdown) {
     let entryCount = 0;
-    this.addButoonDisabled = true;
+    this.addButtonDisabled = true;
     if (this.otherListEntry.toString() !== '') {
       if (this.optionsList.length > 0) {
         this.optionsList.forEach(element => {
@@ -353,12 +353,12 @@ export class DsDynamicScrollableDropdownComponent extends DsDynamicVocabularyCom
         this.optionsList.push(object);
         this.onSelect(object);
         sdRef.close();
-        this.addButoonDisabled = false;
+        this.addButtonDisabled = false;
       } else {
-        this.addButoonDisabled = false;
+        this.addButtonDisabled = false;
       }
     } else {
-      this.addButoonDisabled = false;
+      this.addButtonDisabled = false;
     }
   }
 
