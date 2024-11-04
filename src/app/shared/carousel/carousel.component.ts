@@ -1,12 +1,11 @@
-import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {NgbCarousel, NgbSlideEvent, NgbSlideEventSource} from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, concatMap, from, Observable } from 'rxjs';
+import { BehaviorSubject, concatMap, from, Observable, of } from 'rxjs';
 import { filter, map, mergeMap, reduce, switchMap, take } from 'rxjs/operators';
 import {PaginatedList} from '../../core/data/paginated-list.model';
 import {BitstreamFormat} from '../../core/shared/bitstream-format.model';
 import {Bitstream} from '../../core/shared/bitstream.model';
 import {BitstreamDataService} from '../../core/data/bitstream-data.service';
-import {NativeWindowRef, NativeWindowService} from '../../core/services/window.service';
 import {getFirstCompletedRemoteData} from '../../core/shared/operators';
 import { hasValue, isNotEmpty } from '../empty.util';
 import {ItemSearchResult} from '../object-collection/shared/item-search-result.model';
@@ -38,6 +37,12 @@ export class CarouselComponent implements OnInit {
    */
   @Input()
   carouselOptions: CarouselOptions;
+
+  /**
+   * Option to activate dependency between slide event and pagination
+   */
+  @Input()
+  changePageOnSlide = false;
 
   /**
    * Carousel section title field.
@@ -93,20 +98,33 @@ export class CarouselComponent implements OnInit {
   totalItems = 0;
 
   /**
-   * The list of the item to show
+   * The map of the item to show
    */
-  itemList: ItemSearchResult[] = [];
+  itemMap: Map<number,ItemSearchResult[]> = new Map();
 
-  /**
-   * A boolean representing if there are more items to be loaded
-   */
-  hasMoreToLoad: boolean;
   /**
    * The page number currently visualized
    */
   currentPage = 1;
 
-  itemPlaceholderList: number[];
+  /**
+   * Pages displayed in pagination controls
+   */
+  currentlyVisiblePages$: BehaviorSubject<(string| number)[]> = new BehaviorSubject<(string | number)[]>(null);
+
+  /**
+   * Items contained in currently active page
+   */
+  currentPageItems$: BehaviorSubject<ItemSearchResult[]> = new BehaviorSubject<ItemSearchResult[]>([]);
+
+  /**
+   * Number of pages to be shown in the pagination bar (boundaries excluded)
+   * @private
+   */
+
+  private pagesToVisualize = 10;
+
+  private paginationOptionId: string;
 
 
 
@@ -114,24 +132,22 @@ export class CarouselComponent implements OnInit {
     protected bitstreamDataService: BitstreamDataService,
     private searchManager: SearchManager,
     public internalLinkService: InternalLinkService,
-    @Inject(NativeWindowService) private _window: NativeWindowRef,
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.title = this.carouselOptions.title;
     this.link = this.carouselOptions.link;
     this.description = this.carouselOptions.description;
     this.bundle = this.carouselOptions.bundle ?? 'ORIGINAL';
+    this.paginationOptionId = 'carousel-search-' + this.carouselOptions.discoveryConfiguration;
+
     this.retrieveItems().pipe(
       mergeMap((searchResult: SearchObjects<Item>) => {
         if (isNotEmpty(searchResult)) {
           this.totalPages = searchResult.totalPages;
           this.totalItems = searchResult.totalElements;
-          this.itemPlaceholderList = Array(searchResult.totalElements).fill(1).map((x, i) => i + 1);
           const items = searchResult.page;
-          this.itemList = [...this.itemList, ...items];
-          this.hasMoreToLoad = this.itemList.length < searchResult.totalElements;
+          this.itemMap.set(searchResult.currentPage, items);
           this.isLoading$.next(true);
           return this.findAllBitstreamImages(items);
         } else {
@@ -141,6 +157,8 @@ export class CarouselComponent implements OnInit {
       take(1)
     ).subscribe((res) => {
       this.itemToImageHrefMap$.next(res);
+      this.currentlyVisiblePages$.next(this.getPagesToVisualize());
+      this.currentPageItems$.next(this.getCurrentPageItems());
       this.isLoading$.next(false);
     });
   }
@@ -161,26 +179,32 @@ export class CarouselComponent implements OnInit {
    * function to call on slide
    */
   onSlide(slideEvent: NgbSlideEvent) {
-    const previousSlideIndex = parseInt(slideEvent.prev.split(('_'))[1], 10);
-    const direction = slideEvent.direction;
-
     if (this.unpauseOnArrow && slideEvent.paused &&
       (slideEvent.source === NgbSlideEventSource.ARROW_LEFT || slideEvent.source === NgbSlideEventSource.ARROW_RIGHT)) {
       this.togglePaused();
     }
+
     if (this.pauseOnIndicator && !slideEvent.paused && slideEvent.source === NgbSlideEventSource.INDICATOR) {
       this.togglePaused();
     }
 
-    if (previousSlideIndex === (this.carouselOptions.numberOfItems - 1) && direction === 'left' && (this.hasMoreToLoad || this.currentPage < this.totalPages)) {
-      this.changePage(this.currentPage + 1);
-    } else if (previousSlideIndex === 0 && direction === 'right' && this.currentPage !== 1) {
-      this.changePage(this.currentPage - 1);
-    } else if (previousSlideIndex === 0 && direction === 'right' && this.currentPage === 1) {
-      this.changePage(this.totalPages);
-    } else if (previousSlideIndex === (this.currentPageItems().length - 1) && direction === 'left' && (!this.hasMoreToLoad || this.currentPage === this.totalPages)) {
-      this.changePage(1);
+    if (this.changePageOnSlide) {
+      const previousSlideIndex = parseInt(slideEvent.prev.split('-')[2], 10);
+      const currentSlideIndex = parseInt(slideEvent.current.split('-')[2], 10);
+      const direction = slideEvent.direction;
+      const pageSlidesBounds = {
+        min: (this.carouselOptions.numberOfItems * this.currentPage) - this.carouselOptions.numberOfItems,
+        max: (this.carouselOptions.numberOfItems * this.currentPage)
+      };
+      const isPreviousIndexInCurrentPage = (previousSlideIndex + 1 >= pageSlidesBounds.min) && previousSlideIndex + 1 <= pageSlidesBounds.max;
+
+      if (currentSlideIndex < previousSlideIndex && !(this.currentPage === this.totalPages)  && direction === 'left' && isPreviousIndexInCurrentPage) {
+        this.changePage(this.currentPage + 1);
+      } else if (previousSlideIndex < currentSlideIndex && direction === 'right' && this.currentPage !== 1 && isPreviousIndexInCurrentPage) {
+        this.changePage(this.currentPage - 1);
+      }
     }
+
   }
 
   /**
@@ -217,16 +241,6 @@ export class CarouselComponent implements OnInit {
     return item.firstMetadataValue(this.link);
   }
 
-
-  /**
-   * to open a link of an item
-   */
-  openLinkUrl(url) {
-    if (url && url[0].value) {
-      this._window.nativeWindow.open(url[0].value, '_blank');
-    }
-  }
-
   /**
    * Retrieve items by the given page number
    *
@@ -234,7 +248,7 @@ export class CarouselComponent implements OnInit {
    */
   retrieveItems(currentPage: number = 1): Observable<SearchObjects<Item>> {
     const pagination: PaginationComponentOptions = Object.assign(new PaginationComponentOptions(), {
-      id: 'sop',
+      id: this.paginationOptionId,
       pageSize: this.carouselOptions.numberOfItems,
       currentPage: currentPage
     });
@@ -258,59 +272,81 @@ export class CarouselComponent implements OnInit {
     );
   }
 
-  currentPageItems(): ItemSearchResult[] {
-    return this.itemList.slice((this.currentPage - 1) * this.carouselOptions.numberOfItems, this.currentPage * this.carouselOptions.numberOfItems);
+  getCurrentPageItems(): ItemSearchResult[] {
+    return this.itemMap.get(this.currentPage);
   }
 
   pages = () => {
-    return Array.from({length: Math.ceil(this.itemPlaceholderList.length / this.carouselOptions.numberOfItems)}, (_, i) => i + 1);
+    return Array.from({length: this.totalPages }, (_, i) => i + 1);
   };
+
+  /**
+   * return pages in scope for loading
+   */
+  getPagesToVisualize(): (string | number)[]  {
+    const pagesArray = this.pages();
+    let currentPagesInScope: (string | number)[] = this.currentPage > this.pagesToVisualize ?
+      (
+        this.currentPage - 1 + this.pagesToVisualize > this.totalPages ?
+        [...pagesArray.slice(this.currentPage - this.pagesToVisualize, this.currentPage + this.pagesToVisualize)] :
+        [...pagesArray.slice(this.currentPage - 1, this.currentPage + this.pagesToVisualize)]
+      ) :
+      [...pagesArray.slice(0, this.pagesToVisualize)];
+
+    if (currentPagesInScope.some(page => page > this.pagesToVisualize)) {
+      currentPagesInScope = [1, '...', ...currentPagesInScope];
+      currentPagesInScope = currentPagesInScope.includes(this.totalPages) ? currentPagesInScope : [...currentPagesInScope, '...', this.totalPages];
+    } else {
+      currentPagesInScope = [1, ...currentPagesInScope.filter(page => page !== 1), '...', this.totalPages];
+    }
+
+    return currentPagesInScope;
+  }
   previousPage = () => {
     if (this.currentPage > 1) {
       this.currentPage--;
-    }
-  };
 
-  nextPage = () => {
-    if (this.currentPage < this.pages().length) {
-      if (this.hasMoreToLoad) {
+      if (!this.itemMap.get(this.currentPage)) {
         this.isLoading$.next(true);
-        this.currentPage++;
         this.retrieveMoreItems(this.currentPage);
-      } else {
-        this.currentPage++;
       }
     }
   };
 
-  changePage = (page) => {
-    if (page > this.currentPage && this.hasMoreToLoad) {
-      this.isLoading$.next(true);
-      const startIndex = this.pages().indexOf(this.currentPage) + 1;
-      const endIndex = this.pages().indexOf(page) + 1;
-      const pagesToFetch: number[] = this.pages().slice(startIndex, endIndex);
-      this.currentPage = page;
-      this.retrieveMoreItems(...pagesToFetch);
-    } else {
-      this.currentPage = page;
+  nextPage = () => {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+
+      if (!this.itemMap.get(this.currentPage)) {
+        this.isLoading$.next(true);
+        this.retrieveMoreItems(this.currentPage);
+      }
     }
   };
 
-  retrieveMoreItems(...page: number[]) {
-    from(page).pipe(
+  changePage = (page: number) => {
+    this.currentPage = page;
+
+    if (!this.itemMap.get(this.currentPage)) {
+      this.isLoading$.next(true);
+      this.retrieveMoreItems(this.currentPage);
+    }
+  };
+
+  retrieveMoreItems(page: number) {
+    of(page).pipe(
       concatMap((currentPage: number) => this.retrieveItems(currentPage).pipe(
         mergeMap((searchResult: SearchObjects<Item>) => {
           if (isNotEmpty(searchResult)) {
             const items = searchResult.page;
-            this.itemList = [...this.itemList, ...items];
-            this.hasMoreToLoad = this.itemList.length < searchResult.totalElements;
+            this.itemMap.set(searchResult.currentPage, items);
+
             return this.findAllBitstreamImages(items);
           } else {
-            return null;
+            return of(null);
           }
         }),
         take(1),
-        // tap((itemToImageHrefMap) => this.itemToImageHrefMap$.next(new Map([...Array.from(this.itemToImageHrefMap$.value.entries()), ...Array.from(itemToImageHrefMap.entries())]))),
       )),
       reduce((itemToImageHrefMap, value) => {
         return new Map([...Array.from(itemToImageHrefMap.entries()), ...Array.from(value.entries())]);
@@ -319,6 +355,8 @@ export class CarouselComponent implements OnInit {
       if (isNotEmpty(itemToImageHrefMap)) {
         this.itemToImageHrefMap$.next(new Map([...Array.from(this.itemToImageHrefMap$.value.entries()), ...Array.from(itemToImageHrefMap.entries())]));
       }
+      this.currentlyVisiblePages$.next(this.getPagesToVisualize());
+      this.currentPageItems$.next(this.getCurrentPageItems());
       this.isLoading$.next(false);
     });
   }
