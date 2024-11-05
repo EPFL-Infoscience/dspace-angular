@@ -12371,9 +12371,10 @@
   // "submission.sections.unpaywall.status.no-file": "There are no files to be imported",
   "submission.sections.unpaywall.status.no-file": "Aucun fichier disponible pour l'importation",
 
-  // "submission.sections.unpaywall.status.no-file": "There are no files to be imported",
+  // "submission.sections.unpaywall.status.no-file": "There are no available files to be imported.",
   // TODO New key - Add a translation
-  "submission.sections.unpaywall.status.no-file": "There are no files to be imported",
+  "submission.sections.unpaywall.status.no-file": "There are no available files to be imported.",
+
   // "submission.sections.unpaywall.status.imported": "The Unpaywall resource has been imported!",
   // TODO New key - Add a translation
   "submission.sections.unpaywall.status.imported": "The Unpaywall resource has been imported!",
