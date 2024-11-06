@@ -213,8 +213,8 @@ export class CarouselComponent implements OnInit {
   findAllBitstreamImages(items: ItemSearchResult[]): Observable<Map<string, string>> {
     return from(items).pipe(
       map((itemSR) => itemSR.indexableObject),
-      mergeMap((item) => this.bitstreamDataService.findAllByItemAndBundleName(
-          item, this.bundle, {}, true, true, followLink('format'),
+      mergeMap((item) => this.bitstreamDataService.showableByItem(
+          item.uuid, this.bundle, [], {}, true, true, followLink('format'),
         ).pipe(
           getFirstCompletedRemoteData(),
           switchMap((rd: RemoteData<PaginatedList<Bitstream>>) => rd.hasSucceeded ? rd.payload.page : []),
@@ -258,7 +258,7 @@ export class CarouselComponent implements OnInit {
       pagination: pagination,
       sort: new SortOptions(this.carouselOptions.sortField, this.carouselOptions.sortDirection),
       dsoTypes: [DSpaceObjectType.ITEM],
-      forcedEmbeddedKeys: ['bundles']
+      projection: 'preventMetadataSecurity'
     });
     return this.searchManager.search(paginatedSearchOptions).pipe(
       getFirstCompletedRemoteData(),
