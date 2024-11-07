@@ -1,5 +1,5 @@
 <ngb-carousel #carousel [interval]="2000" (slide)="onSlide($event)" class="ds-carousel" *ngIf="!(isLoading$ | async)">
-  <ng-template ngbSlide *ngFor="let item of (currentPageItems$ | async); let i = index; let last = last">
+  <ng-template ngbSlide *ngFor="let item of (carouselItems$ | async); let i = index; let last = last">
     <ng-container *ngIf="getItemLink(item.indexableObject); let currentLink; else carouselContent">
       <a *ngIf="internalLinkService.isLinkInternal(currentLink)" [routerLink]="internalLinkService.getRelativePath(currentLink)">
         <ng-container *ngTemplateOutlet="carouselContent"></ng-container>
@@ -18,7 +18,7 @@
           <img [src]="href" [alt]="item.indexableObject.metadata[title][0].value" class="img-fluid"
                [ngClass]="{'w-100': carouselOptions.fitWidth, 'h-100': carouselOptions.fitHeight}">
         </div>
-        <div class="carousel-caption">
+        <div class="carousel-caption" *ngIf="item.indexableObject.metadata">
           <div class="carousel-caption-inner">
             <h3 data-test="carouselObjTitle" [class]="carouselOptions.titleStyle"
                 *ngIf="item.indexableObject.metadata[title]">
@@ -56,38 +56,6 @@
     <i class="fas fa-pause" *ngIf="!paused"></i>
   </button>
 </div>
-<div class="mt-4 w-100 d-flex justify-content-center align-items-center" *ngIf="totalPages > 1">
-  <div
-    class="page-item"
-    [class.disabled]="currentPage === 1 || (isLoading$ | async)"
-  >
-    <button (click)="previousPage()" [disabled]="currentPage === 1 || (isLoading$ | async)" class="page-link prev">
-      «
-    </button>
-  </div>
 
-  <div
-    *ngFor="let page of (currentlyVisiblePages$ | async)"
-    class="page-item"
-    [class.active]="page === currentPage"
-  >
-    <button
-      class="page-link"
-      (click)="changePage(page)"
-      [disabled]="isLoading$ | async"
-    >
-      {{ page < 10 ? '0' + page : page }}
-    </button>
-  </div>
-
-  <div
-    class="page-item"
-    [class.disabled]="currentPage === totalPages || (isLoading$ | async)"
-  >
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages || (isLoading$ | async)" class="page-link next">
-      »
-    </button>
-  </div>
-</div>
 
 
