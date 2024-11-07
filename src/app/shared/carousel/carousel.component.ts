@@ -97,7 +97,6 @@ export class CarouselComponent implements OnInit {
    */
   carouselItems$: BehaviorSubject<ItemSearchResult[]> = new BehaviorSubject<ItemSearchResult[]>([]);
 
-
   private paginationOptionId: string;
 
   private pageSize = 5;
@@ -167,6 +166,10 @@ export class CarouselComponent implements OnInit {
     const currentPage = Math.ceil(currentSlideIndex / this.pageSize);
 
     if (!this.pageToBitstreamsMap.get(currentPage + 1) && currentSlideIndex + this.slideLoadingBuffer === currentPage * this.pageSize) {
+      this.loadNextPageBitstreams();
+    } else if (slideEvent.source === 'indicator' && currentSlideIndex > this.pageSize * this.currentSliderPage) {
+      this.isLoading$.next(true);
+      this.currentSliderPage = currentPage;
       this.loadNextPageBitstreams();
     }
   }
@@ -257,6 +260,7 @@ export class CarouselComponent implements OnInit {
       if (isNotEmpty(itemToImageHrefMap)) {
         this.itemToImageHrefMap$.next(new Map([...Array.from(this.itemToImageHrefMap$.value.entries()), ...Array.from(itemToImageHrefMap.entries())]));
       }
+      this.isLoading$.next(false);
     }));
 
   }
