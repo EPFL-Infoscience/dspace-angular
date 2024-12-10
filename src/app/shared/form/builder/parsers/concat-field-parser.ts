@@ -17,8 +17,7 @@ import {
   INIT_FORM_VALUES,
   PARSER_OPTIONS,
   SECURITY_CONFIG,
-  SUBMISSION_ID,
-  TRANSLATION_SERVICE
+  SUBMISSION_ID
 } from './field-parser';
 import { DsDynamicInputModel, DsDynamicInputModelConfig } from '../ds-dynamic-form-ui/models/ds-dynamic-input.model';
 import {TranslateService} from '@ngx-translate/core';

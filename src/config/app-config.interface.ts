@@ -40,7 +40,6 @@ import { MetadataLinkViewPopoverDataConfig } from './metadata-link-view-popoverd
 import { IdentifierSubtypesConfig } from './identifier-subtypes-config.interface';
 import { DatadogRumConfig } from './datadog-rum-config.interfaces';
 import { LocationConfig } from './location-config.interface';
-import { LoaderConfig } from './loader-config.interfaces';
 
 interface AppConfig extends Config {
   ui: UIServerConfig;
@@ -80,7 +79,6 @@ interface AppConfig extends Config {
   advancedAttachmentRendering: AdvancedAttachmentRenderingConfig;
   searchResult: SearchResultConfig;
   mirador: MiradorConfig;
-  loader: LoaderConfig;
   metaTags: MetaTagsConfig;
   metadataLinkViewPopoverData: MetadataLinkViewPopoverDataConfig;
   identifierSubtypes: IdentifierSubtypesConfig[];

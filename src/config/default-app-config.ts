@@ -43,7 +43,6 @@ import { MetadataLinkViewPopoverDataConfig } from './metadata-link-view-popoverd
 import { IdentifierSubtypesConfig, IdentifierSubtypesIconPositionEnum } from './identifier-subtypes-config.interface';
 import { DatadogRumConfig } from './datadog-rum-config.interfaces';
 import { LocationConfig } from './location-config.interface';
-import { LoaderConfig } from './loader-config.interfaces';
 
 export class DefaultAppConfig implements AppConfig {
   production = false;
@@ -924,12 +923,5 @@ export class DefaultAppConfig implements AppConfig {
       reverseSearchEndpoint: 'https://nominatim.openstreetmap.org/reverse',
       statusEndpoint: 'https://nominatim.openstreetmap.org/status',
     }
-  };
-
-  loader: LoaderConfig = {
-    showFallbackMessagesByDefault: false,
-    warningMessageDelay: 5000, // 5 seconds
-    errorMessageDelay: 15000, // 15 seconds
-    numberOfAutomaticPageReloads: 2,
   };
 }

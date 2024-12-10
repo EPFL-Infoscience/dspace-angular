@@ -6,8 +6,7 @@ import {
   INIT_FORM_VALUES,
   PARSER_OPTIONS,
   SECURITY_CONFIG,
-  SUBMISSION_ID,
-  TRANSLATION_SERVICE
+  SUBMISSION_ID
 } from './field-parser';
 import { DynamicFormControlLayout, } from '@ng-dynamic-forms/core';
 import {

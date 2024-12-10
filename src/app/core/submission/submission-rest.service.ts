@@ -24,7 +24,6 @@ import { RemoteData } from '../data/remote-data';
 import { SubmissionResponse } from './submission-response.model';
 import { RequestError } from '../data/request-error.model';
 import { RestRequest } from '../data/rest-request.model';
-import { ErrorResponse } from '../cache/response.models';
 
 /**
  * The service handling all submission REST requests

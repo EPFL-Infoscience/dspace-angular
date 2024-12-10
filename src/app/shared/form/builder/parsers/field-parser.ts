@@ -39,7 +39,6 @@ export const PARSER_OPTIONS: InjectionToken<ParserOptions> = new InjectionToken<
  */
 export const REGEX_FIELD_VALIDATOR = new RegExp('(\\/?)(.+)\\1([gimsuy]*)', 'i');
 export const SECURITY_CONFIG: InjectionToken<any> = new InjectionToken<any>('securityConfig');
-export const TRANSLATION_SERVICE: InjectionToken<any> = new InjectionToken<any>('translateService');
 
 export abstract class FieldParser {
 
@@ -429,7 +428,7 @@ export abstract class FieldParser {
     const fieldTranslationExists = this.translate.instant(fieldranslationKey) !== fieldranslationKey;
     controlModel.validators = Object.assign({}, controlModel.validators, { pattern: regex });
     let errorField = controlModel.name;
-    this.translateService.get(`error.validation.pattern.${errorField}`).subscribe((result) => {
+    this.translate.get(`error.validation.pattern.${errorField}`).subscribe((result) => {
       if (`error.validation.pattern.${errorField}` === result) {
         controlModel.errorMessages = Object.assign(
           {},

@@ -7769,7 +7769,7 @@
   "mydspace.notification.suggestion.page": "Nous avons collecté <b>{{count}} contenu(s) de type {{type}}</b> depuis {{source}} qui semblent associé(s) à votre profil.<br> <a href='/suggestions/{{suggestionId}}'>Merci d'examiner la ou les suggestion(s)</a>",
 
 
-// "nav.expandable-navbar-section-suffix": "(submenu)",
+  // "nav.expandable-navbar-section-suffix": "(submenu)",
   // TODO New key - Add a translation
   "nav.expandable-navbar-section-suffix": "(submenu)",  // "nav.browse.header": "All",
   "nav.browse.header": "Tout",

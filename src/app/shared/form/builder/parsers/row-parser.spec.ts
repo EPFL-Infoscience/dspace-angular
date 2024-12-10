@@ -3,8 +3,6 @@ import { RowParser } from './row-parser';
 import { DynamicRowGroupModel } from '../ds-dynamic-form-ui/models/ds-dynamic-row-group-model';
 import { DynamicRowArrayModel } from '../ds-dynamic-form-ui/models/ds-dynamic-row-array-model';
 import { FormRowModel } from '../../../../core/config/models/config-submission-form.model';
-import { getMockTranslateService } from 'src/app/shared/mocks/translate.service.mock';
-import { TranslateService } from '@ngx-translate/core';
 import { Injector } from '@angular/core';
 import {
   SubmissionVisibilityType,
@@ -40,7 +38,6 @@ describe('RowParser test suite', () => {
   const typeField = 'dc_type';
 
   beforeEach(() => {
-    let translateService = getMockTranslateService();
     injector = Injector.create({
       providers: [
         { provide: TranslateService, useValue: translateService },

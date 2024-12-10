@@ -53,7 +53,6 @@ import { AlertType } from '../alert/alert-type';
 import { isPlatformServer } from '@angular/common';
 import { FeatureID } from '../../core/data/feature-authorization/feature-id';
 import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
-import { APP_CONFIG } from '../../../config/app-config.interface';
 
 @Component({
   selector: 'ds-search',

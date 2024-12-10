@@ -30,8 +30,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ItemSharedModule } from '../item-shared.module';
 import { CookieService } from '../../core/services/cookie.service';
-import { UUIDService } from '../../core/shared/uuid.service';
-import { getMockUUIDService } from '../../shared/mocks/uuid.service.mock';
 
 describe('ItemVersionsComponent', () => {
   let component: ItemVersionsComponent;

@@ -5,9 +5,6 @@ import { DynamicOneboxModel } from '../ds-dynamic-form-ui/models/onebox/dynamic-
 import { DsDynamicInputModel } from '../ds-dynamic-form-ui/models/ds-dynamic-input.model';
 import { ParserOptions } from './parser-options';
 import { FieldParser } from './field-parser';
-import {TranslateService} from '@ngx-translate/core';
-import {of} from 'rxjs';
-import {EventEmitter} from '@angular/core';
 import { getMockTranslateService } from 'src/app/shared/mocks/translate.service.mock';
 
 describe('OneboxFieldParser test suite', () => {
