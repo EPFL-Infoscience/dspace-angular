@@ -4,7 +4,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { PaginatedList } from '../data/paginated-list.model';
 import { RemoteData } from '../data/remote-data';
 import { Item } from '../shared/item.model';
-import { getFirstSucceededRemoteData } from '../shared/operators';
+import { getFirstCompletedRemoteData } from '../shared/operators';
 import { BrowseEntrySearchOptions } from './browse-entry-search-options.model';
 import { FollowLinkConfig } from '../../shared/utils/follow-link-config.model';
 import { ItemDataService } from '../data/item-data.service';
@@ -45,7 +45,8 @@ export class SearchManager {
    * @returns {Observable<RemoteData<PaginatedList<Item>>>}
    */
   getBrowseItemsFor(filterValue: string, filterAuthority: string, options: BrowseEntrySearchOptions, ...linksToFollow: FollowLinkConfig<any>[]): Observable<RemoteData<PaginatedList<Item>>> {
-    return this.browseService.getBrowseItemsFor(filterValue, filterAuthority, options, ...linksToFollow)
+    const browseOptions = Object.assign({}, options, { projection: 'preventMetadataSecurity' });
+    return this.browseService.getBrowseItemsFor(filterValue, filterAuthority, browseOptions, ...linksToFollow)
       .pipe(this.completeWithExtraData());
   }
 
@@ -112,8 +113,16 @@ export class SearchManager {
       .filter((item) => hasValue(item));
 
     const uuidList = this.extractUUID(items, environment.followAuthorityMetadata);
-
-    return uuidList.length > 0 ? this.itemService.findAllById(uuidList).pipe(getFirstSucceededRemoteData()) : of(null);
+    return uuidList.length > 0 ? this.itemService.findAllById(uuidList).pipe(
+      getFirstCompletedRemoteData(),
+      map(data => {
+        if (data.hasSucceeded) {
+          return of(data);
+        } else {
+          of(null);
+        }
+      })
+    ) : of(null);
   }
 
   protected extractUUID(items: Item[], metadataToFollow: FollowAuthorityMetadata[]): string[] {

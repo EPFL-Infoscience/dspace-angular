@@ -7,6 +7,7 @@ import {
   MATCH_VISIBLE,
   OR_OPERATOR
 } from '@ng-dynamic-forms/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { hasValue, isEmpty, isNotEmpty, isNotNull, isNotUndefined } from '../../../empty.util';
 import { FormFieldModel } from '../models/form-field.model';
@@ -26,7 +27,6 @@ import { SubmissionVisibility } from '../../../../submission/utils/visibility.ut
 import { SubmissionVisibilityType } from '../../../../core/config/models/config-submission-section.model';
 import { Metadata } from '../../../../core/shared/metadata.utils';
 import { MetadataValue } from '../../../../core/shared/metadata.models';
-import {TranslateService} from '@ngx-translate/core';
 
 export const SUBMISSION_ID: InjectionToken<string> = new InjectionToken<string>('submissionId');
 export const CONFIG_DATA: InjectionToken<FormFieldModel> = new InjectionToken<FormFieldModel>('configData');
@@ -56,7 +56,7 @@ export abstract class FieldParser {
     @Inject(INIT_FORM_VALUES) protected initFormValues: any,
     @Inject(PARSER_OPTIONS) protected parserOptions: ParserOptions,
     @Inject(SECURITY_CONFIG) protected securityConfig: any = null,
-    @Inject(TRANSLATION_SERVICE) protected translateService: TranslateService
+    protected translate: TranslateService
   ) {
   }
 
@@ -424,6 +424,9 @@ export abstract class FieldParser {
     } else {
       regex = new RegExp(this.configData.input.regex);
     }
+    const baseTranslationKey = 'error.validation.pattern';
+    const fieldranslationKey = `${baseTranslationKey}.${controlModel.id}`;
+    const fieldTranslationExists = this.translate.instant(fieldranslationKey) !== fieldranslationKey;
     controlModel.validators = Object.assign({}, controlModel.validators, { pattern: regex });
     let errorField = controlModel.name;
     this.translateService.get(`error.validation.pattern.${errorField}`).subscribe((result) => {
@@ -431,7 +434,7 @@ export abstract class FieldParser {
         controlModel.errorMessages = Object.assign(
           {},
           controlModel.errorMessages,
-          {pattern: 'error.validation.pattern'});
+          {pattern: fieldTranslationExists ? fieldranslationKey : baseTranslationKey});
       } else {
         controlModel.errorMessages = Object.assign(
           {},

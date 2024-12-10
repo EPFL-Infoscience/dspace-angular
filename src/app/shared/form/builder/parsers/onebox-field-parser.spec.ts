@@ -8,18 +8,13 @@ import { FieldParser } from './field-parser';
 import {TranslateService} from '@ngx-translate/core';
 import {of} from 'rxjs';
 import {EventEmitter} from '@angular/core';
+import { getMockTranslateService } from 'src/app/shared/mocks/translate.service.mock';
 
 describe('OneboxFieldParser test suite', () => {
   let field1: FormFieldModel;
   let field2: FormFieldModel;
   let field3: FormFieldModel;
-
-  const translateService: TranslateService = {
-    get: () => of('test-message'),
-    onLangChange: new EventEmitter(),
-    onTranslationChange: new EventEmitter(),
-    onDefaultLangChange: new EventEmitter()
-  } as any;
+  let translateService = getMockTranslateService();
 
   const submissionId = '1234';
   const initFormValues = {};

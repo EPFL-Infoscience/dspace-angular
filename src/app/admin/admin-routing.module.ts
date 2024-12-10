@@ -18,6 +18,9 @@ import {
   SiteAdministratorGuard
 } from '../core/data/feature-authorization/feature-authorization-guard/site-administrator.guard';
 import { EndUserAgreementCurrentUserGuard } from '../core/end-user-agreement/end-user-agreement-current-user.guard';
+import {
+  GenericAdministratorGuard
+} from '../core/data/feature-authorization/feature-authorization-guard/generic-administrator-guard';
 
 @NgModule({
   imports: [
@@ -43,50 +46,50 @@ import { EndUserAgreementCurrentUserGuard } from '../core/end-user-agreement/end
         path: 'search',
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         component: AdminSearchPageComponent,
-        canActivate: [CollectionAdministratorGuard, EndUserAgreementCurrentUserGuard],
-        data: { title: 'admin.search.title', breadcrumbKey: 'admin.search' }
+        canActivate: [GenericAdministratorGuard, CollectionAdministratorGuard, EndUserAgreementCurrentUserGuard],
+        data: { title: 'admin.search.title', breadcrumbKey: 'admin.search' },
       },
       {
         path: 'workflow',
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         component: AdminWorkflowPageComponent,
         canActivate: [SiteAdministratorGuard, EndUserAgreementCurrentUserGuard],
-        data: { title: 'admin.workflow.title', breadcrumbKey: 'admin.workflow' }
+        data: { title: 'admin.workflow.title', breadcrumbKey: 'admin.workflow' },
       },
       {
         path: 'curation-tasks',
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         component: AdminCurationTasksComponent,
         canActivate: [SiteAdministratorGuard, EndUserAgreementCurrentUserGuard],
-        data: { title: 'admin.curation-tasks.title', breadcrumbKey: 'admin.curation-tasks' }
+        data: { title: 'admin.curation-tasks.title', breadcrumbKey: 'admin.curation-tasks' },
       },
       {
         path: 'metadata-import',
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         component: MetadataImportPageComponent,
-        canActivate: [SiteAdministratorGuard, EndUserAgreementCurrentUserGuard],
-        data: { title: 'admin.metadata-import.title', breadcrumbKey: 'admin.metadata-import' }
+        canActivate: [GenericAdministratorGuard, SiteAdministratorGuard, EndUserAgreementCurrentUserGuard],
+        data: { title: 'admin.metadata-import.title', breadcrumbKey: 'admin.metadata-import' },
       },
       {
         path: 'edit-user-agreement',
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         component: AdminEditUserAgreementComponent,
         canActivate: [SiteAdministratorGuard, EndUserAgreementCurrentUserGuard],
-        data: { title: 'admin.edit-user-agreement.title', breadcrumbKey: 'admin.edit-user-agreement' }
+        data: { title: 'admin.edit-user-agreement.title', breadcrumbKey: 'admin.edit-user-agreement' },
       },
       {
         path: 'edit-cms-metadata',
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         component: EditCmsMetadataComponent,
         canActivate: [SiteAdministratorGuard, EndUserAgreementCurrentUserGuard],
-        data: { title: 'admin.edit-cms-metadata.title', breadcrumbKey: 'admin.edit-cms-metadata' }
+        data: { title: 'admin.edit-cms-metadata.title', breadcrumbKey: 'admin.edit-cms-metadata' },
       },
       {
         path: 'batch-import',
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         component: BatchImportPageComponent,
-        canActivate: [SiteAdministratorGuard, EndUserAgreementCurrentUserGuard],
-        data: { title: 'admin.batch-import.title', breadcrumbKey: 'admin.batch-import' }
+        canActivate: [GenericAdministratorGuard, SiteAdministratorGuard, EndUserAgreementCurrentUserGuard],
+        data: { title: 'admin.batch-import.title', breadcrumbKey: 'admin.batch-import' },
       },
       {
         path: 'language-files',
@@ -99,7 +102,8 @@ import { EndUserAgreementCurrentUserGuard } from '../core/end-user-agreement/end
         path: 'system-wide-alert',
         resolve: { breadcrumb: I18nBreadcrumbResolver },
         loadChildren: () => import('../system-wide-alert/system-wide-alert.module').then((m) => m.SystemWideAlertModule),
-        data: {title: 'admin.system-wide-alert.title', breadcrumbKey: 'admin.system-wide-alert'}
+        data: {title: 'admin.system-wide-alert.title', breadcrumbKey: 'admin.system-wide-alert'},
+        canActivate: [SiteAdministratorGuard]
       },
     ])
   ],

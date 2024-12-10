@@ -78,7 +78,7 @@ describe('LuckySearchComponent', () => {
     index: 'test',
     'value': 'test'
   };
-  const routerStub = new RouterMock();
+  let routerStub = new RouterMock();
 
   const bitstreamMetadata = {
     'dc.title': [{value: 'test.pdf'} as MetadataValue],
@@ -88,7 +88,6 @@ describe('LuckySearchComponent', () => {
     new Bitstream(),
     {_name: 'test.pdf', sizeBytes: 15, uuid: 'fa272dbf-e458-4ad2-868b-b4a27c6eac15', metadata: bitstreamMetadata}
   ) as Bitstream;
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [LuckySearchComponent, FileSizePipe],
@@ -106,10 +105,8 @@ describe('LuckySearchComponent', () => {
       .compileComponents();
   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LuckySearchComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  afterEach(() => {
+    routerStub = new RouterMock();
   });
 
   describe('should search items', () => {
@@ -284,6 +281,12 @@ describe('LuckySearchComponent', () => {
     });
   });
 
+  describe('', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(LuckySearchComponent);
+      component = fixture.componentInstance;
+  });
+
   it('should not redirect when no bitstreams are found', () => {
     const item = Object.assign(new Item(), {uuid: 'item-uuid-1', name: 'Test item 1'});
     const data = createSuccessfulRemoteDataObject(createPaginatedList([
@@ -298,6 +301,7 @@ describe('LuckySearchComponent', () => {
   });
 
   it('should update showEmptySearchSection$ when no results are found', () => {
+      fixture.detectChanges();
     const emptyResults = createSuccessfulRemoteDataObject(createPaginatedList([]));
 
     spyOn(component as any, 'getLuckySearchResults').and.returnValue(observableOf(emptyResults));
@@ -306,5 +310,7 @@ describe('LuckySearchComponent', () => {
     component.getSearchResults();
 
     expect(component.showEmptySearchSection$.getValue()).toBe(true);
+  });
+
   });
 });

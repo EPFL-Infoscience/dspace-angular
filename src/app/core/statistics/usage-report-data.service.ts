@@ -50,11 +50,15 @@ export class UsageReportDataService extends IdentifiableDataService<UsageReport>
     ];
 
     if (startDate !== undefined) {
-      params.push(new RequestParam('startDate', startDate));
+      params.push(
+        new RequestParam('startDate', startDate)
+      );
     }
 
     if (endDate !== undefined) {
-      params.push(new RequestParam('endDate', endDate));
+      params.push(
+        new RequestParam('endDate', endDate)
+      );
     }
 
     return this.searchBy('object', {

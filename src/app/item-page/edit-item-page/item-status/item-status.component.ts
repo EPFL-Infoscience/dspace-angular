@@ -122,7 +122,19 @@ export class ItemStatusComponent implements OnInit {
       // Observable for configuration determining whether the Register DOI feature is enabled
       let registerConfigEnabled$: Observable<boolean> = this.configurationService.findByPropertyName('identifiers.item-status.register-doi').pipe(
         getFirstCompletedRemoteData(),
-        map((enabledRD: RemoteData<ConfigurationProperty>) => enabledRD.hasSucceeded && enabledRD.payload.values.length > 0)
+        map((response: RemoteData<ConfigurationProperty>) => {
+          // Return true if a successful response with a 'true' value was retrieved, otherwise return false
+          if (response.hasSucceeded) {
+            const payload = response.payload;
+            if (payload.values.length > 0 && hasValue(payload.values[0])) {
+              return payload.values[0] === 'true';
+            } else {
+              return false;
+            }
+          } else {
+            return false;
+          }
+        })
       );
 
       /**
@@ -132,7 +144,7 @@ export class ItemStatusComponent implements OnInit {
        * The value is supposed to be a href for the button
        */
       const currentUrl = this.getCurrentUrl(item);
-      const inititalOperations: ItemOperation[] = [
+      const initialOperations: ItemOperation[] = [
         new ItemOperation('authorizations', `${currentUrl}/authorizations`, FeatureID.CanManagePolicies, true),
         new ItemOperation('mappedCollections', `${currentUrl}/mapper`, FeatureID.CanManageMappings, true),
         item.isWithdrawn
@@ -145,7 +157,7 @@ export class ItemStatusComponent implements OnInit {
         new ItemOperation('delete', `${currentUrl}/delete`, FeatureID.CanDelete, true)
       ];
 
-      this.operations$.next(inititalOperations);
+      this.operations$.next(initialOperations);
 
         /**
          *  When the identifier data stream changes, determine whether the register DOI button should be shown or not.
@@ -185,12 +197,12 @@ export class ItemStatusComponent implements OnInit {
           }),
           // Switch map pushes the register DOI operation onto a copy of the base array then returns to the pipe
           switchMap((showDoi: boolean) => {
-            const ops = [...inititalOperations];
+            const ops = [...initialOperations];
             if (showDoi) {
               const op = new ItemOperation('register-doi', `${currentUrl}/register-doi`, FeatureID.CanRegisterDOI, true);
               ops.splice(ops.length - 1, 0, op); // Add item before last
             }
-            return inititalOperations;
+            return ops;
           }),
           concatMap((op: ItemOperation) => {
             if (hasValue(op.featureID)) {
