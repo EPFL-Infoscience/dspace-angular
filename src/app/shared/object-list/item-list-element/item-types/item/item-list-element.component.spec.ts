@@ -26,6 +26,7 @@ import { VocabularyService } from '../../../../../core/submission/vocabularies/v
 import { ItemDataService } from '../../../../../core/data/item-data.service';
 import { MetricsDataService } from '../../../../../core/data/metrics-data.service';
 import { LinkService } from '../../../../../core/cache/builders/link.service';
+import { MathService } from '../../../../../core/shared/math.service';
 
 const mockItem: Item = Object.assign(new Item(), {
   bundles: observableOf({}),
@@ -111,6 +112,7 @@ describe('ItemListElementComponent', () => {
         { provide: ItemDataService, useValue: {} },
         { provide: MetricsDataService, useValue: metricsDataService },
         { provide: LinkService, useValue: linkService },
+        { provide: MathService, useValue: {} },
       ],
     }).overrideComponent(ItemListElementComponent, {
       set: { changeDetection: ChangeDetectionStrategy.Default }

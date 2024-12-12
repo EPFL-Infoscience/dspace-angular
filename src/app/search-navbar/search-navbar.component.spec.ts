@@ -88,7 +88,7 @@ describe('SearchNavbarComponent', () => {
           fixture.detectChanges();
         }));
         it('to search page with empty query', () => {
-          const extras: NavigationExtras = { queryParams: { query: '' } };
+          const extras: NavigationExtras = {queryParams: { query: '', configuration: 'researchoutputs' }};
           expect(component.onSubmit).toHaveBeenCalledWith({ query: '' });
           expect(router.navigate).toHaveBeenCalledWith(['search'], extras);
         });
@@ -113,7 +113,7 @@ describe('SearchNavbarComponent', () => {
           fixture.detectChanges();
         }));
         it('to search page with query', async () => {
-          const extras: NavigationExtras = { queryParams: { query: 'test' } };
+          const extras: NavigationExtras = { queryParams: { query: 'test', configuration: 'researchoutputs' }};
           expect(component.onSubmit).toHaveBeenCalledWith({ query: 'test' });
           expect(router.navigate).toHaveBeenCalledWith(['search'], extras);
         });

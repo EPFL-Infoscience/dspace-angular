@@ -428,19 +428,18 @@ export abstract class FieldParser {
     const fieldTranslationExists = this.translate.instant(fieldranslationKey) !== fieldranslationKey;
     controlModel.validators = Object.assign({}, controlModel.validators, { pattern: regex });
     let errorField = controlModel.name;
-    this.translate.get(`error.validation.pattern.${errorField}`).subscribe((result) => {
-      if (`error.validation.pattern.${errorField}` === result) {
-        controlModel.errorMessages = Object.assign(
-          {},
-          controlModel.errorMessages,
-          {pattern: fieldTranslationExists ? fieldranslationKey : baseTranslationKey});
-      } else {
-        controlModel.errorMessages = Object.assign(
-          {},
-          controlModel.errorMessages,
-          {pattern: `error.validation.pattern.${errorField}`});
-      }
-    });
+    const translation = this.translate.instant(`error.validation.pattern.${errorField}`);
+    if (`error.validation.pattern.${errorField}` === translation) {
+      controlModel.errorMessages = Object.assign(
+        {},
+        controlModel.errorMessages,
+        {pattern: fieldTranslationExists ? fieldranslationKey : baseTranslationKey});
+    } else {
+      controlModel.errorMessages = Object.assign(
+        {},
+        controlModel.errorMessages,
+        {pattern: `error.validation.pattern.${errorField}`});
+    }
   }
 
   protected markAsRequired(controlModel) {

@@ -6,6 +6,7 @@ import { of as observableOf } from 'rxjs';
 import { AuthService } from '../../../core/auth/auth.service';
 import { AuthorizationDataService } from '../../../core/data/feature-authorization/authorization-data.service';
 import { FileService } from '../../../core/shared/file.service';
+import { ItemDataService } from '../../../core/data/item-data.service';
 
 describe('MetadataLinkViewAvatarPopoverComponent', () => {
   let component: MetadataLinkViewAvatarPopoverComponent;
@@ -29,7 +30,8 @@ describe('MetadataLinkViewAvatarPopoverComponent', () => {
       providers: [
         { provide: AuthService, useValue: authService },
         { provide: AuthorizationDataService, useValue: authorizationService },
-        { provide: FileService, useValue: fileService }
+        { provide: FileService, useValue: fileService },
+        { provide: ItemDataService, useValue: {} },
       ]
     })
     .compileComponents();
