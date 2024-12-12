@@ -2,11 +2,11 @@
 @import '../../../styles/_global-styles.scss';
 
 // Variables
-$icon-size: 16px; 
-$transition-speed: 0.2s; 
-$font-size-small: 1rem; 
-$font-size-large: 1.4rem; 
-$font-size-h4: 1.1rem; 
+$icon-size: 16px;
+$transition-speed: 0.2s;
+$font-size-small: 1rem;
+$font-size-large: 1.4rem;
+$font-size-h4: 1.1rem;
 
 
 ds-auth-nav-menu ds-themed-user-menu ds-user-menu a.dropdown-item.active:hover {
@@ -79,7 +79,7 @@ ds-auth-nav-menu ds-themed-user-menu ds-user-menu a.dropdown-item.active:hover {
               color: $leman;
               font-size: 2.4em;
             }
-          
+
             .lead-sub {
               color: $dark;
               font-size: .95em;
@@ -144,7 +144,7 @@ ds-access-status-badge .badge-secondary,
     padding-bottom: 0.5rem !important;
   }
 
-  h4 {
+  .h4 {
     font-size: $font-size-h4;
   }
 
@@ -224,7 +224,7 @@ ds-themed-counters-section {
   .card {
     border: none !important;
   }
-  
+
   .mb-2 {
     margin-bottom: 0 !important;
   }
@@ -260,7 +260,7 @@ ds-counters-section {
               background-color: $gray-200;
             }
     }
-    
+
 
   }
 
@@ -298,7 +298,7 @@ ds-item-search-result-list-element .text-muted {
 .item-list-abstract {
   font-size: .9rem;
   padding: .7rem;
-  
+
 }
 
 #main-content ds-themed-browse-most-elements ds-item-search-result-grid-element ds-badges {
