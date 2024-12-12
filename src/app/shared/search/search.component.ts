@@ -504,6 +504,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         combinedOptions.scope = scope;
       }
       const newSearchOptions = new PaginatedSearchOptions(combinedOptions);
+      this.searchOptions = newSearchOptions;
       // check if search options are changed
       // if so retrieve new related results otherwise skip it
       if (JSON.stringify(this.searchOptions) !== JSON.stringify(this.searchOptions$.value)) {
@@ -511,6 +512,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.currentConfiguration$.next(configuration);
         this.currentSortOptions$.next(newSearchOptions.sort);
         this.sortOptionsList$.next(searchSortOptions);
+        console.warn(this.searchOptions);
         this.searchOptions$.next(this.searchOptions);
         this.initialized$.next(true);
         // retrieve results
