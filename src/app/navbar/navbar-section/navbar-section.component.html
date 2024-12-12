@@ -1,4 +1,4 @@
-<div class="ds-menu-item-wrapper text-md-center"
+<div class="ds-menu-item-wrapper text-md-center nav-item navbar-section align-items-center h-100"
      [id]="'navbar-section-' + section.id">
   <ng-container *ngComponentOutlet="(sectionMap$ | async).get(section.id).component; injector: (sectionMap$ | async).get(section.id).injector;"></ng-container>
 </div>
