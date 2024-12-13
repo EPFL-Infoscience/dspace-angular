@@ -512,7 +512,6 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.currentConfiguration$.next(configuration);
         this.currentSortOptions$.next(newSearchOptions.sort);
         this.sortOptionsList$.next(searchSortOptions);
-        console.warn(this.searchOptions);
         this.searchOptions$.next(this.searchOptions);
         this.initialized$.next(true);
         // retrieve results
