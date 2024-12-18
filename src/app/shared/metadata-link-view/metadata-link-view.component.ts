@@ -13,7 +13,6 @@ import { getFirstCompletedRemoteData } from '../../core/shared/operators';
 import { Metadata } from '../../core/shared/metadata.utils';
 import { DSpaceObject } from '../../core/shared/dspace-object.model';
 import { environment } from '../../../environments/environment';
-import { followLink } from '../utils/follow-link-config.model';
 import { MetadataView } from './metadata-view.model';
 
 @Component({
@@ -82,7 +81,10 @@ export class MetadataLinkViewComponent implements OnInit {
    * @returns An Observable that emits the metadata view.
    */
   private getMetadataView(metadataValue: MetadataValue): Observable<MetadataView> {
-    const linksToFollow = [followLink('thumbnail')];
+
+    // TODO: restore thumbnail followlink
+    // const linksToFollow = [followLink('thumbnail')];
+    const linksToFollow = [];
 
     if (Metadata.hasValidAuthority(metadataValue.authority)) {
       return this.itemService.findById(metadataValue.authority, true, false, ...linksToFollow).pipe(

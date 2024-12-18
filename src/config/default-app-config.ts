@@ -408,10 +408,6 @@ export class DefaultAppConfig implements AppConfig {
     {
       type: 'Patent',
       metadata: ['dc.contributor.author']
-    },
-    {
-      type: 'Patent',
-      metadata: ['dc.contributor.author']
     }
   ];
 
