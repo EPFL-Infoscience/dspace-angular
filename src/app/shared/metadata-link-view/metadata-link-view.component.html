@@ -2,13 +2,15 @@
 	<ng-container *ngIf="metadataView" [ngTemplateOutlet]="metadataView?.authority ? linkToAuthority : (metadataView?.entityType ? textWithIcon : textWithoutIcon)"
                   [ngTemplateOutletContext]="{metadataView: metadataView}"></ng-container>
 </div>
+
 <ng-template class="d-flex" #linkToAuthority let-metadataView="metadataView">
-  <span [dsStickyPopover]="popContent"
-        [openDelay]="100"
-        [animation]="true"
-        [autoClose]="true"
-        container="body"
-        triggers="mouseenter">
+<!-- TODO: restore popover -->
+<!--  <span [dsStickyPopover]="popContent"-->
+<!--        [openDelay]="100"-->
+<!--        [animation]="true"-->
+<!--        [autoClose]="true"-->
+<!--        container="body"-->
+<!--        triggers="mouseenter">-->
     <a rel="noopener noreferrer" data-test="linkToAuthority"
       [routerLink]="['/items/' + metadataView.authority]">
       <span dsEntityIcon
@@ -18,7 +20,7 @@
                 {{metadataView.value}}
         </span>
     </a>
-  </span>
+<!--  </span>-->
   <img *ngIf="metadataView.orcidAuthenticated"
        placement="top"
        ngbTooltip="{{ metadataView.orcidAuthenticated }}"
@@ -41,7 +43,8 @@
   <span data-test="textWithoutIcon">{{normalizeValue(metadataView.value)}}</span>
 </ng-template>
 
-<ng-template #popContent>
-  <ds-metadata-link-view-popover [item]="relatedItem"></ds-metadata-link-view-popover>
-</ng-template>
+<!-- TODO: restore popover -->
+<!--<ng-template #popContent>-->
+<!--  <ds-metadata-link-view-popover [item]="relatedItem"></ds-metadata-link-view-popover>-->
+<!--</ng-template>-->
 
