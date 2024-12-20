@@ -1,6 +1,6 @@
-import { Component, Inject, Input, OnChanges, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, Input, OnChanges, PLATFORM_ID, SimpleChanges } from '@angular/core';
 import { Bitstream } from '../core/shared/bitstream.model';
-import { hasValue } from '../shared/empty.util';
+import { hasNoValue, hasValue } from '../shared/empty.util';
 import { RemoteData } from '../core/data/remote-data';
 import { BehaviorSubject, of as observableOf } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -85,8 +85,13 @@ export class ThumbnailComponent implements OnChanges {
    * Resolve the thumbnail.
    * Use a default image if no actual image is available.
    */
-  ngOnChanges(): void {
+  ngOnChanges(changes: SimpleChanges): void {
     if (isPlatformBrowser(this.platformID)) {
+      if (hasNoValue(this.thumbnail)) {
+        this.setSrc(this.defaultImage);
+        return;
+      }
+
       const src = this.contentHref;
       if (hasValue(src)) {
         this.setSrc(src);

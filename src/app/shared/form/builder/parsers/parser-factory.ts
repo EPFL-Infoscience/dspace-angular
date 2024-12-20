@@ -6,8 +6,7 @@ import {
   INIT_FORM_VALUES,
   PARSER_OPTIONS,
   SECURITY_CONFIG,
-  SUBMISSION_ID,
-  TRANSLATION_SERVICE
+  SUBMISSION_ID
 } from './field-parser';
 import { DateFieldParser } from './date-field-parser';
 import { DropdownFieldParser } from './dropdown-field-parser';
@@ -23,6 +22,9 @@ import { TextareaFieldParser } from './textarea-field-parser';
 import { NumberFieldParser } from './number-field-parser';
 import { CalendarFieldParser } from './calendar-field-parser';
 import { DisabledFieldParser } from './disabled-field-parser';
+import { TranslateService } from '@ngx-translate/core';
+import { LinkFieldParser } from './link-field-parser';
+import { MarkdownFieldParser } from './markdown-field-parser';
 
 const fieldParserDeps = [
   SUBMISSION_ID,
@@ -30,7 +32,7 @@ const fieldParserDeps = [
   INIT_FORM_VALUES,
   PARSER_OPTIONS,
   SECURITY_CONFIG,
-  TRANSLATION_SERVICE
+  TranslateService
 ];
 
 /**
@@ -142,6 +144,20 @@ export class ParserFactory {
         return {
           provide: FieldParser,
           useClass: TextareaFieldParser,
+          deps: [...fieldParserDeps]
+        };
+      }
+      case ParserType.Link: {
+        return {
+          provide: FieldParser,
+          useClass: LinkFieldParser,
+          deps: [...fieldParserDeps]
+        };
+      }
+      case ParserType.Markdown: {
+        return {
+          provide: FieldParser,
+          useClass: MarkdownFieldParser,
           deps: [...fieldParserDeps]
         };
       }

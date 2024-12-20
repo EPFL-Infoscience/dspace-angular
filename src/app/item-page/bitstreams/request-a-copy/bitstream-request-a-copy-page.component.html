@@ -1,5 +1,5 @@
 <div class="container">
-    <h3 class="mb-4">{{'bitstream-request-a-copy.header' | translate}}</h3>
+    <h1 class="mb-4">{{'bitstream-request-a-copy.header' | translate}}</h1>
     <ds-alert [type]="AlertTypeEnum.Info" [dismissible]="true"
             [content]="'bitstream-request-a-copy.submit.info' | translate"></ds-alert>
     <div *ngIf="canDownload$|async" class="alert alert-success">

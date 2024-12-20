@@ -19,6 +19,7 @@ import { AuthorizationDataService } from '../../../../core/data/feature-authoriz
 import { AuthorizationDataServiceStub } from '../../../testing/authorization-service.stub';
 import { ItemDataService } from '../../../../core/data/item-data.service';
 import { createSuccessfulRemoteDataObject$ } from '../../../remote-data.utils';
+import { TruncatableService } from '../../../truncatable/truncatable.service';
 
 let component: ItemListPreviewComponent;
 let fixture: ComponentFixture<ItemListPreviewComponent>;
@@ -115,6 +116,10 @@ const itemService = jasmine.createSpyObj('itemService', {
 });
 
 
+const truncatableServiceStub: any = {
+  isCollapsed: (id: number) => observableOf(true),
+};
+
 describe('ItemListPreviewComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -135,6 +140,7 @@ describe('ItemListPreviewComponent', () => {
         { provide: APP_CONFIG, useValue: environmentUseThumbs },
         { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
         { provide: ItemDataService, useValue: itemService },
+        { provide: TruncatableService, useValue: truncatableServiceStub },
       ],
 
       schemas: [NO_ERRORS_SCHEMA]
@@ -263,9 +269,10 @@ describe('ItemListPreviewComponent', () => {
     });
   });
 
-  describe('When the item has an entity type', () => {
+  describe('When the item has an entity type and showLabel is true', () => {
     beforeEach(() => {
       component.item = mockItemWithEntityType;
+      component.showLabel = true;
       fixture.detectChanges();
     });
 
@@ -282,6 +289,46 @@ describe('ItemListPreviewComponent', () => {
     it('should show the badges', () => {
       const entityField = fixture.debugElement.query(By.css('ds-themed-badges'));
       expect(entityField).not.toBeNull();
+    });
+  });
+
+  describe('When the item has an entity type and showLabel is false', () => {
+    beforeEach(() => {
+      component.item = mockItemWithEntityType;
+      component.showLabel = false;
+      fixture.detectChanges();
+    });
+
+    it('should not show the badges', () => {
+      const entityField = fixture.debugElement.query(By.css('ds-themed-badges'));
+      expect(entityField).toBeNull();
+    });
+  });
+
+
+  describe('When truncatable section is collapsed', () => {
+    beforeEach(() => {
+      component.isCollapsed$ = observableOf(true);
+      component.item = mockItemWithAuthorAndDate;
+      fixture.detectChanges();
+    });
+
+    it('should show limitedMetadata', () => {
+      const authorElements = fixture.debugElement.queryAll(By.css('span.item-list-authors ds-metadata-link-view'));
+      expect(authorElements.length).toBe(mockItemWithAuthorAndDate.limitedMetadata(component.authorMetadata, component.authorMetadataLimit).length);
+    });
+  });
+
+  describe('When truncatable section is expanded', () => {
+    beforeEach(() => {
+      component.isCollapsed$ = observableOf(false);
+      component.item = mockItemWithAuthorAndDate;
+      fixture.detectChanges();
+    });
+
+    it('should show allMetadata', () => {
+      const authorElements = fixture.debugElement.queryAll(By.css('span.item-list-authors ds-metadata-link-view'));
+      expect(authorElements.length).toBe(mockItemWithAuthorAndDate.allMetadata(component.authorMetadata).length);
     });
   });
 });
@@ -305,6 +352,7 @@ describe('ItemListPreviewComponent', () => {
         {provide: APP_CONFIG, useValue: enviromentNoThumbs},
         { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
         { provide: ItemDataService, useValue: itemService },
+        { provide: TruncatableService, useValue: truncatableServiceStub },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(ItemListPreviewComponent, {
@@ -340,6 +388,19 @@ describe('ItemListPreviewComponent', () => {
     it('should add the ds-thumbnail element', () => {
       const thumbnail = fixture.debugElement.query(By.css('ds-thumbnail'));
       expect(thumbnail).toBeFalsy();
+    });
+  });
+
+  describe('When showCorrection is false', () => {
+    beforeEach(() => {
+      component.item = mockItemWithAuthorAndDate;
+      component.showCorrection = false;
+      fixture.detectChanges();
+    });
+
+    it('should not show the correction badge', () => {
+      const correctionBadge = fixture.debugElement.query(By.css('ds-item-correction'));
+      expect(correctionBadge).toBeFalsy();
     });
   });
 });

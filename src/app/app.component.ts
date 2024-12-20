@@ -30,6 +30,7 @@ import { RouteService } from './core/services/route.service';
 import { getEditItemPageRoute, getWorkflowItemModuleRoute, getWorkspaceItemModuleRoute } from './app-routing-paths';
 import { SocialService } from './social/social.service';
 import { SvgIconLoaderService } from '../themes/infoscience/app/svg-icon/svg-icon-loader.service';
+import { DatadogRumService } from './shared/datadog-rum/datadog-rum.service';
 
 @Component({
   selector: 'ds-app',
@@ -61,6 +62,12 @@ export class AppComponent implements OnInit, AfterViewInit {
    */
   idleModalOpen: boolean;
 
+
+  /**
+   * In order to show sharing component only in csr
+   */
+  browserPlatform = false;
+
   constructor(
     @Inject(NativeWindowService) private _window: NativeWindowRef,
     @Inject(DOCUMENT) private document: any,
@@ -76,13 +83,15 @@ export class AppComponent implements OnInit, AfterViewInit {
     private modalConfig: NgbModalConfig,
     private socialService: SocialService,
     private svgIconLoader: SvgIconLoaderService,
+    private datadogRumService: DatadogRumService
   ) {
     this.notificationOptions = environment.notifications;
+    this.browserPlatform = isPlatformBrowser(this.platformId);
 
     /* Use models object so all decorators are actually called */
     this.models = models;
 
-    if (isPlatformBrowser(this.platformId)) {
+    if (this.browserPlatform) {
       this.trackIdleModal();
     }
 
@@ -112,6 +121,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     );
 
     this.dispatchWindowSize(this._window.nativeWindow.innerWidth, this._window.nativeWindow.innerHeight);
+
+    this.datadogRumService.initDatadogRum();
   }
 
   private storeCSSVariables() {
@@ -127,7 +138,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       ))
     ).subscribe(([currentUrl, event]: [string, RouterEvent]) => {
       if (event instanceof NavigationStart) {
-        if (!(currentUrl.startsWith(getEditItemPageRoute()) || currentUrl.startsWith(getWorkspaceItemModuleRoute()) || currentUrl.startsWith(getWorkflowItemModuleRoute()))) {
+        if (!(currentUrl.startsWith('/entities' || getEditItemPageRoute()) || currentUrl.startsWith(getWorkspaceItemModuleRoute()) || currentUrl.startsWith(getWorkflowItemModuleRoute()))) {
           distinctNext(this.isRouteLoading$, true);
         }
         // distinctNext(this.isRouteLoading$, true);

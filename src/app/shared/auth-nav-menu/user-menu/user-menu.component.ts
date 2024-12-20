@@ -19,6 +19,7 @@ import { followLink } from '../../utils/follow-link-config.model';
 import { getFirstSucceededRemoteDataPayload } from '../../../core/shared/operators';
 import { ResearcherProfileDataService } from '../../../core/profile/researcher-profile-data.service';
 import { DSONameService } from '../../../core/breadcrumbs/dso-name.service';
+import { getProcessListRoute } from '../../../process-page/process-page-routing.paths';
 
 /**
  * This component represents the user nav menu.
@@ -61,6 +62,11 @@ export class UserMenuComponent implements OnInit {
    * The profile page route
    */
   public profileRoute = getProfileModuleRoute();
+
+  /**
+   * The processes page route
+   */
+  public processesRoute = getProcessListRoute();
 
   /**
    * The profile page route

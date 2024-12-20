@@ -117,7 +117,7 @@ export class AuthService {
         if (hasValue(rd.payload) && rd.payload.authenticated) {
           return rd.payload;
         } else {
-          throw (new Error('Invalid email or password'));
+          throw (new Error('auth.errors.invalid-user'));
         }
       }));
 

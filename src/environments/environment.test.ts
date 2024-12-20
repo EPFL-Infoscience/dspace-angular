@@ -2,9 +2,8 @@
 import { BuildConfig } from 'src/config/build-config.interface';
 import { RestRequestMethod } from '../app/core/data/rest-request-method';
 import { NotificationAnimationsType } from '../app/shared/notifications/models/notification-animations-type';
-import {
-  AdvancedAttachmentElementType
-} from '../config/advanced-attachment-rendering.config';
+import { AdvancedAttachmentElementType } from '../config/advanced-attachment-rendering.config';
+import { IdentifierSubtypesIconPositionEnum } from 'src/config/identifier-subtypes-config.interface';
 
 export const environment: BuildConfig = {
   production: false,
@@ -247,8 +246,12 @@ export const environment: BuildConfig = {
     fiveYearLimit: 30,
     // The absolute lowest year to display in the dropdown (only used when no lowest date can be found for all items)
     defaultLowerLimit: 1900,
+    // Whether to add item badges to BOTH browse and search result lists.
+    showLabels: true,
     // Whether to add item thumbnail images to BOTH browse and search result lists.
     showThumbnails: true,
+    // Whether to add item thumbnail images to BOTH browse and search result lists.
+    showMetrics: false,
     // The number of entries in a paginated browse results list.
     // Rounded to the nearest size in the list of selectable sizes on the
     // settings menu.  See pageSizeOptions in 'pagination-component-options.model.ts'.
@@ -273,6 +276,8 @@ export const environment: BuildConfig = {
       metadata: ['dc.contributor.author']
     }
   ],
+  followAuthorityMaxItemLimit: 100,
+  followAuthorityMetadataValuesLimit: 5,
   item: {
     edit: {
       undoTimeout: 10000 // 10 seconds
@@ -488,7 +493,7 @@ export const environment: BuildConfig = {
   },
   addToAnyPlugin: {
     scriptUrl: 'https://static.addtoany.com/menu/page.js',
-    socialNetworksEnabled: false,
+    socialNetworksEnabled: true,
     buttons: ['btn1', 'btn2'],
     showPlusButton: true,
     showCounters: true,
@@ -617,18 +622,60 @@ export const environment: BuildConfig = {
     enableDownloadPlugin: true,
   },
 
+  loader: {
+    showFallbackMessagesByDefault: true,
+    warningMessageDelay: 1000,
+    errorMessageDelay: 2000,
+    numberOfAutomaticPageReloads: 2,
+  },
+
+  metaTags: {
+    defaultLogo: '/assets/images/dspace-cris-logo.png',
+    defaultDescription: 'DSpace is the most widely used repository software with more than 3000 installations around the world. It is free, open source and completely customisable to fit the needs of any organisation.'
+  },
+
+  identifierSubtypes: [
+    {
+      name: 'ror',
+      icon: 'assets/images/ror.logo.icon.svg',
+      iconPosition: IdentifierSubtypesIconPositionEnum.LEFT,
+      link: 'https://ror.org'
+    }
+  ],
+  // Configuration for the metadata link view popover
+  metadataLinkViewPopoverData:
+  {
+    fallbackMetdataList: ['dc.description.abstract'],
+
+    entityDataConfig: [
+      {
+        entityType: 'Person',
+        metadataList: ['person.affiliation.name', 'person.email', 'person.identifier.orcid', 'dc.description.abstract']
+      },
+      {
+        entityType: 'OrgUnit',
+        metadataList: ['organization.parentOrganization', 'organization.identifier.ror', 'crisou.director', 'dc.description.abstract']
+      },
+      {
+        entityType: 'Project',
+        metadataList: ['oairecerif.project.status', 'dc.description.abstract']
+      },
+      {
+        entityType: 'Funding',
+        metadataList: ['oairecerif.funder', 'oairecerif.fundingProgram', 'dc.description.abstract']
+      },
+      {
+        entityType: 'Publication',
+        metadataList: ['dc.identifier.doi', 'dc.identifier.uri', 'dc.description.abstract']
+      },
+    ]
+  },
+
   location: {
     nominatimApi: {
       searchEndpoint: 'https://nominatim.openstreetmap.org/search',
       reverseSearchEndpoint: 'https://nominatim.openstreetmap.org/reverse',
       statusEndpoint: 'https://nominatim.openstreetmap.org/status',
     }
-  },
-
-  loader: {
-    showFallbackMessagesByDefault: true,
-    warningMessageDelay: 1000,
-    errorMessageDelay: 2000,
-    numberOfAutomaticPageReloads: 2,
   },
 };

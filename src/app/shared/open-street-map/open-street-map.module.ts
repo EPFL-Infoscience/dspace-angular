@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { SharedModule } from '../shared.module';
 import { OpenStreetMapComponent } from './open-street-map.component';
-// import { AngularOpenlayersModule } from 'ngx-openlayers';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 const COMPONENTS = [
     OpenStreetMapComponent
@@ -10,8 +11,9 @@ const COMPONENTS = [
 
 @NgModule({
   imports: [
+    CommonModule,
     SharedModule,
-    // AngularOpenlayersModule,
+    LeafletModule,
   ],
   declarations: [...COMPONENTS],
   exports: [...COMPONENTS]

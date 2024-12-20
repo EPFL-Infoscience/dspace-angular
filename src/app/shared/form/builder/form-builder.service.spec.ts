@@ -85,6 +85,7 @@ describe('FormBuilderService test suite', () => {
 
   beforeEach(() => {
     configSpy = createConfigSuccessSpy(typeFieldTestValue);
+    let translateService = getMockTranslateService();
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       providers: [
@@ -93,7 +94,7 @@ describe('FormBuilderService test suite', () => {
         { provide: NG_VALIDATORS, useValue: testValidator, multi: true },
         { provide: NG_ASYNC_VALIDATORS, useValue: testAsyncValidator, multi: true },
         { provide: ConfigurationDataService, useValue: configSpy },
-        { provide: TranslateService, useValue: getMockTranslateService() }
+        { provide: TranslateService, useValue: translateService },
       ]
     });
 

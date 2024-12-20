@@ -13,7 +13,6 @@ import {
   PARSER_OPTIONS,
   SECURITY_CONFIG,
   SUBMISSION_ID,
-  TRANSLATION_SERVICE
 } from './field-parser';
 import { ParserFactory } from './parser-factory';
 import { ParserOptions } from './parser-options';
@@ -81,7 +80,6 @@ export class RowParser {
             { provide: INIT_FORM_VALUES, useValue: initFormValues },
             { provide: PARSER_OPTIONS, useValue: parserOptions },
             { provide: SECURITY_CONFIG, useValue: securityConfig },
-            { provide: TRANSLATION_SERVICE, useValue: this.translateService }
           ],
           parent: this.parentInjector
         });

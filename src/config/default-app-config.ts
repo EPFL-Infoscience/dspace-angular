@@ -37,8 +37,12 @@ import { SearchResultConfig } from './search-result-config.interface';
 import { VirtualCollectionConfig } from './virtual-collection-config.interface';
 import { EpflUnpaywallMetadata } from './epfl-unpaywall-metadata';
 import { MiradorConfig } from './mirador-config.interfaces';
-import { LocationConfig } from './location-config.interface';
 import { LoaderConfig } from './loader-config.interfaces';
+import { MetaTagsConfig } from './meta-tags.config';
+import { MetadataLinkViewPopoverDataConfig } from './metadata-link-view-popoverdata-config.interface';
+import { IdentifierSubtypesConfig, IdentifierSubtypesIconPositionEnum } from './identifier-subtypes-config.interface';
+import { DatadogRumConfig } from './datadog-rum-config.interfaces';
+import { LocationConfig } from './location-config.interface';
 
 export class DefaultAppConfig implements AppConfig {
   production = false;
@@ -105,7 +109,7 @@ export class DefaultAppConfig implements AppConfig {
       // Defaults to caching 1,000 pages. Each page expires after 1 day
       botCache: {
         // Maximum number of pages (rendered via SSR) to cache. Setting max=0 disables the cache.
-        max: 0,
+        max: 0, // disabled by default
         // Amount of time after which cached pages are considered stale (in ms)
         timeToLive: 24 * 60 * 60 * 1000, // 1 day
         allowStale: true,
@@ -254,17 +258,48 @@ export class DefaultAppConfig implements AppConfig {
           // default configuration
           {
             value: 'default',
-            style: 'text-muted'
+            style: 'text-gray-500'
           }
 
+        ],
+        sourceIcons: [
+          {
+            source: 'orcid',
+            path: 'assets/images/orcid.logo.icon.svg'
+          },
+          {
+            source: 'openaire',
+            path: 'assets/images/openaire.logo.icon.svg'
+          },
+          {
+            source: 'ror',
+            path: 'assets/images/ror.logo.icon.svg'
+          },
+          {
+            source: 'sherpa',
+            path: 'assets/images/sherpa.logo.icon.svg'
+          },
+          {
+            source: 'zdb',
+            path: 'assets/images/zdb.logo.icon.svg'
+          },
+          {
+            source: 'local',
+            path: 'assets/images/local.logo.icon.svg'
+          },
         ]
-      }
+      },
+      iconsVisibleWithNoAuthority: ['fas fa-user']
     },
     detectDuplicate: {
       // NOTE: list of additional item metadata to show for duplicate match presentation list
       metadataDetailsList: [
         { label: 'Document type', name: 'dc.type' }
       ]
+    },
+    dropdownHintEnabled: {
+      // NOTE: list of metadata fields for which the dropdown hint is enabled
+      // eg. 'dc.access.rights': true,
     }
   };
 
@@ -275,30 +310,31 @@ export class DefaultAppConfig implements AppConfig {
   // When set to active, users will be able to switch to the use of this language in the user interface.
   languages: LangConfig[] = [
     { code: 'en', label: 'English', active: true },
-    { code: 'ca', label: 'Català', active: true },
-    { code: 'cs', label: 'Čeština', active: true },
+    { code: 'ar', label: 'العربية', active: false },
+    { code: 'bn', label: 'বাংলা', active: false },
+    { code: 'ca', label: 'Català', active: false },
+    { code: 'cs', label: 'Čeština', active: false },
     { code: 'de', label: 'Deutsch', active: true },
+    { code: 'el', label: 'Ελληνικά', active: false },
     { code: 'es', label: 'Español', active: true },
+    { code: 'fi', label: 'Suomi', active: false },
     { code: 'fr', label: 'Français', active: true },
-    { code: 'gd', label: 'Gàidhlig', active: true },
-    { code: 'it', label: 'Italiano', active: true },
-    { code: 'lv', label: 'Latviešu', active: true },
-    { code: 'hu', label: 'Magyar', active: true },
-    { code: 'nl', label: 'Nederlands', active: true },
-    { code: 'pl', label: 'Polski', active: true },
-    { code: 'pt-PT', label: 'Português', active: true },
-    { code: 'pt-BR', label: 'Português do Brasil', active: true },
-    { code: 'sr-lat', label: 'Srpski (lat)', active: true},
-    { code: 'fi', label: 'Suomi', active: true },
-    { code: 'sv', label: 'Svenska', active: true },
-    { code: 'tr', label: 'Türkçe', active: true },
-    { code: 'vi', label: 'Tiếng Việt', active: true },
-    { code: 'kk', label: 'Қазақ', active: true },
-    { code: 'bn', label: 'বাংলা', active: true },
-    { code: 'hi', label: 'हिंदी', active: true},
-    { code: 'el', label: 'Ελληνικά', active: true },
-    { code: 'sr-cyr', label: 'Српски', active: true},
-    { code: 'uk', label: 'Yкраї́нська', active: true}
+    { code: 'gd', label: 'Gàidhlig', active: false },
+    { code: 'hi', label: 'हिंदी', active: false },
+    { code: 'hu', label: 'Magyar', active: false },
+    { code: 'it', label: 'Italiano', active: false },
+    { code: 'kk', label: 'Қазақ', active: false },
+    { code: 'lv', label: 'Latviešu', active: false },
+    { code: 'nl', label: 'Nederlands', active: false },
+    { code: 'pl', label: 'Polski', active: false },
+    { code: 'pt-PT', label: 'Português', active: false },
+    { code: 'pt-BR', label: 'Português do Brasil', active: false },
+    { code: 'sr-lat', label: 'Srpski (lat)', active: false },
+    { code: 'sr-cyr', label: 'Српски', active: false },
+    { code: 'sv', label: 'Svenska', active: false },
+    { code: 'tr', label: 'Türkçe', active: false },
+    { code: 'uk', label: 'Yкраї́нська', active: false },
+    { code: 'vi', label: 'Tiếng Việt', active: false },
   ];
 
   // Browse-By Pages
@@ -309,8 +345,12 @@ export class DefaultAppConfig implements AppConfig {
     fiveYearLimit: 30,
     // The absolute lowest year to display in the dropdown (only used when no lowest date can be found for all items)
     defaultLowerLimit: 1900,
+    // Whether to add item badges to BOTH browse and search result lists.
+    showLabels: true,
     // Whether to add item thumbnail images to BOTH browse and search result lists.
     showThumbnails: true,
+    // Whether to add item thumbnail images to BOTH browse and search result lists.
+    showMetrics: false,
     // The number of entries in a paginated browse results list.
     // Rounded to the nearest size in the list of selectable sizes on the
     // settings menu.  See pageSizeOptions in 'pagination-component-options.model.ts'.
@@ -370,6 +410,12 @@ export class DefaultAppConfig implements AppConfig {
       metadata: ['dc.contributor.author']
     }
   ];
+
+  // The maximum number of item to process when following authority metadata values.
+  followAuthorityMaxItemLimit = 100;
+  // The maximum number of metadata values to process for each metadata key
+  // when following authority metadata values.
+  followAuthorityMetadataValuesLimit = 5;
 
   // Collection Page Config
   collection: CollectionPageConfig = {
@@ -686,7 +732,7 @@ export class DefaultAppConfig implements AppConfig {
 
   addToAnyPlugin: AddToAnyPluginConfig = {
     scriptUrl: 'https://static.addtoany.com/menu/page.js',
-    socialNetworksEnabled: false,
+    socialNetworksEnabled: true,
     buttons: ['facebook', 'x', 'linkedin', 'email', 'copy_link'],
     showPlusButton: true,
     showCounters: true,
@@ -807,18 +853,77 @@ export class DefaultAppConfig implements AppConfig {
     enableDownloadPlugin: true,
   };
 
+  loader: LoaderConfig = {
+    showFallbackMessagesByDefault: false,
+    warningMessageDelay: 5000, // 5 seconds
+    errorMessageDelay: 15000, // 15 seconds
+    numberOfAutomaticPageReloads: 2,
+  };
+
+  metaTags: MetaTagsConfig = {
+    defaultLogo: '/assets/images/dspace-cris-logo-hd.png',
+    defaultDescription: 'DSpace-CRIS is a comprehensive, free and open-source Research Information Management System (CRIS/RIMS).\n' +
+      'It is based on DSpace, providing broader functionality and an expanded data model, relying on its large community.\n' +
+      'It is compliant with and supports key international standards, facilitating interoperability and data transfer.\n' +
+      'DSpace-CRIS enables secure, integrated and interoperable research information and data management – in a single solution.'
+  };
+
+  // Configuration for the metadata link view popover
+  metadataLinkViewPopoverData: MetadataLinkViewPopoverDataConfig =
+    {
+      fallbackMetdataList: ['dc.description.abstract'],
+
+      entityDataConfig: [
+        {
+          entityType: 'Person',
+          metadataList: ['person.affiliation.name', 'person.email', 'person.identifier.orcid', 'dc.description.abstract']
+        },
+        {
+          entityType: 'OrgUnit',
+          metadataList: ['organization.parentOrganization', 'organization.identifier.ror', 'crisou.director', 'dc.description.abstract']
+        },
+        {
+          entityType: 'Project',
+          metadataList: ['oairecerif.project.status', 'dc.description.abstract']
+        },
+        {
+          entityType: 'Funding',
+          metadataList: ['oairecerif.funder', 'oairecerif.fundingProgram', 'dc.description.abstract']
+        },
+        {
+          entityType: 'Publication',
+          metadataList: ['dc.identifier.doi', 'dc.identifier.uri', 'dc.description.abstract']
+        },
+      ]
+    };
+
+  identifierSubtypes: IdentifierSubtypesConfig[] = [
+    {
+      name: 'ror',
+      icon: 'assets/images/ror.logo.icon.svg',
+      iconPosition: IdentifierSubtypesIconPositionEnum.LEFT,
+      link: 'https://ror.org'
+    }
+  ];
+  datadogRum: DatadogRumConfig = {
+    clientToken: undefined,
+    applicationId: undefined,
+    site: 'datadoghq.eu',
+    service: undefined,
+    env: undefined,
+    sessionSampleRate: 50,
+    sessionReplaySampleRate: 20,
+    trackUserInteractions: true,
+    trackResources: true,
+    trackLongTasks: true,
+    defaultPrivacyLevel: 'mask-user-input',
+  };
+
   location: LocationConfig = {
     nominatimApi: {
       searchEndpoint: 'https://nominatim.openstreetmap.org/search',
       reverseSearchEndpoint: 'https://nominatim.openstreetmap.org/reverse',
       statusEndpoint: 'https://nominatim.openstreetmap.org/status',
     }
-  };
-
-  loader: LoaderConfig = {
-    showFallbackMessagesByDefault: false,
-    warningMessageDelay: 5000, // 5 seconds
-    errorMessageDelay: 15000, // 15 seconds
-    numberOfAutomaticPageReloads: 2,
   };
 }
