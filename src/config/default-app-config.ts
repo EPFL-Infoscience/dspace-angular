@@ -810,6 +810,11 @@ export class DefaultAppConfig implements AppConfig {
       'class': 'alert alert-primary mb-3',
       'icon': null
     },
+    {
+      'type': 'wosCitation',
+      'class': 'alert alert-primary mb-3',
+      'icon': null
+    },
   ];
 
   attachmentRendering: AttachmentRenderingConfig = {
