@@ -804,7 +804,12 @@ export class DefaultAppConfig implements AppConfig {
       'type': 'scopus-author-document-count',
       'class': 'alert alert-primary mb-3',
       'icon': null
-    }
+    },
+    {
+      'type': 'scopusCitation',
+      'class': 'alert alert-primary mb-3',
+      'icon': null
+    },
   ];
 
   attachmentRendering: AttachmentRenderingConfig = {
