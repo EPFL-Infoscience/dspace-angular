@@ -741,45 +741,70 @@ export class DefaultAppConfig implements AppConfig {
 
   metricVisualizationConfig: MetricVisualizationConfig[] = [
     {
-      type: 'altmetric',
-      icon: null,
-      class: 'alert-light',
+      'type': 'altmetric',
+      'class': '',
+      'icon': null
     },
     {
-      type: 'plumX',
-      icon: null,
-      class: '',
+      'type': 'embedded-view',
+      'class': 'alert alert-primary mb-3',
+      'icon': 'fa fa-eye'
     },
     {
-      type: 'dimensions',
-      icon: 'fa fa-cubes',
-      class: 'alert-light',
+      'type': 'view',
+      'class': 'alert alert-primary mb-3',
+      'icon': 'fa fa-eye'
     },
     {
-      type: 'google-scholar',
-      icon: '/assets/images/google-scholar.svg',
-      class: 'alert-info',
+      'type': 'download',
+      'class': 'alert alert-primary mb-3',
+      'icon': 'fa fa-cloud-download-alt'
     },
     {
-      type: 'embedded-view',
-      icon: 'fa fa-eye',
-      class: 'alert-success'
+      'type': 'embedded-download',
+      'class': 'alert alert-primary mb-3',
+      'icon': 'fa fa-cloud-download-alt'
     },
     {
-      type: 'embedded-download',
-      icon: 'fa fa-cloud-download-alt',
-      class: 'alert-danger',
+      'type': 'google-scholar',
+      'class': 'alert alert-primary mb-3',
+      'icon': '/assets/images/google-scholar.svg'
     },
     {
-      type: 'view',
-      icon: 'fa fa-eye',
-      class: 'alert-success',
+      'type': 'dimensions',
+      'class': '',
+      'icon': 'fa fa-cubes'
     },
     {
-      type: 'download',
-      icon: 'fa fa-cloud-download-alt',
-      class: 'alert-danger',
+      'type': 'plumX',
+      'class': '',
+      'icon': null
     },
+    {
+      'type': 'scopus-author-h-index',
+      'class': 'alert alert-primary mb-3',
+      'icon': null
+    },
+    {
+      'type': 'scopus-author-citation-count',
+      'class': 'alert alert-primary mb-3',
+      'icon': null
+    },
+    {
+      'type': 'scopus-author-coauthor-count',
+      'class': 'alert alert-primary mb-3',
+      'icon': null
+    },
+    {
+      'type': 'scopus-author-cited-count',
+      'class': 'alert alert-primary mb-3',
+      'icon': null
+    },
+    {
+      'type': 'scopus-author-document-count',
+      'class': 'alert alert-primary mb-3',
+      'icon': null
+    }
   ];
 
   attachmentRendering: AttachmentRenderingConfig = {
