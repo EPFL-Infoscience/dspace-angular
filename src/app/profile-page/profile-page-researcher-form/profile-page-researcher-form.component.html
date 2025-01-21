@@ -1,7 +1,7 @@
 <div *ngVar="(researcherProfile$ | async) as researcherProfile">
   <div *ngIf="researcherProfile">
     <p>{{'researcher.profile.associated' | translate}}</p>
-    <p class="align-items-center researcher-profile-switch" >
+    <p class="align-items-center researcher-profile-switch" *ngIf="!disableResearcherProfileManagement" >
       <span class="mr-3">{{'researcher.profile.status' | translate}}</span>
       <ds-switch
         [options]="switchOptions"
