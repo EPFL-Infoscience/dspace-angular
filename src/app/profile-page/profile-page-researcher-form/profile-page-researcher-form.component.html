@@ -1,5 +1,5 @@
 <div *ngVar="(researcherProfile$ | async) as researcherProfile">
-  <div *ngIf="researcherProfile">
+  <div *ngIf="researcherProfile && (isAdmin$ | async)">
     <p>{{'researcher.profile.associated' | translate}}</p>
     <p class="align-items-center researcher-profile-switch" >
       <span class="mr-3">{{'researcher.profile.status' | translate}}</span>
@@ -13,9 +13,10 @@
   <div *ngIf="!researcherProfile">
     <p>{{'researcher.profile.not.associated' | translate}}</p>
   </div>
+
   <div class="btn-toolbar">
     <button *ngIf="!researcherProfile" class="btn btn-primary mr-2"
-            [disabled]="(isProcessingCreate() | async) || disableResearcherProfileManagement"
+            [disabled]="(isProcessingCreate() | async) || disableResearcherProfileManagement || !(isAdmin$ | async)"
             (click)="createProfile()">
       <span *ngIf="(isProcessingCreate() | async)">
         <i class='fas fa-circle-notch fa-spin'></i> {{'researcher.profile.action.processing' | translate}}
@@ -30,5 +31,5 @@
       </button>
     </ng-container>
   </div>
-  <p *ngIf="disableResearcherProfileManagement" class="small text-danger mt-1">{{ 'researcher.profile.management.disabled' | translate }}</p>
+  <p *ngIf="disableResearcherProfileManagement || !(isAdmin$ | async)" class="small text-danger mt-1">{{ 'researcher.profile.management.disabled' | translate }}</p>
 </div>

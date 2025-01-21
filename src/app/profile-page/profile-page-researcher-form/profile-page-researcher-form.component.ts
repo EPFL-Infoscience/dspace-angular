@@ -21,6 +21,8 @@ import { ConfirmationModalComponent } from '../../shared/confirmation-modal/conf
 import { NoContent } from '../../core/shared/NoContent.model';
 import { environment } from '../../../environments/environment';
 import { SwitchColor, SwitchOption } from '../../shared/switch/switch.component';
+import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
+import { FeatureID } from '../../core/data/feature-authorization/feature-id';
 
 @Component({
   selector: 'ds-profile-page-researcher-form',
@@ -67,6 +69,11 @@ export class ProfilePageResearcherFormComponent implements OnInit {
     { value: 'public', icon: 'fa fa-globe', labelColor: SwitchColor.Success, label: 'researcher.profile.public.visibility', iconColor: SwitchColor.Success },
     { value: 'private', icon: 'fa fa-lock', labelColor: SwitchColor.Danger, label: 'researcher.profile.private.visibility', iconColor: SwitchColor.Danger },
   ];
+  /**
+   * Whether the user is an admin
+   */
+
+  isAdmin$: Observable<boolean>;
 
   constructor(protected researcherProfileService: ResearcherProfileDataService,
               protected profileClaimService: ProfileClaimService,
@@ -74,8 +81,9 @@ export class ProfilePageResearcherFormComponent implements OnInit {
               protected notificationService: NotificationsService,
               protected authService: AuthService,
               protected router: Router,
+              protected authorizationService: AuthorizationDataService,
               protected modalService: NgbModal) {
-
+    this.isAdmin$ = this.authorizationService.isAuthorized(FeatureID.AdministratorOf);
   }
 
   /**
