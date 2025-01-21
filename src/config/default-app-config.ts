@@ -685,7 +685,7 @@ export class DefaultAppConfig implements AppConfig {
         datepicker: []
       }
     },
-    disableResearcherProfileManagement: false,
+    disableResearcherProfileManagement: true,
   };
 
   security: MetadataSecurityConfig = {

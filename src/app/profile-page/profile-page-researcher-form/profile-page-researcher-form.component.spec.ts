@@ -18,8 +18,6 @@ import { ProfileClaimService } from '../profile-claim/profile-claim.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { createFailedRemoteDataObject$, createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
 import { followLink } from '../../shared/utils/follow-link-config.model';
-import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
-import { AuthorizationDataServiceStub } from '../../shared/testing/authorization-service.stub';
 
 describe('ProfilePageResearcherFormComponent', () => {
 
@@ -67,6 +65,7 @@ describe('ProfilePageResearcherFormComponent', () => {
     profileClaimService = jasmine.createSpyObj('profileClaimService', {
       hasProfilesToSuggest: observableOf(false),
     });
+
   }
 
   beforeEach(waitForAsync(() => {
@@ -79,8 +78,7 @@ describe('ProfilePageResearcherFormComponent', () => {
         { provide: ResearcherProfileDataService, useValue: researcherProfileService },
         { provide: NotificationsService, useValue: notificationsServiceStub },
         { provide: ProfileClaimService, useValue: profileClaimService },
-        { provide: AuthService, useValue: authService },
-        { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
+        { provide: AuthService, useValue: authService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
