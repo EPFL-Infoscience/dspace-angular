@@ -10,13 +10,18 @@ import { getItemPageRoute, getItemViewerPath } from '../../../../../../item-page
 import { Context } from '../../../../../../core/shared/context.model';
 import { environment } from '../../../../../../../environments/environment';
 import { KlaroService } from '../../../../../cookies/klaro.service';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of, Subject, switchMap } from 'rxjs';
 import { TruncatableService } from '../../../../../truncatable/truncatable.service';
 import { DSONameService } from '../../../../../../core/breadcrumbs/dso-name.service';
 import { APP_CONFIG, AppConfig } from '../../../../../../../config/app-config.interface';
-import { getFirstSucceededRemoteListPayload } from '../../../../../../core/shared/operators';
+import {
+  getFirstSucceededRemoteData,
+  getFirstSucceededRemoteListPayload
+} from '../../../../../../core/shared/operators';
 import { filter, map } from 'rxjs/operators';
 import { isNotEmpty } from '../../../../../empty.util';
+import { ItemDataService } from '../../../../../../core/data/item-data.service';
+import { followLink } from '../../../../../utils/follow-link-config.model';
 
 @listableObjectComponent('PublicationSearchResult', ViewMode.ListElement)
 @listableObjectComponent(ItemSearchResult, ViewMode.ListElement)
@@ -59,18 +64,45 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
 
   private thirdPartyMetrics = environment.info.metricsConsents.filter(metric => metric.enabled).map(metric => metric.key);
 
+  allMetadataLoaded$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     protected truncatableService: TruncatableService,
     public dsoNameService: DSONameService,
     @Inject(APP_CONFIG) protected appConfig?: AppConfig,
     @Optional() private klaroService?: KlaroService,
+    @Optional() private itemDataService?: ItemDataService,
   ) {
     super(truncatableService, dsoNameService);
   }
 
   ngOnInit(): void {
     super.ngOnInit();
+
+    this.isCollapsed().pipe(
+      filter((collapsed) => collapsed === false),
+      switchMap(() => {
+          const allAuthorMetadata = this.dso.allMetadata(this.authorMetadata)
+            .map((author) => author.authority)
+            .filter((authority) => isNotEmpty(authority));
+          if (isNotEmpty(allAuthorMetadata)) {
+            return this.itemDataService.findAllById(
+              allAuthorMetadata,
+              {elementsPerPage: environment.followAuthorityMetadataValuesLimit},
+              true, false,
+              followLink('thumbnail', {useCachedVersionIfAvailable: true, reRequestOnStale: false}))
+              .pipe(getFirstSucceededRemoteData());
+          }
+          return of(true);
+        }
+      )).subscribe(() => {
+      // Change detection seems to fail on the subject, which is strange.
+      // Going to leave this here now so we don't need to inject the ChangeDetectorRef
+      setTimeout(() => {
+        this.allMetadataLoaded$?.next(true);
+      });
+    });
+
     this.itemPageRoute = getItemPageRoute(this.dso);
     this.itemViewerRoute = getItemViewerPath(this.dso, 'iiif');
     this.fullTextHighlights = this.allMetadataValues('fulltext');

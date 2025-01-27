@@ -49,6 +49,7 @@ import { buildPaginatedList } from '../../../../core/data/paginated-list.model';
 import { PageInfo } from '../../../../core/shared/page-info.model';
 import { Router } from '@angular/router';
 import { ItemComponent } from './item.component';
+import { mockTruncatableService } from '../../../../shared/mocks/mock-trucatable.service';
 
 export function getIIIFSearchEnabled(enabled: boolean): MetadataValue {
   return Object.assign(new MetadataValue(), {
@@ -112,7 +113,7 @@ export function getItemPageFieldsTest(mockItem: Item, component) {
         declarations: [component, GenericItemPageFieldComponent, TruncatePipe],
         providers: [
           { provide: ItemDataService, useValue: {} },
-          { provide: TruncatableService, useValue: {} },
+          { provide: TruncatableService, useValue: mockTruncatableService },
           { provide: RelationshipDataService, useValue: {} },
           { provide: ObjectCacheService, useValue: {} },
           { provide: UUIDService, useValue: {} },
@@ -432,7 +433,7 @@ describe('ItemComponent', () => {
         declarations: [ItemComponent, GenericItemPageFieldComponent, TruncatePipe ],
         providers: [
           { provide: ItemDataService, useValue: {} },
-          { provide: TruncatableService, useValue: {} },
+          { provide: TruncatableService, useValue: mockTruncatableService },
           { provide: RelationshipDataService, useValue: {} },
           { provide: ObjectCacheService, useValue: {} },
           { provide: UUIDService, useValue: {} },

@@ -32,8 +32,6 @@ export class TruncatableService {
       map((object: TruncatableState) => {
         if (object) {
           return object.collapsed;
-        } else {
-          return false;
         }
       })
     );

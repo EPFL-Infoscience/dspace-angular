@@ -28,6 +28,7 @@ import { APP_CONFIG } from '../../../../../config/app-config.interface';
 import { environment } from '../../../../../environments/environment';
 import { ObjectCacheService } from '../../../../core/cache/object-cache.service';
 import { Context } from '../../../../core/shared/context.model';
+import { mockTruncatableService } from '../../../mocks/mock-trucatable.service';
 
 let component: ClaimedSearchResultListElementComponent;
 let fixture: ComponentFixture<ClaimedSearchResultListElementComponent>;
@@ -79,7 +80,7 @@ describe('ClaimedSearchResultListElementComponent', () => {
       imports: [NoopAnimationsModule],
       declarations: [ClaimedSearchResultListElementComponent, VarDirective],
       providers: [
-        { provide: TruncatableService, useValue: {} },
+        { provide: TruncatableService, useValue: mockTruncatableService },
         { provide: LinkService, useValue: linkService },
         { provide: DSONameService, useClass: DSONameServiceMock },
         { provide: APP_CONFIG, useValue: environment },

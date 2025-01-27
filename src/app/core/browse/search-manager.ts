@@ -134,16 +134,12 @@ export class SearchManager {
         if (item.entityType === followMetadata.type) {
           if (isArray(followMetadata.metadata)) {
               followMetadata.metadata.forEach((metadata) => {
-                // TODO: reinstate the limit as commented out below
-                // Metadata.all(item.metadata, metadata, null, environment.followAuthorityMetadataValuesLimit)
-              Metadata.all(item.metadata, metadata, null, 100000)
+                Metadata.all(item.metadata, metadata, null, environment.followAuthorityMetadataValuesLimit)
                 .filter((metadataValue: MetadataValue) => Metadata.hasValidItemAuthority(metadataValue.authority))
                 .forEach((metadataValue: MetadataValue) => uuidMap[metadataValue.authority] = metadataValue);
             });
           } else {
-            // TODO: reinstate the limit as commented out below
-            // Metadata.all(item.metadata, followMetadata.metadata, null, environment.followAuthorityMetadataValuesLimit)
-            Metadata.all(item.metadata, followMetadata.metadata, null, 100000)
+            Metadata.all(item.metadata, followMetadata.metadata, null, environment.followAuthorityMetadataValuesLimit)
               .filter((metadataValue: MetadataValue) => Metadata.hasValidItemAuthority(metadataValue.authority))
               .forEach((metadataValue: MetadataValue) => uuidMap[metadataValue.authority] = metadataValue);
           }

@@ -317,6 +317,8 @@ describe('ItemSearchResultListElementComponent', () => {
     });
 
     it('should show allMetadata', () => {
+      fixture.debugElement.componentInstance.allMetadataLoaded$?.next(true);
+      fixture.detectChanges();
       const authorElements = fixture.debugElement.queryAll(By.css('span.item-list-authors ds-metadata-link-view'));
       expect(authorElements.length).toBe(mockItemWithMetadata.indexableObject.allMetadata(publicationListElementComponent.authorMetadata).length);
     });

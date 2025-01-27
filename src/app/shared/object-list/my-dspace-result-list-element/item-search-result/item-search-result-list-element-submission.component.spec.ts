@@ -14,6 +14,7 @@ import { DSONameServiceMock } from '../../../mocks/dso-name.service.mock';
 import { APP_CONFIG } from '../../../../../config/app-config.interface';
 import { environment } from '../../../../../environments/environment';
 import { Context } from '../../../../core/shared/context.model';
+import { mockTruncatableService } from '../../../mocks/mock-trucatable.service';
 
 let component: ItemSearchResultListElementSubmissionComponent;
 let fixture: ComponentFixture<ItemSearchResultListElementSubmissionComponent>;
@@ -57,7 +58,7 @@ describe('ItemMyDSpaceResultListElementComponent', () => {
       imports: [NoopAnimationsModule],
       declarations: [ItemSearchResultListElementSubmissionComponent],
       providers: [
-        { provide: TruncatableService, useValue: {} },
+        { provide: TruncatableService, useValue: mockTruncatableService },
         { provide: DSONameService, useClass: DSONameServiceMock },
         { provide: APP_CONFIG, useValue: environment }
       ],
