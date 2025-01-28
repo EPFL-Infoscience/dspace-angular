@@ -12,7 +12,8 @@
                   [formModel]="formModel"
                   [displaySubmit]="false"
                   [displayReset]="false"
-                  [emitChange]="false"
+                  [emitChange]="true"
+                  (dfChange)="onFormChange($event)"
                   (dfBlur)="onBlur($event)"
                   (ngbEvent)="changeSecurity($event)"
                   (dfFocus)="onFocus($event)"></ds-form>

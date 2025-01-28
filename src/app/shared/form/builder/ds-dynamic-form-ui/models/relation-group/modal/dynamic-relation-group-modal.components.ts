@@ -5,6 +5,7 @@ import { Observable, of as observableOf, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, take } from 'rxjs/operators';
 import {
   DynamicFormControlComponent,
+  DynamicFormControlEvent,
   DynamicFormControlModel,
   DynamicFormGroupModel,
   DynamicFormLayoutService,
@@ -356,5 +357,9 @@ export class DsDynamicRelationGroupModalComponent extends DynamicFormControlComp
     if ($event.type === 'changeSecurityLevelGroup') {
       this.changedSecurity = true;
     }
+  }
+
+  onFormChange($event: DynamicFormControlEvent) {
+    this.formService.validateAllFormFields(this.formRef.formGroup);
   }
 }
