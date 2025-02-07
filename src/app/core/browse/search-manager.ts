@@ -47,7 +47,7 @@ export class SearchManager {
   getBrowseItemsFor(filterValue: string, filterAuthority: string, options: BrowseEntrySearchOptions, ...linksToFollow: FollowLinkConfig<any>[]): Observable<RemoteData<PaginatedList<Item>>> {
     const browseOptions = Object.assign({}, options, { projection: 'preventMetadataSecurity' });
     return this.browseService.getBrowseItemsFor(filterValue, filterAuthority, browseOptions, ...linksToFollow)
-      .pipe(this.completeWithExtraData());
+      .pipe(this.completeWithExtraData(...linksToFollow));
   }
 
   /**
@@ -68,14 +68,14 @@ export class SearchManager {
     reRequestOnStale = true,
     ...linksToFollow: FollowLinkConfig<T>[]): Observable<RemoteData<SearchObjects<T>>> {
     return this.searchService.search(searchOptions, responseMsToLive, useCachedVersionIfAvailable, reRequestOnStale, ...linksToFollow)
-      .pipe(this.completeSearchObjectsWithExtraData());
+      .pipe(this.completeSearchObjectsWithExtraData(...linksToFollow));
   }
 
 
-  protected completeWithExtraData() {
+  protected completeWithExtraData(...linksToFollow: FollowLinkConfig<any>[]) {
     return switchMap((itemsRD: RemoteData<PaginatedList<Item>>) => {
       if (itemsRD.isSuccess) {
-        return this.fetchExtraData(itemsRD.payload.page).pipe(map(() => {
+        return this.fetchExtraData(itemsRD.payload.page, ...linksToFollow).pipe(map(() => {
           return itemsRD;
         }));
       }
@@ -83,12 +83,12 @@ export class SearchManager {
     });
   }
 
-  protected completeSearchObjectsWithExtraData<T extends DSpaceObject>() {
+  protected completeSearchObjectsWithExtraData<T extends DSpaceObject>(...linksToFollow: FollowLinkConfig<T>[]) {
     return switchMap((searchObjectsRD: RemoteData<SearchObjects<T>>) => {
       if (searchObjectsRD.isSuccess) {
         const items: Item[] = searchObjectsRD.payload.page
           .map((searchResult) => isNotEmpty(searchResult?._embedded?.indexableObject) ? searchResult._embedded.indexableObject : searchResult.indexableObject) as any;
-        return this.fetchExtraData(items).pipe(map(() => {
+        return this.fetchExtraData(items, ...linksToFollow).pipe(map(() => {
           return searchObjectsRD;
         }));
       }
@@ -96,7 +96,7 @@ export class SearchManager {
     });
   }
 
-  protected fetchExtraData<T extends DSpaceObject>(objects: T[]): Observable<any> {
+  protected fetchExtraData<T extends DSpaceObject>(objects: T[], ...linksToFollow: FollowLinkConfig<any>[]): Observable<any> {
 
     const items: Item[] = objects
       .map((object: any) => {
@@ -114,7 +114,7 @@ export class SearchManager {
 
     const uuidList = this.extractUUID(items, environment.followAuthorityMetadata, environment.followAuthorityMaxItemLimit);
 
-    return uuidList.length > 0 ? this.itemService.findAllById(uuidList).pipe(
+    return uuidList.length > 0 ? this.itemService.findAllById(uuidList, undefined, undefined, undefined, ...linksToFollow).pipe(
       getFirstCompletedRemoteData(),
       map(data => {
         if (data.hasSucceeded) {
