@@ -96,11 +96,7 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
           return of(true);
         }
       )).subscribe(() => {
-      // Change detection seems to fail on the subject, which is strange.
-      // Going to leave this here now so we don't need to inject the ChangeDetectorRef
-      setTimeout(() => {
-        this.allMetadataLoaded$?.next(true);
-      });
+      this.allMetadataLoaded$?.next(true);
     });
 
     this.itemPageRoute = getItemPageRoute(this.dso);
