@@ -44,12 +44,9 @@
                       <ds-metadata-link-view [item]="dso" [metadata]="author" [metadataName]="authorMetadata"></ds-metadata-link-view><span *ngIf="!last">; </span>
                     </span>
                   </ng-container>
-                  <ng-container *ngIf="!isCollapsed && !(allMetadataLoaded$ | async)">
-                    <ds-themed-loading [showMessage]="false"></ds-themed-loading>
-                  </ng-container>
-                  <ng-container *ngIf="!isCollapsed && (allMetadataLoaded$ | async)">
+                  <ng-container *ngIf="!isCollapsed">
                      <span *ngFor="let author of dso.allMetadata(authorMetadata); let i=index; let last=last;">
-                      <ds-metadata-link-view [item]="dso" [metadata]="author" [metadataName]="authorMetadata"></ds-metadata-link-view><span *ngIf="!last">; </span>
+                      <ds-metadata-link-view [item]="dso" [metadata]="author" [metadataName]="authorMetadata" [allMetadataLoaded$]="allMetadataLoaded$"></ds-metadata-link-view><span *ngIf="!last">; </span>
                     </span>
                   </ng-container>
                 </ng-container>

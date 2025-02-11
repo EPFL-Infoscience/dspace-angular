@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Observable, of as observableOf } from 'rxjs';
+import { Observable, of, of as observableOf } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 
 import { isEmpty, isNotEmpty } from '../empty.util';
@@ -37,6 +37,12 @@ export class MetadataLinkViewComponent implements OnInit {
    * Item of the metadata value
    */
   @Input() item: DSpaceObject;
+
+  /**
+   * Observable to know if all metadata are loaded
+   */
+  @Input() allMetadataLoaded$: Observable<boolean> = of(true);
+
   /**
    * The metadata name from where to take the value of the cris style
    */
