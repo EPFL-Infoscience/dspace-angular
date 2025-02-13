@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, Input, OnInit, Optional } from '@angular/core';
+import { AfterViewInit, Component, Inject, Input, OnDestroy, OnInit, Optional } from '@angular/core';
 import {
   listableObjectComponent
 } from '../../../../../object-collection/shared/listable-object/listable-object.decorator';
@@ -10,7 +10,7 @@ import { getItemPageRoute, getItemViewerPath } from '../../../../../../item-page
 import { Context } from '../../../../../../core/shared/context.model';
 import { environment } from '../../../../../../../environments/environment';
 import { KlaroService } from '../../../../../cookies/klaro.service';
-import { combineLatest, Observable, of, Subject, switchMap } from 'rxjs';
+import { combineLatest, Observable, of, Subject, Subscription, switchMap } from 'rxjs';
 import { TruncatableService } from '../../../../../truncatable/truncatable.service';
 import { DSONameService } from '../../../../../../core/breadcrumbs/dso-name.service';
 import { APP_CONFIG, AppConfig } from '../../../../../../../config/app-config.interface';
@@ -34,7 +34,7 @@ import { followLink } from '../../../../../utils/follow-link-config.model';
 /**
  * The component for displaying a list element for an item search result of the type Publication
  */
-export class ItemSearchResultListElementComponent extends SearchResultListElementComponent<ItemSearchResult, Item> implements OnInit, AfterViewInit {
+export class ItemSearchResultListElementComponent extends SearchResultListElementComponent<ItemSearchResult, Item> implements OnInit, AfterViewInit, OnDestroy {
 
   /**
    * Whether to show the metrics badges
@@ -65,6 +65,7 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
   private thirdPartyMetrics = environment.info.metricsConsents.filter(metric => metric.enabled).map(metric => metric.key);
 
   allMetadataLoaded$: Subject<boolean> = new Subject<boolean>();
+  allMetadataLoadedSub: Subscription;
 
   constructor(
     protected truncatableService: TruncatableService,
@@ -79,7 +80,7 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
   ngOnInit(): void {
     super.ngOnInit();
 
-    this.isCollapsed().pipe(
+    this.allMetadataLoadedSub = this.isCollapsed().pipe(
       filter((collapsed) => collapsed === false),
       switchMap(() => {
           const allAuthorMetadata = this.dso.allMetadata(this.authorMetadata)
@@ -177,6 +178,10 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
         })
       );
     }
+  }
+
+  ngOnDestroy(): void {
+    this.allMetadataLoadedSub?.unsubscribe();
   }
 
   /**
