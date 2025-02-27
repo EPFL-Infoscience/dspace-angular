@@ -12,6 +12,7 @@ import { DSONameService } from '../../../../../core/breadcrumbs/dso-name.service
 import { DSONameServiceMock } from '../../../../../shared/mocks/dso-name.service.mock';
 import { APP_CONFIG } from '../../../../../../config/app-config.interface';
 import { environment } from '../../../../../../environments/environment';
+import { mockTruncatableService } from '../../../../../shared/mocks/mock-trucatable.service';
 
 describe('ItemAdminSearchResultListElementComponent', () => {
   let component: ItemAdminSearchResultListElementComponent;
@@ -34,7 +35,7 @@ describe('ItemAdminSearchResultListElementComponent', () => {
         RouterTestingModule.withRoutes([])
       ],
       declarations: [ItemAdminSearchResultListElementComponent],
-      providers: [{ provide: TruncatableService, useValue: {} },
+      providers: [{ provide: TruncatableService, useValue: mockTruncatableService },
         { provide: DSONameService, useClass: DSONameServiceMock },
         { provide: APP_CONFIG, useValue: environment }],
       schemas: [NO_ERRORS_SCHEMA]

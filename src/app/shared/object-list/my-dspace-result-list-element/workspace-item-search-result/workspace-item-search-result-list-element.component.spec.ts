@@ -21,6 +21,7 @@ import { APP_CONFIG } from '../../../../../config/app-config.interface';
 import { Context } from '../../../../core/shared/context.model';
 import { AuthorizationDataService } from '../../../../core/data/feature-authorization/authorization-data.service';
 import { AuthorizationDataServiceStub } from '../../../testing/authorization-service.stub';
+import { mockTruncatableService } from '../../../mocks/mock-trucatable.service';
 
 let component: WorkspaceItemSearchResultListElementComponent;
 let fixture: ComponentFixture<WorkspaceItemSearchResultListElementComponent>;
@@ -75,7 +76,7 @@ describe('WorkspaceItemSearchResultListElementComponent', () => {
       imports: [NoopAnimationsModule],
       declarations: [WorkspaceItemSearchResultListElementComponent],
       providers: [
-        { provide: TruncatableService, useValue: {} },
+        { provide: TruncatableService, useValue: mockTruncatableService },
         { provide: ItemDataService, useValue: {} },
         { provide: LinkService, useValue: linkService },
         { provide: DSONameService, useClass: DSONameServiceMock },

@@ -12,6 +12,7 @@ import { HALResource } from '../../../core/shared/hal-resource.model';
 import { ChildHALResource } from '../../../core/shared/child-hal-resource.model';
 import { DSONameService } from '../../../core/breadcrumbs/dso-name.service';
 import { APP_CONFIG } from '../../../../config/app-config.interface';
+import { mockTruncatableService } from '../../mocks/mock-trucatable.service';
 
 export function createSidebarSearchListElementTests(
   componentClass: any,
@@ -44,7 +45,7 @@ export function createSidebarSearchListElementTests(
         declarations: [componentClass, VarDirective],
         imports: [TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
         providers: [
-          { provide: TruncatableService, useValue: {} },
+          { provide: TruncatableService, useValue: mockTruncatableService },
           { provide: LinkService, useValue: linkService },
           { provide: APP_CONFIG, useValue: environment },
           DSONameService,

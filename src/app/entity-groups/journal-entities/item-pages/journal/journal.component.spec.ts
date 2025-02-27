@@ -39,6 +39,7 @@ import {
   BrowseDefinitionDataServiceStub
 } from '../../../../shared/testing/browse-definition-data-service.stub';
 import { BrowseDefinitionDataService } from '../../../../core/browse/browse-definition-data.service';
+import { mockTruncatableService } from '../../../../shared/mocks/mock-trucatable.service';
 
 let comp: JournalComponent;
 let fixture: ComponentFixture<JournalComponent>;
@@ -87,7 +88,7 @@ describe('JournalComponent', () => {
       declarations: [JournalComponent, GenericItemPageFieldComponent, TruncatePipe],
       providers: [
         { provide: ItemDataService, useValue: {} },
-        { provide: TruncatableService, useValue: {} },
+        { provide: TruncatableService, useValue: mockTruncatableService },
         { provide: RelationshipDataService, useValue: {} },
         { provide: ObjectCacheService, useValue: {} },
         { provide: UUIDService, useValue: {} },

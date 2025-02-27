@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Observable, of as observableOf } from 'rxjs';
+import { Observable, of, of as observableOf } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 
 import { isEmpty, isNotEmpty } from '../empty.util';
@@ -14,6 +14,7 @@ import { Metadata } from '../../core/shared/metadata.utils';
 import { DSpaceObject } from '../../core/shared/dspace-object.model';
 import { environment } from '../../../environments/environment';
 import { MetadataView } from './metadata-view.model';
+import { followLink } from '../utils/follow-link-config.model';
 
 @Component({
   selector: 'ds-metadata-link-view',
@@ -30,12 +31,18 @@ export class MetadataLinkViewComponent implements OnInit {
   /**
    * Metadata name that we need to show in the template
    */
-  @Input() metadataName: string|string[];
+  @Input() metadataName: string | string[];
 
   /**
    * Item of the metadata value
    */
   @Input() item: DSpaceObject;
+
+  /**
+   * Observable to know if all metadata are loaded
+   */
+  @Input() allMetadataLoaded$: Observable<boolean> = of(true);
+
   /**
    * The metadata name from where to take the value of the cris style
    */
@@ -82,9 +89,7 @@ export class MetadataLinkViewComponent implements OnInit {
    */
   private getMetadataView(metadataValue: MetadataValue): Observable<MetadataView> {
 
-    // TODO: restore thumbnail followlink
-    // const linksToFollow = [followLink('thumbnail')];
-    const linksToFollow = [];
+    const linksToFollow = [followLink('thumbnail')];
 
     if (Metadata.hasValidAuthority(metadataValue.authority)) {
       return this.itemService.findById(metadataValue.authority, true, false, ...linksToFollow).pipe(

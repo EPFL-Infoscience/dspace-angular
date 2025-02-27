@@ -12,6 +12,7 @@ import { DSONameServiceMock } from '../../../../../shared/mocks/dso-name.service
 import { APP_CONFIG } from '../../../../../../config/app-config.interface';
 import { AuthorizationDataService } from '../../../../../core/data/feature-authorization/authorization-data.service';
 import { AuthorizationDataServiceStub } from '../../../../../shared/testing/authorization-service.stub';
+import { mockTruncatableService } from '../../../../../shared/mocks/mock-trucatable.service';
 
 let journalVolumeListElementComponent: JournalVolumeSearchResultListElementComponent;
 let fixture: ComponentFixture<JournalVolumeSearchResultListElementComponent>;
@@ -76,7 +77,7 @@ describe('JournalVolumeSearchResultListElementComponent', () => {
     TestBed.configureTestingModule({
       declarations: [JournalVolumeSearchResultListElementComponent, TruncatePipe],
       providers: [
-        { provide: TruncatableService, useValue: {} },
+        { provide: TruncatableService, useValue: mockTruncatableService },
         { provide: DSONameService, useClass: DSONameServiceMock },
         { provide: APP_CONFIG, useValue: environmentUseThumbs },
         { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
@@ -164,7 +165,7 @@ describe('JournalVolumeSearchResultListElementComponent', () => {
     TestBed.configureTestingModule({
       declarations: [JournalVolumeSearchResultListElementComponent, TruncatePipe],
       providers: [
-        {provide: TruncatableService, useValue: {}},
+        {provide: TruncatableService, useValue: mockTruncatableService},
         {provide: DSONameService, useClass: DSONameServiceMock},
         { provide: APP_CONFIG, useValue: enviromentNoThumbs },
         { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },

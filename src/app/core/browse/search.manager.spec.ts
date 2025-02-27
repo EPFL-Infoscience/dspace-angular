@@ -137,7 +137,7 @@ describe('SearchManager', () => {
       scheduler.flush();
 
       expect(mockBrowseService.getBrowseItemsFor).toHaveBeenCalledWith(filterValue, null, browseOptions, followLink);
-      expect(mockItemService.findAllById).toHaveBeenCalledWith([validAuthority, validAuthority2]);
+      expect(mockItemService.findAllById).toHaveBeenCalledWith([validAuthority, validAuthority2], undefined, undefined, undefined, {});
 
     });
 
@@ -152,7 +152,7 @@ describe('SearchManager', () => {
       scheduler.flush();
 
       expect(mockBrowseService.getBrowseItemsFor).toHaveBeenCalledWith(filterValue, filterAuthority, browseOptions, followLink);
-      expect(mockItemService.findAllById).toHaveBeenCalledWith([validAuthority, validAuthority2]);
+      expect(mockItemService.findAllById).toHaveBeenCalledWith([validAuthority, validAuthority2], undefined, undefined, undefined, {});
 
     });
   });

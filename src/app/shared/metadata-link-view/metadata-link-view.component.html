@@ -1,50 +1,53 @@
-<div class="d-inline-block" *ngVar="(metadataView$ | async) as metadataView">
-	<ng-container *ngIf="metadataView" [ngTemplateOutlet]="metadataView?.authority ? linkToAuthority : (metadataView?.entityType ? textWithIcon : textWithoutIcon)"
+<ng-container *ngIf="(allMetadataLoaded$ | async); else textOnlyValue">
+  <div class="d-inline-block" *ngVar="(metadataView$ | async) as metadataView">
+    <ng-container *ngIf="metadataView"
+                  [ngTemplateOutlet]="metadataView?.authority ? linkToAuthority : (metadataView?.entityType ? textWithIcon : textWithoutIcon)"
                   [ngTemplateOutletContext]="{metadataView: metadataView}"></ng-container>
-</div>
+  </div>
 
-<ng-template class="d-flex" #linkToAuthority let-metadataView="metadataView">
-<!-- TODO: restore popover -->
-<!--  <span [dsStickyPopover]="popContent"-->
-<!--        [openDelay]="100"-->
-<!--        [animation]="true"-->
-<!--        [autoClose]="true"-->
-<!--        container="body"-->
-<!--        triggers="mouseenter">-->
+  <ng-template class="d-flex" #linkToAuthority let-metadataView="metadataView">
+  <span [dsStickyPopover]="popContent"
+        [openDelay]="100"
+        [animation]="true"
+        [autoClose]="true"
+        container="body"
+        triggers="mouseenter">
     <a rel="noopener noreferrer" data-test="linkToAuthority"
-      [routerLink]="['/items/' + metadataView.authority]">
+       [routerLink]="['/items/' + metadataView.authority]">
       <span dsEntityIcon
             [iconPosition]="iconPosition"
             [entityType]="metadataView.entityType"
             [entityStyle]="metadataView.entityStyle">
-                {{metadataView.value}}
+                {{ metadataView.value }}
         </span>
     </a>
-<!--  </span>-->
-  <img *ngIf="metadataView.orcidAuthenticated"
-       placement="top"
-       ngbTooltip="{{ metadataView.orcidAuthenticated }}"
-       class="orcid-icon"
-       alt="orcid-logo"
-       src="assets/images/orcid.logo.icon.svg"
-       data-test="orcidIcon"/>
-</ng-template>
+  </span>
+    <img *ngIf="metadataView.orcidAuthenticated"
+         placement="top"
+         ngbTooltip="{{ metadataView.orcidAuthenticated }}"
+         class="orcid-icon"
+         alt="orcid-logo"
+         src="assets/images/orcid.logo.icon.svg"
+         data-test="orcidIcon"/>
+  </ng-template>
 
-<ng-template #textWithIcon let-metadataView="metadataView">
+  <ng-template #textWithIcon let-metadataView="metadataView">
   <span dsEntityIcon
         data-test="textWithIcon"
         [iconPosition]="iconPosition"
         [entityType]="metadataView.entityType"
         [entityStyle]="metadataView.entityStyle"
-        [fallbackOnDefault]="false">{{normalizeValue(metadataView.value)}}</span>
+        [fallbackOnDefault]="false">{{ normalizeValue(metadataView.value) }}</span>
+  </ng-template>
+
+  <ng-template #textWithoutIcon let-metadataView="metadataView">
+    <span data-test="textWithoutIcon">{{ normalizeValue(metadataView.value) }}</span>
+  </ng-template>
+
+  <ng-template #popContent>
+    <ds-metadata-link-view-popover [item]="relatedItem"></ds-metadata-link-view-popover>
+  </ng-template>
+</ng-container>
+<ng-template #textOnlyValue>
+  <span data-test="textWithoutIcon">{{ normalizeValue(metadata.value) }}</span>
 </ng-template>
-
-<ng-template #textWithoutIcon let-metadataView="metadataView">
-  <span data-test="textWithoutIcon">{{normalizeValue(metadataView.value)}}</span>
-</ng-template>
-
-<!-- TODO: restore popover -->
-<!--<ng-template #popContent>-->
-<!--  <ds-metadata-link-view-popover [item]="relatedItem"></ds-metadata-link-view-popover>-->
-<!--</ng-template>-->
-
