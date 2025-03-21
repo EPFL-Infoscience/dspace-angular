@@ -3046,8 +3046,16 @@
   "form.other-information.oairecerif_editor_affiliation": "Affiliation",
 
   "form.other-information.oairecerif_affiliation_orgunit": "Unit or Lab",
+  "form.other-information.oairecerif_author_orgunit": "Unit or Lab",
+  "form.other-information.oairecerif_contributor_orgunit": "Unit or Lab",
+  "form.other-information.oairecerif_advisor_orgunit": "Unit or Lab",
+  "form.other-information.oairecerif_scientificeditor_orgunit": "Unit or Lab",
 
   "form.other-information.person_identifier_orcid": "ORCID iD",
+  "form.other-information.person_author_orcid": "ORCID iD",
+  "form.other-information.person_contributor_orcid": "ORCID iD",
+  "form.other-information.person_advisor_orcid": "ORCID iD",
+  "form.other-information.person_scientificeditor_orcid": "ORCID iD",
 
   "form.other-information.institution-affiliation-name": "Affiliation(s)",
 
