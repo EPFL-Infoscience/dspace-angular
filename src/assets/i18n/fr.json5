@@ -4939,9 +4939,17 @@
 
   // "form.other-information.oairecerif_affiliation_orgunit": "Unit or Lab",
   "form.other-information.oairecerif_affiliation_orgunit": "Unité EPFL",
+  "form.other-information.oairecerif_author_orgunit": "Unité EPFL",
+  "form.other-information.oairecerif_contributor_orgunit": "Unité EPFL",
+  "form.other-information.oairecerif_advisor_orgunit": "Unité EPFL",
+  "form.other-information.oairecerif_scientificeditor_orgunit": "Unité EPFL",
 
   // "form.other-information.person_identifier_orcid": "ORCID iD",
   "form.other-information.person_identifier_orcid": "identifiant ORCID",
+  "form.other-information.person_author_orcid": "identifiant ORCID",
+  "form.other-information.person_contributor_orcid": "identifiant ORCID",
+  "form.other-information.person_advisor_orcid": "identifiant ORCID",
+  "form.other-information.person_scientificeditor_orcid": "identifiant ORCID",
 
   // "form.other-information.institution-affiliation-name": "Affiliation(s)",
   "form.other-information.institution-affiliation-name": "Affiliation(s)",
