@@ -4946,10 +4946,10 @@
 
   // "form.other-information.person_identifier_orcid": "ORCID iD",
   "form.other-information.person_identifier_orcid": "identifiant ORCID",
-  "form.other-information.person_author_orcid": "identifiant ORCID",
-  "form.other-information.person_contributor_orcid": "identifiant ORCID",
-  "form.other-information.person_advisor_orcid": "identifiant ORCID",
-  "form.other-information.person_scientificeditor_orcid": "identifiant ORCID",
+  "form.other-information.epfl_author_orcid": "identifiant ORCID",
+  "form.other-information.epfl_contributor_orcid": "identifiant ORCID",
+  "form.other-information.epfl_advisor_orcid": "identifiant ORCID",
+  "form.other-information.epfl_scientificeditor_orcid": "identifiant ORCID",
 
   // "form.other-information.institution-affiliation-name": "Affiliation(s)",
   "form.other-information.institution-affiliation-name": "Affiliation(s)",

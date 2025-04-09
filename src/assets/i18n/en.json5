@@ -3052,10 +3052,10 @@
   "form.other-information.oairecerif_scientificeditor_orgunit": "Unit or Lab",
 
   "form.other-information.person_identifier_orcid": "ORCID iD",
-  "form.other-information.person_author_orcid": "ORCID iD",
-  "form.other-information.person_contributor_orcid": "ORCID iD",
-  "form.other-information.person_advisor_orcid": "ORCID iD",
-  "form.other-information.person_scientificeditor_orcid": "ORCID iD",
+  "form.other-information.epfl_author_orcid": "ORCID iD",
+  "form.other-information.epfl_contributor_orcid": "ORCID iD",
+  "form.other-information.epfl_advisor_orcid": "ORCID iD",
+  "form.other-information.epfl_scientificeditor_orcid": "ORCID iD",
 
   "form.other-information.institution-affiliation-name": "Affiliation(s)",
 
