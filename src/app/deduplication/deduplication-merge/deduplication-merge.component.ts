@@ -41,6 +41,7 @@ import { ItemsMetadataValues } from '../interfaces/deduplication-differences.mod
 import { DeduplicationMergeResultComponent } from '../deduplication-merge-result/deduplication-merge-result.component';
 import { Location } from '@angular/common';
 import { GetBitstreamsPipe } from '../pipes/ds-get-bitstreams.pipe';
+import {AlertType} from "../../shared/alert/alert-type";
 
 @Component({
   selector: 'ds-deduplication-merge',
@@ -913,4 +914,6 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
       behavior: 'smooth',
     });
   }
+
+  protected readonly AlertTypeEnum = AlertType;
 }
