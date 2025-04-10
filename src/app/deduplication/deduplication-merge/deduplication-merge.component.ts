@@ -41,7 +41,7 @@ import { ItemsMetadataValues } from '../interfaces/deduplication-differences.mod
 import { DeduplicationMergeResultComponent } from '../deduplication-merge-result/deduplication-merge-result.component';
 import { Location } from '@angular/common';
 import { GetBitstreamsPipe } from '../pipes/ds-get-bitstreams.pipe';
-import {AlertType} from "../../shared/alert/alert-type";
+import {AlertType} from '../../shared/alert/alert-type';
 
 @Component({
   selector: 'ds-deduplication-merge',
@@ -50,6 +50,13 @@ import {AlertType} from "../../shared/alert/alert-type";
   providers: [GetBitstreamsPipe],
 })
 export class DeduplicationMergeComponent implements OnInit, OnDestroy {
+
+  /**
+   * The Alert categories.
+   * @type {AlertType}
+   */
+  public AlertTypeEnum = AlertType;
+
   /**
    * Accordions references in order to collapse/expand them on click
    * @type {QueryList<NgbAccordion>}
@@ -915,5 +922,4 @@ export class DeduplicationMergeComponent implements OnInit, OnDestroy {
     });
   }
 
-  protected readonly AlertTypeEnum = AlertType;
 }
