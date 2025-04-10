@@ -3464,6 +3464,10 @@
   // TODO New key - Add a translation
   "deduplication.merge.label.bitstreams": "Bitstream data (for bundle 'ORIGINAL')",
 
+  // "deduplication.merge.label.bitstreams.warning": "Bitstreams from all other bundles are preserved and merged into the target item as-is. After the merge is complete, please review the target item and manually remove any unwanted bitstreams from bundles other than 'ORIGINAL'.",
+  // TODO New key - Add a translation
+  "deduplication.merge.label.bitstreams.warning": "Bitstreams from all other bundles are preserved and merged into the target item as-is. After the merge is complete, please review the target item and manually remove any unwanted bitstreams from bundles other than 'ORIGINAL'.",
+
   // "deduplication.merge.label.merge-metadata": "Metadata to be merged",
   // TODO New key - Add a translation
   "deduplication.merge.label.merge-metadata": "Metadata to be merged",
