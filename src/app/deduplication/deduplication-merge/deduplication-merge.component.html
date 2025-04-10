@@ -43,6 +43,10 @@
         </h5>
       </div>
 
+      <div class="col-md-12 p-0">
+        <ds-alert [type]="AlertTypeEnum.Warning" [content]="'deduplication.merge.label.bitstreams.warning' | translate"></ds-alert>
+      </div>
+
       <!-- BITSTREAM DATA TABLE -->
       <div class="col-md-12 p-0">
         <ds-bitstream-table
