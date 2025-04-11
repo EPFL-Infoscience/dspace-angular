@@ -5,6 +5,12 @@
         <ng-container *ngSwitchCase="UnpaywallSectionStatus.SUCCESSFUL">
           <ds-alert [type]="AlertType.Info"
                     [content]="'submission.sections.unpaywall.status.successful' | translate"></ds-alert>
+          <div *ngIf="(unpaywallSection$ | async)?.doi" class="mb-3">
+            <p>
+              <strong>{{'submission.sections.unpaywall.openaccess-link' | translate}}</strong>
+              <a href="https://unpaywall.org/{{(unpaywallSection$ | async)?.doi}}" target="_blank">{{(unpaywallSection$ | async)?.doi}}</a>
+            </p>
+          </div>
         </ng-container>
         <ng-container *ngSwitchCase="UnpaywallSectionStatus.IMPORTED">
           <ds-alert [type]="AlertType.Success"
@@ -25,6 +31,12 @@
         <ng-container *ngSwitchCase="UnpaywallSectionStatus.ERROR">
           <ds-alert [type]="AlertType.Error"
                     [content]="'submission.sections.unpaywall.status.error' | translate"></ds-alert>
+          <div *ngIf="(unpaywallSection$ | async)?.doi" class="mb-3">
+            <p>
+              <strong>{{'submission.sections.unpaywall.openaccess-link' | translate}}</strong>
+              <a href="https://unpaywall.org/{{(unpaywallSection$ | async)?.doi}}" target="_blank">{{(unpaywallSection$ | async)?.doi}}</a>
+            </p>
+          </div>
         </ng-container>
       </div>
     </div>
