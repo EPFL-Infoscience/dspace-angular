@@ -7761,9 +7761,11 @@
 
   "submission.sections.unpaywall.import": "Import from Unpaywall",
 
-  "submission.sections.unpaywall.status.error": "An unexpected error has occurred.",
+  "submission.sections.unpaywall.status.error": "We were unable to download the file automatically, probably due to a policy on the source server. You can try to download the file manually",
 
-  "submission.sections.unpaywall.status.successful": "There are available files to import from Unpaywall.",
+  "submission.sections.unpaywall.status.successful": "There is an available file to import from Unpaywall.",
+
+  "submission.sections.unpaywall.openaccess-link": "Link to the Open Access file: ",
 
   "submission.sections.unpaywall.status.not-found": "Cannot find record using Unpaywall API.",
 

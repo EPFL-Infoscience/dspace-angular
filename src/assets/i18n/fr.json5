@@ -12371,8 +12371,14 @@
   // "submission.sections.unpaywall.import": "Import from unpaywall",
   "submission.sections.unpaywall.import": "Importer le fichier depuis unpaywall",
 
+  // "submission.sections.unpaywall.status.error": "We were unable to download the file automatically, probably due to a policy on the source server. You can try to download the file manually",
+  "submission.sections.unpaywall.status.error": "Nous n'avons pas pu télécharger le fichier automatiquement, probablement en raison d'une politique du serveur source. Vous pouvez essayer de le télécharger manuellement.",
+
   // "submission.sections.unpaywall.status.successful": "You can import above linked file from unpaywall",
   "submission.sections.unpaywall.status.successful": "Vous pouvez importer le fichier via Unpaywall.",
+
+  // "submission.sections.unpaywall.openaccess-link": "Link to the Open Access file: ",
+  "submission.sections.unpaywall.openaccess-link": "Lien vers le fichier en libre accès :",
 
   // "submission.sections.unpaywall.status.not-found": "Can't find record using Unpaywall api",
   "submission.sections.unpaywall.status.not-found": "Aucune ressource trouvée via Unpaywall",
@@ -12383,10 +12389,6 @@
   // "submission.sections.unpaywall.status.pending": "Unable to retrieve information from the Unpaywall service. You can use the refresh button to manually check if an answer has been received.",
   // TODO New key - Add a translation
   "submission.sections.unpaywall.status.pending": "Impossible de récupérer les informations du service Unpaywall. Vous pouvez utiliser le bouton d'actualisation pour vérifier manuellement si une réponse a été reçue.",
-
-  // "submission.sections.unpaywall.status.no-file": "There are no available files to be imported.",
-  // TODO New key - Add a translation
-  "submission.sections.unpaywall.status.no-file": "There are no available files to be imported.",
 
   // "submission.sections.unpaywall.status.imported": "The Unpaywall resource has been imported!",
   // TODO New key - Add a translation
