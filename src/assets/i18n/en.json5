@@ -2032,6 +2032,8 @@
 
   "deduplication.merge.label.bitstreams": "Bitstream data (for bundle 'ORIGINAL')",
 
+  "deduplication.merge.label.bitstreams.warning": "Bitstreams from all other bundles are preserved and merged into the target item as-is. After the merge is complete, please review the target item and manually remove any unwanted bitstreams from bundles other than 'ORIGINAL'.",
+
   "deduplication.merge.label.merge-metadata": "Metadata to be merged",
 
   "deduplication.merge.table.header.entities": "Entities",
@@ -3052,10 +3054,10 @@
   "form.other-information.oairecerif_scientificeditor_orgunit": "Unit or Lab",
 
   "form.other-information.person_identifier_orcid": "ORCID iD",
-  "form.other-information.person_author_orcid": "ORCID iD",
-  "form.other-information.person_contributor_orcid": "ORCID iD",
-  "form.other-information.person_advisor_orcid": "ORCID iD",
-  "form.other-information.person_scientificeditor_orcid": "ORCID iD",
+  "form.other-information.epfl_author_orcid": "ORCID iD",
+  "form.other-information.epfl_contributor_orcid": "ORCID iD",
+  "form.other-information.epfl_advisor_orcid": "ORCID iD",
+  "form.other-information.epfl_scientificeditor_orcid": "ORCID iD",
 
   "form.other-information.institution-affiliation-name": "Affiliation(s)",
 
@@ -7759,15 +7761,19 @@
 
   "submission.sections.unpaywall.import": "Import from Unpaywall",
 
-  "submission.sections.unpaywall.status.error": "An unexpected error has occurred.",
+  "submission.sections.unpaywall.status.error": "We were unable to download the file automatically, probably due to a policy on the source server. You can try to download the file manually",
 
-  "submission.sections.unpaywall.status.successful": "There are available files to import above linked file from Unpaywall.",
+  "submission.sections.unpaywall.status.successful": "There is an available file to import from Unpaywall.",
+
+  "submission.sections.unpaywall.openaccess-link": "Link to the Open Access file: ",
 
   "submission.sections.unpaywall.status.not-found": "Cannot find record using Unpaywall API.",
 
   "submission.sections.unpaywall.status.pending": "Unable to retrieve information from the Unpaywall service. You can use the refresh button to manually check if an answer has been received.",
 
   "submission.sections.unpaywall.status.no-file": "There are no available files to be imported.",
+
+  "submission.sections.unpaywall.status.imported": "The Unpaywall resource has been imported!",
 
   "submission.sections.submit.progressbar.unpaywall": "Unpaywall",
 
@@ -10100,7 +10106,7 @@
   "layout.field.label.Product.NESTED[oairecerif.author.affiliation]": "Affiliation",
 
   "layout.field.label.Patent.NESTED[dc.contributor.author]": "Inventor",
-  "layout.field.label.Patent.NESTED[oairecerif.author.affiliation]": "Affiliation"
+  "layout.field.label.Patent.NESTED[oairecerif.author.affiliation]": "Affiliation",
 
 
   // Do not add new labels below layout ones
