@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Check if the directory argument is provided
+if [ -z "$1" ]; then
+    echo "Usage: $0 <directory>"
+    exit 1
+fi
+
+# Directory to search for files
+SEARCH_DIR="$1"
+
+# Target file for the symbolic link
+TARGET_FILE="/data-shared/assets/i18n"
+
+SUFFIXES=("json" "json.br" "json.gz")
+# Supported locales
+PREFIXES=("en" "fr")
+
+# Find and replace files with symbolic links
+for suffix in "${SUFFIXES[@]}"; do
+    for prefix in "${PREFIXES[@]}"; do
+        find "$SEARCH_DIR" -type f -name "${prefix}.*.${suffix}" | while read -r file; do
+            # Get the filename
+            filename=$(basename "$file")
+
+            # Remove the original file
+            rm "$file"
+
+            # Create the symbolic link
+            ln -s "$TARGET_FILE/${prefix}.${suffix}" "$SEARCH_DIR/$filename"
+            
+            if [ $? -eq 0 ]; then
+                echo "Replaced $filename with a symbolic link to $TARGET_FILE/${prefix}.${suffix}"
+            else
+                echo "FAILED to replace $filename with a symbolic link to $TARGET_FILE/${prefix}.${suffix}"
+            fi
+        done
+    done
+done
+
+

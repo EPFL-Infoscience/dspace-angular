@@ -131,7 +131,7 @@ describe('DeduplicationItemsService', () => {
 
     it('should proxy the call to getItemData', () => {
       const result = service.getItemData(itemUUID);
-      expect((service as any).itemDataService.findById).toHaveBeenCalledWith(itemUUID, true, true, ...linksToFollow);
+      expect((service as any).itemDataService.findById).toHaveBeenCalledWith(itemUUID, false, true, ...linksToFollow);
 
       const expected = cold('(a|)', {
         a: testItem

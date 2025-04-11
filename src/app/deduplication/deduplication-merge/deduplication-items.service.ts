@@ -37,7 +37,7 @@ export class DeduplicationItemsService {
     return this.itemDataService
       .findById(
         itemId,
-        true,
+        false,
         true,
         followLink('bundles', {}, followLink('bitstreams')),
         followLink('owningCollection')
