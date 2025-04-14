@@ -14733,7 +14733,7 @@
   "layout.field.label.OrgUnit.crisou.director": "Responsable",
 
   // "layout.field.label.OrgUnit.organization.parentOrganization": "Parent Organisation",
-  "layout.field.label.OrgUnit.organization.parentOrganization": "Unitée parente",
+  "layout.field.label.OrgUnit.organization.parentOrganization": "Unité parente",
 
   // "layout.field.label.OrgUnit.organization.foundingDate": "Founding date",
   "layout.field.label.OrgUnit.organization.foundingDate": "Date de création",
