@@ -27,6 +27,7 @@ import { DSONameServiceMock } from '../../../mocks/dso-name.service.mock';
 import { APP_CONFIG } from '../../../../../config/app-config.interface';
 import { ObjectCacheService } from '../../../../core/cache/object-cache.service';
 import { Context } from '../../../../core/shared/context.model';
+import { mockTruncatableService } from '../../../mocks/mock-trucatable.service';
 
 let component: PoolSearchResultListElementComponent;
 let fixture: ComponentFixture<PoolSearchResultListElementComponent>;
@@ -85,7 +86,7 @@ describe('PoolSearchResultListElementComponent', () => {
       imports: [NoopAnimationsModule],
       declarations: [PoolSearchResultListElementComponent, VarDirective],
       providers: [
-        { provide: TruncatableService, useValue: {} },
+        { provide: TruncatableService, useValue: mockTruncatableService },
         { provide: LinkService, useValue: linkService },
         { provide: DSONameService, useClass: DSONameServiceMock },
         { provide: APP_CONFIG, useValue: environmentUseThumbs },

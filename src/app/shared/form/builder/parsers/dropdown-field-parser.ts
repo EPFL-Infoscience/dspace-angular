@@ -1,4 +1,4 @@
-import {Inject} from '@angular/core';
+import { Inject } from '@angular/core';
 import { FormFieldModel } from '../models/form-field.model';
 import {
   CONFIG_DATA,
@@ -6,8 +6,7 @@ import {
   INIT_FORM_VALUES,
   PARSER_OPTIONS,
   SECURITY_CONFIG,
-  SUBMISSION_ID,
-  TRANSLATION_SERVICE
+  SUBMISSION_ID
 } from './field-parser';
 import { DynamicFormControlLayout, } from '@ng-dynamic-forms/core';
 import {
@@ -28,7 +27,7 @@ export class DropdownFieldParser extends FieldParser {
     @Inject(INIT_FORM_VALUES) initFormValues,
     @Inject(PARSER_OPTIONS) parserOptions: ParserOptions,
     @Inject(SECURITY_CONFIG)  securityConfig: any = null,
-    @Inject(TRANSLATION_SERVICE) translateService: TranslateService,
+    protected translateService: TranslateService
   ) {
     super(submissionId, configData, initFormValues, parserOptions, securityConfig, translateService);
   }
@@ -40,11 +39,7 @@ export class DropdownFieldParser extends FieldParser {
     if (isNotEmpty(this.configData.selectableMetadata[0].controlledVocabulary)) {
       this.setVocabularyOptions(dropdownModelConfig, this.parserOptions.collectionUUID);
       this.setValues(dropdownModelConfig, fieldValue, true);
-      if (this.configData.input.type === ParserType.OpenDropdown) {
-        dropdownModelConfig.openType = true;
-      } else {
-        dropdownModelConfig.openType = false;
-      }
+      dropdownModelConfig.openType = this.configData.input.type === ParserType.OpenDropdown;
       layout = {
         element: {
           control: 'col'
@@ -53,8 +48,7 @@ export class DropdownFieldParser extends FieldParser {
           host: 'col'
         }
       };
-      const dropdownModel = new DynamicScrollableDropdownModel(dropdownModelConfig, layout);
-      return dropdownModel;
+      return new DynamicScrollableDropdownModel(dropdownModelConfig, layout);
     } else {
       throw  Error(`Controlled Vocabulary name is not available. Please check the form configuration file.`);
     }

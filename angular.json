@@ -79,7 +79,8 @@
                 "input": "src/themes/infoscience/styles/theme.scss",
                 "inject": false,
                 "bundleName": "infoscience-theme"
-              }
+              },
+              "./node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": [],
             "baseHref": "/"

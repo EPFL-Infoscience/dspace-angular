@@ -20,6 +20,7 @@ import { Bitstream } from '../../../../../core/shared/bitstream.model';
 import { HALEndpointService } from '../../../../../core/shared/hal-endpoint.service';
 import { Item } from '../../../../../core/shared/item.model';
 import { UUIDService } from '../../../../../core/shared/uuid.service';
+import { XSRFService } from '../../../../../core/xsrf/xsrf.service';
 import { NotificationsService } from '../../../../../shared/notifications/notifications.service';
 import { ItemSearchResult } from '../../../../../shared/object-collection/shared/item-search-result.model';
 import { SelectableListService } from '../../../../../shared/object-list/selectable-list/selectable-list.service';
@@ -28,6 +29,7 @@ import { TruncatableService } from '../../../../../shared/truncatable/truncatabl
 import { TruncatePipe } from '../../../../../shared/utils/truncate.pipe';
 import { PersonSearchResultListSubmissionElementComponent } from './person-search-result-list-submission-element.component';
 import { APP_CONFIG } from '../../../../../../config/app-config.interface';
+import { mockTruncatableService } from '../../../../../shared/mocks/mock-trucatable.service';
 
 let personListElementComponent: PersonSearchResultListSubmissionElementComponent;
 let fixture: ComponentFixture<PersonSearchResultListSubmissionElementComponent>;
@@ -105,7 +107,7 @@ describe('PersonSearchResultListElementSubmissionComponent', () => {
     TestBed.configureTestingModule({
       declarations: [PersonSearchResultListSubmissionElementComponent, TruncatePipe],
       providers: [
-        { provide: TruncatableService, useValue: {} },
+        { provide: TruncatableService, useValue: mockTruncatableService },
         { provide: RelationshipDataService, useValue: mockRelationshipService },
         { provide: NotificationsService, useValue: {} },
         { provide: TranslateService, useValue: {} },
@@ -115,6 +117,7 @@ describe('PersonSearchResultListElementSubmissionComponent', () => {
         { provide: Store, useValue: {}},
         { provide: ObjectCacheService, useValue: {} },
         { provide: UUIDService, useValue: {} },
+        { provide: XSRFService, useValue: {} },
         { provide: RemoteDataBuildService, useValue: {} },
         { provide: CommunityDataService, useValue: {} },
         { provide: HALEndpointService, useValue: {} },
@@ -185,7 +188,7 @@ describe('PersonSearchResultListElementSubmissionComponent', () => {
     TestBed.configureTestingModule({
       declarations: [PersonSearchResultListSubmissionElementComponent, TruncatePipe],
       providers: [
-        { provide: TruncatableService, useValue: {} },
+        { provide: TruncatableService, useValue: mockTruncatableService },
         { provide: RelationshipDataService, useValue: mockRelationshipService },
         { provide: NotificationsService, useValue: {} },
         { provide: TranslateService, useValue: {} },

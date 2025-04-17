@@ -3,6 +3,7 @@ import { RowParser } from './row-parser';
 import { DynamicRowGroupModel } from '../ds-dynamic-form-ui/models/ds-dynamic-row-group-model';
 import { DynamicRowArrayModel } from '../ds-dynamic-form-ui/models/ds-dynamic-row-array-model';
 import { FormRowModel } from '../../../../core/config/models/config-submission-form.model';
+import { Injector } from '@angular/core';
 import {
   SubmissionVisibilityType,
   SubmissionVisibilityValue
@@ -24,6 +25,7 @@ describe('RowParser test suite', () => {
   let row8: FormRowModel;
   let row9: FormRowModel;
   let row10: FormRowModel;
+  let injector: Injector;
 
   let translateService: TranslateService = getMockTranslateService();
   (translateService.get as jasmine.Spy).and.returnValues(of('DSpace :: '), of('Translated value'));
@@ -36,6 +38,11 @@ describe('RowParser test suite', () => {
   const typeField = 'dc_type';
 
   beforeEach(() => {
+    injector = Injector.create({
+      providers: [
+        { provide: TranslateService, useValue: translateService },
+      ],
+    });
     row1 = {
       fields: [
         {
@@ -343,14 +350,14 @@ describe('RowParser test suite', () => {
   });
 
   it('should init parser properly', () => {
-    const parser = new RowParser(undefined, translateService);
+    const parser = new RowParser(injector, translateService);
 
     expect(parser instanceof RowParser).toBe(true);
   });
 
   describe('parse', () => {
     it('should return a DynamicRowGroupModel object', () => {
-      const parser = new RowParser(undefined, translateService);
+      const parser = new RowParser(injector, translateService);
 
       const rowModel = parser.parse(submissionId, row1, scopeUUID, initFormValues, submissionScope, readOnly, typeField);
 
@@ -358,7 +365,7 @@ describe('RowParser test suite', () => {
     });
 
     it('should return a row with three fields', () => {
-      const parser = new RowParser(undefined, translateService);
+      const parser = new RowParser(injector, translateService);
 
       const rowModel = parser.parse(submissionId, row1, scopeUUID, initFormValues, submissionScope, readOnly, typeField);
 
@@ -366,7 +373,7 @@ describe('RowParser test suite', () => {
     });
 
     it('should return a DynamicRowArrayModel object', () => {
-      const parser = new RowParser(undefined, translateService);
+      const parser = new RowParser(injector, translateService);
 
       const rowModel = parser.parse(submissionId, row2, scopeUUID, initFormValues, submissionScope, readOnly, typeField);
 
@@ -374,7 +381,7 @@ describe('RowParser test suite', () => {
     });
 
     it('should return a row that contains only scoped fields', () => {
-      const parser = new RowParser(undefined, translateService);
+      const parser = new RowParser(injector, translateService);
 
       const rowModel = parser.parse(submissionId, row3, scopeUUID, initFormValues, submissionScope, readOnly, typeField);
 
@@ -382,7 +389,7 @@ describe('RowParser test suite', () => {
     });
 
     it('should be able to parse a dropdown combo field', () => {
-      const parser = new RowParser(undefined, translateService);
+      const parser = new RowParser(injector, translateService);
 
       const rowModel = parser.parse(submissionId, row4, scopeUUID, initFormValues, submissionScope, readOnly, typeField);
 
@@ -390,7 +397,7 @@ describe('RowParser test suite', () => {
     });
 
     it('should be able to parse a lookup-name field', () => {
-      const parser = new RowParser(undefined, translateService);
+      const parser = new RowParser(injector, translateService);
 
       const rowModel = parser.parse(submissionId, row5, scopeUUID, initFormValues, submissionScope, readOnly, typeField);
 
@@ -398,7 +405,7 @@ describe('RowParser test suite', () => {
     });
 
     it('should be able to parse a list field', () => {
-      const parser = new RowParser(undefined, translateService);
+      const parser = new RowParser(injector, translateService);
 
       const rowModel = parser.parse(submissionId, row6, scopeUUID, initFormValues, submissionScope, readOnly, typeField);
 
@@ -406,7 +413,7 @@ describe('RowParser test suite', () => {
     });
 
     it('should be able to parse a date field', () => {
-      const parser = new RowParser(undefined, translateService);
+      const parser = new RowParser(injector, translateService);
 
       const rowModel = parser.parse(submissionId, row7, scopeUUID, initFormValues, submissionScope, readOnly, typeField);
 
@@ -414,7 +421,7 @@ describe('RowParser test suite', () => {
     });
 
     it('should be able to parse a tag field', () => {
-      const parser = new RowParser(undefined, translateService);
+      const parser = new RowParser(injector, translateService);
 
       const rowModel = parser.parse(submissionId, row8, scopeUUID, initFormValues, submissionScope, readOnly, typeField);
 
@@ -422,7 +429,7 @@ describe('RowParser test suite', () => {
     });
 
     it('should be able to parse a textarea field', () => {
-      const parser = new RowParser(undefined, translateService);
+      const parser = new RowParser(injector, translateService);
 
       const rowModel = parser.parse(submissionId, row9, scopeUUID, initFormValues, submissionScope, readOnly, typeField);
 
@@ -430,7 +437,7 @@ describe('RowParser test suite', () => {
     });
 
     it('should be able to parse a group field', () => {
-      const parser = new RowParser(undefined, translateService);
+      const parser = new RowParser(injector, translateService);
 
       const rowModel = parser.parse(submissionId, row10, scopeUUID, initFormValues, submissionScope, readOnly, typeField);
 

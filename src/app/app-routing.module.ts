@@ -3,6 +3,8 @@ import { NoPreloading, RouterModule } from '@angular/router';
 import { AuthBlockingGuard } from './core/auth/auth-blocking.guard';
 
 import { AuthenticatedGuard } from './core/auth/authenticated.guard';
+
+
 import {
   ACCESS_CONTROL_MODULE_PATH,
   ADMIN_MODULE_PATH,
@@ -41,12 +43,18 @@ import {
 import { ServerCheckGuard } from './core/server-check/server-check.guard';
 import { MenuResolver } from './menu.resolver';
 import { ThemedPageErrorComponent } from './page-error/themed-page-error.component';
+import { ForgotPasswordCheckGuard } from './core/rest-property/forgot-password-check-guard.guard';
 import { SUGGESTION_MODULE_PATH } from './suggestions-page/suggestions-page-routing-paths';
 import { RedirectService } from './redirect/redirect.service';
 import {
   CollectionAdministratorGuard
 } from './core/data/feature-authorization/feature-authorization-guard/collection-administrator.guard';
 import { DEDUPLICATION_PATH } from './admin/admin-routing-paths';
+import {
+  GenericAdministratorGuard
+} from './core/data/feature-authorization/feature-authorization-guard/generic-administrator-guard';
+
+
 
 @NgModule({
   imports: [
@@ -101,7 +109,10 @@ import { DEDUPLICATION_PATH } from './admin/admin-routing-paths';
             path: FORGOT_PASSWORD_PATH,
             loadChildren: () => import('./forgot-password/forgot-password.module')
               .then((m) => m.ForgotPasswordModule),
-            canActivate: [EndUserAgreementCurrentUserGuard]
+            canActivate: [
+              ForgotPasswordCheckGuard,
+              EndUserAgreementCurrentUserGuard
+            ]
           },
           {
             path: COMMUNITY_MODULE_PATH,
@@ -172,7 +183,7 @@ import { DEDUPLICATION_PATH } from './admin/admin-routing-paths';
             path: ADMIN_MODULE_PATH,
             loadChildren: () => import('./admin/admin.module')
               .then((m) => m.AdminModule),
-            canActivate: [CollectionAdministratorGuard, EndUserAgreementCurrentUserGuard]
+            canActivate: [GenericAdministratorGuard, CollectionAdministratorGuard, EndUserAgreementCurrentUserGuard]
           },
           {
             path: DEDUPLICATION_PATH,

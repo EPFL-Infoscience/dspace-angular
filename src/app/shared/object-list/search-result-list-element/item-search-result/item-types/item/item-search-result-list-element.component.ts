@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, Input, OnInit, Optional } from '@angular/core';
+import { AfterViewInit, Component, Inject, Input, OnDestroy, OnInit, Optional } from '@angular/core';
 import {
   listableObjectComponent
 } from '../../../../../object-collection/shared/listable-object/listable-object.decorator';
@@ -10,12 +10,18 @@ import { getItemPageRoute, getItemViewerPath } from '../../../../../../item-page
 import { Context } from '../../../../../../core/shared/context.model';
 import { environment } from '../../../../../../../environments/environment';
 import { KlaroService } from '../../../../../cookies/klaro.service';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of, Subject, Subscription, switchMap } from 'rxjs';
 import { TruncatableService } from '../../../../../truncatable/truncatable.service';
 import { DSONameService } from '../../../../../../core/breadcrumbs/dso-name.service';
 import { APP_CONFIG, AppConfig } from '../../../../../../../config/app-config.interface';
-import { getFirstSucceededRemoteListPayload } from '../../../../../../core/shared/operators';
-import { map } from 'rxjs/operators';
+import {
+  getFirstSucceededRemoteData,
+  getFirstSucceededRemoteListPayload
+} from '../../../../../../core/shared/operators';
+import { filter, map } from 'rxjs/operators';
+import { isNotEmpty } from '../../../../../empty.util';
+import { ItemDataService } from '../../../../../../core/data/item-data.service';
+import { followLink } from '../../../../../utils/follow-link-config.model';
 
 @listableObjectComponent('PublicationSearchResult', ViewMode.ListElement)
 @listableObjectComponent(ItemSearchResult, ViewMode.ListElement)
@@ -28,7 +34,7 @@ import { map } from 'rxjs/operators';
 /**
  * The component for displaying a list element for an item search result of the type Publication
  */
-export class ItemSearchResultListElementComponent extends SearchResultListElementComponent<ItemSearchResult, Item> implements OnInit, AfterViewInit {
+export class ItemSearchResultListElementComponent extends SearchResultListElementComponent<ItemSearchResult, Item> implements OnInit, AfterViewInit, OnDestroy {
 
   /**
    * Whether to show the metrics badges
@@ -58,18 +64,42 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
 
   private thirdPartyMetrics = environment.info.metricsConsents.filter(metric => metric.enabled).map(metric => metric.key);
 
+  allMetadataLoaded$: Subject<boolean> = new Subject<boolean>();
+  allMetadataLoadedSub: Subscription;
 
   constructor(
     protected truncatableService: TruncatableService,
     public dsoNameService: DSONameService,
     @Inject(APP_CONFIG) protected appConfig?: AppConfig,
     @Optional() private klaroService?: KlaroService,
+    @Optional() private itemDataService?: ItemDataService,
   ) {
     super(truncatableService, dsoNameService);
   }
 
   ngOnInit(): void {
     super.ngOnInit();
+
+    this.allMetadataLoadedSub = this.isCollapsed().pipe(
+      filter((collapsed) => collapsed === false),
+      switchMap(() => {
+          const allAuthorMetadata = this.dso.allMetadata(this.authorMetadata)
+            .map((author) => author.authority)
+            .filter((authority) => isNotEmpty(authority));
+          if (isNotEmpty(allAuthorMetadata)) {
+            return this.itemDataService.findAllById(
+              allAuthorMetadata,
+              {elementsPerPage: environment.followAuthorityMetadataValuesLimit},
+              true, false,
+              followLink('thumbnail', {useCachedVersionIfAvailable: true, reRequestOnStale: false}))
+              .pipe(getFirstSucceededRemoteData());
+          }
+          return of(true);
+        }
+      )).subscribe(() => {
+      this.allMetadataLoaded$?.next(true);
+    });
+
     this.itemPageRoute = getItemPageRoute(this.dso);
     this.itemViewerRoute = getItemViewerPath(this.dso, 'iiif');
     this.fullTextHighlights = this.allMetadataValues('fulltext');
@@ -131,7 +161,9 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
       this.klaroService.watchConsentUpdates();
 
       this.hasLoadedThirdPartyMetrics$ = combineLatest([
-        this.klaroService.consentsUpdates$,
+        this.klaroService.consentsUpdates$.pipe(
+          filter(consents => isNotEmpty(consents))
+        ),
         this.dso.metrics?.pipe(
           getFirstSucceededRemoteListPayload(),
           map(metrics => {
@@ -146,6 +178,10 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
         })
       );
     }
+  }
+
+  ngOnDestroy(): void {
+    this.allMetadataLoadedSub?.unsubscribe();
   }
 
   /**

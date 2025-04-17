@@ -4,7 +4,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { PaginatedList } from '../data/paginated-list.model';
 import { RemoteData } from '../data/remote-data';
 import { Item } from '../shared/item.model';
-import { getFirstSucceededRemoteData } from '../shared/operators';
+import { getFirstCompletedRemoteData } from '../shared/operators';
 import { BrowseEntrySearchOptions } from './browse-entry-search-options.model';
 import { FollowLinkConfig } from '../../shared/utils/follow-link-config.model';
 import { ItemDataService } from '../data/item-data.service';
@@ -45,8 +45,9 @@ export class SearchManager {
    * @returns {Observable<RemoteData<PaginatedList<Item>>>}
    */
   getBrowseItemsFor(filterValue: string, filterAuthority: string, options: BrowseEntrySearchOptions, ...linksToFollow: FollowLinkConfig<any>[]): Observable<RemoteData<PaginatedList<Item>>> {
-    return this.browseService.getBrowseItemsFor(filterValue, filterAuthority, options, ...linksToFollow)
-      .pipe(this.completeWithExtraData());
+    const browseOptions = Object.assign({}, options, { projection: 'preventMetadataSecurity' });
+    return this.browseService.getBrowseItemsFor(filterValue, filterAuthority, browseOptions, ...linksToFollow)
+      .pipe(this.completeWithExtraData(...linksToFollow));
   }
 
   /**
@@ -67,14 +68,14 @@ export class SearchManager {
     reRequestOnStale = true,
     ...linksToFollow: FollowLinkConfig<T>[]): Observable<RemoteData<SearchObjects<T>>> {
     return this.searchService.search(searchOptions, responseMsToLive, useCachedVersionIfAvailable, reRequestOnStale, ...linksToFollow)
-      .pipe(this.completeSearchObjectsWithExtraData());
+      .pipe(this.completeSearchObjectsWithExtraData(...linksToFollow));
   }
 
 
-  protected completeWithExtraData() {
+  protected completeWithExtraData(...linksToFollow: FollowLinkConfig<any>[]) {
     return switchMap((itemsRD: RemoteData<PaginatedList<Item>>) => {
       if (itemsRD.isSuccess) {
-        return this.fetchExtraData(itemsRD.payload.page).pipe(map(() => {
+        return this.fetchExtraData(itemsRD.payload.page, ...linksToFollow).pipe(map(() => {
           return itemsRD;
         }));
       }
@@ -82,12 +83,12 @@ export class SearchManager {
     });
   }
 
-  protected completeSearchObjectsWithExtraData<T extends DSpaceObject>() {
+  protected completeSearchObjectsWithExtraData<T extends DSpaceObject>(...linksToFollow: FollowLinkConfig<T>[]) {
     return switchMap((searchObjectsRD: RemoteData<SearchObjects<T>>) => {
       if (searchObjectsRD.isSuccess) {
         const items: Item[] = searchObjectsRD.payload.page
           .map((searchResult) => isNotEmpty(searchResult?._embedded?.indexableObject) ? searchResult._embedded.indexableObject : searchResult.indexableObject) as any;
-        return this.fetchExtraData(items).pipe(map(() => {
+        return this.fetchExtraData(items, ...linksToFollow).pipe(map(() => {
           return searchObjectsRD;
         }));
       }
@@ -95,7 +96,7 @@ export class SearchManager {
     });
   }
 
-  protected fetchExtraData<T extends DSpaceObject>(objects: T[]): Observable<any> {
+  protected fetchExtraData<T extends DSpaceObject>(objects: T[], ...linksToFollow: FollowLinkConfig<any>[]): Observable<any> {
 
     const items: Item[] = objects
       .map((object: any) => {
@@ -111,31 +112,44 @@ export class SearchManager {
       })
       .filter((item) => hasValue(item));
 
-    const uuidList = this.extractUUID(items, environment.followAuthorityMetadata);
+    const uuidList = this.extractUUID(items, environment.followAuthorityMetadata, environment.followAuthorityMaxItemLimit);
 
-    return uuidList.length > 0 ? this.itemService.findAllById(uuidList).pipe(getFirstSucceededRemoteData()) : of(null);
+    return uuidList.length > 0 ? this.itemService.findAllById(uuidList, undefined, undefined, undefined, ...linksToFollow).pipe(
+      getFirstCompletedRemoteData(),
+      map(data => {
+        if (data.hasSucceeded) {
+          return of(data);
+        } else {
+          of(null);
+        }
+      })
+    ) : of(null);
   }
 
-  protected extractUUID(items: Item[], metadataToFollow: FollowAuthorityMetadata[]): string[] {
+  protected extractUUID(items: Item[], metadataToFollow: FollowAuthorityMetadata[], numberOfElementsToReturn?: number): string[] {
     const uuidMap = {};
 
     items.forEach((item) => {
       metadataToFollow.forEach((followMetadata: FollowAuthorityMetadata) => {
         if (item.entityType === followMetadata.type) {
           if (isArray(followMetadata.metadata)) {
-            followMetadata.metadata.forEach((metadata) => {
-              Metadata.all(item.metadata, metadata)
+              followMetadata.metadata.forEach((metadata) => {
+                Metadata.all(item.metadata, metadata, null, environment.followAuthorityMetadataValuesLimit)
                 .filter((metadataValue: MetadataValue) => Metadata.hasValidItemAuthority(metadataValue.authority))
                 .forEach((metadataValue: MetadataValue) => uuidMap[metadataValue.authority] = metadataValue);
             });
           } else {
-            Metadata.all(item.metadata, followMetadata.metadata)
+            Metadata.all(item.metadata, followMetadata.metadata, null, environment.followAuthorityMetadataValuesLimit)
               .filter((metadataValue: MetadataValue) => Metadata.hasValidItemAuthority(metadataValue.authority))
               .forEach((metadataValue: MetadataValue) => uuidMap[metadataValue.authority] = metadataValue);
           }
         }
       });
     });
+
+    if (hasValue(numberOfElementsToReturn) && numberOfElementsToReturn > 0) {
+      return Object.keys(uuidMap).slice(0, numberOfElementsToReturn);
+    }
 
     return Object.keys(uuidMap);
   }

@@ -40,6 +40,7 @@ import { BrowseDefinitionDataService } from '../../../../core/browse/browse-defi
 import {
   BrowseDefinitionDataServiceStub
 } from '../../../../shared/testing/browse-definition-data-service.stub';
+import { mockTruncatableService } from '../../../../shared/mocks/mock-trucatable.service';
 
 const noMetadata = new MetadataMap();
 
@@ -74,7 +75,7 @@ describe('PublicationComponent', () => {
       declarations: [PublicationComponent, GenericItemPageFieldComponent, TruncatePipe],
       providers: [
         { provide: ItemDataService, useValue: {} },
-        { provide: TruncatableService, useValue: {} },
+        { provide: TruncatableService, useValue: mockTruncatableService },
         { provide: RelationshipDataService, useValue: {} },
         { provide: ObjectCacheService, useValue: {} },
         { provide: UUIDService, useValue: {} },

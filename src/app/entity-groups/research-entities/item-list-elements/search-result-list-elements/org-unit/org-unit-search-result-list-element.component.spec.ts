@@ -14,6 +14,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateLoaderMock } from '../../../../../shared/mocks/translate-loader.mock';
 import { AuthorizationDataService } from '../../../../../core/data/feature-authorization/authorization-data.service';
 import { AuthorizationDataServiceStub } from '../../../../../shared/testing/authorization-service.stub';
+import { mockTruncatableService } from '../../../../../shared/mocks/mock-trucatable.service';
 
 let orgUnitListElementComponent: OrgUnitSearchResultListElementComponent;
 let fixture: ComponentFixture<OrgUnitSearchResultListElementComponent>;
@@ -79,7 +80,7 @@ describe('OrgUnitSearchResultListElementComponent', () => {
       )],
       declarations: [ OrgUnitSearchResultListElementComponent , TruncatePipe],
       providers: [
-        { provide: TruncatableService, useValue: {} },
+        { provide: TruncatableService, useValue: mockTruncatableService },
         { provide: DSONameService, useClass: DSONameServiceMock },
         { provide: APP_CONFIG, useValue: environmentUseThumbs },
         { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
@@ -150,7 +151,7 @@ describe('OrgUnitSearchResultListElementComponent', () => {
       )],
       declarations: [OrgUnitSearchResultListElementComponent, TruncatePipe],
       providers: [
-        {provide: TruncatableService, useValue: {}},
+        {provide: TruncatableService, useValue: mockTruncatableService},
         {provide: DSONameService, useClass: DSONameServiceMock},
         { provide: APP_CONFIG, useValue: enviromentNoThumbs },
         { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },

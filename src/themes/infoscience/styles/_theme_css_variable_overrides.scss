@@ -11,8 +11,11 @@
   --ds-header-navbar-border-bottom-color: #{$gray-100};
   --ds-header-icon-color: #{$dark};
   --ds-navbar-link-color: #{$dark};
+  --ds-expandable-navbar-link-color: #{$dark};
+  --ds-expandable-navbar-link-color-hover: #{$red};
   --ds-breadcrumb-link-color: #{$red};
   --ds-navbar-link-color-hover: #{$red};
+  --ds-expandable-navbar-link-background-hover: #{$red} !important;
   --ds-header-navbar-border-top-color: #{$dark};
   --ds-carousel-caption-background: #{$dark};
   --ds-carousel-caption-color: #{$white};
@@ -23,4 +26,5 @@
   --ds-slider-color:#{$leman};
   --ds-search-form-scope-max-width:-1px;
   --ds-card-thumbnail-height:190px;
+  --ds-user-menu-item-vertical-padding: 0.5rem;
 }

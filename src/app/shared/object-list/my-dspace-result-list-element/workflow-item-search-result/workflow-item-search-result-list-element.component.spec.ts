@@ -19,6 +19,7 @@ import { DSONameService } from '../../../../core/breadcrumbs/dso-name.service';
 import { DSONameServiceMock } from '../../../mocks/dso-name.service.mock';
 import { APP_CONFIG } from '../../../../../config/app-config.interface';
 import { Context } from '../../../../core/shared/context.model';
+import { mockTruncatableService } from '../../../mocks/mock-trucatable.service';
 
 let component: WorkflowItemSearchResultListElementComponent;
 let fixture: ComponentFixture<WorkflowItemSearchResultListElementComponent>;
@@ -74,7 +75,7 @@ describe('WorkflowItemSearchResultListElementComponent', () => {
       imports: [NoopAnimationsModule],
       declarations: [WorkflowItemSearchResultListElementComponent],
       providers: [
-        { provide: TruncatableService, useValue: {} },
+        { provide: TruncatableService, useValue: mockTruncatableService },
         { provide: ItemDataService, useValue: {} },
         { provide: LinkService, useValue: linkService },
         { provide: DSONameService, useClass: DSONameServiceMock },

@@ -10,7 +10,6 @@ import {
 } from './profile-page-researcher-form/profile-page-researcher-form.component';
 import { ThemedProfilePageComponent } from './themed-profile-page.component';
 import { FormModule } from '../shared/form/form.module';
-import { UiSwitchModule } from 'ngx-ui-switch';
 import { ProfileClaimItemModalComponent } from './profile-claim-item-modal/profile-claim-item-modal.component';
 import { OpenaireModule } from '../openaire/openaire.module';
 import { ProfilePageAccessTokenComponent } from './profile-page-access-token/profile-page-access-token.component';
@@ -22,7 +21,6 @@ import { ProfilePageGroupRolesComponent } from './profile-page-group-roles/profi
     CommonModule,
     SharedModule,
     FormModule,
-    UiSwitchModule,
     OpenaireModule
   ],
   exports: [

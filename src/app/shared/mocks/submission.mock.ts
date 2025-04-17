@@ -3107,6 +3107,21 @@ export const mockSubmissionState: SubmissionObjectState = Object.assign({}, {
         isValid: false,
         removePending: false
       } as any,
+      'external-upload': {
+        header: 'submit.progressbar.external-upload',
+        config: 'https://rest.api/dspace-spring-rest/api/config/submissionuploads/external-upload',
+        mandatory: true,
+        sectionType: 'external-upload',
+        collapsed: false,
+        enabled: true,
+        data: {
+          files: []
+        },
+        errorsToShow: [],
+        isLoading: false,
+        isValid: false,
+        removePending: false
+      } as any,
       'upload': {
         header: 'submit.progressbar.upload',
         config: 'https://rest.api/dspace-spring-rest/api/config/submissionuploads/upload',
@@ -3143,7 +3158,8 @@ export const mockSubmissionState: SubmissionObjectState = Object.assign({}, {
     isLoading: false,
     isDiscarding: false,
     savePending: false,
-    depositPending: false
+    depositPending: false,
+    externalUploadPending: false,
   }
 });
 
@@ -3810,6 +3826,95 @@ export const mockFileFormData = {
 export const mockAccessesFormData = {
   discoverable: true,
   accessCondition: [
+    {
+      accessConditionGroup: {
+        name: [
+          {
+            value: 'openaccess',
+            language: null,
+            authority: null,
+            display: 'openaccess',
+            confidence: -1,
+            place: 0,
+            otherInformation: null
+          }
+        ],
+      },
+    },
+    {
+      accessConditionGroup: {
+        name: [
+          {
+            value: 'lease',
+            language: null,
+            authority: null,
+            display: 'lease',
+            confidence: -1,
+            place: 0,
+            otherInformation: null
+          }
+        ],
+        endDate: [
+          {
+            value: {
+              year: 2019,
+              month: 1,
+              day: 16
+            },
+            language: null,
+            authority: null,
+            display: {
+              year: 2019,
+              month: 1,
+              day: 16
+            },
+            confidence: -1,
+            place: 0,
+            otherInformation: null
+          }
+        ],
+      }
+    },
+    {
+      accessConditionGroup: {
+        name: [
+          {
+            value: 'embargo',
+            language: null,
+            authority: null,
+            display: 'lease',
+            confidence: -1,
+            place: 0,
+            otherInformation: null
+          }
+        ],
+        startDate: [
+          {
+            value: {
+              year: 2019,
+              month: 1,
+              day: 16
+            },
+            language: null,
+            authority: null,
+            display: {
+              year: 2019,
+              month: 1,
+              day: 16
+            },
+            confidence: -1,
+            place: 0,
+            otherInformation: null
+          }
+        ],
+      }
+    }
+  ]
+};
+
+export const mockAccessesServiceData = {
+  discoverable: true,
+  accessConditions: [
     {
       accessConditionGroup: {
         name: [

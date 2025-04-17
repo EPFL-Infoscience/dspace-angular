@@ -5,13 +5,19 @@
         <ng-container *ngSwitchCase="UnpaywallSectionStatus.SUCCESSFUL">
           <ds-alert [type]="AlertType.Info"
                     [content]="'submission.sections.unpaywall.status.successful' | translate"></ds-alert>
+          <div *ngIf="(unpaywallSection$ | async)?.doi" class="mb-3">
+            <p>
+              <strong>{{'submission.sections.unpaywall.openaccess-link' | translate}}</strong>
+              <a href="https://unpaywall.org/{{(unpaywallSection$ | async)?.doi}}" target="_blank">{{(unpaywallSection$ | async)?.doi}}</a>
+            </p>
+          </div>
         </ng-container>
         <ng-container *ngSwitchCase="UnpaywallSectionStatus.IMPORTED">
           <ds-alert [type]="AlertType.Success"
                     [content]="'submission.sections.unpaywall.status.imported' | translate"></ds-alert>
         </ng-container>
         <ng-container *ngSwitchCase="UnpaywallSectionStatus.PENDING">
-          <ds-alert [type]="AlertType.Info"
+          <ds-alert [type]="AlertType.Warning"
                     [content]="'submission.sections.unpaywall.status.pending' | translate"></ds-alert>
         </ng-container>
         <ng-container *ngSwitchCase="UnpaywallSectionStatus.NO_FILE">
@@ -22,6 +28,16 @@
           <ds-alert [type]="AlertType.Error"
                     [content]="'submission.sections.unpaywall.status.not-found' | translate"></ds-alert>
         </ng-container>
+        <ng-container *ngSwitchCase="UnpaywallSectionStatus.ERROR">
+          <ds-alert [type]="AlertType.Error"
+                    [content]="'submission.sections.unpaywall.status.error' | translate"></ds-alert>
+          <div *ngIf="(unpaywallSection$ | async)?.doi" class="mb-3">
+            <p>
+              <strong>{{'submission.sections.unpaywall.openaccess-link' | translate}}</strong>
+              <a href="https://unpaywall.org/{{(unpaywallSection$ | async)?.doi}}" target="_blank">{{(unpaywallSection$ | async)?.doi}}</a>
+            </p>
+          </div>
+        </ng-container>
       </div>
     </div>
   </div>
@@ -31,11 +47,13 @@
         <ds-themed-loading *ngSwitchCase="true" class="ds-themed-loading"></ds-themed-loading>
         <ng-container *ngSwitchCase="false">
           <button type="button" class="btn btn-secondary mr-2" aria-label="refresh"
+                  *ngIf="(status$ | async) !== UnpaywallSectionStatus.IMPORTED"
                   (click)="refreshApiCheck()">
             <span aria-hidden="true">{{'submission.sections.unpaywall.refresh' | translate}}</span>
           </button>
           <button type="button" class="btn btn-success" aria-label="import from unpaywall"
-                  (click)="confirmImport()" [disabled]="(status$ | async) !== UnpaywallSectionStatus.SUCCESSFUL">
+                  *ngIf="(status$ | async) === UnpaywallSectionStatus.SUCCESSFUL"
+                  (click)="confirmImport()">
             <span aria-hidden="true">{{'submission.sections.unpaywall.import' | translate}}</span>
           </button>
         </ng-container>

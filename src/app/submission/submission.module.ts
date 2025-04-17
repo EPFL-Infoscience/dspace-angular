@@ -77,6 +77,10 @@ import { MyDSpaceActionsModule } from '../shared/mydspace-actions/mydspace-actio
 import {
   SubmissionSectionUnpaywallComponent
 } from './sections/unpaywall/submission-section-unpaywall.component';
+import {
+  SectionExternalUploadComponent
+} from './sections/external-upload/section-external-upload.component';
+import { ExternalUploadService } from './sections/external-upload/external-upload.service';
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -89,7 +93,8 @@ const ENTRY_COMPONENTS = [
   SubmissionSectionDetectDuplicateComponent,
   SubmissionSectionCustomUrlComponent,
   SubmissionSectionCorrectionComponent,
-  SubmissionSectionUnpaywallComponent
+  SubmissionSectionUnpaywallComponent,
+  SectionExternalUploadComponent
 ];
 
 const DECLARATIONS = [
@@ -152,7 +157,8 @@ const DECLARATIONS = [
     SubmissionAccessesConfigDataService,
     SectionAccessesService,
     SectionFormOperationsService,
-    DetectDuplicateService
+    DetectDuplicateService,
+    ExternalUploadService
   ]
 })
 

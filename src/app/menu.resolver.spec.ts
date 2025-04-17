@@ -22,6 +22,7 @@ import createSpy = jasmine.createSpy;
 import { BrowseService } from './core/browse/browse.service';
 import { APP_CONFIG } from '../config/app-config.interface';
 import { PaginatedList } from './core/data/paginated-list.model';
+import { ConfigurationDataService } from './core/data/configuration-data.service';
 
 const BOOLEAN = { t: true, f: false };
 const MENU_STATE = {
@@ -71,6 +72,7 @@ describe('MenuResolver', () => {
   let sectionsService;
   let authorizationService;
   let scriptService;
+  let configService;
   let browseService;
 
   beforeEach(waitForAsync(() => {
@@ -87,6 +89,9 @@ describe('MenuResolver', () => {
     scriptService = jasmine.createSpyObj('scriptService', {
       scriptWithNameExistsAndCanExecute: observableOf(true)
     });
+    configService = jasmine.createSpyObj('ConfigurationDataService', {
+      findByPropertyName: observableOf({})
+    });
     browseService = jasmine.createSpyObj('browseService', {
       getBrowseDefinitions: createSuccessfulRemoteDataObject$(new PaginatedList())
     });
@@ -100,6 +105,7 @@ describe('MenuResolver', () => {
         { provide: AuthorizationDataService, useValue: authorizationService },
         { provide: ScriptDataService, useValue: scriptService },
         { provide: BrowseService, useValue: browseService },
+        { provide: ConfigurationDataService, useValue: configService },
         { provide: APP_CONFIG, useValue: {} },
         { provide: NgbModal, useValue: { open: () => { /*comment*/ } } }
       ],

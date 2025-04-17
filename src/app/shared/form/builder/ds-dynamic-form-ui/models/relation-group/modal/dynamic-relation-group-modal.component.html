@@ -11,8 +11,9 @@
                   [formId]="formId"
                   [formModel]="formModel"
                   [displaySubmit]="false"
-                  [displayCancel]="false"
-                  [emitChange]="false"
+                  [displayReset]="false"
+                  [emitChange]="true"
+                  (dfChange)="onFormChange($event)"
                   (dfBlur)="onBlur($event)"
                   (ngbEvent)="changeSecurity($event)"
                   (dfFocus)="onFocus($event)"></ds-form>
@@ -39,7 +40,7 @@
       <button *ngIf="!model.readOnly"
               type="button"
               class="btn btn-primary mr-2"
-              [disabled]="isMandatoryFieldEmpty()"
+              [disabled]="isMandatoryFieldEmpty() || !formRef.formGroup?.valid"
               (click)="save()">
         <span *ngIf="item"><i class="fas fa-save"></i> {{'form.group.set' | translate}}</span>
         <span *ngIf="!item"><i class="fas fa-save"></i> {{'form.group.add' | translate}}</span>
