@@ -22,6 +22,9 @@ for suffix in "${SUFFIXES[@]}"; do
         find "$SEARCH_DIR" -type f -name "${prefix}.*.${suffix}" | while read -r file; do
             # Get the filename
             filename=$(basename "$file")
+            
+            # Copy the new generated file to the shared folder
+            cp "$file" "$TARGET_FILE/${prefix}.${suffix}"
 
             # Remove the original file
             rm "$file"
