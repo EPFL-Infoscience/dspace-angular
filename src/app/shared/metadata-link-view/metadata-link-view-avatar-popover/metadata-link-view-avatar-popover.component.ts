@@ -40,7 +40,7 @@ export class MetadataLinkViewAvatarPopoverComponent extends ThumbnailComponent i
    * set loading to true to prevent glitch of img with null src
    */
   errorHandler() {
-    this.isLoading = true;
+    this.isLoading$.next(true);
     super.errorHandler();
   }
 }
