@@ -9,12 +9,9 @@ import { BitstreamDataService } from '../../../../../../../../core/data/bitstrea
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AttachmentRenderingType } from './attachment-type.decorator';
-import { merge, Observable, switchMap } from 'rxjs';
-import { followLink } from '../../../../../../../../shared/utils/follow-link-config.model';
-import { ItemDataService } from '../../../../../../../../core/data/item-data.service';
-import { getFirstSucceededRemoteDataPayload } from '../../../../../../../../core/shared/operators';
-import { filter, take } from 'rxjs/operators';
-import { hasValue } from '../../../../../../../../shared/empty.util';
+import { RemoteData } from '../../../../../../../../core/data/remote-data';
+import { BehaviorSubject } from 'rxjs';
+import { getFirstCompletedRemoteData } from '../../../../../../../../core/shared/operators';
 
 @Component({
   selector: 'ds-bitstream-attachment',
@@ -49,6 +46,8 @@ export class BitstreamAttachmentComponent extends BitstreamRenderingModelCompone
   @Input()
   attachment: Bitstream;
 
+  thumbnail$: BehaviorSubject<RemoteData<Bitstream>> = new BehaviorSubject<RemoteData<Bitstream>>(null);
+
   constructor(
     @Inject('fieldProvider') public fieldProvider: LayoutField,
     @Inject('itemProvider') public itemProvider: Item,
@@ -58,27 +57,16 @@ export class BitstreamAttachmentComponent extends BitstreamRenderingModelCompone
     protected readonly translateService: TranslateService,
     protected readonly router: Router,
     protected readonly route: ActivatedRoute,
-    protected readonly itemService: ItemDataService,
   ) {
     super(fieldProvider, itemProvider, renderingSubTypeProvider, tabNameProvider, bitstreamDataService, translateService);
   }
 
   ngOnInit() {
+    this.attachment.thumbnail.pipe(
+      getFirstCompletedRemoteData()
+    ).subscribe((thumbnail: RemoteData<Bitstream>) => {
+      this.thumbnail$.next(thumbnail);
+    });
     this.allAttachmentProviders = this.attachment?.allMetadataValues('bitstream.viewer.provider');
-  }
-
-  get thumbnail(): Observable<Bitstream> {
-    return merge(this.attachment.thumbnail, this.getItemThumbnail())
-      .pipe(
-        filter(hasValue),
-        take(1)
-      );
-  }
-
-  private getItemThumbnail(): Observable<Bitstream> {
-    return this.itemService.findByHref(this.item?._links?.self?.href, true, true, followLink('thumbnail')).pipe(
-      getFirstSucceededRemoteDataPayload(),
-      switchMap(item => item?.thumbnail.pipe(getFirstSucceededRemoteDataPayload()))
-    );
   }
 }
