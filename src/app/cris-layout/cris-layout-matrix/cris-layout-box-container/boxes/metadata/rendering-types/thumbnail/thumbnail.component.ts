@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 
-import { BehaviorSubject, combineLatest, merge, Observable, of as observableOf } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, of as observableOf, merge } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
