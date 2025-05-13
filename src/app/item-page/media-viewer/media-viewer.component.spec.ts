@@ -9,11 +9,18 @@ import { MockBitstreamFormat1 } from '../../shared/mocks/item.mock';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateLoaderMock } from '../../shared/mocks/translate-loader.mock';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute } from '@angular/router';
+
+import { AuthService } from '../../core/auth/auth.service';
 import { BitstreamDataService } from '../../core/data/bitstream-data.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { MediaViewerItem } from '../../core/shared/media-viewer-item.model';
 import { VarDirective } from '../../shared/utils/var.directive';
 import { MetadataFieldWrapperComponent } from '../../shared/metadata-field-wrapper/metadata-field-wrapper.component';
+import { AuthServiceMock } from '../../shared/mocks/auth.service.mock';
+import { getMockThemeService } from '../../shared/mocks/theme-service.mock';
+import { ActivatedRouteStub } from '../../shared/testing/active-router.stub';
+import { ThemeService } from '../../shared/theme-support/theme.service';
 import { FileSizePipe } from '../../shared/utils/file-size-pipe';
 
 describe('MediaViewerComponent', () => {
@@ -79,6 +86,9 @@ describe('MediaViewerComponent', () => {
       ],
       providers: [
         { provide: BitstreamDataService, useValue: bitstreamDataService },
+        { provide: ThemeService, useValue: getMockThemeService() },
+        { provide: AuthService, useValue: new AuthServiceMock() },
+        { provide: ActivatedRoute, useValue: new ActivatedRouteStub() },
       ],
 
       schemas: [NO_ERRORS_SCHEMA],

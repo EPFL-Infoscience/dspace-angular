@@ -39,6 +39,8 @@ export class FileSectionComponent implements OnInit {
 
   pageSize: number;
 
+  primaryBitstreamId: string;
+
   constructor(
     protected bitstreamDataService: BitstreamDataService,
     protected notificationsService: NotificationsService,

@@ -63,6 +63,7 @@ import {
 } from './full/field-components/file-section/themed-full-file-section.component';
 import { MarkdownViewerModule } from '../shared/markdown-viewer/markdown-viewer.module';
 import { UnpaywallVersionsComponent } from './unpaywall-versions/unpaywall-versions.component';
+import { AltchaCaptchaComponent } from './bitstreams/request-a-copy/altcha-captcha.component';
 
 
 const ENTRY_COMPONENTS = [
@@ -109,26 +110,27 @@ const DECLARATIONS = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule.withEntryComponents(),
-    ItemPageRoutingModule,
-    EditItemPageModule,
-    ItemVersionsModule,
-    ItemSharedModule,
-    StatisticsModule.forRoot(),
-    JournalEntitiesModule.withEntryComponents(),
-    ResearchEntitiesModule.withEntryComponents(),
-    NgxGalleryModule,
-    NgbAccordionModule,
-    ResultsBackButtonModule,
-    UploadModule,
-    DsoPageModule,
-    CrisItemPageModule,
-    ContextMenuModule.withEntryComponents(),
-    MiradorViewerModule,
-    MarkdownViewerModule,
-  ],
+    imports: [
+        CommonModule,
+        SharedModule.withEntryComponents(),
+        ItemPageRoutingModule,
+        EditItemPageModule,
+        ItemVersionsModule,
+        ItemSharedModule,
+        StatisticsModule.forRoot(),
+        JournalEntitiesModule.withEntryComponents(),
+        ResearchEntitiesModule.withEntryComponents(),
+        NgxGalleryModule,
+        NgbAccordionModule,
+        ResultsBackButtonModule,
+        UploadModule,
+        DsoPageModule,
+        CrisItemPageModule,
+        ContextMenuModule.withEntryComponents(),
+        MiradorViewerModule,
+        MarkdownViewerModule,
+        AltchaCaptchaComponent,
+    ],
   declarations: [
     ...DECLARATIONS,
 

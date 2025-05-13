@@ -1,12 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Bitstream } from '../../core/shared/bitstream.model';
-import { getBitstreamDownloadRoute, getBitstreamRequestACopyRoute } from '../../app-routing-paths';
+import {
+  getBitstreamDownloadRoute,
+  getBitstreamDownloadWithAccessTokenRoute,
+  getBitstreamRequestACopyRoute
+} from '../../app-routing-paths';
+import { ActivatedRoute, } from '@angular/router';
+import { combineLatest as observableCombineLatest, Observable, of as observableOf, shareReplay, } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
 import { FeatureID } from '../../core/data/feature-authorization/feature-id';
 import { hasValue, isNotEmpty } from '../empty.util';
-import { catchError, map } from 'rxjs/operators';
-import { combineLatest as observableCombineLatest, Observable, of as observableOf, shareReplay } from 'rxjs';
 import { Item } from '../../core/shared/item.model';
+import { ItemRequest } from '../../core/shared/item-request.model';
 import { ConfigurationDataService } from '../../core/data/configuration-data.service';
 import { getFirstCompletedRemoteData, getRemoteDataPayload } from 'src/app/core/shared/operators';
 import { ConfigurationProperty } from '../../core/shared/configuration-property.model';
@@ -55,12 +61,16 @@ export class FileDownloadLinkComponent implements OnInit {
    */
   @Output() previewPdf: EventEmitter<Bitstream> = new EventEmitter();
 
+  itemRequest: ItemRequest;
+
   bitstreamPath$: Observable<{
     routerLink: string,
     queryParams: any,
   }>;
 
   canDownload$: Observable<boolean>;
+  canDownloadWithToken$: Observable<boolean>;
+  canRequestACopy$: Observable<boolean>;
 
   /**
    * Whether or not the user can request a copy of the item
@@ -72,15 +82,21 @@ export class FileDownloadLinkComponent implements OnInit {
   constructor(
     private authorizationService: AuthorizationDataService,
     private configurationService: ConfigurationDataService,
+    private route: ActivatedRoute,
   ) {
   }
 
   ngOnInit() {
     if (this.enableRequestACopy) {
+      // Obtain item request data from the route snapshot
+      this.itemRequest = this.route.snapshot.data.itemRequest;
+      // Set up observables to test access rights to a normal bitstream download, a valid token download, and the request-a-copy feature
       this.canDownload$ = this.authorizationService.isAuthorized(FeatureID.CanDownload, isNotEmpty(this.bitstream) ? this.bitstream.self : undefined);
-      const canRequestACopy$ = this.authorizationService.isAuthorized(FeatureID.CanRequestACopy, isNotEmpty(this.bitstream) ? this.bitstream.self : undefined);
-      this.bitstreamPath$ = observableCombineLatest([this.canDownload$, canRequestACopy$]).pipe(
-        map(([canDownload, canRequestACopy]) => this.getBitstreamPath(canDownload, canRequestACopy))
+      this.canDownloadWithToken$ = observableOf((this.itemRequest && this.itemRequest.acceptRequest && !this.itemRequest.accessExpired) ? (this.itemRequest.allfiles !== false || this.itemRequest.bitstreamId === this.bitstream.uuid) : false);
+      this.canRequestACopy$ = this.authorizationService.isAuthorized(FeatureID.CanRequestACopy, isNotEmpty(this.bitstream) ? this.bitstream.self : undefined);
+      // Set up observable to determine the path to the bitstream based on the user's access rights and features as above
+      this.bitstreamPath$ = observableCombineLatest([this.canDownload$, this.canDownloadWithToken$, this.canRequestACopy$]).pipe(
+        map(([canDownload, canDownloadWithToken, canRequestACopy]) => this.getBitstreamPath(canDownload, canDownloadWithToken, canRequestACopy))
       );
 
       this.canRequestItemCopy$ = this.configurationService.findByPropertyName('request.item.type').pipe(
@@ -100,13 +116,42 @@ export class FileDownloadLinkComponent implements OnInit {
     }
   }
 
-  getBitstreamPath(canDownload: boolean, canRequestACopy: boolean) {
+  /**
+   * Return a path to the bitstream based on what kind of access and authorization the user has, and whether
+   * they may request a copy
+   *
+   * @param canDownload user can download normally
+   * @param canDownloadWithToken user can download using a token granted by a request approver
+   * @param canRequestACopy user can request approval to access a copy
+   */
+  getBitstreamPath(canDownload: boolean, canDownloadWithToken, canRequestACopy: boolean) {
+    // No matter what, if the user can download with their own authZ, allow it
+    if (canDownload) {
+      return this.getBitstreamDownloadPath();
+    }
+    // Otherwise, if they access token is valid, use this
+    if (canDownloadWithToken) {
+      return this.getAccessByTokenBitstreamPath(this.itemRequest);
+    }
+    // If the user can't download, but can request a copy, show the request a copy link
     if (!canDownload && canRequestACopy && hasValue(this.item)) {
       return getBitstreamRequestACopyRoute(this.item, this.bitstream);
     }
+    // By default, return the plain path
     return this.getBitstreamDownloadPath();
   }
 
+  /**
+   * Resolve special bitstream path which includes access token parameter
+   * @param itemRequest the item request object
+   */
+  getAccessByTokenBitstreamPath(itemRequest: ItemRequest) {
+    return getBitstreamDownloadWithAccessTokenRoute(this.bitstream, itemRequest.accessToken);
+  }
+
+  /**
+   * Get normal bitstream download path, with no parameters
+   */
   getBitstreamDownloadPath() {
     return {
       routerLink: getBitstreamDownloadRoute(this.bitstream),

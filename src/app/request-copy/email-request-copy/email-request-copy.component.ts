@@ -1,6 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import 'altcha';
+
+import { Location, } from '@angular/common';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, } from '@angular/core';
+import { Observable, Subject, } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { hasValue } from '../../shared/empty.util';
 import { RequestCopyEmail } from './request-copy-email.model';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'ds-email-request-copy',
@@ -10,11 +15,16 @@ import { Location } from '@angular/common';
 /**
  * A form component for an email to send back to the user requesting an item
  */
-export class EmailRequestCopyComponent {
+export class EmailRequestCopyComponent implements OnInit, OnDestroy {
   /**
    * Event emitter for sending the email
    */
   @Output() send: EventEmitter<RequestCopyEmail> = new EventEmitter<RequestCopyEmail>();
+
+  /**
+   * Selected access period emmitter, sending the new period up to the parent component
+   */
+  @Output() selectedAccessPeriod: EventEmitter<string> = new EventEmitter();
 
   /**
    * The subject of the email
@@ -26,7 +36,48 @@ export class EmailRequestCopyComponent {
    */
   @Input() message: string;
 
+  /**
+   * A list of valid access periods to render in a drop-down menu
+   */
+  @Input() validAccessPeriods$: Observable<string[]>;
+
+  /**
+   * The selected access period, e.g. +7DAYS, +12MONTHS, FOREVER. These will be
+   * calculated as a timestamp to store as the access expiry date for the requested item
+   */
+  accessPeriod = 'FOREVER';
+
+  /**
+   * Destroy subject for unsubscribing from observables
+   * @private
+   */
+  private destroy$ = new Subject<void>();
+
+  protected readonly hasValue = hasValue;
+
   constructor(protected location: Location) {
+  }
+
+  /**
+   * Initialise subscription to async valid access periods (from configuration service)
+   */
+  ngOnInit(): void {
+    this.validAccessPeriods$.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((validAccessPeriods) => {
+      if (hasValue(validAccessPeriods) && validAccessPeriods.length > 0) {
+        this.selectAccessPeriod(validAccessPeriods[0]);
+      }
+    });
+  }
+
+  /**
+   * Clean up subscriptions and selectors
+   */
+  ngOnDestroy(): void {
+    this.selectedAccessPeriod.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   /**
@@ -42,4 +93,14 @@ export class EmailRequestCopyComponent {
   return() {
     this.location.back();
   }
+
+  /**
+   * Update the access period when a dropdown menu button is clicked for a value
+   * @param accessPeriod
+   */
+  selectAccessPeriod(accessPeriod: string) {
+    this.accessPeriod = accessPeriod;
+    this.selectedAccessPeriod.emit(accessPeriod);
+  }
+
 }

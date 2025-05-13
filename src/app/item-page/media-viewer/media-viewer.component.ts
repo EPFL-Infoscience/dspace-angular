@@ -1,19 +1,21 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Observable, Subscription, } from 'rxjs';
+import { filter, take, } from 'rxjs/operators';
+
+import { MediaViewerConfig } from '../../../config/media-viewer-config.interface';
+import { environment } from '../../../environments/environment';
 import { BitstreamDataService } from '../../core/data/bitstream-data.service';
 import { PaginatedList } from '../../core/data/paginated-list.model';
 import { RemoteData } from '../../core/data/remote-data';
 import { BitstreamFormat } from '../../core/shared/bitstream-format.model';
 import { Bitstream } from '../../core/shared/bitstream.model';
 import { Item } from '../../core/shared/item.model';
+import { ItemRequest } from '../../core/shared/item-request.model';
 import { MediaViewerItem } from '../../core/shared/media-viewer-item.model';
 import { getFirstSucceededRemoteDataPayload } from '../../core/shared/operators';
 import { hasValue } from '../../shared/empty.util';
 import { followLink } from '../../shared/utils/follow-link-config.model';
-import { MediaViewerConfig } from '../../../config/media-viewer-config.interface';
-import { environment } from '../../../environments/environment';
-import { Subscription } from 'rxjs/internal/Subscription';
 
 /**
  * This component renders the media viewers
@@ -40,9 +42,12 @@ export class MediaViewerComponent implements OnDestroy, OnInit {
 
   subs: Subscription[] = [];
 
+  itemRequest: ItemRequest;
+
   constructor(
     protected bitstreamDataService: BitstreamDataService,
-    protected changeDetectorRef: ChangeDetectorRef
+    protected changeDetectorRef: ChangeDetectorRef,
+    protected route: ActivatedRoute,
   ) {
   }
 
@@ -54,6 +59,7 @@ export class MediaViewerComponent implements OnDestroy, OnInit {
    * This method loads all the Bitstreams and Thumbnails and converts it to {@link MediaViewerItem}s
    */
   ngOnInit(): void {
+    this.itemRequest = this.route.snapshot.data.itemRequest;
     const types: string[] = [
       ...(this.mediaOptions.image ? ['image'] : []),
       ...(this.mediaOptions.video ? ['audio', 'video'] : []),
@@ -90,6 +96,7 @@ export class MediaViewerComponent implements OnDestroy, OnInit {
         }));
       }
     }));
+
   }
 
   /**
@@ -130,6 +137,18 @@ export class MediaViewerComponent implements OnDestroy, OnInit {
     mediaItem.format = format.mimetype.split('/')[0];
     mediaItem.mimetype = format.mimetype;
     mediaItem.thumbnail = thumbnail ? thumbnail._links.content.href : null;
+    mediaItem.accessToken = this.accessToken;
     return mediaItem;
   }
+
+  /**
+   * Get access token, if this is accessed via a Request-a-Copy link
+   */
+  get accessToken() {
+    if (hasValue(this.itemRequest) && this.itemRequest.accessToken && !this.itemRequest.accessExpired) {
+      return this.itemRequest.accessToken;
+    }
+    return null;
+  }
+
 }

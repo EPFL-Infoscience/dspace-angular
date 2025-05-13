@@ -66,7 +66,6 @@ describe('BitstreamDownloadPageComponent', () => {
         self: { href: 'bitstream-self-link' },
       }
     });
-
     activatedRoute = {
       data: observableOf({
         bitstream: createSuccessfulRemoteDataObject(
@@ -74,8 +73,11 @@ describe('BitstreamDownloadPageComponent', () => {
         )
       }),
       params: observableOf({
-        id: 'testid'
-      })
+        id: 'testid',
+      }),
+      queryParams: observableOf({
+        accessToken: undefined,
+      }),
     };
 
     router = jasmine.createSpyObj('router', ['navigateByUrl']);

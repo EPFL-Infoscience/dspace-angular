@@ -83,6 +83,20 @@ describe('FileSectionComponent', () => {
     fixture.detectChanges();
   }));
 
+  it('should set the id of primary bitstream', () => {
+    comp.primaryBitstreamId = undefined;
+    bitstreamDataService.findPrimaryBitstreamByItemAndName.and.returnValue(observableOf(mockBitstream));
+    comp.ngOnInit();
+    expect(comp.primaryBitstreamId).toBe(mockBitstream.id);
+  });
+
+  it('should not set the id of primary bitstream', () => {
+    comp.primaryBitstreamId = undefined;
+    bitstreamDataService.findPrimaryBitstreamByItemAndName.and.returnValue(observableOf(null));
+    comp.ngOnInit();
+    expect(comp.primaryBitstreamId).toBeUndefined();
+  });
+
   describe('when the bitstreams are loading', () => {
     beforeEach(() => {
       comp.bitstreams$.next([mockBitstream]);
