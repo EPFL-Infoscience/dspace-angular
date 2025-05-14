@@ -14842,7 +14842,7 @@
   "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
 
   // "layout.field.label.Publication.epfl.writtenAt": "Written at",
-  "layout.field.label.Product.epfl.writtenAt": "Bibliographie institutionnelle",
+  "layout.field.label.Publication.epfl.writtenAt": "Bibliographie institutionnelle",
 
   // "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
   "layout.field.label.Publication.dc.description.sponsorship": "Unités EPFL",
