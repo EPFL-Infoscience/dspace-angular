@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 
-import { BehaviorSubject, merge, Observable, of as observableOf } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, of as observableOf, merge } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -14,6 +14,7 @@ import { LayoutField } from '../../../../../../../core/layout/models/box.model';
 import { getFirstCompletedRemoteData } from '../../../../../../../core/shared/operators';
 import { PaginatedList } from '../../../../../../../core/data/paginated-list.model';
 import { RemoteData } from '../../../../../../../core/data/remote-data';
+import { getDefaultImageUrlByEntityType } from '../../../../../../../core/shared/image.utils';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -35,7 +36,7 @@ export class ThumbnailComponent extends BitstreamRenderingModelComponent impleme
   /**
    * Default image to be shown in the thumbnail
    */
-  default: string;
+  default$: Observable<string>;
 
   /**
    * Item rendering initialization state
@@ -62,10 +63,14 @@ export class ThumbnailComponent extends BitstreamRenderingModelComponent impleme
    * Get the thumbnail information from api for this item
    */
   ngOnInit(): void {
-    this.setDefaultImage();
+    const eType = this.item.firstMetadataValue('dspace.entity.type');
+    this.default$ = getDefaultImageUrlByEntityType(eType);
     // Gets bitstreams configured to be thumbnails
-    this.getBitstreamsByItem().pipe(
-      map((bitstreamList: PaginatedList<Bitstream>) => bitstreamList.page),
+    combineLatest([
+      this.default$,
+      this.getBitstreamsByItem(),
+    ]).pipe(
+      map(([_, bitstreamList]: [string, PaginatedList<Bitstream>]) => bitstreamList.page),
       switchMap((filteredBitstreams: Bitstream[]) => this.getFirstAvailableThumbnailOrNull(filteredBitstreams)),
       take(1)
     ).subscribe((thumbnail: Bitstream) => {
@@ -99,35 +104,4 @@ export class ThumbnailComponent extends BitstreamRenderingModelComponent impleme
       filter(hasValue),
     );
   }
-
-  /**
-   * Set the default image src depending on item entity type
-   */
-  setDefaultImage(): void {
-    const eType = this.item.firstMetadataValue('dspace.entity.type');
-    switch (eType?.toUpperCase()) {
-      case 'PROJECT':
-        this.default = 'assets/images/project-placeholder.svg';
-        break;
-      case 'ORGUNIT':
-        this.default = 'assets/images/orgunit-placeholder.svg';
-        break;
-      case 'PERSON':
-        this.default = 'assets/images/person-placeholder.svg';
-        break;
-      case 'PUBLICATION':
-        this.default = 'assets/images/publication-placeholder.svg';
-        break;
-      case 'PRODUCT':
-        this.default = 'assets/images/product-placeholder.svg';
-        break;
-      case 'PATENT':
-        this.default = 'assets/images/patent-placeholder.svg';
-        break;
-      default:
-        this.default = 'assets/images/file-placeholder.svg';
-        break;
-    }
-  }
-
 }
