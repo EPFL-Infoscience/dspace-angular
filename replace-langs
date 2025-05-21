@@ -1,13 +1,16 @@
 #!/bin/bash
 
-# Check if the directory argument is provided
-if [ -z "$1" ]; then
-    echo "Usage: $0 <directory>"
+# Check if both arguments are provided
+if [ -z "$1" ] || [ -z "$2" ]; then
+    echo "Usage: $0 <directory> <env-type>"
     exit 1
 fi
 
 # Directory to search for files
 SEARCH_DIR="$1"
+
+# the folder linked to the EFS fs of the appropriate env
+SHARED_FOLDER="/data-shared-$2/assets/i18n"
 
 # Target file for the symbolic link
 TARGET_FILE="/data-shared/assets/i18n"
@@ -22,6 +25,9 @@ for suffix in "${SUFFIXES[@]}"; do
         find "$SEARCH_DIR" -type f -name "${prefix}.*.${suffix}" | while read -r file; do
             # Get the filename
             filename=$(basename "$file")
+            
+            # Copy the new generated file to the shared folder
+            cp "$file" "$SHARED_FOLDER/${prefix}.${suffix}"
 
             # Remove the original file
             rm "$file"

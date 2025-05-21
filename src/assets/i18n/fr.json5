@@ -3705,6 +3705,8 @@
   // "cris-layout.advanced-attachment.dc.title": "Name",
   "cris-layout.advanced-attachment.dc.title": "Nom",
 
+  "cris-layout.advanced-attachment.oaire.version": "Version",
+
   // "cris-layout.advanced-attachment.size": "Size",
   "cris-layout.advanced-attachment.size": "Taille",
 
