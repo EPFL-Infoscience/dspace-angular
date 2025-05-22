@@ -7575,6 +7575,8 @@
   // TODO New key - Add a translation
   "metadata-export-search.submit.error": "Starting the export has failed",
 
+  // "metric-badges.wosPersonCitation": "Citations Web Of Science©",
+  "metric-badges.wosPersonCitation": "Citations Web Of Science©",
 
   // "metric-badges.scopusCitation": "Scopus© Citations",
   "metric-badges.scopusCitation": "Citations Scopus©",
@@ -7809,8 +7811,7 @@
   "nav.mydspace": "Tableau de bord",
 
   // "nav.processes": "My Processes",
-  // TODO New key - Add a translation
-  "nav.processes": "My Processes",
+  "nav.processes": "Mes tâches en cours",
 
   // "nav.profile": "Profile",
   "nav.profile": "Compte et profil",
@@ -14841,7 +14842,7 @@
   "layout.field.label.Publication.epfl.url": "lien complémentaire",
 
   // "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
-  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Publication.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   // "layout.field.label.Publication.epfl.relation.issuetitle": "Special issue title",
   "layout.field.label.Publication.epfl.relation.issuetitle": "Titre du numéro spécial",
@@ -14955,7 +14956,7 @@
   "layout.field.label.Product.epfl.url": "Lien complémentaire",
 
   // "layout.field.label.Product.epfl.peerreviewed": "Peer reviewed",
-  "layout.field.label.Product.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Product.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   // "layout.field.label.Product.epfl.writtenAt": "Written at",
   "layout.field.label.Product.epfl.writtenAt": "Bibliographie institutionnelle",
