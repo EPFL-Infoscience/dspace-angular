@@ -4752,6 +4752,7 @@
 
   "metadata-export-search.submit.error": "Starting the export has failed",
 
+  "metric-badges.wosPersonCitation": "Citations Web Of Science©",
 
   "metric-badges.scopusCitation": "Scopus© Citations",
 
@@ -9271,7 +9272,7 @@
 
   "layout.field.label.Publication.epfl.url": "Additional link",
 
-  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Publication.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
 
@@ -9335,7 +9336,7 @@
 
   "layout.field.label.Publication.epfl.url": "Additional link",
 
-  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Publication.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
 
@@ -9403,7 +9404,7 @@
 
   "layout.field.label.Publication.epfl.url": "Additional link",
 
-  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Publication.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
 
@@ -9451,7 +9452,7 @@
 
   "layout.field.label.Publication.epfl.url": "Additional link",
 
-  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Publication.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
 
@@ -9481,7 +9482,7 @@
 
   "layout.field.label.Publication.epfl.url": "Additional link",
 
-  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Publication.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
 
@@ -9593,7 +9594,7 @@
 
   "layout.field.label.Product.epfl.url": "Additional link",
 
-  "layout.field.label.Product.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Product.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   "layout.field.label.Product.dc.description.sponsorship": "EPFL units",
 
@@ -9625,7 +9626,7 @@
 
   "layout.field.label.Product.epfl.url": "Additional link",
 
-  "layout.field.label.Product.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Product.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   "layout.field.label.Product.dc.description.sponsorship": "EPFL units",
 
@@ -9649,7 +9650,7 @@
 
   "layout.field.label.Product.epfl.url": "Additional link",
 
-  "layout.field.label.Product.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Product.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   "layout.field.label.Product.dc.description.sponsorship": "EPFL units",
 
