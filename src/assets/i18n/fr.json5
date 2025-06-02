@@ -1702,9 +1702,8 @@
   // "bitstream-request-a-copy.submit.error": "Something went wrong with submitting the item request.",
   "bitstream-request-a-copy.submit.error": "Un problème est survenu lors de l'envoi de votre demande",
 
-  // "bitstream-request-a-copy.submit.info": "EPFL authenticated users can download restricted access files",
-  "bitstream-request-a-copy.submit.info": "Les membres EPFL authentifiés peuvent télécharger les fichiers en accès restreint",
-
+  // "bitstream-request-a-copy.submit.info": "EPFL authenticated users can access restricted files by clicking the \"<strong>Log in</strong>\" button in the top menu, then selecting the green button \"<kbd>Log in with EPFL account</kbd>\". Once logged in, restricted files will be directly available for download.",
+  "bitstream-request-a-copy.submit.info": "Les membres EPFL peuvent accéder aux fichiers en accès restreint en cliquant sur le bouton \"<strong>Se connecter</strong>\" dans le menu en haut de la page, puis sur le bouton vert \"<kbd>Se connecter avec son compte EPFL</kbd>\". Après connexion, les fichiers restreints seront directement téléchargeables.",
 
 
   // "browse.back.all-results": "All browse results",
@@ -3735,8 +3734,8 @@
   // "cris-layout.advanced-attachment.requestACopy": "Request a copy",
   "cris-layout.advanced-attachment.requestACopy": "Demander une copie",
 
-  // "cris-layout.advanced-attachment.requestACopy.tooltip": "EPFL authenticated users can download restricted access files",
-  "cris-layout.advanced-attachment.requestACopy.tooltip": "Les membres EPFL peuvent télécharger les fichiers en accès restrient après authentification",
+  // "cris-layout.advanced-attachment.requestACopy.tooltip": "EPFL authenticated users can access restricted files by clicking the \"<strong>Log in</strong>\" button in the top menu, then selecting the green button \"<kbd>Log in with EPFL account</kbd>\". Once logged in, restricted files will be directly available for download.",
+  "cris-layout.advanced-attachment.requestACopy.tooltip": "Les membres EPFL peuvent accéder aux fichiers en accès restreint en cliquant sur le bouton \"<strong>Se connecter</strong>\" dans le menu en haut de la page, puis sur le bouton vert \"<kbd>Se connecter avec son compte EPFL</kbd>\". Après connexion, les fichiers restreints seront directement téléchargeables.",
 
   // "cris-layout.advanced-attachment.viewMore": "View More",
   "cris-layout.advanced-attachment.viewMore": "Voir plus",
@@ -7575,6 +7574,8 @@
   // TODO New key - Add a translation
   "metadata-export-search.submit.error": "Starting the export has failed",
 
+  // "metric-badges.wosPersonCitation": "Citations Web Of Science©",
+  "metric-badges.wosPersonCitation": "Citations Web Of Science©",
 
   // "metric-badges.scopusCitation": "Scopus© Citations",
   "metric-badges.scopusCitation": "Citations Scopus©",
@@ -7809,8 +7810,7 @@
   "nav.mydspace": "Tableau de bord",
 
   // "nav.processes": "My Processes",
-  // TODO New key - Add a translation
-  "nav.processes": "My Processes",
+  "nav.processes": "Mes tâches en cours",
 
   // "nav.profile": "Profile",
   "nav.profile": "Compte et profil",
@@ -14841,7 +14841,7 @@
   "layout.field.label.Publication.epfl.url": "lien complémentaire",
 
   // "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
-  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Publication.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   // "layout.field.label.Publication.epfl.relation.issuetitle": "Special issue title",
   "layout.field.label.Publication.epfl.relation.issuetitle": "Titre du numéro spécial",
@@ -14955,7 +14955,7 @@
   "layout.field.label.Product.epfl.url": "Lien complémentaire",
 
   // "layout.field.label.Product.epfl.peerreviewed": "Peer reviewed",
-  "layout.field.label.Product.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Product.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   // "layout.field.label.Product.epfl.writtenAt": "Written at",
   "layout.field.label.Product.epfl.writtenAt": "Bibliographie institutionnelle",
