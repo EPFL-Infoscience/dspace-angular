@@ -1029,7 +1029,7 @@
 
   "bitstream-request-a-copy.submit.error": "Something went wrong with submitting the item request.",
 
-  "bitstream-request-a-copy.submit.info": "<div class=\"alert alert-primary\">Les <strong>EPFL authenticated</strong> users can access restricted files by clicking the \"<strong>Log in</strong>\" button in the top menu, then selecting the green button <kbd>Log in with EPFL account</kbd>. Once logged in, restricted files will be directly available for download.</div>",
+  "bitstream-request-a-copy.submit.info": "<div class=\"alert alert-primary\"><strong>EPFL authenticated</strong> users can access restricted files by clicking the \"<strong>Log in</strong>\" button in the top menu, then selecting the green button <kbd>Log in with EPFL account</kbd>. Once logged in, restricted files will be directly available for download.</div>",
 
   "browse.back.all-results": "All browse results",
 
