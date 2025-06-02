@@ -1029,9 +1029,7 @@
 
   "bitstream-request-a-copy.submit.error": "Something went wrong with submitting the item request.",
 
-  "bitstream-request-a-copy.submit.info": "EPFL authenticated users can download restricted access files",
-
-
+  "bitstream-request-a-copy.submit.info": "EPFL authenticated users can access restricted files by clicking the \"<strong>Log in</strong>\" button in the top menu, then selecting the green button \"<kbd>Log in with EPFL account</kbd>\". Once logged in, restricted files will be directly available for download.",
 
   "browse.back.all-results": "All browse results",
 
@@ -2293,7 +2291,7 @@
 
   "cris-layout.advanced-attachment.requestACopy": "Request a copy",
 
-  "cris-layout.advanced-attachment.requestACopy.tooltip": "EPFL authenticated users can download restricted access files",
+  "cris-layout.advanced-attachment.requestACopy.tooltip": "EPFL authenticated users can access restricted files by clicking the \"<strong>Log in</strong>\" button in the top menu, then selecting the green button \"<kbd>Log in with EPFL account</kbd>\". Once logged in, restricted files will be directly available for download.",
 
   "cris-layout.advanced-attachment.viewMore": "View More",
 
