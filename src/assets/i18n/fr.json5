@@ -1702,9 +1702,8 @@
   // "bitstream-request-a-copy.submit.error": "Something went wrong with submitting the item request.",
   "bitstream-request-a-copy.submit.error": "Un problème est survenu lors de l'envoi de votre demande",
 
-  // "bitstream-request-a-copy.submit.info": "EPFL authenticated users can download restricted access files",
-  "bitstream-request-a-copy.submit.info": "Les membres EPFL authentifiés peuvent télécharger les fichiers en accès restreint",
-
+  // "bitstream-request-a-copy.submit.info": "EPFL authenticated users can access restricted files by clicking the \"<strong>Log in</strong>\" button in the top menu, then selecting the green button \"<kbd>Log in with EPFL account</kbd>\". Once logged in, restricted files will be directly available for download.",
+  "bitstream-request-a-copy.submit.info": "Les membres EPFL peuvent accéder aux fichiers en accès restreint en cliquant sur le bouton \"<strong>Log in</strong>\" dans le menu en haut de la page, puis sur le bouton vert \"<kbd>Log in with EPFL account</kbd>\". Une fois connectés, les fichiers restreints seront directement téléchargeables.",
 
 
   // "browse.back.all-results": "All browse results",
@@ -3735,8 +3734,8 @@
   // "cris-layout.advanced-attachment.requestACopy": "Request a copy",
   "cris-layout.advanced-attachment.requestACopy": "Demander une copie",
 
-  // "cris-layout.advanced-attachment.requestACopy.tooltip": "EPFL authenticated users can download restricted access files",
-  "cris-layout.advanced-attachment.requestACopy.tooltip": "Les membres EPFL peuvent télécharger les fichiers en accès restrient après authentification",
+  // "cris-layout.advanced-attachment.requestACopy.tooltip": "EPFL authenticated users can access restricted files by clicking the \"<strong>Log in</strong>\" button in the top menu, then selecting the green button \"<kbd>Log in with EPFL account</kbd>\". Once logged in, restricted files will be directly available for download.",
+  "cris-layout.advanced-attachment.requestACopy.tooltip": "Les membres EPFL peuvent accéder aux fichiers en accès restreint en cliquant sur le bouton \"<strong>Log in</strong>\" dans le menu en haut de la page, puis sur le bouton vert \"<kbd>Log in with EPFL account</kbd>\". Une fois connectés, les fichiers restreints seront directement téléchargeables.",
 
   // "cris-layout.advanced-attachment.viewMore": "View More",
   "cris-layout.advanced-attachment.viewMore": "Voir plus",
