@@ -1816,6 +1816,8 @@
 
   "deduplication.compare.workspace-404": "Workspace item does not exist!",
 
+  "deduplication.merge.process.complete": "Update references from merged items",
+
   "deduplication.signature.loading": "Loading signatures ...",
 
   "deduplication.signature.no-data": "No signatures found.",

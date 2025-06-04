@@ -58,6 +58,12 @@ export class MergeObject implements CacheableObject {
   @autoserialize
   setId?: string;
 
+  /**
+   * The id of the process corresponding to the merge operation.
+   */
+  @autoserialize
+  processId: number;
+
   uuid?: string;
 
   handle?: string;

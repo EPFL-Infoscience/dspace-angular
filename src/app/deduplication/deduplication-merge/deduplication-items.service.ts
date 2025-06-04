@@ -78,6 +78,8 @@ export class DeduplicationItemsService {
               'deduplication.merge.notification.message-success'
             )
           );
+          // Check process update to notify user at the end of the execution.
+          this.notificationsService.process(response.payload.processId.toString(), 5000, this.translate.get('deduplication.merge.process.complete'));
           return response.payload;
         }
 
