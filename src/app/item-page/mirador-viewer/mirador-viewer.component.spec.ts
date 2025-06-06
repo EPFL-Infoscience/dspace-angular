@@ -14,6 +14,9 @@ import { MiradorViewerService } from './mirador-viewer.service';
 import { HostWindowService } from '../../shared/host-window.service';
 import { BundleDataService } from '../../core/data/bundle-data.service';
 import { NativeWindowRef, NativeWindowService } from '../../core/services/window.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RouterStub } from '../../shared/testing/router.stub';
+import { MockActivatedRoute } from '../../shared/mocks/active-router.mock';
 
 
 function getItem(metadata: MetadataMap) {
@@ -52,6 +55,8 @@ describe('MiradorViewerComponent with search', () => {
         { provide: HostWindowService, useValue: mockHostWindowService },
         { provide: NativeWindowService, useValue: new NativeWindowRef() },
         { provide: Location, useValue: {} },
+        { provide: Router, useClass: RouterStub },
+        { provide: ActivatedRoute, useValue: new MockActivatedRoute() },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(MiradorViewerComponent, {
@@ -117,6 +122,8 @@ describe('MiradorViewerComponent with multiple images', () => {
         { provide: HostWindowService, useValue: mockHostWindowService  },
         { provide: NativeWindowService, useValue: new NativeWindowRef() },
         { provide: Location, useValue: {} },
+        { provide: Router, useClass: RouterStub },
+        { provide: ActivatedRoute, useValue: new MockActivatedRoute() },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(MiradorViewerComponent, {
@@ -179,6 +186,8 @@ describe('MiradorViewerComponent with a single image', () => {
         { provide: HostWindowService, useValue: mockHostWindowService },
         { provide: NativeWindowService, useValue: new NativeWindowRef() },
         { provide: Location, useValue: {} },
+        { provide: Router, useClass: RouterStub },
+        { provide: ActivatedRoute, useValue: new MockActivatedRoute() },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(MiradorViewerComponent, {
@@ -233,6 +242,8 @@ describe('MiradorViewerComponent on browser in prod mode', () => {
         { provide: HostWindowService, useValue: mockHostWindowService },
         { provide: NativeWindowService, useValue: new NativeWindowRef() },
         { provide: Location, useValue: {} },
+        { provide: Router, useClass: RouterStub },
+        { provide: ActivatedRoute, useValue: new MockActivatedRoute() },
         { provide: PLATFORM_ID, useValue: 'browser' },
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -291,6 +302,8 @@ describe('MiradorViewerComponent in development mode', () => {
           { provide: HostWindowService, useValue: mockHostWindowService  },
           { provide: NativeWindowService, useValue: new NativeWindowRef() },
           { provide: Location, useValue: {} },
+          { provide: Router, useClass: RouterStub },
+          { provide: ActivatedRoute, useValue: new MockActivatedRoute() },
         ]
       }
     }).compileComponents();
