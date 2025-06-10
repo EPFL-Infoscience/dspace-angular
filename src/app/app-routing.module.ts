@@ -52,7 +52,6 @@ import { DEDUPLICATION_PATH } from './admin/admin-routing-paths';
 import {
   GenericAdministratorGuard
 } from './core/data/feature-authorization/feature-authorization-guard/generic-administrator-guard';
-import { DEDUPLICATION_PATH } from './admin/admin-routing-paths';
 
 @NgModule({
   imports: [
@@ -182,11 +181,6 @@ import { DEDUPLICATION_PATH } from './admin/admin-routing-paths';
             loadChildren: () => import('./admin/admin.module')
               .then((m) => m.AdminModule),
             canActivate: [GenericAdministratorGuard, CollectionAdministratorGuard, EndUserAgreementCurrentUserGuard]
-          },
-          {
-            path: DEDUPLICATION_PATH,
-            loadChildren: () => import('./admin/admin-deduplication-page/admin-deduplication-page.module')
-              .then((m) => m.AdminDeduplicationPageModule),
           },
           {
             path: DEDUPLICATION_PATH,

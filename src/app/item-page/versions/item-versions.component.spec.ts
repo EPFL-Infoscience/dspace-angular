@@ -156,11 +156,6 @@ describe('ItemVersionsComponent', () => {
     children: []
   };
 
-  const cookieServiceSpy = jasmine.createSpyObj('cookieService', {
-    set: jasmine.createSpy('set'),
-  });
-
-
   beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
