@@ -1,7 +1,5 @@
 import { ItemVersionsComponent } from './item-versions.component';
-import {
-  ComponentFixture, TestBed, waitForAsync
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { VarDirective } from '../../shared/utils/var.directive';
 import { TranslateModule } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -18,7 +16,7 @@ import { PaginationServiceStub } from '../../shared/testing/pagination-service.s
 import { AuthService } from '../../core/auth/auth.service';
 import { VersionDataService } from '../../core/data/version-data.service';
 import { ItemDataService } from '../../core/data/item-data.service';
-import { UntypedFormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { NotificationsServiceStub } from '../../shared/testing/notifications-service.stub';
 import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
@@ -157,6 +155,11 @@ describe('ItemVersionsComponent', () => {
     }),
     children: []
   };
+
+  const cookieServiceSpy = jasmine.createSpyObj('cookieService', {
+    set: jasmine.createSpy('set'),
+  });
+
 
   beforeEach(waitForAsync(() => {
 

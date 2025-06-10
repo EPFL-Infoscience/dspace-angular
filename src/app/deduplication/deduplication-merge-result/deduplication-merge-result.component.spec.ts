@@ -2,11 +2,7 @@ import { MergeObject } from './../../core/deduplication/models/merge-object.mode
 import { TranslateModule } from '@ngx-translate/core';
 import { DeduplicationItemsService } from './../deduplication-merge/deduplication-items.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  NgbActiveModal,
-  NgbModal,
-  NgbModule,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModule, } from '@ng-bootstrap/ng-bootstrap';
 
 import { DeduplicationMergeResultComponent } from './deduplication-merge-result.component';
 import { DeduplicationStateService } from '../deduplication-state.service';
