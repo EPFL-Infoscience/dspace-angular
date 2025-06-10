@@ -1816,6 +1816,8 @@
 
   "deduplication.compare.workspace-404": "Workspace item does not exist!",
 
+  "deduplication.merge.process.complete": "Update references from merged items",
+
   "deduplication.signature.loading": "Loading signatures ...",
 
   "deduplication.signature.no-data": "No signatures found.",
@@ -1844,7 +1846,7 @@
 
   "deduplication.sets.title": "Records duplicate Identifiers (DOI, PMID, ARXIV, SCOPUS, ISI)",
 
-  "deduplication.sets.subtitle": "The page shows potentially duplicate groups by signature. You can select the items to compare or reject. The system records the action \"No duplicate\" so the match is not show in the future.",
+  "deduplication.sets.subtitle": "The page shows potentially duplicate groups by signature. You can select the items to compare or reject. The system records the action \"No duplicate\" so the match is not show in the future. <br> <b> Please note that the metadata refer to the items only; no operation will be executed on the bitstreams' metadata.</b><br> ",
 
   "deduplication.sets.message.no-data": "No sets found for this signature.",
 
