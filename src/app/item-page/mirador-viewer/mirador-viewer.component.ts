@@ -1,14 +1,24 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Item } from '../../core/shared/item.model';
 import { environment } from '../../../environments/environment';
 import { BitstreamDataService } from '../../core/data/bitstream-data.service';
-import { Observable, of } from 'rxjs';
-import { map, take } from 'rxjs/operators';
-import { isPlatformBrowser } from '@angular/common';
+import { Observable, of, Subscription } from 'rxjs';
+import { distinctUntilChanged, map, take } from 'rxjs/operators';
+import { isPlatformBrowser, Location } from '@angular/common';
 import { MiradorViewerService } from './mirador-viewer.service';
 import { HostWindowService, WidthCategory } from '../../shared/host-window.service';
 import { BundleDataService } from '../../core/data/bundle-data.service';
+import { NativeWindowRef, NativeWindowService } from '../../core/services/window.service';
+import { ActivatedRoute, Router } from '@angular/router';
+
+const IFRAME_UPDATE_URL_MESSAGE = 'update-url';
+
+interface IFrameMessageData {
+  type: string;
+  canvasId: string;
+  canvasIndex: string;
+}
 
 @Component({
   selector: 'ds-mirador-viewer',
@@ -17,7 +27,7 @@ import { BundleDataService } from '../../core/data/bundle-data.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ MiradorViewerService ]
 })
-export class MiradorViewerComponent implements OnInit {
+export class MiradorViewerComponent implements OnInit, OnDestroy {
 
   @Input() object: Item;
 
@@ -35,6 +45,11 @@ export class MiradorViewerComponent implements OnInit {
    * Is used as canvas identifier of the element to show.
    */
   @Input() canvasId: string;
+
+  /**
+   * Is used as canvas index of the element to show.
+   */
+  @Input() canvasIndex: string;
 
   /**
    * Hides embedded viewer in dev mode.
@@ -58,12 +73,23 @@ export class MiradorViewerComponent implements OnInit {
 
   viewerMessage = 'Sorry, the Mirador viewer is not currently available in development mode.';
 
-  constructor(private sanitizer: DomSanitizer,
-              private viewerService: MiradorViewerService,
-              private bitstreamDataService: BitstreamDataService,
-              private bundleDataService: BundleDataService,
-              private hostWindowService: HostWindowService,
-              @Inject(PLATFORM_ID) private platformId: any) {
+  private readonly isInItemPage = environment.advancedAttachmentRendering.showViewerOnSameItemPage;
+
+  private readonly subs: Subscription[] = [];
+
+  constructor(
+    private sanitizer: DomSanitizer,
+    private viewerService: MiradorViewerService,
+    private bitstreamDataService: BitstreamDataService,
+    private bundleDataService: BundleDataService,
+    private hostWindowService: HostWindowService,
+    private location: Location,
+    private route: ActivatedRoute,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: any,
+    @Inject(NativeWindowService) protected _window: NativeWindowRef,
+  ) {
+
   }
 
   /**
@@ -92,11 +118,14 @@ export class MiradorViewerComponent implements OnInit {
     if (this.notMobile) {
       viewerPath += '&notMobile=true';
     }
-    if (environment.mirador.enableDownloadPlugin) {
-      viewerPath += '&enableDownloadPlugin=true';
-    }
     if (this.canvasId) {
       viewerPath += `&canvasId=${this.canvasId}`;
+    }
+    if (this.canvasIndex) {
+      viewerPath += `&canvasIndex=${parseInt(this.canvasIndex, 10) - 1}`;
+    }
+    if (environment.mirador.enableDownloadPlugin) {
+      viewerPath += '&enableDownloadPlugin=true';
     }
 
     // TODO: Should the query term be trusted here?
@@ -108,7 +137,7 @@ export class MiradorViewerComponent implements OnInit {
      * Initializes the iframe url observable.
      */
     if (isPlatformBrowser(this.platformId)) {
-
+      this._window.nativeWindow.addEventListener('message', this.iframeMessageListener);
       // Viewer is not currently available in dev mode so hide it in that case.
       this.isViewerAvailable = this.viewerService.showEmbeddedViewer();
 
@@ -148,6 +177,59 @@ export class MiradorViewerComponent implements OnInit {
           })
         );
       }
+
+      if (this.isInItemPage) {
+        this.reloadIframeOnUrlChange();
+      }
     }
+  }
+
+  ngOnDestroy(): void {
+    this._window.nativeWindow.removeEventListener('message', this.iframeMessageListener);
+    this.subs.forEach((sub) => sub.unsubscribe());
+  }
+
+  iframeMessageListener = (event: MessageEvent) => {
+    const data: IFrameMessageData = event.data;
+
+    if (data.type === IFRAME_UPDATE_URL_MESSAGE) {
+      const currentPath = this.location.path();
+      const canvasId = data.canvasId;
+      const canvasIndex = data.canvasIndex;
+      // Use URL API for easier query param manipulation
+      const url = new URL(window.location.origin + currentPath);
+      // Set or update the query param
+      url.searchParams.set('canvasId', canvasId);
+      url.searchParams.set('canvasIndex', canvasIndex);
+      const newPathWithQuery = url.pathname + url.search;
+      // Replace the current state (no reload, no new history entry)
+      this.location.replaceState(newPathWithQuery);
+    }
+  };
+
+  private reloadIframeOnUrlChange(): void {
+    this.subs.push(
+      this.route.queryParams.pipe(distinctUntilChanged()).subscribe(params => {
+        const canvasId = params.canvasId;
+        const canvasIndex = params.canvasIndex;
+
+        let shouldReload = false;
+
+        if (canvasId && canvasId !== this.canvasId) {
+          this.canvasId = canvasId;
+          shouldReload = true;
+        }
+
+        if (canvasIndex && canvasIndex !== this.canvasIndex) {
+          this.canvasIndex = canvasIndex;
+          shouldReload = true;
+        }
+
+        if (shouldReload) {
+          // Regenerate iframe URL
+          this.iframeViewerUrl = of('').pipe(map(() => this.setURL()));
+        }
+      })
+    );
   }
 }
