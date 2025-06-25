@@ -7078,7 +7078,7 @@
   "login.form.password": "Mot de passe",
 
   // "login.form.shibboleth": "Log in with EPFL account",
-  "login.form.shibboleth": "Se connecter avec son compte EPFL - Shibboleth",
+  "login.form.shibboleth": "Se connecter avec son compte EPFL",
 
   // "login.form.submit": "Log in with local account",
   "login.form.submit": "Se connecter",
