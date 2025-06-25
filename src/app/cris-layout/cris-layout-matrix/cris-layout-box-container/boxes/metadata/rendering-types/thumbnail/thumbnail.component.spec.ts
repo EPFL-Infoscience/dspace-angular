@@ -99,7 +99,7 @@ describe('ThumbnailComponent', () => {
           }
         })
       ],
-      declarations: [ThumbnailComponent, ThumbnailComponent],
+      declarations: [ThumbnailComponent],
       providers: [
         { provide: 'fieldProvider', useValue: fieldProvider },
         { provide: 'itemProvider', useValue: testItem },

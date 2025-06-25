@@ -4,7 +4,6 @@ import { AuthBlockingGuard } from './core/auth/auth-blocking.guard';
 
 import { AuthenticatedGuard } from './core/auth/authenticated.guard';
 
-
 import {
   ACCESS_CONTROL_MODULE_PATH,
   ADMIN_MODULE_PATH,
@@ -53,8 +52,6 @@ import { DEDUPLICATION_PATH } from './admin/admin-routing-paths';
 import {
   GenericAdministratorGuard
 } from './core/data/feature-authorization/feature-authorization-guard/generic-administrator-guard';
-
-
 
 @NgModule({
   imports: [
