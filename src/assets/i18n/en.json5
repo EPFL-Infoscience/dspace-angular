@@ -4427,13 +4427,13 @@
 
   "login.form.new-user": "New user? Click here to register.",
 
-  "login.form.oidc": "Log in with OIDC",
+  "login.form.oidc": "Log in with EPFL account",
 
   "login.form.orcid": "Log in with ORCID",
 
   "login.form.password": "Password",
 
-  "login.form.shibboleth": "Log in with EPFL account",
+  "login.form.shibboleth": "Log-in with EPFL account",
 
   "login.form.submit": "Log in with local account",
 

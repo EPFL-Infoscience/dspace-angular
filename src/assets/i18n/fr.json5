@@ -7069,7 +7069,7 @@
   "login.form.new-user": "Pas encore de compte? Cliquer ici pour vous enregistrer.",
 
   // "login.form.oidc": "Log in with OIDC",
-  "login.form.oidc": "Connexion par OpenID",
+  "login.form.oidc": "Se connecter avec son compte EPFL",
 
   // "login.form.orcid": "Log in with ORCID",
   "login.form.orcid": "Connexion via ORCID",
