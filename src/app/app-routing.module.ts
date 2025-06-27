@@ -194,6 +194,7 @@ import {
             data: {
               isBackDoor: true,
             },
+            canMatch: [() => environment.auth.disableStandardLogin],
           },
           {
             path: 'login',
