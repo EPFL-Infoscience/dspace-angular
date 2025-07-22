@@ -1,5 +1,5 @@
 import { Inject, Injectable, Injector, Optional } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl, UntypedFormArray, UntypedFormControl } from '@angular/forms';
 
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
@@ -21,6 +21,8 @@ import { FormBuilderService } from '../form-builder.service';
 import { FormFieldMetadataValueObject } from '../models/form-field-metadata-value.model';
 import { DYNAMIC_FORM_CONTROL_TYPE_RELATION_GROUP } from './ds-dynamic-form-constants';
 import { VocabularyEntry } from '../../../../core/submission/vocabularies/models/vocabulary-entry.model';
+import { DsDynamicInputModel } from './models/ds-dynamic-input.model';
+import { DynamicRowArrayModel } from './models/ds-dynamic-row-array-model';
 
 /**
  * Service to manage type binding for submission input fields
@@ -173,7 +175,7 @@ export class DsDynamicTypeBindRelationService {
    * @param model
    * @param control
    */
-  subscribeRelations(model: DynamicFormControlModel, control: UntypedFormControl): Subscription[] {
+  subscribeRelations(model: DynamicFormControlModel, control: UntypedFormControl | UntypedFormArray): Subscription[] {
 
     const relatedModels = this.getRelatedFormModel(model);
     const subscriptions: Subscription[] = [];
@@ -198,7 +200,12 @@ export class DsDynamicTypeBindRelationService {
               // If the relation is defined, get matchesCondition result and pass it to the onChange event listener
               if (relation !== undefined) {
                 const hasMatch = this.matchesCondition(relation, matcher);
-                matcher.onChange(hasMatch, model, control, this.injector);
+                if (hasMatch) {
+                  this.removeValueFromMatchedField(model, control);
+                } else {
+                  this.enableControlFromMatchedField(control);
+                }
+                matcher.onChange(hasMatch, model, control as FormControl, this.injector);
               }
             });
           }
@@ -226,6 +233,30 @@ export class DsDynamicTypeBindRelationService {
       operator: OR_OPERATOR,
       when: bindValues
     }];
+  }
+
+  removeValueFromMatchedField(model: DynamicFormControlModel, control: UntypedFormControl | UntypedFormArray) {
+    if (model instanceof DsDynamicInputModel) {
+      (model as DsDynamicInputModel).value = null;
+    } else if (model instanceof DynamicRowArrayModel) {
+      while ((control as UntypedFormArray).length > 1) {
+        this.formBuilderService.removeFormArrayGroup(1, control as UntypedFormArray, model);
+      }
+      (control as UntypedFormArray).controls[0].reset();
+    }
+
+    control.disable();
+    control.updateValueAndValidity({emitEvent: true});
+  }
+
+
+  enableControlFromMatchedField(control: UntypedFormControl | UntypedFormArray) {
+    if (!control.disabled) {
+      return;
+    }
+
+    control.enable();
+    control.updateValueAndValidity({emitEvent: true});
   }
 
 }
