@@ -387,7 +387,7 @@ export class DefaultAppConfig implements AppConfig {
       pageSize: 5
     },
     // The maximum number of metadata values to add to the metatag list of the item page
-    metatagLimit: 20,
+    metatagLimit: 200,
 
     // The maximum number of values for repeatable metadata to show in the full item
     metadataLimit: 20
@@ -412,7 +412,7 @@ export class DefaultAppConfig implements AppConfig {
   ];
 
   // The maximum number of item to process when following authority metadata values.
-  followAuthorityMaxItemLimit = 200;
+  followAuthorityMaxItemLimit = 100;
   // The maximum number of metadata values to process for each metadata key
   // when following authority metadata values.
   followAuthorityMetadataValuesLimit = 5;
