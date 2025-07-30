@@ -387,7 +387,7 @@ export class DefaultAppConfig implements AppConfig {
       pageSize: 5
     },
     // The maximum number of metadata values to add to the metatag list of the item page
-    metatagLimit: 200,
+    metatagLimit: 100,
 
     // The maximum number of values for repeatable metadata to show in the full item
     metadataLimit: 20
