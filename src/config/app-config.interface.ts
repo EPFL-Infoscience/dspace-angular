@@ -88,6 +88,7 @@ interface AppConfig extends Config {
   location: LocationConfig;
   epflUnpaywallMetadata: EpflUnpaywallMetadata;
   loader: LoaderConfig;
+  permanentRedirectPaths?: string[];
 }
 
 /**
