@@ -53,11 +53,8 @@ export class ServerHardRedirectService extends HardRedirectService {
       // attempt to use passed in statusCode or the already set status (in request)
       let status = statusCode || this.res.statusCode || 0;
       if (status < 300 || status >= 400) {
-        if (this.appConfig.permanentRedirectPaths?.some(path => this.req.url.includes(path))) {
-          status = 301; // permanent redirect
-        } else {
-          status = 302; // temporary redirect
-        }
+        // temporary redirect
+        status = 302;
       }
 
       console.info(`Redirecting from ${this.req.url} to ${redirectUrl} with ${status}`);
