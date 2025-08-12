@@ -13,7 +13,7 @@
     </div>
   </div>
   <ds-cris-item-page
-    *ngIf="(itemRD?.hasSucceeded && !itemRD?.hasNoContent) && tabsRD?.payload?.pageInfo?.totalElements > 0"></ds-cris-item-page>
+    *ngIf="(itemRD?.hasSucceeded && !itemRD?.hasNoContent) && (tabsRD$ | async)?.payload?.pageInfo?.totalElements > 0"></ds-cris-item-page>
   <ds-error *ngIf="itemRD?.hasFailed" message="{{'error.item' | translate}}"></ds-error>
   <ds-themed-loading *ngIf="itemRD?.isLoading" message="{{'loading.item' | translate}}"></ds-themed-loading>
 </div>

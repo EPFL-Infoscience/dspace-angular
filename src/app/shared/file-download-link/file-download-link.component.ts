@@ -16,6 +16,7 @@ import { ItemRequest } from '../../core/shared/item-request.model';
 import { ConfigurationDataService } from '../../core/data/configuration-data.service';
 import { getFirstCompletedRemoteData, getRemoteDataPayload } from 'src/app/core/shared/operators';
 import { ConfigurationProperty } from '../../core/shared/configuration-property.model';
+import { DSONameService } from '../../core/breadcrumbs/dso-name.service';
 
 @Component({
   selector: 'ds-file-download-link',
@@ -56,6 +57,8 @@ export class FileDownloadLinkComponent implements OnInit {
 
   @Input() showIcon = false;
 
+  @Input() showAccessStatusBadge = true;
+
   /**
    * When previewPdf button is clicked emit the event.
    */
@@ -83,6 +86,7 @@ export class FileDownloadLinkComponent implements OnInit {
     private authorizationService: AuthorizationDataService,
     private configurationService: ConfigurationDataService,
     private route: ActivatedRoute,
+    public dsoNameService: DSONameService,
   ) {
   }
 

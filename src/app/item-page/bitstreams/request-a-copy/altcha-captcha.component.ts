@@ -21,11 +21,7 @@ import { VarDirective } from '../../../shared/utils/var.directive';
   templateUrl: './altcha-captcha.component.html',
   imports: [
     TranslateModule,
-    RouterLink,
-    AsyncPipe,
     ReactiveFormsModule,
-    NgIf,
-    VarDirective,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   standalone: true,

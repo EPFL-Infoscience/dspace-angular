@@ -23,13 +23,6 @@ import { VarDirective } from '../../../shared/utils/var.directive';
   selector: 'ds-access-by-token-notification',
   templateUrl: './access-by-token-notification.component.html',
   styleUrls: ['./access-by-token-notification.component.scss'],
-  imports: [
-    AsyncPipe,
-    TranslateModule,
-    VarDirective,
-    NgIf,
-  ],
-  standalone: true,
 })
 export class AccessByTokenNotificationComponent implements OnInit {
 

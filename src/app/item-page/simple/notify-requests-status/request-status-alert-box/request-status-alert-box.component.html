@@ -1,0 +1,19 @@
+<div [ngClass]="{'align-items-center': data.length === 1}" *ngIf="data?.length > 0 && displayOptions"
+     class="alert d-flex flex-row sections-gap {{displayOptions.alertType}}">
+  <img
+    class="source-logo"
+    src="assets/images/qa-coar-notify-logo.png"
+    alt="notify logo"
+  />
+  <ds-truncatable [id]="status">
+    <ds-truncatable-part [id]="status" [minLines]="1">
+      <div class="w-100 d-flex flex-column">
+        <div *ngFor="let request of data" [innerHTML]="displayOptions.text | translate: {
+                  serviceName: request.serviceName,
+                  serviceUrl: request.serviceUrl,
+                  offerType: request.offerType
+                }"></div>
+      </div>
+    </ds-truncatable-part>
+  </ds-truncatable>
+</div>

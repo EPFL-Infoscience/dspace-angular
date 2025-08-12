@@ -29,7 +29,6 @@ import { AlertType } from '../../../shared/alert/alert-type';
 @Component({
   selector: 'ds-bitstream-request-a-copy-page',
   templateUrl: './bitstream-request-a-copy-page.component.html',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 /**
  * Page component for requesting a copy for a bitstream
