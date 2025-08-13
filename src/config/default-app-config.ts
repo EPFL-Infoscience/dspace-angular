@@ -43,6 +43,7 @@ import { MetadataLinkViewPopoverDataConfig } from './metadata-link-view-popoverd
 import { IdentifierSubtypesConfig, IdentifierSubtypesIconPositionEnum } from './identifier-subtypes-config.interface';
 import { DatadogRumConfig } from './datadog-rum-config.interfaces';
 import { LocationConfig } from './location-config.interface';
+import {LuckySearchRedirectConfig} from './lucky-search-redirect-config';
 
 export class DefaultAppConfig implements AppConfig {
   production = false;
@@ -960,5 +961,10 @@ export class DefaultAppConfig implements AppConfig {
       reverseSearchEndpoint: 'https://nominatim.openstreetmap.org/reverse',
       statusEndpoint: 'https://nominatim.openstreetmap.org/status',
     }
+  };
+
+  luckySearchRedirects: LuckySearchRedirectConfig = {
+    'legacy-id': 301,
+    default: 302
   };
 }
