@@ -732,6 +732,9 @@ export class MetadataService {
     for (const value of content.slice(0, this.appConfig.item.metatagLimit)) {
       this.addMetaTag(name, value, false, true);
     }
+    if (content.length > this.appConfig.item.metatagLimit && name === 'citation_author') {
+      this.addMetaTag(name, 'et al.', false, true);
+    }
   }
 
   private storeTag(key: string): void {
