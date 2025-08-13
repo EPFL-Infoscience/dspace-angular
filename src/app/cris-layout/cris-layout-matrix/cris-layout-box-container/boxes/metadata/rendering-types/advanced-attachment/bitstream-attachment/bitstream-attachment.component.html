@@ -35,14 +35,24 @@
             </p>
 
             <p class="text-break m-0" *ngIf="!attachmentConf.truncatable && attachmentConf.name !== attachmentTypeMetadata">
-              {{attachment.firstMetadataValue(attachmentConf.name)}}
+              <ng-container *ngTemplateOutlet="metadataValue"></ng-container>
             </p>
 
             <ds-truncatable *ngIf="attachmentConf.truncatable" [id]=" attachment.id">
               <ds-truncatable-part [id]="attachment.id" [minLines]="1">
-                {{attachment.firstMetadataValue(attachmentConf.name)}}
+                <ng-container *ngTemplateOutlet="metadataValue"></ng-container>
               </ds-truncatable-part>
             </ds-truncatable>
+
+            <ng-template #metadataValue>
+              <ng-container *ngIf="attachmentConf.vocabularyName; else noVocabulary">
+                {{ metadataVocabularyValues?.[attachmentConf.vocabularyName]?.[attachment.firstMetadataValue(attachmentConf.name)] }}
+              </ng-container>
+              <ng-template #noVocabulary>
+                {{ attachment.firstMetadataValue(attachmentConf.name) }}
+              </ng-template>
+            </ng-template>
+
 
           </ng-container>
 

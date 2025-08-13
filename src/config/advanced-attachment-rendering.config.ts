@@ -15,6 +15,7 @@ export interface AttachmentMetadataConfig {
   name: string;
   type: AdvancedAttachmentElementType;
   truncatable?: boolean;
+  vocabularyName?: string;
 }
 
 /**
