@@ -1,7 +1,5 @@
-import {
-  AsyncPipe,
-  NgIf,
-} from '@angular/common';
+
+
 import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
@@ -11,10 +9,8 @@ import {
   Output,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { VarDirective } from '../../../shared/utils/var.directive';
 
 @Component({
   selector: 'ds-altcha-captcha',

@@ -1,10 +1,8 @@
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   Component,
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -17,7 +15,6 @@ import {
   hasValue,
   isNotEmpty,
 } from '../../../shared/empty.util';
-import { VarDirective } from '../../../shared/utils/var.directive';
 
 @Component({
   selector: 'ds-access-by-token-notification',

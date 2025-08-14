@@ -10,7 +10,6 @@ import { ConfigurationDataService } from '../../../../../../../../../core/data/c
 import { createSuccessfulRemoteDataObject$ } from '../../../../../../../../../shared/remote-data.utils';
 import { ConfigurationProperty } from '../../../../../../../../../core/shared/configuration-property.model';
 import { ActivatedRoute } from '@angular/router';
-import { MockActivatedRoute } from '../../../../../../../../../shared/mocks/active-router.mock';
 import { TranslateService } from '@ngx-translate/core';
 import { getMockTranslateService } from '../../../../../../../../../shared/mocks/translate.service.mock';
 import { ActivatedRouteStub } from '../../../../../../../../../shared/testing/active-router.stub';

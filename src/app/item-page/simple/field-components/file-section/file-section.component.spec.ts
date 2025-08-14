@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VarDirective } from '../../../../shared/utils/var.directive';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { BitstreamDataService } from '../../../../core/data/bitstream-data.service';
-import { createFailedRemoteDataObject$, createSuccessfulRemoteDataObject$ } from '../../../../shared/remote-data.utils';
+import { createSuccessfulRemoteDataObject$ } from '../../../../shared/remote-data.utils';
 import { By } from '@angular/platform-browser';
 import { Bitstream } from '../../../../core/shared/bitstream.model';
 import { of as observableOf } from 'rxjs';

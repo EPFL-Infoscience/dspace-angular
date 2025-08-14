@@ -1,7 +1,5 @@
-import {
-  AsyncPipe,
-  KeyValuePipe,
-} from '@angular/common';
+
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -25,7 +23,6 @@ import {
   NotifyStatuses,
 } from '../notify-requests-status.model';
 import { RequestStatusEnum } from '../notify-status.enum';
-import { RequestStatusAlertBoxComponent } from '../request-status-alert-box/request-status-alert-box.component';
 
 @Component({
   selector: 'ds-notify-requests-status',
