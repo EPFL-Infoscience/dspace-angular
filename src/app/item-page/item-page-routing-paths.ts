@@ -82,3 +82,5 @@ export const ORCID_PATH = 'orcid';
 export const ITEM_FULL_PATH = 'full';
 export const UNPAYWALL_VERSIONS_PATH = 'unpaywall/versions';
 export const VIEWERS_PATH = 'viewer';
+
+export const ITEM_ACCESS_BY_TOKEN_PATH = 'access-by-token';

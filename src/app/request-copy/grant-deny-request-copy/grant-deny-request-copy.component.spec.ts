@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { VarDirective } from '../../shared/utils/var.directive';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -125,14 +125,16 @@ describe('GrantDenyRequestCopyComponent', () => {
       expect(message).toBeNull();
     });
 
-    it('should be displayed when decisionDate is defined', () => {
+    it('should be displayed when decisionDate is defined', fakeAsync(() => {
       component.itemRequestRD$ = createSuccessfulRemoteDataObject$(Object.assign(new ItemRequest(), itemRequest, {
         decisionDate: 'defined-date'
       }));
       fixture.detectChanges();
+      tick(); // Simulate passage of time
+      fixture.detectChanges();
 
       const message = fixture.debugElement.query(By.css('.processed-message'));
       expect(message).not.toBeNull();
-    });
+    }));
   });
 });

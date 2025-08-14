@@ -63,6 +63,18 @@ import {
 } from './full/field-components/file-section/themed-full-file-section.component';
 import { MarkdownViewerModule } from '../shared/markdown-viewer/markdown-viewer.module';
 import { UnpaywallVersionsComponent } from './unpaywall-versions/unpaywall-versions.component';
+import { AltchaCaptchaComponent } from './bitstreams/request-a-copy/altcha-captcha.component';
+import {
+    AccessByTokenNotificationComponent
+} from './simple/access-by-token-notification/access-by-token-notification.component';
+import { QaEventNotificationComponent } from './simple/qa-event-notification/qa-event-notification.component';
+import {
+  NotifyRequestsStatusComponent
+} from './simple/notify-requests-status/notify-requests-status-component/notify-requests-status.component';
+import {
+  RequestStatusAlertBoxComponent
+} from './simple/notify-requests-status/request-status-alert-box/request-status-alert-box.component';
+import { SplitPipe } from '../shared/utils/split.pipe';
 
 
 const ENTRY_COMPONENTS = [
@@ -105,7 +117,11 @@ const DECLARATIONS = [
   OrcidQueueComponent,
   ThemedItemAlertsComponent,
   BitstreamRequestACopyPageComponent,
-  UnpaywallVersionsComponent
+  UnpaywallVersionsComponent,
+  AccessByTokenNotificationComponent,
+  QaEventNotificationComponent,
+  RequestStatusAlertBoxComponent,
+  NotifyRequestsStatusComponent,
 ];
 
 @NgModule({
@@ -128,6 +144,8 @@ const DECLARATIONS = [
     ContextMenuModule.withEntryComponents(),
     MiradorViewerModule,
     MarkdownViewerModule,
+    AltchaCaptchaComponent,
+    SplitPipe,
   ],
   declarations: [
     ...DECLARATIONS,

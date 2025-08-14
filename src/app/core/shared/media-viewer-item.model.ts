@@ -38,4 +38,9 @@ export class MediaViewerItem {
    * Incoming Bitstream name
    */
   name?: string;
+
+  /**
+   * Access token, if accessed via a Request-a-Copy link
+   */
+  accessToken: string;
 }

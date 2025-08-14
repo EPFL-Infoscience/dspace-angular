@@ -7,7 +7,14 @@ import { VersionResolver } from './version-page/version.resolver';
 import { DSOBreadcrumbsService } from '../core/breadcrumbs/dso-breadcrumbs.service';
 import { LinkService } from '../core/cache/builders/link.service';
 import { UploadBitstreamComponent } from './bitstreams/upload/upload-bitstream.component';
-import { ITEM_EDIT_PATH, ORCID_PATH, UNPAYWALL_VERSIONS_PATH, UPLOAD_BITSTREAM_PATH, VIEWERS_PATH } from './item-page-routing-paths';
+import {
+  ITEM_ACCESS_BY_TOKEN_PATH,
+  ITEM_EDIT_PATH,
+  ORCID_PATH,
+  UNPAYWALL_VERSIONS_PATH,
+  UPLOAD_BITSTREAM_PATH,
+  VIEWERS_PATH
+} from './item-page-routing-paths';
 import { ItemPageAdministratorGuard } from './item-page-administrator.guard';
 import { LinkMenuItemModel } from '../shared/menu/menu-item/models/link.model';
 import { ThemedItemPageComponent } from './simple/themed-item-page.component';
@@ -21,6 +28,7 @@ import { OrcidPageComponent } from './orcid-page/orcid-page.component';
 import { OrcidPageGuard } from './orcid-page/orcid-page.guard';
 import { UnpaywallVersionsComponent } from './unpaywall-versions/unpaywall-versions.component';
 import { I18nBreadcrumbResolver } from '../core/breadcrumbs/i18n-breadcrumb.resolver';
+import { accessTokenResolver } from '../core/auth/access-token.resolver';
 
 @NgModule({
   imports: [
@@ -30,6 +38,7 @@ import { I18nBreadcrumbResolver } from '../core/breadcrumbs/i18n-breadcrumb.reso
         resolve: {
           dso: ItemPageResolver,
           breadcrumb: ItemBreadcrumbResolver,
+          itemRequest: accessTokenResolver,
         },
         runGuardsAndResolvers: 'always',
         children: [
@@ -65,6 +74,13 @@ import { I18nBreadcrumbResolver } from '../core/breadcrumbs/i18n-breadcrumb.reso
             path: ORCID_PATH,
             component: OrcidPageComponent,
             canActivate: [AuthenticatedGuard, OrcidPageGuard]
+          },
+          {
+            path: ITEM_ACCESS_BY_TOKEN_PATH,
+            component: ThemedFullItemPageComponent,
+            resolve: {
+              menu: accessTokenResolver,
+            },
           },
           {
             path: VIEWERS_PATH,

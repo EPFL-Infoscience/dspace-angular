@@ -1,6 +1,6 @@
 <ng-container *ngIf="!hasNoDownload">
   <ng-container *ngIf="bitstreamPath$ | async as bitstreamLink">
-    <ng-container *ngIf="canDownload$ | async; then downloadButtonTpl; else requestACopyTpl"></ng-container>
+    <ng-container *ngIf="(canDownload$ | async) || (canDownloadWithToken$ | async); then downloadButtonTpl; else requestACopyTpl"></ng-container>
     <ng-template #downloadButtonTpl>
       <button [routerLink]="bitstreamLink?.routerLink" [queryParams]="bitstreamLink?.queryParams" class="btn btn-light"
               data-test="download">

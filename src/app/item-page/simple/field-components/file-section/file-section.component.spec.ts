@@ -26,7 +26,8 @@ describe('FileSectionComponent', () => {
   let fixture: ComponentFixture<FileSectionComponent>;
 
   const bitstreamDataService = jasmine.createSpyObj('bitstreamDataService', {
-    findAllByItemAndBundleName: createSuccessfulRemoteDataObject$(createPaginatedList([]))
+    findAllByItemAndBundleName: createSuccessfulRemoteDataObject$(createPaginatedList([])),
+    findPrimaryBitstreamByItemAndName: createSuccessfulRemoteDataObject$(null),
   });
 
   const mockBitstream: Bitstream = Object.assign(new Bitstream(),

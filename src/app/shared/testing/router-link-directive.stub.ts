@@ -7,4 +7,5 @@ import { Directive, Input } from '@angular/core';
 })
 export class RouterLinkDirectiveStub {
   @Input() routerLink: any;
+  @Input() queryParams: any;
 }

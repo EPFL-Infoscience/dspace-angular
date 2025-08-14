@@ -8,16 +8,17 @@ import { map, take } from 'rxjs/operators';
 import { ItemDataService } from '../../core/data/item-data.service';
 import { RemoteData } from '../../core/data/remote-data';
 import { Item } from '../../core/shared/item.model';
+import { ItemRequest } from '../../core/shared/item-request.model';
 import { fadeInOut } from '../../shared/animations/fade';
 import { getAllSucceededRemoteDataPayload } from '../../core/shared/operators';
 import { ViewMode } from '../../core/shared/view-mode.model';
+import { hasValue, isNotEmpty, } from '../../shared/empty.util';
 import { getItemPageRoute } from '../item-page-routing-paths';
 import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
 import { FeatureID } from '../../core/data/feature-authorization/feature-id';
 import { ServerResponseService } from '../../core/services/server-response.service';
 import { SignpostingDataService } from '../../core/data/signposting-data.service';
 import { SignpostingLink } from '../../core/data/signposting-links.model';
-import { isNotEmpty } from '../../shared/empty.util';
 import { LinkDefinition, LinkHeadService } from '../../core/services/link-head.service';
 import { CrisLayoutTab } from '../../core/layout/models/tab.model';
 import { PaginatedList } from '../../core/data/paginated-list.model';
@@ -47,6 +48,11 @@ export class ItemPageComponent implements OnInit, OnDestroy {
   itemRD$: Observable<RemoteData<Item>>;
 
   /**
+   * The request item wrapped in a remote-data object, obtained from the route data
+   */
+  itemRequest$: Observable<ItemRequest>;
+
+  /**
    * The view-mode we're currently on
    */
   viewMode = ViewMode.StandalonePage;
@@ -73,6 +79,8 @@ export class ItemPageComponent implements OnInit, OnDestroy {
    */
   tabsRD$: Observable<RemoteData<PaginatedList<CrisLayoutTab>>>;
 
+  protected readonly hasValue = hasValue;
+
   constructor(
     protected route: ActivatedRoute,
     protected router: Router,
@@ -96,6 +104,7 @@ export class ItemPageComponent implements OnInit, OnDestroy {
     this.tabsRD$ = this.route.data.pipe(
       map((data) => data.tabs as RemoteData<PaginatedList<CrisLayoutTab>>),
     );
+
     this.itemPageRoute$ = this.itemRD$.pipe(
       getAllSucceededRemoteDataPayload(),
       map((item) => getItemPageRoute(item))
@@ -142,4 +151,17 @@ export class ItemPageComponent implements OnInit, OnDestroy {
       this.linkHeadService.removeTag(`href='${link.href}'`);
     });
   }
+
+  /**
+   * Calculate and return end period access date for a request-a-copy link for alert display
+   */
+  getAccessPeriodEndDate(accessPeriod: number, decisionDate: string | number | Date): Date {
+    // Set expiry, if not 0
+    if (hasValue(accessPeriod) && accessPeriod > 0 && hasValue(decisionDate)) {
+      const date = new Date(decisionDate);
+      date.setUTCSeconds(date.getUTCSeconds() + accessPeriod);
+      return date;
+    }
+  }
+
 }
