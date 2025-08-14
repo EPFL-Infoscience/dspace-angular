@@ -1,5 +1,5 @@
 // Load the implementations that should be tested
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, inject, TestBed, waitForAsync, } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -88,7 +88,9 @@ describe('SubmissionSectionContainerComponent test suite', () => {
         { provide: JsonPatchOperationsBuilder, useValue: jsonPatchOpBuilder },
         { provide: SectionsService, useValue: sectionsServiceStub },
         { provide: SubmissionService, useValue: submissionServiceStub },
-        SubmissionSectionContainerComponent
+        { provide: ChangeDetectorRef, useValue: jasmine.createSpyObj('ChangeDetectorRef', ['detectChanges', 'markForCheck']) },
+        SubmissionSectionContainerComponent,
+
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -229,6 +231,113 @@ describe('SubmissionSectionContainerComponent test suite', () => {
       expect(iconSuccess).not.toBeNull();
     });
 
+  });
+
+  describe('visibility based on leaf controls', () => {
+    let hostEl: HTMLElement;
+    let contentEl: HTMLElement;
+
+    beforeEach(() => {
+      init();
+      fixture = TestBed.createComponent(SubmissionSectionContainerComponent);
+      comp = fixture.componentInstance;
+      comp.submissionId = submissionId;
+      comp.collectionId = collectionId;
+      comp.sectionData = sectionObject;
+      spyOn(comp, 'getSectionContent');
+      // First CD to instantiate template and set ViewChild
+      fixture.detectChanges();
+      // Now force the section to render (ngIf depends on isEnabled())
+      spyOn(comp.sectionRef, 'isEnabled').and.returnValue(observableOf(true));
+      fixture.detectChanges();
+      // Select the host section element by its directive rather than hard-coded id
+      const hostDe = fixture.debugElement.query(By.directive(SectionsDirective));
+      hostEl = hostDe ? (hostDe.nativeElement as HTMLElement) : null;
+      // Select the content container by its id prefix
+      contentEl = fixture.nativeElement.querySelector(`[id^='sectionContent_']`) as HTMLElement;
+      expect(hostEl).withContext('Expected section host element to exist').not.toBeNull();
+      expect(contentEl).withContext('Expected section content container to exist').not.toBeNull();
+    });
+
+    afterEach(() => {
+      fixture.destroy();
+    });
+
+    function runVisibilityCheck() {
+      (comp as any).updateVisibilityBasedOnLeafControls();
+      fixture.detectChanges();
+    }
+
+    it('should be visible by default when no leaf controls exist', () => {
+      // No ds-dynamic-form-control-container elements inside
+      runVisibilityCheck();
+      expect(hostEl.style.display).toBe('');
+      expect(comp.hasVisibleLeafControls).toBeTrue();
+    });
+
+    it('should hide the section when all leaf controls are hidden', () => {
+      contentEl.innerHTML = `
+        <ds-dynamic-form-control-container hidden></ds-dynamic-form-control-container>
+        <ds-dynamic-form-control-container hidden></ds-dynamic-form-control-container>
+      `;
+      runVisibilityCheck();
+      expect(comp.hasVisibleLeafControls).toBeFalse();
+      expect(hostEl.style.display).toBe('none');
+    });
+
+    it('should show the section when at least one leaf control is visible', () => {
+      contentEl.innerHTML = `
+        <ds-dynamic-form-control-container hidden></ds-dynamic-form-control-container>
+        <ds-dynamic-form-control-container></ds-dynamic-form-control-container>
+      `;
+      runVisibilityCheck();
+      expect(comp.hasVisibleLeafControls).toBeTrue();
+      expect(hostEl.style.display).toBe('');
+    });
+
+    it('should consider aria-hidden="true" as hidden', () => {
+      contentEl.innerHTML = `
+        <ds-dynamic-form-control-container aria-hidden="true"></ds-dynamic-form-control-container>
+      `;
+      runVisibilityCheck();
+      expect(comp.hasVisibleLeafControls).toBeFalse();
+      expect(hostEl.style.display).toBe('none');
+    });
+
+    it('should consider display:none as hidden', () => {
+      contentEl.innerHTML = `
+        <ds-dynamic-form-control-container id="leaf1" style="display:none"></ds-dynamic-form-control-container>
+      `;
+      runVisibilityCheck();
+      expect(comp.hasVisibleLeafControls).toBeFalse();
+      expect(hostEl.style.display).toBe('none');
+
+      // Make it visible and verify becomes visible
+      const leaf = contentEl.querySelector('#leaf1') as HTMLElement;
+      leaf.style.display = '';
+      runVisibilityCheck();
+      expect(comp.hasVisibleLeafControls).toBeTrue();
+      expect(hostEl.style.display).toBe('');
+    });
+
+    it('should treat non-leaf containers correctly (leaves only are evaluated)', () => {
+      contentEl.innerHTML = `
+        <ds-dynamic-form-control-container>
+          <ds-dynamic-form-control-container hidden></ds-dynamic-form-control-container>
+        </ds-dynamic-form-control-container>
+        <ds-dynamic-form-control-container hidden></ds-dynamic-form-control-container>
+      `;
+      runVisibilityCheck();
+      expect(comp.hasVisibleLeafControls).toBeFalse();
+      expect(hostEl.style.display).toBe('none');
+
+      // Make the leaf visible -> show section
+      const leaves = contentEl.querySelectorAll('ds-dynamic-form-control-container');
+      (leaves.item(leaves.length - 1) as HTMLElement).removeAttribute('hidden');
+      runVisibilityCheck();
+      expect(comp.hasVisibleLeafControls).toBeTrue();
+      expect(hostEl.style.display).toBe('');
+    });
   });
 });
 
