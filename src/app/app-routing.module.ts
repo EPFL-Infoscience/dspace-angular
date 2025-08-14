@@ -97,7 +97,7 @@ import {
             path: 'handle',
             loadChildren: () => import('./lookup-by-id/lookup-by-id.module')
               .then((m) => m.LookupIdModule),
-            canActivate: [EndUserAgreementCurrentUserGuard]
+            // canActivate: [EndUserAgreementCurrentUserGuard]
           },
           {
             path: REGISTER_PATH,

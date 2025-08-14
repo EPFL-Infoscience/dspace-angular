@@ -21,17 +21,17 @@
         class="btn btn-outline-primary playlist"
         id="accessPeriod"
         ngbDropdownToggle
-      > {{ 'grant-request-copy.access-period.' + this.accessPeriod | translate }}
+      > {{ ('grant-request-copy.access-period.' + accessPeriod) | translate }}
       </button>
       <!-- Access period dropdown -->
       <div ngbDropdownMenu aria-labelledby="accessPeriod" class="dropdown-menu">
         <button
-          *ngFor="accessPeriod of (validAccessPeriods$ | async)"
+          *ngFor="let accessPeriod of (validAccessPeriods$ | async)"
           ngbDropdownItem
           class="list-element"
           (click)="selectAccessPeriod(accessPeriod)"
         >
-          {{ ('grant-request-copy.access-period.' + accessPeriod | translate) }}
+          {{ ('grant-request-copy.access-period.' + accessPeriod) | translate }}
         </button>
       </div>
     </div>

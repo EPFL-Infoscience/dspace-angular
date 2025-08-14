@@ -3,7 +3,7 @@ import 'altcha';
 import { Location, } from '@angular/common';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, } from '@angular/core';
 import { Observable, Subject, } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { hasValue } from '../../shared/empty.util';
 import { RequestCopyEmail } from './request-copy-email.model';
 
@@ -63,6 +63,7 @@ export class EmailRequestCopyComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     this.validAccessPeriods$.pipe(
+      tap(console.warn),
       takeUntil(this.destroy$),
     ).subscribe((validAccessPeriods) => {
       if (hasValue(validAccessPeriods) && validAccessPeriods.length > 0) {
