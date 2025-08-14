@@ -11,7 +11,6 @@ import {
   take,
 } from 'rxjs/operators';
 
-import { QualityAssuranceEventData } from '../../../../notifications/qa/project-entry-import-modal/project-entry-import-modal.component';
 import { hasValue } from '../../../../shared/empty.util';
 import { NotificationsService } from '../../../../shared/notifications/notifications.service';
 import { FollowLinkConfig } from '../../../../shared/utils/follow-link-config.model';
@@ -257,10 +256,6 @@ export class QualityAssuranceEventDataService extends IdentifiableDataService<Qu
         return this.rdbService.buildFromRequestUUID<QualityAssuranceEventObject>(requestId);
       }),
     );
-  }
-
-  public deleteQAEvent(qaEvent: QualityAssuranceEventData): Observable<RemoteData<NoContent>> {
-    return this.deleteData.delete(qaEvent.id);
   }
 
 }

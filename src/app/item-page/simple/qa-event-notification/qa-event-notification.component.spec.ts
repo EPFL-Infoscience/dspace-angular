@@ -10,7 +10,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { SplitPipe } from 'src/app/shared/utils/split.pipe';
 
-import { APP_DATA_SERVICES_MAP } from '../../../../config/app-config.interface';
 import { RemoteDataBuildService } from '../../../core/cache/builders/remote-data-build.service';
 import { ObjectCacheService } from '../../../core/cache/object-cache.service';
 import { RequestService } from '../../../core/data/request.service';
@@ -44,9 +43,9 @@ describe('QaEventNotificationComponent', () => {
       getSourcesByTarget: () => objPL,
     };
     await TestBed.configureTestingModule({
-      imports: [CommonModule, TranslateModule.forRoot(), QaEventNotificationComponent, SplitPipe],
+      declarations: [QaEventNotificationComponent],
+      imports: [CommonModule, TranslateModule.forRoot(), SplitPipe],
       providers: [
-        { provide: APP_DATA_SERVICES_MAP, useValue: {} },
         { provide: ActivatedRoute, useValue: new ActivatedRouteStub() },
         { provide: QualityAssuranceSourceDataService, useValue: qualityAssuranceSourceDataServiceStub },
         { provide: RequestService, useValue: {} },

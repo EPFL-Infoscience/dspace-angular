@@ -6,7 +6,7 @@ import { ActivatedRoute, Router, } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { of as observableOf } from 'rxjs';
+import { of, of as observableOf } from 'rxjs';
 
 import { AuthService } from '../../../core/auth/auth.service';
 import { DSONameService } from '../../../core/breadcrumbs/dso-name.service';
@@ -31,6 +31,7 @@ import {
 import { BitstreamRequestACopyPageComponent } from './bitstream-request-a-copy-page.component';
 import { RouterStub } from '../../../shared/testing/router.stub';
 import { NotificationsServiceStub } from '../../../shared/testing/notifications-service.stub';
+import { HALEndpointService } from '../../../core/shared/hal-endpoint.service';
 
 describe('BitstreamRequestACopyPageComponent', () => {
   let component: BitstreamRequestACopyPageComponent;
@@ -49,6 +50,10 @@ describe('BitstreamRequestACopyPageComponent', () => {
   let item: Item;
   let bitstream: Bitstream;
   let eperson;
+
+  const halEndpointServiceStub = {
+    getEndpoint: () => of('http://localhost:8080/server/api/adminfile/languages{?lang}'),
+  };
 
   function init() {
     eperson = Object.assign(new EPerson(), {
@@ -132,6 +137,7 @@ describe('BitstreamRequestACopyPageComponent', () => {
         {provide: BitstreamDataService, useValue: bitstreamDataService},
         { provide: Store, useValue: provideMockStore() },
         { provide: RequestService, useValue: requestService },
+        {provide: HALEndpointService, useValue: halEndpointServiceStub},
       ]
     })
       .compileComponents();

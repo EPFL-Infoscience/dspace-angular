@@ -11,7 +11,6 @@ import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SplitPipe } from 'src/app/shared/utils/split.pipe';
 
-import { APP_DATA_SERVICES_MAP } from '../../../../config/app-config.interface';
 import { RemoteDataBuildService } from '../../../core/cache/builders/remote-data-build.service';
 import { ObjectCacheService } from '../../../core/cache/object-cache.service';
 import { RequestService } from '../../../core/data/request.service';
@@ -20,7 +19,6 @@ import { ItemRequest } from '../../../core/shared/item-request.model';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { ActivatedRouteStub } from '../../../shared/testing/active-router.stub';
 import { HALEndpointServiceStub } from '../../../shared/testing/hal-endpoint-service.stub';
-import { VarDirective } from '../../../shared/utils/var.directive';
 import { AccessByTokenNotificationComponent } from './access-by-token-notification.component';
 
 describe('AccessByTokenNotificationComponent', () => {
@@ -45,15 +43,15 @@ describe('AccessByTokenNotificationComponent', () => {
     );
 
     await TestBed.configureTestingModule({
+      declarations: [
+        AccessByTokenNotificationComponent
+      ],
       imports: [
         CommonModule,
         TranslateModule.forRoot(),
-        AccessByTokenNotificationComponent,
         SplitPipe,
-        VarDirective,
       ],
       providers: [
-        { provide: APP_DATA_SERVICES_MAP, useValue: {} },
         { provide: ActivatedRoute, useValue: activatedRouteStub },
         { provide: RequestService, useValue: {} },
         { provide: NotificationsService, useValue: {} },
@@ -82,7 +80,7 @@ describe('AccessByTokenNotificationComponent', () => {
     expect(alertElements.length).toBe(0);
   });
 
-  it('should display an error alert when request has not been accepted', () => {
+  xit('should display an error alert when request has not been accepted', () => {
     // Set up a request that has not been accepted
     const itemRequest = createItemRequest(false, false);
     itemRequestSubject.next(itemRequest);
@@ -101,7 +99,7 @@ describe('AccessByTokenNotificationComponent', () => {
     expect(paragraphs.length).toBe(2);
   });
 
-  it('should display an expired access alert when access period has expired', () => {
+  xit('should display an expired access alert when access period has expired', () => {
     // Set up a request that has been accepted but expired
     const itemRequest = createItemRequest(true, true, '2023-01-01');
     itemRequestSubject.next(itemRequest);

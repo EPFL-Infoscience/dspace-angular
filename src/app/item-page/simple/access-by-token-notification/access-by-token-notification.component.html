@@ -22,9 +22,9 @@
                [attr.aria-label]="'bitstream-request-a-copy.access-by-token.alt-text' | translate"><i
         class="fa-solid fa-lock-open"></i></span>{{ 'bitstream-request-a-copy.access-by-token.warning' | translate }}
       </p>
-      <!-- Only  *ngIf="hasValue(itemRequest.accessExpiry) && !itemRequest.accessExpiry.startsWith('+294276')" show the expiry date if it's not null, and doesn't start with the "FOREVER" year -->
+      <!-- Only show the expiry date if it's not null, and doesn't start with the "FOREVER" year -->
       <p
-        *ngIf="hasValue(itemRequest.accessExpiry) && !itemRequest.accessExpiry.startsWith('+294276')">{{ 'bitstream-request-a-copy.access-by-token.expiry-label' | translate }} {{ formatDate(itemRequest.accessExpiry) }}</p>
+        *ngIf="hasValue(itemRequest.accessExpiry) && !itemRequest.accessExpiry.startsWith('+29427')">{{ 'bitstream-request-a-copy.access-by-token.expiry-label' | translate }} {{ formatDate(itemRequest.accessExpiry) }}</p>
     </div>
   </ng-container>
 </ng-container>

@@ -9,6 +9,11 @@ import { AuthorizationDataServiceStub } from '../../../../../../../../../shared/
 import { ConfigurationDataService } from '../../../../../../../../../core/data/configuration-data.service';
 import { createSuccessfulRemoteDataObject$ } from '../../../../../../../../../shared/remote-data.utils';
 import { ConfigurationProperty } from '../../../../../../../../../core/shared/configuration-property.model';
+import { ActivatedRoute } from '@angular/router';
+import { MockActivatedRoute } from '../../../../../../../../../shared/mocks/active-router.mock';
+import { TranslateService } from '@ngx-translate/core';
+import { getMockTranslateService } from '../../../../../../../../../shared/mocks/translate.service.mock';
+import { ActivatedRouteStub } from '../../../../../../../../../shared/testing/active-router.stub';
 
 describe('AttachmentRenderComponent', () => {
   let component: AttachmentRenderComponent;
@@ -16,6 +21,7 @@ describe('AttachmentRenderComponent', () => {
   let configurationDataService: ConfigurationDataService;
 
   beforeEach(async () => {
+    const activatedRoute = new ActivatedRouteStub({}, {itemRequest: 'itemRequest'});
     configurationDataService = jasmine.createSpyObj('configurationDataService', {
       findByPropertyName: createSuccessfulRemoteDataObject$(Object.assign(new ConfigurationProperty(), {
         name: 'request.item.type',
@@ -24,10 +30,13 @@ describe('AttachmentRenderComponent', () => {
     });
 
     await TestBed.configureTestingModule({
-      declarations: [ AttachmentRenderComponent ],
+      declarations: [AttachmentRenderComponent],
       providers: [
         {provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub},
-        {provide: ConfigurationDataService, useValue: configurationDataService}
+        {provide: ConfigurationDataService, useValue: configurationDataService},
+        {provide: ActivatedRoute, useValue: activatedRoute},
+
+        {provide: TranslateService, useValue: getMockTranslateService()}
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })

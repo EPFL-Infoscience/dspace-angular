@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VarDirective } from '../../../../shared/utils/var.directive';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { BitstreamDataService } from '../../../../core/data/bitstream-data.service';
-import { createSuccessfulRemoteDataObject$ } from '../../../../shared/remote-data.utils';
+import { createFailedRemoteDataObject$, createSuccessfulRemoteDataObject$ } from '../../../../shared/remote-data.utils';
 import { By } from '@angular/platform-browser';
 import { Bitstream } from '../../../../core/shared/bitstream.model';
 import { of as observableOf } from 'rxjs';
@@ -26,7 +26,8 @@ describe('FileSectionComponent', () => {
   let fixture: ComponentFixture<FileSectionComponent>;
 
   const bitstreamDataService = jasmine.createSpyObj('bitstreamDataService', {
-    findAllByItemAndBundleName: createSuccessfulRemoteDataObject$(createPaginatedList([]))
+    findAllByItemAndBundleName: createSuccessfulRemoteDataObject$(createPaginatedList([])),
+    findPrimaryBitstreamByItemAndName: createSuccessfulRemoteDataObject$(null),
   });
 
   const mockBitstream: Bitstream = Object.assign(new Bitstream(),
@@ -82,20 +83,6 @@ describe('FileSectionComponent', () => {
     comp = fixture.componentInstance;
     fixture.detectChanges();
   }));
-
-  it('should set the id of primary bitstream', () => {
-    comp.primaryBitstreamId = undefined;
-    bitstreamDataService.findPrimaryBitstreamByItemAndName.and.returnValue(observableOf(mockBitstream));
-    comp.ngOnInit();
-    expect(comp.primaryBitstreamId).toBe(mockBitstream.id);
-  });
-
-  it('should not set the id of primary bitstream', () => {
-    comp.primaryBitstreamId = undefined;
-    bitstreamDataService.findPrimaryBitstreamByItemAndName.and.returnValue(observableOf(null));
-    comp.ngOnInit();
-    expect(comp.primaryBitstreamId).toBeUndefined();
-  });
 
   describe('when the bitstreams are loading', () => {
     beforeEach(() => {

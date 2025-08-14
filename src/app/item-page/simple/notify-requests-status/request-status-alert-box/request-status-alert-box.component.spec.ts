@@ -33,7 +33,8 @@ describe('RequestStatusAlertBoxComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), RequestStatusAlertBoxComponent],
+      declarations: [RequestStatusAlertBoxComponent],
+      imports: [TranslateModule.forRoot()],
     }).overrideComponent(RequestStatusAlertBoxComponent, {
       remove: {
         imports: [TruncatablePartComponent, TruncatableComponent],
