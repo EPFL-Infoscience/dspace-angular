@@ -4,7 +4,6 @@ import { AuthBlockingGuard } from './core/auth/auth-blocking.guard';
 
 import { AuthenticatedGuard } from './core/auth/authenticated.guard';
 
-
 import {
   ACCESS_CONTROL_MODULE_PATH,
   ADMIN_MODULE_PATH,
@@ -46,6 +45,7 @@ import { ThemedPageErrorComponent } from './page-error/themed-page-error.compone
 import { ForgotPasswordCheckGuard } from './core/rest-property/forgot-password-check-guard.guard';
 import { SUGGESTION_MODULE_PATH } from './suggestions-page/suggestions-page-routing-paths';
 import { RedirectService } from './redirect/redirect.service';
+import { environment } from '../environments/environment';
 import {
   CollectionAdministratorGuard
 } from './core/data/feature-authorization/feature-authorization-guard/collection-administrator.guard';
@@ -53,8 +53,6 @@ import { DEDUPLICATION_PATH } from './admin/admin-routing-paths';
 import {
   GenericAdministratorGuard
 } from './core/data/feature-authorization/feature-authorization-guard/generic-administrator-guard';
-
-
 
 @NgModule({
   imports: [
@@ -191,9 +189,20 @@ import {
               .then((m) => m.AdminDeduplicationPageModule),
           },
           {
+            path: 'standard-login',
+            loadChildren: () => import('./login-page/login-page.module').then((m) => m.LoginPageModule),
+            data: {
+              isBackDoor: true,
+            },
+            canMatch: [() => environment.auth.disableStandardLogin],
+          },
+          {
             path: 'login',
-            loadChildren: () => import('./login-page/login-page.module')
-              .then((m) => m.LoginPageModule)
+            loadChildren: () => import('./login-page/login-page.module').then((m) => m.LoginPageModule),
+            data: {
+              isBackDoor: false,
+            },
+            canMatch: [() => !environment.auth.disableStandardLogin],
           },
           {
             path: 'external-login/:token',

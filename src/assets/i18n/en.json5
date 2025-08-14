@@ -1029,9 +1029,7 @@
 
   "bitstream-request-a-copy.submit.error": "Something went wrong with submitting the item request.",
 
-  "bitstream-request-a-copy.submit.info": "EPFL authenticated users can download restricted access files",
-
-
+  "bitstream-request-a-copy.submit.info": "<div class=\"alert alert-primary\"><strong>EPFL authenticated</strong> users can access restricted files by clicking the \"<strong>Log in</strong>\" button in the top menu, then selecting the green button <kbd>Log in with EPFL account</kbd>. Once logged in, restricted files will be directly available for download.</div>",
 
   "bitstream-request-a-copy.access-by-token.warning": "You are viewing this item with the secure access link provided to you by the author or repository staff. It is important not to share this link to unauthorised users.",
 
@@ -1922,6 +1920,8 @@
 
   "deduplication.compare.workspace-404": "Workspace item does not exist!",
 
+  "deduplication.merge.process.complete": "Update references from merged items",
+
   "deduplication.signature.loading": "Loading signatures ...",
 
   "deduplication.signature.no-data": "No signatures found.",
@@ -1952,7 +1952,7 @@
 
   "deduplication.sets.title": "Deduplication",
 
-  "deduplication.sets.subtitle": "The page shows potentially duplicate groups by signature. You can select the items to compare or reject. The system records the action \"No duplicate\" so the match is not show in the future.",
+  "deduplication.sets.subtitle": "The page shows potentially duplicate groups by signature. You can select the items to compare or reject. The system records the action \"No duplicate\" so the match is not show in the future. <br> <b> Please note that the metadata refer to the items only; no operation will be executed on the bitstreams' metadata.</b><br> ",
 
   "deduplication.sets.message.no-data": "No sets found for this signature.",
 
@@ -2285,6 +2285,8 @@
 
   "cris-layout.advanced-attachment.dc.title": "Name",
 
+  "cris-layout.advanced-attachment.oaire.version": "Version",
+
   "cris-layout.advanced-attachment.size": "Size",
 
   "cris-layout.advanced-attachment.checksum": "Checksum",
@@ -2303,7 +2305,7 @@
 
   "cris-layout.advanced-attachment.requestACopy": "Request a copy",
 
-  "cris-layout.advanced-attachment.requestACopy.tooltip": "EPFL authenticated users can download restricted access files",
+  "cris-layout.advanced-attachment.requestACopy.tooltip": "<div class=\"alert alert-primary\"><strong>EPFL authenticated users</strong> can access restricted files by clicking the \"<strong>Log in</strong>\" button in the top menu, then selecting the green button <kbd>Log in with EPFL account</kbd>. Once logged in, restricted files will be directly available for download.</div>",
 
   "cris-layout.advanced-attachment.viewMore": "View More",
 
@@ -4046,7 +4048,7 @@
 
   "item.preview.dc.identifier": "Identifier:",
 
-  "item.preview.dc.relation.ispartof": "Journal or Series",
+  "item.preview.dc.relation.ispartof": "Published in",
 
   "item.preview.dc.identifier.doi": "DOI",
 
@@ -4080,7 +4082,7 @@
 
   "item.preview.oairecerif.oamandate": "OA Mandate",
 
-  "item.preview.organization.parentOrganization": "Parent Organization",
+  "item.preview.organization.parentOrganization": "Parent Unit",
 
   "item.preview.person.familyName": "Surname:",
 
@@ -4459,13 +4461,13 @@
 
   "login.form.new-user": "New user? Click here to register.",
 
-  "login.form.oidc": "Log in with OIDC",
+  "login.form.oidc": "Log in with EPFL account",
 
   "login.form.orcid": "Log in with ORCID",
 
   "login.form.password": "Password",
 
-  "login.form.shibboleth": "Log in with EPFL account",
+  "login.form.shibboleth": "Log-in with EPFL account",
 
   "login.form.submit": "Log in with local account",
 
@@ -4784,6 +4786,7 @@
 
   "metadata-export-search.submit.error": "Starting the export has failed",
 
+  "metric-badges.wosPersonCitation": "Citations Web Of Science©",
 
   "metric-badges.scopusCitation": "Scopus© Citations",
 
@@ -9303,7 +9306,7 @@
 
   "layout.field.label.Publication.epfl.url": "Additional link",
 
-  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Publication.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
 
@@ -9367,7 +9370,7 @@
 
   "layout.field.label.Publication.epfl.url": "Additional link",
 
-  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Publication.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
 
@@ -9435,7 +9438,7 @@
 
   "layout.field.label.Publication.epfl.url": "Additional link",
 
-  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Publication.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
 
@@ -9483,7 +9486,7 @@
 
   "layout.field.label.Publication.epfl.url": "Additional link",
 
-  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Publication.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
 
@@ -9513,7 +9516,7 @@
 
   "layout.field.label.Publication.epfl.url": "Additional link",
 
-  "layout.field.label.Publication.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Publication.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   "layout.field.label.Publication.dc.description.sponsorship": "EPFL units",
 
@@ -9625,7 +9628,7 @@
 
   "layout.field.label.Product.epfl.url": "Additional link",
 
-  "layout.field.label.Product.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Product.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   "layout.field.label.Product.dc.description.sponsorship": "EPFL units",
 
@@ -9657,7 +9660,7 @@
 
   "layout.field.label.Product.epfl.url": "Additional link",
 
-  "layout.field.label.Product.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Product.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   "layout.field.label.Product.dc.description.sponsorship": "EPFL units",
 
@@ -9681,7 +9684,7 @@
 
   "layout.field.label.Product.epfl.url": "Additional link",
 
-  "layout.field.label.Product.epfl.peerreviewed": "Peer reviewed",
+  "layout.field.label.Product.epfl.peerreviewed": "Editorial or Peer reviewed",
 
   "layout.field.label.Product.dc.description.sponsorship": "EPFL units",
 
@@ -10002,11 +10005,11 @@
   "layout.field.label.OrgUnit.[organization.address.addressLocality]": "City",
   "layout.field.label.OrgUnit.[dc.description.abstract]": "Description",
   "layout.field.label.OrgUnit.[crisou.director]": "Director",
-  "layout.field.label.OrgUnit.[organization.parentOrganization]": "Parent Organisation",
+  "layout.field.label.OrgUnit.[organization.parentOrganization]": "Parent Unit",
   "layout.field.label.OrgUnit.[organization.foundingDate]": "Founding Date",
   "layout.field.label.OrgUnit.[crisou.boards]": "Boards",
   "layout.field.label.OrgUnit.[organization.identifier.ror]": "ROR Identifier",
-  "layout.field.label.OrgUnit.[dc.title]": "Organisation Name",
+  "layout.field.label.OrgUnit.[dc.title]": "Unit Name",
 
   "layout.field.label.Project.[dc.description.abstract]": "Description",
   "layout.field.label.Project.[dc.subject]": "Keywords",
@@ -10080,7 +10083,7 @@
   "layout.field.label.Equipment.[dc.title]": "Name",
   "layout.field.label.Equipment.[crisequipment.ownerou]": "Owner Organisation",
 
-  "layout.field.label.Publication.[dc.relation.ispartof]": "Journal",
+  "layout.field.label.Publication.[dc.relation.ispartof]": "Published in",
   "layout.field.label.Publication.[dc.relation.issn]": "ISSN",
   "layout.field.label.Publication.[dc.date.issued]": "Date Issued",
   "layout.field.label.Publication.[dc.contributor.author]": "Author(s)",
@@ -10093,7 +10096,7 @@
   "layout.field.label.Publication.BITSTREAM": "File(s)",
 
   "layout.field.label.Product.[dc.title]": "Title",
-  "layout.field.label.Product.[dc.relation.ispartof]": "Journal",
+  "layout.field.label.Product.[dc.relation.ispartof]": "Published in",
   "layout.field.label.Product.[dc.relation.issn]": "ISSN",
   "layout.field.label.Product.[dc.date.issued]": "Date Issued",
   "layout.field.label.Product.[dc.contributor.author]": "Author(s)",
@@ -10105,7 +10108,7 @@
   "layout.field.label.Product.BITSTREAM": "File(s)",
 
   "layout.field.label.Patent.[dc.title]": "Title",
-  "layout.field.label.Patent.[dc.relation.ispartof]": "Journal",
+  "layout.field.label.Patent.[dc.relation.ispartof]": "Published in",
   "layout.field.label.Patent.[dc.relation.issn]": "ISSN",
   "layout.field.label.Patent.[dc.date.issued]": "Date Issued",
   "layout.field.label.Patent.[dc.contributor.author]": "Author(s)",

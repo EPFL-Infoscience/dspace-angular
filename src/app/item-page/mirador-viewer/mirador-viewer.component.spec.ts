@@ -4,7 +4,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateLoaderMock } from '../../shared/mocks/translate-loader.mock';
 import { BitstreamDataService } from '../../core/data/bitstream-data.service';
 import { createRelationshipsObservable } from '../simple/item-types/shared/item.component.spec';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, PLATFORM_ID } from '@angular/core';
 import { MetadataMap } from '../../core/shared/metadata.models';
 import { Item } from '../../core/shared/item.model';
 import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
@@ -13,6 +13,10 @@ import { of as observableOf } from 'rxjs';
 import { MiradorViewerService } from './mirador-viewer.service';
 import { HostWindowService } from '../../shared/host-window.service';
 import { BundleDataService } from '../../core/data/bundle-data.service';
+import { NativeWindowRef, NativeWindowService } from '../../core/services/window.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RouterStub } from '../../shared/testing/router.stub';
+import { MockActivatedRoute } from '../../shared/mocks/active-router.mock';
 
 
 function getItem(metadata: MetadataMap) {
@@ -48,7 +52,11 @@ describe('MiradorViewerComponent with search', () => {
       providers: [
         { provide: BitstreamDataService, useValue: {} },
         { provide: BundleDataService, useValue: {} },
-        { provide: HostWindowService, useValue: mockHostWindowService }
+        { provide: HostWindowService, useValue: mockHostWindowService },
+        { provide: NativeWindowService, useValue: new NativeWindowRef() },
+        { provide: Location, useValue: {} },
+        { provide: Router, useClass: RouterStub },
+        { provide: ActivatedRoute, useValue: new MockActivatedRoute() },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(MiradorViewerComponent, {
@@ -111,14 +119,18 @@ describe('MiradorViewerComponent with multiple images', () => {
       providers: [
         { provide: BitstreamDataService, useValue: {} },
         { provide: BundleDataService, useValue: {} },
-        { provide: HostWindowService, useValue: mockHostWindowService  }
+        { provide: HostWindowService, useValue: mockHostWindowService  },
+        { provide: NativeWindowService, useValue: new NativeWindowRef() },
+        { provide: Location, useValue: {} },
+        { provide: Router, useClass: RouterStub },
+        { provide: ActivatedRoute, useValue: new MockActivatedRoute() },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(MiradorViewerComponent, {
       set: {
         providers: [
           { provide: MiradorViewerService, useValue: viewerService }
-          ]
+        ]
       }
     }).compileComponents();
   }));
@@ -171,7 +183,11 @@ describe('MiradorViewerComponent with a single image', () => {
       providers: [
         { provide: BitstreamDataService, useValue: {} },
         { provide: BundleDataService, useValue: {} },
-        { provide: HostWindowService, useValue: mockHostWindowService }
+        { provide: HostWindowService, useValue: mockHostWindowService },
+        { provide: NativeWindowService, useValue: new NativeWindowRef() },
+        { provide: Location, useValue: {} },
+        { provide: Router, useClass: RouterStub },
+        { provide: ActivatedRoute, useValue: new MockActivatedRoute() },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(MiradorViewerComponent, {
@@ -200,7 +216,60 @@ describe('MiradorViewerComponent with a single image', () => {
     it('should call mirador service image count', () => {
       expect(viewerService.getImageCount).toHaveBeenCalled();
     });
+  });
 
+});
+
+describe('MiradorViewerComponent on browser in prod mode', () => {
+  let comp: MiradorViewerComponent;
+  let fixture: ComponentFixture<MiradorViewerComponent>;
+  const viewerService = jasmine.createSpyObj('MiradorViewerService', ['showEmbeddedViewer', 'getImageCount']);
+
+  beforeEach(waitForAsync(() => {
+    viewerService.showEmbeddedViewer.and.returnValue(true);
+    viewerService.getImageCount.and.returnValue(observableOf(1));
+    TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot({
+        loader: {
+          provide: TranslateLoader,
+          useClass: TranslateLoaderMock
+        }
+      })],
+      declarations: [MiradorViewerComponent],
+      providers: [
+        { provide: BitstreamDataService, useValue: {} },
+        { provide: BundleDataService, useValue: {} },
+        { provide: HostWindowService, useValue: mockHostWindowService },
+        { provide: NativeWindowService, useValue: new NativeWindowRef() },
+        { provide: Location, useValue: {} },
+        { provide: Router, useClass: RouterStub },
+        { provide: ActivatedRoute, useValue: new MockActivatedRoute() },
+        { provide: PLATFORM_ID, useValue: 'browser' },
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
+    }).overrideComponent(MiradorViewerComponent, {
+      set: {
+        providers: [
+          { provide: MiradorViewerService, useValue: viewerService }
+        ]
+      }
+    }).compileComponents();
+  }));
+
+  describe('viewer init', () => {
+    beforeEach(waitForAsync(() => {
+      fixture = TestBed.createComponent(MiradorViewerComponent);
+      comp = fixture.componentInstance;
+      comp.object = getItem(noMetadata);
+      fixture.detectChanges();
+    }));
+
+    it('should set iframe listener', () => {
+      const compAsAny = comp as any;
+      spyOn(compAsAny._window.nativeWindow, 'addEventListener');
+      compAsAny.ngOnInit();
+      expect(compAsAny._window.nativeWindow.addEventListener).toHaveBeenCalled();
+    });
   });
 
 });
@@ -222,7 +291,7 @@ describe('MiradorViewerComponent in development mode', () => {
       })],
       declarations: [MiradorViewerComponent],
       providers: [
-        { provide: BitstreamDataService, useValue: {} }
+        { provide: BitstreamDataService, useValue: {} },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(MiradorViewerComponent, {
@@ -230,7 +299,11 @@ describe('MiradorViewerComponent in development mode', () => {
         providers: [
           { provide: MiradorViewerService, useValue: viewerService },
           { provide: BundleDataService, useValue: {} },
-          { provide: HostWindowService, useValue: mockHostWindowService  }
+          { provide: HostWindowService, useValue: mockHostWindowService  },
+          { provide: NativeWindowService, useValue: new NativeWindowRef() },
+          { provide: Location, useValue: {} },
+          { provide: Router, useClass: RouterStub },
+          { provide: ActivatedRoute, useValue: new MockActivatedRoute() },
         ]
       }
     }).compileComponents();

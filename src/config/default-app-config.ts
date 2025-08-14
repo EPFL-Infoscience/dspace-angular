@@ -43,6 +43,7 @@ import { MetadataLinkViewPopoverDataConfig } from './metadata-link-view-popoverd
 import { IdentifierSubtypesConfig, IdentifierSubtypesIconPositionEnum } from './identifier-subtypes-config.interface';
 import { DatadogRumConfig } from './datadog-rum-config.interfaces';
 import { LocationConfig } from './location-config.interface';
+import {LuckySearchRedirectConfig} from './lucky-search-redirect-config';
 
 export class DefaultAppConfig implements AppConfig {
   production = false;
@@ -140,7 +141,8 @@ export class DefaultAppConfig implements AppConfig {
       // If the rest token expires in less than this amount of time, it will be refreshed automatically.
       // This is independent from the idle warning.
       timeLeftBeforeTokenRefresh: 2 * 60 * 1000 // 2 minutes
-    }
+    },
+    disableStandardLogin: true, // Enable the standard login form
   };
 
   // Form settings
@@ -387,7 +389,7 @@ export class DefaultAppConfig implements AppConfig {
       pageSize: 5
     },
     // The maximum number of metadata values to add to the metatag list of the item page
-    metatagLimit: 20,
+    metatagLimit: 100,
 
     // The maximum number of values for repeatable metadata to show in the full item
     metadataLimit: 20
@@ -825,7 +827,7 @@ export class DefaultAppConfig implements AppConfig {
   };
 
   advancedAttachmentRendering: AdvancedAttachmentRenderingConfig = {
-    showViewerOnSameItemPage: false,
+    showViewerOnSameItemPage: true,
     pagination: {
       enabled: true,
       elementsPerPage: 2,
@@ -960,5 +962,10 @@ export class DefaultAppConfig implements AppConfig {
       reverseSearchEndpoint: 'https://nominatim.openstreetmap.org/reverse',
       statusEndpoint: 'https://nominatim.openstreetmap.org/status',
     }
+  };
+
+  luckySearchRedirects: LuckySearchRedirectConfig = {
+    'legacy-id': 301,
+    default: 302
   };
 }

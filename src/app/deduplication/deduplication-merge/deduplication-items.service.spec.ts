@@ -24,11 +24,13 @@ describe('DeduplicationItemsService', () => {
   let itemDataService: any;
   let mergeService: any;
   let submissionFieldsService: any;
-  let notificationSerice: any;
+  let notificationService: any;
   let itemRD$: any;
   let testItem: Item;
   let testCollection;
-  const mergeObj = new MergeObject();
+  const mergeObj = Object.assign(new MergeObject() , {
+    processId: 1234,
+  });
   const submissionObj = new SubmissionFieldsObject();
   const mergeObjRD$ = createSuccessfulRemoteDataObject$(mergeObj);
   const submissionObjRD$ = createSuccessfulRemoteDataObject$(submissionObj);
@@ -43,7 +45,7 @@ describe('DeduplicationItemsService', () => {
     setId: 'title:d4b9185f91391c0574f4c3dbdd6fa7d3',
     bitstreams: [],
     mergedItems: [],
-    metadata: []
+    metadata: [],
   });
 
   function init() {
@@ -91,7 +93,7 @@ describe('DeduplicationItemsService', () => {
       getSubmissionFields: createSuccessfulRemoteDataObject$(new SubmissionFieldsObject()),
     };
 
-    notificationSerice = new NotificationsServiceStub();
+    notificationService = new NotificationsServiceStub();
   }
 
   beforeEach(waitForAsync(async () => {
@@ -111,7 +113,7 @@ describe('DeduplicationItemsService', () => {
       itemDataService,
       mergeService,
       submissionFieldsService,
-      notificationSerice,
+      notificationService,
       getMockTranslateService()
     );
     serviceAsAny = service;
@@ -177,5 +179,14 @@ describe('DeduplicationItemsService', () => {
       });
       expect(result).toBeObservable(expected);
     });
+
+    it('should notify the success and check for the related process notification', (done) => {
+      service.mergeData(setItemObj, itemUUID).subscribe(() => {
+        expect(notificationService.process).toHaveBeenCalled();
+        expect(notificationService.success).toHaveBeenCalled();
+        done();
+      });
+    });
+
   });
 });

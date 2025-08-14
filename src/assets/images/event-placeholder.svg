@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Calque_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 125.35 161.35">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-width: .25px;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        stroke: #000;
+      }
+
+      .cls-1, .cls-3 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill: #fff;
+        stroke-width: .23px;
+      }
+
+      .cls-2, .cls-3, .cls-4 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-3 {
+        stroke-width: 3px;
+      }
+
+      .cls-4 {
+        stroke: #fff;
+        stroke-width: 1.87px;
+      }
+    </style>
+  </defs>
+  <rect class="cls-1" y="0" width="125.35" height="161.35"/>
+  <g>
+    <rect x="19.9" y="107.2" width="13.17" height="13.17"/>
+    <rect x="38" y="107.2" width="13.17" height="13.17"/>
+    <rect x="56.09" y="107.2" width="13.17" height="13.17"/>
+    <rect x="74.19" y="107.2" width="13.17" height="13.17"/>
+    <rect x="92.28" y="107.2" width="13.17" height="13.17"/>
+  </g>
+  <rect x="11.15" y="38.76" width="103.06" height="95.96"/>
+  <rect class="cls-2" x="16.19" y="68.17" width="92.98" height="57.59"/>
+  <rect x="19.9" y="90.38" width="13.17" height="13.17"/>
+  <rect class="cls-3" x="38" y="90.38" width="13.17" height="13.17"/>
+  <rect x="56.09" y="90.38" width="13.17" height="13.17"/>
+  <rect x="74.19" y="90.38" width="13.17" height="13.17"/>
+  <rect x="92.28" y="90.38" width="13.17" height="13.17"/>
+  <rect x="56.09" y="73.57" width="13.17" height="13.17"/>
+  <rect x="74.19" y="73.57" width="13.17" height="13.17"/>
+  <rect x="92.28" y="73.57" width="13.17" height="13.17"/>
+  <rect class="cls-4" x="28.47" y="26.63" width="10.41" height="24.27"/>
+  <rect class="cls-4" x="87.18" y="26.63" width="10.41" height="24.27"/>
+  <g>
+    <rect x="19.9" y="107.2" width="13.17" height="13.17"/>
+    <rect x="38" y="107.2" width="13.17" height="13.17"/>
+    <rect x="56.09" y="107.2" width="13.17" height="13.17"/>
+    <rect x="74.19" y="107.2" width="13.17" height="13.17"/>
+    <rect x="92.28" y="107.2" width="13.17" height="13.17"/>
+  </g>
+</svg>
