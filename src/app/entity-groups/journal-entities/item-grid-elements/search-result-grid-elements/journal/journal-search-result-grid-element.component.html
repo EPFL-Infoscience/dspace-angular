@@ -8,14 +8,18 @@
        [attr.rel]="(linkType == linkTypes.ExternalLink) ? 'noopener noreferrer' : null" [routerLink]="[itemPageRoute]"
        class="card-img-top full-width" [attr.title]="'search.results.view-result' | translate">
       <div>
-        <ds-themed-thumbnail [thumbnail]="dso?.thumbnail | async" [limitWidth]="false">
+        <ds-themed-thumbnail [defaultImage]="'assets/images/journal-placeholder.svg'"
+                             [thumbnail]="thumbnail$ | async"
+                             [limitWidth]="false">
         </ds-themed-thumbnail>
       </div>
     </a>
     <span *ngIf="linkType == linkTypes.None" class="card-img-top full-width">
             <div>
-                <ds-themed-thumbnail [thumbnail]="dso?.thumbnail | async" [limitWidth]="false">
-                </ds-themed-thumbnail>
+                <ds-themed-thumbnail [defaultImage]="'assets/images/journal-placeholder.svg'"
+                                     [thumbnail]="thumbnail$ | async"
+                                     [limitWidth]="false">
+        </ds-themed-thumbnail>
             </div>
         </span>
     <div class="card-body">

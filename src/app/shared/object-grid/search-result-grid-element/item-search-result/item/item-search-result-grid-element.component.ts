@@ -105,6 +105,14 @@ export class ItemSearchResultGridElementComponent extends SearchResultGridElemen
         this.thumbnailAlt = 'thumbnail.patent.alt';
 
         break;
+
+      case 'JOURNAL':
+              this.placeholder = 'thumbnail.journal.placeholder';
+              this.defaultImage = 'assets/images/journal-placeholder.svg';
+              this.thumbnailAlt = 'thumbnail.journal.alt';
+
+              break;
+
       default:
         this.placeholder = 'thumbnail.default.placeholder';
         this.defaultImage = 'assets/images/file-placeholder.svg';
