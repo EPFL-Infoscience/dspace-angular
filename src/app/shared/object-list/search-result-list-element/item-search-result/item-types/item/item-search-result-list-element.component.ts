@@ -143,6 +143,13 @@ export class ItemSearchResultListElementComponent extends SearchResultListElemen
         this.thumbnailAlt = 'thumbnail.patent.alt';
 
         break;
+
+      case 'EVENT':
+        this.placeholder = 'thumbnail.event.placeholder';
+        this.defaultImage = 'assets/images/event-placeholder.svg';
+        this.thumbnailAlt = 'thumbnail.event.alt';
+
+        break;
       default:
         this.placeholder = 'thumbnail.default.placeholder';
         this.defaultImage = 'assets/images/file-placeholder.svg';
