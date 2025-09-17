@@ -10112,7 +10112,7 @@
   "layout.field.label.Patent.[dc.relation.issn]": "ISSN",
   "layout.field.label.Patent.[dc.date.issued]": "Date Issued",
   "layout.field.label.Patent.[dc.contributor.author]": "Author(s)",
-  "layout.field.label.Patent.[dc.identifier.patentno]": "DOI",
+  "layout.field.label.Patent.[dc.identifier.patentno]": "Identifier",
   "layout.field.label.Patent.[dc.description.abstract]": "Abstract",
   "layout.field.label.Patent.[dc.relation.project]": "Project(s)",
   "layout.field.label.Patent.[dc.relation.funding]": "Funding(s)",
