@@ -19,6 +19,7 @@ import { createPaginatedList } from '../../shared/testing/utils.test';
 import { mockSetObject } from '../../shared/mocks/deduplication.mock';
 import { cold } from 'jasmine-marbles';
 import { PaginatedList } from '../../core/data/paginated-list.model';
+import { Item } from '../../core/shared/item.model';
 
 describe('DeduplicationSetsService', () => {
   let service: DeduplicationSetsService;
@@ -91,7 +92,13 @@ describe('DeduplicationSetsService', () => {
       ];
       findListOptions.searchParams.push(new RequestParam('rule', rule));
 
-      expect(serviceAsAny.deduplicationRestService.getSetsPerSignature).toHaveBeenCalledWith(findListOptions, followLink('items', {}, followLink('bundles', {}, followLink('bitstreams')), followLink('owningCollection')));
+      const followLinks = [
+        followLink<SetObject>('items', { isOptional: true },
+          followLink<Item>('owningCollection', { isOptional: true }),
+        ) as any
+      ];
+
+      expect(serviceAsAny.deduplicationRestService.getSetsPerSignature).toHaveBeenCalledWith(findListOptions, ...followLinks);
 
       const expected = cold('(a|)', {
         a: setObjectPL

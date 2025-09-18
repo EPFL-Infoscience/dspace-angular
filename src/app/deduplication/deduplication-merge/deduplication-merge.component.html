@@ -19,7 +19,7 @@
       <ds-loading message="{{ 'loading.default' | translate }}"> </ds-loading>
     </div>
 
-    <div class="col-md-12 text-center" *ngIf="itemsToCompare?.length == 0">
+    <div class="col-md-12 text-center" *ngIf="itemsToCompare?.length === 0">
       <h4 class="p-3">
         {{ "deduplication.merge.message.no-data" | translate }}
       </h4>

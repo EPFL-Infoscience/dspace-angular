@@ -24,6 +24,8 @@ export class DeduplicationComponent implements OnInit, AfterViewInit {
    */
   public signatures$: Observable<SignatureObject[]>;
 
+  public isLoading$: Observable<boolean>;
+
   constructor(
     private deduplicationStateService: DeduplicationStateService,
   ) { }
@@ -34,6 +36,8 @@ export class DeduplicationComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.signatures$ =
       this.deduplicationStateService.getDeduplicationSignatures();
+
+    this.isLoading$ = this.isSignaturesLoading();
   }
 
   /**
