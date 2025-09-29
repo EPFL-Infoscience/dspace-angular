@@ -422,9 +422,6 @@ export class DeduplicationSetsComponent implements OnInit, OnDestroy {
     this.modalRef.dismissed.subscribe((result) => {
       if (isEqual(result, 'ok')) {
         this.mergeSub = this.getBitstreamsPipe.transform(item).pipe(
-          concatMap((res$: Observable<Bitstream[]>) =>
-            res$.pipe(map((bitstreams: Bitstream[]) => bitstreams))
-          ),
           switchMap(
             (bs: Bitstream[]) => {
               const metadataValues: ItemsMetadataField[] = [];
