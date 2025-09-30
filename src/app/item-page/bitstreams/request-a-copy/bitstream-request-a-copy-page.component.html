@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="requestCopyForm">
     <h1 class="mb-4">{{'bitstream-request-a-copy.header' | translate}}</h1>
     <ds-alert [type]="AlertTypeEnum.Info" [dismissible]="true"
             [content]="'bitstream-request-a-copy.submit.info' | translate"></ds-alert>
@@ -73,7 +73,7 @@
     </form>
 
   <!-- Captcha - to be rendered only if enabled in backend requestitem.cfg -->
-  <ng-container *ngIf="captchaEnabled$ | async">
+  <ng-container *ngIf="(captchaEnabled$ | async) && this.isBrowser">
     <div *ngVar="challengeHref$ | async as href">
       <ds-altcha-captcha autoload="onload" challengeUrl="{{ href }}" (payload)="handlePayload($event)">
       </ds-altcha-captcha>

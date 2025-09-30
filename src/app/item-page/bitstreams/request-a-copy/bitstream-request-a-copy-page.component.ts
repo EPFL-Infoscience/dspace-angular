@@ -1,12 +1,11 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, PLATFORM_ID, OnDestroy, OnInit, Inject } from '@angular/core';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hasValue, isNotEmpty } from '../../../shared/empty.util';
 import { getFirstCompletedRemoteData, getFirstSucceededRemoteDataPayload } from '../../../core/shared/operators';
 import { Bitstream } from '../../../core/shared/bitstream.model';
-import 'altcha';
 
-import { Location, } from '@angular/common';
+import { isPlatformBrowser, Location } from '@angular/common';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators, } from '@angular/forms';
 import { TranslateService, } from '@ngx-translate/core';
 import { combineLatest as observableCombineLatest, Observable, of as observableOf, Subscription, } from 'rxjs';
@@ -56,6 +55,8 @@ export class BitstreamRequestACopyPageComponent implements OnInit, OnDestroy {
   captchaEnabled$: Observable<boolean>;
   challengeHref$: Observable<string>;
 
+  isBrowser: boolean = isPlatformBrowser(this.platformId);
+
   constructor(private location: Location,
               private translateService: TranslateService,
               private route: ActivatedRoute,
@@ -69,10 +70,14 @@ export class BitstreamRequestACopyPageComponent implements OnInit, OnDestroy {
               private bitstreamService: BitstreamDataService,
               private captchaService: ProofOfWorkCaptchaDataService,
               private changeDetectorRef: ChangeDetectorRef,
+              @Inject(PLATFORM_ID) private platformId: Object
   ) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    if (this.isBrowser) {
+      await import('altcha');
+    }
     this.requestCopyForm = this.formBuilder.group({
       name: new UntypedFormControl('', {
         validators: [Validators.required],
