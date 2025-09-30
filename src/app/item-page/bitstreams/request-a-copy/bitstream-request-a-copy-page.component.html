@@ -73,7 +73,7 @@
     </form>
 
   <!-- Captcha - to be rendered only if enabled in backend requestitem.cfg -->
-  <ng-container *ngIf="(captchaEnabled$ | async) && this.isBrowser">
+  <ng-container *ngIf="(captchaEnabled$ | async) && isBrowser">
     <div *ngVar="challengeHref$ | async as href">
       <ds-altcha-captcha autoload="onload" challengeUrl="{{ href }}" (payload)="handlePayload($event)">
       </ds-altcha-captcha>
