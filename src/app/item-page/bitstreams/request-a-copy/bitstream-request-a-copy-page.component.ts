@@ -74,10 +74,7 @@ export class BitstreamRequestACopyPageComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  async ngOnInit(): Promise<void> {
-    if (this.isBrowser) {
-      await import('altcha');
-    }
+  ngOnInit(): void {
     this.requestCopyForm = this.formBuilder.group({
       name: new UntypedFormControl('', {
         validators: [Validators.required],
