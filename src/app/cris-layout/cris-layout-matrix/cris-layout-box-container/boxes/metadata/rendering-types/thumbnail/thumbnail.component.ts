@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 
 import { BehaviorSubject, Observable, combineLatest, of as observableOf, merge } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
@@ -15,6 +15,7 @@ import { getFirstCompletedRemoteData } from '../../../../../../../core/shared/op
 import { PaginatedList } from '../../../../../../../core/data/paginated-list.model';
 import { RemoteData } from '../../../../../../../core/data/remote-data';
 import { getDefaultImageUrlByEntityType } from '../../../../../../../core/shared/image.utils';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -54,7 +55,8 @@ export class ThumbnailComponent extends BitstreamRenderingModelComponent impleme
     @Inject('renderingSubTypeProvider') public renderingSubTypeProvider: string,
     @Inject('tabNameProvider') public tabNameProvider: string,
     protected bitstreamDataService: BitstreamDataService,
-    protected translateService: TranslateService
+    protected translateService: TranslateService,
+    @Inject(PLATFORM_ID) private platformId: string,
   ) {
     super(fieldProvider, itemProvider, renderingSubTypeProvider, tabNameProvider, bitstreamDataService, translateService);
   }
@@ -64,7 +66,9 @@ export class ThumbnailComponent extends BitstreamRenderingModelComponent impleme
    */
   ngOnInit(): void {
     const eType = this.item.firstMetadataValue('dspace.entity.type');
-    this.default$ = getDefaultImageUrlByEntityType(eType);
+    if (isPlatformBrowser(this.platformId)) {
+      this.default$ = getDefaultImageUrlByEntityType(eType);
+    }
     // Gets bitstreams configured to be thumbnails
     combineLatest([
       this.default$,

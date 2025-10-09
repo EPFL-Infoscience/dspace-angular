@@ -41,6 +41,7 @@ import { SvgIconLoaderService } from '../../themes/infoscience/app/svg-icon/svg-
 import { ClientSvgIconLoaderService } from '../../themes/infoscience/app/svg-icon/client-svg-icon-loader.service';
 import { DatadogRumService } from '../../app/shared/datadog-rum/datadog-rum.service';
 import { BrowserDatadogRumService } from '../../app/shared/datadog-rum/browser-datadog-rum.service';
+import 'altcha';
 
 export const REQ_KEY = makeStateKey<string>('req');
 

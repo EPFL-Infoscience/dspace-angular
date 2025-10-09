@@ -1,8 +1,8 @@
 import { CommonModule, Location, } from '@angular/common';
-import { ComponentFixture, TestBed, waitForAsync, } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync, } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute, Router, } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -32,6 +32,9 @@ import { BitstreamRequestACopyPageComponent } from './bitstream-request-a-copy-p
 import { RouterStub } from '../../../shared/testing/router.stub';
 import { NotificationsServiceStub } from '../../../shared/testing/notifications-service.stub';
 import { HALEndpointService } from '../../../core/shared/hal-endpoint.service';
+import { NO_ERRORS_SCHEMA, PLATFORM_ID } from '@angular/core';
+import { VarDirective } from '../../../shared/utils/var.directive';
+import { RouterLinkDirectiveStub } from '../../../shared/testing/router-link-directive.stub';
 
 describe('BitstreamRequestACopyPageComponent', () => {
   let component: BitstreamRequestACopyPageComponent;
@@ -124,7 +127,7 @@ describe('BitstreamRequestACopyPageComponent', () => {
   function initTestbed() {
     TestBed.configureTestingModule({
       imports: [CommonModule, TranslateModule.forRoot(), FormsModule, ReactiveFormsModule],
-      declarations: [BitstreamRequestACopyPageComponent],
+      declarations: [BitstreamRequestACopyPageComponent, RouterLinkDirectiveStub,VarDirective],
       providers: [
         {provide: Location, useValue: location},
         {provide: ActivatedRoute, useValue: activatedRoute},
@@ -138,8 +141,18 @@ describe('BitstreamRequestACopyPageComponent', () => {
         { provide: Store, useValue: provideMockStore() },
         { provide: RequestService, useValue: requestService },
         {provide: HALEndpointService, useValue: halEndpointServiceStub},
-      ]
+        {provide: PLATFORM_ID, useValue: 'browser'},
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
+      .overrideComponent(BitstreamRequestACopyPageComponent, {
+        remove: {
+          imports: [RouterLink]
+        },
+        add: {
+          imports: [RouterLinkDirectiveStub]
+        }
+      })
       .compileComponents();
   }
 
@@ -164,11 +177,14 @@ describe('BitstreamRequestACopyPageComponent', () => {
         init();
         initTestbed();
       }));
-      beforeEach(() => {
+      beforeEach(fakeAsync(() => {
         fixture = TestBed.createComponent(BitstreamRequestACopyPageComponent);
         component = fixture.componentInstance;
+        component.item = new Item();
+        component.bitstream = new Bitstream();
         fixture.detectChanges();
-      });
+        tick();
+      }));
       it('show the form with no values filled in based on the user', () => {
         expect(component.name.value).toEqual('');
         expect(component.email.value).toEqual('');
@@ -183,13 +199,15 @@ describe('BitstreamRequestACopyPageComponent', () => {
         (authService.isAuthenticated as jasmine.Spy).and.returnValue(observableOf(true));
         initTestbed();
       }));
-      beforeEach(() => {
+      beforeEach(fakeAsync(() => {
         fixture = TestBed.createComponent(BitstreamRequestACopyPageComponent);
         component = fixture.componentInstance;
+        component.item = new Item();
+        component.bitstream = new Bitstream();
         fixture.detectChanges();
-      });
+        tick();
+      }));
       it('show the form with values filled in based on the user', () => {
-        fixture.detectChanges();
         expect(component.name.value).toEqual(eperson.name);
         expect(component.email.value).toEqual(eperson.email);
         expect(component.allfiles.value).toEqual('false');
@@ -210,11 +228,13 @@ describe('BitstreamRequestACopyPageComponent', () => {
         };
         initTestbed();
       }));
-      beforeEach(() => {
+      beforeEach(fakeAsync(() => {
         fixture = TestBed.createComponent(BitstreamRequestACopyPageComponent);
         component = fixture.componentInstance;
+        component.item = new Item();
         fixture.detectChanges();
-      });
+        tick();
+      }));
       it('should set the all files value to true and disable the false value', () => {
         expect(component.name.value).toEqual('');
         expect(component.email.value).toEqual('');
@@ -232,11 +252,14 @@ describe('BitstreamRequestACopyPageComponent', () => {
         (authService.isAuthenticated as jasmine.Spy).and.returnValue(observableOf(true));
         initTestbed();
       }));
-      beforeEach(() => {
+      beforeEach(fakeAsync(() => {
         fixture = TestBed.createComponent(BitstreamRequestACopyPageComponent);
         component = fixture.componentInstance;
+        component.item = new Item();
+        component.bitstream = new Bitstream();
         fixture.detectChanges();
-      });
+        tick();
+      }));
       it('should show an alert indicating the user can download the file', () => {
         const alert = fixture.debugElement.query(By.css('.alert')).nativeElement;
         expect(alert.innerHTML).toContain('bitstream-request-a-copy.alert.canDownload');
@@ -250,11 +273,14 @@ describe('BitstreamRequestACopyPageComponent', () => {
         init();
         initTestbed();
       }));
-      beforeEach(() => {
+      beforeEach(fakeAsync(() => {
         fixture = TestBed.createComponent(BitstreamRequestACopyPageComponent);
         component = fixture.componentInstance;
+        component.item = new Item();
+        component.bitstream = new Bitstream();
         fixture.detectChanges();
-      });
+        tick();
+      }));
       it('should take the current form information and submit it', () => {
         component.name.patchValue('User Name');
         component.email.patchValue('user@name.org');
@@ -285,11 +311,14 @@ describe('BitstreamRequestACopyPageComponent', () => {
         (itemRequestDataService.requestACopy as jasmine.Spy).and.returnValue(createFailedRemoteDataObject$());
         initTestbed();
       }));
-      beforeEach(() => {
+      beforeEach(fakeAsync(() => {
         fixture = TestBed.createComponent(BitstreamRequestACopyPageComponent);
         component = fixture.componentInstance;
+        component.item = new Item();
+        component.bitstream = new Bitstream();
         fixture.detectChanges();
-      });
+        tick();
+      }));
       it('should take the current form information and submit it', () => {
         component.name.patchValue('User Name');
         component.email.patchValue('user@name.org');

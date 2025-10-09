@@ -3,13 +3,14 @@
 import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
-  EventEmitter,
+  EventEmitter, Inject,
   Input,
   OnInit,
   Output,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { DOCUMENT } from '@angular/common';
 
 
 @Component({
@@ -40,8 +41,11 @@ export class AltchaCaptchaComponent implements OnInit {
   // The final calculated payload (containing, challenge, salt, number) to be sent with the protected form submission for validation
   @Output() payload = new EventEmitter<string>;
 
+  constructor(@Inject(DOCUMENT) private _document: Document) {
+  }
+
   ngOnInit(): void {
-    document.querySelector('#altcha-widget').addEventListener('statechange', (ev: any) => {
+    this._document.querySelector('#altcha-widget').addEventListener('statechange', (ev: any) => {
       // state can be: unverified, verifying, verified, error
       if (ev.detail.state === 'verified') {
         // payload contains base64 encoded data for the server
