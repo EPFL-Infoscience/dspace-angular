@@ -222,8 +222,8 @@ describe('DeduplicationSetsComponent test suite', () => {
   });
 
   it('retrieveDeduplicationSets should call the service to dispatch a STATE change', () => {
-    comp.ngAfterViewInit();
     comp.sets$ = observableOf([mockSetObject]);
+    comp.ngOnInit();
 
     expect(comp.retrieveDeduplicationSets).toHaveBeenCalled();
     compAsAny.deduplicationStateService

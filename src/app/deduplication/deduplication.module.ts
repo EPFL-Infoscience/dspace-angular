@@ -27,6 +27,10 @@ import { GetBitstreamsPipe } from './pipes/ds-get-bitstreams.pipe';
 import { GetOwningCollectionTitlePipe } from './pipes/get-owning-collection-title.pipe';
 import { TextDiffPipe } from './pipes/text-diff.pipe';
 import { ShowDiffBtnPipe } from './pipes/show-diff-btn.pipe';
+import { HasMapValuePipe } from './pipes/has-map-value.pipe';
+import { GetMapValuePipe } from './pipes/get-map-value.pipe';
+import { GetItemMetadataListPipe } from './pipes/get-item-metadata-list.pipe';
+import { GetFirstMetadataValuePipe } from './pipes/get-first-metadata-value.pipe';
 
 const MODULES = [
   CommonModule,
@@ -51,6 +55,10 @@ const PIPES = [
   GetBitstreamsPipe,
   GetOwningCollectionTitlePipe,
   ShowDiffBtnPipe,
+  HasMapValuePipe,
+  GetMapValuePipe,
+  GetItemMetadataListPipe,
+  GetFirstMetadataValuePipe
 ];
 
 const DIRECTIVES = [];
@@ -86,7 +94,8 @@ const PROVIDERS = [
   ],
   exports: [
     ...COMPONENTS,
-    ...DIRECTIVES
+    ...DIRECTIVES,
+    ...PIPES
   ]
 })
 

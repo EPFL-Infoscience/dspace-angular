@@ -11,9 +11,9 @@
             "deduplication.home.tab.all-signatures" | translate
             }}</a>
           <ng-template ngbNavContent>
-            <ds-loading class="container" *ngIf="isSignaturesLoading() | async"
+            <ds-loading class="container" *ngIf="isLoading$ | async"
               [message]="'deduplication.signature.loading' | translate"></ds-loading>
-            <ds-deduplication-signatures class="container p-0 m-0" *ngIf="!(isSignaturesLoading() | async)"
+            <ds-deduplication-signatures class="container p-0 m-0" *ngIf="!(isLoading$ | async)"
               [signatures]="signatures$" [elementsPerRow]="elementsPerRow">
             </ds-deduplication-signatures>
           </ng-template>

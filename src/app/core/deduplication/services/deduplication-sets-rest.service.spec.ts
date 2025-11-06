@@ -12,7 +12,7 @@ import { RequestEntry } from '../../data/request-entry.model';
 import { DeduplicationSetsRestService } from './deduplication-sets-rest.service';
 import { getMockRequestService } from './../../../shared/mocks/request.service.mock';
 import { HALEndpointServiceStub } from './../../../shared/testing/hal-endpoint-service.stub';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { RemoteData } from '../../data/remote-data';
 import { SetObject } from '../models/set.model';
 import { NoContent } from '../../shared/NoContent.model';
@@ -55,13 +55,17 @@ describe('DeduplicationSetsRestService', () => {
   describe('getSignatures', () => {
     let res: Observable<RemoteData<PaginatedList<SetObject>>>;
     beforeEach(() => {
+      spyOn((service as any).searchData, 'getSearchByHref').and.returnValue(of(endpointURL));
+      spyOn((service as any).searchData, 'findListByHref').and.returnValue(of(endpointURL));
+
       res = service.getSetsPerSignature();
     });
-    it('should proxy the call to getSearchByHref', () => {
+    it('should proxy the call to getSearchByHref', (done) => {
       res.subscribe(
         () => {
-          expect((service as any).searchData.getSearchByHref).toHaveBeenCalledWith(endpointURL, {}, {});
-        }
+          expect((service as any).searchData.getSearchByHref).toHaveBeenCalledWith('findBySignatureAndRule', {});
+          done();
+        },
       );
     });
   });
@@ -69,13 +73,16 @@ describe('DeduplicationSetsRestService', () => {
   describe('findBySignature', () => {
     let res: Observable<RemoteData<PaginatedList<SetObject>>>;
     beforeEach(() => {
+      spyOn((service as any).searchData, 'getSearchByHref').and.returnValue(of(endpointURL));
+      spyOn((service as any).searchData, 'findListByHref').and.returnValue(of({}));
       res = service.getSetsFindBySignature();
     });
-    it('should proxy the call to dataservice.getSearchByHref / findBySignature', () => {
+    it('should proxy the call to dataservice.getSearchByHref / findBySignature', (done) => {
       res.subscribe(
         () => {
-          expect((service as any).searchData.getSearchByHref).toHaveBeenCalledWith(endpointURL, {}, {});
-        }
+          expect((service as any).searchData.getSearchByHref).toHaveBeenCalledWith('findBySignature', {});
+          done();
+        },
       );
     });
   });
@@ -88,7 +95,7 @@ describe('DeduplicationSetsRestService', () => {
     it('should proxy the call to dataservice.getSearchByHref / findBySignature', () => {
       res.subscribe(
         () => {
-           expect(requestService.send).toHaveBeenCalled();
+          expect(requestService.send).toHaveBeenCalled();
         });
     });
   });
