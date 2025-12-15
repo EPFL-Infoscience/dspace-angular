@@ -78,21 +78,9 @@ export class DeduplicationSetsRestService extends IdentifiableDataService<SetObj
     options: FindListOptions = {},
     ...linksToFollow: FollowLinkConfig<SetObject>[]
   ): Observable<RemoteData<PaginatedList<SetObject>>> {
-    const searchmethod = `findBySignatureAndRule`;
     return this.searchData
-      .getSearchByHref(`${searchmethod}`, options, ...linksToFollow)
-      .pipe(
-        take(1),
-        mergeMap((href: string) => {
-          return this.searchData.findListByHref(
-            href,
-            options,
-            false,
-            true,
-            ...linksToFollow
-          );
-        })
-      );
+      .searchBy('findBySignatureAndRule', options, false, true, ...linksToFollow);
+
   }
 
   /**

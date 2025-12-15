@@ -4,7 +4,6 @@ import { Item } from '../../../core/shared/item.model';
 import { ItemsMetadataField } from '../../interfaces/deduplication-merge.models';
 import { WorkflowItem } from '../../../core/submission/models/workflowitem.model';
 import { SubmitDataResponseDefinitionObject } from '../../../core/shared/submit-data-response-definition.model';
-import { Collection } from '../../../core/shared/collection.model';
 import { FeatureID } from '../../../core/data/feature-authorization/feature-id';
 import { AuthorizationDataService } from '../../../core/data/feature-authorization/authorization-data.service';
 import { hasValue } from '../../../shared/empty.util';
@@ -13,25 +12,24 @@ import { TranslateService } from '@ngx-translate/core';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  Component,
-  AfterViewInit,
-  ViewChildren,
-  QueryList,
   ChangeDetectorRef,
-  OnInit,
+  Component,
   OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
 } from '@angular/core';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { SetObject } from '../../../core/deduplication/models/set.model';
 import { DeduplicationStateService } from '../../deduplication-state.service';
-import { map, take, concatMap, switchMap } from 'rxjs/operators';
-import { NgbAccordion, NgbModal, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { concatMap, map, switchMap, take } from 'rxjs/operators';
+import { NgbAccordion, NgbModal, NgbModalRef, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { DeduplicationSetsService } from '../deduplication-sets.service';
 import { NoContent } from '../../../core/shared/NoContent.model';
 import { RemoteData } from '../../../core/data/remote-data';
 import isEqual from 'lodash/isEqual';
 import isNull from 'lodash/isNull';
-import { getFirstCompletedRemoteData, getRemoteDataPayload } from '../../../core/shared/operators';
+import { getFirstCompletedRemoteData } from '../../../core/shared/operators';
 import { ConfigObject } from '../../../core/config/models/config.model';
 import { CookieService } from '../../../core/services/cookie.service';
 import { SelectedItemData } from '../../interfaces/deduplication-sets.models';
@@ -39,14 +37,29 @@ import { DeduplicationItemsService } from '../../deduplication-merge/deduplicati
 import { getEntityPageRoute } from '../../../item-page/item-page-routing-paths';
 import { GetBitstreamsPipe } from '../../pipes/ds-get-bitstreams.pipe';
 import { GetItemStatusListPipe } from '../../pipes/get-item-status-list.pipe';
+import { GetOwningCollectionTitlePipe } from '../../pipes/get-owning-collection-title.pipe';
+import { HasMapValuePipe } from '../../pipes/has-map-value.pipe';
+import { GetMapValuePipe } from '../../pipes/get-map-value.pipe';
+import { GetItemMetadataListPipe } from '../../pipes/get-item-metadata-list.pipe';
+import { GetFirstMetadataValuePipe } from '../../pipes/get-first-metadata-value.pipe';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'ds-deduplication-sets',
   templateUrl: './deduplication-sets.component.html',
   styleUrls: ['./deduplication-sets.component.scss'],
-  providers: [GetBitstreamsPipe, GetItemStatusListPipe],
+  providers: [
+    GetBitstreamsPipe,
+    GetItemStatusListPipe,
+    GetOwningCollectionTitlePipe,
+    HasMapValuePipe,
+    GetMapValuePipe,
+    GetItemMetadataListPipe,
+    GetFirstMetadataValuePipe,
+    TitleCasePipe
+  ],
 })
-export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DeduplicationSetsComponent implements OnInit, OnDestroy {
   /**
    * Accordions references in order to collapse/expand them on click
    * @type {QueryList<NgbAccordion>}
@@ -142,6 +155,14 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
    */
   openedAccordions: string[] = ['panel-0'];
 
+  /**
+   * The modal for importing the entry
+   */
+  modalRef: NgbModalRef;
+
+  isLoading$: Observable<boolean>;
+  showMoreButton$: Observable<boolean>;
+
   private mergeSub: Subscription;
 
   constructor(
@@ -173,20 +194,11 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
       this.deduplicationStateService.getDeduplicationSetsTotals();
     this.isAdmin$ = this.isCurrentUserAdmin();
     this.isCurator$ = this.isCurrentUserCurator();
-    this.chd.detectChanges();
+    this.isLoading$ = this.isSetsLoading();
+    this.showMoreButton$ = this.showMoreButton();
+    this.retrieveDeduplicationSets(false);
   }
 
-  /**
-   * First deduplication sets loading after view initialization.
-   */
-  ngAfterViewInit(): void {
-    this.deduplicationStateService
-      .isDeduplicationSetsLoaded()
-      .pipe(take(1))
-      .subscribe(() => {
-        this.retrieveDeduplicationSets(false);
-      });
-  }
 
   /**
    *  Returns the information about the loading status of the sets (if it's running or not).
@@ -196,32 +208,6 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
     return this.deduplicationStateService.isDeduplicationSetsLoading();
   }
 
-  /**
-   * Returns the information about the loaded status of the sets (if it's finished or not).
-   * @returns {Observable<boolean>}
-   */
-  public isSetsLoaded(): Observable<boolean> {
-    return this.deduplicationStateService.isDeduplicationSetsLoaded();
-  }
-
-  /**
-   * Returns the first metadata value for the given metadata key.
-   * @param items The list of the items
-   * @param key The key to get its value
-   * @returns {string}
-   */
-  getFirstMetadataValue(items: Item[], key: string): string {
-    if (items.length > 0) {
-      const item = items[0];
-      if (hasValue(item) && hasValue(item.metadata)) {
-        const date = item.firstMetadataValue(key);
-        if (hasValue(date)) {
-          return date;
-        }
-      }
-    }
-    return '-';
-  }
 
   /**
    * Returns the metadata values for the given metadata key.
@@ -339,23 +325,6 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
   }
 
   /**
-   * Retrieves the owning collection of the item.
-   * @param item The item for which the collection name is to be retrieved
-   * @returns {Observable<string> } The name of the collection
-   */
-  getItemOwningCollectionName(item: Item): Observable<string> {
-    if (hasValue(item?.owningCollection)) {
-      return item.owningCollection.pipe(
-        getRemoteDataPayload(),
-        map((collection: Collection) =>
-          collection?.metadata['dc.title'][0].value ?? '-')
-      );
-    } else {
-      return of('-');
-    }
-  }
-
-  /**
    * Selects all items in a set.
    */
   selectAllItems(set: SetObject, idx: number) {
@@ -448,7 +417,9 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
       btnClass: 'btn-info',
     };
 
-    this.modalService.open(content).dismissed.subscribe((result) => {
+    this.modalRef = this.modalService.open(content);
+
+    this.modalRef.dismissed.subscribe((result) => {
       if (isEqual(result, 'ok')) {
         this.mergeSub = this.getBitstreamsPipe.transform(item).pipe(
           switchMap(
@@ -789,7 +760,6 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
       this.elementsPerPage,
       skipToNextPage
     );
-    this.chd.detectChanges();
   }
 
   /**
@@ -815,5 +785,13 @@ export class DeduplicationSetsComponent implements OnInit, AfterViewInit, OnDest
 
   ngOnDestroy(): void {
     this.mergeSub?.unsubscribe();
+  }
+
+  trackBySetOrItemId(_index: number, item: SetObject | Item) {
+    return item.id;
+  }
+
+  trackByText(_index: number, text: string) {
+    return text;
   }
 }

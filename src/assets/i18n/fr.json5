@@ -6498,6 +6498,9 @@
   // "item.preview.organization.address.addressCountry": "Country",
   "item.preview.organization.address.addressCountry": "Pays",
 
+  // "item.preview.organization.address.addressLocality": "City",
+  "item.preview.organization.address.addressLocality": "Ville",
+
   // "item.preview.organization.parentOrganization": "Parent Organization",
   "item.preview.organization.parentOrganization": "Unité parente",
 

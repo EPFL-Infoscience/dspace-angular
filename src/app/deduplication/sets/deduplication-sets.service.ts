@@ -18,6 +18,7 @@ import { WorkflowItemDataService } from '../../core/submission/workflowitem-data
 import { hasValue } from '../../shared/empty.util';
 import isEqual from 'lodash/isEqual';
 import isNull from 'lodash/isNull';
+import { Item } from '../../core/shared/item.model';
 
 @Injectable()
 export class DeduplicationSetsService {
@@ -55,8 +56,18 @@ export class DeduplicationSetsService {
       setListOptions.searchParams.push(new RequestParam('rule', rule));
     }
 
+
+    const followLinks = [
+      followLink<SetObject>('items', { isOptional: true },
+        followLink<Item>('owningCollection', { isOptional: true }),
+      ) as any
+    ];
+
     return this.deduplicationRestService
-      .getSetsPerSignature(setListOptions, followLink('items', {}, followLink('bundles', {}, followLink('bitstreams')), followLink('owningCollection')))
+      .getSetsPerSignature(
+        setListOptions,
+        ...followLinks,
+      )
       .pipe(
         getFirstCompletedRemoteData(),
         map((rd: RemoteData<PaginatedList<SetObject>>) => {
