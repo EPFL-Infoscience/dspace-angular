@@ -53,6 +53,7 @@ describe('BitstreamDownloadPageComponent', () => {
     });
 
     fileService = jasmine.createSpyObj('fileService', {
+      retrieveSignedUrl: observableOf(null),
       retrieveFileDownloadLink: observableOf('content-url-with-headers')
     });
 
@@ -114,7 +115,7 @@ describe('BitstreamDownloadPageComponent', () => {
   describe('init', () => {
     beforeEach(waitForAsync(() => {
       init();
-      initTestbed();
+      return initTestbed();
     }));
     beforeEach(() => {
       fixture = TestBed.createComponent(BitstreamDownloadPageComponent);
