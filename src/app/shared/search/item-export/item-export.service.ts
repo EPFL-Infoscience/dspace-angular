@@ -71,10 +71,11 @@ export class ItemExportService {
     format: ItemExportFormat,
     itemList: string[] = [],
   ): Observable<number> {
+    const entityToExport = entityType === 'all' ? '*' : entityType;
     if (molteplicity === ItemExportFormatMolteplicity.SINGLE) {
       return this.itemExportFormatService.doExport(item.uuid, format);
     } else {
-      return this.itemExportFormatService.doExportMulti(entityType, format, searchOptions, itemList);
+      return this.itemExportFormatService.doExportMulti(entityToExport, format, searchOptions, itemList);
     }
   }
 

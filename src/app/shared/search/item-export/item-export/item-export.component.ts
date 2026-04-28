@@ -232,6 +232,7 @@ export class ItemExportComponent implements OnInit, OnDestroy {
             take(1),
             map((list: SelectableListState) => (list?.selection || []).map((entry: SearchResult<any>) => entry?.indexableObject?.id))
           );
+
         list$.pipe(
           switchMap((list: string[]) => {
             return this.itemExportService.submitForm(
@@ -258,15 +259,18 @@ export class ItemExportComponent implements OnInit, OnDestroy {
   }
 
   private canExport(): Observable<boolean> {
-    return this.searchManager.search(
-      Object.assign(new PaginatedSearchOptions({}), this.searchOptions, {
-        fixedFilter: `f.entityType=${this.itemType.label},equals`,
-        pagination: Object.assign(new PaginationComponentOptions(), {
-          id: 'ex' + this.item?.id,
-          pageSize: 1
-        })
+    const shouldShowAllEntities = this.itemType.label === 'all';
+    const searchOptions =  Object.assign(new PaginatedSearchOptions({}), this.searchOptions, {
+      pagination: Object.assign(new PaginationComponentOptions(), {
+        id: 'ex' + this.item?.id,
+        pageSize: 1
       })
-    ).pipe(
+    });
+
+    if (!shouldShowAllEntities) {
+      searchOptions.fixedFilter = `f.entityType=${this.itemType.label},equals`;
+    }
+    return this.searchManager.search(searchOptions).pipe(
       getFirstCompletedRemoteData(),
       map((rd: RemoteData<SearchObjects<DSpaceObject>>) => rd?.payload?.totalElements > 0)
     );
