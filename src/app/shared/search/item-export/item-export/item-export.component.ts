@@ -49,6 +49,8 @@ export class ItemExportComponent implements OnInit, OnDestroy {
   @Input() itemType: ItemType;
   @Input() bulkExportLimit: string;
   @Input() showListSelection: boolean;
+  @Input() discoveryConfig: string;
+
 
   public configuration: ItemExportFormConfiguration;
   public exportForm: FormGroup;
@@ -128,11 +130,11 @@ export class ItemExportComponent implements OnInit, OnDestroy {
         }),
         filter((canExport) => canExport),
         switchMap(() => {
-          return this.itemExportService.initialItemExportFormConfiguration(this.item).pipe(take(1));
+          return this.itemExportService.initialItemExportFormConfiguration(this.item, this.discoveryConfig).pipe(take(1));
         })
       );
     } else {
-      init$ = this.itemExportService.initialItemExportFormConfiguration(this.item).pipe(take(1));
+      init$ = this.itemExportService.initialItemExportFormConfiguration(this.item, this.discoveryConfig).pipe(take(1));
     }
 
     init$.subscribe((configuration: ItemExportFormConfiguration) => {
@@ -169,7 +171,7 @@ export class ItemExportComponent implements OnInit, OnDestroy {
 
   onEntityTypeChange(entityType: string) {
     this.configurationLoaded$.next(false);
-    this.itemExportService.onSelectEntityType(this.configuration.entityTypes, entityType).pipe(take(1)).subscribe((configuration) => {
+    this.itemExportService.onSelectEntityType(this.configuration.entityTypes, entityType, this.discoveryConfig).pipe(take(1)).subscribe((configuration) => {
       this.configuration = configuration;
       this.selectedEntityType = entityType;
       this.exportForm.controls.format.patchValue(this.configuration.format);

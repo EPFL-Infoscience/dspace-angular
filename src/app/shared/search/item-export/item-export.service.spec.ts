@@ -47,7 +47,7 @@ describe('ItemExportService', () => {
 
   beforeEach(() => {
     itemExportFormatService = jasmine.createSpyObj('itemExportFormatService',
-      ['byEntityTypeAndMolteplicity', 'doExport', 'doExportMulti']);
+      ['byEntityTypeAndMolteplicity', 'byConfigurationAndMolteplicity', 'doExport', 'doExportMulti']);
     service = new ItemExportService(itemExportFormatService);
   });
 
@@ -55,6 +55,7 @@ describe('ItemExportService', () => {
 
     beforeEach(() => {
       (itemExportFormatService.byEntityTypeAndMolteplicity as any).and.returnValue(of(ItemExportFormatsMap));
+      (itemExportFormatService.byConfigurationAndMolteplicity as any).and.returnValue(of(ItemExportFormatsMap));
     });
 
     describe('when an item is passed', () => {
@@ -79,18 +80,29 @@ describe('ItemExportService', () => {
     });
 
     describe('when no item are passed ', () => {
-      it('should return the export multiple configuration', (done) => {
-
+      it('should use byEntityTypeAndMolteplicity when no configuration is provided', (done) => {
         const expectedEntityTypes = Object.keys(ItemExportFormatsMap);
 
         service.initialItemExportFormConfiguration(null).subscribe((configuration) => {
+          expect(itemExportFormatService.byEntityTypeAndMolteplicity).toHaveBeenCalledWith(null, ItemExportFormatMolteplicity.MULTIPLE);
+          expect(itemExportFormatService.byConfigurationAndMolteplicity).not.toHaveBeenCalled();
           expect(configuration.entityTypes).toEqual(expectedEntityTypes);
           expect(configuration.entityType).toEqual(null);
           expect(configuration.formats).toEqual([]);
           expect(configuration.format).toEqual(null);
           done();
         });
+      });
 
+      it('should use byConfigurationAndMolteplicity when a configuration is provided', (done) => {
+        const expectedEntityTypes = Object.keys(ItemExportFormatsMap);
+
+        service.initialItemExportFormConfiguration(null, 'my-config').subscribe((configuration) => {
+          expect(itemExportFormatService.byConfigurationAndMolteplicity).toHaveBeenCalledWith('my-config', ItemExportFormatMolteplicity.MULTIPLE);
+          expect(itemExportFormatService.byEntityTypeAndMolteplicity).not.toHaveBeenCalled();
+          expect(configuration.entityTypes).toEqual(expectedEntityTypes);
+          done();
+        });
       });
     });
 
@@ -100,16 +112,33 @@ describe('ItemExportService', () => {
 
     beforeEach(() => {
       (itemExportFormatService.byEntityTypeAndMolteplicity as any).and.returnValue(of(ItemExportFormatsMap));
+      (itemExportFormatService.byConfigurationAndMolteplicity as any).and.returnValue(of(ItemExportFormatsMap));
     });
 
-
-    it('should return the export multiple configuration with the entityType selected', (done) => {
-
+    it('should use byEntityTypeAndMolteplicity when no configuration is provided', (done) => {
       const availableEntityTypes = Object.keys(ItemExportFormatsMap);
       const selectedEntityType = 'Project';
       const expectedFormats = ItemExportFormatsMap[selectedEntityType];
 
       service.onSelectEntityType(availableEntityTypes, selectedEntityType).subscribe((configuration) => {
+        expect(itemExportFormatService.byEntityTypeAndMolteplicity).toHaveBeenCalledWith(selectedEntityType, ItemExportFormatMolteplicity.MULTIPLE);
+        expect(itemExportFormatService.byConfigurationAndMolteplicity).not.toHaveBeenCalled();
+        expect(configuration.entityTypes).toEqual(availableEntityTypes);
+        expect(configuration.entityType).toEqual(selectedEntityType);
+        expect(configuration.formats).toEqual(expectedFormats);
+        expect(configuration.format).toEqual(expectedFormats[0]);
+        done();
+      });
+    });
+
+    it('should use byConfigurationAndMolteplicity when a configuration is provided', (done) => {
+      const availableEntityTypes = Object.keys(ItemExportFormatsMap);
+      const selectedEntityType = 'Project';
+      const expectedFormats = ItemExportFormatsMap[selectedEntityType];
+
+      service.onSelectEntityType(availableEntityTypes, selectedEntityType, 'my-config').subscribe((configuration) => {
+        expect(itemExportFormatService.byConfigurationAndMolteplicity).toHaveBeenCalledWith('my-config', ItemExportFormatMolteplicity.MULTIPLE);
+        expect(itemExportFormatService.byEntityTypeAndMolteplicity).not.toHaveBeenCalled();
         expect(configuration.entityTypes).toEqual(availableEntityTypes);
         expect(configuration.entityType).toEqual(selectedEntityType);
         expect(configuration.formats).toEqual(expectedFormats);
