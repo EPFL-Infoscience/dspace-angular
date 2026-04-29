@@ -5035,6 +5035,9 @@
   // TODO New key - Add a translation
   "form.entry.source.sherpa": "- Sherpa Romeo",
 
+  // "form.entry.source.opf": "- Open Policy Finder",
+  "form.entry.source.opf": "- Open Policy Finder",
+
   // "form.remove": "Remove",
   "form.remove": "Supprimer",
 
@@ -6545,6 +6548,9 @@
 
   // "item.preview.person.identifier.scopus-author-id": "Scopus Author Id",
   "item.preview.person.identifier.scopus-author-id": "Scopus Author Id",
+
+  // "item.preview.local.arxiv.sourceCategory": "arXiv Category",
+  "item.preview.local.arxiv.sourceCategory": "Sujets arXiv",
 
   // "item.select.confirm": "Confirm selected",
   "item.select.confirm": "Confirmer la sélection",
