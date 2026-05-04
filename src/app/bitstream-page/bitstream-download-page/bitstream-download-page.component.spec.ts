@@ -1,11 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { AuthService } from '../../core/auth/auth.service';
-import { FileService } from '../../core/shared/file.service';
 import { of as observableOf } from 'rxjs';
 import { Bitstream } from '../../core/shared/bitstream.model';
 import { BitstreamDownloadPageComponent } from './bitstream-download-page.component';
-import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
-import { HardRedirectService } from '../../core/services/hard-redirect.service';
 import { createSuccessfulRemoteDataObject } from '../../shared/remote-data.utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getForbiddenRoute } from '../../app-routing-paths';
@@ -20,10 +16,6 @@ describe('BitstreamDownloadPageComponent', () => {
   let component: BitstreamDownloadPageComponent;
   let fixture: ComponentFixture<BitstreamDownloadPageComponent>;
 
-  let authService: AuthService;
-  let fileService: FileService;
-  let authorizationService: AuthorizationDataService;
-  let hardRedirectService: HardRedirectService;
   let activatedRoute;
   let router;
 
@@ -44,22 +36,6 @@ describe('BitstreamDownloadPageComponent', () => {
   };
 
   function init() {
-    authService = jasmine.createSpyObj('authService', {
-      isAuthenticated: observableOf(true),
-      setRedirectUrl: {}
-    });
-    authorizationService = jasmine.createSpyObj('authorizationSerivice', {
-      isAuthorized: observableOf(true)
-    });
-
-    fileService = jasmine.createSpyObj('fileService', {
-      retrieveSignedUrl: observableOf(null),
-      retrieveFileDownloadLink: observableOf('content-url-with-headers')
-    });
-
-    hardRedirectService = jasmine.createSpyObj('fileService', {
-      redirect: {}
-    });
     bitstream = Object.assign(new Bitstream(), {
       uuid: 'bitstreamUuid',
       _links: {
@@ -69,16 +45,12 @@ describe('BitstreamDownloadPageComponent', () => {
     });
     activatedRoute = {
       data: observableOf({
-        bitstream: createSuccessfulRemoteDataObject(
-          bitstream
-        )
+        bitstream: createSuccessfulRemoteDataObject(bitstream),
       }),
       params: observableOf({
         id: 'testid',
       }),
-      queryParams: observableOf({
-        accessToken: undefined,
-      }),
+      snapshot: { queryParamMap: { get: () => null } },
     };
 
     router = jasmine.createSpyObj('router', ['navigateByUrl']);
@@ -100,10 +72,6 @@ describe('BitstreamDownloadPageComponent', () => {
         { provide: NativeWindowService, useValue: new NativeWindowRef() },
         { provide: ActivatedRoute, useValue: activatedRoute },
         { provide: Router, useValue: router },
-        { provide: AuthorizationDataService, useValue: authorizationService },
-        { provide: AuthService, useValue: authService },
-        { provide: FileService, useValue: fileService },
-        { provide: HardRedirectService, useValue: hardRedirectService },
         { provide: ServerResponseService, useValue: serverResponseService },
         { provide: SignpostingDataService, useValue: signpostingDataService },
         { provide: PLATFORM_ID, useValue: 'server' }

@@ -7,8 +7,6 @@ import { FileService } from '../core/shared/file.service';
 import { HardRedirectService } from '../core/services/hard-redirect.service';
 import { Bitstream } from '../core/shared/bitstream.model';
 import { getForbiddenRoute } from '../app-routing-paths';
-import { SignpostingDataService } from '../core/data/signposting-data.service';
-import { ServerResponseService } from '../core/services/server-response.service';
 import { PLATFORM_ID } from '@angular/core';
 import { NativeWindowRef, NativeWindowService } from '../core/services/window.service';
 import { bitstreamDownloadRedirectGuard } from './bitstream-download-redirect.guard';
@@ -38,26 +36,12 @@ describe('BitstreamDownloadRedirectGuard', () => {
   let router: Router;
   let store: Store;
   let bitstream: Bitstream;
-  let serverResponseService: jasmine.SpyObj<ServerResponseService>;
-  let signpostingDataService: jasmine.SpyObj<SignpostingDataService>;
 
   let route = {
     params: {},
     queryParams: {}
   };
   let state = {};
-
-  const mocklink = {
-    href: 'http://test.org',
-    rel: 'test',
-    type: 'test'
-  };
-
-  const mocklink2 = {
-    href: 'http://test2.org',
-    rel: 'test',
-    type: 'test'
-  };
 
   function init() {
     route = {
@@ -69,17 +53,17 @@ describe('BitstreamDownloadRedirectGuard', () => {
       isAuthenticated: observableOf(true),
       setRedirectUrl: {}
     });
-    authorizationService = jasmine.createSpyObj('authorizationSerivice', {
-      isAuthorized: observableOf(true)
+    authorizationService = jasmine.createSpyObj('authorizationService', {
+      isAuthorized: observableOf(true),
     });
 
     fileService = jasmine.createSpyObj('fileService', {
       retrieveSignedUrl: observableOf(null),
-      retrieveFileDownloadLink: observableOf('content-url-with-headers')
+      retrieveFileDownloadLink: observableOf('content-url-with-token'),
     });
 
-    hardRedirectService = jasmine.createSpyObj('fileService', {
-      redirect: {}
+    hardRedirectService = jasmine.createSpyObj('hardRedirectService', {
+      redirect: {},
     });
 
     halEndpointService = jasmine.createSpyObj('halEndpointService', {
@@ -109,14 +93,6 @@ describe('BitstreamDownloadRedirectGuard', () => {
       pipe: observableOf(true)
     });
 
-    serverResponseService = jasmine.createSpyObj('ServerResponseService', {
-      setHeader: jasmine.createSpy('setHeader'),
-    });
-
-    signpostingDataService = jasmine.createSpyObj('SignpostingDataService', {
-      getLinks: observableOf([mocklink, mocklink2])
-    });
-
     objectCacheService = jasmine.createSpyObj('objectCacheService', {
       getByHref: observableOf(null)
     });
@@ -142,8 +118,6 @@ describe('BitstreamDownloadRedirectGuard', () => {
         {provide: AuthService, useValue: authService},
         {provide: FileService, useValue: fileService},
         {provide: HardRedirectService, useValue: hardRedirectService},
-        {provide: ServerResponseService, useValue: serverResponseService},
-        {provide: SignpostingDataService, useValue: signpostingDataService},
         {provide: ObjectCacheService, useValue: objectCacheService},
         {provide: PLATFORM_ID, useValue: 'server'},
         {provide: UUIDService, useValue: uuidService},
@@ -159,45 +133,48 @@ describe('BitstreamDownloadRedirectGuard', () => {
   }
 
   describe('bitstream retrieval', () => {
-    describe('when the user is authorized and not logged in', () => {
-      beforeEach(() => {
-        init();
-        (authService.isAuthenticated as jasmine.Spy).and.returnValue(observableOf(false));
-        initTestbed();
-      });
-      it('should allow route activation', waitForAsync(() => {
-        TestBed.runInInjectionContext(() => {
-          resolver(route, state).subscribe((result) => {
-            expect(result).toBeTrue();
-          },
-          );
-        });
-      }));
-
-      it('should allow route activation when access token is present', waitForAsync(() => {
-        route = { ...route, queryParams: { accessToken: 'token' } };
-        (authorizationService.isAuthorized as jasmine.Spy).and.returnValue(observableOf(false));
-        TestBed.runInInjectionContext(() => {
-          resolver(route, state).subscribe((result) => {
-            expect(result).toBeTrue();
-          },
-          );
-        });
-      }));
-    });
     describe('when the user is authorized and logged in', () => {
       beforeEach(() => {
         init();
         initTestbed();
       });
-      it('should allow route activation', waitForAsync(() => {
+      it('should redirect to download link and return false', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(result).toBeTrue();
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token');
+            expect(result).toBeFalse();
           });
         });
       }));
     });
+
+    describe('when the user is authorized but not logged in', () => {
+      beforeEach(() => {
+        init();
+        (authService.isAuthenticated as jasmine.Spy).and.returnValue(observableOf(false));
+        initTestbed();
+      });
+      it('should redirect to plain content url and return false', waitForAsync(() => {
+        TestBed.runInInjectionContext(() => {
+          resolver(route, state).subscribe((result) => {
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link');
+            expect(result).toBeFalse();
+          });
+        });
+      }));
+
+      it('should redirect using access token when present', waitForAsync(() => {
+        route = { ...route, queryParams: { accessToken: 'token' } };
+        (authorizationService.isAuthorized as jasmine.Spy).and.returnValue(observableOf(false));
+        TestBed.runInInjectionContext(() => {
+          resolver(route, state).subscribe((result) => {
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link?accessToken=token');
+            expect(result).toBeFalse();
+          });
+        });
+      }));
+    });
+
     describe('when the user is not authorized and logged in', () => {
       beforeEach(() => {
         init();
@@ -212,6 +189,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
         });
       }));
     });
+
     describe('when the user is not authorized and not logged in', () => {
       beforeEach(() => {
         init();
@@ -220,11 +198,37 @@ describe('BitstreamDownloadRedirectGuard', () => {
         initTestbed();
       });
       it('should navigate to the login page', waitForAsync(() => {
-
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe(() => {
             expect(authService.setRedirectUrl).toHaveBeenCalled();
             expect(router.createUrlTree).toHaveBeenCalledWith(['login']);
+          });
+        });
+      }));
+    });
+
+    describe('when the user is authorized and a signed URL is available', () => {
+      beforeEach(() => {
+        init();
+        bitstreamDataService = jasmine.createSpyObj('bitstreamDataService', {
+          findById: createSuccessfulRemoteDataObject$(Object.assign(new Bitstream(), {
+            _links: {
+              content: { href: 'bitstream-content-link' },
+              signedurl: { href: 'bitstream-signedurl-link' },
+              self: { href: 'bitstream-self-link' },
+            },
+          })),
+        });
+        (fileService.retrieveSignedUrl as jasmine.Spy).and.returnValue(observableOf('https://s3.example.com/file?sig=xyz'));
+        initTestbed();
+        TestBed.overrideProvider(BitstreamDataService, { useValue: bitstreamDataService });
+      });
+      it('should redirect to the signed URL and return false', waitForAsync(() => {
+        TestBed.runInInjectionContext(() => {
+          resolver(route, state).subscribe((result) => {
+            expect(fileService.retrieveSignedUrl).toHaveBeenCalledWith('bitstream-signedurl-link');
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('https://s3.example.com/file?sig=xyz');
+            expect(result).toBeFalse();
           });
         });
       }));
