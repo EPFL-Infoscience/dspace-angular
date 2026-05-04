@@ -76,27 +76,31 @@ export const bitstreamDownloadRedirectGuard: CanActivateFn = (
       if (!isAuthorized && hasValue(accessToken)) {
         const url = bitstream._links.content.href + '?accessToken=' + accessToken;
         hardRedirectService.redirect(url);
-        return of(false);
+        const blockResolvingRoute = !!(router.getCurrentNavigation()?.extras?.state?.blockResolvingBitstreamPageRoute);
+        return of(!blockResolvingRoute);
       }
 
       // isAuthorized — resolve best download URL
       const contentHref = bitstream._links.content.href;
       const signedUrlHref = bitstream._links.signedurl?.href;
+      const blockResolvingRoute = !!(router.getCurrentNavigation()?.extras?.state?.blockResolvingBitstreamPageRoute);
 
+      console.log('signedUrlHref', signedUrlHref);
       if (isNotEmpty(signedUrlHref)) {
         return fileService.retrieveSignedUrl(signedUrlHref).pipe(
           take(1),
           switchMap((signedUrl: string | null) => {
             if (isNotEmpty(signedUrl)) {
               hardRedirectService.redirect(signedUrl);
-              return of(false);
+              console.log('resolving route', signedUrl, !blockResolvingRoute);
+              return of(!blockResolvingRoute);
             }
-            return resolveTokenOrPlainDownload(contentHref, isLoggedIn, fileService, hardRedirectService);
+            return resolveTokenOrPlainDownload(contentHref, isLoggedIn, fileService, hardRedirectService, !blockResolvingRoute);
           }),
         );
       }
 
-      return resolveTokenOrPlainDownload(contentHref, isLoggedIn, fileService, hardRedirectService);
+      return resolveTokenOrPlainDownload(contentHref, isLoggedIn, fileService, hardRedirectService, !blockResolvingRoute);
     }),
   );
 };
@@ -106,16 +110,17 @@ function resolveTokenOrPlainDownload(
   isLoggedIn: boolean,
   fileService: FileService,
   hardRedirectService: HardRedirectService,
+  resolve: boolean,
 ): Observable<boolean> {
   if (isLoggedIn) {
     return fileService.retrieveFileDownloadLink(contentHref).pipe(
       take(1),
       map((fileLink: string) => {
         hardRedirectService.redirect(fileLink);
-        return false;
+        return resolve;
       }),
     );
   }
   hardRedirectService.redirect(contentHref);
-  return of(false);
+  return of(resolve);
 }

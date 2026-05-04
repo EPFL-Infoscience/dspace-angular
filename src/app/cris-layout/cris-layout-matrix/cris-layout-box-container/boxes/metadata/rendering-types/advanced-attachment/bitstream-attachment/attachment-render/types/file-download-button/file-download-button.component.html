@@ -4,6 +4,7 @@
     <ng-template #downloadButtonTpl>
       <a [routerLink]="bitstreamLink?.routerLink"
          [queryParams]="bitstreamLink?.queryParams"
+         [state]="{ blockResolvingBitstreamPageRoute: !isBlank }"
          [attr.target]="isBlank ? '_blank' : null"
          [attr.rel]="isBlank ? 'noopener noreferrer' : null"
          class="btn btn-light"
@@ -14,6 +15,7 @@
     <ng-template #requestACopyTpl>
       <a [routerLink]="bitstreamLink?.routerLink"
          [queryParams]="bitstreamLink?.queryParams"
+         [state]="{ blockResolvingBitstreamPageRoute: !isBlank }"
          [attr.target]="isBlank ? '_blank' : null"
          [attr.rel]="isBlank ? 'noopener noreferrer' : null"
          [disabled]="!(canRequestItemCopy$ | async)"
