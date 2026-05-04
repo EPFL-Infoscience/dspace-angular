@@ -94,6 +94,19 @@ describe('FileDownloadButtonComponent', () => {
     expect(fixture.debugElement.query(By.css('[data-test="requestACopy"]'))).toBeFalsy();
   });
 
+  it('should keep same-tab behavior by default', () => {
+    const downloadLink = fixture.debugElement.query(By.css('[data-test="download"]'));
+    expect(downloadLink.nativeNode.getAttribute('target')).toBeNull();
+  });
+
+  it('should open links in a new tab when isBlank is true', () => {
+    component.isBlank = true;
+    fixture.detectChanges();
+
+    const downloadLink = fixture.debugElement.query(By.css('[data-test="download"]'));
+    expect(downloadLink.nativeNode.getAttribute('target')).toBe('_blank');
+  });
+
   it('should show can request a copy button', () => {
     (authorizationService.isAuthorized as jasmine.Spy).and.returnValue(of(false));
     component.ngOnInit();
