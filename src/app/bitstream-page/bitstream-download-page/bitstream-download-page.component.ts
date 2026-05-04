@@ -113,6 +113,7 @@ export class BitstreamDownloadPageComponent implements OnInit {
 
   private resolveDownloadTarget(bitstream: Bitstream): Observable<DownloadTarget | null> {
     const contentHref = bitstream._links.content.href;
+    const signedUrlHref = bitstream._links.signedurl?.href;
     const accessToken: string | null = this.route.snapshot.queryParamMap.get('accessToken');
     const fileName = this.resolveFileName(bitstream);
 
@@ -123,21 +124,30 @@ export class BitstreamDownloadPageComponent implements OnInit {
       take(1),
       switchMap(([isAuthorized, isLoggedIn]: [boolean, boolean]) => {
         if (isAuthorized) {
-          return this.fileService.retrieveSignedUrl(contentHref).pipe(
-            take(1),
-            switchMap((signedUrl: string | null) => {
-              if (isNotEmpty(signedUrl)) {
+          if (isNotEmpty(signedUrlHref)) {
+            return this.fileService.retrieveSignedUrl(signedUrlHref).pipe(
+              take(1),
+              switchMap((signedUrl: string | null) => {
+                if (isNotEmpty(signedUrl)) {
                 return of({ url: signedUrl, fileName, useNamedDownload: true });
-              }
-              if (isLoggedIn) {
-                return this.fileService.retrieveFileDownloadLink(contentHref).pipe(
-                  take(1),
+                }
+                if (isLoggedIn) {
+                  return this.fileService.retrieveFileDownloadLink(contentHref).pipe(
+                    take(1),
                   map((fileLink: string) => ({ url: fileLink, fileName, useNamedDownload: false })),
-                );
-              }
+                  );
+                }
               return of({ url: contentHref, fileName, useNamedDownload: false });
-            }),
-          );
+              }),
+            );
+          }
+          if (isLoggedIn) {
+            return this.fileService.retrieveFileDownloadLink(contentHref).pipe(
+              take(1),
+              map((fileLink: string) => ({ url: fileLink, fileName })),
+            );
+          }
+          return of({ url: contentHref, fileName });
         }
 
         if (isNotEmpty(accessToken)) {

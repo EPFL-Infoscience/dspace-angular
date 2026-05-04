@@ -33,14 +33,13 @@ export class FileService {
     ));
   }
   /**
-   * Checks for a presigned S3 URL by replacing "content" with "signedurl" in the content href.
+   * Fetches a presigned S3 URL from the bitstream's signedurl HAL endpoint.
    * Returns the presigned URL string if available, or null if not.
    *
-   * @param contentHref
-   *    the bitstream content href (e.g. .../api/core/bitstreams/{id}/content)
+   * @param signedUrlHref
+   *    the bitstream signedurl HAL link href (e.g. .../api/core/bitstreams/{id}/signedurl)
    */
-  retrieveSignedUrl(contentHref: string): Observable<string | null> {
-    const signedUrlHref = contentHref.replace(/\/content$/, '/signedurl');
+  retrieveSignedUrl(signedUrlHref: string): Observable<string | null> {
     return this.restService.request(RestRequestMethod.GET, signedUrlHref).pipe(
       take(1),
       map((response: RawRestResponse) => {
@@ -53,6 +52,7 @@ export class FileService {
       catchError(() => of(null)),
     );
   }
+
 
   /**
    * Derives file name from the http response
