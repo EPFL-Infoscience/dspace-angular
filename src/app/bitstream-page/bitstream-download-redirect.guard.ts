@@ -9,7 +9,7 @@ import {
 import {
   combineLatest,
   Observable,
-  of as observableOf,
+  of,
 } from 'rxjs';
 import {
   filter,
@@ -29,7 +29,10 @@ import { redirectOn4xx } from '../core/shared/authorized.operators';
 import { Bitstream } from '../core/shared/bitstream.model';
 import { FileService } from '../core/shared/file.service';
 import { getFirstCompletedRemoteData } from '../core/shared/operators';
-import { hasValue, isNotEmpty } from '../shared/empty.util';
+import {
+  hasValue,
+  isNotEmpty,
+} from '../shared/empty.util';
 import { BITSTREAM_PAGE_LINKS_TO_FOLLOW } from './bitstream-page.resolver';
 
 export const bitstreamDownloadRedirectGuard: CanActivateFn = (
@@ -54,9 +57,9 @@ export const bitstreamDownloadRedirectGuard: CanActivateFn = (
         const bitstream = rd.payload;
         const isAuthorized$ = authorizationService.isAuthorized(FeatureID.CanDownload, bitstream.self);
         const isLoggedIn$ = auth.isAuthenticated();
-        return combineLatest([isAuthorized$, isLoggedIn$, observableOf(bitstream)]);
+        return combineLatest([isAuthorized$, isLoggedIn$, of(bitstream)]);
       } else {
-        return observableOf([false, false, null]);
+        return of([false, false, null]);
       }
     }),
     filter(([isAuthorized, isLoggedIn, _bitstream]: [boolean, boolean, Bitstream]) => hasValue(isAuthorized) && hasValue(isLoggedIn)),
@@ -64,16 +67,16 @@ export const bitstreamDownloadRedirectGuard: CanActivateFn = (
     switchMap(([isAuthorized, isLoggedIn, bitstream]: [boolean, boolean, Bitstream]) => {
       if (!isAuthorized && !hasValue(accessToken)) {
         if (isLoggedIn) {
-          return observableOf(router.createUrlTree([getForbiddenRoute()]));
+          return of(router.createUrlTree([getForbiddenRoute()]));
         }
         auth.setRedirectUrl(router.url);
-        return observableOf(router.createUrlTree(['login']));
+        return of(router.createUrlTree(['login']));
       }
 
       if (!isAuthorized && hasValue(accessToken)) {
         const url = bitstream._links.content.href + '?accessToken=' + accessToken;
         hardRedirectService.redirect(url);
-        return observableOf(false);
+        return of(false);
       }
 
       // isAuthorized — resolve best download URL
@@ -86,7 +89,7 @@ export const bitstreamDownloadRedirectGuard: CanActivateFn = (
           switchMap((signedUrl: string | null) => {
             if (isNotEmpty(signedUrl)) {
               hardRedirectService.redirect(signedUrl);
-              return observableOf(false);
+              return of(false);
             }
             return resolveTokenOrPlainDownload(contentHref, isLoggedIn, fileService, hardRedirectService);
           }),
@@ -114,5 +117,5 @@ function resolveTokenOrPlainDownload(
     );
   }
   hardRedirectService.redirect(contentHref);
-  return observableOf(false);
+  return of(false);
 }
