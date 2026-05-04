@@ -85,14 +85,12 @@ export const bitstreamDownloadRedirectGuard: CanActivateFn = (
       const signedUrlHref = bitstream._links.signedurl?.href;
       const blockResolvingRoute = !!(router.getCurrentNavigation()?.extras?.state?.blockResolvingBitstreamPageRoute);
 
-      console.log('signedUrlHref', signedUrlHref);
       if (isNotEmpty(signedUrlHref)) {
         return fileService.retrieveSignedUrl(signedUrlHref).pipe(
           take(1),
           switchMap((signedUrl: string | null) => {
             if (isNotEmpty(signedUrl)) {
               hardRedirectService.redirect(signedUrl);
-              console.log('resolving route', signedUrl, !blockResolvingRoute);
               return of(!blockResolvingRoute);
             }
             return resolveTokenOrPlainDownload(contentHref, isLoggedIn, fileService, hardRedirectService, !blockResolvingRoute);
