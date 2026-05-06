@@ -82,7 +82,8 @@ describe('EntityDropdownComponent', () => {
   });
 
   const itemExportFormatServiceMock: any = jasmine.createSpyObj('ItemExportFormatService', {
-    byEntityTypeAndMolteplicity: jasmine.createSpy('byEntityTypeAndMolteplicity')
+    byEntityTypeAndMolteplicity: jasmine.createSpy('byEntityTypeAndMolteplicity'),
+    byConfigurationAndMolteplicity: jasmine.createSpy('byConfigurationAndMolteplicity')
   });
 
   const translateServiceMock: any = {
@@ -117,6 +118,9 @@ describe('EntityDropdownComponent', () => {
     componentAsAny.entityTypeService.getAllAuthorizedRelationshipType.and.returnValue(paginatedEntitiesRD$);
     componentAsAny.entityTypeService.getAllAuthorizedRelationshipTypeImport.and.returnValue(paginatedEntitiesRD$);
     componentAsAny.itemExportFormatService.byEntityTypeAndMolteplicity.and.returnValue(of(entityFormatList));
+    componentAsAny.itemExportFormatService.byConfigurationAndMolteplicity.and.returnValue(of(entityFormatList));
+    itemExportFormatServiceMock.byEntityTypeAndMolteplicity.calls.reset();
+    itemExportFormatServiceMock.byConfigurationAndMolteplicity.calls.reset();
     component.isSubmission = true;
   });
 
@@ -181,5 +185,27 @@ describe('EntityDropdownComponent', () => {
     scheduler.flush();
 
     expect((component as any).itemExportFormatService.byEntityTypeAndMolteplicity).toHaveBeenCalled();
+  });
+
+  it('should invoke byConfigurationAndMolteplicity when isSubmission is false and configuration is set', () => {
+    component.isSubmission = false;
+    component.configuration = 'my-config';
+
+    scheduler.schedule(() => fixture.detectChanges());
+    scheduler.flush();
+
+    expect((component as any).itemExportFormatService.byConfigurationAndMolteplicity).toHaveBeenCalledWith('my-config', jasmine.anything());
+    expect((component as any).itemExportFormatService.byEntityTypeAndMolteplicity).not.toHaveBeenCalled();
+  });
+
+  it('should invoke byEntityTypeAndMolteplicity when isSubmission is false and no configuration is set', () => {
+    component.isSubmission = false;
+    component.configuration = undefined;
+
+    scheduler.schedule(() => fixture.detectChanges());
+    scheduler.flush();
+
+    expect((component as any).itemExportFormatService.byEntityTypeAndMolteplicity).toHaveBeenCalledWith(null, jasmine.anything());
+    expect((component as any).itemExportFormatService.byConfigurationAndMolteplicity).not.toHaveBeenCalled();
   });
 });

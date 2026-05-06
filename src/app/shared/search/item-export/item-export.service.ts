@@ -31,11 +31,11 @@ export class ItemExportService {
    * @param molteplicity
    * @param item
    */
-  public initialItemExportFormConfiguration(item: Item): Observable<ItemExportFormConfiguration> {
+  public initialItemExportFormConfiguration(item: Item, configuration?: string): Observable<ItemExportFormConfiguration> {
     if (item) {
       return this.initialItemExportFormConfigurationSingle(item);
     }
-    return this.initialItemExportFormConfigurationMultiple();
+    return this.initialItemExportFormConfigurationMultiple(configuration);
   }
 
   /**
@@ -43,8 +43,12 @@ export class ItemExportService {
    * @param entityTypes
    * @param entityType
    */
-  public onSelectEntityType(entityTypes: string[], entityType): Observable<ItemExportFormConfiguration> {
-    return this.itemExportFormatService.byEntityTypeAndMolteplicity(entityType, ItemExportFormatMolteplicity.MULTIPLE).pipe(
+  public onSelectEntityType(entityTypes: string[], entityType: string, configuration?: string): Observable<ItemExportFormConfiguration> {
+    return (
+      configuration ?
+      this.itemExportFormatService.byConfigurationAndMolteplicity(configuration, ItemExportFormatMolteplicity.MULTIPLE) :
+      this.itemExportFormatService.byEntityTypeAndMolteplicity(entityType, ItemExportFormatMolteplicity.MULTIPLE)
+    ).pipe(
       take(1),
       map(values => this.buildConfiguration(entityTypes, entityType, values[entityType]))
     );
@@ -67,10 +71,11 @@ export class ItemExportService {
     format: ItemExportFormat,
     itemList: string[] = [],
   ): Observable<number> {
+    const entityToExport = entityType === 'all' ? '*' : entityType;
     if (molteplicity === ItemExportFormatMolteplicity.SINGLE) {
       return this.itemExportFormatService.doExport(item.uuid, format);
     } else {
-      return this.itemExportFormatService.doExportMulti(entityType, format, searchOptions, itemList);
+      return this.itemExportFormatService.doExportMulti(entityToExport, format, searchOptions, itemList);
     }
   }
 
@@ -89,8 +94,8 @@ export class ItemExportService {
     );
   }
 
-  protected initialItemExportFormConfigurationMultiple(): Observable<ItemExportFormConfiguration> {
-    return this.itemExportFormatService.byEntityTypeAndMolteplicity(null, ItemExportFormatMolteplicity.MULTIPLE).pipe(
+  protected initialItemExportFormConfigurationMultiple(configuration?: string): Observable<ItemExportFormConfiguration> {
+    return (configuration ? this.itemExportFormatService.byConfigurationAndMolteplicity(configuration, ItemExportFormatMolteplicity.MULTIPLE) : this.itemExportFormatService.byEntityTypeAndMolteplicity(null, ItemExportFormatMolteplicity.MULTIPLE)).pipe(
       take(1),
       map(values => this.buildConfiguration(Object.keys(values), null, []))
     );
