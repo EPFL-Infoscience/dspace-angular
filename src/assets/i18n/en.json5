@@ -3115,6 +3115,8 @@
 
   "form.entry.source.jisc": "- Jisc Open policy finder",
 
+  "form.entry.source.opf": "- Open Policy Finder",
+
   "form.remove": "Remove",
 
   "form.save": "Save",
@@ -4125,6 +4127,8 @@
   "item.preview.creativeworkseries.issn": "ISSN",
 
   "item.preview.dc.identifier.opfPublisher": "Publisher ID",
+
+  "item.preview.local.arxiv.sourceCategory": "Subjects arXiv",
 
   "item.select.confirm": "Confirm selected",
 
