@@ -12018,6 +12018,12 @@
   // "submission.sections.submit.progressbar.sherpaPolicies": "Publisher open access policy information",
   "submission.sections.submit.progressbar.sherpaPolicies": "Informations sur la politique de l'éditeur en matière d'open access",
 
+  // "submission.sections.submit.progressbar.opfpolicy": "Publisher open access policy information",
+  "submission.sections.submit.progressbar.opfpolicy": "Informations sur la politique de l'éditeur en matière d'open access",
+
+  // "submission.sections.submit.progressbar.opfPolicies": "Publisher open access policy information",
+  "submission.sections.submit.progressbar.opfPolicies": "Informations sur la politique de l'éditeur en matière d'open access",
+
   // "submission.sections.submit.progressbar.upload-publication": "Uploaded files",
   "submission.sections.submit.progressbar.upload-publication": "Fichiers",
 
