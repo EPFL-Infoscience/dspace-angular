@@ -18,14 +18,24 @@
 
 <!-- Custom content type -->
 <ng-template #submitSection>
-    <div class="d-flex flex-column align-items-center">
-      <div class="card p-2 my-2">
-        <div>
-          <a routerLink="../mydspace" class="btn btn-primary upload-button"><i class="icon icon-right epfl-upload"></i> {{'explore.submit-section.new-submission' | translate }}</a>
+  <div class="d-flex flex-column align-items-center">
+    <div class="card p-2 my-2">
+      <div class="d-flex flex-row justify-content-center gap-2">
+        <a routerLink="../mydspace" class="btn btn-primary upload-button">
+          <i class="icon icon-right epfl-upload"></i>
+          {{'explore.submit-section.new-submission' | translate }}
+        </a>
+        <a href="https://help-infoscience.epfl.ch"
+           class="btn btn-outline-secondary help-button d-flex align-items-center gap-1"
+           target="_blank" rel="noreferrer noopener">
+          <i class="fas fa-question-circle"></i>
+          {{'footer.link.help' | translate }}
+        </a>
       </div>
     </div>
-    </div>
+  </div>
 </ng-template>
+
 
 <!-- Custom content type -->
 <ng-template #custom></ng-template>
