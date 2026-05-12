@@ -5035,6 +5035,9 @@
   // TODO New key - Add a translation
   "form.entry.source.sherpa": "- Sherpa Romeo",
 
+  // "form.entry.source.opf": "- Open Policy Finder",
+  "form.entry.source.opf": "- Open Policy Finder",
+
   // "form.remove": "Remove",
   "form.remove": "Supprimer",
 
@@ -6545,6 +6548,9 @@
 
   // "item.preview.person.identifier.scopus-author-id": "Scopus Author Id",
   "item.preview.person.identifier.scopus-author-id": "Scopus Author Id",
+
+  // "item.preview.local.arxiv.sourceCategory": "arXiv Category",
+  "item.preview.local.arxiv.sourceCategory": "Sujets arXiv",
 
   // "item.select.confirm": "Confirm selected",
   "item.select.confirm": "Confirmer la sélection",
@@ -12011,6 +12017,12 @@
 
   // "submission.sections.submit.progressbar.sherpaPolicies": "Publisher open access policy information",
   "submission.sections.submit.progressbar.sherpaPolicies": "Informations sur la politique de l'éditeur en matière d'open access",
+
+  // "submission.sections.submit.progressbar.opfpolicy": "Publisher open access policy information",
+  "submission.sections.submit.progressbar.opfpolicy": "Informations sur la politique de l'éditeur en matière d'open access",
+
+  // "submission.sections.submit.progressbar.opfPolicies": "Publisher open access policy information",
+  "submission.sections.submit.progressbar.opfPolicies": "Informations sur la politique de l'éditeur en matière d'open access",
 
   // "submission.sections.submit.progressbar.upload-publication": "Uploaded files",
   "submission.sections.submit.progressbar.upload-publication": "Fichiers",
