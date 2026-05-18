@@ -1,0 +1,12 @@
+@import '../../../../styles/variables.scss';
+
+.citation-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 400px;
+  overflow-y: auto;
+  background: var(--bs-light, #f8f9fa);
+  padding: 1rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}

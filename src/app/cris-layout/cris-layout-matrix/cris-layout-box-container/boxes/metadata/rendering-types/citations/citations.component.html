@@ -1,0 +1,20 @@
+<ng-container *ngIf="citationTypes$ | async as citationTypes">
+  <div *ngIf="citationTypes.length > 0">
+    <ul ngbNav #citationsNav="ngbNav" class="nav-tabs" (navChange)="onTabChange($event.nextId)">
+      <li *ngFor="let citationType of citationTypes" [ngbNavItem]="citationType.uniqueType">
+        <a ngbNavLink>{{ 'citations.tab.' + citationType.uniqueType | translate }}</a>
+        <ng-template ngbNavContent>
+          <ng-container *ngIf="selectedCitation$ | async as citationRD">
+            <ng-container *ngIf="citationRD?.payload as citation">
+              <pre class="citation-text">{{ citation.value }}</pre>
+              <button class="btn btn-sm btn-outline-primary" (click)="copyCitation(citation.value)">
+                <i class="fas fa-copy"></i> {{ 'citations.copy' | translate }}
+              </button>
+            </ng-container>
+          </ng-container>
+        </ng-template>
+      </li>
+    </ul>
+    <div [ngbNavOutlet]="citationsNav"></div>
+  </div>
+</ng-container>
