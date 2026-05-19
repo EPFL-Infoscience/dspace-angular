@@ -211,7 +211,7 @@ describe('ItemExportComponent', () => {
       });
 
       it('should initialize the exportForm calling initialItemExportFormConfiguration', () => {
-        expect(itemExportService.initialItemExportFormConfiguration).toHaveBeenCalledWith(mockItem);
+        expect(itemExportService.initialItemExportFormConfiguration).toHaveBeenCalledWith(mockItem, undefined);
         expect(component.configuration).toBe(configuration);
         // expect(component.exportForm).toEqual(exportForm);
         const formatSelect = fixture.debugElement.query(By.css('[data-test="format-select"]'));
@@ -242,7 +242,7 @@ describe('ItemExportComponent', () => {
         });
 
         it('should initialize the exportForm calling initialItemExportFormConfiguration', () => {
-          expect(itemExportService.initialItemExportFormConfiguration).toHaveBeenCalledWith(null);
+          expect(itemExportService.initialItemExportFormConfiguration).toHaveBeenCalledWith(null, undefined);
           expect(component.configuration).toBe(configuration);
           const formatSelect = fixture.debugElement.query(By.css('[data-test="format-select"]'));
           const selectionRadio = fixture.debugElement.query(By.css('[data-test="selection-radio"]'));
@@ -263,7 +263,7 @@ describe('ItemExportComponent', () => {
         });
 
         it('should initialize the exportForm calling initialItemExportFormConfiguration', () => {
-          expect(itemExportService.initialItemExportFormConfiguration).toHaveBeenCalledWith(null);
+          expect(itemExportService.initialItemExportFormConfiguration).toHaveBeenCalledWith(null, undefined);
           expect(component.configuration).toBe(configuration);
           const formatSelect = fixture.debugElement.query(By.css('[data-test="format-select"]'));
           const selectionRadio = fixture.debugElement.query(By.css('[data-test="selection-radio"]'));
@@ -293,7 +293,7 @@ describe('ItemExportComponent', () => {
         });
 
         it('should initialize the exportForm calling initialItemExportFormConfiguration', () => {
-          expect(itemExportService.initialItemExportFormConfiguration).toHaveBeenCalledWith(null);
+          expect(itemExportService.initialItemExportFormConfiguration).toHaveBeenCalledWith(null, undefined);
           expect(component.configuration).toBe(configuration);
           // expect(component.exportForm).toEqual(exportForm);
           const formatSelect = fixture.debugElement.query(By.css('[data-test="format-select"]'));
@@ -315,7 +315,7 @@ describe('ItemExportComponent', () => {
         });
 
         it('should initialize the exportForm calling initialItemExportFormConfiguration', () => {
-          expect(itemExportService.initialItemExportFormConfiguration).toHaveBeenCalledWith(null);
+          expect(itemExportService.initialItemExportFormConfiguration).toHaveBeenCalledWith(null, undefined);
           expect(component.configuration).toBe(configuration);
           // expect(component.exportForm).toEqual(exportForm);
           const formatSelect = fixture.debugElement.query(By.css('[data-test="format-select"]'));

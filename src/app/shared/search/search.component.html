@@ -122,7 +122,7 @@
         </ds-themed-search-form>
         <ng-content select="[additionalSearchFormOptions]"></ng-content>
 
-        <ds-item-export-modal-launcher *ngIf="showExport" [searchOptions$]="searchOptions$"></ds-item-export-modal-launcher>
+        <ds-item-export-modal-launcher *ngIf="showExport" [searchOptions$]="searchOptions$" [configuration]="currentConfiguration$ | async"></ds-item-export-modal-launcher>
 
         <ds-item-export-url *ngIf="showExportUrl" [searchOptions$]="searchOptions$" class="ml-2"></ds-item-export-url>
 

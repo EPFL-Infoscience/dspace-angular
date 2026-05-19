@@ -72,10 +72,14 @@ export class ItemExportListComponent implements OnInit {
     this.configuration = this.searchOptions.configuration;
     this.currentPagination$ = this.paginationService.getCurrentPagination(this.initialPagination.id, this.initialPagination);
     this.currentPagination$.subscribe((paginationOptions: PaginationComponentOptions) => {
-      this.searchOptions = Object.assign(new PaginatedSearchOptions({}), this.searchOptions, {
-        fixedFilter: `f.entityType=${this.itemEntityType},equals`,
+      const shouldShowAllEntities = this.itemEntityType === 'all';
+      const options = Object.assign(new PaginatedSearchOptions({}), this.searchOptions, {
         pagination: paginationOptions
       });
+      if (!shouldShowAllEntities) {
+        options.fixedFilter = `f.entityType=${this.itemEntityType},equals`;
+      }
+      this.searchOptions = Object.assign(new PaginatedSearchOptions({}), this.searchOptions, options);
       this.retrieveResultList(this.searchOptions);
     });
   }

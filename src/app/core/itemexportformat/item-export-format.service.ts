@@ -71,8 +71,6 @@ export class ItemExportFormatService extends IdentifiableDataService<ItemExportF
    *    dictionary which map for the requested entityTypesId all the allowed export formats
    */
   byEntityTypeAndMolteplicity(entityTypeId: string, molteplicity: ItemExportFormatMolteplicity): Observable<ItemExportFormatMap> {
-    const searchHref = 'byEntityTypeAndMolteplicity';
-
     const searchParams = [];
     if (molteplicity) {
       searchParams.push(new RequestParam('molteplicity', molteplicity));
@@ -80,7 +78,29 @@ export class ItemExportFormatService extends IdentifiableDataService<ItemExportF
     if (entityTypeId) {
       searchParams.push(new RequestParam('entityTypeId', entityTypeId));
     }
+    return this.searchByAndBuildFormatMap('byEntityTypeAndMolteplicity', searchParams);
+  }
 
+  /**
+   * Get all item export formats for the requested discovery config and compatible with the given molteplicity
+   *
+   * @param molteplicity The requested molteplicity
+   * @param configuration The discovery configuration
+   * @return Observable<{ [entityType: string]: ItemExportFormat[]}>
+   *    dictionary which map for the requested entityTypesId all the allowed export formats
+   */
+  byConfigurationAndMolteplicity(configuration: string, molteplicity: ItemExportFormatMolteplicity): Observable<ItemExportFormatMap> {
+    const searchParams = [];
+    if (molteplicity) {
+      searchParams.push(new RequestParam('molteplicity', molteplicity));
+    }
+    if (configuration) {
+      searchParams.push(new RequestParam('configuration', configuration));
+    }
+    return this.searchByAndBuildFormatMap('byConfigurationAndMolteplicity', searchParams);
+  }
+
+  private searchByAndBuildFormatMap(searchHref: string, searchParams: RequestParam[]): Observable<ItemExportFormatMap> {
     return this.searchData.searchBy(searchHref, { searchParams, elementsPerPage: 100 }).pipe(
       getAllCompletedRemoteData(),
       map((itemExportFormatsRD: RemoteData<PaginatedList<ItemExportFormat>>) => {
