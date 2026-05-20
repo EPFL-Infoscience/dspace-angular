@@ -75,7 +75,7 @@ import {
   RequestStatusAlertBoxComponent
 } from './simple/notify-requests-status/request-status-alert-box/request-status-alert-box.component';
 import { SplitPipe } from '../shared/utils/split.pipe';
-import { CitationsComponent } from '../cris-layout/cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/citations/citations.component';
+import { CitationsComponent } from '../cris-layout/cris-layout-matrix/cris-layout-box-container/boxes/citations/citations.component';
 
 
 const ENTRY_COMPONENTS = [

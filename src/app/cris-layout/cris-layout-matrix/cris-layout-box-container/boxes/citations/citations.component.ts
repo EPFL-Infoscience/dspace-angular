@@ -8,15 +8,16 @@ import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-import { ItemCitationService } from '../../../../../../../core/data/item-citation.service';
-import { Citation } from '../../../../../../../core/shared/citation.model';
-import { RemoteData } from '../../../../../../../core/data/remote-data';
-import { PaginatedList } from '../../../../../../../core/data/paginated-list.model';
-import { Item } from '../../../../../../../core/shared/item.model';
-import { NotificationsService } from '../../../../../../../shared/notifications/notifications.service';
-import { RenderingTypeValueModelComponent } from '../rendering-type-value.model';
-import { LayoutField } from 'src/app/core/layout/models/box.model';
-import { MetadataValue } from 'src/app/core/shared/metadata.models';
+import { ItemCitationService } from '../../../../../core/data/item-citation.service';
+import { Citation } from '../../../../../core/shared/citation.model';
+import { RemoteData } from '../../../../../core/data/remote-data';
+import { PaginatedList } from '../../../../../core/data/paginated-list.model';
+import { Item } from '../../../../../core/shared/item.model';
+import { NotificationsService } from '../../../../../shared/notifications/notifications.service';
+import { CrisLayoutBox } from 'src/app/core/layout/models/box.model';
+import { RenderCrisLayoutBoxFor } from 'src/app/cris-layout/decorators/cris-layout-box.decorator';
+import { LayoutBox } from 'src/app/cris-layout/enums/layout-box.enum';
+import { CrisLayoutBoxModelComponent } from 'src/app/cris-layout/models/cris-layout-box-component.model';
 
 @Component({
   selector: 'ds-citations',
@@ -24,23 +25,20 @@ import { MetadataValue } from 'src/app/core/shared/metadata.models';
   styleUrls: ['./citations.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CitationsComponent extends RenderingTypeValueModelComponent implements OnInit {
+@RenderCrisLayoutBoxFor(LayoutBox.CITATIONS)
+export class CitationsComponent extends CrisLayoutBoxModelComponent implements OnInit {
   citationTypes$: Observable<Citation[]>;
   selectedCitation$: Observable<RemoteData<Citation>>;
   private selectedCitationType$ = new BehaviorSubject<string>(null);
 
   constructor(
-    @Inject('fieldProvider') public fieldProvider: LayoutField,
-    @Inject('itemProvider') public itemProvider: Item,
-    @Inject('metadataValueProvider')
-    public metadataValueProvider: MetadataValue,
-    @Inject('renderingSubTypeProvider') public renderingSubTypeProvider: string,
-    @Inject('tabNameProvider') public tabNameProvider: string,
     protected translateService: TranslateService,
+    @Inject('boxProvider') public boxProvider: CrisLayoutBox,
+    @Inject('itemProvider') public itemProvider: Item,
     private citationService: ItemCitationService,
     private notificationsService: NotificationsService
   ) {
-    super(fieldProvider, itemProvider, metadataValueProvider, renderingSubTypeProvider, tabNameProvider, translateService);
+    super(translateService, boxProvider, itemProvider);
   }
 
   ngOnInit(): void {

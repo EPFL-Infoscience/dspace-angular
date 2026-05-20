@@ -9,11 +9,11 @@ import { By } from '@angular/platform-browser';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { ItemCitationService } from '../../../../../../../core/data/item-citation.service';
-import { Citation } from '../../../../../../../core/shared/citation.model';
-import { NotificationsService } from '../../../../../../../shared/notifications/notifications.service';
-import { createSuccessfulRemoteDataObject$ } from '../../../../../../../shared/remote-data.utils';
-import { createPaginatedList } from '../../../../../../../shared/testing/utils.test';
+import { ItemCitationService } from '../../../../../core/data/item-citation.service';
+import { Citation } from '../../../../../core/shared/citation.model';
+import { NotificationsService } from '../../../../../shared/notifications/notifications.service';
+import { createSuccessfulRemoteDataObject$ } from '../../../../../shared/remote-data.utils';
+import { createPaginatedList } from '../../../../../shared/testing/utils.test';
 import { CitationsComponent } from './citations.component';
 
 describe('CitationsComponent', () => {
