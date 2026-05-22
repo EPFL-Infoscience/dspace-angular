@@ -5,7 +5,7 @@
         <a ngbNavLink>{{ 'citations.tab.' + citationType.exportType | translate }}</a>
         <ng-template ngbNavContent>
           <ds-truncatable [id]="citationType.exportType">
-            <ds-truncatable-part [id]="citationType.exportType" [minLines]="10">
+            <ds-truncatable-part [id]="citationType.exportType" [minLines]="5" [fixedHeight]="true">
               <div class="citation-text" [dsMarkdown]="citationType.value"></div>
             </ds-truncatable-part>
           </ds-truncatable>

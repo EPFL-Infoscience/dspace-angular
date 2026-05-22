@@ -17,7 +17,7 @@ import { LayoutBox } from 'src/app/cris-layout/enums/layout-box.enum';
 import { CrisLayoutBoxModelComponent } from 'src/app/cris-layout/models/cris-layout-box-component.model';
 
 @Component({
-  selector: 'ds-citations',
+  selector: 'ds-citations-field',
   templateUrl: './citations.component.html',
   styleUrls: ['./citations.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
