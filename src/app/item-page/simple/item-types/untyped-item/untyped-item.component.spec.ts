@@ -133,6 +133,10 @@ describe('UntypedItemComponent', () => {
       expect(fields.length).toBeGreaterThanOrEqual(1);
     });
 
+    it('should contain a component to display the citations', () => {
+      
+    })
+
     it('should contain a component to display the uri', () => {
       const fields = fixture.debugElement.queryAll(By.css('ds-item-page-uri-field'));
       expect(fields.length).toBeGreaterThanOrEqual(1);
