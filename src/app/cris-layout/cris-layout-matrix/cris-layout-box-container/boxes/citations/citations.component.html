@@ -1,6 +1,6 @@
 <ng-container *ngIf="citationTypes$ | async as citationTypes">
   <div *ngIf="citationTypes.length > 0">
-    <ul ngbNav #citationsNav="ngbNav" class="nav-tabs">
+    <ul ngbNav #citationsNav="ngbNav" class="nav-tabs" [activeId]="citationTypes[0]?.exportType">
       <li *ngFor="let citationType of citationTypes" [ngbNavItem]="citationType.exportType">
         <a ngbNavLink>{{ 'citations.tab.' + citationType.exportType | translate }}</a>
         <ng-template ngbNavContent>

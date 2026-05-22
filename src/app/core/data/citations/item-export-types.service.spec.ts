@@ -20,7 +20,7 @@ describe('ItemExportTypesService', () => {
   });
 
   it('returns page payload when present', (done) => {
-    const page = [{ id: 'fmt1' }];
+    const page: any = [{ id: 'fmt1' }];
     spyOn(service as any, 'findListByHref').and.returnValue(of({ payload: { page } } as any));
 
     service.getAllExportTypes('item-1').subscribe((result) => {

@@ -1,6 +1,7 @@
 import { of } from 'rxjs';
 
 import { ItemAvailableCitationsService } from './item-available-citations.service';
+import { createSuccessfulRemoteDataObject$ } from '../../../shared/remote-data.utils';
 
 describe('ItemAvailableCitationsService', () => {
   let service: ItemAvailableCitationsService;
@@ -21,7 +22,7 @@ describe('ItemAvailableCitationsService', () => {
 
   it('maps payload object to Citation[]', (done) => {
     const payload = { apa: 'apa text', mla: 'mla text' };
-    spyOn(service as any, 'findByHref').and.returnValue(of({ payload } as any));
+    spyOn(service as any, 'findByHref').and.returnValue(createSuccessfulRemoteDataObject$(payload));
 
     service.getAllAvailableCitations('item-1').subscribe((result) => {
       expect(result.length).toBe(2);
@@ -32,7 +33,7 @@ describe('ItemAvailableCitationsService', () => {
   });
 
   it('handles empty payload gracefully', (done) => {
-    spyOn(service as any, 'findByHref').and.returnValue(of({ payload: {} } as any));
+    spyOn(service as any, 'findByHref').and.returnValue(createSuccessfulRemoteDataObject$({}));
 
     service.getAllAvailableCitations('item-1').subscribe((result) => {
       expect(Array.isArray(result)).toBeTrue();
