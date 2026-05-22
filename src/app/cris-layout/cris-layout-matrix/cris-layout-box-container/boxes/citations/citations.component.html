@@ -1,17 +1,19 @@
 <ng-container *ngIf="citationTypes$ | async as citationTypes">
   <div *ngIf="citationTypes.length > 0">
-    <ul ngbNav #citationsNav="ngbNav" class="nav-tabs" (navChange)="onTabChange($event.nextId)">
-      <li *ngFor="let citationType of citationTypes" [ngbNavItem]="citationType.uniqueType">
-        <a ngbNavLink>{{ 'citations.tab.' + citationType.uniqueType | translate }}</a>
+    <ul ngbNav #citationsNav="ngbNav" class="nav-tabs">
+      <li *ngFor="let citationType of citationTypes" [ngbNavItem]="citationType.exportType">
+        <a ngbNavLink>{{ 'citations.tab.' + citationType.exportType | translate }}</a>
         <ng-template ngbNavContent>
-          <ng-container *ngIf="selectedCitation$ | async as citationRD">
-            <ng-container *ngIf="citationRD?.payload as citation">
-              <pre class="citation-text">{{ citation.value }}</pre>
-              <button class="btn btn-sm btn-outline-primary" (click)="copyCitation(citation.value)">
-                <i class="fas fa-copy"></i> {{ 'citations.copy' | translate }}
-              </button>
-            </ng-container>
-          </ng-container>
+          <ds-truncatable [id]="citationType.exportType">
+            <ds-truncatable-part [id]="citationType.exportType" [minLines]="10">
+              <div class="citation-text" [dsMarkdown]="citationType.value"></div>
+            </ds-truncatable-part>
+          </ds-truncatable>
+          <div class="d-flex justify-content-end mt-2">
+            <button class="btn btn-sm btn-outline-primary" (click)="copyCitation(citationType.value)">
+              <i class="fas fa-copy"></i> Copy Citation
+            </button>
+          </div>
         </ng-template>
       </li>
     </ul>

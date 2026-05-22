@@ -4275,6 +4275,26 @@
 
   "item-export.process.title": "Bulk export item",
 
+  "citations.copy": "Copy Citation",
+
+  "citations.show-more": "Show more",
+
+  "citations.show-less": "Show less",
+
+  "citations.tab.publication-chicago": "Chicago",
+  
+  "citations.tab.publication-mla": "MLA",
+  
+  "citations.tab.publication-ieee": "IEEE",
+  
+  "citations.tab.publication-harvard": "Harvard",
+  
+  "citations.tab.publication-apa": "APA",
+  
+  "citations.tab.publication-vancouver": "Vancouver",
+  
+  "citations.tab.publication-iso690": "ISO 690",
+
   "bulk-export-url.process.title": "Bulk Export URL",
 
   "mydspace.export-url": "Export URL",

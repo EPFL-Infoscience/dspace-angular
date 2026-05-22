@@ -16,20 +16,10 @@ export class Citation
   implements ChildHALResource, HandleObject {
   static type = CITATION;
 
-  @autoserialize
   handle: string;
 
   @autoserialize
-  mimeType: string;
-
-  @autoserialize
-  configuration: string[];
-
-  @autoserialize
-  molteplicity: string;
-
-  @autoserialize
-  uniqueType: string;
+  exportType: string;
 
   @autoserialize
   value: string;
