@@ -4276,7 +4276,7 @@
   "item-export.process.title": "Bulk export item",
 
   "citations.copy": "Copy Citation",
-  
+
   "citations.copy.success": "Citation copied correctly",
 
   "citations.show-more": "Show more",
@@ -4284,45 +4284,45 @@
   "citations.show-less": "Show less",
 
   "citations.tab.publication-chicago": "Chicago",
-  
+
   "citations.tab.publication-mla": "MLA",
-  
+
   "citations.tab.publication-ieee": "IEEE",
-  
+
   "citations.tab.publication-harvard": "Harvard",
-  
+
   "citations.tab.publication-apa": "APA",
-  
+
   "citations.tab.publication-vancouver": "Vancouver",
-  
+
   "citations.tab.publication-iso690": "ISO 690",
 
   "citations.tab.patent-chicago": "Chicago",
-  
+
   "citations.tab.patent-mla": "MLA",
-  
+
   "citations.tab.patent-ieee": "IEEE",
-  
+
   "citations.tab.patent-harvard": "Harvard",
-  
+
   "citations.tab.patent-apa": "APA",
-  
+
   "citations.tab.patent-vancouver": "Vancouver",
-  
+
   "citations.tab.patent-iso690": "ISO 690",
 
   "citations.tab.product-chicago": "Chicago",
-  
+
   "citations.tab.product-mla": "MLA",
-  
+
   "citations.tab.product-ieee": "IEEE",
-  
+
   "citations.tab.product-harvard": "Harvard",
-  
+
   "citations.tab.product-apa": "APA",
-  
+
   "citations.tab.product-vancouver": "Vancouver",
-  
+
   "citations.tab.product-iso690": "ISO 690",
 
   "bulk-export-url.process.title": "Bulk Export URL",
