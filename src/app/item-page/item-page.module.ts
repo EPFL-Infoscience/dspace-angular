@@ -75,6 +75,10 @@ import {
   RequestStatusAlertBoxComponent
 } from './simple/notify-requests-status/request-status-alert-box/request-status-alert-box.component';
 import { SplitPipe } from '../shared/utils/split.pipe';
+import { CitationsComponent } from '../cris-layout/cris-layout-matrix/cris-layout-box-container/boxes/citations/citations.component';
+import { ItemAvailableCitationsService } from '../core/data/citations/item-available-citations.service';
+import { ItemExportTypeService } from '../core/data/citations/item-export-type.service';
+import { ItemExportTypesService } from '../core/data/citations/item-export-types.service';
 
 
 const ENTRY_COMPONENTS = [
@@ -122,6 +126,7 @@ const DECLARATIONS = [
   QaEventNotificationComponent,
   RequestStatusAlertBoxComponent,
   NotifyRequestsStatusComponent,
+  CitationsComponent
 ];
 
 @NgModule({
@@ -150,6 +155,11 @@ const DECLARATIONS = [
   declarations: [
     ...DECLARATIONS,
 
+  ],
+  providers: [
+    ItemExportTypesService,
+    ItemExportTypeService,
+    ItemAvailableCitationsService,
   ],
   exports: [
     ...DECLARATIONS,
