@@ -10,7 +10,7 @@
 :host::ng-deep {
   ds-truncatable-part {
     .content::after {
-      display: none;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0), var(--bs-light, #f8f9fa) 70%);
     }
   }
 
