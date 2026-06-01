@@ -28,8 +28,26 @@ describe('ItemExportTypeService', () => {
     });
   });
 
+  it('trims string payloads', (done) => {
+    spyOn(service as any, 'findByHref').and.returnValue(of({ payload: '  plain citation  ' } as any));
+
+    service.getExportTypeById('item-1', 'apa').subscribe((result) => {
+      expect(result).toBe('plain citation');
+      done();
+    });
+  });
+
   it('extracts value property when payload is object', (done) => {
     spyOn(service as any, 'findByHref').and.returnValue(of({ payload: { value: 'obj citation' } } as any));
+
+    service.getExportTypeById('item-1', 'apa').subscribe((result) => {
+      expect(result).toBe('obj citation');
+      done();
+    });
+  });
+
+  it('trims value property when payload is object', (done) => {
+    spyOn(service as any, 'findByHref').and.returnValue(of({ payload: { value: '  obj citation  ' } } as any));
 
     service.getExportTypeById('item-1', 'apa').subscribe((result) => {
       expect(result).toBe('obj citation');

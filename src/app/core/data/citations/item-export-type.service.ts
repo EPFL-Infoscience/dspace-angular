@@ -36,11 +36,11 @@ export class ItemExportTypeService extends IdentifiableDataService<Citation> {
 
   private extractCitationText(payload: unknown): string {
     if (typeof payload === 'string') {
-      return payload;
+      return payload.trim();
     }
 
     if (payload && typeof payload === 'object' && 'value' in payload) {
-      return (payload as { value?: string }).value ?? '';
+      return (payload as { value?: string }).value?.trim() ?? '';
     }
 
     return '';

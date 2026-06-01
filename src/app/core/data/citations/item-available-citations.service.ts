@@ -41,7 +41,7 @@ export class ItemAvailableCitationsService extends IdentifiableDataService<Citat
     return Object.entries(parsedValue).map(([uniqueType, citationText]) =>
       Object.assign(new Citation(), {
         exportType: uniqueType,
-        value: citationText,
+        value: citationText.trim(),
       }),
     );
   }
