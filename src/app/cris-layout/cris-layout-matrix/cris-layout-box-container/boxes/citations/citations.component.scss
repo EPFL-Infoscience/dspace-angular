@@ -6,3 +6,17 @@
   font-style: italic;
   font-size: smaller;
 }
+
+:host::ng-deep {
+  ds-truncatable-part {
+    .content::after {
+      background: linear-gradient(to right, rgba(255, 255, 255, 0), var(--bs-light, #f8f9fa) 70%);
+    }
+  }
+
+  .text-no-margin {
+    p {
+      margin-bottom: 0;
+    }
+  }
+}

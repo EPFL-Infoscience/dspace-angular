@@ -32,6 +32,16 @@ describe('ItemAvailableCitationsService', () => {
     });
   });
 
+  it('trims citation values', (done) => {
+    const payload = { apa: '  apa text  ' };
+    spyOn(service as any, 'findByHref').and.returnValue(createSuccessfulRemoteDataObject$(payload));
+
+    service.getAllAvailableCitations('item-1').subscribe((result) => {
+      expect(result[0].value).toBe('apa text');
+      done();
+    });
+  });
+
   it('handles empty payload gracefully', (done) => {
     spyOn(service as any, 'findByHref').and.returnValue(createSuccessfulRemoteDataObject$({}));
 
