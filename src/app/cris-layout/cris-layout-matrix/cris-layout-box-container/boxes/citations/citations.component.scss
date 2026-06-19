@@ -9,6 +9,10 @@
 
 :host::ng-deep {
   ds-truncatable-part {
+    .content {
+      display: flex;
+      flex-direction: column;
+    }
     .content::after {
       background: linear-gradient(to right, rgba(255, 255, 255, 0), var(--bs-light, #f8f9fa) 70%);
     }
@@ -18,5 +22,17 @@
     p {
       margin-bottom: 0;
     }
+  }
+
+  ol {
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-inline-start: unset;
+    margin-block-start: unset;
+    margin-block-end: unset;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 }
