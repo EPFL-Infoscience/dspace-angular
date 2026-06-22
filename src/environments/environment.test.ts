@@ -679,4 +679,9 @@ export const environment: BuildConfig = {
       statusEndpoint: 'https://nominatim.openstreetmap.org/status',
     }
   },
+
+  citationTypesWhitelist: [
+    'publication-apa',
+    'publication-mla',
+  ],
 };
