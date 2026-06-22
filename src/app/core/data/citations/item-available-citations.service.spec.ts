@@ -4,6 +4,8 @@ import { ItemAvailableCitationsService } from './item-available-citations.servic
 import { createSuccessfulRemoteDataObject$ } from '../../../shared/remote-data.utils';
 import { environment } from '../../../../environments/environment';
 
+let originalCitationTypesWhitelist: string[];
+
 describe('ItemAvailableCitationsService', () => {
   let service: ItemAvailableCitationsService;
 
@@ -13,10 +15,11 @@ describe('ItemAvailableCitationsService', () => {
   const halService = { getEndpoint: () => of('http://api') } as any;
 
   beforeEach(() => {
-    spyOnProperty(environment, 'citationTypesWhitelist').and.returnValue([
+    originalCitationTypesWhitelist = environment.citationTypesWhitelist;
+    environment.citationTypesWhitelist = [
       'publication-apa',
       'publication-mla',
-    ]);
+    ];
 
     service = new ItemAvailableCitationsService(
       requestService,
@@ -24,6 +27,10 @@ describe('ItemAvailableCitationsService', () => {
       objectCache,
       halService,
     );
+  });
+
+  afterEach(() => {
+    environment.citationTypesWhitelist = originalCitationTypesWhitelist;
   });
 
   it('maps payload object to Citation[]', (done) => {

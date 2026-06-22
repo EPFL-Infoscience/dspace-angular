@@ -940,7 +940,7 @@ export class DefaultAppConfig implements AppConfig {
       icon: 'assets/images/ror.logo.icon.svg',
       iconPosition: IdentifierSubtypesIconPositionEnum.LEFT,
       link: 'https://ror.org'
-    } 
+    }
   ];
   datadogRum: DatadogRumConfig = {
     clientToken: undefined,
