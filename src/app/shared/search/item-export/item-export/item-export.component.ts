@@ -139,7 +139,8 @@ export class ItemExportComponent implements OnInit, OnDestroy {
     }
 
     init$.subscribe((configuration: ItemExportFormConfiguration) => {
-      this.configuration = { ...configuration, formats: this.sortFormats(configuration.formats) };
+      this.configuration = configuration;
+      this.sortFormats(this.configuration.formats);
       this.canExport$.next(true);
       this.configurationLoaded$.next(true);
       this.initialized$.next(true);
@@ -173,7 +174,8 @@ export class ItemExportComponent implements OnInit, OnDestroy {
   onEntityTypeChange(entityType: string) {
     this.configurationLoaded$.next(false);
     this.itemExportService.onSelectEntityType(this.configuration.entityTypes, entityType, this.discoveryConfig).pipe(take(1)).subscribe((configuration) => {
-      this.configuration = { ...configuration, formats: this.sortFormats(configuration.formats) };
+      this.configuration = configuration;
+      this.sortFormats(this.configuration.formats);
       this.selectedEntityType = entityType;
       this.exportForm.controls.format.patchValue(this.configuration.format);
 
@@ -290,8 +292,9 @@ export class ItemExportComponent implements OnInit, OnDestroy {
     return labels[id] ?? id;
   }
 
-  private sortFormats(formats: ItemExportFormat[]): ItemExportFormat[] {
-    return [...formats].sort((a, b) =>
+  private sortFormats(formats: ItemExportFormat[]): void {
+    if (!formats) { return; }
+    formats.sort((a, b) =>
       this.getFormatLabel(a.id).localeCompare(this.getFormatLabel(b.id), undefined, { sensitivity: 'base' })
     );
   }
