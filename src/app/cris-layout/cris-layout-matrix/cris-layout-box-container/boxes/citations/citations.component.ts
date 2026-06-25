@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { ItemAvailableCitationsService } from '../../../../../core/data/citations/item-available-citations.service';
 import { Citation } from '../../../../../core/shared/citation.model';
@@ -37,7 +38,9 @@ export class CitationsComponent extends CrisLayoutBoxModelComponent implements O
   }
 
   ngOnInit(): void {
-    this.citationTypes$ = this.citationService.getAllAvailableCitations(this.item.id);
+    this.citationTypes$ = this.citationService.getAllAvailableCitations(this.item.id).pipe(
+      map(citations => [...citations].sort((a, b) => a.exportType.localeCompare(b.exportType)))
+    );
   }
 
   copyCitation(text: string): void {
