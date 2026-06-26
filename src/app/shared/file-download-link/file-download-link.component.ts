@@ -81,6 +81,8 @@ export class FileDownloadLinkComponent implements OnInit {
    */
     public canRequestItemCopy$: Observable<boolean>;
 
+  isAdmin$: Observable<boolean>;
+
 
   constructor(
     private authorizationService: AuthorizationDataService,
@@ -91,6 +93,8 @@ export class FileDownloadLinkComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isAdmin$ = this.authorizationService.isAuthorized(FeatureID.AdministratorOf);
+
     if (this.enableRequestACopy) {
       // Obtain item request data from the route snapshot
       this.itemRequest = this.route.snapshot.data.itemRequest;
@@ -99,8 +103,8 @@ export class FileDownloadLinkComponent implements OnInit {
       this.canDownloadWithToken$ = observableOf((this.itemRequest && this.itemRequest.acceptRequest && !this.itemRequest.accessExpired) ? (this.itemRequest.allfiles !== false || this.itemRequest.bitstreamId === this.bitstream.uuid) : false);
       this.canRequestACopy$ = this.authorizationService.isAuthorized(FeatureID.CanRequestACopy, isNotEmpty(this.bitstream) ? this.bitstream.self : undefined);
       // Set up observable to determine the path to the bitstream based on the user's access rights and features as above
-      this.bitstreamPath$ = observableCombineLatest([this.canDownload$, this.canDownloadWithToken$, this.canRequestACopy$]).pipe(
-        map(([canDownload, canDownloadWithToken, canRequestACopy]) => this.getBitstreamPath(canDownload, canDownloadWithToken, canRequestACopy))
+      this.bitstreamPath$ = observableCombineLatest([this.canDownload$, this.canDownloadWithToken$, this.canRequestACopy$, this.isAdmin$]).pipe(
+        map(([canDownload, canDownloadWithToken, canRequestACopy]) => this.getBitstreamPath(canDownload, canDownloadWithToken, canRequestACopy, isAdmin))
       );
 
       this.canRequestItemCopy$ = this.configurationService.findByPropertyName('request.item.type').pipe(
@@ -114,7 +118,9 @@ export class FileDownloadLinkComponent implements OnInit {
         shareReplay(1)
       );
     } else {
-      this.bitstreamPath$ = observableOf(this.getBitstreamDownloadPath());
+      this.bitstreamPath$ = this.isAdmin$.pipe(
+        map((isAdmin) => this.getBitstreamDownloadPath(isAdmin))
+      );
       this.canDownload$ = observableOf(true);
       this.canRequestItemCopy$ = observableOf(false);
     }
@@ -127,8 +133,9 @@ export class FileDownloadLinkComponent implements OnInit {
    * @param canDownload user can download normally
    * @param canDownloadWithToken user can download using a token granted by a request approver
    * @param canRequestACopy user can request approval to access a copy
+   * @param isAdmin user is admin
    */
-  getBitstreamPath(canDownload: boolean, canDownloadWithToken, canRequestACopy: boolean) {
+  getBitstreamPath(canDownload: boolean, canDownloadWithToken, canRequestACopy: boolean, isAdmin: boolean) {
     // No matter what, if the user can download with their own authZ, allow it
     if (canDownload) {
       return this.getBitstreamDownloadPath();
@@ -142,7 +149,7 @@ export class FileDownloadLinkComponent implements OnInit {
       return getBitstreamRequestACopyRoute(this.item, this.bitstream);
     }
     // By default, return the plain path
-    return this.getBitstreamDownloadPath();
+    return this.getBitstreamDownloadPath(isAdmin);
   }
 
   /**
@@ -156,10 +163,12 @@ export class FileDownloadLinkComponent implements OnInit {
   /**
    * Get normal bitstream download path, with no parameters
    */
-  getBitstreamDownloadPath() {
+  getBitstreamDownloadPath(isAdmin?: boolean) {
     return {
       routerLink: getBitstreamDownloadRoute(this.bitstream),
-      queryParams: {}
+      queryParams: {
+        ...(isAdmin ? { authenticationMethod: 'direct' } : {})
+      }
     };
   }
 }

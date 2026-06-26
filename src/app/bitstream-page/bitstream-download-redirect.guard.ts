@@ -6,34 +6,30 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import {
-  combineLatest,
-  Observable,
-  of,
-} from 'rxjs';
-import {
-  filter,
-  map,
-  switchMap,
-  take,
-} from 'rxjs/operators';
+import { Observable, combineLatest, of as observableOf } from 'rxjs';
+import { map, switchMap, filter, take } from 'rxjs/operators';
 
-import { getForbiddenRoute } from '../app-routing-paths';
-import { AuthService } from '../core/auth/auth.service';
 import { BitstreamDataService } from '../core/data/bitstream-data.service';
-import { AuthorizationDataService } from '../core/data/feature-authorization/authorization-data.service';
-import { FeatureID } from '../core/data/feature-authorization/feature-id';
 import { RemoteData } from '../core/data/remote-data';
 import { HardRedirectService } from '../core/services/hard-redirect.service';
-import { redirectOn4xx } from '../core/shared/authorized.operators';
 import { Bitstream } from '../core/shared/bitstream.model';
-import { FileService } from '../core/shared/file.service';
 import { getFirstCompletedRemoteData } from '../core/shared/operators';
-import {
-  hasValue,
-  isNotEmpty,
-} from '../shared/empty.util';
+import { hasValue, isNotEmpty } from '../shared/empty.util';
+import { AuthorizationDataService } from '../core/data/feature-authorization/authorization-data.service';
+import { FeatureID } from '../core/data/feature-authorization/feature-id';
+import { AuthService } from '../core/auth/auth.service';
+import { getForbiddenRoute } from '../app-routing-paths';
+import { FileService } from '../core/shared/file.service';
 import { BITSTREAM_PAGE_LINKS_TO_FOLLOW } from './bitstream-page.resolver';
+import { redirectOn4xx } from '../core/shared/authorized.operators';
+
+function buildUrlWithAuthMethod(url: string, authMethod: string): string {
+  if (authMethod) {
+    const separator = url.includes('?') ? '&' : '?';
+    return url + separator + 'authenticationMethod=' + authMethod;
+  }
+  return url;
+}
 
 export const bitstreamDownloadRedirectGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
@@ -48,6 +44,7 @@ export const bitstreamDownloadRedirectGuard: CanActivateFn = (
 
   const bitstreamId = route.params.id;
   const accessToken: string = route.queryParams.accessToken;
+  const authenticationMethod: string = route.queryParams.authenticationMethod;
 
   return bitstreamDataService.findById(bitstreamId, true, false, ...BITSTREAM_PAGE_LINKS_TO_FOLLOW).pipe(
     getFirstCompletedRemoteData(),
@@ -57,68 +54,46 @@ export const bitstreamDownloadRedirectGuard: CanActivateFn = (
         const bitstream = rd.payload;
         const isAuthorized$ = authorizationService.isAuthorized(FeatureID.CanDownload, bitstream.self);
         const isLoggedIn$ = auth.isAuthenticated();
-        return combineLatest([isAuthorized$, isLoggedIn$, of(bitstream)]);
+        return combineLatest([isAuthorized$, isLoggedIn$, observableOf(bitstream)]);
       } else {
-        return of([false, false, null]);
+        return observableOf([false, false, null]);
       }
     }),
-    filter(([isAuthorized, isLoggedIn, _bitstream]: [boolean, boolean, Bitstream]) => hasValue(isAuthorized) && hasValue(isLoggedIn)),
+    filter(([isAuthorized, isLoggedIn, bitstream]: [boolean, boolean, Bitstream]) => hasValue(isAuthorized) && hasValue(isLoggedIn)),
     take(1),
     switchMap(([isAuthorized, isLoggedIn, bitstream]: [boolean, boolean, Bitstream]) => {
-      if (!isAuthorized && !hasValue(accessToken)) {
-        if (isLoggedIn) {
-          return of(router.createUrlTree([getForbiddenRoute()]));
-        }
-        auth.setRedirectUrl(router.url);
-        return of(router.createUrlTree(['login']));
-      }
-
-      if (!isAuthorized && hasValue(accessToken)) {
-        const url = bitstream._links.content.href + '?accessToken=' + accessToken;
-        hardRedirectService.redirect(url, null, true);
-        const blockResolvingRoute = !!(router.getCurrentNavigation()?.extras?.state?.blockResolvingBitstreamPageRoute);
-        return of(!blockResolvingRoute);
-      }
-
-      // isAuthorized — resolve best download URL
-      const contentHref = bitstream._links.content.href;
-      const signedUrlHref = bitstream._links.signedurl?.href;
-      const blockResolvingRoute = !!(router.getCurrentNavigation()?.extras?.state?.blockResolvingBitstreamPageRoute);
-
-      if (isNotEmpty(signedUrlHref)) {
-        return fileService.retrieveSignedUrl(signedUrlHref).pipe(
+      if (isAuthorized && isLoggedIn) {
+        return fileService.retrieveFileDownloadLink(bitstream._links.content.href).pipe(
+          filter((fileLink) => hasValue(fileLink)),
           take(1),
-          switchMap((signedUrl: string | null) => {
-            if (isNotEmpty(signedUrl)) {
-              hardRedirectService.redirect(signedUrl);
-              return of(!blockResolvingRoute);
-            }
-            return resolveTokenOrPlainDownload(contentHref, isLoggedIn, fileService, hardRedirectService, !blockResolvingRoute);
-          }),
-        );
+          map((fileLink) => {
+            return [isAuthorized, isLoggedIn, bitstream, fileLink];
+          }));
+      } else {
+        return observableOf([isAuthorized, isLoggedIn, bitstream, '']);
       }
-
-      return resolveTokenOrPlainDownload(contentHref, isLoggedIn, fileService, hardRedirectService, !blockResolvingRoute);
     }),
+    map(([isAuthorized, isLoggedIn, bitstream, fileLink]: [boolean, boolean, Bitstream, string]) => {
+      if (isAuthorized && isLoggedIn && isNotEmpty(fileLink)) {
+        hardRedirectService.redirect(buildUrlWithAuthMethod(fileLink, authenticationMethod), null, true);
+        return false;
+      } else if (isAuthorized && !isLoggedIn && !hasValue(accessToken)) {
+        hardRedirectService.redirect(buildUrlWithAuthMethod(bitstream._links.content.href, authenticationMethod), null, true);
+        return false;
+      } else if (!isAuthorized) {
+        // Either we have an access token, or we are logged in, or we are not logged in.
+        // For now, the access token does not care if we are logged in or not.
+        if (hasValue(accessToken)) {
+          const urlWithToken = bitstream._links.content.href + '?accessToken=' + accessToken;
+          hardRedirectService.redirect(buildUrlWithAuthMethod(urlWithToken, authenticationMethod), null, true);
+          return false;
+        } else if (isLoggedIn) {
+          return router.createUrlTree([getForbiddenRoute()]);
+        } else if (!isLoggedIn) {
+          auth.setRedirectUrl(router.url);
+          return router.createUrlTree(['login']);
+        }
+      }
+    })
   );
 };
-
-function resolveTokenOrPlainDownload(
-  contentHref: string,
-  isLoggedIn: boolean,
-  fileService: FileService,
-  hardRedirectService: HardRedirectService,
-  resolve: boolean,
-): Observable<boolean> {
-  if (isLoggedIn) {
-    return fileService.retrieveFileDownloadLink(contentHref).pipe(
-      take(1),
-      map((fileLink: string) => {
-        hardRedirectService.redirect(fileLink, null, true);
-        return resolve;
-      }),
-    );
-  }
-  hardRedirectService.redirect(contentHref, null, true);
-  return of(resolve);
-}
