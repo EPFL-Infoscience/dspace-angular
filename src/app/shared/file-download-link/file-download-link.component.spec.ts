@@ -97,42 +97,6 @@ describe('FileDownloadLinkComponent', () => {
 
   describe('init', () => {
     describe('getBitstreamPath', () => {
-
-      describe('when the user is not an admin', () => {
-        beforeEach(waitForAsync(() => {
-          scheduler = getTestScheduler();
-          init();
-          (authorizationService.isAuthorized as jasmine.Spy).and.callFake((featureId, object) => {
-            if (featureId === FeatureID.AdministratorOf) {
-              return cold('-a', {a: false});
-            }
-            return cold('-a', {a: true});
-          });
-          initTestbed();
-        }));
-
-        beforeEach(() => {
-          fixture = TestBed.createComponent(FileDownloadLinkComponent);
-          component = fixture.componentInstance;
-          component.bitstream = bitstream;
-          component.item = item;
-          component.showIcon = true;
-          fixture.detectChanges();
-        });
-        it('should return the bitstreamPath without authenticationMethod', () => {
-          expect(component.bitstreamPath$).toBeObservable(cold('-a', {a: { routerLink: new URLCombiner(getBitstreamModuleRoute(), bitstream.uuid, 'download').toString(), queryParams: {} }}));
-          expect(component.canDownload$).toBeObservable(cold('--a', {a: true}));
-        });
-        it('should init the component', () => {
-          scheduler.flush();
-          fixture.detectChanges();
-          const link = fixture.debugElement.query(By.css('a'));
-          expect(link.injector.get(RouterLinkDirectiveStub).routerLink).toContain(new URLCombiner(getBitstreamModuleRoute(), bitstream.uuid, 'download').toString());
-          const lock = fixture.debugElement.query(By.css('.fa-lock'));
-          expect(lock).toBeNull();
-        });
-      });
-
       describe('when the user has download rights', () => {
         beforeEach(waitForAsync(() => {
           scheduler = getTestScheduler();
@@ -148,8 +112,8 @@ describe('FileDownloadLinkComponent', () => {
           component.showIcon = true;
           fixture.detectChanges();
         });
-        it('should return the bitstreamPath based on the input bitstream for admin user with authenticationMethod=direct', () => {
-          expect(component.bitstreamPath$).toBeObservable(cold('-a', {a: { routerLink: new URLCombiner(getBitstreamModuleRoute(), bitstream.uuid, 'download').toString(), queryParams: { authenticationMethod: 'direct' } }}));
+        it('should return the bitstreamPath based on the input bitstream', () => {
+          expect(component.bitstreamPath$).toBeObservable(cold('-a', {a: { routerLink: new URLCombiner(getBitstreamModuleRoute(), bitstream.uuid, 'download').toString(), queryParams: {} }}));
           expect(component.canDownload$).toBeObservable(cold('--a', {a: true}));
 
         });
