@@ -75,7 +75,7 @@ export const bitstreamDownloadRedirectGuard: CanActivateFn = (
 
       if (!isAuthorized && hasValue(accessToken)) {
         const url = bitstream._links.content.href + '?accessToken=' + accessToken;
-        hardRedirectService.redirect(url);
+        hardRedirectService.redirect(url, null, true);
         const blockResolvingRoute = !!(router.getCurrentNavigation()?.extras?.state?.blockResolvingBitstreamPageRoute);
         return of(!blockResolvingRoute);
       }
@@ -114,11 +114,11 @@ function resolveTokenOrPlainDownload(
     return fileService.retrieveFileDownloadLink(contentHref).pipe(
       take(1),
       map((fileLink: string) => {
-        hardRedirectService.redirect(fileLink);
+        hardRedirectService.redirect(fileLink, null, true);
         return resolve;
       }),
     );
   }
-  hardRedirectService.redirect(contentHref);
+  hardRedirectService.redirect(contentHref, null, true);
   return of(resolve);
 }

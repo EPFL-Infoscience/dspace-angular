@@ -147,7 +147,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect to download link and return true', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token');
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token', null, true);
             expect(result).toBeTrue();
           });
         });
@@ -164,7 +164,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect to plain content url and return true', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link');
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link', null, true);
             expect(result).toBeTrue();
           });
         });
@@ -175,7 +175,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
         (authorizationService.isAuthorized as jasmine.Spy).and.returnValue(observableOf(false));
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link?accessToken=token');
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link?accessToken=token', null, true);
             expect(result).toBeTrue();
           });
         });
@@ -257,7 +257,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect to download link and return false (blocking route resolution)', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token');
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token', null, true);
             expect(result).toBeFalse();
           });
         });
@@ -277,7 +277,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect to download link and return true (allowing route resolution)', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token');
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token', null, true);
             expect(result).toBeTrue();
           });
         });
@@ -299,7 +299,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect with access token and return false (blocking route resolution)', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link?accessToken=token');
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link?accessToken=token', null, true);
             expect(result).toBeFalse();
           });
         });
@@ -321,7 +321,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect with access token and return true (allowing route resolution)', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link?accessToken=token');
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link?accessToken=token', null, true);
             expect(result).toBeTrue();
           });
         });
@@ -406,7 +406,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect to plain content url and return false (blocking route resolution)', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link');
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link', null, true);
             expect(result).toBeFalse();
           });
         });
@@ -427,7 +427,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect to plain content url and return true (allowing route resolution)', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link');
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link', null, true);
             expect(result).toBeTrue();
           });
         });
@@ -447,7 +447,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should treat as false and redirect to download link and return true', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token');
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token', null, true);
             expect(result).toBeTrue();
           });
         });
@@ -464,7 +464,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should treat blockResolvingBitstreamPageRoute as false and return true', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token');
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token', null, true);
             expect(result).toBeTrue();
           });
         });
