@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { RawRestResponse } from '../dspace-rest/raw-rest-response.model';
 import { AuthService } from '../auth/auth.service';
-import {catchError, map, switchMap, take} from 'rxjs/operators';
+import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { NativeWindowRef, NativeWindowService } from '../services/window.service';
 import { URLCombiner } from '../url-combiner/url-combiner';
 import { hasValue } from '../../shared/empty.util';

@@ -13,7 +13,6 @@ import { AuthorizationDataService } from '../../core/data/feature-authorization/
 import { FeatureID } from '../../core/data/feature-authorization/feature-id';
 import { FileService } from '../../core/shared/file.service';
 import { RemoteData } from '../../core/data/remote-data';
-import { redirectOn4xx } from '../../core/shared/authorized.operators';
 import { SignpostingDataService } from '../../core/data/signposting-data.service';
 import { SignpostingLink } from '../../core/data/signposting-links.model';
 import { ServerResponseService } from '../../core/services/server-response.service';
@@ -68,7 +67,6 @@ export class BitstreamDownloadPageComponent implements OnInit {
     );
 
     this.bitstream$ = this.bitstreamRD$.pipe(
-      redirectOn4xx(this.router, this.auth),
       getRemoteDataPayload()
     );
 
