@@ -6,7 +6,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable, combineLatest, of as observableOf } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap, filter, take } from 'rxjs/operators';
 
 import { BitstreamDataService } from '../core/data/bitstream-data.service';
@@ -22,14 +22,6 @@ import { getForbiddenRoute } from '../app-routing-paths';
 import { FileService } from '../core/shared/file.service';
 import { BITSTREAM_PAGE_LINKS_TO_FOLLOW } from './bitstream-page.resolver';
 import { redirectOn4xx } from '../core/shared/authorized.operators';
-
-function buildUrlWithAuthMethod(url: string, authMethod: string): string {
-  if (authMethod) {
-    const separator = url.includes('?') ? '&' : '?';
-    return url + separator + 'authenticationMethod=' + authMethod;
-  }
-  return url;
-}
 
 export const bitstreamDownloadRedirectGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
@@ -54,46 +46,80 @@ export const bitstreamDownloadRedirectGuard: CanActivateFn = (
         const bitstream = rd.payload;
         const isAuthorized$ = authorizationService.isAuthorized(FeatureID.CanDownload, bitstream.self);
         const isLoggedIn$ = auth.isAuthenticated();
-        return combineLatest([isAuthorized$, isLoggedIn$, observableOf(bitstream)]);
+        return combineLatest([isAuthorized$, isLoggedIn$, of(bitstream)]);
       } else {
-        return observableOf([false, false, null]);
+        return of([false, false, null]);
       }
     }),
-    filter(([isAuthorized, isLoggedIn, bitstream]: [boolean, boolean, Bitstream]) => hasValue(isAuthorized) && hasValue(isLoggedIn)),
+    filter(([isAuthorized, isLoggedIn, _bitstream]: [boolean, boolean, Bitstream]) => hasValue(isAuthorized) && hasValue(isLoggedIn)),
     take(1),
     switchMap(([isAuthorized, isLoggedIn, bitstream]: [boolean, boolean, Bitstream]) => {
-      if (isAuthorized && isLoggedIn) {
-        return fileService.retrieveFileDownloadLink(bitstream._links.content.href).pipe(
-          filter((fileLink) => hasValue(fileLink)),
-          take(1),
-          map((fileLink) => {
-            return [isAuthorized, isLoggedIn, bitstream, fileLink];
-          }));
-      } else {
-        return observableOf([isAuthorized, isLoggedIn, bitstream, '']);
-      }
-    }),
-    map(([isAuthorized, isLoggedIn, bitstream, fileLink]: [boolean, boolean, Bitstream, string]) => {
-      if (isAuthorized && isLoggedIn && isNotEmpty(fileLink)) {
-        hardRedirectService.redirect(buildUrlWithAuthMethod(fileLink, authenticationMethod), null, true);
-        return false;
-      } else if (isAuthorized && !isLoggedIn && !hasValue(accessToken)) {
-        hardRedirectService.redirect(buildUrlWithAuthMethod(bitstream._links.content.href, authenticationMethod), null, true);
-        return false;
-      } else if (!isAuthorized) {
-        // Either we have an access token, or we are logged in, or we are not logged in.
-        // For now, the access token does not care if we are logged in or not.
-        if (hasValue(accessToken)) {
-          const urlWithToken = bitstream._links.content.href + '?accessToken=' + accessToken;
-          hardRedirectService.redirect(buildUrlWithAuthMethod(urlWithToken, authenticationMethod), null, true);
-          return false;
-        } else if (isLoggedIn) {
-          return router.createUrlTree([getForbiddenRoute()]);
-        } else if (!isLoggedIn) {
-          auth.setRedirectUrl(router.url);
-          return router.createUrlTree(['login']);
+      if (!isAuthorized && !hasValue(accessToken)) {
+        if (isLoggedIn) {
+          return of(router.createUrlTree([getForbiddenRoute()]));
         }
+        auth.setRedirectUrl(router.url);
+        return of(router.createUrlTree(['login']));
       }
-    })
+
+      if (!isAuthorized && hasValue(accessToken)) {
+        const url = bitstream._links.content.href + '?accessToken=' + accessToken;
+        hardRedirectService.redirect(buildUrlWithAuthMethod(url, authenticationMethod), null, true);
+        const blockResolvingRoute = !!(router.getCurrentNavigation()?.extras?.state?.blockResolvingBitstreamPageRoute);
+        return of(!blockResolvingRoute);
+      }
+
+      // isAuthorized — resolve best download URL
+      const contentHref = bitstream._links.content.href;
+      const signedUrlHref = bitstream._links.signedurl?.href;
+      const blockResolvingRoute = !!(router.getCurrentNavigation()?.extras?.state?.blockResolvingBitstreamPageRoute);
+
+      if (isNotEmpty(signedUrlHref)) {
+        return fileService.retrieveSignedUrl(signedUrlHref).pipe(
+          take(1),
+          switchMap((signedUrl: string | null) => {
+            if (isNotEmpty(signedUrl)) {
+              hardRedirectService.redirect(signedUrl);
+              return of(!blockResolvingRoute);
+            }
+            return resolveTokenOrPlainDownload(contentHref, isLoggedIn, fileService, hardRedirectService, !blockResolvingRoute, authenticationMethod);
+          }),
+        );
+      }
+
+      return resolveTokenOrPlainDownload(contentHref, isLoggedIn, fileService, hardRedirectService, !blockResolvingRoute, authenticationMethod);
+    }),
   );
 };
+
+/**
+ * Append authenticationMethod query param to the URL, using ? or & as needed
+ */
+function buildUrlWithAuthMethod(url: string, authenticationMethod): string {
+  if (!hasValue(authenticationMethod)) {
+    return url;
+  }
+  const separator = url.includes('?') ? '&' : '?';
+  return url + separator + 'authenticationMethod=' + authenticationMethod;
+}
+
+function resolveTokenOrPlainDownload(
+  contentHref: string,
+  isLoggedIn: boolean,
+  fileService: FileService,
+  hardRedirectService: HardRedirectService,
+  resolve: boolean,
+  authenticationMethod: string,
+): Observable<boolean> {
+  if (isLoggedIn) {
+    return fileService.retrieveFileDownloadLink(contentHref).pipe(
+      take(1),
+      map((fileLink: string) => {
+        hardRedirectService.redirect(buildUrlWithAuthMethod(fileLink, authenticationMethod), null, true);
+        return resolve;
+      }),
+    );
+  }
+  hardRedirectService.redirect(buildUrlWithAuthMethod(contentHref, authenticationMethod), null, true);
+  return of(resolve);
+}
