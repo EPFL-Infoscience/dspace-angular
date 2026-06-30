@@ -11,6 +11,7 @@ import { Item } from '../../../../core/shared/item.model';
 import { ItemType } from '../../../../core/shared/item-relationships/item-type.model';
 import { SearchOptions } from '../../models/search-options.model';
 import { ItemExportFormConfiguration, ItemExportService } from '../item-export.service';
+import { ItemExportFormat } from '../../../../core/itemexportformat/model/item-export-format.model';
 import { ItemExportFormatMolteplicity } from '../../../../core/itemexportformat/item-export-format.service';
 import { NotificationsService } from '../../../notifications/notifications.service';
 import { DSpaceObjectType } from '../../../../core/shared/dspace-object-type.model';
@@ -139,6 +140,7 @@ export class ItemExportComponent implements OnInit, OnDestroy {
 
     init$.subscribe((configuration: ItemExportFormConfiguration) => {
       this.configuration = configuration;
+      this.sortFormats(this.configuration.formats);
       this.canExport$.next(true);
       this.configurationLoaded$.next(true);
       this.initialized$.next(true);
@@ -173,6 +175,7 @@ export class ItemExportComponent implements OnInit, OnDestroy {
     this.configurationLoaded$.next(false);
     this.itemExportService.onSelectEntityType(this.configuration.entityTypes, entityType, this.discoveryConfig).pipe(take(1)).subscribe((configuration) => {
       this.configuration = configuration;
+      this.sortFormats(this.configuration.formats);
       this.selectedEntityType = entityType;
       this.exportForm.controls.format.patchValue(this.configuration.format);
 
@@ -273,6 +276,26 @@ export class ItemExportComponent implements OnInit, OnDestroy {
     return this.searchManager.search(searchOptions).pipe(
       getFirstCompletedRemoteData(),
       map((rd: RemoteData<SearchObjects<DSpaceObject>>) => rd?.payload?.totalElements > 0)
+    );
+  }
+
+  getFormatLabel(id: string): string {
+    const labels: Record<string, string> = {
+      'publication-apa': 'APA',
+      'publication-chicago': 'Chicago',
+      'publication-harvard': 'Harvard',
+      'publication-ieee': 'IEEE',
+      'publication-iso690': 'ISO-690',
+      'publication-mla': 'MLA',
+      'publication-vancouver': 'Vancouver',
+    };
+    return labels[id] ?? id;
+  }
+
+  private sortFormats(formats: ItemExportFormat[]): void {
+    if (!formats) { return; }
+    formats.sort((a, b) =>
+      this.getFormatLabel(a.id).localeCompare(this.getFormatLabel(b.id), undefined, { sensitivity: 'base' })
     );
   }
 

@@ -29,7 +29,7 @@
               <select id="format" class="custom-select" formControlName="format">
                 <option [ngValue]="null" disabled>{{ 'item-export.form.format.tip' | translate }}</option>
                 <option *ngFor="let format of configuration.formats" [ngValue]="format">
-                  {{ format.id }}
+                  {{ getFormatLabel(format.id) }}
                 </option>
               </select>
             </div>
