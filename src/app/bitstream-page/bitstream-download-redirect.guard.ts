@@ -14,7 +14,7 @@ import { RemoteData } from '../core/data/remote-data';
 import { HardRedirectService } from '../core/services/hard-redirect.service';
 import { Bitstream } from '../core/shared/bitstream.model';
 import { getFirstCompletedRemoteData } from '../core/shared/operators';
-import { hasValue, isNotEmpty } from '../shared/empty.util';
+import { hasValue, isEmpty, isNotEmpty } from '../shared/empty.util';
 import { AuthorizationDataService } from '../core/data/feature-authorization/authorization-data.service';
 import { FeatureID } from '../core/data/feature-authorization/feature-id';
 import { AuthService } from '../core/auth/auth.service';
@@ -74,7 +74,7 @@ export const bitstreamDownloadRedirectGuard: CanActivateFn = (
       const signedUrlHref = bitstream._links.signedurl?.href;
       const blockResolvingRoute = !!(router.getCurrentNavigation()?.extras?.state?.blockResolvingBitstreamPageRoute);
 
-      if (isNotEmpty(signedUrlHref)) {
+      if (isNotEmpty(signedUrlHref) && isEmpty(authenticationMethod)) {
         return fileService.retrieveSignedUrl(signedUrlHref).pipe(
           take(1),
           switchMap((signedUrl: string | null) => {
