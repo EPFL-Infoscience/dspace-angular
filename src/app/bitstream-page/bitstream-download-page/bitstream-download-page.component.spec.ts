@@ -4,7 +4,6 @@ import { Bitstream } from '../../core/shared/bitstream.model';
 import { BitstreamDownloadPageComponent } from './bitstream-download-page.component';
 import { createSuccessfulRemoteDataObject } from '../../shared/remote-data.utils';
 import { ActivatedRoute, Router } from '@angular/router';
-import { getForbiddenRoute } from '../../app-routing-paths';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { SignpostingDataService } from '../../core/data/signposting-data.service';
@@ -43,6 +42,7 @@ describe('BitstreamDownloadPageComponent', () => {
         self: { href: 'bitstream-self-link' },
       }
     });
+
     activatedRoute = {
       data: observableOf({
         bitstream: createSuccessfulRemoteDataObject(bitstream),
@@ -92,74 +92,6 @@ describe('BitstreamDownloadPageComponent', () => {
     });
     it('should init the comp', () => {
       expect(component).toBeTruthy();
-    });
-  });
-
-  describe('bitstream retrieval', () => {
-    describe('when the user is authorized and not logged in', () => {
-      beforeEach(waitForAsync(() => {
-        init();
-        (authService.isAuthenticated as jasmine.Spy).and.returnValue(observableOf(false));
-
-        initTestbed();
-      }));
-      beforeEach(() => {
-        fixture = TestBed.createComponent(BitstreamDownloadPageComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-      });
-      it('should redirect to the content link', () => {
-        expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link');
-      });
-      it('should add the signposting links', () => {
-        expect(serverResponseService.setHeader).toHaveBeenCalled();
-      });
-    });
-    describe('when the user is authorized and logged in', () => {
-      beforeEach(waitForAsync(() => {
-        init();
-        initTestbed();
-      }));
-      beforeEach(() => {
-        fixture = TestBed.createComponent(BitstreamDownloadPageComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-      });
-      it('should redirect to an updated content link', () => {
-        expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-headers');
-      });
-    });
-    describe('when the user is not authorized and logged in', () => {
-      beforeEach(waitForAsync(() => {
-        init();
-        (authorizationService.isAuthorized as jasmine.Spy).and.returnValue(observableOf(false));
-        initTestbed();
-      }));
-      beforeEach(() => {
-        fixture = TestBed.createComponent(BitstreamDownloadPageComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-      });
-      it('should navigate to the forbidden route', () => {
-        expect(router.navigateByUrl).toHaveBeenCalledWith(getForbiddenRoute(), { skipLocationChange: true });
-      });
-    });
-    describe('when the user is not authorized and not logged in', () => {
-      beforeEach(waitForAsync(() => {
-        init();
-        (authService.isAuthenticated as jasmine.Spy).and.returnValue(observableOf(false));
-        (authorizationService.isAuthorized as jasmine.Spy).and.returnValue(observableOf(false));
-        initTestbed();
-      }));
-      beforeEach(() => {
-        fixture = TestBed.createComponent(BitstreamDownloadPageComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-      });
-      it('should navigate to the login page', () => {
-        expect(authService.setRedirectUrl).toHaveBeenCalled();
-        expect(router.navigateByUrl).toHaveBeenCalledWith('login');
-      });
     });
   });
 });

@@ -13,7 +13,7 @@
       </a>
     </ng-template>
     <ng-template #requestACopyTpl>
-      <a [routerLink]="bitstreamLink?.routerLink"
+      <button [routerLink]="bitstreamLink?.routerLink"
          [queryParams]="bitstreamLink?.queryParams"
          [state]="{ blockResolvingBitstreamPageRoute: !isBlank }"
          [attr.target]="isBlank ? '_blank' : null"
@@ -22,7 +22,7 @@
          class="btn btn-outline-primary"
          data-test="requestACopy">
         {{ 'cris-layout.advanced-attachment.requestACopy' | translate }}
-      </a>
+      </button>
     </ng-template>
   </ng-container>
 </ng-container>

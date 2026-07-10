@@ -153,7 +153,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect to download link and return true', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token', null, true);
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token');
             expect(result).toBeTrue();
           });
         });
@@ -170,7 +170,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect to plain content url and return true', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link', null, true);
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link');
             expect(result).toBeTrue();
           });
         });
@@ -181,7 +181,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
         (authorizationService.isAuthorized as jasmine.Spy).and.returnValue(of(false));
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link?accessToken=token', null, true);
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link?accessToken=token');
             expect(result).toBeTrue();
           });
         });
@@ -273,7 +273,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect to download link and return false (blocking route resolution)', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token', null, true);
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token');
             expect(result).toBeFalse();
           });
         });
@@ -293,7 +293,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect to download link and return true (allowing route resolution)', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token', null, true);
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token');
             expect(result).toBeTrue();
           });
         });
@@ -315,7 +315,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect with access token and return false (blocking route resolution)', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link?accessToken=token', null, true);
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link?accessToken=token');
             expect(result).toBeFalse();
           });
         });
@@ -337,7 +337,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect with access token and return true (allowing route resolution)', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link?accessToken=token', null, true);
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link?accessToken=token');
             expect(result).toBeTrue();
           });
         });
@@ -441,7 +441,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect to plain content url and return false (blocking route resolution)', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link', null, true);
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link');
             expect(result).toBeFalse();
           });
         });
@@ -462,7 +462,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect to plain content url and return true (allowing route resolution)', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link', null, true);
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link');
             expect(result).toBeTrue();
           });
         });
@@ -482,7 +482,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should treat as false and redirect to download link and return true', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token', null, true);
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token');
             expect(result).toBeTrue();
           });
         });
@@ -499,7 +499,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should treat blockResolvingBitstreamPageRoute as false and return true', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(route, state).subscribe((result) => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token', null, true);
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-token');
             expect(result).toBeTrue();
           });
         });
@@ -517,7 +517,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect to the file link with authenticationMethod appended', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(routeWithAuthMethod, state).subscribe(() => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-headers?authenticationMethod=direct', null, true);
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('content-url-with-headers?authenticationMethod=direct');
           });
         });
       }));
@@ -531,7 +531,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect to the content link with authenticationMethod appended', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(routeWithAuthMethod, state).subscribe(() => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link?authenticationMethod=direct', null, true);
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link?authenticationMethod=direct');
           });
         });
       }));
@@ -549,7 +549,7 @@ describe('BitstreamDownloadRedirectGuard', () => {
       it('should redirect to the content link with accessToken and authenticationMethod', waitForAsync(() => {
         TestBed.runInInjectionContext(() => {
           resolver(routeWithAuthMethodAndToken, state).subscribe(() => {
-            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link?accessToken=test-token&authenticationMethod=direct', null, true);
+            expect(hardRedirectService.redirect).toHaveBeenCalledWith('bitstream-content-link?accessToken=test-token&authenticationMethod=direct');
           });
         });
       }));
