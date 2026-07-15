@@ -288,6 +288,20 @@ export class ItemExportComponent implements OnInit, OnDestroy {
       'publication-iso690': 'ISO-690',
       'publication-mla': 'MLA',
       'publication-vancouver': 'Vancouver',
+      'product-apa': 'APA',
+      'product-chicago': 'Chicago',
+      'product-harvard': 'Harvard',
+      'product-ieee': 'IEEE',
+      'product-iso690': 'ISO-690',
+      'product-mla': 'MLA',
+      'product-vancouver': 'Vancouver',
+      'patent-apa': 'APA',
+      'patent-chicago': 'Chicago',
+      'patent-harvard': 'Harvard',
+      'patent-ieee': 'IEEE',
+      'patent-iso690': 'ISO-690',
+      'patent-mla': 'MLA',
+      'patent-vancouver': 'Vancouver',
     };
     return labels[id] ?? id;
   }
