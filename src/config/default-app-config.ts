@@ -977,5 +977,19 @@ export class DefaultAppConfig implements AppConfig {
     'publication-ieee',
     'publication-mla',
     'publication-vancouver',
-  ];
+    'product-apa',
+    'product-chicago',
+    'product-harvard',
+    'product-ieee',
+    'product-iso690',
+    'product-mla',
+    'product-vancouver',
+    'patent-apa',
+    'patent-chicago',
+    'patent-harvard',
+    'patent-ieee',
+    'patent-iso690',
+    'patent-mla',
+    'patent-vancouver',
+];
 }
