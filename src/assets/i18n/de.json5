@@ -7571,6 +7571,8 @@
   // "citations.copy.success": "Citation copied correctly",
   "citations.copy.success": "Zitat erfolgreich kopiert",
 
+  "citations.hint": "Klicken Sie auf <b>Kopieren</b>, um das Zitat zu kopieren, oder markieren Sie den Text manuell.",
+
   // "citations.show-more": "Show more",
   "citations.show-more": "Mehr anzeigen",
 

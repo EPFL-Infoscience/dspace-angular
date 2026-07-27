@@ -6781,6 +6781,8 @@
   // "citations.copy.success": "Citation copied correctly",
   "citations.copy.success": "Citation copiée avec succès",
 
+  "citations.hint": "Cliquez sur <b>Copier</b> pour copier la citation, ou sélectionnez le texte manuellement.",
+
   // "citations.show-more": "Show more",
   "citations.show-more": "Afficher plus",
 

@@ -7184,6 +7184,8 @@
   // "citations.copy.success": "Citation copied correctly",
   "citations.copy.success": "Cita copiada correctamente",
 
+  "citations.hint": "Haga clic en <b>Copiar</b> para copiar la cita, o seleccione el texto manualmente.",
+
   // "citations.show-more": "Show more",
   "citations.show-more": "Mostrar más",
 
