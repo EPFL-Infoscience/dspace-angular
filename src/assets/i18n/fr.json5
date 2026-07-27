@@ -6772,6 +6772,9 @@
   // "item-export.process.title": "Bulk export item",
   "item-export.process.title": "Exporter par lot",
 
+  //"citations.title": "Cite this item",
+  "citations.title": "Citer cet élément",
+
   // "citations.copy": "Copy Citation",
   "citations.copy": "Copier la citation",
 

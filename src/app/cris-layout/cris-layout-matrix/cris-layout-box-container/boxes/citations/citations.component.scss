@@ -7,12 +7,30 @@
   font-size: smaller;
 }
 
+.citation-title {
+  font-size: smaller;
+  border-bottom: 0.25px solid #e6e6e6;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+
+
+  p {
+    margin-bottom: 0px;
+    color: #666666;
+  }
+
+  i {
+    color: var(--bs-primary);
+  }
+}
+
 :host::ng-deep {
   ds-truncatable-part {
     .content {
       display: flex;
       flex-direction: column;
     }
+
     .content::after {
       background: linear-gradient(to right, rgba(255, 255, 255, 0), var(--bs-light, #f8f9fa) 70%);
     }

@@ -7562,6 +7562,9 @@
   // TODO New key - Add a translation
   "item-export.process.title": "Bulk export item",
 
+  //"citations.title": "Cite this item",
+  "citations.title": "Diesen Eintrag zitieren",
+
   // "citations.copy": "Copy Citation",
   "citations.copy": "Zitieren kopieren",
 

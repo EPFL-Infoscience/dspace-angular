@@ -7175,6 +7175,9 @@
   // "item-export.process.title": "Bulk export item",
   "item-export.process.title": "Ítem de exportación masiva",
 
+  //"citations.title": "Cite this item",
+  "citations.title": "Citar este elemento",
+
   // "citations.copy": "Copy Citation",
   "citations.copy": "Copiar cita",
 
