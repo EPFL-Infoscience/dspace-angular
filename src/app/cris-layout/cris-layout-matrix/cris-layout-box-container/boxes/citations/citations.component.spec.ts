@@ -126,22 +126,28 @@ describe('CitationsComponent', () => {
     });
 
     it('should copy citation text and show success notification', fakeAsync(() => {
-      spyOn(navigator.clipboard, 'writeText').and.returnValue(Promise.resolve());
-      const copyButtons = fixture.debugElement.queryAll(By.css('.btn-outline-primary'));
+      const originalClipboard = navigator.clipboard;
+      const fakeClipboard = { writeText: jasmine.createSpy('writeText').and.returnValue(Promise.resolve()) };
+      Object.defineProperty(navigator, 'clipboard', { value: fakeClipboard, configurable: true });
+      const copyButtons = fixture.debugElement.queryAll(By.css('.citation-copy-btn'));
       expect(copyButtons.length).toBeGreaterThan(0);
       copyButtons[0].nativeElement.click();
       tick();
-      expect(navigator.clipboard.writeText).toHaveBeenCalledWith('APA citation text');
+      expect(fakeClipboard.writeText).toHaveBeenCalledWith('APA citation text');
       expect(notificationsServiceStub.success).toHaveBeenCalled();
+      Object.defineProperty(navigator, 'clipboard', { value: originalClipboard, configurable: true });
     }));
 
     it('should show error notification when copy fails', fakeAsync(() => {
-      spyOn(navigator.clipboard, 'writeText').and.returnValue(Promise.reject());
-      const copyButtons = fixture.debugElement.queryAll(By.css('.btn-outline-primary'));
+      const originalClipboard = navigator.clipboard;
+      const fakeClipboard = { writeText: jasmine.createSpy('writeText').and.returnValue(Promise.reject('error')) };
+      Object.defineProperty(navigator, 'clipboard', { value: fakeClipboard, configurable: true });
+      const copyButtons = fixture.debugElement.queryAll(By.css('.citation-copy-btn'));
       expect(copyButtons.length).toBeGreaterThan(0);
       copyButtons[0].nativeElement.click();
       tick();
       expect(notificationsServiceStub.error).toHaveBeenCalled();
+      Object.defineProperty(navigator, 'clipboard', { value: originalClipboard, configurable: true });
     }));
 
     it('should show error notification when clipboard is unavailable', fakeAsync(() => {
@@ -150,7 +156,7 @@ describe('CitationsComponent', () => {
         value: undefined,
         configurable: true,
       });
-      const copyButtons = fixture.debugElement.queryAll(By.css('.btn-outline-primary'));
+      const copyButtons = fixture.debugElement.queryAll(By.css('.citation-copy-btn'));
       expect(copyButtons.length).toBeGreaterThan(0);
       copyButtons[0].nativeElement.click();
       expect(notificationsServiceStub.error).toHaveBeenCalled();
