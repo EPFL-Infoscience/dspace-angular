@@ -4275,7 +4275,11 @@
 
   "item-export.process.title": "Bulk export item",
 
-  "citations.copy": "Copy Citation",
+  "citations.title": "Cite this item",
+
+  "citations.copy": "Copy",
+
+  "citations.hint": "Click <b>Copy</b> to copy the citation, or select the text manually.",
 
   "citations.copy.success": "Citation copied correctly",
 

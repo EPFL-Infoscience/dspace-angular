@@ -7562,11 +7562,16 @@
   // TODO New key - Add a translation
   "item-export.process.title": "Bulk export item",
 
+  //"citations.title": "Cite this item",
+  "citations.title": "Diesen Eintrag zitieren",
+
   // "citations.copy": "Copy Citation",
   "citations.copy": "Zitieren kopieren",
 
   // "citations.copy.success": "Citation copied correctly",
   "citations.copy.success": "Zitat erfolgreich kopiert",
+
+  "citations.hint": "Klicken Sie auf <b>Kopieren</b>, um das Zitat zu kopieren, oder markieren Sie den Text manuell.",
 
   // "citations.show-more": "Show more",
   "citations.show-more": "Mehr anzeigen",

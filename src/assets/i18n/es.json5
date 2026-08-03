@@ -7175,11 +7175,16 @@
   // "item-export.process.title": "Bulk export item",
   "item-export.process.title": "Ítem de exportación masiva",
 
+  //"citations.title": "Cite this item",
+  "citations.title": "Citar este elemento",
+
   // "citations.copy": "Copy Citation",
   "citations.copy": "Copiar cita",
 
   // "citations.copy.success": "Citation copied correctly",
   "citations.copy.success": "Cita copiada correctamente",
+
+  "citations.hint": "Haga clic en <b>Copiar</b> para copiar la cita, o seleccione el texto manualmente.",
 
   // "citations.show-more": "Show more",
   "citations.show-more": "Mostrar más",
