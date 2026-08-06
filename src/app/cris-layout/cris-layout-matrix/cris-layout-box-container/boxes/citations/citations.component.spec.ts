@@ -129,7 +129,7 @@ describe('CitationsComponent', () => {
       const originalClipboard = navigator.clipboard;
       const fakeClipboard = { writeText: jasmine.createSpy('writeText').and.returnValue(Promise.resolve()) };
       Object.defineProperty(navigator, 'clipboard', { value: fakeClipboard, configurable: true });
-      const copyButtons = fixture.debugElement.queryAll(By.css('.citation-copy-btn'));
+      const copyButtons = fixture.debugElement.queryAll(By.css('.citation-body button'));
       expect(copyButtons.length).toBeGreaterThan(0);
       copyButtons[0].nativeElement.click();
       tick();
@@ -142,7 +142,7 @@ describe('CitationsComponent', () => {
       const originalClipboard = navigator.clipboard;
       const fakeClipboard = { writeText: jasmine.createSpy('writeText').and.returnValue(Promise.reject('error')) };
       Object.defineProperty(navigator, 'clipboard', { value: fakeClipboard, configurable: true });
-      const copyButtons = fixture.debugElement.queryAll(By.css('.citation-copy-btn'));
+      const copyButtons = fixture.debugElement.queryAll(By.css('.citation-body button'));
       expect(copyButtons.length).toBeGreaterThan(0);
       copyButtons[0].nativeElement.click();
       tick();
@@ -156,7 +156,7 @@ describe('CitationsComponent', () => {
         value: undefined,
         configurable: true,
       });
-      const copyButtons = fixture.debugElement.queryAll(By.css('.citation-copy-btn'));
+      const copyButtons = fixture.debugElement.queryAll(By.css('.citation-body button'));
       expect(copyButtons.length).toBeGreaterThan(0);
       copyButtons[0].nativeElement.click();
       expect(notificationsServiceStub.error).toHaveBeenCalled();
