@@ -1,15 +1,7 @@
 .citation-body {
-  position: relative;
   background: var(--bs-light, #f8f9fa);
   padding: 1rem;
   margin-top: 0.5rem;
-}
-
-.citation-copy-btn {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  z-index: 1;
 }
 
 .citation-text {
@@ -17,7 +9,6 @@
   word-break: break-word;
   font-style: italic;
   font-size: smaller;
-  padding-right: 5rem;
 }
 
 .citation-hint {
