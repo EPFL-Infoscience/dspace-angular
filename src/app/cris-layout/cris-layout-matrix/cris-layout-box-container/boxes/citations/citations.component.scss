@@ -6,10 +6,17 @@
 }
 
 .citation-copy-btn {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.75rem;
+
+  @media screen and (min-width: map-get($grid-breakpoints, md)) {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 1;
+    margin-bottom: 0;
+  }
 }
 
 .citation-text {
@@ -17,7 +24,10 @@
   word-break: break-word;
   font-style: italic;
   font-size: smaller;
-  padding-right: 5rem;
+
+  @media screen and (min-width: map-get($grid-breakpoints, md)) {
+    padding-right: 9rem;
+  }
 }
 
 .citation-hint {
