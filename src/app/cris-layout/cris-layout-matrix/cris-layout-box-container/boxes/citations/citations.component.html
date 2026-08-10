@@ -11,8 +11,8 @@
         <a ngbNavLink>{{ 'citations.tab.' + citationType.exportType | translate }}</a>
         <ng-template ngbNavContent>
           <div class="citation-body">
-            <div class="d-flex justify-content-end">
-              <button class="btn btn-sm btn-outline-dark mb-3" (click)="copyCitation(citationType.value)">
+            <div class="citation-copy-btn">
+              <button class="btn btn-sm btn-outline-dark" (click)="copyCitation(citationType.value)">
                 <i class="fas fa-copy"></i> {{ 'citations.copy' | translate }}
               </button>
             </div>
