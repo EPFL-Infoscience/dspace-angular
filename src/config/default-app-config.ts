@@ -968,4 +968,28 @@ export class DefaultAppConfig implements AppConfig {
     'legacy-id': 301,
     default: 302
   };
+
+  citationTypesWhitelist: string[] = [
+    'publication-apa',
+    'publication-chicago',
+    'publication-harvard',
+    'publication-iso690',
+    'publication-ieee',
+    'publication-mla',
+    'publication-vancouver',
+    'product-apa',
+    'product-chicago',
+    'product-harvard',
+    'product-ieee',
+    'product-iso690',
+    'product-mla',
+    'product-vancouver',
+    'patent-apa',
+    'patent-chicago',
+    'patent-harvard',
+    'patent-ieee',
+    'patent-iso690',
+    'patent-mla',
+    'patent-vancouver',
+];
 }

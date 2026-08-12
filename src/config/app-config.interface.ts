@@ -90,6 +90,7 @@ interface AppConfig extends Config {
   epflUnpaywallMetadata: EpflUnpaywallMetadata;
   loader: LoaderConfig;
   luckySearchRedirects?: LuckySearchRedirectConfig;
+  citationTypesWhitelist: string[];
 }
 
 /**

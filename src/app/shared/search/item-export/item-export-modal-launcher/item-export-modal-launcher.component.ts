@@ -31,6 +31,7 @@ export class ItemExportModalLauncherComponent implements OnInit {
 
   @Input() item: Item;
   @Input() searchOptions$: Observable<SearchOptions>;
+  @Input() configuration: string;
 
   bulkExportLimit = '0';
 
@@ -91,6 +92,7 @@ export class ItemExportModalLauncherComponent implements OnInit {
         modalRef.componentInstance.itemType = event;
         modalRef.componentInstance.bulkExportLimit = this.bulkExportLimit;
         modalRef.componentInstance.showListSelection = true;
+        modalRef.componentInstance.discoveryConfig = this.configuration;
       });
     }
 

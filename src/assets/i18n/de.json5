@@ -7562,6 +7562,65 @@
   // TODO New key - Add a translation
   "item-export.process.title": "Bulk export item",
 
+  //"citations.title": "Cite this item",
+  "citations.title": "Diesen Eintrag zitieren",
+
+  // "citations.copy": "Copy Citation",
+  "citations.copy": "Zitieren kopieren",
+
+  // "citations.copy.success": "Citation copied correctly",
+  "citations.copy.success": "Zitat erfolgreich kopiert",
+
+  "citations.hint": "Klicken Sie auf <b>Kopieren</b>, um das Zitat zu kopieren, oder markieren Sie den Text manuell.",
+
+  // "citations.show-more": "Show more",
+  "citations.show-more": "Mehr anzeigen",
+
+  // "citations.show-less": "Show less",
+  "citations.show-less": "Weniger anzeigen",
+
+  "citations.tab.publication-chicago": "Chicago",
+
+  "citations.tab.publication-mla": "MLA",
+
+  "citations.tab.publication-ieee": "IEEE",
+
+  "citations.tab.publication-harvard": "Harvard",
+
+  "citations.tab.publication-apa": "APA",
+
+  "citations.tab.publication-vancouver": "Vancouver",
+
+  "citations.tab.publication-iso690": "ISO 690",
+
+  "citations.tab.patent-chicago": "Chicago",
+
+  "citations.tab.patent-mla": "MLA",
+
+  "citations.tab.patent-ieee": "IEEE",
+
+  "citations.tab.patent-harvard": "Harvard",
+
+  "citations.tab.patent-apa": "APA",
+
+  "citations.tab.patent-vancouver": "Vancouver",
+
+  "citations.tab.patent-iso690": "ISO 690",
+
+  "citations.tab.product-chicago": "Chicago",
+
+  "citations.tab.product-mla": "MLA",
+
+  "citations.tab.product-ieee": "IEEE",
+
+  "citations.tab.product-harvard": "Harvard",
+
+  "citations.tab.product-apa": "APA",
+
+  "citations.tab.product-vancouver": "Vancouver",
+
+  "citations.tab.product-iso690": "ISO 690",
+
   // "bulk-export-url.process.title": "Bulk Export URL",
   // TODO New key - Add a translation
   "bulk-export-url.process.title": "Bulk Export URL",

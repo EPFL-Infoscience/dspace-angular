@@ -5,9 +5,11 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
-  Output
+  Output,
+  SimpleChanges
 } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { hasValue, isNotNull } from '../empty.util';
@@ -30,7 +32,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './entity-dropdown.component.html',
   styleUrls: ['./entity-dropdown.component.scss']
 })
-export class EntityDropdownComponent implements OnInit, OnDestroy {
+export class EntityDropdownComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * The entity list obtained from a search
    * @type {Observable<ItemType[]>}
@@ -58,6 +60,11 @@ export class EntityDropdownComponent implements OnInit, OnDestroy {
    * TRUE if the parent operation is a 'new submission' operation, FALSE otherwise (eg.: is an 'Import metadata from an external source' operation).
    */
   @Input() isSubmission: boolean;
+
+  /**
+   * Discovery config for export list
+   */
+  @Input() configuration: string;
 
   /**
    * The entity to output to the parent component
@@ -126,6 +133,15 @@ export class EntityDropdownComponent implements OnInit, OnDestroy {
     this.populateEntityList(this.currentPage);
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.configuration && !changes.configuration.firstChange) {
+      this.subs.filter((sub) => hasValue(sub)).forEach((sub) => sub.unsubscribe());
+      this.subs = [];
+      this.resetPagination();
+      this.populateEntityList(this.currentPage);
+    }
+  }
+
   /**
    * Check if dropdown scrollbar is at the top or bottom of the dropdown list
    *
@@ -180,7 +196,11 @@ export class EntityDropdownComponent implements OnInit, OnDestroy {
           );
     } else {
       searchListEntity$ =
-        this.itemExportFormatService.byEntityTypeAndMolteplicity(null, ItemExportFormatMolteplicity.MULTIPLE)
+        (
+          hasValue(this.configuration)
+            ? this.itemExportFormatService.byConfigurationAndMolteplicity(this.configuration, ItemExportFormatMolteplicity.MULTIPLE)
+            : this.itemExportFormatService.byEntityTypeAndMolteplicity(null, ItemExportFormatMolteplicity.MULTIPLE)
+        )
           .pipe(
             take(1),
             map((formatTypes: any) => {
