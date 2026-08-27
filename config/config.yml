@@ -3,3 +3,11 @@ rest:
   host: dspacecris7.4science.cloud
   port: 443
   nameSpace: /server
+
+languages:
+  - code: en
+    label: English
+    active: true
+  - code: fr
+    label: Français
+    active: true
