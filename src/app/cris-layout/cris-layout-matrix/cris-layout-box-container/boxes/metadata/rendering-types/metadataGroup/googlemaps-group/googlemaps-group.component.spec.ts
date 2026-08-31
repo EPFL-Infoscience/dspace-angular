@@ -7,21 +7,34 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateLoaderMock } from '../../../../../../../../shared/mocks/translate-loader.mock';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoadMoreService } from '../../../../../../../services/load-more.service';
-import { GooglemapsComponent } from '../../../../../../../../shared/googlemaps/googlemaps.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ConfigurationDataService } from '../../../../../../../../core/data/configuration-data.service';
+import { GooglemapsComponent } from '../../../../../../../../shared/googlemaps/googlemaps.component';
 import { createSuccessfulRemoteDataObject$ } from '../../../../../../../../shared/remote-data.utils';
 
 describe('GooglemapsGroupComponent', () => {
   let component: GooglemapsGroupComponent;
 
   let fixture: ComponentFixture<GooglemapsGroupComponent>;
+  let originalNgOnInit: any;
 
   const configurationDataService = jasmine.createSpyObj('configurationDataService', {
     findByPropertyName: jasmine.createSpy('findByPropertyName')
   });
 
   const confResponse$ = createSuccessfulRemoteDataObject$({ values: ['valid-googlemap-key'] });
+
+  // Patch ngOnInit on the prototype to prevent any GooglemapsComponent instance
+  // from loading the real Google Maps script and calling google.maps APIs during tests.
+  beforeAll(() => {
+    originalNgOnInit = GooglemapsComponent.prototype.ngOnInit;
+    GooglemapsComponent.prototype.ngOnInit = function() { /* noop */ };
+  });
+
+  afterAll(() => {
+    GooglemapsComponent.prototype.ngOnInit = originalNgOnInit;
+    document.querySelectorAll('script[src*="maps.googleapis.com"]').forEach(el => el.remove());
+  });
 
   const testItem = Object.assign(new Item(), {
     bundles: of({}),
@@ -91,8 +104,7 @@ describe('GooglemapsGroupComponent', () => {
       ],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [
-        GooglemapsGroupComponent,
-        GooglemapsComponent]
+        GooglemapsGroupComponent]
     })
     .compileComponents();
 
