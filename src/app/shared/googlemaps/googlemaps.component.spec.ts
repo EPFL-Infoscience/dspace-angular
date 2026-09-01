@@ -10,6 +10,7 @@ describe('GooglemapsComponent', () => {
   let component: GooglemapsComponent;
 
   let fixture: ComponentFixture<GooglemapsComponent>;
+  let originalNgOnInit: any;
 
   const coordinates = '@41.3455,456.67';
 
@@ -18,6 +19,20 @@ describe('GooglemapsComponent', () => {
   });
 
   const confResponse$ = createSuccessfulRemoteDataObject$({ values: ['valid-googlemap-key'] });
+
+  // Patch ngOnInit on the prototype to prevent any instance from loading
+  // the real Google Maps script and calling google.maps APIs during tests.
+  // Patching loadScript alone is insufficient because a resolved promise still
+  // triggers loadMap → mapInitializer → google.maps.Map (undefined in tests).
+  beforeAll(() => {
+    originalNgOnInit = GooglemapsComponent.prototype.ngOnInit;
+    GooglemapsComponent.prototype.ngOnInit = function() { /* noop */ };
+  });
+
+  afterAll(() => {
+    GooglemapsComponent.prototype.ngOnInit = originalNgOnInit;
+    document.querySelectorAll('script[src*="maps.googleapis.com"]').forEach(el => el.remove());
+  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

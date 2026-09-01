@@ -615,6 +615,12 @@ export const environment: BuildConfig = {
       submittedVersion: 'http://purl.org/coar/version/c_71e4c1898caa6e32',
       acceptedVersion: 'http://purl.org/coar/version/c_ab4af688f83e57aa',
       publishedVersion: 'http://purl.org/coar/version/c_970fb48d4fbd8a85',
+    },
+    polling: {
+      initialIntervalMs: 10000,
+      initialMaxRetries: 3,
+      extendedIntervalMs: 30000,
+      extendedMaxRetries: 5,
     }
   },
 
