@@ -883,7 +883,13 @@ export class DefaultAppConfig implements AppConfig {
       submittedVersion: 'http://purl.org/coar/version/c_71e4c1898caa6e32',
       acceptedVersion: 'http://purl.org/coar/version/c_ab4af688f83e57aa',
       publishedVersion: 'http://purl.org/coar/version/c_970fb48d4fbd8a85',
-    }
+    },
+    polling: {
+      initialIntervalMs: 10000,   // 10 seconds
+      initialMaxRetries: 3,
+      extendedIntervalMs: 30000,  // 30 seconds
+      extendedMaxRetries: 5,
+    },
   };
 
   mirador: MiradorConfig = {

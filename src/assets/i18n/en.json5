@@ -7976,6 +7976,8 @@
 
   "submission.sections.unpaywall.status.imported": "The Unpaywall resource has been imported!",
 
+  "submission.sections.unpaywall.status.timeout": "The Unpaywall service did not respond in time. Please try again later using the Refresh button.",
+
   "submission.sections.submit.progressbar.unpaywall": "Unpaywall",
 
 

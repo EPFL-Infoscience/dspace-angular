@@ -61,6 +61,8 @@ import { RawRestResponse } from '../../../core/dspace-rest/raw-rest-response.mod
 import { SubmissionState } from '../../submission.reducers';
 import { SectionUploadService } from '../upload/section-upload.service';
 import { getMockSectionUploadService } from '../../../shared/mocks/section-upload.service.mock';
+import { APP_CONFIG } from '../../../../config/app-config.interface';
+import { environment } from '../../../../environments/environment.test';
 
 describe('SubmissionSectionUnpaywallComponentComponent', () => {
   let component: SubmissionSectionUnpaywallComponent;
@@ -140,6 +142,7 @@ describe('SubmissionSectionUnpaywallComponentComponent', () => {
         { provide: 'sectionDataProvider', useValue: {} },
         { provide: 'submissionIdProvider', useValue: mockSubmissionId },
           { provide: SectionUploadService, useValue: getMockSectionUploadService() },
+        { provide: APP_CONFIG, useValue: environment },
       ],
       declarations: [SubmissionSectionUnpaywallComponent],
       schemas: [NO_ERRORS_SCHEMA]
