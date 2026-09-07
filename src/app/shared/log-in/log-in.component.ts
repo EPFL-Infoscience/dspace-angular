@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { filter, map, shareReplay } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { AuthMethod } from '../../core/auth/models/auth.method';
 import {
@@ -8,7 +8,7 @@ import {
   isAuthenticated,
   isAuthenticationLoading
 } from '../../core/auth/selectors';
-import { getForgotPasswordRoute, getRegisterRoute } from '../../app-routing-paths';
+import { getRegisterRoute } from '../../app-routing-paths';
 import { hasValue } from '../empty.util';
 import { AuthService } from '../../core/auth/auth.service';
 import { CoreState } from '../../core/core-state.model';
@@ -68,16 +68,6 @@ export class LogInComponent implements OnInit, OnDestroy {
   canRegister$: Observable<boolean>;
 
   /**
-   * Whether or not the current user (or anonymous) is authorized to register an account
-   */
-  canForgot$: Observable<boolean>;
-
-  /**
-   * Shows the divider only if contains at least one link to show
-   */
-  canShowDivider$: Observable<boolean>;
-
-  /**
    * Track subscription to unsubscribe on destroy
    * @private
    */
@@ -117,13 +107,6 @@ export class LogInComponent implements OnInit, OnDestroy {
     });
 
     this.canRegister$ = this.authorizationService.isAuthorized(FeatureID.EPersonRegistration);
-
-    this.canForgot$ = this.authorizationService.isAuthorized(FeatureID.EPersonForgotPassword).pipe(shareReplay(1));
-    this.canShowDivider$ = this.canRegister$.pipe(
-      combineLatestWith(this.canForgot$),
-      map(([canRegister, canForgot]) => (canRegister || canForgot) && (!environment.auth.disableStandardLogin || this.isStandalonePage)),
-      filter(Boolean)
-    );
   }
 
   filterAndSortAuthMethods(authMethods: AuthMethod[], isBackdoor: boolean, isStandardLoginDisabled = false): AuthMethod[] {
@@ -147,10 +130,6 @@ export class LogInComponent implements OnInit, OnDestroy {
 
   getRegisterRoute() {
     return getRegisterRoute();
-  }
-
-  getForgotRoute() {
-    return getForgotPasswordRoute();
   }
 
   ngOnDestroy(): void {
