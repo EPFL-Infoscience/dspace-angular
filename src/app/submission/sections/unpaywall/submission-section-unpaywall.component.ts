@@ -9,7 +9,6 @@ import { Store } from '@ngrx/store';
 import { SubmissionState } from '../../submission.reducers';
 import {
   catchError,
-  delay,
   distinctUntilChanged,
   filter,
   last,
@@ -51,10 +50,10 @@ import { WorkspaceitemSectionUploadObject } from '../../../core/submission/model
 import {
   WorkspaceitemSectionUploadFileObject
 } from '../../../core/submission/models/workspaceitem-section-upload-file.model';
+import { APP_CONFIG, AppConfig } from '../../../../config/app-config.interface';
+import { UnpaywallPollingConfig } from '../../../../config/unpaywall-polling-config';
 
 const DOI_METADATA = 'dc.identifier.doi';
-const API_CHECK_INTERVAL = 5000;
-const MAX_TRIES = 2;
 
 function attemptsGuardFactory(maxAttempts: number) {
   return (attemptsCount: number) => {
@@ -101,6 +100,7 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
   public readonly UnpaywallSectionStatus = UnpaywallSectionStatus;
   public readonly status$ = new BehaviorSubject<UnpaywallSectionStatus>(null);
   public readonly loading$ = new BehaviorSubject<boolean>(true);
+  public readonly timedOut$ = new BehaviorSubject<boolean>(false);
   public readonly unpaywallSection$ = new BehaviorSubject<WorkspaceitemSectionUnpaywallObject>(null);
   public readonly uploadSection$ = new BehaviorSubject<UploadSection>(null);
 
@@ -120,6 +120,7 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
     private translate: TranslateService,
     private restApi: DspaceRestService,
     private readonly sectionUploadService: SectionUploadService,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
     @Inject('collectionIdProvider') public injectedCollectionId: string,
     @Inject('sectionDataProvider') public injectedSectionData: SectionDataObject,
     @Inject('submissionIdProvider') public injectedSubmissionId: string
@@ -132,6 +133,7 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
   }
 
   public refreshApiCheck(): void {
+    this.timedOut$.next(false);
     this.loading$.next(true);
     this.fetch$.next(true);
   }
@@ -161,6 +163,8 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
   }
 
   protected initUnpaywallFetching() {
+    const pollingConfig: UnpaywallPollingConfig = this.appConfig.epflUnpaywallMetadata?.polling;
+
     this.fetch$.pipe(
       switchMap((refreshRequired) =>
         this.patchForRefresh(refreshRequired)
@@ -170,27 +174,15 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
               if (unpaywall != null && unpaywall.status !== UnpaywallSectionStatus.PENDING) {
                 return of(unpaywall);
               } else {
-                return of(false).pipe(
-                  delay(API_CHECK_INTERVAL),
-                  switchMap(refresh => this.patchForRefresh(refresh)
-                    .pipe(
-                      pollWhile(
-                        API_CHECK_INTERVAL,
-                        res => this.isStillPending(res),
-                        MAX_TRIES
-                      ),
-                      takeUntil(this.stopFetch$),
-                      this.getUnpaywallSection(),
-                      catchError(err => {
-                        this.stopFetch$.next();
-                        this.notificationsService.error(err?.message);
-                        return of(Object.assign({}, {
-                          ...this.unpaywallSection$.getValue(),
-                          status: UnpaywallSectionStatus.NOT_FOUND
-                        }));
-                      })
-                    )
-                  )
+                return this.twoPhasePolling(pollingConfig).pipe(
+                  takeUntil(this.stopFetch$),
+                  this.getUnpaywallSection(),
+                  catchError(() => {
+                    this.stopFetch$.next();
+                    this.timedOut$.next(true);
+                    this.loading$.next(false);
+                    return of(this.unpaywallSection$.getValue());
+                  })
                 );
               }
             })
@@ -201,13 +193,56 @@ export class SubmissionSectionUnpaywallComponent extends SectionModelComponent i
       this.updateUnpaywall(unpaywall);
 
       const isLoading = !unpaywall?.status || unpaywall?.status === UnpaywallSectionStatus.PENDING;
-      this.loading$.next(isLoading);
+      if (!this.timedOut$.getValue()) {
+        this.loading$.next(isLoading);
+      }
       if (!isLoading) {
         this.stopFetch$.next();
-      } else if (unpaywall?.status === UnpaywallSectionStatus.PENDING) {
+      } else if (unpaywall?.status === UnpaywallSectionStatus.PENDING && !this.timedOut$.getValue()) {
         this.notificationsService.warning(this.translate.instant('submission.sections.unpaywall.status.pending'));
       }
     });
+  }
+
+  /**
+   * Executes a two-phase polling strategy against the Unpaywall backend.
+   *
+   * Phase 1: polls every `initialIntervalMs` for up to `initialMaxRetries` attempts.
+   * Phase 2 (if still PENDING): polls every `extendedIntervalMs` for up to `extendedMaxRetries` attempts.
+   *
+   * If both phases are exhausted without resolution, the returned observable errors
+   * so that the caller can map it to a TIMEOUT status.
+   */
+  private twoPhasePolling(pollingConfig: UnpaywallPollingConfig): Observable<WorkspaceitemSectionsObject> {
+    const phase1$ = this.patchForRefresh(false).pipe(
+      pollWhile(
+        pollingConfig.initialIntervalMs,
+        res => this.isStillPending(res),
+        pollingConfig.initialMaxRetries,
+        false
+      ),
+      last()
+    );
+
+    const phase2$ = this.patchForRefresh(false).pipe(
+      pollWhile(
+        pollingConfig.extendedIntervalMs,
+        res => this.isStillPending(res),
+        pollingConfig.extendedMaxRetries,
+        false
+      ),
+      last()
+    );
+
+    // Phase 1, then – only if still pending – phase 2
+    return phase1$.pipe(
+      switchMap(res => {
+        if (this.isStillPending(res)) {
+          return phase2$;
+        }
+        return of(res);
+      })
+    );
   }
 
   protected initStatusNotification() {

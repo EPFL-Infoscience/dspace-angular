@@ -280,30 +280,10 @@ export class ItemExportComponent implements OnInit, OnDestroy {
   }
 
   getFormatLabel(id: string): string {
-    const labels: Record<string, string> = {
-      'publication-apa': 'APA',
-      'publication-chicago': 'Chicago',
-      'publication-harvard': 'Harvard',
-      'publication-ieee': 'IEEE',
-      'publication-iso690': 'ISO-690',
-      'publication-mla': 'MLA',
-      'publication-vancouver': 'Vancouver',
-      'product-apa': 'APA',
-      'product-chicago': 'Chicago',
-      'product-harvard': 'Harvard',
-      'product-ieee': 'IEEE',
-      'product-iso690': 'ISO-690',
-      'product-mla': 'MLA',
-      'product-vancouver': 'Vancouver',
-      'patent-apa': 'APA',
-      'patent-chicago': 'Chicago',
-      'patent-harvard': 'Harvard',
-      'patent-ieee': 'IEEE',
-      'patent-iso690': 'ISO-690',
-      'patent-mla': 'MLA',
-      'patent-vancouver': 'Vancouver',
-    };
-    return labels[id] ?? id;
+    const key = 'item-export.format.' + id;
+    const translated = this.translate.instant(key);
+    // If the key is not found, instant() returns the key itself — fallback to the raw ID
+    return translated !== key ? translated : id;
   }
 
   private sortFormats(formats: ItemExportFormat[]): void {

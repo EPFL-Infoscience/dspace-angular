@@ -1,0 +1,15 @@
+.unpaywall-section-wrapper {
+  position: relative;
+}
+
+.unpaywall-loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 10;
+  border-radius: inherit;
+  pointer-events: all;
+}

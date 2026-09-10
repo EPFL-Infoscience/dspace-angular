@@ -391,5 +391,57 @@ describe('ItemExportComponent', () => {
     });
   });
 
+  describe('getFormatLabel', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(ItemExportComponent);
+      component = fixture.componentInstance;
+
+      component.item = mockItem;
+      component.searchOptions = 'searchOptions' as any;
+      component.molteplicity = 'molteplicity' as any;
+      component.showListSelection = false;
+
+      itemExportService.initialItemExportFormConfiguration.and.returnValue(observableOf(configuration));
+      mockSearchManager.search.and.returnValue(createSuccessfulRemoteDataObject$(mockSearchResults));
+      fixture.detectChanges();
+    });
+
+    it('should return the translated label when the i18n key exists', () => {
+      spyOn((component as any).translate, 'instant').and.callFake((key: string) => {
+        if (key === 'item-export.format.publication-csv') { return 'CSV'; }
+        return key;
+      });
+      expect(component.getFormatLabel('publication-csv')).toBe('CSV');
+    });
+
+    it('should return the raw id when the i18n key is not found', () => {
+      spyOn((component as any).translate, 'instant').and.callFake((key: string) => key);
+      expect(component.getFormatLabel('unknown-format')).toBe('unknown-format');
+    });
+
+    it('should use translated labels for alphabetical sorting', () => {
+      spyOn((component as any).translate, 'instant').and.callFake((key: string) => {
+        const map: Record<string, string> = {
+          'item-export.format.publication-json': 'JSON',
+          'item-export.format.publication-csv': 'CSV',
+          'item-export.format.publication-cerif-xml': 'CERIF XML',
+        };
+        return map[key] || key;
+      });
+
+      const formats: any[] = [
+        { id: 'publication-json' },
+        { id: 'publication-csv' },
+        { id: 'publication-cerif-xml' },
+      ];
+
+      (component as any).sortFormats(formats);
+      expect(formats.map(f => f.id)).toEqual([
+        'publication-cerif-xml',
+        'publication-csv',
+        'publication-json',
+      ]);
+    });
+  });
 
 });
