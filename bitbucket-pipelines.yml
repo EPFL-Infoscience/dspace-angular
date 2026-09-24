@@ -1,4 +1,6 @@
 definitions:
+  caches:
+    node-dsc-2023-02-x: ./node_modules
   steps:
     - step: &unittest-code-checks
         name: test-code-checks
