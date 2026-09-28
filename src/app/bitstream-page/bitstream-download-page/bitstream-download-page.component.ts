@@ -1,32 +1,29 @@
 import { isPlatformServer, Location, } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID, } from '@angular/core';
-import { ActivatedRoute, Params, Router, } from '@angular/router';
-import { combineLatest as observableCombineLatest, Observable, of as observableOf, } from 'rxjs';
-import { filter, map, startWith, switchMap, take, } from 'rxjs/operators';
+import { ActivatedRoute, Router, } from '@angular/router';
+import { Observable, } from 'rxjs';
+import { map, startWith, take, } from 'rxjs/operators';
 
-import { getForbiddenRoute } from '../../app-routing-paths';
-import { AuthService } from '../../core/auth/auth.service';
 import { DSONameService } from '../../core/breadcrumbs/dso-name.service';
-import { hasValue, isNotEmpty } from '../../shared/empty.util';
+import { isNotEmpty } from '../../shared/empty.util';
 import { getRemoteDataPayload } from '../../core/shared/operators';
 import { Bitstream } from '../../core/shared/bitstream.model';
-import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
-import { FeatureID } from '../../core/data/feature-authorization/feature-id';
-import { FileService } from '../../core/shared/file.service';
-import { HardRedirectService } from '../../core/services/hard-redirect.service';
 import { RemoteData } from '../../core/data/remote-data';
-import { redirectOn4xx } from '../../core/shared/authorized.operators';
 import { SignpostingDataService } from '../../core/data/signposting-data.service';
-import { ServerResponseService } from '../../core/services/server-response.service';
 import { SignpostingLink } from '../../core/data/signposting-links.model';
-import { NativeWindowRef, NativeWindowService } from '../../core/services/window.service';
+import { ServerResponseService } from '../../core/services/server-response.service';
+import {
+  NativeWindowRef,
+  NativeWindowService,
+} from '../../core/services/window.service';
 
 @Component({
   selector: 'ds-bitstream-download-page',
   templateUrl: './bitstream-download-page.component.html'
 })
 /**
- * Page component for downloading a bitstream
+ * Page component shown while a bitstream download is being initiated.
+ * The actual download redirect is handled by {@link bitstreamDownloadRedirectGuard}.
  */
 export class BitstreamDownloadPageComponent implements OnInit {
 
@@ -41,10 +38,6 @@ export class BitstreamDownloadPageComponent implements OnInit {
     @Inject(NativeWindowService) private _window: NativeWindowRef,
     private route: ActivatedRoute,
     protected router: Router,
-    private authorizationService: AuthorizationDataService,
-    private auth: AuthService,
-    private fileService: FileService,
-    private hardRedirectService: HardRedirectService,
     private location: Location,
     public dsoNameService: DSONameService,
     private signpostingDataService: SignpostingDataService,
@@ -63,64 +56,18 @@ export class BitstreamDownloadPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const accessToken$: Observable<string> = this.route.queryParams.pipe(
-      map((queryParams: Params) => queryParams?.accessToken || null),
-      take(1),
+    this.bitstreamRD$ = this.route.data.pipe(
+      map((data) => data.bitstream)
     );
 
-    this.bitstreamRD$ = this.route.data.pipe(
-      map((data) => data.bitstream));
-
     this.bitstream$ = this.bitstreamRD$.pipe(
-      redirectOn4xx(this.router, this.auth),
       getRemoteDataPayload()
     );
 
     this.fileName$ = this.bitstream$.pipe(
       map((bitstream: Bitstream) => this.dsoNameService.getName(bitstream)),
-      startWith('file'),
+      startWith('file')
     );
-
-    this.bitstream$.pipe(
-      switchMap((bitstream: Bitstream) => {
-        const isAuthorized$ = this.authorizationService.isAuthorized(FeatureID.CanDownload, isNotEmpty(bitstream) ? bitstream.self : undefined);
-        const isLoggedIn$ = this.auth.isAuthenticated();
-        return observableCombineLatest([isAuthorized$, isLoggedIn$, accessToken$, observableOf(bitstream)]);
-      }),
-      filter(([isAuthorized, isLoggedIn, accessToken, bitstream]: [boolean, boolean, string, Bitstream]) => (hasValue(isAuthorized) && hasValue(isLoggedIn)) || hasValue(accessToken)),
-      take(1),
-      switchMap(([isAuthorized, isLoggedIn, accessToken, bitstream]: [boolean, boolean, string, Bitstream]) => {
-        if (isAuthorized && isLoggedIn) {
-          return this.fileService.retrieveFileDownloadLink(bitstream._links.content.href).pipe(
-            filter((fileLink) => hasValue(fileLink)),
-            take(1),
-            map((fileLink) => {
-              return [isAuthorized, isLoggedIn, bitstream, fileLink];
-            }));
-        } else if (hasValue(accessToken)) {
-          return [[isAuthorized, !isLoggedIn, bitstream, '', accessToken]];
-        } else {
-          return [[isAuthorized, isLoggedIn, bitstream, '']];
-        }
-      })
-    ).subscribe(([isAuthorized, isLoggedIn, bitstream, fileLink, accessToken]: [boolean, boolean, Bitstream, string, string]) => {
-      if (isAuthorized && isLoggedIn && isNotEmpty(fileLink)) {
-        this.hardRedirectService.redirect(fileLink);
-      } else if (isAuthorized && !isLoggedIn && !hasValue(accessToken)) {
-        this.hardRedirectService.redirect(bitstream._links.content.href);
-      } else if (!isAuthorized) {
-        // Either we have an access token, or we are logged in, or we are not logged in.
-        // For now, the access token does not care if we are logged in or not.
-        if (hasValue(accessToken)) {
-          this.hardRedirectService.redirect(bitstream._links.content.href + '?accessToken=' + accessToken);
-        } else if (isLoggedIn) {
-        this.router.navigateByUrl(getForbiddenRoute(), {skipLocationChange: true});
-        } else if (!isLoggedIn) {
-          this.auth.setRedirectUrl(this.router.url);
-          this.router.navigateByUrl('login');
-        }
-      }
-    });
   }
 
   /**
@@ -137,10 +84,10 @@ export class BitstreamDownloadPageComponent implements OnInit {
           signpostingLinks.forEach((link: SignpostingLink) => {
             links = links + (isNotEmpty(links) ? ', ' : '') + `<${link.href}> ; rel="${link.rel}"` + (isNotEmpty(link.type) ? ` ; type="${link.type}" ` : ' ');
           });
-
           this.responseService.setHeader('Link', links);
         });
       });
     }
   }
 }
+

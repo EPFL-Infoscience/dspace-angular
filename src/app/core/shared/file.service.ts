@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@angular/core';
 import { RawRestResponse } from '../dspace-rest/raw-rest-response.model';
 import { AuthService } from '../auth/auth.service';
-import { map, switchMap, take } from 'rxjs/operators';
+import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { NativeWindowRef, NativeWindowService } from '../services/window.service';
 import { URLCombiner } from '../url-combiner/url-combiner';
 import { hasValue } from '../../shared/empty.util';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { DspaceRestService, HttpOptions } from '../dspace-rest/dspace-rest.service';
 import { RestRequestMethod } from '../data/rest-request-method';
@@ -32,6 +32,28 @@ export class FileService {
       hasValue(token) ? new URLCombiner(url, `?authentication-token=${token}`).toString() : url
     ));
   }
+  /**
+   * Fetches a presigned S3 URL from the bitstream's signedurl HAL endpoint.
+   * Returns the presigned URL string if available, or null if not.
+   *
+   * @param signedUrlHref
+   *    the bitstream signedurl HAL link href (e.g. .../api/core/bitstreams/{id}/signedurl)
+   */
+  retrieveSignedUrl(signedUrlHref: string): Observable<string | null> {
+    return this.restService.request(RestRequestMethod.GET, signedUrlHref).pipe(
+      take(1),
+      map((response: RawRestResponse) => {
+        const body = response?.payload;
+        if (body && body.presignedUrl) {
+          return body.presignedUrl as string;
+        }
+        return null;
+      }),
+      catchError(() => of(null)),
+    );
+  }
+
+
   /**
    * Derives file name from the http response
    * by looking inside content-disposition

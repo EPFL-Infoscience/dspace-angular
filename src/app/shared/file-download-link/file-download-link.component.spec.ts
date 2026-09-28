@@ -97,9 +97,6 @@ describe('FileDownloadLinkComponent', () => {
 
   describe('init', () => {
     describe('getBitstreamPath', () => {
-
-
-
       describe('when the user has download rights', () => {
         beforeEach(waitForAsync(() => {
           scheduler = getTestScheduler();

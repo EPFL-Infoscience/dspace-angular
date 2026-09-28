@@ -54,6 +54,7 @@ export class Bitstream extends DSpaceObject implements ChildHALResource {
     bundle: HALLink;
     format: HALLink;
     content: HALLink;
+    signedurl?: HALLink;
     thumbnail: HALLink;
   };
 
