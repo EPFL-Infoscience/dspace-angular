@@ -136,7 +136,7 @@ describe('ItemEditBitstreamComponent', () => {
     it('should contain download button with a valid link to the bitstreams download page', () => {
       fixture.detectChanges();
       const downloadBtnHref = fixture.debugElement.query(By.css('[data-test="download-button"]')).nativeElement.getAttribute('href');
-      expect(downloadBtnHref).toEqual(comp.bitstreamDownloadUrl);
+      expect(downloadBtnHref).toEqual(comp.bitstreamDownloadUrl + '?authenticationMethod=direct');
     });
   });
 
