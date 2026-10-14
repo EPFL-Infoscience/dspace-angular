@@ -3,6 +3,7 @@ import {
   Component,
   Inject,
   OnInit,
+  Optional,
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
@@ -29,8 +30,9 @@ export class CitationsComponent extends CrisLayoutBoxModelComponent implements O
 
   constructor(
     protected translateService: TranslateService,
-    @Inject('boxProvider') public boxProvider: CrisLayoutBox,
-    @Inject('itemProvider') public itemProvider: Item,
+    // CST24848 - applied optional as this component is also used in the dspace
+    @Optional() @Inject('boxProvider') public boxProvider: CrisLayoutBox,
+    @Optional() @Inject('itemProvider') public itemProvider: Item,
     @Inject(ItemAvailableCitationsService) private citationService: ItemAvailableCitationsService,
     private notificationsService: NotificationsService,
   ) {
